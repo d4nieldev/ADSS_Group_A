@@ -13,6 +13,13 @@ public class Discount {
         this.discount_percentage = discount_percentage;
 
     }
+    public Discount()
+    {
+        this.start_date = null;
+        this.end_date = null;
+        this.discount_percentage = 0;
+
+    }
 
     public Date getStart_date() {
         return this.start_date;

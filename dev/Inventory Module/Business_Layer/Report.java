@@ -8,7 +8,8 @@ public class Report {
     private Type type;
     private List<GeneralProduct> generalProductList;
     private List<SpecificProduct> specificProductList;
-    public static enum Type{SHOTRAGES,INVENTORY,FLAWS};
+    public static enum Type{SHORTAGES,INVENTORY,FLAWS};
+
     /**
      *
      * @param creationDate

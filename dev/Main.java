@@ -6,6 +6,7 @@ class Main {
 
         ServiceLayer.EmployeesMoudle.EmployeeService service = new ServiceLayer.EmployeesMoudle.EmployeeService();
         service.logIn(12345, "12345");
+        service.logOut(12345);
 
     //     System.out.print("Please enter your request to the system according to the PDF file: ");
     //     Scanner sc = new Scanner(System.in);

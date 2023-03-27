@@ -10,9 +10,11 @@ public class EmployeeService {
         employeeController.addEmployee();
     }
 
-    public void logIn(int id, String password) {
+    public void logIn(int id, String password){
         employeeController.logIn(id, password);
     }
 
-    
+    public void logOut(int id){
+        employeeController.logOut(id);
+    }
 }

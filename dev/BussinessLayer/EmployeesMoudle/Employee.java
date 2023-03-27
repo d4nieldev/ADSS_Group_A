@@ -49,8 +49,16 @@ class Employee{
 		return password;
 	}
 	
+	public boolean getIsLoggedIn(){
+		return isLoggedIn;
+	}
+
 	public void SetIsLoggedInToTrue(){
 		isLoggedIn = true;
+	}
+
+	public void SetIsLoggedInToFalse(){
+		isLoggedIn = false;
 	}
 	//Getters And Setters
 

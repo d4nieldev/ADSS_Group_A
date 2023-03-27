@@ -33,8 +33,9 @@ public class EmployeeController {
     public void removeRoles(){}
 
     public void logIn(int id, String password){
-        if (isEmployeeExists(id)){
+        if (isEmployeeExists(id) && !isEmployeeLoggedIn(id)){
             Employee e = getEmployeeById(id);
+
             if (e.getId() == id && e.getPassword().equals(password)) {
                 e.SetIsLoggedInToTrue();
                 System.out.println("Hello " + e.getFirstName() + " " + 
@@ -45,7 +46,19 @@ public class EmployeeController {
             }
         }
         else {
-            System.out.println("Employee did not found.");
+            System.out.println("You must enter a valid Id and be logged out to that user before you log in back again.");
+        }
+    }
+
+    public void logOut(int id){
+        if (isEmployeeExists(id) && isEmployeeLoggedIn(id)){
+            Employee e = getEmployeeById(id);
+            e.SetIsLoggedInToFalse();
+            System.out.println("Bye Bye " + e.getFirstName() + " " + 
+            e.getLastName() + " You have logged out successfully.");
+        }
+        else{
+            System.out.println("You must enter a valid Id and be logged in to that user.");
         }
     }
 
@@ -64,6 +77,11 @@ public class EmployeeController {
                 return true;
         }
         return false;
+    }
+
+    private boolean isEmployeeLoggedIn(int id){
+        Employee e = getEmployeeById(id);
+        return e.getIsLoggedIn();
     }
     //Help Functions//
 }

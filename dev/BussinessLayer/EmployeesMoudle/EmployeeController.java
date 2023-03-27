@@ -3,14 +3,19 @@ package BussinessLayer.EmployeesMoudle;
 import java.util.LinkedList;
 import java.util.List;
 
+import java.time.LocalDate;
+import Misc.*;
+
 public class EmployeeController {
     private List<Employee> employees;
 
     public EmployeeController(){
         employees = new LinkedList<>();
     }
-    public void addEmployee(){
-        employees.add(new Employee());
+    public void addEmployee(String firstName, String lastName, int id, String password, int bankNum,
+    int bankBranch, int bankAccount, int salary, int bonus, LocalDate startDate, License driverLicense, Role role){
+        employees.add(new Employee(firstName, lastName, id, password, bankNum,
+        bankBranch, bankAccount, salary, bonus, startDate, driverLicense, role));
     }
 
     public void getAllDrivers(){}

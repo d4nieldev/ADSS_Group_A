@@ -1,10 +1,14 @@
 package BussinessLayer.EmployeesMoudle;
 
+import java.util.LinkedList;
 import java.util.List;
 
 public class EmployeeController {
     private List<Employee> employees;
 
+    public EmployeeController(){
+        employees = new LinkedList<>();
+    }
     public void addEmployee(){
         employees.add(new Employee());
     }
@@ -34,9 +38,11 @@ public class EmployeeController {
             if (e.getId() == id && e.getPassword().equals(password)) {
                 e.SetIsLoggedInToTrue();
                 System.out.println("Hello " + e.getFirstName() + " " + 
-                e.getLastName() + "You have logged in successfully");
+                e.getLastName() + " You have logged in successfully");
             }
-            System.out.println("Id or password are incorrect.");
+            else {
+                System.out.println("Id or password are incorrect.");
+            }
         }
         else {
             System.out.println("Employee did not found.");

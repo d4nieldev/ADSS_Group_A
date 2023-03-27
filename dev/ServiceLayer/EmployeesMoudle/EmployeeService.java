@@ -5,7 +5,7 @@ import BussinessLayer.EmployeesMoudle.EmployeeController;
 public class EmployeeService {
     private EmployeeController employeeController;
 
-    public void EmployeeController(){
+    public void EmployeeService(){
         employeeController = new EmployeeController();
         employeeController.addEmployee();
     }

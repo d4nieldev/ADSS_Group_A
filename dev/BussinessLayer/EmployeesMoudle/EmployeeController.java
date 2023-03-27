@@ -5,7 +5,9 @@ import java.util.List;
 public class EmployeeController {
     private List<Employee> employees;
 
-    public void addEmployee(){}
+    public void addEmployee(){
+        employees.add(new Employee());
+    }
 
     public void getAllDrivers(){}
 
@@ -25,4 +27,37 @@ public class EmployeeController {
     public void RemoveriverLicense(){}
     public void addRoles(){}
     public void removeRoles(){}
+
+    public void logIn(int id, String password){
+        if (isEmployeeExists(id)){
+            Employee e = getEmployeeById(id);
+            if (e.getId() == id && e.getPassword().equals(password)) {
+                e.SetIsLoggedInToTrue();
+                System.out.println("Hello " + e.getFirstName() + " " + 
+                e.getLastName() + "You have logged in successfully");
+            }
+            System.out.println("Id or password are incorrect.");
+        }
+        else {
+            System.out.println("Employee did not found.");
+        }
+    }
+
+    //Help Functions//
+    private Employee getEmployeeById(int id){ //called only if the employee exist, else will return null.
+        for (Employee employee : employees) {
+            if (employee.getId() == id)
+                return employee;
+        }
+        return null;
+    }
+
+    private boolean isEmployeeExists(int id){
+        for (Employee employee : employees) {
+            if (employee.getId() == id)
+                return true;
+        }
+        return false;
+    }
+    //Help Functions//
 }

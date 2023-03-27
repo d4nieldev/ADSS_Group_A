@@ -13,7 +13,6 @@ class Employee{
 	private String firstName;
 	private String lastName;
 	private int id;
-	private String username;
 	private String password;
 	private int bankNum;
 	private int bankBranch;
@@ -23,8 +22,37 @@ class Employee{
 	private LocalDate startDate;
 	private License driverLicense;
 	private List<Role> roles;
+	private boolean isLoggedIn;
 
-	public Employee(){}
+	public Employee(){
+		id = 12345;
+		password = "12345";
+		isLoggedIn = false;
+		firstName = "Tal";
+		lastName = "Koren";
+	}
+
+	//Getters And Setters
+	public int getId(){
+		return id;
+	}
+
+	public String getFirstName(){
+		return firstName;
+	}
+
+	public String getLastName(){
+		return lastName;
+	}
+
+	public String getPassword(){
+		return password;
+	}
+	
+	public void SetIsLoggedInToTrue(){
+		isLoggedIn = true;
+	}
+	//Getters And Setters
 
 	public String toString(){
 		return "Employee Name: " + firstName + " " + lastName + " [id: " + id + ", bank number: " + bankNum  + ", salary" + salary + ", start date: " + startDate + ", roles: " + roles.toString() + "]";

@@ -25,4 +25,8 @@ public class EmployeeService {
         employeeController.addEmployee(firstName, lastName, id, password, bankNum,
         bankBranch, bankAccount, salary, bonus, startDate, driverLicense, role);
     }
+
+    public void printAllEmployees(int id){
+
+    }
 }

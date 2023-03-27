@@ -2,6 +2,7 @@ package BussinessLayer.EmployeesMoudle;
 import java.sql.Time;
 import java.time.LocalDate;
 import java.util.Date;
+import java.util.LinkedList;
 import java.util.List;
 
 import javax.swing.LayoutStyle;
@@ -24,12 +25,22 @@ class Employee{
 	private List<Role> roles;
 	private boolean isLoggedIn;
 
-	public Employee(){
-		id = 12345;
-		password = "12345";
+	public Employee(String firstName, String lastName, int id, String password, int bankNum,
+	int bankBranch, int bankAccount, int salary, int bonus, LocalDate startDate, License driverLicense, Role role){
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.id = id;
+		this.password = password;
+		this.bankNum = bankNum;
+		this.bankBranch = bankBranch;
+		this.bankAccount = bankAccount;
+		this.salary = salary;
+		this.bonus = bonus;
+		this.startDate = startDate;
+		this.driverLicense = driverLicense;
+		roles = new LinkedList<>();
+		roles.add(role);
 		isLoggedIn = false;
-		firstName = "Tal";
-		lastName = "Koren";
 	}
 
 	//Getters And Setters

@@ -5,44 +5,44 @@ class Main {
         //System.out.println("Hello world!");
 
         ServiceLayer.EmployeesMoudle.EmployeeService service = new ServiceLayer.EmployeesMoudle.EmployeeService();
-        service.logIn(12345, "12345");
-        service.logOut(12345);
+        //service.logIn(12345, "12345");
+        //service.logOut(12345);
 
-    //     System.out.print("Please enter your request to the system according to the PDF file: ");
-    //     Scanner sc = new Scanner(System.in);
-    //     if (!sc.equals("1"))
-    //     {
-    //         throw new Error("Expected 1 but got somthing else. Please try again.");
-    //     }
-    //     try{
-    //     // enter new HR manager
+        System.out.print("Please enter your request to the system according to the PDF file: ");
+        Scanner sc = new Scanner(System.in);
+        if (!sc.equals("1"))
+        {
+            throw new Error("Expected 1 but got somthing else. Please try again.");
+        }
+        try{
+        //enter new HR manager
             
-    //     System.out.print("First name: ");
-    //     Scanner firstName = new Scanner(System.in);
-    //     System.out.print("Last name: ");
-    //     Scanner lastName = new Scanner(System.in);
-    //     System.out.print("Id: ");
-    //     Scanner id = new Scanner(System.in);
-    //     System.out.print("Password: ");
-    //     Scanner password = new Scanner(System.in);
-    //     System.out.print("Bank number: ");
-    //     Scanner bankNum = new Scanner(System.in);
-    //     System.out.print("Bank branch number: ");
-    //     Scanner bankBranch = new Scanner(System.in);
-    //     System.out.print("Bank account number: ");
-    //     Scanner bankAccount = new Scanner(System.in);
-    //     System.out.print("Salary: ");
-    //     Scanner salary = new Scanner(System.in);
-    //     System.out.print("Start Date: Year:");
-    //     Scanner year = new Scanner(System.in);
-    //     System.out.print("Month: ");
-    //     Scanner month = new Scanner(System.in);
-    //     System.out.print("Day: ");
-    //     Scanner day = new Scanner(System.in);
-    //     System.out.print("Driver license if he is a driver (null/B/C) :");
-    //     Scanner driverLicense = new Scanner(System.in);
+        System.out.print("First name: ");
+        Scanner firstName = new Scanner(System.in);
+        System.out.print("Last name: ");
+        Scanner lastName = new Scanner(System.in);
+        System.out.print("Id: ");
+        Scanner id = new Scanner(System.in);
+        System.out.print("Password: ");
+        Scanner password = new Scanner(System.in);
+        System.out.print("Bank number: ");
+        Scanner bankNum = new Scanner(System.in);
+        System.out.print("Bank branch number: ");
+        Scanner bankBranch = new Scanner(System.in);
+        System.out.print("Bank account number: ");
+        Scanner bankAccount = new Scanner(System.in);
+        System.out.print("Salary: ");
+        Scanner salary = new Scanner(System.in);
+        System.out.print("Start Date: Year:");
+        Scanner year = new Scanner(System.in);
+        System.out.print("Month: ");
+        Scanner month = new Scanner(System.in);
+        System.out.print("Day: ");
+        Scanner day = new Scanner(System.in);
+        System.out.print("Driver license if he is a driver (null/B/C) :");
+        Scanner driverLicense = new Scanner(System.in);
 
-    //     ServiceLayer.EmployeesMoudle.EmployeeService.addEmployee(firstName, lastName, id, password, bankNum, bankBranch, bankAccount, salary, year, month, day, driverLicense, "HRmanager");
+         ServiceLayer.EmployeesMoudle.EmployeeService.addEmployee(firstName, lastName, id, password, bankNum, bankBranch, bankAccount, salary, year, month, day, driverLicense, "HRmanager");
 
     //         System.out.print("Please enter your request to the system according to the PDF file: ");
     //         sc = new Scanner(System.in);

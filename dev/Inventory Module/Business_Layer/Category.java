@@ -6,7 +6,6 @@ public class Category {
     private int id;
     private String name;
     private Category main;
-
     private List<Integer> allCategories; // keeps all the categories' id that the general product belongs to.
 
 

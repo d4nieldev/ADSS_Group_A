@@ -81,9 +81,9 @@ class Main {
             bankBranch, bankAccount, salary, bonus, localDate, driverLicense, role);
 
             System.out.print("Please enter your request to the system according to the PDF file: ");
-            sc = new Scanner(System.in);
+            option = sc.nextLine();
             
-            while(!sc.equals("0")){
+            while(!option.equals("0")){
                 // // 1 enter new employee
                 // addEmployee();
 

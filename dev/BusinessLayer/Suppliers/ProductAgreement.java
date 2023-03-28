@@ -8,4 +8,8 @@ class ProductAgreement {
     private int productSupplierId;
     private int stockAmount;
     private Map<Integer, Double> amountToPrice;
+
+    public double getPrice(int amount) {
+        return -1;
+    }
 }

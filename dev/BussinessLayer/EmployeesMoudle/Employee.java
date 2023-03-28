@@ -78,6 +78,6 @@ public class Employee{
 	//Getters And Setters
 
 	public String toString(){
-		return "Employee Name: " + firstName + " " + lastName + " [id: " + id + ", bank number: " + bankNum  + ", salary" + salary + ", start date: " + startDate + ", roles: " + roles.toString() + "]";
+		return "Employee Name: " + firstName + " " + lastName + " [id: " + id + ", bank number: " + bankNum  + ", salary: " + salary + ", start date: " + startDate + ", roles: " + roles.toString() + "]";
 	}
 }

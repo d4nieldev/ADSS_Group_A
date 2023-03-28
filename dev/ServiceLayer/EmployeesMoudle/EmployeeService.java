@@ -40,6 +40,6 @@ public class EmployeeService {
     }
 
     public void printAllEmployees(int id){
-
+        employeeController.printAllEmployees(id);
     }
 }

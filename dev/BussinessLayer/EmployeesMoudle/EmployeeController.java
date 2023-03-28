@@ -64,6 +64,17 @@ public class EmployeeController {
         
     }
 
+    public void printAllEmployees(int id){
+        if (isEmployeeExists(id) && isEmployeeLoggedIn(id) && isEmployeeHRManager(id)){
+            for (Employee employee : employees) {
+                System.out.println(employee.toString());
+            }
+        }
+        else{
+            System.out.println("You must be logged in, and be an HR manager in order to do that action.");
+        }
+    }
+
     public void getAllDrivers(){}
 
     public void changeFirstName(){}

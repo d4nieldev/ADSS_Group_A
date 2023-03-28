@@ -21,6 +21,7 @@ class Main {
         service.logIn(loginId, loginPassword);
         System.out.println("");
 
+        System.out.println("[0 - Exit system, 1 - Add employee, 2 - print all employees, 8 - Login, 9 - Logout]");
         System.out.print("Please enter your request to the system according to the PDF file: ");
         String option = sc.nextLine();
 
@@ -87,8 +88,9 @@ class Main {
 
             }
 
-            // // 2 print all employees
-            // printAllEmployees();
+            else if (option.equals("2")){ // 2 print all employees
+                service.printAllEmployees(loginId);
+            }
 
             // // 3 add shift
             // addShift();
@@ -105,7 +107,25 @@ class Main {
             // // 7 delete employee from the system
             // deleteEmployee();
 
+            else if (option.equals("8")){ // 8 login
+                System.out.print("Hello there, in order to login to the syestem please enter your Id: ");
+                loginId = Integer.parseInt(sc.nextLine());
+                System.out.println("");
 
+                System.out.print("Great, now enter your password: ");
+                loginPassword = sc.nextLine();
+                System.out.println("");
+
+                service.logIn(loginId, loginPassword);
+                System.out.println("");
+            }
+
+            else if (option.equals("9")){ // 9 logout
+                service.logOut(loginId);
+                System.out.println("");
+            }
+
+            System.out.println("[0 - Exit system, 1 - Add employee, 2 - print all employees, 8 - Login, 9 - Logout]");
             System.out.print("Please enter your request to the system according to the PDF file: ");
             option = sc.nextLine();
         }

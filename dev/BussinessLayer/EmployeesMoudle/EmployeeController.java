@@ -53,7 +53,7 @@ public class EmployeeController {
 
     public void addEmployee(int managerId, String firstName, String lastName, int id, String password, int bankNum,
     int bankBranch, int bankAccount, int salary, int bonus, LocalDate startDate, License driverLicense, Role role){
-        if (isEmployeeExists(id) && isEmployeeLoggedIn(id) && isEmployeeHRManager(id)){
+        if (isEmployeeExists(managerId) && isEmployeeLoggedIn(managerId) && isEmployeeHRManager(managerId)){
             employees.add(new Employee(firstName, lastName, id, password, bankNum,
             bankBranch, bankAccount, salary, bonus, startDate, driverLicense, role));
             System.out.println("The employee " + firstName + " " + lastName + " has been added successfully");
@@ -69,6 +69,17 @@ public class EmployeeController {
             for (Employee employee : employees) {
                 System.out.println(employee.toString());
             }
+        }
+        else{
+            System.out.println("You must be logged in, and be an HR manager in order to do that action.");
+        }
+    }
+
+    public void deleteEmployee(int managerId, int id){
+        if(isEmployeeExists(managerId) && isEmployeeLoggedIn(managerId) && isEmployeeHRManager(managerId)){
+            Employee employeeToRemove = getEmployeeById(id);
+            employees.remove(employeeToRemove);
+            System.out.println("The employee " + employeeToRemove.getFirstName() + " " + employeeToRemove.getLastName() + " has been removed successfully");
         }
         else{
             System.out.println("You must be logged in, and be an HR manager in order to do that action.");

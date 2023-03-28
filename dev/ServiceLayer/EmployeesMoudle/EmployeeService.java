@@ -39,6 +39,10 @@ public class EmployeeService {
         bankBranch, bankAccount, salary, bonus, startDate, driverLicense, role);
     }
 
+    public void deleteEmployee(int managerId, int id){
+        employeeController.deleteEmployee(managerId, id);
+    }
+
     public void printAllEmployees(int id){
         employeeController.printAllEmployees(id);
     }

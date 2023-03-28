@@ -1,5 +1,5 @@
 package Misc;
 
 public enum ShiftTime {
-    Morning, Evening
+    MORNING, EVENING
 }

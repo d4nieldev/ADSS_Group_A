@@ -12,4 +12,12 @@ class ProductAgreement {
     public double getPrice(int amount) {
         return -1;
     }
+
+    public int getStockAmount() {
+        return stockAmount;
+    }
+
+    public int getSupplierId() {
+        return supplierId;
+    }
 }

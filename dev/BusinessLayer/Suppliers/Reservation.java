@@ -11,4 +11,12 @@ class Reservation {
     private Date date;
     private Status status;
     private List<ReceiptItem> receipt;
+
+    public Reservation(int id, int supplier_id, Date date, Status status, List<ReceiptItem> receipt) {
+        this.id = id;
+        this.supplier_id = supplier_id;
+        this.date = date;
+        this.status = status;
+        this.receipt = receipt;
+    }
 }

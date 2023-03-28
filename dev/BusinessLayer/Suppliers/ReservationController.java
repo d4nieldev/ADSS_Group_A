@@ -1,45 +1,78 @@
 package BusinessLayer.Suppliers;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import BusinessLayer.Suppliers.enums.Status;
+import BusinessLayer.Suppliers.exceptions.NoMatchingSupplierException;
+import BusinessLayer.Suppliers.exceptions.SuppliersException;
+
 public class ReservationController {
     private Map<Integer, List<Reservation>> idToSupplierReservations;
+    private int lastId;
 
     public String makeReservation(Map<Integer, Integer> productToAmount) {
         try {
-            Map<Integer, List<Integer>> supplierToProducts = new HashMap<Integer, List<Integer>>();
+            Map<Integer, List<ReceiptItem>> supplierToProducts = new HashMap<Integer, List<ReceiptItem>>();
 
             for (Map.Entry<Integer, Integer> entry : productToAmount.entrySet()) {
                 int productId = entry.getKey();
                 int amount = entry.getValue();
 
+                // get the list of agreements from different suppliers for this product
                 Map<Integer, ProductAgreement> productAgreements = ProductAgreementController.getInstance()
                         .getAllProductAgreements(productId);
 
-                Integer curSupplierId = null;
+                // find the most attractive agreement for this product
+                ProductAgreement minProductAgreement = null;
                 double minPrice = Double.MAX_VALUE;
                 for (Map.Entry<Integer, ProductAgreement> productAgreementEntry : productAgreements.entrySet()) {
-                    if (productAgreementEntry.getValue().getPrice(amount) < minPrice) {
-                        minPrice = productAgreementEntry.getValue().getPrice(amount);
-                        curSupplierId = productAgreementEntry.getKey();
+                    ProductAgreement agreement = productAgreementEntry.getValue();
+                    if (agreement.getStockAmount() >= amount && agreement.getPrice(amount) < minPrice) {
+                        minPrice = agreement.getPrice(amount);
+                        minProductAgreement = agreement;
                     }
                 }
-                if (curSupplierId == null) {
-                    // TODO: throw exception
-                    return "Product not found";
-                }
 
-                supplierToProducts.computeIfAbsent(curSupplierId, k -> new ArrayList<Integer>()).add(productId);
+                // if no agreement was found, throw an exception
+                if (minProductAgreement == null)
+                    throw new NoMatchingSupplierException(
+                            "No matching supplier found for product " + productId + " and amount " + amount);
+
+                // create a receipt item for this product
+                ReceiptItem item = new ReceiptItem(productId, minProductAgreement.getPrice(amount),
+                        minProductAgreement.getPrice(0));
+
+                // add the receipt item to the list of receipt items for this supplier
+                supplierToProducts
+                        .computeIfAbsent(minProductAgreement.getSupplierId(), k -> new ArrayList<ReceiptItem>())
+                        .add(item);
             }
 
-            // TODO create reservations per supplier
-            // TODO return something meaningful
-            return "WTF?????????????";
-        } catch (Exception e) { // MY EXCEPTION
+            // reservation is possible - create partial reservations
+            int reservationId = getNextIdAndIncrement();
+            for (Map.Entry<Integer, List<ReceiptItem>> entry : supplierToProducts.entrySet()) {
+                int supplierId = entry.getKey();
+                List<ReceiptItem> receipt = entry.getValue();
+                Reservation reservation = new Reservation(reservationId, supplierId, new Date(),
+                        Status.NOTREADY, receipt);
+                addPartialReservation(reservationId, reservation);
+            }
+
+            return "success";
+        } catch (SuppliersException e) {
             return e.getMessage();
         }
+    }
+
+    private void addPartialReservation(int reservationId, Reservation reservation) {
+        idToSupplierReservations.computeIfAbsent(reservationId, k -> new ArrayList<Reservation>()).add(reservation);
+    }
+
+    public int getNextIdAndIncrement() {
+        return lastId++;
     }
 }

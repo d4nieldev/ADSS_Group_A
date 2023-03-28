@@ -12,7 +12,7 @@
 *.ctxt
 
 # IntelliJ files
-dev/.idea
+./dev/.idea
 
 # Mobile Tools for Java (J2ME)
 .mtj.tmp/

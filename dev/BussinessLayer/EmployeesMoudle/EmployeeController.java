@@ -17,7 +17,7 @@ public class EmployeeController {
         //Adding Hr manager manualy to the system.
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
         LocalDate localDate = LocalDate.parse("01-02-1980", formatter);
-        addEmployee("Rami", "Arnon", 123456789, "abc", 0, 0, 0, 50000, 30000, localDate, null, Role.HRMANAGER);
+        addHRManagerForStartUpTheSystem("Rami", "Arnon", 123456789, "abc", 0, 0, 0, 50000, 30000, localDate, null, Role.HRMANAGER);
         //Adding Hr manager manualy to the system.
     }
 
@@ -51,11 +51,17 @@ public class EmployeeController {
         }
     }
 
-    public void addEmployee(String firstName, String lastName, int id, String password, int bankNum,
+    public void addEmployee(int managerId, String firstName, String lastName, int id, String password, int bankNum,
     int bankBranch, int bankAccount, int salary, int bonus, LocalDate startDate, License driverLicense, Role role){
-        employees.add(new Employee(firstName, lastName, id, password, bankNum,
-        bankBranch, bankAccount, salary, bonus, startDate, driverLicense, role));
-        System.out.println("The employee " + firstName + " " + lastName + " has been added successfully");
+        if (isEmployeeExists(id) && isEmployeeLoggedIn(id) && isEmployeeHRManager(id)){
+            employees.add(new Employee(firstName, lastName, id, password, bankNum,
+            bankBranch, bankAccount, salary, bonus, startDate, driverLicense, role));
+            System.out.println("The employee " + firstName + " " + lastName + " has been added successfully");
+        }
+        else{
+            System.out.println("You must be logged in, and be an HR manager in order to do that action.");
+        }
+        
     }
 
     public void getAllDrivers(){}
@@ -78,7 +84,7 @@ public class EmployeeController {
     public void removeRoles(){}
 
     //Help Functions//
-    public Employee getEmployeeById(int id){ //called only if the employee exist, else will return null.
+    private Employee getEmployeeById(int id){ //called only if the employee exist, else will return null.
         for (Employee employee : employees) {
             if (employee.getId() == id)
                 return employee;
@@ -95,8 +101,20 @@ public class EmployeeController {
     }
 
     private boolean isEmployeeLoggedIn(int id){
-        Employee e = getEmployeeById(id);
-        return e.getIsLoggedIn();
+        Employee employee = getEmployeeById(id);
+        return employee.getIsLoggedIn();
+    }
+
+    private boolean isEmployeeHRManager(int id){
+        Employee employee = getEmployeeById(id);
+        List<Role> managerRoles = employee.getRoles();
+        return managerRoles.contains(Role.HRMANAGER);
+    }
+
+    private void addHRManagerForStartUpTheSystem(String firstName, String lastName, int id, String password, int bankNum,
+    int bankBranch, int bankAccount, int salary, int bonus, LocalDate startDate, License driverLicense, Role role){
+        employees.add(new Employee(firstName, lastName, id, password, bankNum,
+        bankBranch, bankAccount, salary, bonus, startDate, driverLicense, role));
     }
     //Help Functions//
 }

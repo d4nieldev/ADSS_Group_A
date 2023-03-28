@@ -1,11 +1,22 @@
 package BussinessLayer.EmployeesMoudle;
 
+import java.util.LinkedList;
 import java.util.List;
+
+import java.time.LocalDate;
+import Misc.*;
 
 public class EmployeeController {
     private List<Employee> employees;
 
-    public void addEmployee(){}
+    public EmployeeController(){
+        employees = new LinkedList<>();
+    }
+    public void addEmployee(String firstName, String lastName, int id, String password, int bankNum,
+    int bankBranch, int bankAccount, int salary, int bonus, LocalDate startDate, License driverLicense, Role role){
+        employees.add(new Employee(firstName, lastName, id, password, bankNum,
+        bankBranch, bankAccount, salary, bonus, startDate, driverLicense, role));
+    }
 
     public void getAllDrivers(){}
 
@@ -25,4 +36,57 @@ public class EmployeeController {
     public void RemoveriverLicense(){}
     public void addRoles(){}
     public void removeRoles(){}
+
+    public void logIn(int id, String password){
+        if (isEmployeeExists(id) && !isEmployeeLoggedIn(id)){
+            Employee e = getEmployeeById(id);
+
+            if (e.getId() == id && e.getPassword().equals(password)) {
+                e.SetIsLoggedInToTrue();
+                System.out.println("Hello " + e.getFirstName() + " " + 
+                e.getLastName() + " You have logged in successfully");
+            }
+            else {
+                System.out.println("Id or password are incorrect.");
+            }
+        }
+        else {
+            System.out.println("You must enter a valid Id and be logged out to that user before you log in back again.");
+        }
+    }
+
+    public void logOut(int id){
+        if (isEmployeeExists(id) && isEmployeeLoggedIn(id)){
+            Employee e = getEmployeeById(id);
+            e.SetIsLoggedInToFalse();
+            System.out.println("Bye Bye " + e.getFirstName() + " " + 
+            e.getLastName() + " You have logged out successfully.");
+        }
+        else{
+            System.out.println("You must enter a valid Id and be logged in to that user.");
+        }
+    }
+
+    //Help Functions//
+    private Employee getEmployeeById(int id){ //called only if the employee exist, else will return null.
+        for (Employee employee : employees) {
+            if (employee.getId() == id)
+                return employee;
+        }
+        return null;
+    }
+
+    private boolean isEmployeeExists(int id){
+        for (Employee employee : employees) {
+            if (employee.getId() == id)
+                return true;
+        }
+        return false;
+    }
+
+    private boolean isEmployeeLoggedIn(int id){
+        Employee e = getEmployeeById(id);
+        return e.getIsLoggedIn();
+    }
+    //Help Functions//
 }

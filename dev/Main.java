@@ -11,7 +11,7 @@ class Main {
 
         Scanner sc = new Scanner(System.in);
         System.out.print("Hello there, in order to login to the syestem please enter your Id: ");
-        int loginId = sc.nextInt();
+        int loginId = Integer.parseInt(sc.nextLine());
         System.out.println("");
 
         System.out.print("Great, now enter your password: ");
@@ -38,7 +38,7 @@ class Main {
                 System.out.println("");
 
                 System.out.print("Id: ");
-                int id = sc.nextInt();
+                int id = Integer.parseInt(sc.nextLine());
                 System.out.println("");
 
                 System.out.print("Password: ");
@@ -46,28 +46,28 @@ class Main {
                 System.out.println("");
 
                 System.out.print("Bank number: ");
-                int bankNum = sc.nextInt();
+                int bankNum = Integer.parseInt(sc.nextLine());
                 System.out.println("");
 
                 System.out.print("Bank branch number: ");
-                int bankBranch = sc.nextInt();
+                int bankBranch = Integer.parseInt(sc.nextLine());
                 System.out.println("");
 
                 System.out.print("Bank account number: ");
-                int bankAccount = sc.nextInt();
+                int bankAccount = Integer.parseInt(sc.nextLine());
                 System.out.println("");
 
                 System.out.print("Salary: ");
-                int salary = sc.nextInt();
+                int salary = Integer.parseInt(sc.nextLine());
                 System.out.println("");
 
-                System.out.print("Start Date: ");
                 System.out.println("please enster the date in that format Date: 05-06-2003");
+                System.out.print("Start Date: ");
                 String startDate = sc.nextLine();
                 System.out.println("");
                 
                 System.out.print("Bouns: ");
-                int bonus = sc.nextInt();
+                int bonus = Integer.parseInt(sc.nextLine());
                 System.out.println("");
 
                 DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
@@ -113,6 +113,8 @@ class Main {
         service.logOut(loginId);
         System.out.println("");
         System.out.print("Thank you for your time. See you next time.");
+
+        sc.close();
 
         //service.logIn(12345, "12345");
         //service.logOut(12345);

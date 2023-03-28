@@ -17,7 +17,7 @@ public class EmployeeController {
         //Adding Hr manager manualy to the system.
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
         LocalDate localDate = LocalDate.parse("01-02-1980", formatter);
-        addEmployee("Rami", "Arnon", 123456789, "abc", 0, 0, 0, 50000, 30000, localDate, null, Role.HRmanager);
+        addEmployee("Rami", "Arnon", 123456789, "abc", 0, 0, 0, 50000, 30000, localDate, null, Role.HRMANAGER);
         //Adding Hr manager manualy to the system.
     }
 

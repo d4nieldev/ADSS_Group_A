@@ -77,7 +77,7 @@ class Main {
                 System.out.print("Driver license if he is a driver (null/B/C): ");
                 String driverLicenseString = sc.nextLine();
                 License driverLicense = License.valueOf(driverLicenseString.toUpperCase()); //may throw an error.
-
+                System.out.println("");
 
                 System.out.print("Role: ");
                 String roleString = sc.nextLine();

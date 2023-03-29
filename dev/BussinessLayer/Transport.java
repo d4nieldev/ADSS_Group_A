@@ -10,15 +10,17 @@ public class Transport {
     private String leavingTime;
     private String truckNumber;
     private String driverName;
+    private int driverId;
     private String source;
     private Map<String, Destination> destinationList;
 
-    public Transport(int id, Date date, String leavingTime, String truckNumber, String driverName, String source) {
+    public Transport(int id, Date date, String leavingTime, String truckNumber, String driverName, int driverId, String source) {
         this.id = id;
         this.date = date;
         this.leavingTime = leavingTime;
         this.truckNumber = truckNumber;
         this.driverName = driverName;
+        this.driverId = driverId;
         this.source = source;
         this.destinationList = new HashMap<>();
     }

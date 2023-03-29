@@ -3,12 +3,18 @@ package ServiceLayer.Suppliers;
 import java.util.Map;
 
 import BusinessLayer.Suppliers.ReservationController;
+import BusinessLayer.Suppliers.exceptions.SuppliersException;
 
 public class ReservationService {
     private ReservationController reservationController;
 
     public String makeReservation(Map<Integer, Integer> productToAmount) {
-        return reservationController.makeReservation(productToAmount);
+        try {
+            reservationController.splitReservation(productToAmount);
+            return "Success";
+        } catch (SuppliersException e) {
+            return e.getMessage();
+        }
     }
 
     public String cancelReservation(int reservationId) {

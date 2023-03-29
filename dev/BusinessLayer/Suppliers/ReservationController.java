@@ -12,6 +12,7 @@ import BusinessLayer.Suppliers.exceptions.SuppliersException;
 
 public class ReservationController {
     private Map<Integer, List<Reservation>> idToSupplierReservations;
+    private List<Reservation> readyReservations;
     private int lastId;
 
     public void splitReservation(Map<Integer, Integer> productToAmount) throws SuppliersException {

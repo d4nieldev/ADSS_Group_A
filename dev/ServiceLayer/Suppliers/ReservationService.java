@@ -1,5 +1,6 @@
 package ServiceLayer.Suppliers;
 
+import java.util.List;
 import java.util.Map;
 
 import BusinessLayer.Suppliers.ReservationController;
@@ -49,6 +50,10 @@ public class ReservationService {
     }
 
     public String getSupplierReservations(int supplierId) {
+        return null;
+    }
+
+    public Map<Integer, List<String>> getReadySupplierToAddresses() {
         return null;
     }
 }

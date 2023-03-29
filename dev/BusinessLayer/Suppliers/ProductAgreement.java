@@ -9,6 +9,7 @@ class ProductAgreement {
     private int productSupplierId;
     private int stockAmount;
     private TreeMap<Integer, Double> amountToPrice;
+    private String manufacturer;
 
     public ProductAgreement(int supplierId, int productShopId, int productSupplierId, int stockAmount,
             TreeMap<Integer, Double> amountToPrice) {

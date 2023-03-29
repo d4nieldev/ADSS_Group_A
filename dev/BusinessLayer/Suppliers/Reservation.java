@@ -12,6 +12,7 @@ class Reservation {
     private Date date;
     private Status status;
     private List<ReceiptItem> receipt;
+    private String destinationBranch;
 
     public Reservation(int id, int supplier_id, List<ReceiptItem> receipt) {
         this.id = id;

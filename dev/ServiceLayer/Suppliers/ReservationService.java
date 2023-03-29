@@ -18,11 +18,30 @@ public class ReservationService {
     }
 
     public String cancelReservation(int reservationId) {
-        return null;
+        try {
+            reservationController.cancelReservation(reservationId);
+            return "Success";
+        } catch (SuppliersException e) {
+            return e.getMessage();
+        }
     }
 
-    public String changeReservationStatus(String status) {
-        return null;
+    public String makeReservationReady(int reservationId) {) {
+        try {
+            reservationController.makeReservationReady(reservationId);
+            return "Success";
+        } catch (SuppliersException e) {
+            return e.getMessage();
+        }
+    }
+
+    public String closeReservation(int reservationId) {
+        try {
+            reservationController.closeReservation(reservationId);
+            return "Success";
+        } catch (SuppliersException e) {
+            return e.getMessage();
+        }
     }
 
     public String getReservationReceipt(int reservationId) {

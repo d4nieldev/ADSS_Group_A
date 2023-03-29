@@ -8,7 +8,6 @@ import java.util.List;
 import java.util.Map;
 
 import BusinessLayer.Suppliers.enums.Status;
-import BusinessLayer.Suppliers.exceptions.NoMatchingSupplierException;
 import BusinessLayer.Suppliers.exceptions.SuppliersException;
 
 public class ReservationController {
@@ -25,7 +24,7 @@ public class ReservationController {
             // find the most attractive agreement for this product
             ProductAgreement minProductAgreement = findBestProductAgreement(productId, amount);
             if (minProductAgreement == null)
-                throw new NoMatchingSupplierException(
+                throw new SuppliersException(
                         "No matching supplier found for product " + productId + " and amount " + amount);
 
             // create a receipt item for this product
@@ -43,8 +42,7 @@ public class ReservationController {
         for (Map.Entry<Integer, List<ReceiptItem>> entry : supplierToProducts.entrySet()) {
             int supplierId = entry.getKey();
             List<ReceiptItem> receipt = entry.getValue();
-            Reservation reservation = new Reservation(reservationId, supplierId, new Date(),
-                    Status.NOTREADY, receipt);
+            Reservation reservation = new Reservation(reservationId, supplierId, receipt);
             addPartialReservation(reservationId, reservation);
         }
     }
@@ -68,5 +66,20 @@ public class ReservationController {
 
     private int getNextIdAndIncrement() {
         return lastId++;
+    }
+
+    public void cancelReservation(int reservationId) throws SuppliersException {
+        for (Reservation r : idToSupplierReservations.get(reservationId))
+            r.cancel();
+    }
+
+    public void makeReservationReady(int reservationId) throws SuppliersException {
+        for (Reservation r : idToSupplierReservations.get(reservationId))
+            r.makeReady();
+    }
+
+    public void closeReservation(int reservationId) throws SuppliersException {
+        for (Reservation r : idToSupplierReservations.get(reservationId))
+            r.close();
     }
 }

@@ -12,6 +12,7 @@ public class ProductAgreementController {
         productIdToSupplierProducts = new HashMap<>();
     }
 
+    //TODO: FINISH PRODUCT AGREEMENT CONTROLLER
     public static ProductAgreementController getInstance() {
         if (instance == null)
             instance = new ProductAgreementController();

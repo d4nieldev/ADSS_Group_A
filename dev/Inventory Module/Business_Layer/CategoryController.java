@@ -4,15 +4,15 @@ import java.util.*;
 
 public class CategoryController {
 
-    private List<Category> allCategories;
-    private Hashtable<Integer, Category> categoryDic ;
+    private static List<Category> allCategories;
+    private static Hashtable<Integer, Category> categoryDic ;
 
 public CategoryController() {
     this.allCategories = new ArrayList<Category>();
     this.categoryDic = new Hashtable<>();
 }
 
-    public Category getCategoyById(int id)
+    public static  Category getCategoyById(int id)
     {
         return categoryDic.get(id);
     }
@@ -22,7 +22,7 @@ public CategoryController() {
      * @param category
      * @return all parent categories of a specific Category
      */
-    public List<Category> getAllParenCategories(Category category)
+    public static List<Category> getAllParenCategories(Category category)
     {
         List<Category> result = new ArrayList<>();
         List<Integer> allCategoriesId = new ArrayList<>();
@@ -38,7 +38,7 @@ public CategoryController() {
      * @param category
      * @return all Subcategories of a specific Category
      */
-    public List<Category> getAllSubCategories(Category category)
+    public static List<Category> getAllSubCategories(Category category)
     {
         List<Category> result = new ArrayList<>();
      for(Category cat : allCategories)
@@ -50,7 +50,7 @@ public CategoryController() {
      return result;
     }
 
-    public List<Category> getAllCategories()
+    public static List<Category> getAllCategories()
     {
         return allCategories;
     }
@@ -60,7 +60,7 @@ public CategoryController() {
      * @param main
      * /// add new sub category to already exist category
      */
-    public void addNewSubCategory(String name , Category main)
+    public static void addNewSubCategory(String name , Category main)
     {
         boolean flag = false;
        for(Category cat : allCategories)
@@ -81,7 +81,7 @@ public CategoryController() {
      * @param name
      * ///add new main category
      */
-    public void addNewCategory(String name)
+    public static void addNewCategory(String name)
     {
         boolean flag = false;
         for(Category cat : allCategories)
@@ -92,12 +92,18 @@ public CategoryController() {
                 break;
             }
         }
+
         if(!flag) {
             Category category = new Category(name);
             allCategories.add(category);
             categoryDic.put(category.getId(), category);
         }
     }
+    public static boolean ExistCategory(int id)
+    {
+        return allCategories.contains(id);
+    }
+
 
 
 

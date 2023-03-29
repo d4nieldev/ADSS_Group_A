@@ -347,6 +347,14 @@ public class ProductController {
                         }
                 }
         }
+
+        /**
+         * set a discount on a specific products
+         * @param allProducts
+         * @param startDate
+         * @param endDate
+         * @param discountPercentage
+         */
         public void setDiscountOnProducts(List<GeneralProduct> allProducts, LocalDate startDate,LocalDate endDate, double discountPercentage)
         {
                 Discount discount = new Discount(startDate,endDate,discountPercentage);
@@ -359,6 +367,58 @@ public class ProductController {
                         }
                 }
         }
+
+        /**
+         * receive supply
+         * @param code
+         * @param name
+         * @param price
+         * @param amount
+         * @param expiredDate
+         * @param manufacturer
+         */
+        public void receiveSupply(int code,String name, double price, int amount, LocalDate expiredDate, String manufacturer)
+        {
+                GeneralProduct gp = getGeneralProductByCode(code);
+                if(gp != null)
+                {
+                        receiveExistSupply(code,price,amount,expiredDate);
+                }
+                else {
+                        receiveNewSupply(code,name,price,amount,expiredDate,manufacturer);
+
+                }
+        }
+        public void receiveExistSupply(int code, double price, int amount, LocalDate expiredDate)
+        {
+
+        }
+        public void receiveNewSupply(int code,String name, double price, int amount, LocalDate expiredDate, String manufacturer)
+        {
+                Scanner scanner = new Scanner(System.in);
+                // Prompt the user to enter their name
+                System.out.print("We notice a new General Product: name: "+ name +" code "+ code );
+                System.out.println("please enter product lowest category id");
+                // Read the user's input as a string
+                int id = scanner.nextInt();
+                System.out.println("please enter minimum quantity for product : " + name );
+                int minQuantity = scanner.nextInt();
+                boolean check = CategoryController.ExistCategory(id);
+                if(check)
+                {
+                        Category category = CategoryController.getCategoyById(id);
+                        //CREATE NEW SUPPLY OBJECT!!!!!!!!
+                        allGeneralProducts.add(gp);
+
+                }
+                else {
+
+                }
+
+
+
+        }
+
 
 
 

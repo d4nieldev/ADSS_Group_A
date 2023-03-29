@@ -4,6 +4,7 @@ public class Global {
     public static int Productid = 0;
     public static int Categoryid = 0;
     public static int SupplyId = 0;
+
     public static int getNewProductid()
     {
         Productid++;
@@ -24,6 +25,4 @@ public class Global {
         SupplyId++;
         return  SupplyId - 1;
     }
-
-
 }

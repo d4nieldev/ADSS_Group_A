@@ -6,7 +6,7 @@ import java.util.List;
 
 public class GeneralProduct {
     private String name;
-    private int generalProductId;
+    private int code;
     private double price;
     private String manufacturer;
     private int min_quantity;
@@ -17,11 +17,26 @@ public class GeneralProduct {
     private boolean onDiscount;
     private Discount discount;
     private List<Supply> productSupply;
+    private List<Integer> onShelf;
+    private List<Integer> onStorage;
+    private HashMap<Integer,String> allFlowProducts;// id-flow description
+    private  List<Integer> allExpiredProducts; // ids
 
 
-    public GeneralProduct(String name, int generalProductId, double price, String manufacturer, int min_quantity, Category category) {
+
+    public  enum Location{STORAGE,SHOP};
+
+
+    public HashMap<Integer, Double> getIdsSellPrice() {
+        return idsSellPrice;
+    }
+
+    private HashMap<Integer,Double> idsSellPrice;
+
+
+    public GeneralProduct(String name, int code, double price, String manufacturer, int min_quantity, Category category) {
         this.name = name;
-        this.generalProductId = generalProductId;
+        this.code = code;
         this.price = price;
         this.manufacturer = manufacturer;
         this.min_quantity = min_quantity;
@@ -32,14 +47,19 @@ public class GeneralProduct {
         this.onDiscount = false;
         discount = new Discount();
         this.productSupply = new ArrayList<>();
+        this.onShelf = new ArrayList<>();
+        this.onStorage = new ArrayList<>();
+        this.idsSellPrice = new HashMap<>();
+        this.allExpiredProducts = new ArrayList<>();
+        this.allFlowProducts = new HashMap<>();
     }
 
     public String getName() {
         return name;
     }
 
-    public int getGeneralProductId() {
-        return generalProductId;
+    public int getCode() {
+        return code;
     }
 
     public List<Supply> getProductSupply() {
@@ -88,6 +108,14 @@ public class GeneralProduct {
         return discount;
     }
 
+    public List<Integer> getOnShelf() {
+        return onShelf;
+    }
+
+    public List<Integer> getOnStorage() {
+        return onStorage;
+    }
+
     public void setPrice(double price) {
         this.price = price;
     }
@@ -99,20 +127,64 @@ public class GeneralProduct {
     public void setOnDiscount(boolean onDiscount) {
         this.onDiscount = onDiscount;
     }
-    public boolean sellProduct()
+
+    public void addSellPrice(int id,double price)
     {
+        this.idsSellPrice.put(id,price);
+    }
+
+    public boolean removeItem(int id,Enum.Location location)
+    {
+        boolean res = false;
         if(total_quantity == 0 || total_quantity < 0 )
-            return false;
+            res = false;
         else {
-            total_quantity--;
-            shop_quantity--;
-            return true;
+            if (location.equals(Enum.Location.SHOP)) {
+                if(onShelf.contains(id)) {
+                    onShelf.remove(id);
+                    shop_quantity--;
+                    total_quantity--;
+                    res = true;
+                }
+                } else if (location.equals(Enum.Location.STORAGE)) {
+                if (onStorage.contains(id)) {
+                    onStorage.remove(id);
+                    storage_quantity--;
+                    total_quantity--;
+                    res = true;
+                }
+            }
+
+        }
+        return res;
+    }
+
+    public void removeFromShop(int amount)
+    {
+        this.shop_quantity -= amount;
+        this.total_quantity -= amount;
+    }
+    public void removeFromStorage(int amount)
+    {
+        this.storage_quantity-= amount;
+        this.total_quantity -= amount;
+    }
+
+    public void addFlowProduct(int id, String description)
+    {
+        allFlowProducts.put(id,description);
+
+    }
+    public void addExpiredProducts(List<Integer> ids) {
+        for(Integer id : ids)
+        {
+            this.allExpiredProducts.add(id);
         }
     }
 
     @Override
     public String toString() {
-        return "GeneralProduct [name=" + name + ", generalProductId=" + generalProductId + ", price=" + price + ", manufacturer=" + manufacturer
+        return "GeneralProduct [name=" + name + ", generalProductId=" + code + ", price=" + price + ", manufacturer=" + manufacturer
                 + ", total quantity=" + total_quantity + ", min quantity=" + min_quantity + ", shop quantity=" + shop_quantity + ", storage quantity=" + storage_quantity +
                 ", category=" + category + ", onDiscount=" + onDiscount + "]";
 

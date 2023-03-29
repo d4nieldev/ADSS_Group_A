@@ -26,7 +26,7 @@ public class ReservationService {
         }
     }
 
-    public String makeReservationReady(int reservationId) {) {
+    public String makeReservationReady(int reservationId) {
         try {
             reservationController.makeReservationReady(reservationId);
             return "Success";

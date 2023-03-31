@@ -82,14 +82,21 @@ public class Employee{
 		// need to implement
 		int countHours = 0;
 		for (Shift shift : historyShift) {
-			countHours += shift.getDuration();
+			if(shift.getDate().getDayOfMonth() == month && shift.getDate().getYear() == year){
+				countHours += shift.getDuration();
+			}
 		}
 		return countHours * salary;
 	}
 
 	public void resetBonus(){bonus = 0;}
 
-	//Getters And Setters
+	public String toString(){
+		return "Employee Name: " + firstName + " " + lastName + " [id: " + id + ", bank number: " + bankNum  + ", salary: " + salary 
+		+ ", start date: " + startDate + ", roles: " + roles.toString() + "]";
+	}
+
+//-------------------------------------Getters And Setters--------------------------------------------------------
 	public int getId(){return id;}
 	public String getFirstName(){return firstName;}
 	public void setFirstName(String firstName){this.firstName = firstName;}
@@ -108,6 +115,7 @@ public class Employee{
 	public int getBonus(){return bonus;}
 	public void setBonus(int bonus){this.bonus = bonus;}
 	public LocalDate getStartDate(){return startDate;}
+	public void setStartDate(LocalDate date){this.startDate = date;}
 	public License getDriverLicense(){return driverLicense;}
 	public void setDriverLicense(License driverLicense){this.driverLicense = driverLicense;}
 	public List<Role> getRoles(){return roles;}
@@ -115,10 +123,4 @@ public class Employee{
 	public void SetIsLoggedInToTrue(){isLoggedIn = true;}
 	public void SetIsLoggedInToFalse(){isLoggedIn = false;}
 	public LinkedList<Shift> getHistoryShift(){return historyShift;}
-	//Getters And Setters
-
-	public String toString(){
-		return "Employee Name: " + firstName + " " + lastName + " [id: " + id + ", bank number: " + bankNum  + ", salary: " + salary 
-		+ ", start date: " + startDate + ", roles: " + roles.toString() + "]";
-	}
 }

@@ -10,13 +10,13 @@ public class Category {
 
 
 
-    public Category(String name,Category category)
+    public Category(String name,Category ParentCategory)
     {
         this.id = Global.getNewCategoryid();
         this.name = name;
-        this.main = category;
+        this.main = ParentCategory;
         //insert all the categories to the categories list
-        Category cat1 = category;
+        Category cat1 = ParentCategory;
         while (cat1 != null)
         {
             allCategories.add(cat1.id);

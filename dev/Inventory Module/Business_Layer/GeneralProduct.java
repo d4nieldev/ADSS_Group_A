@@ -1,8 +1,6 @@
 package Business_Layer;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 public class GeneralProduct {
     private String name;
@@ -23,15 +21,12 @@ public class GeneralProduct {
     private  List<Integer> allExpiredProducts; // ids
 
 
-
     public  enum Location{STORAGE,SHOP};
-
-
     public HashMap<Integer, Double> getIdsSellPrice() {
         return idsSellPrice;
     }
-
     private HashMap<Integer,Double> idsSellPrice;
+    private int currentId;
 
 
     public GeneralProduct(String name, int code, double price, String manufacturer, int min_quantity, Category category) {
@@ -43,6 +38,27 @@ public class GeneralProduct {
         this.total_quantity = 0;
         this.shop_quantity = 0;
         this.storage_quantity = 0;
+        this.category = category;
+        this.onDiscount = false;
+        discount = new Discount();
+        this.productSupply = new ArrayList<>();
+        this.onShelf = new ArrayList<>();
+        this.onStorage = new ArrayList<>();
+        this.idsSellPrice = new HashMap<>();
+        this.allExpiredProducts = new ArrayList<>();
+        this.allFlowProducts = new HashMap<>();
+        this.currentId = 0;
+    }
+
+    public GeneralProduct(String name, int code, double price, String manufacturer, int min_quantity, Category category,int total_quantity) {
+        this.name = name;
+        this.code = code;
+        this.price = price;
+        this.manufacturer = manufacturer;
+        this.min_quantity = min_quantity;
+        this.total_quantity = total_quantity;
+        this.shop_quantity = 0;
+        this.storage_quantity = total_quantity;
         this.category = category;
         this.onDiscount = false;
         discount = new Discount();
@@ -133,7 +149,17 @@ public class GeneralProduct {
         this.idsSellPrice.put(id,price);
     }
 
-    public boolean removeItem(int id,Enum.Location location)
+    public int getCurrentId() {
+        return currentId;
+    }
+
+    /**
+     * remove a specific item from shop or storage
+     * @param id
+     * @param location
+     * @return
+     */
+    public boolean removeItem(int id, Enum.Location location)
     {
         boolean res = false;
         if(total_quantity == 0 || total_quantity < 0 )
@@ -181,6 +207,81 @@ public class GeneralProduct {
             this.allExpiredProducts.add(id);
         }
     }
+    public void addToShelf(int id) {
+        this.onShelf.add(id);
+    }
+
+    public void addQuantityToStorage(int quantity)
+    {
+        this.total_quantity += quantity;
+        this.storage_quantity += quantity;
+    }
+    public void addNewQuantityToShelf(int quantity)
+    {
+        this.total_quantity += quantity;
+        this.shop_quantity += quantity;
+    }
+    public void setCurrentIdt(int currentId) {
+        this.currentId = currentId;
+    }
+
+    public void addToStorage(List<Integer> ids) {
+        onStorage.addAll(ids);
+    }
+
+    /**
+     * adding new supply sorting by the expired date
+     * @param sp
+     */
+    public void addSupply(Supply sp) {
+
+        int index = Collections.binarySearch(productSupply, sp, Comparator.comparing(Supply::getExpiredDate));
+        if (index < 0) {
+            index = -(index + 1);
+        }
+        productSupply.add(index, sp);
+    }
+
+    public void addSupply1(Supply sp) {
+
+        int index = 0;
+        boolean check = false;
+       for (Supply supply:productSupply)
+       {
+           if(supply.getExpiredDate().isAfter(sp.getExpiredDate()))
+           {
+               productSupply.add(index,sp);
+               check = true;
+               break;
+           }
+           index ++;
+       }
+       if(!check)
+       {
+           productSupply.add(sp);
+       }
+    }
+    /**
+     * transfring all products ids from storage to shop
+     * @param amount
+     * @param ids
+     */
+    public void transferFromStorageToShop(int amount,List<Integer> ids) {
+//        productSupply.remove(sp);
+        storage_quantity -= amount;
+        shop_quantity += amount;
+        onShelf.addAll(ids);
+        removeStorageIds(ids);
+    }
+
+    private void removeStorageIds(List<Integer> ids) {
+        for(int id : ids)
+        {
+            onStorage.remove(id);
+        }
+
+    }
+
 
     @Override
     public String toString() {

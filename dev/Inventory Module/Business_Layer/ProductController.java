@@ -369,7 +369,7 @@ public class ProductController {
         }
 
         /**
-         * receive supply
+         * receive supply -
          * @param code
          * @param name
          * @param price
@@ -389,32 +389,159 @@ public class ProductController {
 
                 }
         }
-        public void receiveExistSupply(int code, double price, int amount, LocalDate expiredDate)
+
+        /**
+         * if the general produce was already exist receive it
+         * @param code
+         * @param price
+         * @param amount
+         * @param expiredDate
+         */
+        private void receiveExistSupply(int code, double price, int amount, LocalDate expiredDate)
         {
 
+                GeneralProduct gp = getGeneralProductByCode(code);
+                int index = gp.getCurrentId();
+                List<Integer> ids = addIdsList(index,amount);
+                int currenId = ids.get(ids.size() - 1) + 1;
+                gp.setCurrentIdt(currenId);
+                gp.addToStorage(ids);
+                Supply sp = new Supply(gp,expiredDate,price,amount,ids);
+                gp.addSupply(sp);
+                allSupply.add(sp);
+                allRelevantSupply.add(sp);
         }
-        public void receiveNewSupply(int code,String name, double price, int amount, LocalDate expiredDate, String manufacturer)
+        private List<Integer> addIdsList(int index,int amount)
+        {
+                List<Integer> result = new ArrayList<>();
+                while (amount >= 0)
+                {
+                        result.add(index);
+                        index++;
+                        amount--;
+                }
+
+                return result;
+        }
+
+        /**
+         * if product is a new product create it and receive the supply
+         * @param code
+         * @param name
+         * @param price
+         * @param amount
+         * @param expiredDate
+         * @param manufacturer
+         */
+        private void receiveNewSupply(int code,String name, double price, int amount, LocalDate expiredDate, String manufacturer)
         {
                 Scanner scanner = new Scanner(System.in);
+                int id = -1;
                 // Prompt the user to enter their name
                 System.out.print("We notice a new General Product: name: "+ name +" code "+ code );
+                System.out.println("is the product's category exist? enter y/n");
+                String answer = scanner.nextLine();
+                if (answer.toLowerCase() == "y"){
                 System.out.println("please enter product lowest category id");
                 // Read the user's input as a string
-                int id = scanner.nextInt();
+                 id = scanner.nextInt();
+                }
                 System.out.println("please enter minimum quantity for product : " + name );
                 int minQuantity = scanner.nextInt();
                 boolean check = CategoryController.ExistCategory(id);
+                //if Category already exist
                 if(check)
                 {
                         Category category = CategoryController.getCategoyById(id);
                         //CREATE NEW SUPPLY OBJECT!!!!!!!!
+                        GeneralProduct gp = new GeneralProduct(name,code,price,manufacturer,minQuantity,category,amount);
                         allGeneralProducts.add(gp);
-
+                        receiveExistSupply(code,price,amount,expiredDate);
                 }
+                //it's a new category
                 else {
+                        System.out.println("this category is a new category, please enter category name: ");
+                        String categoryName = scanner.nextLine();
+                        System.out.println("if category is sub category enter its parent category, otherwise -1");
+                        int parentCategory = scanner.nextInt();
+                        Category parent = CategoryController.getCategoyById(id);
+                        Category category = new Category(categoryName,parent);
+
+                        //CREATE NEW SUPPLY OBJECT!!!!!!!!
+                        GeneralProduct gp = new GeneralProduct(name,code,price,manufacturer,minQuantity,category,amount);
+                        allGeneralProducts.add(gp);
+                        receiveExistSupply(code,price,amount,expiredDate);
+                }
+        }
+
+        /**
+         * return a list in size @amount with all the products ids that the worker need to transfer from
+         * storage to shop- שso transfer the products
+         * @param code
+         * @param amount
+         * @return
+         */
+        public List<Integer> transferFromStorageToShop(int code, int amount)
+        {
+                GeneralProduct gp = getGeneralProductByCode(code);
+                List<Integer> result = new ArrayList<>();
+                Scanner scanner = new Scanner(System.in);
+                String answer = "y";
+                if(amount > gp.getStorage_quantity()) {
+                        System.out.println("sorry your amount is more then the storage amount");
+                        System.out.println("do you want to get all the available products? - choose y/n");
+                        answer = scanner.nextLine();
+                        if(answer == "y")
+                                amount = gp.getStorage_quantity();
+                }
+
+                if(answer == "y") {
+                         int index = 0;
+                        while (amount > 0) {
+                                Supply sp = gp.getProductSupply().get(index);
+                                int cut = 0;
+                                //i need to take amount from list
+                                int check = amount - sp.getAmount();
+                                if(check < 0)
+                                {
+                                         cut = amount;
+                                         amount = 0;
+                                        List<Integer> sublist = sp.getIds().subList(0, cut); // Get the first cut elements from the list
+                                        result.addAll(sublist);
+                                        sp.setIds(new ArrayList<>(sp.getIds().subList(cut , sp.getIds().size() -1))) ;
+
+                                        sp.transferFromStorageToShop(cut);
+                                        gp.transferFromStorageToShop(cut,new ArrayList<>(sp.getIds().subList(cut , sp.getIds().size() -1)) );
+                                }
+                                // i need extra supply
+                                else {
+                                        cut = sp.getAmount();
+                                        amount -= cut;
+                                        result.addAll(sp.getIds());
+                                        sp.transferFromStorageToShop(cut);
+                                        gp.transferFromStorageToShop(cut,sp.getIds());
+                                        allRelevantSupply.remove(sp);
+                                }
+
+                        }
 
                 }
 
+                return result;
+        }
+        /**
+         * returning a product to inventory - might be use after canceling of a buy
+         * @param code
+         * @param id
+         */
+        public void returnProduct(int code ,int id)
+        {
+                GeneralProduct gp = getGeneralProductByCode(code);
+                Supply sp = getSupplyFromGeneralById(id,gp);
+                gp.addNewQuantityToShelf(1);
+                gp.addToShelf(id);
+                sp.addId(id);
+                sp.addNewToShop(1);
 
 
         }

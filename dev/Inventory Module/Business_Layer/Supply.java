@@ -2,7 +2,6 @@ package Business_Layer;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 public class Supply {
@@ -20,7 +19,7 @@ public class Supply {
 
 
 
-    public Supply(GeneralProduct generalProductCode, LocalDate expiredDate, double buyPrice,int amount,int shopAmount) {
+    public Supply(GeneralProduct generalProductCode, LocalDate expiredDate, double buyPrice,int amount, List<Integer> ids) {
 //        this.id = id;
 //        this.code = code;
         this.generalProduct = generalProductCode;
@@ -30,15 +29,12 @@ public class Supply {
         this.amount = amount;
         this.shopAmount = 0;
         this.storageAmount = amount;
-        this.firstId = -1;
-        this.lastId = -1;
-        this.ids = new ArrayList<>();
+        this.firstId = ids.get(0);
+        this.lastId = ids.get(ids.size() - 1);
+        this.ids = ids;
+        this.generalProduct.addQuantityToStorage(amount);
 
     }
-
-//    public List<Double> getSellPrice() {
-//        return sellPrice;
-//    }
 
     public int getAmount() {
         return amount;
@@ -144,5 +140,18 @@ public class Supply {
         this.shopAmount = 0;
         this.storageAmount = 0;
 
+    }
+    public void setIds(ArrayList<Integer> ids) {
+        this.ids = ids;
+    }
+
+    public void transferFromStorageToShop(int amount) {
+        this.storageAmount -= amount;
+        this.shopAmount += amount;
+    }
+
+    public void addNewToShop(int i) {
+        this.amount += i;
+        this.shopAmount += i;
     }
 }

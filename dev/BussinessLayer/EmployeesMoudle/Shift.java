@@ -3,8 +3,12 @@ import java.util.Map;
 
 import javax.swing.text.AbstractDocument.BranchElement;
 
+import java.lang.management.ThreadInfo;
 import java.time.LocalDate;
+import java.time.LocalTime;
+import java.util.Dictionary;
 import java.util.HashMap;
+import java.util.Hashtable;
 import java.util.LinkedList;
 
 import Misc.*;
@@ -15,34 +19,35 @@ public class Shift{
     private int superBranchNumer;
     private LocalDate date;
     private ShiftTime time;
+    private int startHour;
+    private int endHour; 
+    private int duration;
     private boolean finishSettingShift;
     private HashMap<Employee, Role> constraints;
     private HashMap<Role, Integer> numEmployeesForRole;
     private HashMap<Role, Integer> helpMapForAssign;
     private HashMap<Employee, Role> finalShift;
-    private HashMap<Integer, Integer> cancellations;
+    private Dictionary<Integer, Integer> cancellations;
 
-    public Shift(int idShift, int superBranchNumer, LocalDate date, ShiftTime time){
+    public Shift(int idShift, int superBranchNumer, LocalDate date, int startHour, int endHour, ShiftTime time){
         this.idShift = idShift;
         this.superBranchNumer = superBranchNumer;
         this.date = date;
         this.time = time;
+        this.startHour = startHour;
+        this.endHour = endHour;
+        this.duration = endHour - startHour;
         finishSettingShift = false;
         this.constraints = new HashMap<Employee, Role>();
         this.numEmployeesForRole = new HashMap<Role, Integer>();
         this.helpMapForAssign = new HashMap<Role, Integer>();
         this.finalShift = new HashMap<Employee, Role>();
-        cancellations = new HashMap<>();
+        cancellations = new Hashtable<>();
     }
 
-    public void addCancelation(Employee employee, int itemCode){
+    public void addCancelation(Employee employee, int itemCode, int itemID){
         if(employee.getRoles().contains(Role.BRANCHMANAGER) || finalShift.get(employee).equals(Role.SHIFTMANAGER)){
-            if(cancellations.get(itemCode) == null){
-                cancellations.put(itemCode, 0);
-            }
-            else{
-                cancellations.replace(itemCode, cancellations.get(itemCode), cancellations.get(itemCode) + 1);
-            }
+            cancellations.put(itemCode, itemID);
         }
         throw new Error("This employee can not cancel an item. Only the shift manager or the super branch manager.");
     }
@@ -112,10 +117,21 @@ public class Shift{
         finishSettingShift = true;
     }
 
-    public HashMap<Employee, Role> getFinalShift(){
-        return finalShift;
-    }
-
+    
+	//Getters And Setters
     public int getID(){return idShift;}
-
+    public int getSuperBranhNumber(){return superBranchNumer;}
+    public LocalDate getDate(){return date;}
+    public ShiftTime getShiftTime(){return time;}
+    public void setStartHour(int newStartHour){
+        if(this.endHour <= newStartHour){throw new Error("The Start hour have to be before the end hour.");}
+    this.startHour = newStartHour;}
+    public void setEndHour(int newEndHour){
+        if(this.startHour >= newEndHour){throw new Error("The end hour have to be after the start hour.");}
+    this.endHour = newEndHour;}
+    public int getDuration(){return duration;}
+    public boolean getIsFinishSettingShift(){return finishSettingShift;}
+    public HashMap<Employee, Role> getFinalShift(){return finalShift;}
+    public Dictionary<Integer, Integer> getCancellations(){return cancellations;}
+	//Getters And Setters
 }

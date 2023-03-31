@@ -24,6 +24,7 @@ public class Employee{
 	private License driverLicense;
 	private List<Role> roles;
 	private boolean isLoggedIn;
+	private LinkedList<Shift> historyShift;
 
 	public Employee(String firstName, String lastName, int id, String password, int bankNum,
 	int bankBranch, int bankAccount, int salary, int bonus, LocalDate startDate, License driverLicense, Role role){
@@ -41,43 +42,57 @@ public class Employee{
 		roles = new LinkedList<>();
 		roles.add(role);
 		isLoggedIn = false;
+		historyShift = new LinkedList<>();
 	}
+
+	// add shift to history shift in employee
+	public void addShift(Shift shift){
+		historyShift.push(shift);
+	}
+
+	// check if the employee have a shift in some date
+	// return dalse if the employee is avalible in this date
+	public boolean checkShiftInDate(LocalDate date){
+		for (Shift shift : historyShift) {
+			if(shift.getDate().equals(date)){
+				return true;
+			}
+		}
+		return false;
+	}
+
+	// calculate the salary for month
 
 	//Getters And Setters
-	public int getId(){
-		return id;
-	}
-
-	public String getFirstName(){
-		return firstName;
-	}
-
-	public String getLastName(){
-		return lastName;
-	}
-
-	public String getPassword(){
-		return password;
-	}
-	
-	public boolean getIsLoggedIn(){
-		return isLoggedIn;
-	}
-
-	public List<Role> getRoles(){
-		return roles;
-	}
-	
-	public void SetIsLoggedInToTrue(){
-		isLoggedIn = true;
-	}
-
-	public void SetIsLoggedInToFalse(){
-		isLoggedIn = false;
-	}
+	public int getId(){return id;}
+	public String getFirstName(){return firstName;}
+	public void setFirstName(String firstName){this.firstName = firstName;}
+	public String getLastName(){return lastName;}
+	public void setLastName(String lastName){this.lastName = lastName;}
+	public String getPassword(){return password;}
+	public void setPassword(String password){this.password = password;}
+	public int getBankNum(){return bankNum;}
+	public void setBankNum(int bankNum){ this.bankNum = bankNum;}
+	public int getBankBranch(){return bankBranch;}
+	public void setBankBranch(int bankBranch){this.bankBranch = bankBranch;}
+	public int getBankAccount(){return bankAccount;}
+	public void setBankAccount(int bankAccount){this.bankAccount = bankAccount;}
+	public int getSalary(){return salary;}
+	public void setSalary(int salary){this.salary = salary;}
+	public int getBonus(){return bonus;}
+	public void setBonus(int bonus){this.bonus = bonus;}
+	public LocalDate getStartDate(){return startDate;}
+	public License getDriverLicense(){return driverLicense;}
+	public void setDriverLicense(License driverLicense){this.driverLicense = driverLicense;}
+	public List<Role> getRoles(){return roles;}
+	public boolean getIsLoggedIn(){return isLoggedIn;}
+	public void SetIsLoggedInToTrue(){isLoggedIn = true;}
+	public void SetIsLoggedInToFalse(){isLoggedIn = false;}
+	public LinkedList<Shift> getHistoryShift(){return historyShift;}
 	//Getters And Setters
 
 	public String toString(){
-		return "Employee Name: " + firstName + " " + lastName + " [id: " + id + ", bank number: " + bankNum  + ", salary: " + salary + ", start date: " + startDate + ", roles: " + roles.toString() + "]";
+		return "Employee Name: " + firstName + " " + lastName + " [id: " + id + ", bank number: " + bankNum  + ", salary: " + salary 
+		+ ", start date: " + startDate + ", roles: " + roles.toString() + "]";
 	}
 }

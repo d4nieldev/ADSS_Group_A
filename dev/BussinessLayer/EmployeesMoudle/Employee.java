@@ -10,7 +10,7 @@ import javax.swing.LayoutStyle;
 import Misc.License;
 import Misc.Role;
 
-class Employee{
+public class Employee{
 	private String firstName;
 	private String lastName;
 	private int id;
@@ -64,6 +64,10 @@ class Employee{
 		return isLoggedIn;
 	}
 
+	public List<Role> getRoles(){
+		return roles;
+	}
+	
 	public void SetIsLoggedInToTrue(){
 		isLoggedIn = true;
 	}
@@ -74,6 +78,6 @@ class Employee{
 	//Getters And Setters
 
 	public String toString(){
-		return "Employee Name: " + firstName + " " + lastName + " [id: " + id + ", bank number: " + bankNum  + ", salary" + salary + ", start date: " + startDate + ", roles: " + roles.toString() + "]";
+		return "Employee Name: " + firstName + " " + lastName + " [id: " + id + ", bank number: " + bankNum  + ", salary: " + salary + ", start date: " + startDate + ", roles: " + roles.toString() + "]";
 	}
 }

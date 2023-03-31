@@ -1,5 +1,5 @@
 package Misc;
 
 public enum License {
-    A, B, C
+    NULL, B, C
 }

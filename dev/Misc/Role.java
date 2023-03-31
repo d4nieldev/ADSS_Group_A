@@ -1,5 +1,5 @@
 package Misc;
 
 public enum Role {
-    HRmanager, branchManager, shiftManager, chashier, storekeeper, driver, generral, cleaner, security
+    HRMANAGER, BRANCHMANAGER, SHIFTMANAGER, CHASHIER, STOREKEEPER, DRIVER, GENERRAL, CLEANER, SECURITY
 }

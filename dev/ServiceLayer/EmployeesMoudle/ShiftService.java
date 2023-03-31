@@ -4,5 +4,4 @@ import BussinessLayer.EmployeesMoudle.ShiftController;
 
 public class ShiftService {
     private ShiftController shiftController;
-    
 }

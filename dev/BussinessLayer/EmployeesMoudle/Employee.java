@@ -45,6 +45,22 @@ public class Employee{
 		historyShift = new LinkedList<>();
 	}
 
+	// add role if not exsist to employee
+	public void addRole(Role roleToAdd){
+		if(roles.contains(roleToAdd)){
+			throw new Error("This employee already have this role.");
+		}
+		roles.remove(roleToAdd);
+	}
+
+	// remove role if exsist to employee
+	public void removeRole(Role roleToRemove){
+		if(!roles.contains(roleToRemove)){
+			throw new Error("This employee does not have this role. Can not be removed.");
+		}
+		roles.remove(roleToRemove);
+	}
+
 	// add shift to history shift in employee
 	public void addShift(Shift shift){
 		historyShift.push(shift);
@@ -62,6 +78,16 @@ public class Employee{
 	}
 
 	// calculate the salary for month
+	public int sumSalaryToMonth(int month, int year){
+		// need to implement
+		int countHours = 0;
+		for (Shift shift : historyShift) {
+			countHours += shift.getDuration();
+		}
+		return countHours * salary;
+	}
+
+	public void resetBonus(){bonus = 0;}
 
 	//Getters And Setters
 	public int getId(){return id;}

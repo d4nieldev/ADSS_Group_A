@@ -11,11 +11,18 @@ import java.util.List;
 public class SupplierController {
     private int nextSupplierIdInSystem;
     private Map<Integer, Supplier> idToSupplier;
+    private static SupplierController instance = null;
 
     // Constructor for SupplierController
-    public SupplierController() {
+    private SupplierController() {
         this.idToSupplier = new HashMap<Integer, Supplier>();
         this.nextSupplierIdInSystem = 0;
+    }
+
+    public static SupplierController getInstance() {
+        if (instance == null)
+            instance = new SupplierController();
+        return instance;
     }
 
     // Getter for Supplier by id
@@ -234,6 +241,11 @@ public class SupplierController {
             contactList.add(new Contact(contactPhones.get(i), supplierId, contactNames.get(i)));
         }
         return contactList;
+    }
+
+    private double calculateSupplierDiscount(int supplierId, List<ReceiptItem> items) {
+        // TODO: implement me
+        return 0;
     }
 
 }

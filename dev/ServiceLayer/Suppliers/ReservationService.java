@@ -11,7 +11,7 @@ public class ReservationService {
 
     public String makeReservation(Map<Integer, Integer> productToAmount) {
         try {
-            reservationController.splitReservation(productToAmount);
+            reservationController.makeReservation(productToAmount);
             return "Success";
         } catch (SuppliersException e) {
             return e.getMessage();

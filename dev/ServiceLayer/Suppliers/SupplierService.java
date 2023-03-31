@@ -11,7 +11,7 @@ public class SupplierService {
     private ProductAgreementController productAgreementController;
 
     public SupplierService() {
-        supplierController = new SupplierController();
+        supplierController = SupplierController.getInstance();
         productAgreementController = ProductAgreementController.getInstance();
     }
 

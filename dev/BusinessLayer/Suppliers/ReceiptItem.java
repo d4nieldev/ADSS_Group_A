@@ -7,9 +7,13 @@ class ReceiptItem {
     private String manufacturer;
     // TODO: expiration date
 
-    public ReceiptItem(int amount, double pricePerUnitBeforeDiscount, double pricePerUnitAfterDiscount) {
+    public ReceiptItem(int amount, ProductAgreement agreement) {
         this.amount = amount;
-        this.pricePerUnitBeforeDiscount = pricePerUnitBeforeDiscount;
-        this.pricePerUnitAfterDiscount = pricePerUnitAfterDiscount;
+        this.pricePerUnitBeforeDiscount = agreement.getPrice(0);
+        this.pricePerUnitAfterDiscount = agreement.getPrice(amount);
+    }
+
+    public int getAmount() {
+        return this.amount;
     }
 }

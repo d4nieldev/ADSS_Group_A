@@ -18,9 +18,9 @@ public abstract class Supplier {
     private Queue<Integer> reservationHistory;
     private List<Contact> contacts;
 
-    // Copy Constructor 
+    // Copy Constructor
     public Supplier(int id, String name, String phone, String bankAcc, List<String> fields, String paymentCondition,
-     Map<Integer, Double> amountToDiscount, Queue<Integer> reservationHistory, List<Contact> contacts) {
+            Map<Integer, Double> amountToDiscount, Queue<Integer> reservationHistory, List<Contact> contacts) {
         this.id = id;
         this.name = name;
         this.phone = phone;
@@ -30,48 +30,48 @@ public abstract class Supplier {
         this.amountToDiscount = amountToDiscount;
         this.reservationHistory = reservationHistory;
         this.contacts = contacts;
-     }
+    }
 
     // Constructor without contacts, reservation history and fields
     public Supplier(int id, String name, String phone, String bankAcc, String paymentCondition,
-    Map<Integer, Double> amountToDiscount) {
-       this.id = id;
-       this.name = name;
-       this.phone = phone;
-       this.bankAcc = bankAcc;
-       this.fields = new LinkedList<>();
-       this.paymentCondition = paymentCondition;
-       this.amountToDiscount = amountToDiscount;
-       this.reservationHistory = new ArrayDeque<>();
-       this.contacts = new LinkedList<>();
+            Map<Integer, Double> amountToDiscount) {
+        this.id = id;
+        this.name = name;
+        this.phone = phone;
+        this.bankAcc = bankAcc;
+        this.fields = new LinkedList<>();
+        this.paymentCondition = paymentCondition;
+        this.amountToDiscount = amountToDiscount;
+        this.reservationHistory = new ArrayDeque<>();
+        this.contacts = new LinkedList<>();
     }
 
     // Constructor without reservation history
-    public Supplier(int id, String name, String phone, String bankAcc,List<String> fields, String paymentCondition,
-    Map<Integer, Double> amountToDiscount, List<Contact> contacts) {
-       this.id = id;
-       this.name = name;
-       this.phone = phone;
-       this.bankAcc = bankAcc;
-       this.fields = fields;
-       this.paymentCondition = paymentCondition;
-       this.amountToDiscount = amountToDiscount;
-       this.reservationHistory = new ArrayDeque<>();
-       this.contacts = contacts;
+    public Supplier(int id, String name, String phone, String bankAcc, List<String> fields, String paymentCondition,
+            Map<Integer, Double> amountToDiscount, List<Contact> contacts) {
+        this.id = id;
+        this.name = name;
+        this.phone = phone;
+        this.bankAcc = bankAcc;
+        this.fields = fields;
+        this.paymentCondition = paymentCondition;
+        this.amountToDiscount = amountToDiscount;
+        this.reservationHistory = new ArrayDeque<>();
+        this.contacts = contacts;
     }
 
     // Constructor without reservation history and contacts
-    public Supplier(int id, String name, String phone, String bankAcc,List<String> fields, String paymentCondition,
-    Map<Integer, Double> amountToDiscount) {
-       this.id = id;
-       this.name = name;
-       this.phone = phone;
-       this.bankAcc = bankAcc;
-       this.fields = fields;
-       this.paymentCondition = paymentCondition;
-       this.amountToDiscount = amountToDiscount;
-       this.reservationHistory = new ArrayDeque<>();
-       this.contacts = new LinkedList<>();
+    public Supplier(int id, String name, String phone, String bankAcc, List<String> fields, String paymentCondition,
+            Map<Integer, Double> amountToDiscount) {
+        this.id = id;
+        this.name = name;
+        this.phone = phone;
+        this.bankAcc = bankAcc;
+        this.fields = fields;
+        this.paymentCondition = paymentCondition;
+        this.amountToDiscount = amountToDiscount;
+        this.reservationHistory = new ArrayDeque<>();
+        this.contacts = new LinkedList<>();
     }
 
     // Getter and setter for id
@@ -146,7 +146,7 @@ public abstract class Supplier {
         this.reservationHistory = reservationHistory;
     }
 
-    //Getter and setter for contacts
+    // Getter and setter for contacts
     public List<Contact> getContacts() {
         return contacts;
     }
@@ -155,30 +155,30 @@ public abstract class Supplier {
         this.contacts = contacts;
     }
 
-    //Add a new contact
+    // Add a new contact
     public void addContact(Contact contact) throws Exception {
-        if(this.contacts.contains(contact)){
+        if (this.contacts.contains(contact)) {
             throw new Exception("Contact already exists");
         }
 
         for (Contact c : contacts) {
-            if(c.getPhone().equals(contact.getPhone())){
+            if (c.getPhone().equals(contact.getPhone())) {
                 throw new Exception("Contact with this phone number already exists");
             }
         }
         this.contacts.add(contact);
     }
 
-    //Delete a contact
+    // Delete a contact
     public void deleteContact(Contact contact) throws Exception {
-        if(!this.contacts.contains(contact)){
+        if (!this.contacts.contains(contact)) {
             throw new Exception("Contact not exists");
         }
 
         this.contacts.remove(contact);
     }
 
-    //Delete all contacts
+    // Delete all contacts
     public void deleteAllContacts() {
         this.contacts.clear();
     }

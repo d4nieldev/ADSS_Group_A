@@ -5,6 +5,7 @@ import javax.swing.text.AbstractDocument.BranchElement;
 
 import java.time.LocalDate;
 import java.util.HashMap;
+import java.util.LinkedList;
 
 import Misc.*;
 
@@ -19,18 +20,31 @@ public class Shift{
     private HashMap<Role, Integer> numEmployeesForRole;
     private HashMap<Role, Integer> helpMapForAssign;
     private HashMap<Employee, Role> finalShift;
-    // private List<int> cancellations;
+    private HashMap<Integer, Integer> cancellations;
 
     public Shift(int idShift, int superBranchNumer, LocalDate date, ShiftTime time){
         this.idShift = idShift;
         this.superBranchNumer = superBranchNumer;
         this.date = date;
         this.time = time;
+        finishSettingShift = false;
         this.constraints = new HashMap<Employee, Role>();
         this.numEmployeesForRole = new HashMap<Role, Integer>();
         this.helpMapForAssign = new HashMap<Role, Integer>();
         this.finalShift = new HashMap<Employee, Role>();
-        finishSettingShift = false;
+        cancellations = new HashMap<>();
+    }
+
+    public void addCancelation(Employee employee, int itemCode){
+        if(employee.getRoles().contains(Role.BRANCHMANAGER) || finalShift.get(employee).equals(Role.SHIFTMANAGER)){
+            if(cancellations.get(itemCode) == null){
+                cancellations.put(itemCode, 0);
+            }
+            else{
+                cancellations.replace(itemCode, cancellations.get(itemCode), cancellations.get(itemCode) + 1);
+            }
+        }
+        throw new Error("This employee can not cancel an item. Only the shift manager or the super branch manager.");
     }
 
     public Map<Employee, Role> getAllConstraints(){

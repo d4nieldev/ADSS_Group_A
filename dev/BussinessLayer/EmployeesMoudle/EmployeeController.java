@@ -17,7 +17,7 @@ public class EmployeeController {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
         LocalDate localDate = LocalDate.parse("01-02-1980", formatter);
         addHRManagerForStartUpTheSystem("Rami", "Arnon", 123456789, "abc", 0, 0,
-         0, 50000, 30000, localDate, null, Role.HRMANAGER);
+         0, 50000, 30000, localDate, null, Role.HRMANAGER, 0);
     }
 
     // commit log in for employee, if exsist
@@ -55,11 +55,11 @@ public class EmployeeController {
     // add employee to the system.
     // only if its HR manager and the employee does not exsist already.
     public void addEmployee(int managerId, String firstName, String lastName, int id, String password, int bankNum,
-    int bankBranch, int bankAccount, int salary, int bonus, LocalDate startDate, License driverLicense, Role role){
+    int bankBranch, int bankAccount, int salary, int bonus, LocalDate startDate, License driverLicense, Role role, int branch){
         if (isEmployeeExists(managerId) && isEmployeeLoggedIn(managerId) && isEmployeeHRManager(managerId)){
-            if(isEmployeeExists(id)) {throw new Error("The id " + id + "is already in the system. Please try again");}
+            checkEmployee(id);
             employees.add(new Employee(firstName, lastName, id, password, bankNum,
-            bankBranch, bankAccount, salary, bonus, startDate, driverLicense, role));
+            bankBranch, bankAccount, salary, bonus, startDate, driverLicense, role, branch));
             System.out.println("The employee " + firstName + " " + lastName + " has been added successfully");
         }
         else{
@@ -84,7 +84,8 @@ public class EmployeeController {
     // delete/remove employee from the system.
     // only if its HR manager and the employee is exsist.
     public void deleteEmployee(int managerId, int id){
-        checkHrAndEmployee(managerId, id);
+        checkHrManager(managerId);
+        checkEmployee(id);
         Employee employeeToRemove = getEmployeeById(id);
         employees.remove(employeeToRemove);
         System.out.println("The employee " + employeeToRemove.getFirstName() + " " + employeeToRemove.getLastName() + " has been removed successfully");
@@ -92,26 +93,27 @@ public class EmployeeController {
 
     // return true if the employee already have a shift on this date
     public boolean checkShiftInDate(int idEmployee, LocalDate date){
-        if(!isEmployeeExists(idEmployee)){
-            throw new Error("No such a user with this ID in the system.");
-        }
+        checkEmployee(idEmployee);
         Employee employee = getEmployeeById(idEmployee);
         return employee.checkShiftInDate(date);
     }
     
     // need to implement
     public void addRoles(int managerId, int idEmployee, Role role){
-        checkHrAndEmployee(managerId, idEmployee);
+        checkHrManager(managerId);
+        checkEmployee(idEmployee);
         getEmployeeById(idEmployee).addRole(role);
     }
 
     public void removeRoles(int managerId, int idEmployee, Role role){
-        checkHrAndEmployee(managerId, idEmployee);
+        checkHrManager(managerId);
+        checkEmployee(idEmployee);
         getEmployeeById(idEmployee).removeRole(role);
     }
     
     public void AddBonus(int managerId, int idEmployee, int bonus){
-        checkHrAndEmployee(managerId, idEmployee);
+        checkHrManager(managerId);
+        checkEmployee(idEmployee);
         getEmployeeById(idEmployee).setBonus(getEmployeeById(idEmployee).getBonus() + bonus);
     }
 
@@ -126,12 +128,14 @@ public class EmployeeController {
     }
 
     public void changeFirstName(int managerId, int idEmployee, String firstName){
-        checkHrAndEmployee(managerId, idEmployee);
+        checkHrManager(managerId);
+        checkEmployee(idEmployee);
         getEmployeeById(idEmployee).setFirstName(firstName);
     }
 
     public void changeLastName(int managerId, int idEmployee, String lastName){
-        checkHrAndEmployee(managerId, idEmployee);
+        checkHrManager(managerId);
+        checkEmployee(idEmployee);
         getEmployeeById(idEmployee).setLastName(lastName);
     }
 
@@ -139,36 +143,44 @@ public class EmployeeController {
     //public void changeId(int managerId, int idEmployee, int id){}
 
     public void changePassword(int managerId, int idEmployee, String password){
-        checkHrAndEmployee(managerId, idEmployee);getEmployeeById(idEmployee).setPassword(password);
+        checkHrManager(managerId);
+        checkEmployee(idEmployee);
+        getEmployeeById(idEmployee).setPassword(password);
     }
 
     public void changeBankNum(int managerId, int idEmployee, int bankNum){
-        checkHrAndEmployee(managerId, idEmployee);
+        checkHrManager(managerId);
+        checkEmployee(idEmployee);
         getEmployeeById(idEmployee).setBankNum(bankNum);
     }
     
     public void changeBankBranch(int managerId, int idEmployee, int bankBranch){
-        checkHrAndEmployee(managerId, idEmployee);
+        checkHrManager(managerId);
+        checkEmployee(idEmployee);
         getEmployeeById(idEmployee).setBankBranch(bankBranch);
     }
     
     public void changeBankAccount(int managerId, int idEmployee, int bankAccount){
-        checkHrAndEmployee(managerId, idEmployee);
+        checkHrManager(managerId);
+        checkEmployee(idEmployee);
         getEmployeeById(idEmployee).setBankAccount(bankAccount);
     }
     
     public void changeSalary(int managerId, int idEmployee, int salary){
-        checkHrAndEmployee(managerId, idEmployee);
+        checkHrManager(managerId);
+        checkEmployee(idEmployee);
         getEmployeeById(idEmployee).setSalary(salary);
     }
     
     public void changeStartDate(int managerId, int idEmployee, LocalDate stastDate){
-        checkHrAndEmployee(managerId, idEmployee);
+        checkHrManager(managerId);
+        checkEmployee(idEmployee);
         getEmployeeById(idEmployee).setStartDate(stastDate);
     }
     
     public void changeDriverLicence(int managerId, int idEmployee, License licene){
-        checkHrAndEmployee(managerId, idEmployee);
+        checkHrManager(managerId);
+        checkEmployee(idEmployee);
         getEmployeeById(idEmployee).setDriverLicense(licene);
     }
     
@@ -180,7 +192,7 @@ public class EmployeeController {
             if (employee.getId() == id)
                 return employee;
         }
-        return null;
+        throw new Error("The id " + id + "is not in the system. Please try again");
     }
 
     // return true if the employee exsist already in the system
@@ -205,21 +217,26 @@ public class EmployeeController {
         return managerRoles.contains(Role.HRMANAGER);
     }
 
-    // check for HRmanager and exsisting employee with current id
+    // check if the employee is a HRmanager and is sign in to the system
     // throw an error if something went wrong
-    public void checkHrAndEmployee(int managerId, int idEmployee){
-        if (!isEmployeeExists(managerId) || !isEmployeeLoggedIn(managerId) || !isEmployeeHRManager(managerId)){
+    public void checkHrManager(int managerId){
+        if (!isEmployeeHRManager(managerId) || !isEmployeeLoggedIn(managerId)){
             throw new Error("You must be logged in, and be an HR manager in order to do that action.");
         }
-        if(!isEmployeeExists(idEmployee)) {
+    }
+    
+    // check for exsisting employee with current id
+    // throw an error if something went wrong
+    public void checkEmployee( int idEmployee){
+        if (!isEmployeeExists(idEmployee)){
             throw new Error("The id " + idEmployee + "is not in the system. Please try again");
         }
     }
 
     // help function that create HR manager to start up the system
     private void addHRManagerForStartUpTheSystem(String firstName, String lastName, int id, String password, int bankNum,
-    int bankBranch, int bankAccount, int salary, int bonus, LocalDate startDate, License driverLicense, Role role){
+    int bankBranch, int bankAccount, int salary, int bonus, LocalDate startDate, License driverLicense, Role role, int branch){
         employees.add(new Employee(firstName, lastName, id, password, bankNum,
-        bankBranch, bankAccount, salary, bonus, startDate, driverLicense, role));
+        bankBranch, bankAccount, salary, bonus, startDate, driverLicense, role, branch));
     }
 }

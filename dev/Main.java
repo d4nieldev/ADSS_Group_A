@@ -84,9 +84,13 @@ class Main {
                     System.out.print("Role: ");
                     String roleString = sc.nextLine();
                     Role role = Role.valueOf(roleString.toUpperCase()); //may throw an error.
+                    
+                    System.out.print("Super Branch: ");
+                    int superBranch = Integer.parseInt(sc.nextLine());
+                    System.out.println("");
 
                     service.addEmployee(loginId, firstName, lastName, id, password, bankNum, 
-                    bankBranch, bankAccount, salary, bonus, localDate, driverLicense, role);
+                    bankBranch, bankAccount, salary, bonus, localDate, driverLicense, role, superBranch);
 
                 }
 

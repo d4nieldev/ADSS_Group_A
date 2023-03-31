@@ -25,9 +25,10 @@ public class Employee{
 	private List<Role> roles;
 	private boolean isLoggedIn;
 	private LinkedList<Shift> historyShift;
+	private LinkedList<Integer> superBranches;
 
-	public Employee(String firstName, String lastName, int id, String password, int bankNum,
-	int bankBranch, int bankAccount, int salary, int bonus, LocalDate startDate, License driverLicense, Role role){
+	public Employee(String firstName, String lastName, int id, String password, int bankNum, int bankBranch, int bankAccount, 
+	int salary, int bonus, LocalDate startDate, License driverLicense, Role role, int branch){
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.id = id;
@@ -43,6 +44,7 @@ public class Employee{
 		roles.add(role);
 		isLoggedIn = false;
 		historyShift = new LinkedList<>();
+		superBranches.add(branch);
 	}
 
 	// add role if not exsist to employee
@@ -79,7 +81,6 @@ public class Employee{
 
 	// calculate the salary for month
 	public int sumSalaryToMonth(int month, int year){
-		// need to implement
 		int countHours = 0;
 		for (Shift shift : historyShift) {
 			if(shift.getDate().getDayOfMonth() == month && shift.getDate().getYear() == year){
@@ -90,6 +91,11 @@ public class Employee{
 	}
 
 	public void resetBonus(){bonus = 0;}
+
+	public void addSuperBranch(int branch) {
+		if(superBranches.contains(branch)){throw new Error("This employee already assign to the branch " + branch + " in the syatem.");}
+		superBranches.add(branch);
+	}
 
 	public String toString(){
 		return "Employee Name: " + firstName + " " + lastName + " [id: " + id + ", bank number: " + bankNum  + ", salary: " + salary 
@@ -123,4 +129,5 @@ public class Employee{
 	public void SetIsLoggedInToTrue(){isLoggedIn = true;}
 	public void SetIsLoggedInToFalse(){isLoggedIn = false;}
 	public LinkedList<Shift> getHistoryShift(){return historyShift;}
+	public LinkedList<Integer> getSuperBranches(){return superBranches;}
 }

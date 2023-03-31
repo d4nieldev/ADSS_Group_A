@@ -113,12 +113,23 @@ public class Shift{
     public void assignFinalShift(HashMap<Employee, Role> hrAssign){
         for (Employee currAssignEmployee : hrAssign.keySet()) {
             finalShift.put(currAssignEmployee, hrAssign.get(currAssignEmployee));
+            currAssignEmployee.addShift(this);
         }
         finishSettingShift = true;
     }
 
+    public HashMap<Role, Integer> missingStaffToRole(){
+        HashMap<Role, Integer> missingStaff = new HashMap<>();
+        for ( Role roleNeddedByHR : numEmployeesForRole.keySet()) {
+            if(numEmployeesForRole.get(roleNeddedByHR).intValue() != helpMapForAssign.get(roleNeddedByHR).intValue()){
+                missingStaff.put(roleNeddedByHR, numEmployeesForRole.get(roleNeddedByHR).intValue()-helpMapForAssign.get(roleNeddedByHR).intValue());
+            }
+        }
+        return missingStaff;
+    }
+
     
-	//Getters And Setters
+//-------------------------------------Getters And Setters--------------------------------------------------------
     public int getID(){return idShift;}
     public int getSuperBranhNumber(){return superBranchNumer;}
     public LocalDate getDate(){return date;}
@@ -133,5 +144,4 @@ public class Shift{
     public boolean getIsFinishSettingShift(){return finishSettingShift;}
     public HashMap<Employee, Role> getFinalShift(){return finalShift;}
     public Dictionary<Integer, Integer> getCancellations(){return cancellations;}
-	//Getters And Setters
 }

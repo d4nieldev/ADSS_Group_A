@@ -50,7 +50,19 @@ class Reservation {
         status = Status.CLOSED;
     }
 
+    public int getId() {
+        return this.id;
+    }
+
     public int getSupplierId() {
         return this.supplierId;
+    }
+
+    public List<ReceiptItem> getReceipt() {
+        return this.receipt;
+    }
+
+    public String getDestination() {
+        return this.destinationBranch;
     }
 }

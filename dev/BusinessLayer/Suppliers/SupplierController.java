@@ -243,9 +243,16 @@ public class SupplierController {
         return contactList;
     }
 
-    private double calculateSupplierDiscount(int supplierId, List<ReceiptItem> items) {
-        // TODO: implement me
-        return 0;
+    public void calculateSupplierDiscount(int supplierId, List<ReceiptItem> items) {
+        int amount = 0;
+
+        for (ReceiptItem item : items)
+            amount += item.getAmount();
+
+        double discount_coefficient = idToSupplier.get(supplierId).getAmountToDiscount().get(amount);
+
+        for (ReceiptItem item : items)
+            item.setPricePerUnitAfterDiscount(discount_coefficient * item.getPricePerUnitAfterDiscount());
     }
 
 }

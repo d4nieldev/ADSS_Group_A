@@ -2,32 +2,61 @@ package BusinessLayer.Suppliers;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import BusinessLayer.Suppliers.enums.Status;
 import BusinessLayer.Suppliers.exceptions.SuppliersException;
 
 public class ReservationController {
+    private static ReservationController instance = null;
     private Map<Integer, List<Reservation>> idToSupplierReservations;
+    private Map<Integer, List<Reservation>> supplierIdToReservations;
     private List<Integer> readyReservations;
     private int lastId;
 
+    private ReservationController() {
+        idToSupplierReservations = new HashMap<>();
+        readyReservations = new ArrayList<>();
+        lastId = 0;
+    }
+
+    public static ReservationController getInstance() {
+        if (instance == null)
+            instance = new ReservationController();
+        return instance;
+    }
+
+    /**
+     * Calculates the cheapest division between suppliers if possible and saves in
+     * the system
+     * 
+     * @param productToAmount the reservation in product id (in store) to amount
+     *                        format
+     * @throws SuppliersException if the reservation could not be complete for lack
+     *                            of supply
+     */
     public void makeReservation(Map<Integer, Integer> productToAmount) throws SuppliersException {
         Map<Integer, List<ReceiptItem>> supplierToProducts = splitReservation(productToAmount);
 
-        // reservation is possible - create partial reservations
+        // calculate final discounts and create partial reservations
         int reservationId = getNextIdAndIncrement();
-        for (Map.Entry<Integer, List<ReceiptItem>> entry : supplierToProducts.entrySet()) {
-            int supplierId = entry.getKey();
-            List<ReceiptItem> receipt = entry.getValue();
-            Reservation reservation = new Reservation(reservationId, supplierId, receipt);
-            addPartialReservation(reservationId, reservation);
+        for (Integer supplierId : supplierToProducts.keySet()) {
+            List<ReceiptItem> items = supplierToProducts.get(supplierId);
+            SupplierController.getInstance().calculateSupplierDiscount(supplierId, items);
+            Reservation reservation = new Reservation(reservationId, supplierId, items);
+            addPartialReservation(reservation);
         }
     }
 
+    /**
+     * Returns the cheapest division between suppliers if possible
+     * 
+     * @param productToAmount the reservation in product id (in store) to amount
+     *                        format
+     * @throws SuppliersException if the reservation could not be complete for lack
+     *                            of supply
+     */
     private Map<Integer, List<ReceiptItem>> splitReservation(Map<Integer, Integer> productToAmount)
             throws SuppliersException {
         Map<Integer, List<ReceiptItem>> supplierToProducts = new HashMap<Integer, List<ReceiptItem>>();
@@ -48,6 +77,14 @@ public class ReservationController {
         return supplierToProducts;
     }
 
+    /**
+     * Returns the cheapest division between suppliers if possible
+     * 
+     * @param productId the product to split
+     * @param amount    the amount to be splitted
+     * @throws SuppliersException if the reservation could not be complete for lack
+     *                            of supply
+     */
     private Map<Integer, ReceiptItem> splitProduct(int productId, int amount) throws SuppliersException {
         Collection<ProductAgreement> productAgreements = ProductAgreementController.getInstance()
                 .getProductAgreements(productId);
@@ -83,8 +120,9 @@ public class ReservationController {
         return output;
     }
 
-    private void addPartialReservation(int reservationId, Reservation reservation) {
-        idToSupplierReservations.computeIfAbsent(reservationId, k -> new ArrayList<Reservation>()).add(reservation);
+    private void addPartialReservation(Reservation reservation) {
+        idToSupplierReservations.computeIfAbsent(reservation.getId(), k -> new ArrayList<>()).add(reservation);
+        supplierIdToReservations.computeIfAbsent(reservation.getSupplierId(), k -> new ArrayList<>()).add(reservation);
     }
 
     private int getNextIdAndIncrement() {
@@ -106,5 +144,32 @@ public class ReservationController {
     public void closeReservation(int reservationId) throws SuppliersException {
         for (Reservation r : idToSupplierReservations.get(reservationId))
             r.close();
+    }
+
+    public List<ReceiptItem> getReservationReceipt(int reservationId) throws SuppliersException {
+        if (!idToSupplierReservations.containsKey(reservationId))
+            throw new SuppliersException("No reservation with id " + reservationId + " found.");
+
+        List<ReceiptItem> output = new ArrayList<>();
+        List<Reservation> reservations = idToSupplierReservations.get(reservationId);
+        for (Reservation reservation : reservations)
+            output.addAll(reservation.getReceipt());
+        return output;
+    }
+
+    public List<Reservation> getSupplierReservations(int supplierId) throws SuppliersException {
+        if (!supplierIdToReservations.containsKey(supplierId))
+            throw new SuppliersException("No supplier with id " + supplierId + " found with reservations to return");
+        return supplierIdToReservations.get(supplierId);
+    }
+
+    public Map<Integer, List<String>> getReadySupplierToAddresses() {
+        Map<Integer, List<String>> output = new HashMap<>();
+        for (Integer reservationId : readyReservations) {
+            List<Reservation> subReservations = idToSupplierReservations.get(reservationId);
+            for (Reservation r : subReservations)
+                output.computeIfAbsent(reservationId, k -> new ArrayList<>()).add(r.getDestination());
+        }
+        return output;
     }
 }

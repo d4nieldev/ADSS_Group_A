@@ -9,6 +9,10 @@ import BusinessLayer.Suppliers.exceptions.SuppliersException;
 public class ReservationService {
     private ReservationController reservationController;
 
+    public ReservationService() {
+        reservationController = ReservationController.getInstance();
+    }
+
     public String makeReservation(Map<Integer, Integer> productToAmount) {
         try {
             reservationController.makeReservation(productToAmount);
@@ -46,14 +50,25 @@ public class ReservationService {
     }
 
     public String getReservationReceipt(int reservationId) {
-        return null;
+        try {
+            // TODO: switch to json or something
+            return reservationController.getReservationReceipt(reservationId).toString();
+        } catch (SuppliersException e) {
+            return e.getMessage();
+        }
     }
 
     public String getSupplierReservations(int supplierId) {
-        return null;
+        try {
+            // TODO: switch to json or something
+            return reservationController.getSupplierReservations(supplierId).toString();
+        } catch (SuppliersException e) {
+            return e.getMessage();
+        }
     }
 
-    public Map<Integer, List<String>> getReadySupplierToAddresses() {
-        return null;
+    public String getReadySupplierToAddresses() {
+        // TODO: convert to json or something
+        return reservationController.getReadySupplierToAddresses().toString();
     }
 }

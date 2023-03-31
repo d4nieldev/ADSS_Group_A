@@ -65,4 +65,14 @@ class Reservation {
     public String getDestination() {
         return this.destinationBranch;
     }
+
+    @Override
+    public String toString() {
+        String output = "id: " + id + "\n";
+        output += "supplierId: " + supplierId + "\n";
+        output += "date: " + date + "\n";
+        output += "status: " + status + "\n";
+        output += "destinationBranch: " + destinationBranch + "\n";
+        return output;
+    }
 }

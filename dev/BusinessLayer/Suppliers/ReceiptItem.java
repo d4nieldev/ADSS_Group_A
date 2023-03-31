@@ -1,6 +1,7 @@
 package BusinessLayer.Suppliers;
 
 class ReceiptItem {
+    private int productId;
     private int amount;
     private double pricePerUnitBeforeDiscount;
     private double pricePerUnitAfterDiscount;
@@ -11,6 +12,7 @@ class ReceiptItem {
         this.amount = amount;
         this.pricePerUnitBeforeDiscount = agreement.getPrice(0);
         this.pricePerUnitAfterDiscount = agreement.getPrice(amount);
+        this.productId = agreement.getProductShopId();
     }
 
     public int getAmount() {
@@ -23,5 +25,11 @@ class ReceiptItem {
 
     public void setPricePerUnitAfterDiscount(double newPrice) {
         this.pricePerUnitAfterDiscount = newPrice;
+    }
+
+    @Override
+    public String toString() {
+        return String.format("%d %d %d %d", productId, amount, pricePerUnitBeforeDiscount * amount,
+                pricePerUnitAfterDiscount * amount);
     }
 }

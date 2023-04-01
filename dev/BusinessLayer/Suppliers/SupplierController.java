@@ -3,6 +3,7 @@ package BusinessLayer.Suppliers;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map;
+import java.util.TreeMap;
 
 import BusinessLayer.Suppliers.exceptions.SuppliersException;
 
@@ -37,6 +38,7 @@ public class SupplierController {
     // Delete Supplier by id
     public void deleteSupplier(int supplierId) throws Exception {
         if (idToSupplier.containsKey(supplierId)) {
+            ProductAgreementController.getInstance().deleteAllSupplierAgreements(supplierId);
             idToSupplier.remove(supplierId);
         } else {
             throw new SuppliersException("There is no supplier with id " + supplierId + " in the system.");
@@ -198,7 +200,7 @@ public class SupplierController {
     }
 
     // Delete all supplier contacts
-    public void deleteAllSupplierContact(int supplierId) throws Exception {
+    public void deleteAllSupplierContacts(int supplierId) throws Exception {
         try {
             Supplier s = getSupplierById(supplierId);
             s.deleteAllContacts();
@@ -207,34 +209,67 @@ public class SupplierController {
         }
     }
 
+    /**
+     * Adds an agreement with the supplier about a specific product.
+     * 
+     * @param supplierId the id of the supplier
+     * @param productShopId the product's id in the shop
+     * @param productSupplierId the product's id in the supplier's system
+     * @param stockAmout the amount that the supplier can supply in a single reservation
+     * @param basePrice the base price of the product (without discounts)
+     * @param amountToDiscount maps between the amount of the product and the discount per unit that the supplier offers (in percentage)
+     * @param manufacturer the manufacturer of the product
+     * @throws SuppliersException if the information is not valid
+     * 
+     **/
     public void addSupplierProductAgreement(int supplierId, int productShopId, int productSupplierId, int stockAmount,
-            double basePrice, Map<Integer, Double> amountToDiscount) {
-
+            double basePrice, TreeMap<Integer, Double> amountToDiscount, String manufacturer) throws Exception {
+            try{
+            if(supplierId < 0){
+                throw new SuppliersException("Supplier id cannot be negative.");
+            }
+            if(!idToSupplier.containsKey(supplierId)){
+                throw new SuppliersException("There is no supplier with id " + supplierId + " in the system.");
+            }
+            if(stockAmount < 0){
+                throw new SuppliersException("Stock amount cannot be negative.");
+            }
+            if(basePrice < 0){
+                throw new SuppliersException("Base price cannot be negative.");
+            }
+            ProductAgreement pa=new ProductAgreement(supplierId, productShopId, productSupplierId, stockAmount, amountToDiscount, manufacturer);
+            ProductAgreementController.getInstance().addProductAgreement(supplierId, productShopId, pa);
+        }catch(Exception e){
+            throw e;
+        }
+            
     }
 
-    public void setProductAgreementStockAmount(int supplierId, int productShopId, int stockAmount) {
-
+    /**
+     * Updates an agreement with the supplier about a specific product.
+     * 
+     * @param supplierId the id of the supplier
+     * @param productShopId the product's id in the shop
+     * @param productSupplierId the product's id in the supplier's system
+     * @param stockAmout the amount that the supplier can supply in a single reservation
+     * @param basePrice the base price of the product (without discounts)
+     * @param amountToDiscount maps between the amount of the product and the discount per unit that the supplier offers (in percentage)
+     * @param manufacturer the manufacturer of the product
+     * @throws SuppliersException if the information is not valid
+     * 
+     **/
+    public void updateSupplierProductAgreement(int supplierId, int productShopId, int productSupplierId, int stockAmount,
+    double basePrice, TreeMap<Integer, Double> amountToDiscount, String manufacturer) throws Exception {
+         addSupplierProductAgreement(supplierId, productShopId, productSupplierId, stockAmount, basePrice, amountToDiscount, manufacturer);
     }
 
-    public void setProductAgreementBasePrice(int supplierId, int productShopId, double basePrice) {
-
-    }
-
-    public String setProductAgreementAmountToDiscount(int supplierId, int productShopId,
-            Map<Integer, Double> amountToDiscount) {
-        return null;
-    }
-
-    public String getSupplierCard(int supplierId) {
-        return null;
-    }
-
-    public String getProductAgreement(int supplierId, int productId) {
-        return null;
-    }
-
-    // Makes a list of Contact objects from a list of phone numbers and list of
-    // names
+    /**
+     *
+     * @param contactPhones phone numbers of the contacts
+     * @param contactNames names of contacts
+     * @param supplierId the supplier that the contacts belong to
+     * @return list of Contact objects built from a list of phone numbers and list of names
+     */
     private List<Contact> makeContactList(List<String> contactPhones, List<String> contactNames, int supplierId) {
         List<Contact> contactList = new LinkedList<Contact>();
         for (int i = 0; i < contactPhones.size(); i++) {
@@ -253,6 +288,26 @@ public class SupplierController {
 
         for (ReceiptItem item : items)
             item.setPricePerUnitAfterDiscount(discount_coefficient * item.getPricePerUnitAfterDiscount());
+    }
+
+    /**
+     * 
+     * @param supplierId the id of the supplier
+     * @return information about the supplier
+     * @throws Exception
+     */
+    public String getSupplierCard(int supplierId) throws Exception {
+        try{
+        if(!idToSupplier.containsKey(supplierId)){
+            throw new Exception("There is no supplier with id " + supplierId + " in the system.");
+        }
+        if(supplierId < 0){
+            throw new Exception("Supplier id cannot be negative.");
+        }
+        return idToSupplier.get(supplierId).toString();
+        }catch(Exception e){
+            throw e;
+        }
     }
 
 }

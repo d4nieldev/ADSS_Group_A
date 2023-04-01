@@ -41,4 +41,9 @@ class SelfPickupSupplier extends Supplier {
         this.address = address;
     }
 
+    @Override
+    public String toString() {
+        return super.toString()+"\nSupplier Type: Self Pickup Supplier\nAddress: "+address;
+    }
+
 }

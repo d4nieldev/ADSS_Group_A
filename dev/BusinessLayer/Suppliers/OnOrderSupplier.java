@@ -1,12 +1,12 @@
 package BusinessLayer.Suppliers;
 
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
 import java.util.Queue;
 
 class OnOrderSupplier extends Supplier {
-    private Date lastOrderDate;
+    private LocalDate lastOrderDate;
     private int maxSupplyDays;
 
     //Copy constructor
@@ -35,5 +35,25 @@ class OnOrderSupplier extends Supplier {
     Map<Integer, Double> amountToDiscount, int maxSupplyDays) {
         super(id,name,phone,bankAcc, fields, paymentCondition, amountToDiscount);
         this.maxSupplyDays = maxSupplyDays;
+    }
+
+    // Update last order date
+    public void updateLastOrderDate(LocalDate newLastOrderDate) {
+        this.lastOrderDate = newLastOrderDate;
+    }
+
+    /**
+     * 
+     * @return last date that the order should be delivered
+     */
+    public LocalDate lastDateToReceiveOrder() {
+        return lastOrderDate.plusDays(maxSupplyDays);
+    }
+
+
+
+    @Override
+    public String toString() {
+        return super.toString()+"\nSupplier Type: On Order Supplier\nMax Supply Days: "+maxSupplyDays;
     }
 }

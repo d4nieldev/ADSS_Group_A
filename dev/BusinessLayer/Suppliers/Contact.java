@@ -43,4 +43,13 @@ public class Contact {
         return this.phone==other.phone && this.name==other.name && this.supplierId==other.supplierId;
     }
 
+    @Override
+    public String toString() {
+        return "Contact{" +
+                "phone='" + phone + '\'' +
+                ", supplierId=" + supplierId +
+                ", name='" + name + '\'' +
+                '}';
+    }
+
 }

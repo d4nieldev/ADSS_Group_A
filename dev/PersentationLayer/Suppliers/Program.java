@@ -4,9 +4,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
 
-import javax.annotation.processing.SupportedOptions;
-
 import ServiceLayer.Suppliers.ReservationService;
+import ServiceLayer.Suppliers.SupplierService;
 
 public class Program {
     private static ReservationService rs = new ReservationService();
@@ -34,7 +33,7 @@ public class Program {
     private static void help() {
         String manual = "";
         manual += "===========================================================================================";
-        manual += "This is the manual for how to use the suppliers system:\n";
+        manual += "This is the manual for how to use the reservations system:\n";
         manual += "help = show the manual\n";
         manual += "makereservation = open the reservation menu. enter lines in the format of \"[product_id] [amount]\"\n";
         manual += "                  for changing amount of product type the line again with the updated amount\n";

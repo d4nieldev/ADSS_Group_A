@@ -2,6 +2,7 @@ package ServiceLayer.Suppliers;
 
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 
 import BusinessLayer.Suppliers.ProductAgreementController;
 import BusinessLayer.Suppliers.SupplierController;
@@ -15,7 +16,19 @@ public class SupplierService {
         productAgreementController = ProductAgreementController.getInstance();
     }
 
-    // Add 'Fixed days' supplier
+    /**
+     * Add 'Fixed days' supplier
+     * @param supplierName
+     * @param supplierPhone
+     * @param supplierBankAccount
+     * @param supplierFields
+     * @param paymentCondition
+     * @param amountToDiscount
+     * @param contactNames
+     * @param contactPhones
+     * @param days
+     * @return success/error message
+     */
     public String addFixedDaysSupplierBaseAgreement(String supplierName, String supplierPhone,
             String supplierBankAccount,
             List<String> supplierFields, String paymentCondition, Map<Integer, Double> amountToDiscount,
@@ -30,7 +43,19 @@ public class SupplierService {
         }
     }
 
-    // Add 'On Order' supplier
+    /**
+     * Add 'On Order' supplier
+     * @param supplierName
+     * @param supplierPhone
+     * @param supplierBankAccount
+     * @param supplierFields
+     * @param paymentCondition
+     * @param amountToDiscount
+     * @param contactNames
+     * @param contactPhones
+     * @param maxSupplyDays
+     * @return success/error message
+     */
     public String addOnOrderSupplierBaseAgreement(String supplierName, String supplierPhone, String supplierBankAccount,
             List<String> supplierFields, String paymentCondition, Map<Integer, Double> amountToDiscount,
             List<String> contactNames, List<String> contactPhones, int maxSupplyDays) {
@@ -44,7 +69,19 @@ public class SupplierService {
         }
     }
 
-    // Add 'Self Pickup' supplier
+    /**
+     * Add 'Self Pickup' supplier
+     * @param supplierName
+     * @param supplierPhone
+     * @param supplierBankAccount
+     * @param supplierFields
+     * @param paymentCondition
+     * @param amountToDiscount
+     * @param contactNames
+     * @param contactPhones
+     * @param address
+     * @return success/error message
+     */
     public String addSelfPickupSupplierBaseAgreement(String supplierName, String supplierPhone,
             String supplierBankAccount,
             List<String> supplierFields, String paymentCondition, Map<Integer, Double> amountToDiscount,
@@ -55,6 +92,20 @@ public class SupplierService {
                     paymentCondition, amountToDiscount, contactNames, contactPhones, address);
             return "Supplier of type: 'Self Pickup' added successfully";
         } catch (Exception e) {
+            return e.getMessage();
+        }
+    }
+
+    /**
+     * Deletes a supplier from the system and all its products agreements
+     * @param supplierId the id of the supplier to be deleted
+     * @return success/error message
+     */
+    public String deleteSupplierBaseAgreement(int supplierId) {
+        try{
+            supplierController.deleteSupplier(supplierId);
+            return "Supplier with id: " + supplierId + " deleted successfully";
+        }catch (Exception e) {
             return e.getMessage();
         }
     }
@@ -162,40 +213,46 @@ public class SupplierService {
     }
 
     // Delete all supplier contacts
-    public String deleteAllSupplierContacts(int supplierId, String contactPhone, String contactName) {
+    public String deleteAllSupplierContacts(int supplierId) {
         try {
-            supplierController.deleteAllSupplierContact(supplierId);
+            supplierController.deleteAllSupplierContacts(supplierId);
             return "All supplier contacts deleted successfully";
         } catch (Exception e) {
             return e.getMessage();
         }
     }
 
-    // TODO: PRODUCT AGREEMENT LOGIC
-
+    /**
+     * Addes a new supplier agreement about a specific product
+     * @param supplierId
+     * @param productShopId
+     * @param productSupplierId
+     * @param stockAmount
+     * @param basePrice
+     * @param amountToDiscount
+     * @param manufacturer
+     * @return success/error message
+     */
     public String addSupplierProductAgreement(int supplierId, int productShopId, int productSupplierId, int stockAmount,
-            double basePrice, Map<Integer, Double> amountToDiscount) {
-        return null;
+            double basePrice, TreeMap<Integer, Double> amountToDiscount, String manufacturer) {
+        try{
+            supplierController.addSupplierProductAgreement(supplierId, productShopId, productSupplierId, stockAmount, basePrice, amountToDiscount ,manufacturer);
+            return "Supplier product agreement added successfully";
+        }catch(Exception e){
+            return e.getMessage();
+        }
     }
 
-    public String setProductAgreementStockAmount(int supplierId, int productShopId, int stockAmount) {
-        return null;
-    }
-
-    public String setProductAgreementBasePrice(int supplierId, int productShopId, double basePrice) {
-        return null;
-    }
-
-    public String setProductAgreementAmountToDiscount(int supplierId, int productShopId,
-            Map<Integer, Double> amountToDiscount) {
-        return null;
-    }
-
+    /**
+     * 
+     * @param supplierId
+     * @return infromation about the supplier
+     */
     public String getSupplierCard(int supplierId) {
-        return null;
-    }
-
-    public String getProductAgreement(int supplierId, int productId) {
-        return null;
+        try{
+            return supplierController.getSupplierCard(supplierId);
+        }catch(Exception e){
+            return e.getMessage();
+        }
     }
 }

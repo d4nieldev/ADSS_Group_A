@@ -183,4 +183,11 @@ public abstract class Supplier {
         this.contacts.clear();
     }
 
+    @Override
+    public String toString() {
+        return "Supplier [id=" + id + ", name=" + name + ", phone=" + phone + ", bankAcc=" + bankAcc + ", fields=" + fields
+                + ", paymentCondition=" + paymentCondition + ", amountToDiscount=" + amountToDiscount + "\ncontacts=" + contacts + "]";
+
+    }
+
 }

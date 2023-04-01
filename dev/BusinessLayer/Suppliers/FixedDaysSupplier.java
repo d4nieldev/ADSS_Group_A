@@ -71,4 +71,9 @@ class FixedDaysSupplier extends Supplier {
     
         }
     }
+
+    @Override
+    public String toString() {
+        return super.toString()+"\nSupplier Type: Fixed Days Supplier\nDays: "+this.days;
+    }
 }

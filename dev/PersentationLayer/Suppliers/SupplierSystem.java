@@ -122,7 +122,7 @@ public class SupplierSystem {
         String msg;
         switch(type){
             case 1:{
-                System.out.println("Please choose the supply days (No more than 7 days) and enter 'done' to finish:");
+                System.out.println("Please choose the supply days (No more than 7 days) and enter '0' to finish:");
                 System.out.println("1 - Sunday, 2 - Monday, 3 - Tuesday, 4 - Wednesday, 5 - Thursday, 6 - Friday, 7 - Saturday");
                 List<Integer> days = new ArrayList<Integer>();
                 Integer day;
@@ -138,7 +138,7 @@ public class SupplierSystem {
                         System.out.println("Day already exists");
                         continue;
                     }
-                }while(!day.equals("done") && days.size() < 7);
+                }while(!day.equals(0) && days.size() < 7);
                 msg = ss.addFixedDaysSupplierBaseAgreement(name, phone, bankAccount, fields, paymentCondition, amountTodiscount, names , phones, days);
                 System.out.println(msg);
                 break;

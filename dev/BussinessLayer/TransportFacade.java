@@ -11,15 +11,17 @@ public class TransportFacade {
     public TransportFacade() {
         transportMap = new HashMap<>();
     }
+
+
     //this function match a driver in order to create transport
-    public Transport createTransport(Date date, String leavingTime, String source){
+    /*public Transport createTransport(Date date, String leavingTime, String source){
         if( driver.lincense = 'c')
             driverId = driver.id;
             nameDriver = driver.name;
         String name = "a";
         Transport shipment = new Transport(id,date, leavingTime, truckNumber, driverName, driverId, source);
         addTransport(name , shipment);
-    }
+    }*/
 
     public void addTransport(String name, Transport transport) {
         transportMap.put(name, transport);

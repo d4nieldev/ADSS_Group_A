@@ -1,17 +1,21 @@
 package BussinessLayer;
 
+import BussinessLayer.Location;
+
 public class Destination {
     private String address;
     private String phoneNumber;
     private String contactName;
+    private Location location;
 
-    public Destination(String address, String phoneNumber, String contactName) {
+    public Destination(String address, String phoneNumber, String contactName, Location location) {
         this.address = address;
         this.phoneNumber = phoneNumber;
         this.contactName = contactName;
+        this.location = location;
     }
 
-    // Getters and setters
+    // getters and setters for all private instance variables
     public String getAddress() {
         return address;
     }
@@ -35,5 +39,12 @@ public class Destination {
     public void setContactName(String contactName) {
         this.contactName = contactName;
     }
-}
 
+    public Location getLocation() {
+        return location;
+    }
+
+    public void setLocation(Location location) {
+        this.location = location;
+    }
+}

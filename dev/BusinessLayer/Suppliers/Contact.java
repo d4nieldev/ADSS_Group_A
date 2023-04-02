@@ -5,7 +5,7 @@ public class Contact {
     private String name;
 
     // Constructor
-    public Contact(String phone, int supplierId, String name) {
+    public Contact(String phone, String name) {
         this.phone = phone;
         this.name = name;
     }
@@ -38,7 +38,7 @@ public class Contact {
             return false;
         }
         Contact other = (Contact) obj;
-        return this.phone == other.phone && this.name == other.name && this.supplierId == other.supplierId;
+        return this.phone == other.phone && this.name == other.name;
     }
 
     @Override

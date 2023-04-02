@@ -24,7 +24,7 @@ public abstract class Supplier {
         this.amountToPrice = amountToDiscount;
         this.contacts = contacts;
 
-        Contact office = new Contact(phone, id, "Office");
+        Contact office = new Contact(phone, "Office");
         contacts.add(office);
     }
 

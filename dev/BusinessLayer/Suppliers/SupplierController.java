@@ -181,7 +181,7 @@ public class SupplierController {
     public void addSupplierContact(int supplierId, String contactPhone, String contactName) throws Exception {
         try {
             Supplier s = getSupplierById(supplierId);
-            Contact c = new Contact(contactPhone, supplierId, contactName);
+            Contact c = new Contact(contactPhone, contactName);
             s.addContact(c);
         } catch (Exception e) {
             throw e;
@@ -192,7 +192,7 @@ public class SupplierController {
     public void deleteSupplierContact(int supplierId, String contactPhone, String contactName) throws Exception {
         try {
             Supplier s = getSupplierById(supplierId);
-            Contact c = new Contact(contactPhone, supplierId, contactName);
+            Contact c = new Contact(contactPhone, contactName);
             s.deleteContact(c);
         } catch (Exception e) {
             throw e;
@@ -285,7 +285,7 @@ public class SupplierController {
     private List<Contact> makeContactList(List<String> contactPhones, List<String> contactNames, int supplierId) {
         List<Contact> contactList = new LinkedList<Contact>();
         for (int i = 0; i < contactPhones.size(); i++) {
-            contactList.add(new Contact(contactPhones.get(i), supplierId, contactNames.get(i)));
+            contactList.add(new Contact(contactPhones.get(i), contactNames.get(i)));
         }
         return contactList;
     }

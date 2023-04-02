@@ -1,13 +1,13 @@
 package Business_Layer;
 
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 
 public class Report {
-    private Date creationDate;
+    private LocalDate creationDate;
     private Type type;
     private List<GeneralProduct> generalProductList;
-    private List<SpecificProduct> specificProductList;
     public static enum Type{SHORTAGES,INVENTORY,FLAWS};
 
     /**
@@ -15,18 +15,17 @@ public class Report {
      * @param creationDate
      * @param type
      * @param generalProductList - can be null
-     * @param specificProductList -can be null
      */
-    public Report(Date creationDate, Type type,List<GeneralProduct> generalProductList,List<SpecificProduct> specificProductList) {
+    public Report(LocalDate creationDate, Type type,List<GeneralProduct> generalProductList) {
 //        super();
         this.creationDate = creationDate;
         this.type = type;
         this.generalProductList = generalProductList;
-        this.specificProductList = specificProductList;
+
     }
 
     //getters
-    public Date getCreationDate() {
+    public LocalDate getCreationDate() {
         return creationDate;
     }
     public Type getType() {
@@ -34,9 +33,6 @@ public class Report {
     }
     public List<GeneralProduct> getGeneralProductList() {
         return generalProductList;
-    }
-    public List<SpecificProduct> getSpecificProductList() {
-        return specificProductList;
     }
     @Override
     public String toString() {

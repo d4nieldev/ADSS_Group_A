@@ -154,4 +154,9 @@ public class Supply {
         this.amount += i;
         this.shopAmount += i;
     }
+    public void printIds(){
+        for(int id : ids){
+            System.out.print(id +", ");
+        }
+    }
 }

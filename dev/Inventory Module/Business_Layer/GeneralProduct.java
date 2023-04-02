@@ -132,6 +132,10 @@ public class GeneralProduct {
         return onStorage;
     }
 
+    public List<Integer> getAllExpiredProducts() {
+        return allExpiredProducts;
+    }
+
     public void setPrice(double price) {
         this.price = price;
     }
@@ -151,6 +155,10 @@ public class GeneralProduct {
 
     public int getCurrentId() {
         return currentId;
+    }
+
+    public HashMap<Integer, String> getAllFlowProducts() {
+        return allFlowProducts;
     }
 
     /**

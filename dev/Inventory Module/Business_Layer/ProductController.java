@@ -1,5 +1,7 @@
 package Business_Layer;
 
+import sun.java2d.loops.GeneralRenderer;
+
 import java.util.*;
 import java.time.LocalDate;
 
@@ -342,6 +344,7 @@ public class ProductController {
                 {
                         if (allSubCategories.contains(gp.getCategory()))
                         {
+
                                 gp.setOnDiscount(true);
                                 gp.setDiscount(discount);
                         }
@@ -546,7 +549,30 @@ public class ProductController {
 
         }
 
+        /**
+         * return all products that belongs to one of the category received in the list
+         * @param categories
+         * @return
+         */
+        public List<GeneralProduct> getAllProductByCategories(List<Category> categories) {
+                List<GeneralProduct> result = new ArrayList<>();
+               List<Category> allSubCategories = new ArrayList<>();
+               for(Category category : categories){
+                       List<Category> subCategory = CategoryController.getAllSubCategories(category);
+                       allSubCategories.addAll(subCategory);
+               }
+               for(GeneralProduct gp : allGeneralProducts){
+                       boolean flag = allSubCategories.contains(gp.getCategory());
+                       if(flag)
+                       {
+                               result.add(gp);
+                       }
+               }
+                //drop duplicates value
+                Set<GeneralProduct> uniqueSet = new HashSet<>(result);
+               result.clear();
+               result.addAll(uniqueSet);
 
-
-
+               return result;
+        }
 }

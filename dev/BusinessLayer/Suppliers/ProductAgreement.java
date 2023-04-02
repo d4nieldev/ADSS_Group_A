@@ -5,20 +5,18 @@ import java.util.TreeMap;
 
 class ProductAgreement {
     private int supplierId;
-    private int productShopId;
     private int productSupplierId;
     private int stockAmount;
+    private Product product;
     private TreeMap<Integer, Double> amountToPrice;
-    private String manufacturer;
 
-    public ProductAgreement(int supplierId, int productShopId, int productSupplierId, int stockAmount,
-            TreeMap<Integer, Double> amountToPrice, String manufacturer) {
+    public ProductAgreement(int supplierId, Product product, int productSupplierId, int stockAmount,
+            TreeMap<Integer, Double> amountToPrice) {
         this.supplierId = supplierId;
-        this.productShopId = productShopId;
         this.productSupplierId = productSupplierId;
         this.stockAmount = stockAmount;
         this.amountToPrice = amountToPrice;
-        this.manufacturer = manufacturer;
+        this.product = product;
     }
 
     public double getPrice(int amount) {
@@ -28,11 +26,6 @@ class ProductAgreement {
     // Getter for supplier id
     public int getSupplierId() {
         return supplierId;
-    }
-
-    // Getter for product shop id
-    public int getProductShopId() {
-        return productShopId;
     }
 
     // Getter for product supplier id
@@ -45,13 +38,20 @@ class ProductAgreement {
         return stockAmount;
     }
 
+    public void setStockAmount(int stockAmount) {
+        this.stockAmount = stockAmount;
+    }
+
     // Getter for amount to price map
     public Map<Integer, Double> getAmountToPrice() {
         return amountToPrice;
     }
-    
-    // Getter for manufacturer
-    public String getManufacturer() {
-        return manufacturer;
+
+    public void setAmountToPrice(TreeMap<Integer, Double> amountToPrice) {
+        this.amountToPrice = amountToPrice;
+    }
+
+    public Product getProduct() {
+        return product;
     }
 }

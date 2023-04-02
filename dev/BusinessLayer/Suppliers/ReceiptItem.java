@@ -1,18 +1,17 @@
 package BusinessLayer.Suppliers;
 
 class ReceiptItem {
-    private int productId;
     private int amount;
     private double pricePerUnitBeforeDiscount;
     private double pricePerUnitAfterDiscount;
-    private String manufacturer;
+    Product product;
     // TODO: expiration date
 
     public ReceiptItem(int amount, ProductAgreement agreement) {
         this.amount = amount;
         this.pricePerUnitBeforeDiscount = agreement.getPrice(0);
         this.pricePerUnitAfterDiscount = agreement.getPrice(amount);
-        this.productId = agreement.getProductShopId();
+        this.product = agreement.getProduct();
     }
 
     public int getAmount() {
@@ -27,9 +26,13 @@ class ReceiptItem {
         this.pricePerUnitAfterDiscount = newPrice;
     }
 
+    public double getDiscount() {
+        return pricePerUnitAfterDiscount - pricePerUnitBeforeDiscount;
+    }
+
     @Override
     public String toString() {
-        return String.format("%d %d %d %d", productId, amount, pricePerUnitBeforeDiscount * amount,
-                pricePerUnitAfterDiscount * amount);
+        return String.format("%d %s %d %d %d %d", product.getId(), product.getName(), amount,
+                pricePerUnitBeforeDiscount * amount, getDiscount() * amount, pricePerUnitAfterDiscount * amount);
     }
 }

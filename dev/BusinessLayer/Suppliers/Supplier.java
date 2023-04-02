@@ -1,35 +1,31 @@
 package BusinessLayer.Suppliers;
 
 import java.util.Map;
-import java.util.ArrayDeque;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Queue;
 
 public abstract class Supplier {
-
     private int id;
     private String name;
-    private String phone;
     private String bankAcc;
     private List<String> fields;
     private String paymentCondition;
     private Map<Integer, Double> amountToDiscount;
-    private Queue<Integer> reservationHistory;
     private List<Contact> contacts;
 
     // Copy Constructor
     public Supplier(int id, String name, String phone, String bankAcc, List<String> fields, String paymentCondition,
-            Map<Integer, Double> amountToDiscount, Queue<Integer> reservationHistory, List<Contact> contacts) {
+            Map<Integer, Double> amountToDiscount, List<Contact> contacts) {
         this.id = id;
         this.name = name;
-        this.phone = phone;
         this.bankAcc = bankAcc;
         this.fields = fields;
         this.paymentCondition = paymentCondition;
         this.amountToDiscount = amountToDiscount;
-        this.reservationHistory = reservationHistory;
         this.contacts = contacts;
+
+        Contact office = new Contact(phone, id, "Office");
+        contacts.add(office);
     }
 
     // Constructor without contacts, reservation history and fields
@@ -37,27 +33,11 @@ public abstract class Supplier {
             Map<Integer, Double> amountToDiscount) {
         this.id = id;
         this.name = name;
-        this.phone = phone;
         this.bankAcc = bankAcc;
         this.fields = new LinkedList<>();
         this.paymentCondition = paymentCondition;
         this.amountToDiscount = amountToDiscount;
-        this.reservationHistory = new ArrayDeque<>();
         this.contacts = new LinkedList<>();
-    }
-
-    // Constructor without reservation history
-    public Supplier(int id, String name, String phone, String bankAcc, List<String> fields, String paymentCondition,
-            Map<Integer, Double> amountToDiscount, List<Contact> contacts) {
-        this.id = id;
-        this.name = name;
-        this.phone = phone;
-        this.bankAcc = bankAcc;
-        this.fields = fields;
-        this.paymentCondition = paymentCondition;
-        this.amountToDiscount = amountToDiscount;
-        this.reservationHistory = new ArrayDeque<>();
-        this.contacts = contacts;
     }
 
     // Constructor without reservation history and contacts
@@ -65,12 +45,10 @@ public abstract class Supplier {
             Map<Integer, Double> amountToDiscount) {
         this.id = id;
         this.name = name;
-        this.phone = phone;
         this.bankAcc = bankAcc;
         this.fields = fields;
         this.paymentCondition = paymentCondition;
         this.amountToDiscount = amountToDiscount;
-        this.reservationHistory = new ArrayDeque<>();
         this.contacts = new LinkedList<>();
     }
 
@@ -94,11 +72,11 @@ public abstract class Supplier {
 
     // Getter and setter for phone
     public String getPhone() {
-        return phone;
+        return getOffice().getPhone();
     }
 
     public void setPhone(String phone) {
-        this.phone = phone;
+        getOffice().setPhone(phone);
     }
 
     // Getter and setter for bankAcc
@@ -137,18 +115,17 @@ public abstract class Supplier {
         this.amountToDiscount = amountToDiscount;
     }
 
-    // Getter and setter for reservationHistory
-    public Queue<Integer> getReservationHistory() {
-        return reservationHistory;
-    }
-
-    public void setReservationHistory(Queue<Integer> reservationHistory) {
-        this.reservationHistory = reservationHistory;
-    }
-
     // Getter and setter for contacts
     public List<Contact> getContacts() {
         return contacts;
+    }
+
+    public Contact getRandomContact() {
+        return contacts.get((int) (Math.random() * contacts.size()));
+    }
+
+    public Contact getOffice() {
+        return contacts.get(0);
     }
 
     public void setContacts(List<Contact> contacts) {
@@ -185,8 +162,10 @@ public abstract class Supplier {
 
     @Override
     public String toString() {
-        return "Supplier [id=" + id + ", name=" + name + ", phone=" + phone + ", bankAcc=" + bankAcc + ", fields=" + fields
-                + ", paymentCondition=" + paymentCondition + ", amountToDiscount=" + amountToDiscount + "\ncontacts=" + contacts + "]";
+        return "Supplier [id=" + id + ", name=" + name + ", phone=" + getPhone() + ", bankAcc=" + bankAcc + ", fields="
+                + fields
+                + ", paymentCondition=" + paymentCondition + ", amountToDiscount=" + amountToDiscount + "\ncontacts="
+                + contacts + "]";
 
     }
 

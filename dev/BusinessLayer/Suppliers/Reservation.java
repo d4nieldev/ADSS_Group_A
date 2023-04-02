@@ -11,15 +11,17 @@ class Reservation {
     private int supplierId;
     private Date date;
     private Status status;
-    private List<ReceiptItem> receipt;
     private String destinationBranch;
+    private Contact contact;
+    private List<ReceiptItem> receipt;
 
-    public Reservation(int id, int supplier_id, List<ReceiptItem> receipt) {
+    public Reservation(int id, int supplier_id, List<ReceiptItem> receipt, Contact contact) {
         this.id = id;
         this.supplierId = supplier_id;
         this.date = new Date();
         this.status = Status.NOTREADY;
         this.receipt = receipt;
+        this.contact = contact;
     }
 
     public void cancel() throws SuppliersException {
@@ -69,10 +71,15 @@ class Reservation {
     @Override
     public String toString() {
         String output = "id: " + id + "\n";
-        output += "supplierId: " + supplierId + "\n";
+        output += "supplier id: " + supplierId + "\n";
+        output += "address: " + destinationBranch + "\n";
         output += "date: " + date + "\n";
         output += "status: " + status + "\n";
-        output += "destinationBranch: " + destinationBranch + "\n";
+        output += "contact phone: " + contact.getPhone() + "\n";
+        output += "---------------------------------------------------------------------";
+        for (ReceiptItem item : receipt)
+            output += item.toString() + "\n";
+        output += "---------------------------------------------------------------------";
         return output;
     }
 }

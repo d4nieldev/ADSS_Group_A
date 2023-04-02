@@ -5,7 +5,6 @@ import java.util.Map;
 import java.util.Scanner;
 
 import ServiceLayer.Suppliers.ReservationService;
-import ServiceLayer.Suppliers.SupplierService;
 
 public class Program {
     private static ReservationService rs = new ReservationService();
@@ -48,10 +47,12 @@ public class Program {
     }
 
     private static void makereservation(Scanner scanner) {
-        String line = scanner.nextLine();
         Map<Integer, Integer> productToAmount = new HashMap<>();
+        String line;
 
-        while (!line.equals("done") && !line.equals("abort")) {
+        do {
+            line = scanner.nextLine();
+
             String[] command = line.split(" ");
             if (command.length != 2) {
                 System.out.println("The format of the command is \"[product_id] [amount]\". Please try again.\n");
@@ -75,8 +76,7 @@ public class Program {
             }
 
             productToAmount.put(productId, amount);
-            line = scanner.nextLine();
-        }
+        } while (!line.equals("done") && !line.equals("abort"));
 
         if (line.equals("done"))
             System.out.println(rs.makeReservation(productToAmount));

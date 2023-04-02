@@ -2,19 +2,16 @@ package BusinessLayer.Suppliers;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Queue;
 
 class SelfPickupSupplier extends Supplier {
 
     private String address;
 
     // Copy constructor
-
     public SelfPickupSupplier(int id, String name, String phone, String bankAcc, List<String> fields,
-            String paymentCondition,
-            Map<Integer, Double> amountToDiscount, Queue<Integer> reservationHistory, List<Contact> contacts,
+            String paymentCondition, Map<Integer, Double> amountToDiscount, List<Contact> contacts,
             String address) {
-        super(id, name, phone, bankAcc, fields, paymentCondition, amountToDiscount, reservationHistory, contacts);
+        super(id, name, phone, bankAcc, fields, paymentCondition, amountToDiscount, contacts);
         this.address = address;
     }
 
@@ -22,14 +19,6 @@ class SelfPickupSupplier extends Supplier {
     public SelfPickupSupplier(int id, String name, String phone, String bankAcc, String paymentCondition,
             Map<Integer, Double> amountToDiscount, String address) {
         super(id, name, phone, bankAcc, paymentCondition, amountToDiscount);
-        this.address = address;
-    }
-
-    // Constructor without reservation history
-    public SelfPickupSupplier(int id, String name, String phone, String bankAcc, List<String> fields,
-            String paymentCondition,
-            Map<Integer, Double> amountToDiscount, List<Contact> contacts, String address) {
-        super(id, name, phone, bankAcc, fields, paymentCondition, amountToDiscount, contacts);
         this.address = address;
     }
 
@@ -43,7 +32,7 @@ class SelfPickupSupplier extends Supplier {
 
     @Override
     public String toString() {
-        return super.toString()+"\nSupplier Type: Self Pickup Supplier\nAddress: "+address;
+        return super.toString() + "\nSupplier Type: Self Pickup Supplier\nAddress: " + address;
     }
 
 }

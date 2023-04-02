@@ -38,7 +38,7 @@ public class SupplierController {
     // Delete Supplier by id
     public void deleteSupplier(int supplierId) throws Exception {
         if (idToSupplier.containsKey(supplierId)) {
-            ProductAgreementController.getInstance().deleteAllSupplierAgreements(supplierId);
+            ProductController.getInstance().deleteAllSupplierAgreements(supplierId);
             idToSupplier.remove(supplierId);
         } else {
             throw new SuppliersException("There is no supplier with id " + supplierId + " in the system.");
@@ -212,63 +212,75 @@ public class SupplierController {
     /**
      * Adds an agreement with the supplier about a specific product.
      * 
-     * @param supplierId the id of the supplier
-     * @param productShopId the product's id in the shop
+     * @param supplierId        the id of the supplier
+     * @param productShopId     the product's id in the shop
      * @param productSupplierId the product's id in the supplier's system
-     * @param stockAmout the amount that the supplier can supply in a single reservation
-     * @param basePrice the base price of the product (without discounts)
-     * @param amountToDiscount maps between the amount of the product and the discount per unit that the supplier offers (in percentage)
-     * @param manufacturer the manufacturer of the product
+     * @param stockAmout        the amount that the supplier can supply in a single
+     *                          reservation
+     * @param basePrice         the base price of the product (without discounts)
+     * @param amountToDiscount  maps between the amount of the product and the
+     *                          discount per unit that the supplier offers (in
+     *                          percentage)
+     * @param manufacturer      the manufacturer of the product
      * @throws SuppliersException if the information is not valid
      * 
      **/
     public void addSupplierProductAgreement(int supplierId, int productShopId, int productSupplierId, int stockAmount,
-            double basePrice, TreeMap<Integer, Double> amountToDiscount, String manufacturer) throws Exception {
-            try{
-            if(supplierId < 0){
+            double basePrice, TreeMap<Integer, Double> amountToDiscount) throws Exception {
+        try {
+            if (supplierId < 0) {
                 throw new SuppliersException("Supplier id cannot be negative.");
             }
-            if(!idToSupplier.containsKey(supplierId)){
+            if (!idToSupplier.containsKey(supplierId)) {
                 throw new SuppliersException("There is no supplier with id " + supplierId + " in the system.");
             }
-            if(stockAmount < 0){
+            if (stockAmount < 0) {
                 throw new SuppliersException("Stock amount cannot be negative.");
             }
-            if(basePrice < 0){
+            if (basePrice < 0) {
                 throw new SuppliersException("Base price cannot be negative.");
             }
-            ProductAgreement pa=new ProductAgreement(supplierId, productShopId, productSupplierId, stockAmount, amountToDiscount, manufacturer);
-            ProductAgreementController.getInstance().addProductAgreement(supplierId, productShopId, pa);
-        }catch(Exception e){
+
+            // TODO: make it integrate with delivery service
+            Product product = ProductController.getInstance().getProductById(productShopId);
+            ProductAgreement pa = new ProductAgreement(supplierId, product, productSupplierId, stockAmount,
+                    amountToDiscount);
+            ProductController.getInstance().addProductAgreement(supplierId, productShopId, pa);
+        } catch (Exception e) {
             throw e;
         }
-            
+
     }
 
     /**
      * Updates an agreement with the supplier about a specific product.
      * 
-     * @param supplierId the id of the supplier
-     * @param productShopId the product's id in the shop
+     * @param supplierId        the id of the supplier
+     * @param productShopId     the product's id in the shop
      * @param productSupplierId the product's id in the supplier's system
-     * @param stockAmout the amount that the supplier can supply in a single reservation
-     * @param basePrice the base price of the product (without discounts)
-     * @param amountToDiscount maps between the amount of the product and the discount per unit that the supplier offers (in percentage)
-     * @param manufacturer the manufacturer of the product
+     * @param stockAmout        the amount that the supplier can supply in a single
+     *                          reservation
+     * @param basePrice         the base price of the product (without discounts)
+     * @param amountToDiscount  maps between the amount of the product and the
+     *                          discount per unit that the supplier offers (in
+     *                          percentage)
+     * @param manufacturer      the manufacturer of the product
      * @throws SuppliersException if the information is not valid
      * 
      **/
-    public void updateSupplierProductAgreement(int supplierId, int productShopId, int productSupplierId, int stockAmount,
-    double basePrice, TreeMap<Integer, Double> amountToDiscount, String manufacturer) throws Exception {
-         addSupplierProductAgreement(supplierId, productShopId, productSupplierId, stockAmount, basePrice, amountToDiscount, manufacturer);
+    public void updateSupplierProductAgreement(int supplierId, int productShopId, int stockAmount,
+            TreeMap<Integer, Double> amountToDiscount) throws Exception {
+        ProductController.getInstance().updateProductAgreement(supplierId, productShopId, stockAmount,
+                amountToDiscount);
     }
 
     /**
      *
      * @param contactPhones phone numbers of the contacts
-     * @param contactNames names of contacts
-     * @param supplierId the supplier that the contacts belong to
-     * @return list of Contact objects built from a list of phone numbers and list of names
+     * @param contactNames  names of contacts
+     * @param supplierId    the supplier that the contacts belong to
+     * @return list of Contact objects built from a list of phone numbers and list
+     *         of names
      */
     private List<Contact> makeContactList(List<String> contactPhones, List<String> contactNames, int supplierId) {
         List<Contact> contactList = new LinkedList<Contact>();
@@ -297,17 +309,21 @@ public class SupplierController {
      * @throws Exception
      */
     public String getSupplierCard(int supplierId) throws Exception {
-        try{
-        if(!idToSupplier.containsKey(supplierId)){
-            throw new Exception("There is no supplier with id " + supplierId + " in the system.");
-        }
-        if(supplierId < 0){
-            throw new Exception("Supplier id cannot be negative.");
-        }
-        return idToSupplier.get(supplierId).toString();
-        }catch(Exception e){
+        try {
+            if (!idToSupplier.containsKey(supplierId)) {
+                throw new Exception("There is no supplier with id " + supplierId + " in the system.");
+            }
+            if (supplierId < 0) {
+                throw new Exception("Supplier id cannot be negative.");
+            }
+            return idToSupplier.get(supplierId).toString();
+        } catch (Exception e) {
             throw e;
         }
+    }
+
+    public Contact getRandomContactOf(int supplierID) throws SuppliersException {
+        return getSupplierById(supplierID).getRandomContact();
     }
 
 }

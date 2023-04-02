@@ -44,7 +44,8 @@ public class ReservationController {
         for (Integer supplierId : supplierToProducts.keySet()) {
             List<ReceiptItem> items = supplierToProducts.get(supplierId);
             SupplierController.getInstance().calculateSupplierDiscount(supplierId, items);
-            Reservation reservation = new Reservation(reservationId, supplierId, items);
+            Contact contact = SupplierController.getInstance().getRandomContactOf(supplierId);
+            Reservation reservation = new Reservation(reservationId, supplierId, items, contact);
             addPartialReservation(reservation);
         }
     }
@@ -86,8 +87,8 @@ public class ReservationController {
      *                            of supply
      */
     private Map<Integer, ReceiptItem> splitProduct(int productId, int amount) throws SuppliersException {
-        Collection<ProductAgreement> productAgreements = ProductAgreementController.getInstance()
-                .getProductAgreements(productId);
+        Collection<ProductAgreement> productAgreements = ProductController.getInstance()
+                .getProductAgreementsOfProduct(productId);
         Map<Integer, ReceiptItem> output = new HashMap<>();
 
         // first check if the product can be ordered from one supplier

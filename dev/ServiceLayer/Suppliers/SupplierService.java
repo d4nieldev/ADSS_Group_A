@@ -4,20 +4,22 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
-import BusinessLayer.Suppliers.ProductAgreementController;
+import BusinessLayer.Suppliers.ProductController;
 import BusinessLayer.Suppliers.SupplierController;
+import BusinessLayer.Suppliers.exceptions.SuppliersException;
 
 public class SupplierService {
     private SupplierController supplierController;
-    private ProductAgreementController productAgreementController;
+    private ProductController productController;
 
     public SupplierService() {
         supplierController = SupplierController.getInstance();
-        productAgreementController = ProductAgreementController.getInstance();
+        productController = ProductController.getInstance();
     }
 
     /**
      * Add 'Fixed days' supplier
+     * 
      * @param supplierName
      * @param supplierPhone
      * @param supplierBankAccount
@@ -45,6 +47,7 @@ public class SupplierService {
 
     /**
      * Add 'On Order' supplier
+     * 
      * @param supplierName
      * @param supplierPhone
      * @param supplierBankAccount
@@ -71,6 +74,7 @@ public class SupplierService {
 
     /**
      * Add 'Self Pickup' supplier
+     * 
      * @param supplierName
      * @param supplierPhone
      * @param supplierBankAccount
@@ -98,14 +102,15 @@ public class SupplierService {
 
     /**
      * Deletes a supplier from the system and all its products agreements
+     * 
      * @param supplierId the id of the supplier to be deleted
      * @return success/error message
      */
     public String deleteSupplierBaseAgreement(int supplierId) {
-        try{
+        try {
             supplierController.deleteSupplier(supplierId);
             return "Supplier with id: " + supplierId + " deleted successfully";
-        }catch (Exception e) {
+        } catch (Exception e) {
             return e.getMessage();
         }
     }
@@ -224,6 +229,7 @@ public class SupplierService {
 
     /**
      * Addes a new supplier agreement about a specific product
+     * 
      * @param supplierId
      * @param productShopId
      * @param productSupplierId
@@ -235,10 +241,11 @@ public class SupplierService {
      */
     public String addSupplierProductAgreement(int supplierId, int productShopId, int productSupplierId, int stockAmount,
             double basePrice, TreeMap<Integer, Double> amountToDiscount, String manufacturer) {
-        try{
-            supplierController.addSupplierProductAgreement(supplierId, productShopId, productSupplierId, stockAmount, basePrice, amountToDiscount ,manufacturer);
+        try {
+            supplierController.addSupplierProductAgreement(supplierId, productShopId, productSupplierId, stockAmount,
+                    basePrice, amountToDiscount);
             return "Supplier product agreement added successfully";
-        }catch(Exception e){
+        } catch (Exception e) {
             return e.getMessage();
         }
     }
@@ -249,9 +256,17 @@ public class SupplierService {
      * @return infromation about the supplier
      */
     public String getSupplierCard(int supplierId) {
-        try{
+        try {
             return supplierController.getSupplierCard(supplierId);
-        }catch(Exception e){
+        } catch (Exception e) {
+            return e.getMessage();
+        }
+    }
+
+    public String getSupplierProductAgreements(int supplierId) {
+        try {
+            return productController.getProductAgreementsOfSupplier(supplierId).toString();
+        } catch (SuppliersException e) {
             return e.getMessage();
         }
     }

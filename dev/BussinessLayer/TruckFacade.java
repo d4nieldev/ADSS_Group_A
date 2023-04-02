@@ -1,6 +1,8 @@
 package BussinessLayer;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class TruckFacade {
@@ -46,5 +48,16 @@ public class TruckFacade {
             totalPayload += truck.calculatePayload();
         }
         return totalPayload;
+    }
+
+    public List<Truck> getAvailableTrucks()
+    {
+        List<Truck> availableTrucks = new ArrayList<>();
+        for (Truck truck : trucks.values()) {
+            if (truck.isAvailable()) {
+                availableTrucks.add(truck);
+            }
+        }
+        return availableTrucks;
     }
 }

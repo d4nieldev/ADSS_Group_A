@@ -1,6 +1,8 @@
 package BussinessLayer;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class DriverFacade {
@@ -24,7 +26,7 @@ public class DriverFacade {
 
     public Driver getDriverByLicence(String licence) {
         for (Driver driver : drivers.values()) {
-            if (driver.getLicence().equals(licence)) {
+            if (driver.getLicense().equals(licence)) {
                 return driver;
             }
         }
@@ -33,6 +35,17 @@ public class DriverFacade {
 
     public boolean isDriverQualified(Driver driver, Truck truck) {
         return driver.isQualified(truck);
+    }
+
+    public List<Driver> getAvailableDrivers()
+    {
+        List<Driver> availableDrivers = new ArrayList<>();
+        for (Driver driver : drivers.values()) {
+            if (driver.isAvailable()) {
+                availableDrivers.add(driver);
+            }
+        }
+        return availableDrivers;
     }
 }
 

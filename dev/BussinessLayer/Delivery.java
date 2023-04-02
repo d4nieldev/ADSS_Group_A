@@ -3,13 +3,15 @@ package BussinessLayer;
 import java.util.List;
 
 public class Delivery {
+    private int id;
     private Destination source;
     private Destination dest;
     private Status status;
     private List<String> items;
     private int weight;
 
-    public Delivery(Destination source, Destination dest, Status status, List<String> items, int weight) {
+    public Delivery(int id,Destination source, Destination dest, Status status, List<String> items, int weight) {
+        this.id = id;
         this.source = source;
         this.dest = dest;
         this.status = status;
@@ -62,5 +64,8 @@ public class Delivery {
 
     public void setWeight(int weight) {
         this.weight = weight;
+    }
+
+    public int getId() { return id;
     }
 }

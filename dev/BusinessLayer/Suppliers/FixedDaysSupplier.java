@@ -7,7 +7,6 @@ import java.util.Map;
 import BusinessLayer.Suppliers.enums.Day;
 
 class FixedDaysSupplier extends Supplier {
-
     private List<Day> days;
 
     // Copy constructor

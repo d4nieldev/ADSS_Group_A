@@ -51,12 +51,12 @@ public class SupplierSystem {
         scanner.nextLine();
     }
 
-    private static void help() {
+    public static void help() {
         String manual = "";
         manual += "===========================================================================================\n";
         manual += "This is the manual for how to use the suppliers system:\n";
         manual += "help = show the manual\n";
-        manual += "add supplier = Adds a new supplier to the system. Enter the information that the system will ask you to about the supplier you want to add.\n";
+        manual += "addSupplier = Adds a new supplier to the system. Enter the information that the system will ask you to about the supplier you want to add.\n";
         manual += "delete supplier [supplier_id] = Deletes an existing supplier from the system.\n";
         manual += "edit supplier [supplier_id] = After typing this command, you can edit the supplier information with the following commands: \n";
         manual += "                              update name [new_name]\n";
@@ -69,7 +69,7 @@ public class SupplierSystem {
         manual += "                              add contact [contact_phone] [contact_name]\n";
         manual += "                              delete contact [contact_phone] [contact_name]\n";
         manual += "                              delete all contacts\n";
-        manual += "add agreement [product_id] [supplier_id] = Adds a new product agreement with a supplier. The system will ask you about information needed to this action.\n";
+        manual += "addAgreement [product_id] [supplier_id] = Adds a new product agreement with a supplier. The system will ask you about information needed to this action.\n";
         manual += "                                           If an agreement already exist, the system will update it to the new one.\n";
         manual += "get card [supplier_id] = Information about the supplier will be presented.\n";
         manual += "**All the commands will return an informative message about the command's success/failure.**\n";
@@ -239,13 +239,12 @@ public class SupplierSystem {
     public static void editSupplier(String[] commandTokens) {
         System.out.println("Please enter the edit command:");
         String command = scanner.nextLine();
-        String[] editCommandTokens = command.split("");
+        String[] editCommandTokens = command.split(" ");
         Integer supId = Integer.parseInt(commandTokens[2]);
         String msg = "";
         switch (editCommandTokens[0]) {
             case "update": {
                 msg = updateSupplierDetails(supId, editCommandTokens[1], editCommandTokens[2]);
-                break;
             }
             case "delete": {
                 if (editCommandTokens[1].equals("all")) {

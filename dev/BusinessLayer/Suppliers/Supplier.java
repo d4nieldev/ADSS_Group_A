@@ -10,7 +10,7 @@ public abstract class Supplier {
     private String bankAcc;
     private List<String> fields;
     private String paymentCondition;
-    private Map<Integer, Double> amountToDiscount;
+    private Map<Integer, Double> amountToPrice;
     private List<Contact> contacts;
 
     // Copy Constructor
@@ -21,7 +21,7 @@ public abstract class Supplier {
         this.bankAcc = bankAcc;
         this.fields = fields;
         this.paymentCondition = paymentCondition;
-        this.amountToDiscount = amountToDiscount;
+        this.amountToPrice = amountToDiscount;
         this.contacts = contacts;
 
         Contact office = new Contact(phone, id, "Office");
@@ -36,7 +36,7 @@ public abstract class Supplier {
         this.bankAcc = bankAcc;
         this.fields = new LinkedList<>();
         this.paymentCondition = paymentCondition;
-        this.amountToDiscount = amountToDiscount;
+        this.amountToPrice = amountToDiscount;
         this.contacts = new LinkedList<>();
     }
 
@@ -48,7 +48,7 @@ public abstract class Supplier {
         this.bankAcc = bankAcc;
         this.fields = fields;
         this.paymentCondition = paymentCondition;
-        this.amountToDiscount = amountToDiscount;
+        this.amountToPrice = amountToDiscount;
         this.contacts = new LinkedList<>();
     }
 
@@ -107,12 +107,12 @@ public abstract class Supplier {
     }
 
     // Getter and setter for amountToDiscount
-    public Map<Integer, Double> getAmountToDiscount() {
-        return amountToDiscount;
+    public Map<Integer, Double> getAmountToPrice() {
+        return amountToPrice;
     }
 
-    public void setAmountToDiscount(Map<Integer, Double> amountToDiscount) {
-        this.amountToDiscount = amountToDiscount;
+    public void setAmountToPrice(Map<Integer, Double> amountToDiscount) {
+        this.amountToPrice = amountToDiscount;
     }
 
     // Getter and setter for contacts
@@ -164,7 +164,7 @@ public abstract class Supplier {
     public String toString() {
         return "Supplier [id=" + id + ", name=" + name + ", phone=" + getPhone() + ", bankAcc=" + bankAcc + ", fields="
                 + fields
-                + ", paymentCondition=" + paymentCondition + ", amountToDiscount=" + amountToDiscount + "\ncontacts="
+                + ", paymentCondition=" + paymentCondition + ", amountToDiscount=" + amountToPrice + "\ncontacts="
                 + contacts + "]";
 
     }

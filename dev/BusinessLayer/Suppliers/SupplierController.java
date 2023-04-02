@@ -153,7 +153,7 @@ public class SupplierController {
     // Update supplier discount
     public void setSupplierAmountToDiscount(int supplierId, Map<Integer, Double> amountToDiscount) throws Exception {
         try {
-            getSupplierById(supplierId).setAmountToDiscount(amountToDiscount);
+            getSupplierById(supplierId).setAmountToPrice(amountToDiscount);
             ;
         } catch (Exception e) {
             throw e;
@@ -296,7 +296,7 @@ public class SupplierController {
         for (ReceiptItem item : items)
             amount += item.getAmount();
 
-        double discount_coefficient = idToSupplier.get(supplierId).getAmountToDiscount().get(amount);
+        double discount_coefficient = idToSupplier.get(supplierId).getAmountToPrice().get(amount);
 
         for (ReceiptItem item : items)
             item.setPricePerUnitAfterDiscount(discount_coefficient * item.getPricePerUnitAfterDiscount());

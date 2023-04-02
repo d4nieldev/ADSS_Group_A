@@ -2,17 +2,15 @@ package BusinessLayer.Suppliers;
 
 public class Contact {
     private String phone;
-    private int supplierId;
     private String name;
 
-    //Constructor
+    // Constructor
     public Contact(String phone, int supplierId, String name) {
         this.phone = phone;
-        this.supplierId = supplierId;
         this.name = name;
     }
 
-    //Getter and setter for phone
+    // Getter and setter for phone
     public String getPhone() {
         return phone;
     }
@@ -21,7 +19,7 @@ public class Contact {
         this.phone = phone;
     }
 
-    //Getter and setter for name
+    // Getter and setter for name
     public String getName() {
         return name;
     }
@@ -30,7 +28,7 @@ public class Contact {
         this.name = name;
     }
 
-    //Equal override
+    // Equal override
     @Override
     public boolean equals(Object obj) {
         if (obj == this) {
@@ -40,14 +38,13 @@ public class Contact {
             return false;
         }
         Contact other = (Contact) obj;
-        return this.phone==other.phone && this.name==other.name && this.supplierId==other.supplierId;
+        return this.phone == other.phone && this.name == other.name && this.supplierId == other.supplierId;
     }
 
     @Override
     public String toString() {
         return "Contact{" +
                 "phone='" + phone + '\'' +
-                ", supplierId=" + supplierId +
                 ", name='" + name + '\'' +
                 '}';
     }

@@ -186,7 +186,7 @@ public class EmployeeController {
     
 //-------------------------------------Help Functions--------------------------------------------------------
 
-    //called only if the employee exist, else will return null.
+    //called only if the employee exist, else will return error.
     private Employee getEmployeeById(int id){ 
         for (Employee employee : employees) {
             if (employee.getId() == id)

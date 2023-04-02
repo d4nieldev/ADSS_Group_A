@@ -46,4 +46,42 @@ public class EmployeeService {
     public void printAllEmployees(int id){
         employeeController.printAllEmployees(id);
     }
+
+    //-------------------------------------Getters And Setters--------------------------------------------------------
+
+    public void changeFirstName(int managerId, int idEmployee, String firstName){
+        employeeController.changeFirstName(managerId, idEmployee, firstName);
+    }
+
+    public void changeLastName(int managerId, int idEmployee, String lastName){
+        employeeController.changeLastName(managerId, idEmployee, lastName);
+    }
+
+    public void changePassword(int managerId, int idEmployee, String password){
+        employeeController.changePassword(managerId, idEmployee, password);
+    }
+
+    public void changeBankNum(int managerId, int idEmployee, int bankNum){
+        employeeController.changeBankNum(managerId, idEmployee, bankNum);
+    }
+
+    public void changeBankBranch(int managerId, int idEmployee, int bankBranch){
+        employeeController.changeBankBranch(managerId, idEmployee, bankBranch);
+    }
+
+    public void changeBankAccount(int managerId, int idEmployee, int bankAccount){
+        employeeController.changeBankAccount(managerId, idEmployee, bankAccount);
+    }
+
+    public void changeSalary(int managerId, int idEmployee, int salary){
+        employeeController.changeSalary(managerId, idEmployee, salary);
+    }
+
+    public void changeStartDate(int managerId, int idEmployee, LocalDate stastDate){
+        employeeController.changeStartDate(managerId, idEmployee, stastDate);
+    }
+
+    public void changeDriverLicence(int managerId, int idEmployee, License licene){
+        employeeController.changeDriverLicence(managerId, idEmployee, licene);
+    }
 }

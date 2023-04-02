@@ -1,12 +1,11 @@
 package BussinessLayer;
 
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 public class TransportFacade {
 
     private Map<Integer, Transport> transportMap;
+    int id=0;
 
     public TransportFacade() {
         transportMap = new HashMap<>();
@@ -34,5 +33,22 @@ public class TransportFacade {
 
     public Map<Integer, Transport> getAllTransport() {
         return transportMap;
+    }
+
+    public void addTransport(Driver driver, Truck truck, List<Delivery> matchedDeliveries)
+    {
+        Date d= new Date();
+        Transport transport = new Transport(id,d,"0000",truck.getPlateNumber(), driver.getName(), driver.getId(), "source");
+
+        addTransport(id,transport);
+        id++;
+        transport.setDestinationList(this.makeDestinationMap(matchedDeliveries));
+
+    }
+
+    private List<Destination> makeDestinationMap(List<Delivery> matchedDeliveries)
+    {
+        return  new ArrayList<Destination>();
+
     }
 }

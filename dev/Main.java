@@ -13,13 +13,15 @@ class Main
         List<Destination> dests = makeSomeDestinations();
         List<Destination> sources = makeSomeSources();
         List<Delivery> deliveries = createDeliveries(sources,dests);
+        TransportFacade transportFacade= new TransportFacade();
 
-        letTheUserChoose(deliveries,truckFacade,driverFacade);
+        letTheUserChoose(deliveries,truckFacade,driverFacade,transportFacade);
 
 
 
     }
-    public static void letTheUserChoose(List<Delivery> deliveries, TruckFacade truckFacade, DriverFacade driverFacade) {
+    public static void letTheUserChoose(List<Delivery> deliveries, TruckFacade truckFacade, DriverFacade driverFacade,TransportFacade transportFacade)
+    {
         List<Driver> availableDrivers = driverFacade.getAvailableDrivers();
         List<Truck> availableTrucks = truckFacade.getAvailableTrucks();
         List<Delivery> availableDeliveries = new ArrayList<>(deliveries);
@@ -71,6 +73,7 @@ class Main
                 Delivery delivery = availableDeliveries.get(deliveryId);
                 matchedDeliveries.add(delivery);
                 availableDeliveries.remove(delivery);
+                delivery.setStatus(Status.INVITED);
             }
 
             // Update available drivers and trucks
@@ -82,6 +85,7 @@ class Main
             System.out.println("Matched truck: " + truck.getPlateNumber() + " (" + truck.getModel() + ")");
             System.out.println("Matched deliveries:");
             printDeliveries(matchedDeliveries);
+            transportFacade.addTransport(driver,truck,matchedDeliveries);
         }
 
         if (availableTrucks.isEmpty()) {

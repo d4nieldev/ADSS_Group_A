@@ -1,8 +1,6 @@
 package BussinessLayer;
 
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 public class Transport {
     private int id;
@@ -12,7 +10,7 @@ public class Transport {
     private String driverName;
     private int driverId;
     private String source;
-    private Map<String, Destination> destinationList;
+    private List<Destination> destinationList;
 
     public Transport(int id, Date date, String leavingTime, String truckNumber, String driverName, int driverId, String source) {
         this.id = id;
@@ -22,19 +20,20 @@ public class Transport {
         this.driverName = driverName;
         this.driverId = driverId;
         this.source = source;
-        this.destinationList = new HashMap<>();
+        this.destinationList = new ArrayList<Destination>();
     }
 
-    public void addDestination(String destinationName, Destination destination) {
-        destinationList.put(destinationName, destination);
+    public void addDestination(Destination destination) {
+        destinationList.add(destination);
     }
 
     public void removeDestination(String destinationName) {
         destinationList.remove(destinationName);
     }
 
-    public Destination getDestination(String destinationName) {
-        return destinationList.get(destinationName);
+    public Destination getDestination(int i)
+    {
+        return destinationList.get(i);
     }
 
     // Getters and setters
@@ -86,11 +85,12 @@ public class Transport {
         this.source = source;
     }
 
-    public Map<String, Destination> getDestinationList() {
+    public List<Destination> getDestinationList() {
         return destinationList;
     }
 
-    public void setDestinationList(Map<String, Destination> destinationList) {
+    public void setDestinationList(List<Destination> destinations)
+    {
         this.destinationList = destinationList;
     }
 }

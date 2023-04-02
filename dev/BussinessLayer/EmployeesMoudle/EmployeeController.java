@@ -57,7 +57,7 @@ public class EmployeeController {
     public void addEmployee(int managerId, String firstName, String lastName, int id, String password, int bankNum,
     int bankBranch, int bankAccount, int salary, int bonus, LocalDate startDate, License driverLicense, Role role, int branch){
         if (isEmployeeExists(managerId) && isEmployeeLoggedIn(managerId) && isEmployeeHRManager(managerId)){
-            checkEmployee(id);
+            //checkEmployee(id); //not needed - CHECK WITH INBAR.
             employees.add(new Employee(firstName, lastName, id, password, bankNum,
             bankBranch, bankAccount, salary, bonus, startDate, driverLicense, role, branch));
             System.out.println("The employee " + firstName + " " + lastName + " has been added successfully");
@@ -227,7 +227,7 @@ public class EmployeeController {
     
     // check for exsisting employee with current id
     // throw an error if something went wrong
-    public void checkEmployee( int idEmployee){
+    public void checkEmployee(int idEmployee){
         if (!isEmployeeExists(idEmployee)){
             throw new Error("The id " + idEmployee + "is not in the system. Please try again");
         }

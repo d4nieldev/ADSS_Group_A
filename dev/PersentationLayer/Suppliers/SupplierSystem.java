@@ -17,30 +17,22 @@ public class SupplierSystem {
         System.out.println("Enter command (help for a guide): ");
         String[] commandTokens = scanner.nextLine().split(" ");
         switch (commandTokens[0]) {
-            case "help": {
+            case "help": 
                 help();
                 break;
-            }
-            case "add": {
-                switch (commandTokens[1]) {
-                    case "supplier":
-                        addSupplier();
-                        break;
-                    case "agreement":
-                        addAgreement(commandTokens);
-                        break;
-                    default:
-                        System.out.println("Unknown command");
-                        break;
-                }
-            }
-            case "delete":
+            case "addSupplier": 
+                addSupplier();
+                break;
+            case "addAgreement":
+                addAgreement(commandTokens);
+                break;
+            case "deleteSupplier":
                 deleteSupplier(commandTokens);
                 break;
-            case "edit":
+            case "editSupplier":
                 editSupplier(commandTokens);
                 break;
-            case "get":
+            case "getCard":
                 getSupplierCard(commandTokens);
                 break;
             default:
@@ -57,23 +49,22 @@ public class SupplierSystem {
         manual += "This is the manual for how to use the suppliers system:\n";
         manual += "help = show the manual\n";
         manual += "addSupplier = Adds a new supplier to the system. Enter the information that the system will ask you to about the supplier you want to add.\n";
-        manual += "delete supplier [supplier_id] = Deletes an existing supplier from the system.\n";
-        manual += "edit supplier [supplier_id] = After typing this command, you can edit the supplier information with the following commands: \n";
-        manual += "                              update name [new_name]\n";
-        manual += "                              update phone [new_phone]\n";
-        manual += "                              update bank account [new_bankAccount]\n";
-        manual += "                              update fields = The system will ask you to enter fields one by one until typing 'done'\n";
-        manual += "                              update paymentCondition [new_paymentCondition]\n";
-        manual += "                              update amount discount = The system will ask you to enter an amount and discount (decimal)\n";
+        manual += "deleteSupplier [supplier_id] = Deletes an existing supplier from the system.\n";
+        manual += "editSupplier [supplier_id] = After typing this command, you can edit the supplier information with the following commands: \n";
+        manual += "                              updateName [new_name]\n";
+        manual += "                              updatePhone [new_phone]\n";
+        manual += "                              updateBankAccount [new_bankAccount]\n";
+        manual += "                              updateFields = The system will ask you to enter fields one by one until typing 'done'\n";
+        manual += "                              updatePaymentCondition [new_paymentCondition]\n";
+        manual += "                              updateAmountDiscount = The system will ask you to enter an amount and discount (decimal)\n";
         manual += "                                                       in this format \"[amount] [discount]\" until typing 'done' \n";
-        manual += "                              add contact [contact_phone] [contact_name]\n";
-        manual += "                              delete contact [contact_phone] [contact_name]\n";
-        manual += "                              delete all contacts\n";
+        manual += "                              addContact [contact_phone] [contact_name]\n";
+        manual += "                              deleteContact [contact_phone] [contact_name]\n";
+        manual += "                              deleteAllContacts\n";
         manual += "addAgreement [product_id] [supplier_id] = Adds a new product agreement with a supplier. The system will ask you about information needed to this action.\n";
         manual += "                                           If an agreement already exist, the system will update it to the new one.\n";
-        manual += "get card [supplier_id] = Information about the supplier will be presented.\n";
+        manual += "getCard [supplier_id] = Information about the supplier will be presented.\n";
         manual += "**All the commands will return an informative message about the command's success/failure.**\n";
-        manual += "**The commands are not type sensitive!**\n";
         manual += "===========================================================================================";
         System.out.println(manual);
     }
@@ -99,7 +90,7 @@ public class SupplierSystem {
         List<String> fields = makeFieldsList();
 
         // add amount-discount map
-        Map<Integer, Double> amountTodiscount = makeAmountDiscountMap();
+        Map<Integer, Double> amountTodiscount = makeAmountDiscountPercentageMap();
 
         // add contacts list
         System.out.print("Enter contacts [phone] [name] pairs (enter 'done' to finish): ");
@@ -115,56 +106,61 @@ public class SupplierSystem {
         } while (!input.equals("done"));
 
         // now we choose the supplier type
-        System.out.println("Please choose the supplier type:");
-        System.out.println("1 - FixedDaysSupplier, 2 - On Order Supplier,  3 - Self Pickup Supplier");
-        int type = scanner.nextInt();
+        boolean flag=false;
+        while(!flag){
+            System.out.println("Please choose the supplier type:");
+            System.out.println("1 - FixedDaysSupplier, 2 - On Order Supplier,  3 - Self Pickup Supplier");
+            int type = scanner.nextInt();
 
-        String msg;
-        switch (type) {
-            case 1: {
-                System.out.println("Please choose the supply days (No more than 7 days) and enter '0' to finish:");
-                System.out.println(
-                        "1 - Sunday, 2 - Monday, 3 - Tuesday, 4 - Wednesday, 5 - Thursday, 6 - Friday, 7 - Saturday");
-                List<Integer> days = new ArrayList<Integer>();
-                Integer day;
-                do {
-                    System.out.print("Enter day: ");
-                    day = scanner.nextInt();
-                    if (!days.contains(day)) {
-                        days.add(day);
-                        if (days.size() == 7) {
-                            System.out.println("All days were inserted");
+            String msg;
+            switch (type) {
+                case 1: {
+                    System.out.println("Please choose the supply days (No more than 7 days) and enter '0' to finish:");
+                    System.out.println(
+                            "1 - Sunday, 2 - Monday, 3 - Tuesday, 4 - Wednesday, 5 - Thursday, 6 - Friday, 7 - Saturday");
+                    List<Integer> days = new ArrayList<Integer>();
+                    Integer day;
+                    do {
+                        System.out.print("Enter day: ");
+                        day = scanner.nextInt();
+                        if (!days.contains(day)) {
+                            days.add(day);
+                            if (days.size() == 7) {
+                                System.out.println("All days were inserted");
+                            }
+                        } else {
+                            System.out.println("Day already exists");
+                            continue;
                         }
-                    } else {
-                        System.out.println("Day already exists");
-                        continue;
-                    }
-                } while (!day.equals(0) && days.size() < 7);
-                msg = ss.addFixedDaysSupplierBaseAgreement(name, phone, bankAccount, fields, paymentCondition,
-                        amountTodiscount, names, phones, days);
-                System.out.println(msg);
-                break;
-            }
-            case 2: {
-                System.out.println("Enter maximum supply days: ");
-                int maxDays = scanner.nextInt();
-                msg = ss.addOnOrderSupplierBaseAgreement(name, phone, bankAccount, fields, paymentCondition,
-                        amountTodiscount, names, phones, maxDays);
-                System.out.println(msg);
-                break;
-            }
-            case 3: {
-                System.out.println("Enter the supplier's address: ");
-                String address = scanner.nextLine();
-                msg = ss.addSelfPickupSupplierBaseAgreement(name, phone, bankAccount, fields, paymentCondition,
-                        amountTodiscount, names, phones, address);
-                System.out.println(msg);
-                break;
-            }
-            default: {
-                // TODO: maybe we should make a while loop until supplier type is determined
-                System.out.println("Unknown supplier type. Try again");
-                break;
+                    } while (!day.equals(0) && days.size() < 7);
+                    msg = ss.addFixedDaysSupplierBaseAgreement(name, phone, bankAccount, fields, paymentCondition,
+                            amountTodiscount, names, phones, days);
+                    System.out.println(msg);
+                    flag=true;
+                    break;
+                }
+                case 2: {
+                    System.out.println("Enter maximum supply days: ");
+                    int maxDays = scanner.nextInt();
+                    msg = ss.addOnOrderSupplierBaseAgreement(name, phone, bankAccount, fields, paymentCondition,
+                            amountTodiscount, names, phones, maxDays);
+                    System.out.println(msg);
+                    flag=true;
+                    break;
+                }
+                case 3: {
+                    System.out.println("Enter the supplier's address: ");
+                    String address = scanner.nextLine();
+                    msg = ss.addSelfPickupSupplierBaseAgreement(name, phone, bankAccount, fields, paymentCondition,
+                            amountTodiscount, names, phones, address);
+                    System.out.println(msg);
+                    flag=true;
+                    break;
+                }
+                default: {
+                    System.out.println("Unknown supplier type. Try again");
+                    break;
+                }
             }
         }
     }
@@ -186,38 +182,12 @@ public class SupplierSystem {
     }
 
     /**
-     * Makes a map of the amount discount
-     * 
-     * @return
-     */
-    private static Map<Integer, Double> makeAmountDiscountMap() {
-        System.out.print("Enter [amount] [discount] pairs (enter 'done' to finish): ");
-        Map<Integer, Double> amountTodiscountMap = new HashMap<Integer, Double>();
-        String input;
-        do {
-            System.out.print("Enter amount discount pair: ");
-            input = scanner.nextLine();
-            String[] AmountDiscount = input.split(" ");
-            Integer amount = Integer.parseInt(AmountDiscount[0]);
-            Double discount = Double.parseDouble(AmountDiscount[1]);
-            if (amount < 0 || discount < 0) {
-                System.out.println("Amount and discount cant be negative");
-                continue;
-            }
-            if (AmountDiscount.length > 1) {
-                amountTodiscountMap.put(amount, discount);
-            }
-        } while (!input.equals("done"));
-        return amountTodiscountMap;
-    }
-
-    /**
      * Deletes an existing supplier from the system
      * 
      * @param commandTokens
      */
     public static void deleteSupplier(String[] commandTokens) {
-        String msg = ss.deleteSupplierBaseAgreement(Integer.parseInt(commandTokens[2]));
+        String msg = ss.deleteSupplierBaseAgreement(Integer.parseInt(commandTokens[1]));
         System.out.println(msg);
     }
 
@@ -227,7 +197,7 @@ public class SupplierSystem {
      * @param commandTokens
      */
     public static void getSupplierCard(String[] commandTokens) {
-        String msg = ss.getSupplierCard(Integer.parseInt(commandTokens[2]));
+        String msg = ss.getSupplierCard(Integer.parseInt(commandTokens[1]));
         System.out.println(msg);
     }
 
@@ -240,52 +210,41 @@ public class SupplierSystem {
         System.out.println("Please enter the edit command:");
         String command = scanner.nextLine();
         String[] editCommandTokens = command.split(" ");
-        Integer supId = Integer.parseInt(commandTokens[2]);
+        Integer supId = Integer.parseInt(commandTokens[1]);
         String msg = "";
         switch (editCommandTokens[0]) {
-            case "update": {
-                msg = updateSupplierDetails(supId, editCommandTokens[1], editCommandTokens[2]);
-            }
-            case "delete": {
-                if (editCommandTokens[1].equals("all")) {
-                    msg = ss.deleteAllSupplierContacts(supId);
-                } else {
-                    msg = ss.deleteSupplierContact(supId, editCommandTokens[2], editCommandTokens[3]);
-                }
+            case "updateName":
+                msg = ss.setSupplierName(supId, editCommandTokens[1]);
                 break;
-            }
-            case "add": {
-                msg = ss.addSupplierContact(supId, editCommandTokens[2], editCommandTokens[3]);
+            case "updatePhone":
+                msg = ss.setSupplierPhone(supId, editCommandTokens[1]);
                 break;
-            }
+            case "updateBankAccount":
+                msg = ss.setSupplierBankAccount(supId, editCommandTokens[1]);
+                break;
+            case "updateFields":
+                msg = ss.setSupplierFields(supId, makeFieldsList());
+                break;
+            case "updatePaymentCondition":
+                msg = ss.setSupplierPaymentCondition(supId, editCommandTokens[1]);
+                break;
+            case "updateAmountDiscount":
+                msg = ss.setSupplierAmountToDiscount(supId, makeAmountDiscountPercentageMap());
+                break;
+            case "deleteContact":
+                msg = ss.deleteSupplierContact(supId, editCommandTokens[1], editCommandTokens[2]);
+                break;
+            case "deleteAllContacts":
+                msg = ss.deleteAllSupplierContacts(supId);
+                break;
+            case "addContact":
+                msg = ss.addSupplierContact(supId, editCommandTokens[1], editCommandTokens[2]);
+                break;
+            default:
+                System.out.println("Unknown edit command. Try again");
+                break;
         }
         System.out.println(msg);
-    }
-
-    private static String updateSupplierDetails(int supId, String command, String arg) {
-        switch (command) {
-            case "name": {
-                return ss.setSupplierName(supId, arg);
-            }
-            case "phone": {
-                return ss.setSupplierPhone(supId, arg);
-            }
-            case "bank": {
-                return ss.setSupplierBankAccount(supId, arg);
-            }
-            case "fields": {
-                return ss.setSupplierFields(supId, makeFieldsList());
-            }
-            case "paymentCondition": {
-                return ss.setSupplierPaymentCondition(supId, arg);
-            }
-            case "amount": {
-                return ss.setSupplierAmountToDiscount(supId, makeAmountDiscountMap());
-            }
-            default: {
-                return "Unknown command. Try again";
-            }
-        }
     }
 
     /**
@@ -312,9 +271,9 @@ public class SupplierSystem {
         System.out.println("Enter the product's base price:");
         Integer basePrice = scanner.nextInt();
 
-        TreeMap<Integer, Double> amountDiscount = makeAmountDiscountPercentMap();
+        TreeMap<Integer, Double> amountDiscount = makeAmountDiscountPercentageMap();
 
-        String msg = ss.addSupplierProductAgreement(supplierId, productId, productSupplierId, stockAmount, basePrice,
+        String msg = ss.addSupplierProductAgreement(supplierId, productId, productSupplierId, basePrice, stockAmount,
                 amountDiscount, manufacturer);
         System.out.println(msg);
 
@@ -325,9 +284,9 @@ public class SupplierSystem {
      * 
      * @return
      */
-    private static TreeMap<Integer, Double> makeAmountDiscountPercentMap() {
+    private static TreeMap<Integer, Double> makeAmountDiscountPercentageMap() {
         System.out.print("Enter [amount] [discount] pairs (enter 'done' to finish): ");
-        System.out.print("**Notice that the discount is a percentage of the total price per unit**");
+        System.out.print("**Notice that the discount must be a percentage (max 100%)**");
         TreeMap<Integer, Double> amountTodiscountMap = new TreeMap<Integer, Double>();
         String input;
         do {

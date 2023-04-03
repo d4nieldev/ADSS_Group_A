@@ -6,21 +6,29 @@ import java.util.TreeMap;
 class ProductAgreement {
     private int supplierId;
     private int productSupplierId;
+    private double basePrice;
     private int stockAmount;
     private Product product;
-    private TreeMap<Integer, Double> amountToPrice;
+    //discount is in percentage (max 100%)
+    private TreeMap<Integer, Double> amountToDiscount;
 
-    public ProductAgreement(int supplierId, Product product, int productSupplierId, int stockAmount,
-            TreeMap<Integer, Double> amountToPrice) {
+    public ProductAgreement(int supplierId, Product product, int productSupplierId, double basePrice, int stockAmount,
+            TreeMap<Integer, Double> amountToDiscount) {
         this.supplierId = supplierId;
         this.productSupplierId = productSupplierId;
         this.stockAmount = stockAmount;
-        this.amountToPrice = amountToPrice;
+        this.amountToDiscount = amountToDiscount;
         this.product = product;
     }
 
+    /**
+     * Returns the exact price of the all the amount of the product.
+     * @param amount
+     * @return
+     */
     public double getPrice(int amount) {
-        return amountToPrice.get(amountToPrice.floorKey(amount));
+        Double discountPercentageOfProduct = amountToDiscount.get(amountToDiscount.floorKey(amount));
+        return (basePrice * (1 - discountPercentageOfProduct)) * amount;
     }
 
     // Getter for supplier id
@@ -38,21 +46,34 @@ class ProductAgreement {
         return stockAmount;
     }
 
+    // Setter for stock amount
     public void setStockAmount(int stockAmount) {
         this.stockAmount = stockAmount;
     }
 
     // Getter for amount to price map
-    public Map<Integer, Double> getAmountToPrice() {
-        return amountToPrice;
+    public Map<Integer, Double> getAmountToDiscount() {
+        return amountToDiscount;
     }
 
-    public void setAmountToPrice(TreeMap<Integer, Double> amountToPrice) {
-        this.amountToPrice = amountToPrice;
+    // Setter for amount to price map
+    public void setAmountToDiscount(TreeMap<Integer, Double> amountToDiscount) {
+        this.amountToDiscount = amountToDiscount;
         
     }
 
+    // Getter for product
     public Product getProduct() {
         return product;
+    }
+
+    // Setter for product base price
+    public void setBasePrice(double basePrice){
+        this.basePrice = basePrice;
+    }
+
+    // Getter for product base price
+    public double getBasePrice(){
+        return basePrice;
     }
 }

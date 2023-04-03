@@ -49,6 +49,7 @@ class ProductAgreement {
 
     public void setAmountToPrice(TreeMap<Integer, Double> amountToPrice) {
         this.amountToPrice = amountToPrice;
+        
     }
 
     public Product getProduct() {

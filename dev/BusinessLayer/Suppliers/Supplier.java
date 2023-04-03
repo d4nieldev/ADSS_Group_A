@@ -5,13 +5,15 @@ import java.util.LinkedList;
 import java.util.List;
 
 public abstract class Supplier {
+
     private int id;
     private String name;
     private String bankAcc;
     private List<String> fields;
     private String paymentCondition;
-    private Map<Integer, Double> amountToPrice;
+    private Map<Integer, Double> amountToDiscount;
     private List<Contact> contacts;
+
 
     // Copy Constructor
     public Supplier(int id, String name, String phone, String bankAcc, List<String> fields, String paymentCondition,
@@ -21,14 +23,13 @@ public abstract class Supplier {
         this.bankAcc = bankAcc;
         this.fields = fields;
         this.paymentCondition = paymentCondition;
-        this.amountToPrice = amountToDiscount;
+        this.amountToDiscount = amountToDiscount;
         this.contacts = contacts;
-
         Contact office = new Contact(phone, "Office");
         contacts.add(office);
     }
 
-    // Constructor without contacts, reservation history and fields
+    // Constructor without contacts and fields
     public Supplier(int id, String name, String phone, String bankAcc, String paymentCondition,
             Map<Integer, Double> amountToDiscount) {
         this.id = id;
@@ -36,11 +37,13 @@ public abstract class Supplier {
         this.bankAcc = bankAcc;
         this.fields = new LinkedList<>();
         this.paymentCondition = paymentCondition;
-        this.amountToPrice = amountToDiscount;
+        this.amountToDiscount = amountToDiscount;
         this.contacts = new LinkedList<>();
+        Contact office = new Contact(phone, "Office");
+        contacts.add(office);
     }
 
-    // Constructor without reservation history and contacts
+    // Constructor without contacts
     public Supplier(int id, String name, String phone, String bankAcc, List<String> fields, String paymentCondition,
             Map<Integer, Double> amountToDiscount) {
         this.id = id;
@@ -48,8 +51,10 @@ public abstract class Supplier {
         this.bankAcc = bankAcc;
         this.fields = fields;
         this.paymentCondition = paymentCondition;
-        this.amountToPrice = amountToDiscount;
+        this.amountToDiscount = amountToDiscount;
         this.contacts = new LinkedList<>();
+        Contact office = new Contact(phone, "Office");
+        contacts.add(office);
     }
 
     // Getter and setter for id
@@ -107,13 +112,14 @@ public abstract class Supplier {
     }
 
     // Getter and setter for amountToDiscount
-    public Map<Integer, Double> getAmountToPrice() {
-        return amountToPrice;
+    public Map<Integer, Double> getAmountToDiscount() {
+        return amountToDiscount;
     }
 
-    public void setAmountToPrice(Map<Integer, Double> amountToDiscount) {
-        this.amountToPrice = amountToDiscount;
+    public void setAmountToDiscount(Map<Integer, Double> amountToDiscount) {
+        this.amountToDiscount = amountToDiscount;
     }
+
 
     // Getter and setter for contacts
     public List<Contact> getContacts() {
@@ -164,7 +170,7 @@ public abstract class Supplier {
     public String toString() {
         return "Supplier [id=" + id + ", name=" + name + ", phone=" + getPhone() + ", bankAcc=" + bankAcc + ", fields="
                 + fields
-                + ", paymentCondition=" + paymentCondition + ", amountToDiscount=" + amountToPrice + "\ncontacts="
+                + ", paymentCondition=" + paymentCondition + ", amountToDiscount=" + amountToDiscount + "\ncontacts="
                 + contacts + "]";
 
     }

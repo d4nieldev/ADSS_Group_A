@@ -95,7 +95,7 @@ class Main
             Date d = new Date();
             List<Destination> destinationList = letTheUserChooseTheOrder(matchedDeliveries);
 
-            transportFacade.createTransport(d,"0000",truck.getPlateNumber(),driver.getName(),driver.getId(),"source",
+            transportFacade.createTransport("11/1/22","0000",truck.getPlateNumber(),driver.getName(),driver.getId(),"source",
                     destinationList,matchedDeliveries,truck.getWeightNeto(),truck.getWeightMax());
         }
 

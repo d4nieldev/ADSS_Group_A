@@ -6,7 +6,7 @@ public class TransportFacade {
 
     private Map<Integer, Transport> transportMap;
     int id=0;
-    private static TransportFacade instance=null;
+    private static TransportFacade instance = null;
 
     private TransportFacade() {
         transportMap = new HashMap<Integer, Transport>();
@@ -21,11 +21,11 @@ public class TransportFacade {
 
 
 
-    //this function create transport. we need in service check the driver
-    public void createTransport(Date date, String leavingTime, String truckNumber, String driverName, int driverId, String source,
+    //this function create transport
+    public void createTransport(String date, String leavingTime, String truckNumber, String driverName, int driverId, String source,
                                 List<Destination> destinationList,List<Delivery> deliveryList,int truckWeightNeto,int truckWeightMax)
     {
-        Transport shipment = new Transport(id,date, leavingTime, truckNumber, driverName, driverId,
+        Transport shipment = new Transport(id, date, leavingTime, truckNumber, driverName, driverId,
                 destinationList.get(0).getAddress(), destinationList,deliveryList,truckWeightNeto,truckWeightMax);
         addTransport(id , shipment);
         id++;

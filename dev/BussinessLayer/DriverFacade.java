@@ -11,6 +11,14 @@ public class DriverFacade {
     public DriverFacade() {
         drivers = new HashMap<>();
     }
+    private static DriverFacade instance = null;
+    public static DriverFacade getInstance()
+    {
+        if(instance==null)
+            instance = new DriverFacade();
+        return instance;
+    }
+
 
     public void addDriver(Driver driver) {
         drivers.put(driver.getId(), driver);
@@ -22,6 +30,12 @@ public class DriverFacade {
 
     public Driver getDriverById(int id) {
         return drivers.get(id);
+    }
+
+    public Boolean driverExist(int id){
+        if(this.drivers.containsKey(id))
+            return true;
+        return false;
     }
 
     public Driver getDriverByLicence(String licence) {

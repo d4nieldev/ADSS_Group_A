@@ -7,7 +7,7 @@ import java.util.*;
 
 public class Transport {
     private int id;
-    private Date date;
+    private String date;
     private String leavingTime;
     private String truckNumber;
     private String driverName;
@@ -20,7 +20,7 @@ public class Transport {
 
 
 
-    public Transport(int id, Date date, String leavingTime, String truckNumber, String driverName, int driverId, String source,
+    public Transport(int id, String date, String leavingTime, String truckNumber, String driverName, int driverId, String source,
                      List<Destination> destinationList, List<Delivery> deliveryList, int truckWeightNeto, int truckWeightMax)
     {
         this.id = id;
@@ -58,11 +58,11 @@ public class Transport {
         this.id = id;
     }
 
-    public Date getDate() {
+    public String getDate() {
         return date;
     }
 
-    public void setDate(Date date) {
+    public void setDate(String date) {
         this.date = date;
     }
 
@@ -90,6 +90,20 @@ public class Transport {
         this.driverName = driverName;
     }
 
+    public void setDriverId(int id) {this.driverId = driverId; }
+
+    public void setDeliveryList(List<Delivery> deliveryList) {
+        this.deliveryList = deliveryList;
+    }
+
+    public void setTruckWeightNeto(int truckWeightNeto) {
+        this.truckWeightNeto = truckWeightNeto;
+    }
+
+    public void setTruckWeightMax(int truckWeightMax) {
+        this.truckWeightMax = truckWeightMax;
+    }
+
     public String getSource() {
         return source;
     }
@@ -112,8 +126,8 @@ public class Transport {
         onTheWay(deliveryList);
         Date today = new Date();
         SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
-        leavingTime = sdf.format(today);
-        date= today;
+        //leavingTime = sdf.format(today);
+        //date= today;
         int truckWeight = truckWeightNeto;
         for (Destination dest : destinationList) {
             if (dest.getType() == DestinationType.SOURCE) {

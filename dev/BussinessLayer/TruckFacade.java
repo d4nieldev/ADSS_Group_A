@@ -11,6 +11,15 @@ public class TruckFacade {
     public TruckFacade() {
         trucks = new HashMap<>();
     }
+    private static TruckFacade instance = null;
+
+    public static TruckFacade getInstance()
+    {
+        if(instance==null)
+            instance = new TruckFacade();
+        return instance;
+    }
+
 
     public void addTruck(Truck truck) {
         trucks.put(truck.getPlateNumber(), truck);

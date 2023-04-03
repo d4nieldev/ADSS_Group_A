@@ -1,28 +1,31 @@
 package serviceLayer;
 
-import BussinessLayer.Driver;
-import BussinessLayer.DriverFacade;
-import BussinessLayer.TransportFacade;
+import BussinessLayer.*;
 
 import java.util.Date;
+import java.util.List;
 
-/*public class TransportService {
-    TransportFacade transportFacade = new TransportFacade();
-    DriverFacade driverFacade = new DriverFacade();
+public class TransportService {
+    TransportFacade transportFacade = TransportFacade.getInstance();
+    DriverFacade driverFacade  = DriverFacade.getInstance();
 
-    public String createTransport(int id, Date date, String leavingTime, String truckNumber, String driverName, int driverId, String source){
-       if(!driverFacade.getDriverById(driverId))
+
+    //we need check the license of driver
+    public String createTransport(String date, String leavingTime, String truckNumber, String driverName, int driverId, String source,
+                                  List<Destination> destinationList, List<Delivery> deliveryList, int truckWeightNeto, int truckWeightMax){
+       if(!driverFacade.driverExist(driverId))
            return "driver not exist";
         Driver driver = driverFacade.getDriverById(driverId);
         if(!driver.hasLicenseFor(truckNumber))
-            return  "not ilegall";
-        transportFacade.createTransport(id, leavingTime,  truckNumber, driverName, driverId, source);
-        return true;
+            return  "The driver does not have a license to drive a truck";
+        transportFacade.createTransport(date, leavingTime, truckNumber, driverName, driverId, source,
+                destinationList, deliveryList, truckWeightNeto, truckWeightMax);
+        return "Transport was created successfully";
 
 
 
     }
 
 
-}*/
+}
 

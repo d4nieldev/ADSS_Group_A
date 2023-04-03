@@ -1,6 +1,7 @@
 import BussinessLayer.*;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 class Main
 
@@ -13,15 +14,19 @@ class Main
         List<Destination> dests = makeSomeDestinations();
         List<Destination> sources = makeSomeSources();
         List<Delivery> deliveries = createDeliveries(sources,dests);
-        TransportFacade transportFacade= new TransportFacade();
 
-        letTheUserChoose(deliveries,truckFacade,driverFacade,transportFacade);
+
+        TransportFacade transportFacade = letTheUserMatch(deliveries,truckFacade,driverFacade);
+
+        transportFacade.runTheTransports();
 
 
 
     }
-    public static void letTheUserChoose(List<Delivery> deliveries, TruckFacade truckFacade, DriverFacade driverFacade,TransportFacade transportFacade)
+
+    public static TransportFacade letTheUserMatch(List<Delivery> deliveries, TruckFacade truckFacade, DriverFacade driverFacade )
     {
+        TransportFacade transportFacade= TransportFacade.getInstance();
         List<Driver> availableDrivers = driverFacade.getAvailableDrivers();
         List<Truck> availableTrucks = truckFacade.getAvailableTrucks();
         List<Delivery> availableDeliveries = new ArrayList<>(deliveries);
@@ -74,6 +79,8 @@ class Main
                 matchedDeliveries.add(delivery);
                 availableDeliveries.remove(delivery);
                 delivery.setStatus(Status.INVITED);
+                delivery.setDriver(driver);
+                delivery.setTruck(truck);
             }
 
             // Update available drivers and trucks
@@ -85,7 +92,11 @@ class Main
             System.out.println("Matched truck: " + truck.getPlateNumber() + " (" + truck.getModel() + ")");
             System.out.println("Matched deliveries:");
             printDeliveries(matchedDeliveries);
-            transportFacade.addTransport(driver,truck,matchedDeliveries);
+            Date d = new Date();
+            List<Destination> destinationList = letTheUserChooseTheOrder(matchedDeliveries);
+
+            transportFacade.createTransport(d,"0000",truck.getPlateNumber(),driver.getName(),driver.getId(),"source",
+                    destinationList,matchedDeliveries,truck.getWeightNeto(),truck.getWeightMax());
         }
 
         if (availableTrucks.isEmpty()) {
@@ -99,7 +110,56 @@ class Main
         if (availableDeliveries.isEmpty()) {
             System.out.println("\nNo more available deliveries.");
         }
+        return transportFacade;
     }
+
+    private static List<Destination> letTheUserChooseTheOrder(List<Delivery> matchedDeliveries) {
+        // Create a list of all destinations without duplicates
+        List<Destination> allDestinations = new ArrayList<>();
+        for (Delivery delivery : matchedDeliveries) {
+            allDestinations.add(delivery.getSource());
+            allDestinations.add(delivery.getDest());
+        }
+        List<Destination> uniqueDestinations = allDestinations.stream().distinct().collect(Collectors.toList());
+
+        // Print all destinations with indexes for the user to choose from
+        System.out.println("Please choose the order of destinations:");
+        for (int i = 0; i < uniqueDestinations.size(); i++) {
+            Destination destination = uniqueDestinations.get(i);
+            System.out.println(i + ": " + destination.getAddress() + " (" + destination.getLocation() + ")");
+        }
+
+        // Ask user to input the order of destinations
+        List<Destination> chosenOrder = new ArrayList<>();
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Enter the index of the next destination or enter -1 to finish the order:");
+        int index = scanner.nextInt();
+        while (index != -1) {
+            if (index >= 0 && index < uniqueDestinations.size()) {
+                Destination destination = uniqueDestinations.get(index);
+                if (!chosenOrder.contains(destination)) {
+                    chosenOrder.add(destination);
+                    System.out.println("Added " + destination.getAddress() + " to the order.");
+                } else {
+                    System.out.println("Destination already added to the order.");
+                }
+            } else {
+                System.out.println("Invalid index.");
+            }
+            System.out.println("Enter the index of the next destination or enter -1 to finish the order:");
+            index = scanner.nextInt();
+        }
+
+        // Print the chosen order
+        System.out.println("Chosen order of destinations:");
+        for (int i = 0; i < chosenOrder.size(); i++) {
+            Destination destination = chosenOrder.get(i);
+            System.out.println(i + ": " + destination.getAddress() + " (" + destination.getLocation() + ")");
+        }
+
+        return chosenOrder;
+    }
+
 
     public static void printDrivers(List<Driver> drivers) {
         for (int i = 0; i < drivers.size(); i++) {
@@ -157,7 +217,7 @@ class Main
 
 
 
-    public static void printDestinations(ArrayList<Destination> destList) {
+    public static void printDestinations(List<Destination> destList) {
         for (Destination d : destList) {
             System.out.println("Address: " + d.getAddress());
             System.out.println("Phone number: " + d.getPhoneNumber());
@@ -171,9 +231,9 @@ class Main
     {
         List<Destination> dests = new ArrayList<Destination>();
 
-        dests.add(new Destination("tel aviv", "555-1234", "John Smith", Location.NORTH));
-        dests.add(new Destination("raanana", "555-5678", "Jane Doe", Location.SOUTH));
-        dests.add(new Destination("ashkelon", "555-9012", "Bob Johnson", Location.CENTER));
+        dests.add(new Destination("tel aviv", "555-1234", "John Smith", Location.NORTH,DestinationType.DESTINATION));
+        dests.add(new Destination("raanana", "555-5678", "Jane Doe", Location.SOUTH,DestinationType.DESTINATION));
+        dests.add(new Destination("ashkelon", "555-9012", "Bob Johnson", Location.CENTER,DestinationType.DESTINATION));
         return dests;
 
     }
@@ -181,9 +241,9 @@ class Main
     {
         List<Destination> sources = new ArrayList<Destination>();
 
-        sources.add(new Destination("cola", "555-1234", "John Smith", Location.NORTH));
-        sources.add(new Destination("osem", "555-5678", "Jane Doe", Location.SOUTH));
-        sources.add(new Destination("tnuva", "555-9012", "Bob Johnson", Location.CENTER));
+        sources.add(new Destination("cola", "555-1234", "John Smith", Location.NORTH,DestinationType.SOURCE));
+        sources.add(new Destination("osem", "555-5678", "Jane Doe", Location.SOUTH,DestinationType.SOURCE));
+        sources.add(new Destination("tnuva", "555-9012", "Bob Johnson", Location.CENTER,DestinationType.SOURCE));
         return sources;
 
     }
@@ -219,5 +279,20 @@ class Main
         D.addDriver(D4);
         D.addDriver(D5);
         return D;
+    }
+    public static void printDeliveryDetails(List<Delivery> deliveries) {
+        for (Delivery delivery : deliveries) {
+            System.out.println("Delivery #" + delivery.getId());
+            System.out.println("Driver: " + delivery.getDriver().getName());
+            System.out.println("Truck: " + delivery.getTruck().getPlateNumber() + " (" + delivery.getTruck().getModel() + ")");
+            System.out.println("Status: " + delivery.getStatus());
+            System.out.println("Source: " + delivery.getSource().getAddress() + " (" + delivery.getSource().getLocation() + ")");
+            System.out.println("Destination: " + delivery.getDest().getAddress() + " (" + delivery.getDest().getLocation() + ")");
+            System.out.println("Items:");
+            for (String item : delivery.getItems()) {
+                System.out.println("- " + item );
+            }
+            System.out.println();
+        }
     }
 }

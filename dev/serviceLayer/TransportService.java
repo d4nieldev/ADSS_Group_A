@@ -6,7 +6,7 @@ import BussinessLayer.TransportFacade;
 
 import java.util.Date;
 
-public class TransportService {
+/*public class TransportService {
     TransportFacade transportFacade = new TransportFacade();
     DriverFacade driverFacade = new DriverFacade();
 
@@ -24,4 +24,5 @@ public class TransportService {
     }
 
 
-}
+}*/
+

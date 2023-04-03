@@ -6,17 +6,29 @@ public class TransportFacade {
 
     private Map<Integer, Transport> transportMap;
     int id=0;
+    private static TransportFacade instance=null;
 
-    public TransportFacade() {
-        transportMap = new HashMap<>();
+    private TransportFacade() {
+        transportMap = new HashMap<Integer, Transport>();
+    }
+
+    public static TransportFacade getInstance()
+    {
+        if(instance==null)
+            instance = new TransportFacade();
+        return instance;
     }
 
 
+
     //this function create transport. we need in service check the driver
-    public void createTransport(int id, Date date, String leavingTime, String truckNumber, String driverName, int driverId, String source)
+    public void createTransport(Date date, String leavingTime, String truckNumber, String driverName, int driverId, String source,
+                                List<Destination> destinationList,List<Delivery> deliveryList,int truckWeightNeto,int truckWeightMax)
     {
-        Transport shipment = new Transport(id,date, leavingTime, truckNumber, driverName, driverId, source);
+        Transport shipment = new Transport(id,date, leavingTime, truckNumber, driverName, driverId,
+                destinationList.get(0).getAddress(), destinationList,deliveryList,truckWeightNeto,truckWeightMax);
         addTransport(id , shipment);
+        id++;
     }
 
     public void addTransport(int id, Transport transport) {
@@ -35,20 +47,12 @@ public class TransportFacade {
         return transportMap;
     }
 
-    public void addTransport(Driver driver, Truck truck, List<Delivery> matchedDeliveries)
+
+    public void runTheTransports()
     {
-        Date d= new Date();
-        Transport transport = new Transport(id,d,"0000",truck.getPlateNumber(), driver.getName(), driver.getId(), "source");
-
-        addTransport(id,transport);
-        id++;
-        transport.setDestinationList(this.makeDestinationMap(matchedDeliveries));
-
-    }
-
-    private List<Destination> makeDestinationMap(List<Delivery> matchedDeliveries)
-    {
-        return  new ArrayList<Destination>();
-
+        for (Transport transport : transportMap.values()) {
+            transport.run();
+            transport.printTransportDetails();
+        }
     }
 }

@@ -7,12 +7,14 @@ public class Destination {
     private String phoneNumber;
     private String contactName;
     private Location location;
+    private DestinationType destinationType;
 
-    public Destination(String address, String phoneNumber, String contactName, Location location) {
+    public Destination(String address, String phoneNumber, String contactName, Location location,DestinationType destinationType) {
         this.address = address;
         this.phoneNumber = phoneNumber;
         this.contactName = contactName;
         this.location = location;
+        this.destinationType=destinationType;
     }
 
     // getters and setters for all private instance variables
@@ -46,5 +48,9 @@ public class Destination {
 
     public void setLocation(Location location) {
         this.location = location;
+    }
+
+    public DestinationType getType() {
+        return destinationType;
     }
 }

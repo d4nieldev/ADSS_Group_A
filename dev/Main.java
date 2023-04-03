@@ -23,7 +23,7 @@ class Main {
         employeeService.logIn(loginId, loginPassword);
         System.out.println("");
 
-        System.out.println("[0 - Exit system, 1 - Add employee, 2 - print all employees, 7 - Delete an employee, 8 - Login, 9 - Logout, 10 - Edit employee]");
+        System.out.println("[0 - Exit system, 1 - Add employee, 2 - print all employees, 7 - Delete an employee, 8 - Login, 9 - Logout, 10 - Edit employee, 11 - Add a role premisstion]");
         System.out.print("Please enter your request to the system according to the PDF file: ");
         String option = sc.nextLine();
 
@@ -222,6 +222,10 @@ class Main {
                         System.out.println("[0 - First name, 1 - Last name, 2 - Password, 3 - Bank number, 4 - Bank branch, 5 - Bank account, 6 - Salary, 7 - Start date, 8 - Driver licence, 9 - Done editing]");
                         option = sc.nextLine();
                     }
+                    
+                }
+
+                else if (option.equals("11")){
                     
                 }
                 

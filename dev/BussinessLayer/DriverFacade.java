@@ -19,7 +19,10 @@ public class DriverFacade {
         return instance;
     }
 
-
+    public void newDriver(int id, String name, String licence){
+        Driver driver = new Driver(id, name, licence);
+        addDriver(driver);
+    }
     public void addDriver(Driver driver) {
         drivers.put(driver.getId(), driver);
     }

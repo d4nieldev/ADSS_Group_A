@@ -141,6 +141,10 @@ public class EmployeeController {
         getEmployeeById(idEmployee).setBonus(getEmployeeById(idEmployee).getBonus() + bonus);
     }
 
+    public void addPremissionRule(String option){
+        //switch ()
+    }
+
 //-------------------------------------Getters And Setters--------------------------------------------------------
 
     public LinkedList<Employee> getAllDrivers(){

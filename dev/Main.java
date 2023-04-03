@@ -84,6 +84,7 @@ class Main {
                     System.out.print("Role: ");
                     String roleString = sc.nextLine();
                     Role role = Role.valueOf(roleString.toUpperCase()); //may throw an error.
+                    System.out.println("");
                     
                     System.out.print("Super Branch: ");
                     int superBranch = Integer.parseInt(sc.nextLine());
@@ -164,35 +165,35 @@ class Main {
                             System.out.println("Enter the new password: ");
                             String password = sc.nextLine();
                             System.out.println("");
-                            employeeService.changePassword(idToEdit, loginId, password);
+                            employeeService.changePassword(loginId, idToEdit, password);
                         }
 
                         else if (option.equals("3")){
                             System.out.println("Enter the new bank number: ");
                             int bankNumber = Integer.parseInt(sc.nextLine());
                             System.out.println("");
-                            employeeService.changeBankNum(idToEdit, loginId, bankNumber);
+                            employeeService.changeBankNum(loginId, idToEdit, bankNumber);
                         }
 
                         else if (option.equals("4")){
                             System.out.println("Enter the new bank branch: ");
                             int bankBranch = Integer.parseInt(sc.nextLine());
                             System.out.println("");
-                            employeeService.changeBankBranch(idToEdit, loginId, bankBranch);
+                            employeeService.changeBankBranch(loginId, idToEdit, bankBranch);
                         }
 
                         else if (option.equals("5")){
                             System.out.println("Enter the new bank account: ");
                             int bankAccount = Integer.parseInt(sc.nextLine());
                             System.out.println("");
-                            employeeService.changeBankAccount(idToEdit, loginId, bankAccount);
+                            employeeService.changeBankAccount(loginId, idToEdit, bankAccount);
                         }
 
                         else if (option.equals("6")){
                             System.out.println("Enter the new salary: ");
                             int salary = Integer.parseInt(sc.nextLine());
                             System.out.println("");
-                            employeeService.changeSalary(idToEdit, loginId, salary);
+                            employeeService.changeSalary(loginId, idToEdit, salary);
                         }
 
                         else if (option.equals("7")){
@@ -204,7 +205,7 @@ class Main {
                             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
                             LocalDate localDate = LocalDate.parse(startDate, formatter);
 
-                            employeeService.changeStartDate(idToEdit, loginId, localDate);
+                            employeeService.changeStartDate(loginId, idToEdit, localDate);
                         }
 
                         else if (option.equals("8")){
@@ -214,7 +215,7 @@ class Main {
 
                             License driverLicense = License.valueOf(driverLicenseString.toUpperCase());
 
-                            employeeService.changeDriverLicence(idToEdit, loginId, driverLicense);
+                            employeeService.changeDriverLicence(loginId, idToEdit, driverLicense);
                         }
 
                         System.out.println("Which detail would you like to edit not?");
@@ -223,7 +224,8 @@ class Main {
                     }
                     
                 }
-
+                
+                System.out.println("");
                 System.out.println("[0 - Exit system, 1 - Add employee, 2 - print all employees, 7 - Delete an employee, 8 - Login, 9 - Logout, 10 - Edit employee]");
                 System.out.print("Please enter your request to the system according to the PDF file: ");
                 option = sc.nextLine();

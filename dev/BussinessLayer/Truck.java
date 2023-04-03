@@ -59,7 +59,7 @@ public class Truck {
 
 
     public boolean isAvailable() {
-        return  true;
+        return true;
     }
 }
 

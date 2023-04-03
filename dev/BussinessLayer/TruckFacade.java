@@ -20,6 +20,10 @@ public class TruckFacade {
         return instance;
     }
 
+    public void newTrack(String plateNumber, String model, int weightNeto, int weightMax){
+        Truck truck = new Truck(plateNumber, model, weightNeto, weightMax);
+        addTruck(truck);
+    }
 
     public void addTruck(Truck truck) {
         trucks.put(truck.getPlateNumber(), truck);

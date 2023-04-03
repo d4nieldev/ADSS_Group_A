@@ -27,6 +27,7 @@ public class TransportFacade {
     {
         Transport shipment = new Transport(id, date, leavingTime, truckNumber, driverName, driverId,
                 destinationList.get(0).getAddress(), destinationList,deliveryList,truckWeightNeto,truckWeightMax);
+        System.out.println("The id of transport is:"+ id);
         addTransport(id , shipment);
         id++;
     }
@@ -35,12 +36,12 @@ public class TransportFacade {
         transportMap.put(id, transport);
     }
 
-    public Transport getTransport(String name) {
-        return transportMap.get(name);
+    public Transport getTransport(Integer ide) {
+        return transportMap.get(id);
     }
 
-    public void removeTransport(String name) {
-        transportMap.remove(name);
+    public void removeTransport(Integer id) {
+        transportMap.remove(id);
     }
 
     public Map<Integer, Transport> getAllTransport() {

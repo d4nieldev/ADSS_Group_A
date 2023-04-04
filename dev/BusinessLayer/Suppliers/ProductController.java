@@ -49,10 +49,10 @@ public class ProductController {
     }
 
     public void updateProductAgreement(int supplierId, int productShopId, int stockAmount,
-            TreeMap<Integer, Double> amountToPrice) {
+            TreeMap<Integer, Double> amountToDiscount) {
         ProductAgreement productAgreement = productIdToSupplierProducts.get(productShopId).get(supplierId);
         productAgreement.setStockAmount(stockAmount);
-        productAgreement.setAmountToPrice(amountToPrice);
+        productAgreement.setAmountToDiscount(amountToDiscount);
     }
 
     /**

@@ -1,11 +1,10 @@
-package serviceLayer;
+package ServiceLayer;
 
 import BussinessLayer.DriverFacade;
-import BussinessLayer.TransportFacade;
 
 public class DriverService {
 
-    DriverFacade driverFacade = DriverFacade.getInstance();
+    public DriverFacade driverFacade = DriverFacade.getInstance();
 
     public String addDriver(int id, String name, String licence){
         driverFacade.newDriver(id, name , licence);

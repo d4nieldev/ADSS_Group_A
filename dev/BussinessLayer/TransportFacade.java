@@ -151,4 +151,39 @@ public class TransportFacade {
     }
 
 
+
+    public List<Delivery> createDeliveries(List<Destination> sources, List<Destination> dests) {
+        List<Delivery> deliveries = new ArrayList<>();
+        Random random = new Random();
+
+        for (Destination source : sources) {
+            for (Destination dest : dests) {
+                if (source != dest) {
+                    // create a random list of items and weight for the delivery
+                    List<String> items = new ArrayList<>();
+                    int numItems = random.nextInt(5) + 1;
+                    int weight = 0;
+                    for (int i = 0; i < numItems; i++) {
+                        String item = "Item " + (i + 1);
+                        items.add(item);
+                        weight += random.nextInt(10) + 1;
+                    }
+
+                    // create a status for the delivery
+                    Status status = Status.PENDING;
+
+                    // create the delivery and add it to the list of deliveries
+                    Delivery delivery = new Delivery(deliveries.size()+1,source, dest, status, items, weight);
+                    deliveries.add(delivery);
+                }
+            }
+        }
+
+        return deliveries;
+    }
+
+
+
+
+
 }

@@ -1,13 +1,12 @@
-package serviceLayer;
+package ServiceLayer;
 
 import BussinessLayer.*;
 
-import java.util.Date;
 import java.util.List;
 
 public class TransportService {
-    TransportFacade transportFacade = TransportFacade.getInstance();
-    DriverFacade driverFacade  = DriverFacade.getInstance();
+    public TransportFacade transportFacade = TransportFacade.getInstance();
+    public DriverFacade driverFacade  = DriverFacade.getInstance();
 
 
     //we need check the license of driver
@@ -65,6 +64,13 @@ public class TransportService {
         transportFacade.getTransport(id).setTruckWeightMax(truckWeightMax);
         return "The truckWeightMax of" + id + "change to" + truckWeightMax;
     }
+
+    public List<Delivery> createDeliveries(List<Destination> sources, List<Destination> dests) {
+
+        return transportFacade.createDeliveries(sources, dests);
+    }
+
+
 
 
 }

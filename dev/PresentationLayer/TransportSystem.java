@@ -1,22 +1,31 @@
+package PresentationLayer;
+
 import BussinessLayer.*;
+import ServiceLayer.DriverService;
+import ServiceLayer.TransportService;
+import ServiceLayer.TruckService;
 
 import java.util.*;
 import java.util.stream.Collectors;
 
-class Main
+public class TransportSystem
 
 {
+
+    private  static TransportService transportServices = new TransportService();
+    private  static DriverService ds = new DriverService();
+    private static TruckService truckService = new TruckService();
+
     public static void main(String[] args)
     {
 
-        DriverFacade driverFacade = makeSomeDrivers();
         TruckFacade truckFacade = makeSomeTrucks();
         List<Destination> dests = makeSomeDestinations();
         List<Destination> sources = makeSomeSources();
-        List<Delivery> deliveries = createDeliveries(sources,dests);
+        List<Delivery> deliveries = transportServices.createDeliveries(sources,dests);
 
 
-        TransportFacade transportFacade = letTheUserMatch(deliveries,truckFacade,driverFacade);
+        TransportFacade transportFacade = letTheUserMatch(deliveries,truckService.truckFacade, ds.driverFacade);
 
         transportFacade.runTheTransports();
 
@@ -185,38 +194,6 @@ class Main
         System.out.println();
     }
 
-    public static List<Delivery> createDeliveries(List<Destination> sources, List<Destination> dests) {
-        List<Delivery> deliveries = new ArrayList<>();
-        Random random = new Random();
-
-        for (Destination source : sources) {
-            for (Destination dest : dests) {
-                if (source != dest) {
-                    // create a random list of items and weight for the delivery
-                    List<String> items = new ArrayList<>();
-                    int numItems = random.nextInt(5) + 1;
-                    int weight = 0;
-                    for (int i = 0; i < numItems; i++) {
-                        String item = "Item " + (i + 1);
-                        items.add(item);
-                        weight += random.nextInt(10) + 1;
-                    }
-
-                    // create a status for the delivery
-                    Status status = Status.PENDING;
-
-                    // create the delivery and add it to the list of deliveries
-                    Delivery delivery = new Delivery(deliveries.size()+1,source, dest, status, items, weight);
-                    deliveries.add(delivery);
-                }
-            }
-        }
-
-        return deliveries;
-    }
-
-
-
     public static void printDestinations(List<Destination> destList) {
         for (Destination d : destList) {
             System.out.println("Address: " + d.getAddress());
@@ -265,20 +242,15 @@ class Main
         return T;
     }
 
-    private static DriverFacade makeSomeDrivers()
+    private static void makeSomeDrivers()
     {
-        Driver D1= new Driver(1,"rotem","a");
-        Driver D2= new Driver(2,"kfir","b");
-        Driver D3= new Driver(3,"adi","c");
-        Driver D4= new Driver(4,"messi","d");
-        Driver D5= new Driver(5,"ronaldo","e");
-        DriverFacade D = DriverFacade.getInstance();
-        D.addDriver(D1);
-        D.addDriver(D2);
-        D.addDriver(D3);
-        D.addDriver(D4);
-        D.addDriver(D5);
-        return D;
+
+        ds.addDriver(1,"rotem","a");
+        ds.addDriver(2,"kfir","b");
+        ds.addDriver(3,"adi","c");
+        ds.addDriver(4,"messi","d");
+        ds.addDriver(5,"ronaldo","e");
+
     }
     public static void printDeliveryDetails(List<Delivery> deliveries) {
         for (Delivery delivery : deliveries) {

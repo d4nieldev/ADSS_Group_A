@@ -1,11 +1,10 @@
-package serviceLayer;
+package ServiceLayer;
 
-import BussinessLayer.TransportFacade;
 import BussinessLayer.TruckFacade;
 
 public class TruckService {
 
-    TruckFacade truckFacade = TruckFacade.getInstance();
+    public TruckFacade truckFacade = TruckFacade.getInstance();
 
     public String addTruck(String plateNumber, String model, int weightNeto, int weightMax){
         truckFacade.newTrack(plateNumber, model, weightNeto, weightMax);

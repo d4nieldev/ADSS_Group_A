@@ -220,8 +220,6 @@ public class Transport {
         System.out.println("Driver ID: " + driverId);
         System.out.println("Source: " + source);
 
-
-
         System.out.println("Deliveries:");
         for (Delivery delivery : deliveryList) {
             System.out.println("Delivery ID: " + delivery.getId());

@@ -185,6 +185,19 @@ public class ProductController {
                         return Enum.Location.STORAGE;
                 }
         }
+        public String findProductLocation(int code,int id) {
+                GeneralProduct gp = getGeneralProductByCode(code);
+                if(gp.getOnShelf().contains(id))
+                {
+                        return Enum.Location.SHOP.toString();
+                }
+                else
+                {
+                        return Enum.Location.STORAGE.toString();
+                }
+        }
+
+
 
         private boolean checkAvailable(Supply sp)
         {
@@ -574,5 +587,37 @@ public class ProductController {
                result.addAll(uniqueSet);
 
                return result;
+        }
+
+        public String getProductManufacturer(int code) {
+                GeneralProduct gp =getGeneralProductByCode(code);
+                return gp.getManufacturer();
+        }
+
+        public int getProductAmount(int code) {
+                GeneralProduct gp =getGeneralProductByCode(code);
+                return gp.getTotal_quantity();
+        }
+
+        public int getProductShelfAmount(int code) {
+                GeneralProduct gp =getGeneralProductByCode(code);
+                int shelfAmount = gp.getShop_quantity();
+                return shelfAmount;
+        }
+
+        public int getProductStorageAmount(int code) {
+                GeneralProduct gp =getGeneralProductByCode(code);
+                int storageAmount = gp.getStorage_quantity();
+                return storageAmount;
+        }
+
+        public List<GeneralProduct> getShortageProducts(){
+                List<GeneralProduct> result = new ArrayList<>();
+                for(GeneralProduct gp : allGeneralProducts){
+                        if(gp.isOnShortage()){
+                                result.add(gp);
+                        }
+                }
+                return result;
         }
 }

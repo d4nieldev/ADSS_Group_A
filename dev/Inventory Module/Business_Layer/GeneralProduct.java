@@ -21,6 +21,8 @@ public class GeneralProduct {
     private  List<Integer> allExpiredProducts; // ids
 
 
+
+
     public  enum Location{STORAGE,SHOP};
     public HashMap<Integer, Double> getIdsSellPrice() {
         return idsSellPrice;
@@ -130,6 +132,9 @@ public class GeneralProduct {
 
     public List<Integer> getOnStorage() {
         return onStorage;
+    }
+    public boolean isOnShortage() {
+        return total_quantity < min_quantity;
     }
 
     public List<Integer> getAllExpiredProducts() {

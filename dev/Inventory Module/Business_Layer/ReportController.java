@@ -29,7 +29,7 @@ public class ReportController {
         for (GeneralProduct gp : allGeneralProducts)
         {
             System.out.format("%-10s%-10s%-10s%-10s%-10s%-10s%-10s%-10s%n", "NO.", "name", "code", "price", "total_quantity","min_quantity", "manufacturer" ,"category");
-            System.out.format("%-10s%-10d%-10b%-10f%-10s%-10f%-10d%-10d%n", index, gp.getName(), gp.getCode(),gp.getCurrentPrice(), gp.getTotal_quantity(), gp.getMin_quantity(), gp.getManufacturer(), gp.getCategory().getName());
+            System.out.format("%-10s%-10d%-10b%-10f%-10s%-10f%-10d%-10d%n", index++, gp.getName(), gp.getCode(),gp.getCurrentPrice(), gp.getTotal_quantity(), gp.getMin_quantity(), gp.getManufacturer(), gp.getCategory().getName());
         }
         System.out.println("----------------------------------------------------");
 
@@ -49,7 +49,7 @@ public class ReportController {
             for(int id: flowProducts.keySet())
             {
                 System.out.format("%-10s%-10s%-10s%-10s%-10s%-10s%-10s%-10s%n", "NO.", "name", "code", "id", "manufacturer" ,"category","Flow description");
-                System.out.format("%-10s%-10d%-10b%-10f%-10s%-10f%-10d%-10d%n", index, gp.getName(), gp.getCode(),id,gp.getManufacturer(),gp.getCategory().getName(),flowProducts.get(id));
+                System.out.format("%-10s%-10d%-10b%-10f%-10s%-10f%-10d%-10d%n", index++, gp.getName(), gp.getCode(),id,gp.getManufacturer(),gp.getCategory().getName(),flowProducts.get(id));
             }
 
         }
@@ -60,7 +60,7 @@ public class ReportController {
             for(int id: expiredProducts)
             {
 
-                System.out.format("%-10s%-10d%-10b%-10f%-10s%-10f%-10d%-10d%n", index, gp.getName(), gp.getCode(),id,gp.getManufacturer(),gp.getCategory().getName(),"!!EXPIRED!!");
+                System.out.format("%-10s%-10d%-10b%-10f%-10s%-10f%-10d%-10d%n", index++, gp.getName(), gp.getCode(),id,gp.getManufacturer(),gp.getCategory().getName(),"!!EXPIRED!!");
             }
 
         }
@@ -76,7 +76,7 @@ public class ReportController {
         for(Supply sp : futureExpired){
             GeneralProduct gp = sp.getGeneralProduct();
             System.out.format("%-10s%-10s%-10s%-10s%-10s%-10s%-10s%-10s%n", "NO.", "name", "code", "manufacturer" ,"category","All ids");
-            System.out.format("%-10s%-10d%-10b%-10f%-10s%-10f%-10d%-10d%n", index, gp.getName(), gp.getCode(),gp.getManufacturer(),gp.getCategory().getName(),sp.getIds());
+            System.out.format("%-10s%-10d%-10b%-10f%-10s%-10f%-10d%-10d%n", index++, gp.getName(), gp.getCode(),gp.getManufacturer(),gp.getCategory().getName(),sp.getIds());
 
         }
     }
@@ -89,10 +89,63 @@ public class ReportController {
         for (GeneralProduct gp : allGeneralProducts)
         {
             System.out.format("%-10s%-10s%-10s%-10s%-10s%-10s%-10s%-10s%n", "NO.", "name", "code", "price", "total_quantity","min_quantity", "manufacturer" ,"category");
-            System.out.format("%-10s%-10d%-10b%-10f%-10s%-10f%-10d%-10d%n", index, gp.getName(), gp.getCode(),gp.getCurrentPrice(), gp.getTotal_quantity(), gp.getMin_quantity(), gp.getManufacturer(), gp.getCategory().getName());
+            System.out.format("%-10s%-10d%-10b%-10f%-10s%-10f%-10d%-10d%n", index++, gp.getName(), gp.getCode(),gp.getCurrentPrice(), gp.getTotal_quantity(), gp.getMin_quantity(), gp.getManufacturer(), gp.getCategory().getName());
         }
         System.out.println("----------------------------------------------------");
     }
 
 
+    public void importSpecificProductReport(int code, int id) {
+        System.out.println("------------------Specific Product Report------------------");
+        GeneralProduct gp = productController.getGeneralProductByCode(code);
+        boolean onShelf = gp.getOnShelf().contains(id);
+        if(onShelf){
+            System.out.format("%-10s%-10s%-10s%-10s%-10s%-10s%-10s%-10s%n", "name", "code", "price",  "manufacturer" ,"category","Location");
+            System.out.format("%-10s%-10d%-10b%-10f%-10s%-10f%-10d%-10d%n", gp.getName(), gp.getCode(),gp.getCurrentPrice(), gp.getManufacturer(), gp.getCategory().getName(),"Shop");
+        }
+        else{
+            System.out.format("%-10s%-10s%-10s%-10s%-10s%-10s%-10s%-10s%n", "name", "code", "price",  "manufacturer" ,"category","Location");
+            System.out.format("%-10s%-10d%-10b%-10f%-10s%-10f%-10d%-10d%n", gp.getName(), gp.getCode(),gp.getCurrentPrice(), gp.getManufacturer(), gp.getCategory().getName(),"Storage");
+        }
+
+        System.out.println("----------------------------------------------------");
+
+    }
+    public void importGeneralProductReport(int code){
+
+        System.out.println("------------------General Product Report------------------");
+
+        GeneralProduct gp = productController.getGeneralProductByCode(code);
+        System.out.format("%-10s%-10s%-10s%-10s%-10s%-10s%-10s%-10s%n", "name", "code", "price", "total_quantity","min_quantity", "manufacturer" ,"category","shop amount","storage amount");
+        System.out.format("%-10s%-10d%-10b%-10f%-10s%-10f%-10d%-10d%n",  gp.getName(), gp.getCode(),gp.getCurrentPrice(), gp.getTotal_quantity(), gp.getMin_quantity(), gp.getManufacturer(), gp.getCategory().getName(),gp.getShop_quantity(),gp.getStorage_quantity());
+
+    }
+
+    public void importExpiredProductReport()
+    {
+        System.out.println("------------------Expired Products Report------------------");
+        HashMap<GeneralProduct,Integer> allExpiredProducts = productController.getAllExpiredProducts();
+        int index = 0;
+        for(GeneralProduct gp : allExpiredProducts.keySet())
+        {
+            List<Integer> expiredProducts = gp.getAllExpiredProducts();
+            for(int id: expiredProducts)
+            {
+                Supply sp = productController.getSupplyByCodeId(gp.getCode(),id);
+
+                System.out.format("%-10s%-10d%-10b%-10f%-10s%-10f%-10d%-10d%n", index++, gp.getName(), gp.getCode(),id,gp.getManufacturer(),gp.getCategory().getName(),sp.getExpiredDate());
+            }
+
+        }
+    }
+
+    public void importShortageReport() {
+        System.out.println("------------------Shortage Products Report------------------");
+        List<GeneralProduct> shortageProducts = productController.getShortageProducts();
+        int index = 0;
+        for(GeneralProduct gp : shortageProducts){
+            System.out.format("%-10s%-10s%-10s%-10s%-10s%-10s%-10s%-10s%n", "NO.", "name", "code", "price", "total_quantity","min_quantity", "manufacturer" ,"category");
+            System.out.format("%-10s%-10d%-10b%-10f%-10s%-10f%-10d%-10d%n", index++, gp.getName(), gp.getCode(),gp.getCurrentPrice(), gp.getTotal_quantity(), gp.getMin_quantity(), gp.getManufacturer(), gp.getCategory().getName());
+        }
+    }
 }

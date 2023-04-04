@@ -5,12 +5,14 @@ public class Truck {
     private String model;
     private int weightNeto;
     private int weightMax;
+    private boolean isAvailable;
 
     public Truck(String plateNumber, String model, int weightNeto, int weightMax) {
         this.plateNumber = plateNumber;
         this.model = model;
         this.weightNeto = weightNeto;
         this.weightMax = weightMax;
+        this.isAvailable=true;
     }
 
     public String getPlateNumber() {
@@ -45,6 +47,10 @@ public class Truck {
         this.weightMax = weightMax;
     }
 
+    public void setAvailable(boolean available) {
+        isAvailable = available;
+    }
+
     public int calculatePayload() {
         return weightMax - weightNeto;
     }
@@ -59,7 +65,7 @@ public class Truck {
 
 
     public boolean isAvailable() {
-        return true;
+        return isAvailable;
     }
 }
 

@@ -23,6 +23,7 @@ public class TruckFacade {
     public void newTrack(String plateNumber, String model, int weightNeto, int weightMax){
         Truck truck = new Truck(plateNumber, model, weightNeto, weightMax);
         addTruck(truck);
+        
     }
 
     public void addTruck(Truck truck) {
@@ -73,4 +74,12 @@ public class TruckFacade {
         }
         return availableTrucks;
     }
+
+    public void setTruckAvailability(String truckNumber,boolean isAvailable) {
+        Truck truck = trucks.get(truckNumber);
+        if (truck != null) {
+            truck.setAvailable(isAvailable);
+        }
+    }
+
 }

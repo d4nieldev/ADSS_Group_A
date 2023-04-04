@@ -1,8 +1,6 @@
 package BussinessLayer;
 
 import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 public class Transport {
@@ -121,13 +119,17 @@ public class Transport {
         this.destinationList = destinationList;
     }
 
-    public void run() {
+    public List<Delivery> run() {
         // Set leaving time to now and date to today
+        TruckFacade truckFacade = TruckFacade.getInstance();
+        truckFacade.setTruckAvailability(truckNumber,false);
         onTheWay(deliveryList);
         Date today = new Date();
         SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
         //leavingTime = sdf.format(today);
         //date= today;
+        List<Delivery> incompleteDeliveries = new ArrayList<>();
+
         int truckWeight = truckWeightNeto;
         for (Destination dest : destinationList) {
             if (dest.getType() == DestinationType.SOURCE) {
@@ -144,8 +146,8 @@ public class Transport {
                 truckWeight += sourceWeight;
 
                 if (truckWeight > truckWeightMax) {
-                    thinkAgain();
-                    return;
+                    incompleteDeliveries.addAll( thinkAgain("weight too much",dest.getAddress(),driverName,truckWeight-sourceWeight,truckWeight,truckWeightMax));
+                    return incompleteDeliveries;
                 }
             } else if (dest.getType() == DestinationType.DESTINATION) {
                 // Find delivery with this destination
@@ -166,6 +168,7 @@ public class Transport {
             }
         }
         System.out.println("Transport " + id + " completed successfully!");
+        return incompleteDeliveries;
     }
 
     private void onTheWay(List<Delivery> deliveryList) {
@@ -174,9 +177,37 @@ public class Transport {
         }
     }
 
-    private void thinkAgain()
-    {
+    private List<Delivery> thinkAgain(String reason, String destination, String driver, int weightBefore, int weightAfter, int maxWeight) {
+        System.out.println("Transport didn't complete due to " + reason);
+        System.out.println("In destination " + destination + ", driver " + driver + ", you added " + (weightAfter - weightBefore) + " kg to the truck weight.");
+        System.out.println("Truck weight before: " + weightBefore + " kg, after: " + weightAfter + " kg, max weight: " + maxWeight + " kg");
+
+        List<Delivery> completedDeliveries = new ArrayList<>();
+        List<Delivery> incompleteDeliveries = new ArrayList<>();
+
+        for (Delivery delivery : deliveryList) {
+            if (delivery.getStatus() == Status.COMPLETED) {
+                completedDeliveries.add(delivery);
+            } else {
+                incompleteDeliveries.add(delivery);
+            }
+        }
+
+        System.out.println("Completed deliveries:");
+        for (Delivery delivery : completedDeliveries) {
+            System.out.println("- " + delivery.getSource() + " to " + delivery.getDestination() + ", " + delivery.getWeight() + " kg of " + delivery.getItems() + ", status: " + delivery.getStatus());
+        }
+
+        System.out.println("Incomplete deliveries:");
+        for (Delivery delivery : incompleteDeliveries) {
+            System.out.println("- " + delivery.getSource() + " to " + delivery.getDestination() + ", " + delivery.getWeight() + " kg of " + delivery.getItems() + ", status: " + delivery.getStatus());
+        }
+
+
+        return (incompleteDeliveries);
     }
+
+
 
 
     public void printTransportDetails() {
@@ -194,8 +225,8 @@ public class Transport {
         System.out.println("Deliveries:");
         for (Delivery delivery : deliveryList) {
             System.out.println("Delivery ID: " + delivery.getId());
-            System.out.println("Delivery Source: " + delivery.getSource().getLocation());
-            System.out.println("Delivery Destination: " + delivery.getDestination().getLocation());
+            System.out.println("Delivery Source: " + delivery.getSource().getAddress());
+            System.out.println("Delivery Destination: " + delivery.getDestination().getAddress());
             System.out.println("Delivery Status: " + delivery.getStatus());
             System.out.println("Delivery Items: " + delivery.getItems());
             System.out.println("--------------------");

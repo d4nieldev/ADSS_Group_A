@@ -202,7 +202,7 @@ class Main
                         weight += random.nextInt(10) + 1;
                     }
 
-                    // create a random status for the delivery
+                    // create a status for the delivery
                     Status status = Status.PENDING;
 
                     // create the delivery and add it to the list of deliveries
@@ -233,7 +233,7 @@ class Main
 
         dests.add(new Destination("tel aviv", "555-1234", "John Smith", Location.NORTH,DestinationType.DESTINATION));
         dests.add(new Destination("raanana", "555-5678", "Jane Doe", Location.SOUTH,DestinationType.DESTINATION));
-        dests.add(new Destination("ashkelon", "555-9012", "Bob Johnson", Location.CENTER,DestinationType.DESTINATION));
+        //dests.add(new Destination("ashkelon", "555-9012", "Bob Johnson", Location.CENTER,DestinationType.DESTINATION));
         return dests;
 
     }
@@ -256,7 +256,7 @@ class Main
         Truck T3= new Truck("cccc","c",200,1000);
         Truck T4= new Truck("dddd","d",200,1000);
         Truck T5= new Truck("eeee","e",200,1000);
-        TruckFacade T = new TruckFacade();
+        TruckFacade T = TruckFacade.getInstance();
         T.addTruck(T1);
         T.addTruck(T2);
         T.addTruck(T3);
@@ -272,7 +272,7 @@ class Main
         Driver D3= new Driver(3,"adi","c");
         Driver D4= new Driver(4,"messi","d");
         Driver D5= new Driver(5,"ronaldo","e");
-        DriverFacade D = new DriverFacade();
+        DriverFacade D = DriverFacade.getInstance();
         D.addDriver(D1);
         D.addDriver(D2);
         D.addDriver(D3);

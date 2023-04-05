@@ -70,6 +70,10 @@ public class TransportService {
         return transportFacade.createDeliveries(sources, dests);
     }
 
+    public Destination addDestination(String address, String phoneNumber, String contactName, Location location,DestinationType destinationType){
+        return transportFacade.addDestination(address, phoneNumber, contactName, location, destinationType);
+    }
+
 
 
 

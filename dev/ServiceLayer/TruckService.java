@@ -8,7 +8,7 @@ public class TruckService {
 
     public String addTruck(String plateNumber, String model, int weightNeto, int weightMax){
         truckFacade.newTrack(plateNumber, model, weightNeto, weightMax);
-        return "New track add to facade";
+        return "New truck add to facade";
     }
 
     public String removeTruck(String plateNumber){

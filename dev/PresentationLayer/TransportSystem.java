@@ -18,24 +18,24 @@ public class TransportSystem
 
     public static void main(String[] args)
     {
-
-        TruckFacade truckFacade = makeSomeTrucks();
+        makeSomeDrivers();
+        makeSomeTrucks();
         List<Destination> dests = makeSomeDestinations();
         List<Destination> sources = makeSomeSources();
-        List<Delivery> deliveries = transportServices.createDeliveries(sources,dests);
 
-
-        TransportFacade transportFacade = letTheUserMatch(deliveries,truckService.truckFacade, ds.driverFacade);
-
-        transportFacade.runTheTransports();
+        letTheUserMatch(transportServices.createDeliveries(sources,dests),truckService.truckFacade, ds.driverFacade);
+        transportServices.transportFacade.runTheTransports();
 
 
 
     }
 
-    public static TransportFacade letTheUserMatch(List<Delivery> deliveries, TruckFacade truckFacade, DriverFacade driverFacade )
+    /*
+    we need to reduce the list of parameter in this function, try to call this controller directly in function
+    */
+    public static void letTheUserMatch(List<Delivery> deliveries, TruckFacade truckFacade, DriverFacade driverFacade )
     {
-        TransportFacade transportFacade= TransportFacade.getInstance();
+
         List<Driver> availableDrivers = driverFacade.getAvailableDrivers();
         List<Truck> availableTrucks = truckFacade.getAvailableTrucks();
         List<Delivery> availableDeliveries = new ArrayList<>(deliveries);
@@ -67,7 +67,7 @@ public class TransportSystem
                 truckId = scanner.nextInt();
                 truck = availableTrucks.get(truckId);
 
-                if (driver.getLicense().equals(truck.getModel())) {
+                if (driver.hasLicenseFor(truck.getModel())) {
                     matchFound = true;
                 } else {
                     System.out.println("The driver's license does not match the truck's model. Please try again.");
@@ -102,9 +102,9 @@ public class TransportSystem
             System.out.println("Matched deliveries:");
             printDeliveries(matchedDeliveries);
             Date d = new Date();
-            List<Destination> destinationList = letTheUserChooseTheOrder(matchedDeliveries);
+            List<Destination> destinationList = transportServices.transportFacade.letTheUserChooseTheOrder(matchedDeliveries);
 
-            transportFacade.createTransport("11/1/22","0000",truck.getPlateNumber(),driver.getName(),driver.getId(),"source",
+            transportServices.transportFacade.createTransport("11/1/22","0000",truck.getPlateNumber(),driver.getName(),driver.getId(),"source",
                     destinationList,matchedDeliveries,truck.getWeightNeto(),truck.getWeightMax());
         }
 
@@ -119,54 +119,7 @@ public class TransportSystem
         if (availableDeliveries.isEmpty()) {
             System.out.println("\nNo more available deliveries.");
         }
-        return transportFacade;
-    }
 
-    private static List<Destination> letTheUserChooseTheOrder(List<Delivery> matchedDeliveries) {
-        // Create a list of all destinations without duplicates
-        List<Destination> allDestinations = new ArrayList<>();
-        for (Delivery delivery : matchedDeliveries) {
-            allDestinations.add(delivery.getSource());
-            allDestinations.add(delivery.getDest());
-        }
-        List<Destination> uniqueDestinations = allDestinations.stream().distinct().collect(Collectors.toList());
-
-        // Print all destinations with indexes for the user to choose from
-        System.out.println("Please choose the order of destinations:");
-        for (int i = 0; i < uniqueDestinations.size(); i++) {
-            Destination destination = uniqueDestinations.get(i);
-            System.out.println(i + ": " + destination.getAddress() + " (" + destination.getLocation() + ")");
-        }
-
-        // Ask user to input the order of destinations
-        List<Destination> chosenOrder = new ArrayList<>();
-        Scanner scanner = new Scanner(System.in);
-        System.out.println("Enter the index of the next destination or enter -1 to finish the order:");
-        int index = scanner.nextInt();
-        while (index != -1) {
-            if (index >= 0 && index < uniqueDestinations.size()) {
-                Destination destination = uniqueDestinations.get(index);
-                if (!chosenOrder.contains(destination)) {
-                    chosenOrder.add(destination);
-                    System.out.println("Added " + destination.getAddress() + " to the order.");
-                } else {
-                    System.out.println("Destination already added to the order.");
-                }
-            } else {
-                System.out.println("Invalid index.");
-            }
-            System.out.println("Enter the index of the next destination or enter -1 to finish the order:");
-            index = scanner.nextInt();
-        }
-
-        // Print the chosen order
-        System.out.println("Chosen order of destinations:");
-        for (int i = 0; i < chosenOrder.size(); i++) {
-            Destination destination = chosenOrder.get(i);
-            System.out.println(i + ": " + destination.getAddress() + " (" + destination.getLocation() + ")");
-        }
-
-        return chosenOrder;
     }
 
 
@@ -208,9 +161,10 @@ public class TransportSystem
     {
         List<Destination> dests = new ArrayList<Destination>();
 
-        dests.add(new Destination("tel aviv", "555-1234", "John Smith", Location.NORTH,DestinationType.DESTINATION));
-        dests.add(new Destination("raanana", "555-5678", "Jane Doe", Location.SOUTH,DestinationType.DESTINATION));
+        dests.add(transportServices.addDestination("tel aviv", "555-1234", "John Smith", Location.NORTH,DestinationType.DESTINATION));
+        dests.add(transportServices.addDestination("raanana", "555-5678", "Jane Doe", Location.SOUTH,DestinationType.DESTINATION));
         //dests.add(new Destination("ashkelon", "555-9012", "Bob Johnson", Location.CENTER,DestinationType.DESTINATION));
+
         return dests;
 
     }
@@ -218,38 +172,33 @@ public class TransportSystem
     {
         List<Destination> sources = new ArrayList<Destination>();
 
-        sources.add(new Destination("cola", "555-1234", "John Smith", Location.NORTH,DestinationType.SOURCE));
-        sources.add(new Destination("osem", "555-5678", "Jane Doe", Location.SOUTH,DestinationType.SOURCE));
-        sources.add(new Destination("tnuva", "555-9012", "Bob Johnson", Location.CENTER,DestinationType.SOURCE));
+        sources.add(transportServices.addDestination("cola", "555-1234", "John Smith", Location.NORTH,DestinationType.SOURCE));
+        sources.add(transportServices.addDestination("osem", "555-5678", "Jane Doe", Location.SOUTH,DestinationType.SOURCE));
+        sources.add(transportServices.addDestination("tnuva", "555-9012", "Bob Johnson", Location.CENTER,DestinationType.SOURCE));
+
         return sources;
 
     }
 
 
-    private static TruckFacade makeSomeTrucks()
+    private static void makeSomeTrucks()
     {
-        Truck T1= new Truck("aaaa","a",200,1000);
-        Truck T2= new Truck("bbbb","b",200,1000);
-        Truck T3= new Truck("cccc","c",200,1000);
-        Truck T4= new Truck("dddd","d",200,1000);
-        Truck T5= new Truck("eeee","e",200,1000);
-        TruckFacade T = TruckFacade.getInstance();
-        T.addTruck(T1);
-        T.addTruck(T2);
-        T.addTruck(T3);
-        T.addTruck(T4);
-        T.addTruck(T5);
-        return T;
+        System.out.println(truckService.addTruck("aaaa","a",200,1000));
+        System.out.println(truckService.addTruck("bbbb","b",200,1000));
+        System.out.println(truckService.addTruck("cccc","c",200,1000));
+        System.out.println(truckService.addTruck("dddd","d",200,1000));
+        System.out.println(truckService.addTruck("eeee","e",200,1000));
+
     }
 
     private static void makeSomeDrivers()
     {
 
-        ds.addDriver(1,"rotem","a");
-        ds.addDriver(2,"kfir","b");
-        ds.addDriver(3,"adi","c");
-        ds.addDriver(4,"messi","d");
-        ds.addDriver(5,"ronaldo","e");
+        System.out.println(ds.addDriver(1,"rotem","a"));
+        System.out.println(ds.addDriver(2,"kfir","b"));
+        System.out.println(ds.addDriver(3,"adi","c"));
+        System.out.println(ds.addDriver(4,"messi","d"));
+        System.out.println(ds.addDriver(5,"ronaldo","e"));
 
     }
     public static void printDeliveryDetails(List<Delivery> deliveries) {

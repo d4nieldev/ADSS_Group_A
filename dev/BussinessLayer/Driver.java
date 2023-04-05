@@ -45,7 +45,9 @@ public class Driver {
     }
 
     public boolean hasLicenseFor(String model) {
-        return true;
+        if(this.getLicense().equals(model))
+            return true;
+        return false;
     }
 }
 

@@ -1,10 +1,12 @@
 package BussinessLayer;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class TransportFacade {
 
     private Map<Integer, Transport> transportMap;
+
     int id=0;
     private static TransportFacade instance = null;
 
@@ -53,7 +55,7 @@ public class TransportFacade {
     {
         for (Transport transport : transportMap.values())
         {
-            List<Delivery> incompleteDeliveries =transport.run();
+            List<Delivery> incompleteDeliveries = transport.run();
 
 
             if (incompleteDeliveries.size() > 0)
@@ -99,6 +101,55 @@ public class TransportFacade {
             }
         }
     }
+
+    public List<Destination> letTheUserChooseTheOrder(List<Delivery> matchedDeliveries) {
+        // Create a list of all destinations without duplicates
+        List<Destination> allDestinations = new ArrayList<>();
+        for (Delivery delivery : matchedDeliveries) {
+            allDestinations.add(delivery.getSource());
+            allDestinations.add(delivery.getDest());
+        }
+        List<Destination> uniqueDestinations = allDestinations.stream().distinct().collect(Collectors.toList());
+
+        // Print all destinations with indexes for the user to choose from
+        System.out.println("Please choose the order of destinations:");
+        for (int i = 0; i < uniqueDestinations.size(); i++) {
+            Destination destination = uniqueDestinations.get(i);
+            System.out.println(i + ": " + destination.getAddress() + " (" + destination.getLocation() + ")");
+        }
+
+        // Ask user to input the order of destinations
+        List<Destination> chosenOrder = new ArrayList<>();
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Enter the index of the next destination or enter -1 to finish the order:");
+        int index = scanner.nextInt();
+        while (index != -1) {
+            if (index >= 0 && index < uniqueDestinations.size()) {
+                Destination destination = uniqueDestinations.get(index);
+                if (!chosenOrder.contains(destination)) {
+                    chosenOrder.add(destination);
+                    System.out.println("Added " + destination.getAddress() + " to the order.");
+                } else {
+                    System.out.println("Destination already added to the order.");
+                }
+            } else {
+                System.out.println("Invalid index.");
+            }
+            System.out.println("Enter the index of the next destination or enter -1 to finish the order:");
+            index = scanner.nextInt();
+        }
+
+        // Print the chosen order
+        System.out.println("Chosen order of destinations:");
+        for (int i = 0; i < chosenOrder.size(); i++) {
+            Destination destination = chosenOrder.get(i);
+            System.out.println(i + ": " + destination.getAddress() + " (" + destination.getLocation() + ")");
+        }
+
+        return chosenOrder;
+    }
+
+
     private void changeTruck(Transport transport) {
         Scanner scanner = new Scanner(System.in);
 
@@ -182,6 +233,9 @@ public class TransportFacade {
         return deliveries;
     }
 
+    public Destination addDestination(String address, String phoneNumber, String contactName, Location location,DestinationType destinationType){
+        return new Destination(address, phoneNumber, contactName, location, destinationType);
+    }
 
 
 

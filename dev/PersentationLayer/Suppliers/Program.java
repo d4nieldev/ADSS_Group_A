@@ -35,13 +35,13 @@ public class Program {
             case "addAgreement":
                 SupplierSystem.addAgreement(commandTokens);
                 break;
-            case "delete":
+            case "deleteSupplier":
                 SupplierSystem.deleteSupplier(commandTokens);
                 break;
-            case "edit":
+            case "editSupplier":
                 SupplierSystem.editSupplier(commandTokens);
                 break;
-            case "get":
+            case "getCard":
                 SupplierSystem.getSupplierCard(commandTokens);
                 break;
             default:

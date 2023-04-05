@@ -1,12 +1,7 @@
 package PersentationLayer.Suppliers;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Scanner;
 
-import ServiceLayer.Suppliers.ReservationService;
-import PersentationLayer.Suppliers.ReservationSystem;
-import PersentationLayer.Suppliers.SupplierSystem;
 
 public class Program {
     public static void main(String[] args) {

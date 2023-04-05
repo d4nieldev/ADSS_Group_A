@@ -233,7 +233,7 @@ public class EmployeeController {
 //-------------------------------------Help Functions--------------------------------------------------------
 
     //called only if the employee exist, else will return error.
-    private Employee getEmployeeById(int id){ 
+    public Employee getEmployeeById(int id){ 
         for (Employee employee : employees) {
             if (employee.getId() == id)
                 return employee;
@@ -257,7 +257,7 @@ public class EmployeeController {
     }
 
     // throw error if the employee is not logged in to the system
-    private void checkLoggedIn(int id){
+    public void checkLoggedIn(int id){
         Employee employee = getEmployeeById(id);
         if (!employee.getIsLoggedIn()){
             throw new Error("You must be logged in to the system in order to do that action.");

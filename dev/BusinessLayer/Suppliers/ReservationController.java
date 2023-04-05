@@ -10,9 +10,13 @@ import BusinessLayer.Suppliers.exceptions.SuppliersException;
 
 public class ReservationController {
     private static ReservationController instance = null;
+    // maps between the main reservation and the sub-reservations it was splited into.
     private Map<Integer, List<Reservation>> idToSupplierReservations;
+    // maps between the supplier id and the reservations that were made to that supplier.
     private Map<Integer, List<Reservation>> supplierIdToReservations;
+    // list of reservations with 'Ready' status.
     private List<Integer> readyReservations;
+    // the next id for a reservation in the system.
     private int lastId;
 
     private ReservationController() {

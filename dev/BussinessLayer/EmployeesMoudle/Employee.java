@@ -44,6 +44,7 @@ public class Employee{
 		roles.add(role);
 		isLoggedIn = false;
 		historyShift = new LinkedList<>();
+		superBranches = new LinkedList<>();
 		superBranches.add(branch);
 	}
 

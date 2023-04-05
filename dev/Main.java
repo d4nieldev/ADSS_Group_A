@@ -9,7 +9,7 @@ import Misc.*;
 class Main {
     public static void main(String[] args) {
 
-        ServiceLayer.EmployeesMoudle.EmployeeService service = new ServiceLayer.EmployeesMoudle.EmployeeService();
+        ServiceLayer.EmployeesMoudle.EmployeeService employeeService = new ServiceLayer.EmployeesMoudle.EmployeeService();
 
         Scanner sc = new Scanner(System.in);
         System.out.print("Hello there, in order to login to the syestem please enter your Id: ");
@@ -20,10 +20,10 @@ class Main {
         String loginPassword = sc.nextLine();
         System.out.println("");
 
-        service.logIn(loginId, loginPassword);
+        employeeService.logIn(loginId, loginPassword);
         System.out.println("");
 
-        System.out.println("[0 - Exit system, 1 - Add employee, 2 - print all employees, 7 - Delete an employee, 8 - Login, 9 - Logout]");
+        System.out.println("[0 - Exit system, 1 - Add employee, 2 - print all employees, 7 - Delete an employee, 8 - Login, 9 - Logout, 10 - Edit employee, 11 - Add a role premisstion]");
         System.out.print("Please enter your request to the system according to the PDF file: ");
         String option = sc.nextLine();
 
@@ -84,18 +84,19 @@ class Main {
                     System.out.print("Role: ");
                     String roleString = sc.nextLine();
                     Role role = Role.valueOf(roleString.toUpperCase()); //may throw an error.
+                    System.out.println("");
                     
                     System.out.print("Super Branch: ");
                     int superBranch = Integer.parseInt(sc.nextLine());
                     System.out.println("");
 
-                    service.addEmployee(loginId, firstName, lastName, id, password, bankNum, 
+                    employeeService.addEmployee(loginId, firstName, lastName, id, password, bankNum, 
                     bankBranch, bankAccount, salary, bonus, localDate, driverLicense, role, superBranch);
 
                 }
 
                 else if (option.equals("2")){ // 2 print all employees
-                    service.printAllEmployees(loginId);
+                    employeeService.printAllEmployees(loginId);
                 }
 
                 // // 3 add shift
@@ -116,7 +117,7 @@ class Main {
                 else if (option.equals("7")){ // 7 delete an employee
                     System.out.print("Enter the Id of the employee you wish to delete: ");
                     int idToDelete = Integer.parseInt(sc.nextLine());
-                    service.deleteEmployee(loginId, idToDelete);
+                    employeeService.deleteEmployee(loginId, idToDelete);
                     System.out.println("");
                 }
 
@@ -129,23 +130,114 @@ class Main {
                     loginPassword = sc.nextLine();
                     System.out.println("");
 
-                    service.logIn(loginId, loginPassword);
+                    employeeService.logIn(loginId, loginPassword);
                     System.out.println("");
                 }
 
                 else if (option.equals("9")){ // 9 logout
-                    service.logOut(loginId);
+                    employeeService.logOut(loginId);
                     System.out.println("");
                 }
 
-                System.out.println("[0 - Exit system, 1 - Add employee, 2 - print all employees, 7 - Delete an employee, 8 - Login, 9 - Logout]");
+                else if (option.equals("10")){
+                    System.out.print("Enter the Id of the employee you wish to edit: ");
+                    int idToEdit = Integer.parseInt(sc.nextLine());
+                    System.out.println("You choose to edit an employee, which detail would you like to edit?\n");
+                    System.out.println("[0 - First name, 1 - Last name, 2 - Password, 3 - Bank number, 4 - Bank branch, 5 - Bank account, 6 - Salary, 7 - Start date, 8 - Driver licence, 9 - Done editing]");
+                    option = sc.nextLine();
+                    
+                    while(!option.equals("9")){
+                        if (option.equals("0")){
+                            System.out.println("Enter the new first name: ");
+                            String firstName = sc.nextLine();
+                            System.out.println("");
+                            employeeService.changeFirstName(loginId, idToEdit, firstName);
+                        }
+
+                        else if (option.equals("1")){
+                            System.out.println("Enter the new last name: ");
+                            String lastName = sc.nextLine();
+                            System.out.println("");
+                            employeeService.changeLastName(loginId, idToEdit, lastName);
+                        }
+
+                        else if (option.equals("2")){
+                            System.out.println("Enter the new password: ");
+                            String password = sc.nextLine();
+                            System.out.println("");
+                            employeeService.changePassword(loginId, idToEdit, password);
+                        }
+
+                        else if (option.equals("3")){
+                            System.out.println("Enter the new bank number: ");
+                            int bankNumber = Integer.parseInt(sc.nextLine());
+                            System.out.println("");
+                            employeeService.changeBankNum(loginId, idToEdit, bankNumber);
+                        }
+
+                        else if (option.equals("4")){
+                            System.out.println("Enter the new bank branch: ");
+                            int bankBranch = Integer.parseInt(sc.nextLine());
+                            System.out.println("");
+                            employeeService.changeBankBranch(loginId, idToEdit, bankBranch);
+                        }
+
+                        else if (option.equals("5")){
+                            System.out.println("Enter the new bank account: ");
+                            int bankAccount = Integer.parseInt(sc.nextLine());
+                            System.out.println("");
+                            employeeService.changeBankAccount(loginId, idToEdit, bankAccount);
+                        }
+
+                        else if (option.equals("6")){
+                            System.out.println("Enter the new salary: ");
+                            int salary = Integer.parseInt(sc.nextLine());
+                            System.out.println("");
+                            employeeService.changeSalary(loginId, idToEdit, salary);
+                        }
+
+                        else if (option.equals("7")){
+                            System.out.println("please enster the date in that format Date: 05-06-2003");
+                            System.out.println("Enter the new start date: ");
+                            String startDate = sc.nextLine();
+                            System.out.println("");
+
+                            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+                            LocalDate localDate = LocalDate.parse(startDate, formatter);
+
+                            employeeService.changeStartDate(loginId, idToEdit, localDate);
+                        }
+
+                        else if (option.equals("8")){
+                            System.out.println("Enter the new driver license: ");
+                            String driverLicenseString = sc.nextLine();
+                            System.out.println("");
+
+                            License driverLicense = License.valueOf(driverLicenseString.toUpperCase());
+
+                            employeeService.changeDriverLicence(loginId, idToEdit, driverLicense);
+                        }
+
+                        System.out.println("Which detail would you like to edit not?");
+                        System.out.println("[0 - First name, 1 - Last name, 2 - Password, 3 - Bank number, 4 - Bank branch, 5 - Bank account, 6 - Salary, 7 - Start date, 8 - Driver licence, 9 - Done editing]");
+                        option = sc.nextLine();
+                    }
+                    
+                }
+
+                else if (option.equals("11")){
+                    
+                }
+                
+                System.out.println("");
+                System.out.println("[0 - Exit system, 1 - Add employee, 2 - print all employees, 7 - Delete an employee, 8 - Login, 9 - Logout, 10 - Edit employee]");
                 System.out.print("Please enter your request to the system according to the PDF file: ");
                 option = sc.nextLine();
             }
-            catch(Error e) {System.out.println(e.toString()); break;}
+            catch(Error e) {System.out.println(e.toString()); break;} //I think we need to delete the break and add the options again.
         }
 
-        service.logOut(loginId);
+        employeeService.logOut(loginId);
         System.out.println("");
         System.out.print("Thank you for your time. See you next time.");
 

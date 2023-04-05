@@ -24,6 +24,12 @@ public class ShiftController {
     }
     
     // add cancelation to shift
+    public void addCancelation(int shiftId, int employeeId ,int itemId, int itemCode){
+        Shift shift = getShift(shiftId);
+        Employee employee = employeeController.getEmployeeById(employeeId);
+        employeeController.checkLoggedIn(employeeId);
+        shift.addCancelation(employee, itemCode, itemId);
+    }
 
     // add constaint to shift
 
@@ -44,4 +50,7 @@ public class ShiftController {
         }
         throw new Error("No such a shift in this system by the id " + id);
     }
+
+//-------------------------------------Help Functions--------------------------------------------------------
+
 }

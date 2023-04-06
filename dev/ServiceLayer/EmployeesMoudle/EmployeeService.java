@@ -11,8 +11,8 @@ import Misc.*;
 public class EmployeeService {
     private EmployeeController employeeController;
 
-    public EmployeeService(){
-        employeeController = new EmployeeController();
+    public EmployeeService(EmployeeController employeeController){
+        this.employeeController = employeeController;
     }
 
     public void logIn(int id, String password){

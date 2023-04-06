@@ -23,6 +23,7 @@ public class ReservationController {
 
     private ReservationController() {
         idToSupplierReservations = new HashMap<>();
+        supplierIdToReservations = new HashMap<>();
         readyReservations = new ArrayList<>();
         lastId = 0;
     }

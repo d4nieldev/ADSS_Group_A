@@ -17,6 +17,7 @@ public class ProductController {
 
     private ProductController() {
         productIdToSupplierProducts = new HashMap<>();
+        supplierIdToProductAgreements = new HashMap<>();
         products = new HashMap<>();
     }
 

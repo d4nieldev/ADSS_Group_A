@@ -1,6 +1,5 @@
 package Tests.SupplierTests;
 
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThrows;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
@@ -10,6 +9,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -23,14 +23,14 @@ import BusinessLayer.Suppliers.exceptions.SuppliersException;
 public class ReservationControllerTest {
     ReservationController rc = ReservationController.getInstance();
 
-    private static void createProducts() {
+    private void createProducts() {
         Product product0 = new Product(0, "Product 0", "Manufacturer 0");
         Product product1 = new Product(1, "Product 1", "Manufacturer 1");
         ProductController.getInstance().addProduct(product0);
         ProductController.getInstance().addProduct(product1);
     }
 
-    private static void createSupplier0() throws Exception {
+    private void createSupplier0() throws Exception {
         String name = "Supplier 0";
         String phone = "1234567890";
         String bankAccount = "1234567890";
@@ -68,7 +68,7 @@ public class ReservationControllerTest {
 
     }
 
-    private static void createSupplier1() throws Exception {
+    private void createSupplier1() throws Exception {
         String name = "Supplier 1";
         String phone = "1234567890";
         String bankAccount = "1234567890";
@@ -103,6 +103,12 @@ public class ReservationControllerTest {
                 stockAmount, basePrice, amountToDiscount);
     }
 
+    private void clearAllData() {
+        ProductController.getInstance().clearData();
+        SupplierController.getInstance().clearData();
+        ReservationController.getInstance().clearData();
+    }
+
     /**
      * Creates the environment for the tests.
      * 2 products and 2 suppliers. Both produce both products.
@@ -125,8 +131,8 @@ public class ReservationControllerTest {
      * 
      * @throws Exception
      */
-    @BeforeClass
-    public static void setup() throws Exception {
+    @Before
+    public void setup() throws Exception {
         try {
             createProducts();
             createSupplier0();
@@ -135,6 +141,11 @@ public class ReservationControllerTest {
             System.out.println("Could not setup environment");
             e.printStackTrace();
         }
+    }
+
+    @After
+    public void tearDown() {
+        clearAllData();
     }
 
     @Test
@@ -179,7 +190,14 @@ public class ReservationControllerTest {
     @Test
     public void makeReservationSplitTest() {
         Map<Integer, Integer> productToAmount = new HashMap<>();
-        productToAmount.put(0, 150);
-        // TODO complete this test
+        productToAmount.put(0, 150); // should order 150 from supplier 1
+        productToAmount.put(1, 80); // should order 50 from supplier 0 and 30 from supplier 1
+        try {
+            rc.makeReservation(productToAmount);
+            assertTrue(rc.getSupplierReservations(0).size() == 1);
+            assertTrue(rc.getSupplierReservations(1).size() == 1);
+        } catch (SuppliersException e) {
+            fail(e.getMessage());
+        }
     }
 }

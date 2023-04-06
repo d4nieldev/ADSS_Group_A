@@ -37,6 +37,10 @@ public class EmployeeService {
         employeeController.printAllEmployees(id);
     }
 
+    public void addPremissionRole(int managerID, String function, String role){
+        employeeController.addPremissionRole(managerID, function.toUpperCase(), Role.getRole(role));
+    }
+
     //-------------------------------------Getters And Setters--------------------------------------------------------
 
     public void changeFirstName(int managerId, int idEmployee, String firstName){

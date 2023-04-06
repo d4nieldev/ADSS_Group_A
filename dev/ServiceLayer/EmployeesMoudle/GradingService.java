@@ -82,6 +82,10 @@ public class GradingService {
     public void changeDriverLicence(int managerId, int idEmployee, License licene){
         employeeS.changeDriverLicence(managerId, idEmployee, licene);
     }
+    
+    public void addPremissionRole(int managerID, String function, String role){
+        employeeS.addPremissionRole(managerID, function, role);
+    }
 
     // ------------------------------------------- SHIFT SERVICE ------------------------------------------------------------
 

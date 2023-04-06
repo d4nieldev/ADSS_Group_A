@@ -28,8 +28,11 @@ class ProductAgreement {
      * @return
      */
     public double getPrice(int amount) {
-        Double discountPercentageOfProduct = amountToDiscount.getOrDefault(amountToDiscount.floorKey(amount), 0.0);
-        return (basePrice * (1 - discountPercentageOfProduct)) * amount;
+        double discount = 0.0;
+        Integer key = amountToDiscount.floorKey(amount);
+        if (key != null)
+            discount = amountToDiscount.get(key);
+        return (basePrice * (1 - discount)) * amount;
     }
 
     // Getter for supplier id

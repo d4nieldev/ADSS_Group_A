@@ -57,14 +57,14 @@ public class TransportFacade {
         {
             List<Delivery> incompleteDeliveries = transport.run();
 
-
-            if (incompleteDeliveries.size() > 0)
+            while (!incompleteDeliveries.isEmpty())
             {
                 // Change the status of incomplete deliveries to WAIT_FOR_CHANGE
                 for (Delivery delivery : incompleteDeliveries)
                 {
                     delivery.setStatus(Status.WAIT_FOR_CHANGE);
                 }
+
                 // Ask the user what to do next
                 Scanner scanner = new Scanner(System.in);
 
@@ -80,27 +80,122 @@ public class TransportFacade {
                     switch (choice)
                     {
                         case 1:
-                            //changeDestination();
+                            changeDestination(transport);
                             break;
                         case 2:
                             changeTruck(transport);
                             break;
                         case 3:
-                            //dropItems();
+                            dropItems(transport);
                             break;
                         default:
                             System.out.println("Invalid choice. Please choose again.");
                     }
-                    break;
 
+                    incompleteDeliveries = transport.run();
+                    if (incompleteDeliveries.isEmpty())
+                    {
+                        break;
+                    }
                 }
             }
-            else
-            {
-                transport.printTransportDetails();
-            }
+
+            transport.printTransportDetails();
         }
     }
+
+    private void dropItems(Transport transport) {
+        List<String> loadedItems = transport.getLoadedItems();
+        Scanner scanner = new Scanner(System.in);
+
+        // Print the list of loaded items
+        System.out.println("Loaded items:");
+        for (int i = 0; i < loadedItems.size(); i++) {
+            System.out.println((i + 1) + ". " + loadedItems.get(i));
+        }
+
+        // Ask the user which items they want to remove
+        System.out.println("Which items do you want to remove? (Enter the number, separate by comma)");
+        String input = scanner.nextLine();
+        String[] indicesToRemove = input.split(",");
+
+        // Remove the selected items from the list
+        List<String> itemsToRemove = new ArrayList<>();
+        for (String index : indicesToRemove) {
+            int i = Integer.parseInt(index.trim()) - 1;
+            if (i >= 0 && i < loadedItems.size()) {
+                itemsToRemove.add(loadedItems.get(i));
+            }
+        }
+        loadedItems.removeAll(itemsToRemove);
+        transport.setLoadedItems(loadedItems);
+
+        System.out.println("Updated list of loaded items:");
+        for (int i = 0; i < loadedItems.size(); i++) {
+            System.out.println((i + 1) + ". " + loadedItems.get(i));
+        }
+    }
+
+
+
+    private void changeDestination(Transport transport) {
+        List<Destination> destinationList = transport.getDestinationList();
+        List<Delivery> deliveryList = transport.getDeliveryList();
+        Scanner scanner = new Scanner(System.in);
+
+
+        while (true) {
+            // Print the list of destinations
+            System.out.println("List of Destinations:");
+            for (int i = 0; i < destinationList.size(); i++) {
+                System.out.println((i + 1) + ". " + destinationList.get(i).getAddress());
+            }
+
+            // Ask the user what they want to do
+            System.out.println("What would you like to do?");
+            System.out.println("1. Switch a destination with another one");
+            System.out.println("2. Remove a destination from the list");
+
+            int choice = scanner.nextInt();
+
+            switch (choice) {
+                case 1:
+
+                    break;
+                case 2:
+                    // Ask the user which destination they want to remove
+                    System.out.println("Which destination do you want to remove? (Enter the number)");
+                    int indexToRemove = scanner.nextInt() - 1;
+
+                    // Remove the destination from the list
+                    Destination destinationToRemove = destinationList.remove(indexToRemove);
+
+                    // Remove any deliveries with the chosen destination as the source or destination
+                    List<Delivery> deliveriesToRemove = new ArrayList<>();
+                    for (Delivery delivery : deliveryList) {
+                        if (delivery.getSource().equals(destinationToRemove) || delivery.getDestination().equals(destinationToRemove)) {
+                            deliveriesToRemove.add(delivery);
+                        }
+                    }
+                    deliveryList.removeAll(deliveriesToRemove);
+                    transport.setDeliveryList(deliveryList);
+
+                    // If the user made a change to the destinations, break the loop and run the transport again
+                    break;
+
+                default:
+                    System.out.println("Invalid choice. Please choose again.");
+            }
+
+            // If the user made a change to the destinations, break the loop and run the transport again
+
+
+                break;
+
+        }
+    }
+
+
 
     public List<Destination> letTheUserChooseTheOrder(List<Delivery> matchedDeliveries) {
         // Create a list of all destinations without duplicates
@@ -155,7 +250,7 @@ public class TransportFacade {
 
         // Print current driver's details
         DriverFacade driverFacade = DriverFacade.getInstance();
-        Driver driver = driverFacade.getDriverById(transport.getId());
+        Driver driver = driverFacade.getDriverById(transport.getDriverId());
 
         System.out.println("Current driver: " + driver.getName() + ", License: " + driver.getLicense());
 
@@ -191,46 +286,33 @@ public class TransportFacade {
         truckFacade.setTruckAvailability(newTruck.getPlateNumber(),false);
 
         // Rerun the transport
-        List<Delivery> incompleteDeliveries = transport.run();
 
-        // If there are still incomplete deliveries, repeat the change process
-        if (incompleteDeliveries.size() > 0) {
-            changeTruck(transport);
-        } else {
-            transport.printTransportDetails();
-        }
+
+
     }
 
 
 
     public List<Delivery> createDeliveries(List<Destination> sources, List<Destination> dests) {
         List<Delivery> deliveries = new ArrayList<>();
-        Random random = new Random();
+        List<String> firstList = Arrays.asList("pepsi", "diet", "zero");
+        List<String> secondList = Arrays.asList("bamba", "bisli");
+        List<String> thirdList = Arrays.asList("cheese", "milk", "butter", "milki");
 
-        for (Destination source : sources) {
-            for (Destination dest : dests) {
-                if (source != dest) {
-                    // create a random list of items and weight for the delivery
-                    List<String> items = new ArrayList<>();
-                    int numItems = random.nextInt(5) + 1;
-                    int weight = 0;
-                    for (int i = 0; i < numItems; i++) {
-                        String item = "Item " + (i + 1);
-                        items.add(item);
-                        weight += random.nextInt(10) + 1;
-                    }
-
-                    // create a status for the delivery
-                    Status status = Status.PENDING;
-
-                    // create the delivery and add it to the list of deliveries
-                    Delivery delivery = new Delivery(deliveries.size()+1,source, dest, status, items, weight);
-                    deliveries.add(delivery);
-                }
-            }
-        }
-
+        Delivery delivery1 = new Delivery(1,sources.get(0),dests.get(0),Status.PENDING,firstList);
+        Delivery delivery2 = new Delivery(2,sources.get(0),dests.get(1),Status.PENDING,firstList);
+        Delivery delivery3 = new Delivery(3,sources.get(1),dests.get(0),Status.PENDING,secondList);
+        Delivery delivery4 = new Delivery(4,sources.get(1),dests.get(1),Status.PENDING,secondList);
+        Delivery delivery5 = new Delivery(5,sources.get(2),dests.get(0),Status.PENDING,thirdList);
+        Delivery delivery6 = new Delivery(6,sources.get(2),dests.get(1),Status.PENDING,thirdList);
+        deliveries.add(delivery1);
+        deliveries.add(delivery2);
+        deliveries.add(delivery3);
+        deliveries.add(delivery4);
+        deliveries.add(delivery5);
+        deliveries.add(delivery6);
         return deliveries;
+
     }
 
     public Destination addDestination(String address, String phoneNumber, String contactName, Location location,DestinationType destinationType){
@@ -238,6 +320,118 @@ public class TransportFacade {
     }
 
 
+    public void letTheUserMatch(List<Delivery> deliveries)
+    {
+        DriverFacade driverFacade = DriverFacade.getInstance();
+        TruckFacade truckFacade = TruckFacade.getInstance();
+
+        List<Driver> availableDrivers = driverFacade.getAvailableDrivers();
+        List<Truck> availableTrucks = truckFacade.getAvailableTrucks();
+        List<Delivery> availableDeliveries = new ArrayList<>(deliveries);
+
+        int driverId = 0;
+        int truckId = 0;
+        int deliveryId = 0;
+
+        while (!availableDeliveries.isEmpty() && !availableDrivers.isEmpty() && !availableTrucks.isEmpty()) {
+            System.out.println("\nAvailable drivers:");
+            printDrivers(availableDrivers);
+            System.out.println("\nAvailable trucks:");
+            printTrucks(availableTrucks);
+            System.out.println("\nAvailable deliveries:");
+            printDeliveries(availableDeliveries);
+
+            Scanner scanner = new Scanner(System.in);
+
+            // Match driver and truck
+            boolean matchFound = false;
+            Driver driver = null;
+            Truck truck = null;
+            while (!matchFound) {
+                System.out.print("\nEnter the ID of the driver to match: ");
+                driverId = scanner.nextInt();
+                driver = availableDrivers.get(driverId);
+
+                System.out.print("\nEnter the ID of the truck to match: ");
+                truckId = scanner.nextInt();
+                truck = availableTrucks.get(truckId);
+
+                if (driver.hasLicenseFor(truck.getModel())) {
+                    matchFound = true;
+                } else {
+                    System.out.println("The driver's license does not match the truck's model. Please try again.");
+                }
+            }
+
+            // Match deliveries to the driver
+            System.out.print("\nEnter the number of deliveries to match for this driver: ");
+            int numDeliveries = scanner.nextInt();
+
+            List<Delivery> matchedDeliveries = new ArrayList<>();
+            for (int i = 1; i <= numDeliveries; i++) {
+                printDeliveries(availableDeliveries);
+                System.out.print("\nEnter the ID of the delivery to match: ");
+                deliveryId = scanner.nextInt();
+
+                Delivery delivery = availableDeliveries.get(deliveryId);
+                matchedDeliveries.add(delivery);
+                availableDeliveries.remove(delivery);
+                delivery.setStatus(Status.INVITED);
+                delivery.setDriver(driver);
+                delivery.setTruck(truck);
+            }
+
+            // Update available drivers and trucks
+            availableDrivers.remove(driver);
+            availableTrucks.remove(truck);
+
+            // Print matched driver, truck, and deliveries
+            System.out.println("\nMatched driver: " + driver.getName() + " (" + driver.getLicense() + ")");
+            System.out.println("Matched truck: " + truck.getPlateNumber() + " (" + truck.getModel() + ")");
+            System.out.println("Matched deliveries:");
+            printDeliveries(matchedDeliveries);
+            Date d = new Date();
+            List<Destination> destinationList = letTheUserChooseTheOrder(matchedDeliveries);
+
+            createTransport("11/1/22","0000",truck.getPlateNumber(),driver.getName(),driver.getId(),"source",
+                    destinationList,matchedDeliveries,truck.getWeightNeto(),truck.getWeightMax());
+        }
+
+        if (availableTrucks.isEmpty()) {
+            System.out.println("\nNo more available trucks.");
+        }
+
+        if (availableDrivers.isEmpty()) {
+            System.out.println("\nNo more available drivers.");
+        }
+
+        if (availableDeliveries.isEmpty()) {
+            System.out.println("\nNo more available deliveries.");
+        }
+
+    }
+
+    private void printDrivers(List<Driver> drivers) {
+        for (int i = 0; i < drivers.size(); i++) {
+            Driver driver = drivers.get(i);
+            System.out.println(i + ": " + driver.getName() + " (" + driver.getLicense() + ")");
+        }
+    }
+
+    private void printTrucks(List<Truck> trucks) {
+        for (int i = 0; i < trucks.size(); i++) {
+            Truck truck = trucks.get(i);
+            System.out.println(i + ": " + truck.getPlateNumber() + " (" + truck.getModel() + ")");
+        }
+    }
 
 
+    private void printDeliveries(List<Delivery> deliveries) {
+        for (int i = 0; i < deliveries.size(); i++) {
+            Delivery delivery = deliveries.get(i);
+            System.out.println(i + ": " + delivery.getSource().getAddress() + " (" + delivery.getSource().getLocation() + ") -> "
+                    + delivery.getDest().getAddress() + " (" + delivery.getDest().getLocation() + ")");
+        }
+        System.out.println();
+    }
 }

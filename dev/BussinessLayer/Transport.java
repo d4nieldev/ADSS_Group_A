@@ -15,6 +15,8 @@ public class Transport {
     private List<Delivery> deliveryList;
     private int truckWeightNeto;
     private int truckWeightMax;
+    private List<String> loadedItems;
+    private int currentWeight;
 
 
 
@@ -32,6 +34,8 @@ public class Transport {
         this.deliveryList=deliveryList;
         this.truckWeightNeto=truckWeightNeto;
         this.truckWeightMax=truckWeightMax;
+        this.loadedItems= new ArrayList<String>();
+        this.currentWeight= truckWeightNeto;
     }
 
     public void addDestination(Destination destination) {
@@ -129,42 +133,41 @@ public class Transport {
         //leavingTime = sdf.format(today);
         //date= today;
         List<Delivery> incompleteDeliveries = new ArrayList<>();
+        currentWeight=truckWeightNeto;
+        Scanner scanner = new Scanner(System.in);
 
-        int truckWeight = truckWeightNeto;
+
         for (Destination dest : destinationList) {
             if (dest.getType() == DestinationType.SOURCE) {
                 // Get items from the deliveries for this source
-                List<String> sourceItems = new ArrayList<>();
+
                 for (Delivery delivery : deliveryList) {
                     if (delivery.getSource().equals(dest)) {
-                        sourceItems.addAll(delivery.getItems());
+                        loadedItems.addAll(delivery.getItems());
+                        System.out.println("You are in a source location, there might be more than one delivery you collect from here, we will weight each one of them "+ ", the weight before loading was: " + currentWeight+" How much weight does the truck gained from this delivery?");
+                        int newWeight = scanner.nextInt();
+                        delivery.setWeight(newWeight);
+                        currentWeight = currentWeight+ newWeight;
+                        if (currentWeight > truckWeightMax) {
+                            incompleteDeliveries.addAll( thinkAgain("overweight",dest.getAddress(),driverName,currentWeight-newWeight,currentWeight,truckWeightMax));
+                            return incompleteDeliveries;
+                        }
                     }
                 }
 
-                // Add weight of source items to truck weight
-                int sourceWeight = sourceItems.stream().mapToInt(String::length).sum();
-                truckWeight += sourceWeight;
-
-                if (truckWeight > truckWeightMax) {
-                    incompleteDeliveries.addAll( thinkAgain("weight too much",dest.getAddress(),driverName,truckWeight-sourceWeight,truckWeight,truckWeightMax));
-                    return incompleteDeliveries;
-                }
             } else if (dest.getType() == DestinationType.DESTINATION) {
                 // Find delivery with this destination
-                Delivery delivery = null;
+
                 for (Delivery d : deliveryList) {
                     if (d.getDestination().equals(dest)) {
-                        delivery = d;
-                        break;
+                        // Change status of delivery to completed
+                        d.setStatus(Status.COMPLETED);
+                        // Reduce weight of delivered items from truck weight
+                        int deliveredWeight = d.getWeight();
+                        currentWeight -= deliveredWeight;
                     }
                 }
 
-                // Change status of delivery to completed
-                delivery.setStatus(Status.COMPLETED);
-
-                // Reduce weight of delivered items from truck weight
-                int deliveredWeight = delivery.getWeight();
-                truckWeight -= deliveredWeight;
             }
         }
         System.out.println("Transport " + id + " completed successfully!");
@@ -195,12 +198,12 @@ public class Transport {
 
         System.out.println("Completed deliveries:");
         for (Delivery delivery : completedDeliveries) {
-            System.out.println("- " + delivery.getSource() + " to " + delivery.getDestination() + ", " + delivery.getWeight() + " kg of " + delivery.getItems() + ", status: " + delivery.getStatus());
+            System.out.println("- " + delivery.getSource().getAddress() + " to " + delivery.getDestination().getAddress() + ", " + delivery.getWeight() + " kg of " + delivery.getItems() + ", status: " + delivery.getStatus());
         }
 
         System.out.println("Incomplete deliveries:");
         for (Delivery delivery : incompleteDeliveries) {
-            System.out.println("- " + delivery.getSource() + " to " + delivery.getDestination() + ", " + delivery.getWeight() + " kg of " + delivery.getItems() + ", status: " + delivery.getStatus());
+            System.out.println("- " + delivery.getSource().getAddress() + " to " + delivery.getDestination().getAddress() + ", " + delivery.getWeight() + " kg of " + delivery.getItems() + ", status: " + delivery.getStatus());
         }
 
 
@@ -232,4 +235,19 @@ public class Transport {
     }
 
 
+    public int getDriverId() {
+        return driverId;
+    }
+
+    public List<Delivery> getDeliveryList() {
+        return deliveryList;
+    }
+
+    public List<String> getLoadedItems() {
+        return loadedItems;
+    }
+
+    public void setLoadedItems(List<String> loadedItems) {
+        this.loadedItems=loadedItems;
+    }
 }

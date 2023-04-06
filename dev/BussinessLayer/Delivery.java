@@ -9,24 +9,25 @@ public class Delivery {
     private Status status;
     private List<String> items;
     private int weight;
+
     private Driver driver;
     private Truck truck;
 
-    public Delivery(int id,Destination source, Destination dest, Status status, List<String> items, int weight) {
+    public Delivery(int id,Destination source, Destination dest, Status status, List<String> items) {
         this.id = id;
         this.source = source;
         this.dest = dest;
         this.status = status;
         this.items = items;
-        this.weight = weight;
         truck= null;
         driver = null;
+        weight=0;
     }
     public void print() {
         System.out.println("Delivery from " + source.getAddress() + " to " + dest.getAddress());
         System.out.println("Status: " + status);
         System.out.println("Items: " + items);
-        System.out.println("Total weight: " + weight + " kg");
+
         System.out.println("------------------------------");
     }
 
@@ -63,14 +64,6 @@ public class Delivery {
         this.items = items;
     }
 
-    public int getWeight() {
-        return weight;
-    }
-
-    public void setWeight(int weight) {
-        this.weight = weight;
-    }
-
     public int getId() { return id;
     }
 
@@ -92,5 +85,12 @@ public class Delivery {
 
     public Destination getDestination() {
         return dest;
+    }
+
+    public int getWeight() {
+        return weight;
+    }
+    public void setWeight(int weight) {
+        this.weight=weight;
     }
 }

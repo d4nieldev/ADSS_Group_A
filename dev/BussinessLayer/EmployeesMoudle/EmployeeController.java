@@ -11,9 +11,7 @@ import Misc.*;
 public class EmployeeController {
     private LinkedList<Employee> employees;
 
-    private LinkedList<String> addEmployeeListAccess;
     private LinkedList<String> printAllEmployeesListAccess;
-    private LinkedList<String> deleteEmployeeListAccess;
     private LinkedList<String> addRolesListAccess;
     private LinkedList<String> removeRolesListAccess;
     private LinkedList<String> AddBonusListAccess;
@@ -39,9 +37,7 @@ public class EmployeeController {
         addHRManagerForStartUpTheSystem("Rami", "Arnon", 123456789, "abc", 0, 0,
          0, 50000, 30000, localDate, null, Role.getRole("HRMANAGER"), 0);
 
-         addEmployeeListAccess = new LinkedList<>(); addEmployeeListAccess.add(Role.getRole("HRMANAGER"));
          printAllEmployeesListAccess = new LinkedList<>(); printAllEmployeesListAccess.add(Role.getRole("HRMANAGER"));
-         deleteEmployeeListAccess = new LinkedList<>(); deleteEmployeeListAccess.add(Role.getRole("HRMANAGER"));
          addRolesListAccess = new LinkedList<>(); addRolesListAccess.add(Role.getRole("HRMANAGER"));
          removeRolesListAccess = new LinkedList<>(); removeRolesListAccess.add(Role.getRole("HRMANAGER"));
          AddBonusListAccess = new LinkedList<>(); AddBonusListAccess.add(Role.getRole("HRMANAGER"));
@@ -97,7 +93,7 @@ public class EmployeeController {
     public void addEmployee(int managerId, String firstName, String lastName, int id, String password, int bankNum,
     int bankBranch, int bankAccount, int salary, int bonus, LocalDate startDate, License driverLicense, String role, int branch){
         if (isEmployeeExists(managerId) && isEmployeeLoggedIn(managerId)){
-            checkIfEmployeeAllowed(managerId, addEmployeeListAccess);
+            checkHrManager(managerId);
             employees.add(new Employee(firstName, lastName, id, password, bankNum,
             bankBranch, bankAccount, salary, bonus, startDate, driverLicense, role, branch));
             System.out.println("The employee " + firstName + " " + lastName + " has been added successfully");
@@ -164,17 +160,9 @@ public class EmployeeController {
     public void addPremissionRole(int managerId, String function, String role){
         checkHrManager(managerId);
         switch (function){
-            case("ADDEMPLOYEE") : {
-                if(addEmployeeListAccess.contains(role)){throw new Error("This role can already do this function in the system.");}
-                addEmployeeListAccess.add(role);
-            }
             case("PRINTALLEMPLOYEES") : {
                 if(printAllEmployeesListAccess.contains(role)){throw new Error("This role can already do this function in the system.");}
                 printAllEmployeesListAccess.add(role);
-            }
-            case("DELETEEMPLOYEE") : {
-                if(deleteEmployeeListAccess.contains(role)){throw new Error("This role can already do this function in the system.");}
-                deleteEmployeeListAccess.add(role);
             }
             case("ADDROLETOEMPLOYEE") : {
                 if(addRolesListAccess.contains(role)){throw new Error("This role can already do this function in the system.");}
@@ -246,17 +234,9 @@ public class EmployeeController {
     public void RemovePremissionRole(int managerId, String function, String role){
         checkHrManager(managerId);
         switch (function){
-            case("ADDEMPLOYEE") : {
-                if(!addEmployeeListAccess.contains(role)){throw new Error("This role can not do this function according to system.");}
-                addEmployeeListAccess.remove(role);
-            }
             case("PRINTALLEMPLOYEES") : {
                 if(!printAllEmployeesListAccess.contains(role)){throw new Error("This role can not do this function according to the system.");}
                 printAllEmployeesListAccess.remove(role);
-            }
-            case("DELETEEMPLOYEE") : {
-                if(!deleteEmployeeListAccess.contains(role)){throw new Error("This role can not do this function according to the system.");}
-                deleteEmployeeListAccess.remove(role);
             }
             case("ADDROLETOEMPLOYEE") : {
                 if(!addRolesListAccess.contains(role)){throw new Error("This role can not do this function according to the system.");}
@@ -401,8 +381,8 @@ public class EmployeeController {
     public LinkedList<String> getAddCancelationListAccess(){return addCancelationListAccess;}
     public LinkedList<String> getPrintFinalShiftListAccess(){return printFinalShiftListAccess;}
     public LinkedList<String> getMissingStaffToRoleListAccess(){return missingStaffToRoleListAccess;}
-    public LinkedList<String> getDeleteEmployeeListAccess(){return deleteEmployeeListAccess;}
-//-------------------------------------------------------Help Functions------------------------------------------------------------
+
+    //-------------------------------------------------------Help Functions------------------------------------------------------------
 
     //called only if the employee exist, else will return error.
     public Employee getEmployeeById(int id){ 

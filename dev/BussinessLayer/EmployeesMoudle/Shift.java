@@ -47,16 +47,12 @@ public class Shift{
     }
 
     public void addCancelation(Employee employee, int itemCode, int itemID){
-        if(employee.getRoles().contains(Role.getRole("BRANCHMANAGER")) 
-        || finalShift.get(employee).equals(Role.getRole("SHIFTMANAGER"))){
-            if(cancellations.containsKey(itemCode)){(cancellations.get(itemCode)).add(itemID);}
-            else{
-                LinkedList<Integer> listItemsID = new LinkedList<>();
-                listItemsID.add(itemID);
-                cancellations.put(itemCode, listItemsID);
-            }
+        if(cancellations.containsKey(itemCode)){(cancellations.get(itemCode)).add(itemID);}
+        else{
+            LinkedList<Integer> listItemsID = new LinkedList<>();
+            listItemsID.add(itemID);
+            cancellations.put(itemCode, listItemsID);
         }
-        throw new Error("This employee can not cancel an item. Only the shift manager or the super branch manager.");
     }
 
     public void addConstraint(Employee employee, LinkedList<String> role) {

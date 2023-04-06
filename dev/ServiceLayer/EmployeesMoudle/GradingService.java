@@ -109,7 +109,7 @@ public class GradingService {
         branchS.addBranch(managetId, address);
     }
 
-    public void addEmployee(int managerId, String firstName, String lastName, int id, String password, int bankNum,
+    public void addNewEmployee(int managerId, String firstName, String lastName, int id, String password, int bankNum,
     int bankBranch, int bankAccount, int salary, int bonus, LocalDate startDate, License driverLicense, String role, int branch){
         branchS.addNewEmployee(managerId, firstName, lastName, id, password, bankNum, bankBranch, bankAccount, salary, bonus, startDate, driverLicense, role, branch);
     }
@@ -136,9 +136,5 @@ public class GradingService {
 
     public void approveFinalShift(int managerID, int shiftID, int branchID, HashMap<Integer, String> hrAssigns){
         branchS.approveFinalShift(managerID, shiftID, branchID, hrAssigns);
-    }
-
-    public void changeSuperBranchForEmployee(int managerID, int employeeID, int oldBranchID, int newBranchID){
-        branchS.changeSuperBranchForEmployee(managerID, employeeID, oldBranchID, newBranchID);
     }
 }

@@ -53,8 +53,4 @@ public class BranchService {
     public void approveFinalShift(int managerID, int shiftID, int branchID, HashMap<Integer, String> hrAssigns){
         branchController.approveFinalShift(managerID, shiftID, branchID, hrAssigns);
     }
-    
-    public void changeSuperBranchForEmployee(int managerID, int employeeID, int oldBranchID, int newBranchID){
-        branchController.changeSuperBranchForEmployee(managerID, employeeID, oldBranchID, newBranchID);
-    }
 }

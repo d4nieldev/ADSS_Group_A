@@ -30,31 +30,33 @@ public class BranchController {
 
     public void addNewEmployee(int managerId, String firstName, String lastName, int id, String password, int bankNum,
     int bankBranch, int bankAccount, int salary, int bonus, LocalDate startDate, License driverLicense, String role, int branchId){
-        employeeController.addEmployee(managerId, firstName, lastName, id, password, bankNum, bankBranch, bankAccount, salary, bonus, startDate, driverLicense, null, branchId);
+        // only HR manager
+        employeeController.addEmployee(managerId, firstName, lastName, id, password, bankNum, bankBranch, bankAccount, salary, 
+        bonus, startDate, driverLicense, role, branchId);
         Branch branch = getBranchById(branchId);
         Employee employee = employeeController.getEmployeeById(id);
         branch.addNewEmployee(employee);
     }
     
     public void addForeignEmployee(int managerId, int idEmployee, int branchId){
+        employeeController.checkHrManager(managerId);  // only HR manager
         Employee employee = employeeController.getEmployeeById(idEmployee);
         Branch branch = getBranchById(branchId);
+        employee.addBranch(branchId); // check not exists already here
         branch.addForeignEmployee(employee);
-        employee.addBranch(branchId);
     }
 
     public void addNotAllowEmployees(int managerId, int idEmployee, int branchId){
+        employeeController.checkHrManager(managerId);  // only HR manager
         Employee employee = employeeController.getEmployeeById(idEmployee);
         Branch branch = getBranchById(branchId);
+        employee.removeBranch(branchId); // check not removed already here
         branch.addNotAllowEmployees(employee);
-        employee.removeBranch(branchId);
     }
 
     // delete/remove employee from the system.
     public void deleteEmployee(int managerId, int id){
-        employeeController.checkEmployee(managerId);
-        employeeController.checkLoggedIn(managerId);
-        employeeController.checkIfEmployeeAllowed(managerId, employeeController.getDeleteEmployeeListAccess());
+        employeeController.checkHrManager(managerId);  // only HR manager
         Employee employeeToRemove = employeeController.getEmployeeById(id);
         for (int branchId : employeeToRemove.getAllBranches()) {
             getBranchById(branchId).removeEmployeeFromSystem(employeeToRemove);
@@ -63,7 +65,7 @@ public class BranchController {
     }
 
     public void addShift(int managerId, int branchId, LocalDate date, int startHour, int endHour, ShiftTime time){
-        employeeController.checkHrManager(managerId);
+        employeeController.checkHrManager(managerId);  // only HR manager
         int shiftID = shiftController.getShiftIdConuter();
         Shift newShift = new Shift(shiftID, branchId, date, startHour, endHour, time);
         shiftController.addShift(newShift);
@@ -77,7 +79,7 @@ public class BranchController {
         Branch branch = getBranchById(idBranch);
         Shift shift = shiftController.getShift(idShift);
         branch.checkShiftInBranch(shift);
-        if(shift.getIsFinishSettingShift()) {throw new Error("This shift is not avalible for submiting constraints anymore.");}
+        if(shift.getIsFinishSettingShift()) {throw new Error("This shift is not avalible for submitting  constraints anymore.");}
         // check employee in branch
         Employee employee = employeeController.getEmployeeById(idEmployee);
         branch.checkEmployeeInBranch(employee);
@@ -112,13 +114,6 @@ public class BranchController {
         }
         // check: no over employees then needed
         shiftController.checkAssignFinalShift(shift.getID(), hashMapEmployees);
-    }
-
-    public void changeSuperBranchForEmployee(int managerID, int employeeID, int oldBranchID, int newBranchID){
-        // check employee managerID and permitions
-        // check employee employeeID
-        // check super branch is correct
-        // switch super branch for employee
     }
 
     //-------------------------------------Help Functions--------------------------------------------------------

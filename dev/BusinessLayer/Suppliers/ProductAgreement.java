@@ -19,6 +19,7 @@ class ProductAgreement {
         this.stockAmount = stockAmount;
         this.amountToDiscount = amountToDiscount;
         this.product = product;
+        this.basePrice = basePrice;
     }
 
     /**

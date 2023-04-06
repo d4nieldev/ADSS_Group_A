@@ -1,5 +1,6 @@
 package Tests.SupplierTests;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThrows;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
@@ -179,8 +180,8 @@ public class ReservationControllerTest {
 
         try {
             rc.makeReservation(productToAmount);
-            assertTrue(rc.getSupplierReservations(0).size() == 0);
-            assertTrue(rc.getSupplierReservations(1).size() == 1);
+            assertEquals(0, rc.getSupplierReservations(0).size());
+            assertEquals(1, rc.getSupplierReservations(1).size());
         } catch (SuppliersException e) {
             fail(e.getMessage());
         }
@@ -194,8 +195,8 @@ public class ReservationControllerTest {
         productToAmount.put(1, 80); // should order 50 from supplier 0 and 30 from supplier 1
         try {
             rc.makeReservation(productToAmount);
-            assertTrue(rc.getSupplierReservations(0).size() == 1);
-            assertTrue(rc.getSupplierReservations(1).size() == 1);
+            assertEquals(1, rc.getSupplierReservations(0).size());
+            assertEquals(1, rc.getSupplierReservations(1).size());
         } catch (SuppliersException e) {
             fail(e.getMessage());
         }

@@ -5,6 +5,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import BusinessLayer.Suppliers.exceptions.SuppliersException;
 
@@ -114,10 +115,12 @@ public class ReservationController {
         while (amount > 0) {
             minAgreement = null;
             int maxAmount = -1;
-            for (ProductAgreement agreement : productAgreements) {
+            Collection<ProductAgreement> relevantPAs = productAgreements.stream()
+                    .filter(e -> output.get(e.getSupplierId()) != null).collect(Collectors.toList());
+            for (ProductAgreement agreement : relevantPAs) {
                 maxAmount = Math.min(amount, agreement.getStockAmount());
-                if ((minAgreement == null
-                        || agreement.getPrice(maxAmount) < minAgreement.getPrice(maxAmount)))
+                if (minAgreement == null
+                        || agreement.getPrice(maxAmount) < minAgreement.getPrice(maxAmount))
                     minAgreement = agreement;
             }
             if (minAgreement == null)

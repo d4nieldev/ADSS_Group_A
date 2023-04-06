@@ -10,9 +10,11 @@ import BusinessLayer.Suppliers.exceptions.SuppliersException;
 
 public class ReservationController {
     private static ReservationController instance = null;
-    // maps between the main reservation and the sub-reservations it was splited into.
+    // maps between the main reservation and the sub-reservations it was splited
+    // into.
     private Map<Integer, List<Reservation>> idToSupplierReservations;
-    // maps between the supplier id and the reservations that were made to that supplier.
+    // maps between the supplier id and the reservations that were made to that
+    // supplier.
     private Map<Integer, List<Reservation>> supplierIdToReservations;
     // list of reservations with 'Ready' status.
     private List<Integer> readyReservations;
@@ -176,5 +178,12 @@ public class ReservationController {
                 output.computeIfAbsent(reservationId, k -> new ArrayList<>()).add(r.getDestination());
         }
         return output;
+    }
+
+    public void clearData() {
+        idToSupplierReservations.clear();
+        supplierIdToReservations.clear();
+        readyReservations.clear();
+        lastId = 0;
     }
 }

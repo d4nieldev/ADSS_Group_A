@@ -78,4 +78,10 @@ public class ProductController {
     public Product getProductById(int productId) {
         return products.get(productId);
     }
+
+    public void clearData() {
+        productIdToSupplierProducts.clear();
+        supplierIdToProductAgreements.clear();
+        products.clear();
+    }
 }

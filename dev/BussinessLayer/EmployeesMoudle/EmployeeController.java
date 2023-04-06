@@ -9,24 +9,24 @@ import java.time.format.DateTimeFormatter;
 import Misc.*;
 
 public class EmployeeController {
-    private List<Employee> employees;
+    private LinkedList<Employee> employees;
 
-    private List<String> addEmployeeListAccess;
-    private List<String> printAllEmployeesListAccess;
-    private List<String> deleteEmployeeListAccess;
-    private List<String> addRolesListAccess;
-    private List<String> removeRolesListAccess;
-    private List<String> AddBonusListAccess;
-    private List<String> getAllDriversListAccess;
-    private List<String> changeFirstNameListAccess;
-    private List<String> changeLastNameListAccess;
-    private List<String> changePasswordListAccess;
-    private List<String> changeBankNumListAccess;
-    private List<String> changeBankBranchListAccess;
-    private List<String> changeBankAccountListAccess;
-    private List<String> changeSalaryListAccess;
-    private List<String> changeStartDateListAccess;
-    private List<String> changeDriverLicenceListAccess;
+    private LinkedList<String> addEmployeeListAccess;
+    private LinkedList<String> printAllEmployeesListAccess;
+    private LinkedList<String> deleteEmployeeListAccess;
+    private LinkedList<String> addRolesListAccess;
+    private LinkedList<String> removeRolesListAccess;
+    private LinkedList<String> AddBonusListAccess;
+    private LinkedList<String> getAllDriversListAccess;
+    private LinkedList<String> changeFirstNameListAccess;
+    private LinkedList<String> changeLastNameListAccess;
+    private LinkedList<String> changePasswordListAccess;
+    private LinkedList<String> changeBankNumListAccess;
+    private LinkedList<String> changeBankBranchListAccess;
+    private LinkedList<String> changeBankAccountListAccess;
+    private LinkedList<String> changeSalaryListAccess;
+    private LinkedList<String> changeStartDateListAccess;
+    private LinkedList<String> changeDriverLicenceListAccess;
 
     public EmployeeController(){
         employees = new LinkedList<>();
@@ -36,7 +36,22 @@ public class EmployeeController {
         addHRManagerForStartUpTheSystem("Rami", "Arnon", 123456789, "abc", 0, 0,
          0, 50000, 30000, localDate, null, Role.getRole("HRMANAGER"), 0);
 
-         addEmployeeListAccess = new LinkedList<>();
+         addEmployeeListAccess = new LinkedList<>(); addEmployeeListAccess.add(Role.getRole("HRMANAGER"));
+         printAllEmployeesListAccess = new LinkedList<>(); printAllEmployeesListAccess.add(Role.getRole("HRMANAGER"));
+         deleteEmployeeListAccess = new LinkedList<>(); deleteEmployeeListAccess.add(Role.getRole("HRMANAGER"));
+         addRolesListAccess = new LinkedList<>(); addRolesListAccess.add(Role.getRole("HRMANAGER"));
+         removeRolesListAccess = new LinkedList<>(); removeRolesListAccess.add(Role.getRole("HRMANAGER"));
+         AddBonusListAccess = new LinkedList<>(); AddBonusListAccess.add(Role.getRole("HRMANAGER"));
+         getAllDriversListAccess = new LinkedList<>(); getAllDriversListAccess.add(Role.getRole("HRMANAGER"));
+         changeFirstNameListAccess = new LinkedList<>(); changeFirstNameListAccess.add(Role.getRole("HRMANAGER"));
+         changeLastNameListAccess = new LinkedList<>(); changeLastNameListAccess.add(Role.getRole("HRMANAGER"));
+         changePasswordListAccess = new LinkedList<>(); changePasswordListAccess.add(Role.getRole("HRMANAGER"));
+         changeBankNumListAccess = new LinkedList<>(); changeBankNumListAccess.add(Role.getRole("HRMANAGER"));
+         changeBankBranchListAccess = new LinkedList<>(); changeBankBranchListAccess.add(Role.getRole("HRMANAGER"));
+         changeBankAccountListAccess = new LinkedList<>(); changeBankAccountListAccess.add(Role.getRole("HRMANAGER"));
+         changeSalaryListAccess = new LinkedList<>(); changeSalaryListAccess.add(Role.getRole("HRMANAGER"));
+         changeStartDateListAccess = new LinkedList<>(); changeStartDateListAccess.add(Role.getRole("HRMANAGER"));
+         changeDriverLicenceListAccess = new LinkedList<>(); changeDriverLicenceListAccess.add(Role.getRole("HRMANAGER"));
     }
 
     // commit log in for employee, if exsist
@@ -77,7 +92,6 @@ public class EmployeeController {
     int bankBranch, int bankAccount, int salary, int bonus, LocalDate startDate, License driverLicense, String role, int branch){
         if (isEmployeeExists(managerId) && isEmployeeLoggedIn(managerId)){
             checkIfEmployeeAllowed(managerId, addEmployeeListAccess);
-            //checkEmployee(id); //not needed - CHECK WITH INBAR.
             employees.add(new Employee(firstName, lastName, id, password, bankNum,
             bankBranch, bankAccount, salary, bonus, startDate, driverLicense, role, branch));
             System.out.println("The employee " + firstName + " " + lastName + " has been added successfully");
@@ -106,7 +120,8 @@ public class EmployeeController {
         checkIfEmployeeAllowed(managerId, deleteEmployeeListAccess);
         Employee employeeToRemove = getEmployeeById(id);
         employees.remove(employeeToRemove);
-        System.out.println("The employee " + employeeToRemove.getFirstName() + " " + employeeToRemove.getLastName() + " has been removed successfully");
+        System.out.println("The employee " + employeeToRemove.getFirstName() + " " + employeeToRemove.getLastName() + 
+        " has been removed successfully");
     }
 
     // return true if the employee already have a shift on this date
@@ -116,10 +131,8 @@ public class EmployeeController {
         return employee.checkShiftInDate(date);
     }
     
-    // need to implement
     public void addRoles(int managerId, int idEmployee, String role){
         checkEmployee(managerId);
-        //checkEmployee(idEmployee);
         checkLoggedIn(managerId);
         checkIfEmployeeAllowed(managerId, addRolesListAccess);
         getEmployeeById(idEmployee).addRole(role);
@@ -127,7 +140,6 @@ public class EmployeeController {
 
     public void removeRoles(int managerId, int idEmployee, String role){
         checkEmployee(managerId);
-        //checkEmployee(idEmployee);
         checkLoggedIn(managerId);
         checkIfEmployeeAllowed(managerId, removeRolesListAccess);
         getEmployeeById(idEmployee).removeRole(role);
@@ -135,14 +147,79 @@ public class EmployeeController {
     
     public void AddBonus(int managerId, int idEmployee, int bonus){
         checkEmployee(managerId);
-        //checkEmployee(idEmployee);
         checkLoggedIn(managerId);
         checkIfEmployeeAllowed(managerId, AddBonusListAccess);
         getEmployeeById(idEmployee).setBonus(getEmployeeById(idEmployee).getBonus() + bonus);
     }
 
-    public void addPremissionRule(String option){
-        //switch ()
+    public void addPremissionRole(int managerId, String function, String role){
+        checkHrManager(managerId);
+        switch (function.toUpperCase()){
+            case("ADDEMPLOYEE") : {
+                if(addEmployeeListAccess.contains(role)){throw new Error("This role can already do this function in the system.");}
+                addEmployeeListAccess.add(role);
+            }
+            case("PRINTALLEMPLOYEES") : {
+                if(printAllEmployeesListAccess.contains(role)){throw new Error("This role can already do this function in the system.");}
+                printAllEmployeesListAccess.add(role);
+            }
+            case("DELETEEMPLOYEE") : {
+                if(deleteEmployeeListAccess.contains(role)){throw new Error("This role can already do this function in the system.");}
+                deleteEmployeeListAccess.add(role);
+            }
+            case("ADDROLETOEMPLOYEE") : {
+                if(addRolesListAccess.contains(role)){throw new Error("This role can already do this function in the system.");}
+                addRolesListAccess.add(role);
+            }
+            case("REMOVEROLEFROMEMPLOYEE") : {
+                if(removeRolesListAccess.contains(role)){throw new Error("This role can already do this function in the system.");}
+                removeRolesListAccess.add(role);
+            }
+            case("ADDBONUS") : {
+                if(AddBonusListAccess.contains(role)){throw new Error("This role can already do this function in the system.");}
+                AddBonusListAccess.add(role);
+            }
+            case("GETALLDRIVERS") : {
+                if(getAllDriversListAccess.contains(role)){throw new Error("This role can already do this function in the system.");}
+                getAllDriversListAccess.add(role);
+            }
+            case("CHANGEFIRSTNAME") : {
+                if(changeFirstNameListAccess.contains(role)){throw new Error("This role can already do this function in the system.");}
+                changeFirstNameListAccess.add(role);
+            }
+            case("CHANGELASTNAME") : {
+                if(changeLastNameListAccess.contains(role)){throw new Error("This role can already do this function in the system.");}
+                changeLastNameListAccess.add(role);
+            }
+            case("CHANGEPASSWORD") : {
+                if(changePasswordListAccess.contains(role)){throw new Error("This role can already do this function in the system.");}
+                changePasswordListAccess.add(role);
+            }
+            case("CHANGEBANKNUMBER") : {
+                if(changeBankNumListAccess.contains(role)){throw new Error("This role can already do this function in the system.");}
+                changeBankNumListAccess.add(role);
+            }
+            case("CHANGEBANKBRANCH") : {
+                if(changeBankBranchListAccess.contains(role)){throw new Error("This role can already do this function in the system.");}
+                changeBankBranchListAccess.add(role);
+            }
+            case("CHANGEBANKACCOUNT") : {
+                if(changeBankAccountListAccess.contains(role)){throw new Error("This role can already do this function in the system.");}
+                changeBankAccountListAccess.add(role);
+            }
+            case("CHANGRSALARY") : {
+                if(changeSalaryListAccess.contains(role)){throw new Error("This role can already do this function in the system.");}
+                changeSalaryListAccess.add(role);
+            }
+            case("CHANGESTARTDATE") : {
+                if(changeStartDateListAccess.contains(role)){throw new Error("This role can already do this function in the system.");}
+                changeStartDateListAccess.add(role);
+            }
+            case("CHANGEDRIVERLIVENCE") : {
+                if(changeDriverLicenceListAccess.contains(role)){throw new Error("This role can already do this function in the system.");}
+                changeDriverLicenceListAccess.add(role);
+            }
+        }
     }
 
 //-------------------------------------Getters And Setters--------------------------------------------------------
@@ -157,7 +234,6 @@ public class EmployeeController {
 
     public void changeFirstName(int managerId, int idEmployee, String firstName){
         checkEmployee(managerId);
-        //checkEmployee(idEmployee);
         checkLoggedIn(managerId);
         checkIfEmployeeAllowed(managerId, changeFirstNameListAccess);
         getEmployeeById(idEmployee).setFirstName(firstName);
@@ -165,18 +241,13 @@ public class EmployeeController {
 
     public void changeLastName(int managerId, int idEmployee, String lastName){
         checkEmployee(managerId);
-        //checkEmployee(idEmployee);
         checkLoggedIn(managerId);
         checkIfEmployeeAllowed(managerId, changeLastNameListAccess);
         getEmployeeById(idEmployee).setLastName(lastName);
     }
 
-    // dont want to be able to change an uniqe ID in the system
-    //public void changeId(int managerId, int idEmployee, int id){}
-
     public void changePassword(int managerId, int idEmployee, String password){
         checkEmployee(managerId);
-        //checkEmployee(idEmployee);
         checkLoggedIn(managerId);
         checkIfEmployeeAllowed(managerId, changePasswordListAccess);
         getEmployeeById(idEmployee).setPassword(password);
@@ -184,7 +255,6 @@ public class EmployeeController {
 
     public void changeBankNum(int managerId, int idEmployee, int bankNum){
         checkEmployee(managerId);
-        //checkEmployee(idEmployee);
         checkLoggedIn(managerId);
         checkIfEmployeeAllowed(managerId, changeBankNumListAccess);
         getEmployeeById(idEmployee).setBankNum(bankNum);
@@ -192,7 +262,6 @@ public class EmployeeController {
     
     public void changeBankBranch(int managerId, int idEmployee, int bankBranch){
         checkEmployee(managerId);
-        //checkEmployee(idEmployee);
         checkLoggedIn(managerId);
         checkIfEmployeeAllowed(managerId, changeBankBranchListAccess);
         getEmployeeById(idEmployee).setBankBranch(bankBranch);
@@ -200,7 +269,6 @@ public class EmployeeController {
     
     public void changeBankAccount(int managerId, int idEmployee, int bankAccount){
         checkEmployee(managerId);
-        //checkEmployee(idEmployee);
         checkLoggedIn(managerId);
         checkIfEmployeeAllowed(managerId, changeBankAccountListAccess);
         getEmployeeById(idEmployee).setBankAccount(bankAccount);
@@ -208,7 +276,6 @@ public class EmployeeController {
     
     public void changeSalary(int managerId, int idEmployee, int salary){
         checkEmployee(managerId);
-        //checkEmployee(idEmployee);
         checkLoggedIn(managerId);
         checkIfEmployeeAllowed(managerId, changeSalaryListAccess);
         getEmployeeById(idEmployee).setSalary(salary);
@@ -216,7 +283,6 @@ public class EmployeeController {
     
     public void changeStartDate(int managerId, int idEmployee, LocalDate stastDate){
         checkEmployee(managerId);
-        //checkEmployee(idEmployee);
         checkLoggedIn(managerId);
         checkIfEmployeeAllowed(managerId, changeStartDateListAccess);
         getEmployeeById(idEmployee).setStartDate(stastDate);
@@ -224,7 +290,6 @@ public class EmployeeController {
     
     public void changeDriverLicence(int managerId, int idEmployee, License licene){
         checkEmployee(managerId);
-        //checkEmployee(idEmployee);
         checkLoggedIn(managerId);
         checkIfEmployeeAllowed(managerId, changeDriverLicenceListAccess);
         getEmployeeById(idEmployee).setDriverLicense(licene);

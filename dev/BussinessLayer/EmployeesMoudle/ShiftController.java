@@ -11,11 +11,13 @@ public class ShiftController {
     private EmployeeController employeeController;
     private LinkedList<Shift> shifts;
     private static int shiftIdConuter = 0;
+    private LinkedList<String> addCancelationListAccess;
 
     // constructor
     public ShiftController(EmployeeController employeeController){
         this.employeeController = employeeController;
         shifts = new LinkedList<Shift>();
+        addCancelationListAccess = new LinkedList<>(); addCancelationListAccess.add(Role.getRole("HRMANAGER"));
     }
 
     public void addShift(int superBranchNumer, LocalDate date, int startHour, int endHour, ShiftTime time){
@@ -43,7 +45,7 @@ public class ShiftController {
     // needs to send a message if some role are missing people, and how mach -> function: missingStaffToRole
 
     //public String printFinalShift() - TODO
-    
+
 //-------------------------------------Getters And Setters--------------------------------------------------------
 
     // throw Error if there is not shift with this ID

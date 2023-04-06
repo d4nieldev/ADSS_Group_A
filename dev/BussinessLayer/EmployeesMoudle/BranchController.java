@@ -10,9 +10,9 @@ import Misc.License;
 import Misc.ShiftTime;
 
 public class BranchController {
-    EmployeeController employeeController;
-    ShiftController shiftController;
-    LinkedList<Branch> branchs;
+    private EmployeeController employeeController;
+    private ShiftController shiftController;
+    private LinkedList<Branch> branchs;
     private static int branchIdConuter = 0;
 
     public BranchController(EmployeeController employeeController, ShiftController shiftController){

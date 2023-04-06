@@ -116,7 +116,7 @@ public class ReservationController {
             minAgreement = null;
             int maxAmount = -1;
             Collection<ProductAgreement> relevantPAs = productAgreements.stream()
-                    .filter(e -> output.get(e.getSupplierId()) != null).collect(Collectors.toList());
+                    .filter(e -> output.get(e.getSupplierId()) == null).collect(Collectors.toList());
             for (ProductAgreement agreement : relevantPAs) {
                 maxAmount = Math.min(amount, agreement.getStockAmount());
                 if (minAgreement == null
@@ -168,9 +168,9 @@ public class ReservationController {
         return output;
     }
 
-    public List<Reservation> getSupplierReservations(int supplierId) throws SuppliersException {
+    public List<Reservation> getSupplierReservations(int supplierId) {
         if (!supplierIdToReservations.containsKey(supplierId))
-            throw new SuppliersException("No supplier with id " + supplierId + " found with reservations to return");
+            return new ArrayList<>();
         return supplierIdToReservations.get(supplierId);
     }
 

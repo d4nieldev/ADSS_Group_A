@@ -28,6 +28,8 @@ public class SupplierController {
 
     // Getter for Supplier by id
     public Supplier getSupplierById(int supplierId) throws SuppliersException {
+        if(supplierId < 0)
+            throw new SuppliersException("Supplier with negative id is illegal in the system.");
         if (idToSupplier.containsKey(supplierId)) {
             return idToSupplier.get(supplierId);
         } else {
@@ -36,7 +38,7 @@ public class SupplierController {
     }
 
     // Delete Supplier by id
-    public void deleteSupplier(int supplierId) throws Exception {
+    public void deleteSupplier(int supplierId) throws SuppliersException {
         if (idToSupplier.containsKey(supplierId)) {
             ProductController.getInstance().deleteAllSupplierAgreements(supplierId);
             idToSupplier.remove(supplierId);
@@ -97,7 +99,7 @@ public class SupplierController {
     }
 
     // Update supplier name
-    public void setSupplierName(int supplierId, String supplierName) throws Exception {
+    public void setSupplierName(int supplierId, String supplierName) throws SuppliersException {
         try {
             getSupplierById(supplierId).setName(supplierName);
         } catch (Exception e) {
@@ -106,7 +108,7 @@ public class SupplierController {
     }
 
     // Update supplier phone
-    public void setSupplierPhone(int supplierId, String supplierPhone) throws Exception {
+    public void setSupplierPhone(int supplierId, String supplierPhone) throws SuppliersException {
         try {
             getSupplierById(supplierId).setPhone(supplierPhone);
         } catch (Exception e) {
@@ -115,7 +117,7 @@ public class SupplierController {
     }
 
     // Update supplier bank account
-    public void setSupplierBankAccount(int supplierId, String supplierBankAccount) throws Exception {
+    public void setSupplierBankAccount(int supplierId, String supplierBankAccount) throws SuppliersException {
         try {
             getSupplierById(supplierId).setBankAcc(supplierBankAccount);
         } catch (Exception e) {
@@ -124,7 +126,7 @@ public class SupplierController {
     }
 
     // Update supplier fields
-    public void setSupplierFields(int supplierId, List<String> supplierFields) throws Exception {
+    public void setSupplierFields(int supplierId, List<String> supplierFields) throws SuppliersException {
         try {
             getSupplierById(supplierId).setFields(supplierFields);
         } catch (Exception e) {
@@ -133,7 +135,7 @@ public class SupplierController {
     }
 
     // Add supplier field
-    public void addSupplierField(int supplierId, String field) throws Exception {
+    public void addSupplierField(int supplierId, String field) throws SuppliersException {
         try {
             getSupplierById(supplierId).getFields().add(field);
         } catch (Exception e) {
@@ -142,7 +144,7 @@ public class SupplierController {
     }
 
     // Update supplier payment condition
-    public void setSupplierPaymentCondition(int supplierId, String paymentCondition) throws Exception {
+    public void setSupplierPaymentCondition(int supplierId, String paymentCondition) throws SuppliersException {
         try {
             getSupplierById(supplierId).setPaymentCondition(paymentCondition);
         } catch (Exception e) {
@@ -151,7 +153,7 @@ public class SupplierController {
     }
 
     // Update supplier discount
-    public void setSupplierAmountToDiscount(int supplierId, Map<Integer, Double> amountToDiscount) throws Exception {
+    public void setSupplierAmountToDiscount(int supplierId, Map<Integer, Double> amountToDiscount) throws SuppliersException {
         try {
             getSupplierById(supplierId).setAmountToDiscount(amountToDiscount);
             ;
@@ -200,7 +202,7 @@ public class SupplierController {
     }
 
     // Delete all supplier contacts
-    public void deleteAllSupplierContacts(int supplierId) throws Exception {
+    public void deleteAllSupplierContacts(int supplierId) throws SuppliersException {
         try {
             Supplier s = getSupplierById(supplierId);
             s.deleteAllContacts();

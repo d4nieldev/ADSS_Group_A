@@ -1,8 +1,9 @@
 package BusinessLayer.Suppliers;
 
-import java.util.Map;
+import java.util.TreeMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 public abstract class Supplier {
 
@@ -24,14 +25,12 @@ public abstract class Supplier {
         this.fields = fields;
         this.paymentCondition = paymentCondition;
         this.amountToDiscount = amountToDiscount;
-        this.contacts = contacts;
-        Contact office = new Contact(phone, "Office");
-        contacts.add(office);
+        this.contacts = addOfficeContact(contacts, phone);
     }
 
     // Constructor without contacts and fields
     public Supplier(int id, String name, String phone, String bankAcc, String paymentCondition,
-            Map<Integer, Double> amountToDiscount) {
+            TreeMap<Integer, Double> amountToDiscount) {
         this.id = id;
         this.name = name;
         this.bankAcc = bankAcc;
@@ -45,7 +44,7 @@ public abstract class Supplier {
 
     // Constructor without contacts
     public Supplier(int id, String name, String phone, String bankAcc, List<String> fields, String paymentCondition,
-            Map<Integer, Double> amountToDiscount) {
+            TreeMap<Integer, Double> amountToDiscount) {
         this.id = id;
         this.name = name;
         this.bankAcc = bankAcc;
@@ -134,7 +133,7 @@ public abstract class Supplier {
         return contacts.get(0);
     }
 
-    public void setContacts(List<Contact> contacts) {
+    public void setContacts(LinkedList<Contact> contacts) {
         this.contacts = contacts;
     }
 
@@ -164,6 +163,17 @@ public abstract class Supplier {
     // Delete all contacts
     public void deleteAllContacts() {
         this.contacts.clear();
+    }
+
+    // Add office contact for the begining of the list of contacts
+    private List<Contact> addOfficeContact(List<Contact> contacts, String officePhone) {
+        List<Contact> newContacts = new LinkedList<>();
+        Contact office = new Contact(officePhone, "Office");
+        newContacts.add(office);
+        for (Contact c : contacts) {
+            newContacts.add(c);
+        }
+        return newContacts;
     }
 
     @Override

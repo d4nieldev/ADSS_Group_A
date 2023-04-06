@@ -11,10 +11,13 @@ public class BranchService {
     BranchController branchController;
     List<ProductService> allProductService;
     List<ReportService> allReportServices;
-    int index = 0;
+    int index = 1;
 
 public BranchService(){
    this.branchController = new BranchController();
+   this.allProductService = new ArrayList<>();
+   this.allReportServices = new ArrayList<>();
+   addBranch();
 }
 
 public void addBranch(){

@@ -1,7 +1,5 @@
 package Business_Layer;
 
-import sun.java2d.loops.GeneralRenderer;
-
 import java.util.*;
 import java.time.LocalDate;
 
@@ -15,6 +13,9 @@ public class ProductController {
         private List<Supply> allSupply; //store all the supply that we received
         private List<Supply> allRelevantSupply; //store all the supply that relevant
 
+        CategoryController categoryController;
+        private HashMap<GeneralProduct,List<Discount>> productDiscountHistory;
+
 
         public ProductController(){
 
@@ -23,6 +24,8 @@ public class ProductController {
                 this.allFlawProducts = new HashMap<>();
                 this.allSupply = new ArrayList<>();
                 this.allRelevantSupply = new ArrayList<>();
+                this.categoryController = CategoryController.getInstance();
+                this.productDiscountHistory = new HashMap<>();
         }
 
 //        public List<SpecificProduct> getAllSpecificProducts() {return allSpecificProducts;}
@@ -34,6 +37,10 @@ public class ProductController {
         public HashMap<GeneralProduct,Integer> getAllFlawProducts() {return allFlawProducts;}
 
         public List<Supply> getAllSupply() {return allSupply;}
+
+        public HashMap<GeneralProduct, List<Discount>> getProductDiscountHistory() {
+                return productDiscountHistory;
+        }
 
         /**
          * return general product by code, null if not exit
@@ -240,11 +247,13 @@ public class ProductController {
         /**
          * find and insert to the allExpiredProducts all of the products that already expired
          */
-        public void FindExpiredProducts() {
+        public void findExpiredProducts() {
                 LocalDate today = LocalDate.now();
+                List<Supply>test = new ArrayList<>();
                 for(Supply sp : allRelevantSupply)
                 {
-                        if (today.isBefore(sp.getExpiredDate()))
+
+                        if (today.isAfter(sp.getExpiredDate()))
                         {
                                 if(!allExpiredProducts.containsKey(sp))
                                 {
@@ -254,8 +263,14 @@ public class ProductController {
                                     gp.removeFromStorage(sp.getStorageAmount());
                                     sp.remove();
                                     gp.addExpiredProducts(sp.getIds());
-                                    allRelevantSupply.remove(sp);
+//                                    allRelevantSupply.remove(sp);
+                                        test.add(sp);
                                 }
+                        }
+                }
+                if(test.size() > 0) {
+                        for (Supply sp : test){
+                                allRelevantSupply.remove(sp);
                         }
                 }
         }
@@ -345,25 +360,39 @@ public class ProductController {
 //        }
         /**
          * set a discount on specific category and all its subCategories- will receive the sub categories from the service layer
-         * @param allSubCategories
+         * @param categories
          * @param startDate
          * @param endDate
          * @param discountPercentage
          */
-        public void setDiscountOnCategory(List<Category> allSubCategories, LocalDate startDate,LocalDate endDate, double discountPercentage)
+        public void setDiscountOnCategory(List<Category> categories, LocalDate startDate,LocalDate endDate, double discountPercentage)
         {
+                List<Category> allSubCategories = categoryController.getListAllSubCategories(categories);
                 Discount discount = new Discount(startDate,endDate,discountPercentage);
                 for(GeneralProduct gp : allGeneralProducts)
                 {
                         if (allSubCategories.contains(gp.getCategory()))
                         {
-
-                                gp.setOnDiscount(true);
+                                if(startDate.isBefore(LocalDate.now().plusDays(1))) {
+                                        gp.setOnDiscount(true);
+                                }
                                 gp.setDiscount(discount);
+                                addProductDiscount(gp,discount);
                         }
                 }
         }
+        private void addProductDiscount(GeneralProduct gp,Discount discount){
 
+                List<Discount> lst;
+                if(productDiscountHistory.containsKey(gp)){
+                        lst = productDiscountHistory.get(gp);
+                }
+                else {
+                        lst = new ArrayList<>();
+                }
+                lst.add(discount);
+                productDiscountHistory.put(gp,lst);
+        }
         /**
          * set a discount on a specific products
          * @param allProducts
@@ -378,8 +407,11 @@ public class ProductController {
                 {
                         if (allGeneralProducts.contains(gp))
                         {
-                                gp.setOnDiscount(true);
+                                if(startDate.isBefore(LocalDate.now().plusDays(1))) {
+                                        gp.setOnDiscount(true);
+                                }
                                 gp.setDiscount(discount);
+                                addProductDiscount(gp,discount);
                         }
                 }
         }
@@ -461,14 +493,17 @@ public class ProductController {
                 System.out.println("please enter product lowest category id");
                 // Read the user's input as a string
                  id = scanner.nextInt();
+                        scanner.skip("\n");
                 }
                 System.out.println("please enter minimum quantity for product : " + name );
                 int minQuantity = scanner.nextInt();
-                boolean check = CategoryController.ExistCategory(id);
+                scanner.skip("\n");
+
+                boolean check = categoryController.ExistCategory(id);
                 //if Category already exist
                 if(check)
                 {
-                        Category category = CategoryController.getCategoyById(id);
+                        Category category = categoryController.getCategoryById(id);
                         //CREATE NEW SUPPLY OBJECT!!!!!!!!
                         GeneralProduct gp = new GeneralProduct(name,code,price,manufacturer,minQuantity,category,amount);
                         allGeneralProducts.add(gp);
@@ -480,11 +515,14 @@ public class ProductController {
                         String categoryName = scanner.nextLine();
                         System.out.println("if category is sub category enter its parent category, otherwise -1");
                         int parentCategory = scanner.nextInt();
-                        Category parent = CategoryController.getCategoyById(id);
+                        scanner.skip("\n");
+                        Category parent = categoryController.getCategoryById(id);
                         Category category = new Category(categoryName,parent);
+                        categoryController.addNewCategory(category);
+
 
                         //CREATE NEW SUPPLY OBJECT!!!!!!!!
-                        GeneralProduct gp = new GeneralProduct(name,code,price,manufacturer,minQuantity,category,amount);
+                        GeneralProduct gp = new GeneralProduct(name,code,price,manufacturer,minQuantity,category);
                         allGeneralProducts.add(gp);
                         receiveExistSupply(code,price,amount,expiredDate);
                 }
@@ -571,7 +609,7 @@ public class ProductController {
                 List<GeneralProduct> result = new ArrayList<>();
                List<Category> allSubCategories = new ArrayList<>();
                for(Category category : categories){
-                       List<Category> subCategory = CategoryController.getAllSubCategories(category);
+                       List<Category> subCategory = categoryController.getAllSubCategories(category);
                        allSubCategories.addAll(subCategory);
                }
                for(GeneralProduct gp : allGeneralProducts){
@@ -620,4 +658,63 @@ public class ProductController {
                 }
                 return result;
         }
+
+        public List<GeneralProduct> getProductsByCode(List<Integer> productsDiscount) {
+                List<GeneralProduct> result = new ArrayList<>();
+                for(int code : productsDiscount){
+                        GeneralProduct gp = getGeneralProductByCode(code);
+                        result.add(gp);
+                }
+                return result;
+        }
+
+        public void addNewGeneralProduct(String name, int code, double price, String manufacturer, int min_quantity,int total_quantity) {
+
+                Scanner scanner = new Scanner(System.in);
+                int id = -1;
+                System.out.println("is the product's category exist? enter y/n");
+                String answer = scanner.nextLine();
+                if (answer.toLowerCase() == "y") {
+                        System.out.println("please enter product lowest category id");
+                        // Read the user's input as a string
+                        id = scanner.nextInt();
+                }
+                boolean check = categoryController.ExistCategory(id);
+                //if Category already exist
+                if (check) {
+                        Category category = categoryController.getCategoryById(id);
+                        //CREATE NEW SUPPLY OBJECT!!!!!!!!
+                        GeneralProduct gp = new GeneralProduct(name, code, price, manufacturer, min_quantity, category, total_quantity);
+                        allGeneralProducts.add(gp);
+                        System.out.println("Product added successful");
+                }
+                //it's a new category
+                else {
+                        System.out.println("this category is a new category, please enter category name: ");
+                        String categoryName = scanner.nextLine();
+                        System.out.println("if category is sub category enter its parent category, otherwise -1");
+                        int parentCategory = scanner.nextInt();
+                        Category parent = categoryController.getCategoryById(id);
+                        Category category = new Category(categoryName, parent);
+                        categoryController.addNewCategory(category);
+
+                        GeneralProduct gp = new GeneralProduct(name, code, price, manufacturer, min_quantity, category, total_quantity);
+                        allGeneralProducts.add(gp);
+
+                        System.out.println("Product added successful");
+
+                }
+        }
+
+        public void setProductMinQuantity(int code,int minQuantity){
+                GeneralProduct gp = getGeneralProductByCode(code);
+                gp.setMinimumQuantity(minQuantity);
+        }
+
+        public List<Discount> getProductDiscountHistory(int code){
+                GeneralProduct gp = getGeneralProductByCode(code);
+                return productDiscountHistory.get(gp);
+
+        }
+
 }

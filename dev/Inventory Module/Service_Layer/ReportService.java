@@ -3,6 +3,8 @@ package Service_Layer;
 import Business_Layer.ProductController;
 import Business_Layer.ReportController;
 
+import java.util.List;
+
 public class ReportService {
 
 ProductController productController;
@@ -23,7 +25,13 @@ public ReportService(ProductService productService){
      */
     public void importSpecificProductReport(int code,int id)
     {
-        reportController.importSpecificProductReport(code,id);
+        try{
+            reportController.importSpecificProductReport(code,id);
+        }
+        catch (Exception ex)
+        {
+            System.out.println("please try again - there is an issue with your choice");
+        }
     }
 
     /**
@@ -52,4 +60,11 @@ public ReportService(ProductService productService){
     }
 
     public int getBranchId() {return branchId;}
+
+    public void importProductDiscountHistory(int code){
+        reportController.getProductDiscountHistory(code);
+    }
+    public void importInventoryReportByCategories(List<Integer> categoriesIds){
+        reportController.importInventoryReportByCategoried(categoriesIds);
+    }
 }

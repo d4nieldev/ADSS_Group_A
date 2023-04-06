@@ -1,5 +1,6 @@
 package Business_Layer;
 
+import java.time.LocalDate;
 import java.util.*;
 
 public class GeneralProduct {
@@ -42,7 +43,7 @@ public class GeneralProduct {
         this.storage_quantity = 0;
         this.category = category;
         this.onDiscount = false;
-        discount = new Discount();
+        discount = null;
         this.productSupply = new ArrayList<>();
         this.onShelf = new ArrayList<>();
         this.onStorage = new ArrayList<>();
@@ -63,7 +64,7 @@ public class GeneralProduct {
         this.storage_quantity = total_quantity;
         this.category = category;
         this.onDiscount = false;
-        discount = new Discount();
+        discount = null;
         this.productSupply = new ArrayList<>();
         this.onShelf = new ArrayList<>();
         this.onStorage = new ArrayList<>();
@@ -88,10 +89,15 @@ public class GeneralProduct {
         return price;
     }
     public double getCurrentPrice() {
-        if(onDiscount)
-        return price * (1 - this.discount.getDiscount_percentage()/100);
-        else
-            return price;
+//        if(onDiscount)
+        double result = price;
+        if(discount != null){
+            if(discount.getStart_date().isBefore(LocalDate.now().plusDays(1)) && discount.getEnd_date().isAfter(LocalDate.now().minusDays(1)));
+            result = price * (1 - this.discount.getDiscount_percentage()/100);
+        }
+
+
+            return result;
     }
 
     public String getManufacturer() {
@@ -240,6 +246,9 @@ public class GeneralProduct {
 
     public void addToStorage(List<Integer> ids) {
         onStorage.addAll(ids);
+    }
+    public void setMinimumQuantity(int minQuantity) {
+        this.min_quantity = minQuantity;
     }
 
     /**

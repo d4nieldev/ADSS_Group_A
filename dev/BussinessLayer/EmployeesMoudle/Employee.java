@@ -25,7 +25,8 @@ public class Employee{
 	private List<String> roles;
 	private boolean isLoggedIn;
 	private LinkedList<Shift> historyShift;
-	private LinkedList<Integer> superBranches;
+	private int superBranch;
+	private LinkedList<Integer> branchs;
 
 	public Employee(String firstName, String lastName, int id, String password, int bankNum, int bankBranch, int bankAccount, 
 	int salary, int bonus, LocalDate startDate, License driverLicense, String role, int branch){
@@ -44,8 +45,8 @@ public class Employee{
 		roles.add(role);
 		isLoggedIn = false;
 		historyShift = new LinkedList<>();
-		superBranches = new LinkedList<>();
-		superBranches.add(branch);
+		superBranch = branch;
+		branchs = new LinkedList<>();
 	}
 
 	// add role if not exsist to employee
@@ -93,9 +94,9 @@ public class Employee{
 
 	public void resetBonus(){bonus = 0;}
 
-	public void addSuperBranch(int branch) {
-		if(superBranches.contains(branch)){throw new Error("This employee already assign to the branch " + branch + " in the syatem.");}
-		superBranches.add(branch);
+	public void addBranch(int branch) {
+		if(branchs.contains(branch)){throw new Error("This employee already assign to the branch " + branch + " in the syatem.");}
+		branchs.add(branch);
 	}
 
 	public String toString(){
@@ -130,5 +131,6 @@ public class Employee{
 	public void SetIsLoggedInToTrue(){isLoggedIn = true;}
 	public void SetIsLoggedInToFalse(){isLoggedIn = false;}
 	public LinkedList<Shift> getHistoryShift(){return historyShift;}
-	public LinkedList<Integer> getSuperBranches(){return superBranches;}
+	public int getSuperBranch(){return superBranch;}
+	public LinkedList<Integer> getAllBranches(){return branchs;}
 }

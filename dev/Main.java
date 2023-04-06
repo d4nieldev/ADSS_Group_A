@@ -5,6 +5,7 @@ import java.util.Scanner;
 import javax.swing.text.AbstractDocument.BranchElement;
 
 import Misc.*;
+import ServiceLayer.EmployeesMoudle.BranchService;
 import ServiceLayer.EmployeesMoudle.GradingService;
 import ServiceLayer.EmployeesMoudle.serviceFactory;
 
@@ -12,6 +13,7 @@ class Main {
     public static void main(String[] args) {
         ServiceLayer.EmployeesMoudle.GradingService gradingService = new GradingService();
         ServiceLayer.EmployeesMoudle.EmployeeService employeeService = gradingService.getEmployeeService();
+        ServiceLayer.EmployeesMoudle.BranchService branchService = gradingService.getBranchService();
         //ServiceLayer.EmployeesMoudle.EmployeeService employeeService = new ServiceLayer.EmployeesMoudle.EmployeeService();
 
         Scanner sc = new Scanner(System.in);
@@ -94,7 +96,7 @@ class Main {
                     int superBranch = Integer.parseInt(sc.nextLine());
                     System.out.println("");
 
-                    employeeService.addEmployee(loginId, firstName, lastName, id, password, bankNum, 
+                    branchService.addNewEmployee(loginId, firstName, lastName, id, password, bankNum, 
                     bankBranch, bankAccount, salary, bonus, localDate, driverLicense, role, superBranch);
 
                 }

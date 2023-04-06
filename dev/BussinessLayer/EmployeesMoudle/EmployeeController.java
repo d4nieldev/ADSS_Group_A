@@ -36,7 +36,7 @@ public class EmployeeController {
         addHRManagerForStartUpTheSystem("Rami", "Arnon", 123456789, "abc", 0, 0,
          0, 50000, 30000, localDate, null, Role.getRole("HRMANAGER"), 0);
 
-         addEmployeeListRoles = new LinkedList<>();
+         addEmployeeListAccess = new LinkedList<>();
     }
 
     // commit log in for employee, if exsist
@@ -76,7 +76,7 @@ public class EmployeeController {
     public void addEmployee(int managerId, String firstName, String lastName, int id, String password, int bankNum,
     int bankBranch, int bankAccount, int salary, int bonus, LocalDate startDate, License driverLicense, String role, int branch){
         if (isEmployeeExists(managerId) && isEmployeeLoggedIn(managerId)){
-            checkIfEmployeeAllowed(managerId, addEmployeeList);
+            checkIfEmployeeAllowed(managerId, addEmployeeListAccess);
             //checkEmployee(id); //not needed - CHECK WITH INBAR.
             employees.add(new Employee(firstName, lastName, id, password, bankNum,
             bankBranch, bankAccount, salary, bonus, startDate, driverLicense, role, branch));
@@ -226,11 +226,11 @@ public class EmployeeController {
         checkEmployee(managerId);
         //checkEmployee(idEmployee);
         checkLoggedIn(managerId);
-        checkIfEmployeeAllowed(managerId, changeDriverLicenceListRoles);
+        checkIfEmployeeAllowed(managerId, changeDriverLicenceListAccess);
         getEmployeeById(idEmployee).setDriverLicense(licene);
     }
     
-//-------------------------------------Help Functions--------------------------------------------------------
+//-------------------------------------------------------Help Functions------------------------------------------------------------
 
     //called only if the employee exist, else will return error.
     public Employee getEmployeeById(int id){ 

@@ -34,13 +34,16 @@ public class ShiftController {
     // add constaint to shift
 
     // aprove function for the HR manager to a final shift
-    public void approveFinalShift(int managerID, HashMap<Employee, Role> hrAssigns){}
+    public void approveFinalShift(int managerID, HashMap<Integer, String> hrAssigns){}
+    // new HashMap from Integer and roles to Employees and roles
     // check: exist super branch for all users
     // check: no employee have a shift on the same day
     // check: all the role are existing in the employees that needed
     // check: no over employees then needed
     // needs to send a message if some role are missing people, and how mach -> function: missingStaffToRole
 
+    //public String printFinalShift() - TODO
+    
 //-------------------------------------Getters And Setters--------------------------------------------------------
 
     // throw Error if there is not shift with this ID

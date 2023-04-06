@@ -23,21 +23,11 @@ public class EmployeeService {
         employeeController.logOut(id);
     }
 
-    public void addEmployee(int managerId, String firstName, String lastName, int id, String password, int bankNum,
-    int bankBranch, int bankAccount, int salary, int bonus, LocalDate startDate, License driverLicense, String role, int branch){
-        // Employee manager = employeeController.getEmployeeById(managerId);
-        // List<Role> managerRoles = manager.getRoles();
-        // if (managerRoles.contains(Role.HRMANAGER)){
-        //     employeeController.addEmployee(managerId, firstName, lastName, id, password, bankNum,
-        //     bankBranch, bankAccount, salary, bonus, startDate, driverLicense, role);
-        // }
-        // else{
-        //     System.out.println("This function is only available for HR manager.");
-        // }
-
-        employeeController.addEmployee(managerId, firstName, lastName, id, password, bankNum,
-        bankBranch, bankAccount, salary, bonus, startDate, driverLicense, role, branch);
-    }
+    // public void addEmployee(int managerId, String firstName, String lastName, int id, String password, int bankNum,
+    // int bankBranch, int bankAccount, int salary, int bonus, LocalDate startDate, License driverLicense, String role, int branch){
+    //     employeeController.addEmployee(managerId, firstName, lastName, id, password, bankNum,
+    //     bankBranch, bankAccount, salary, bonus, startDate, driverLicense, role, branch);
+    // }
 
     public void deleteEmployee(int managerId, int id){
         employeeController.deleteEmployee(managerId, id);

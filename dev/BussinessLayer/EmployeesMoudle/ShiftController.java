@@ -50,6 +50,10 @@ public class ShiftController {
         strPrint += shift.printFinalShift();
         return strPrint;
     }
+    
+    public void addConstraint(int shiftId, Employee employee, LinkedList<String> role) {
+        getShift(shiftId).addConstraint(employee, role);
+    }
 
 //-------------------------------------Getters And Setters--------------------------------------------------------
 

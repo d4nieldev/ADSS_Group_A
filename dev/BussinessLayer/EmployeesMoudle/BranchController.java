@@ -52,13 +52,18 @@ public class BranchController {
     }
     
     // add constaint to shift
-    public void addConstraint(int branchID, int idEmployee, int shift, String role){
+    public void addConstraint(int idBranch, int idEmployee, int idShift){
         // check list is not finishSettingShift
-        Branch branch = getBranchById(branchID);
-        
-
-        // check user in branch
-        // check user and role is not already in the constraints list in this shift
+        Branch branch = getBranchById(idBranch);
+        Shift shift = shiftController.getShift(idShift);
+        branch.checkShiftInBranch(shift);
+        if(shift.getIsFinishSettingShift()) {throw new Error("This shift is not avalible for submiting constraints anymore.");}
+        // check employee in branch
+        Employee employee = employeeController.getEmployeeById(idEmployee);
+        branch.checkEmployeeInBranch(employee);
+        // check employee and role is not already in the constraints list in this shift
+        // if not - add the  constraint to the shift
+        shiftController.addConstraint(idShift, employee, employee.getRoles());
     }
 
     //-------------------------------------Help Functions--------------------------------------------------------

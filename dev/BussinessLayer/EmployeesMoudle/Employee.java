@@ -22,7 +22,7 @@ public class Employee{
 	private int bonus;
 	private LocalDate startDate;
 	private License driverLicense;
-	private List<String> roles;
+	private LinkedList<String> roles;
 	private boolean isLoggedIn;
 	private LinkedList<Shift> historyShift;
 	private int superBranch;
@@ -126,7 +126,7 @@ public class Employee{
 	public void setStartDate(LocalDate date){this.startDate = date;}
 	public License getDriverLicense(){return driverLicense;}
 	public void setDriverLicense(License driverLicense){this.driverLicense = driverLicense;}
-	public List<String> getRoles(){return roles;}
+	public LinkedList<String> getRoles(){return roles;}
 	public boolean getIsLoggedIn(){return isLoggedIn;}
 	public void SetIsLoggedInToTrue(){isLoggedIn = true;}
 	public void SetIsLoggedInToFalse(){isLoggedIn = false;}

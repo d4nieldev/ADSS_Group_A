@@ -10,6 +10,7 @@ import java.util.Dictionary;
 import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.LinkedList;
+import java.util.List;
 
 import Misc.*;
 
@@ -23,7 +24,7 @@ public class Shift{
     private int endHour; 
     private int duration;
     private boolean finishSettingShift;
-    private HashMap<Employee, String> constraints;
+    private HashMap<Employee, LinkedList<String>> constraints;
     private HashMap<String, Integer> numEmployeesForRole;
     private HashMap<String, Integer> helpMapForAssign;
     private HashMap<Employee, String> finalShift;
@@ -38,7 +39,7 @@ public class Shift{
         this.endHour = endHour;
         this.duration = endHour - startHour;
         finishSettingShift = false;
-        this.constraints = new HashMap<Employee, String>();
+        this.constraints = new HashMap<Employee, LinkedList<String>>();
         this.numEmployeesForRole = new HashMap<String, Integer>();
         this.helpMapForAssign = new HashMap<String, Integer>();
         this.finalShift = new HashMap<Employee, String>();
@@ -52,12 +53,9 @@ public class Shift{
         throw new Error("This employee can not cancel an item. Only the shift manager or the super branch manager.");
     }
 
-    public Map<Employee, String> getAllConstraints(){
-        return constraints;
-    }
-    public void addConstraint(Employee employee, String role) {
-        if(finishSettingShift){
-            throw new Error("The shift is close to add constraint. Already have employees.");
+    public void addConstraint(Employee employee, LinkedList<String> role) {
+        if(constraints.containsKey(employee)){
+            throw new Error("The employee already sign to this sift in the constraints list.");
         }
         constraints.put(employee, role);
     }
@@ -131,6 +129,10 @@ public class Shift{
     public String printFinalShift(){
         return "Final Shift: " + finalShift.toString();
     }
+
+    public String printConstraints(){
+        return "Constraints: " + constraints.toString();
+    }
     
     public String toString(){
 		return "Shift ID: " + idShift + " , Super Branch Numer: " + superBranchNumer + " [date: " + date + ", time: " + time.toString() + 
@@ -150,6 +152,7 @@ public class Shift{
     this.endHour = newEndHour;}
     public int getDuration(){return duration;}
     public boolean getIsFinishSettingShift(){return finishSettingShift;}
+    public HashMap<Employee, LinkedList<String>> getConstraints(){return constraints;}
     public HashMap<Employee, String> getFinalShift(){return finalShift;}
     public Dictionary<Integer, Integer> getCancellations(){return cancellations;}
 }

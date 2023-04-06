@@ -126,7 +126,7 @@ public class GradingService {
         branchS.addShift(managerId, branch, date, startHour, endHour, time);
     }
     
-    public void addConstraint(int branch, int idEmployee, int shift, String role){
-        branchS.addConstraint(branch, idEmployee, shift, role);
+    public void addConstraint(int branch, int idEmployee, int shift){
+        branchS.addConstraint(branch, idEmployee, shift);
     }
 }

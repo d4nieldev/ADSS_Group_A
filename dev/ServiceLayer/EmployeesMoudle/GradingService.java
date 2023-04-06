@@ -86,6 +86,10 @@ public class GradingService {
     public void addPremissionRole(int managerID, String function, String role){
         employeeS.addPremissionRole(managerID, function, role);
     }
+    
+    public void RemovePremissionRole(int managerID, String function, String role){
+        employeeS.RemovePremissionRole(managerID, function, role);
+    }
 
     // ------------------------------------------- SHIFT SERVICE ------------------------------------------------------------
 
@@ -120,5 +124,9 @@ public class GradingService {
     
     public void addShift(int managerId, int branch, LocalDate date, int startHour, int endHour, ShiftTime time){
         branchS.addShift(managerId, branch, date, startHour, endHour, time);
+    }
+    
+    public void addConstraint(int branch, int idEmployee, int shift, String role){
+        branchS.addConstraint(branch, idEmployee, shift, role);
     }
 }

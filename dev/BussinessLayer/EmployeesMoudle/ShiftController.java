@@ -11,17 +11,15 @@ public class ShiftController {
     private EmployeeController employeeController;
     private LinkedList<Shift> shifts;
     private static int shiftIdConuter = 0;
-    private LinkedList<String> addCancelationListAccess;
 
     // constructor
     public ShiftController(EmployeeController employeeController){
         this.employeeController = employeeController;
         shifts = new LinkedList<Shift>();
-        addCancelationListAccess = new LinkedList<>(); addCancelationListAccess.add(Role.getRole("HRMANAGER"));
     }
 
-    public void addShift(int superBranchNumer, LocalDate date, int startHour, int endHour, ShiftTime time){
-        shifts.add(new Shift(shiftIdConuter, superBranchNumer, date, startHour, endHour, time));
+    public void addShift(Shift newShift){
+        shifts.add(newShift);
         shiftIdConuter++;
     }
     
@@ -30,11 +28,9 @@ public class ShiftController {
         Shift shift = getShift(shiftId);
         Employee employee = employeeController.getEmployeeById(employeeId);
         employeeController.checkLoggedIn(employeeId);
+        employeeController.checkIfEmployeeAllowed(employeeId, employeeController.getAddCancelationListAccess());
         shift.addCancelation(employee, itemCode, itemId);
     }
-
-    // add constaint to shift
-    public void addConstraint(int idEmployee, int shift){}
 
     // aprove function for the HR manager to a final shift
     public void approveFinalShift(int managerID, HashMap<Integer, String> hrAssigns){
@@ -64,6 +60,8 @@ public class ShiftController {
         }
         throw new Error("No such a shift in this system by the id " + id);
     }
+
+    public int getShiftIdConuter(){return shiftIdConuter;}
 
 //-------------------------------------Help Functions--------------------------------------------------------
 

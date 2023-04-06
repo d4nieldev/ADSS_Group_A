@@ -36,4 +36,8 @@ public class BranchService {
     public void addShift(int managerId, int branch, LocalDate date, int startHour, int endHour, ShiftTime time){
         branchController.addShift(managerId, branch, date, startHour, endHour, time);
     }
+    
+    public void addConstraint(int branch, int idEmployee, int shift){
+        branchController.addConstraint(branch, idEmployee, shift);
+    }
 }

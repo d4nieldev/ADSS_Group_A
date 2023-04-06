@@ -27,6 +27,7 @@ public class EmployeeController {
     private LinkedList<String> changeSalaryListAccess;
     private LinkedList<String> changeStartDateListAccess;
     private LinkedList<String> changeDriverLicenceListAccess;
+    private LinkedList<String> addCancelationListAccess;
 
     public EmployeeController(){
         employees = new LinkedList<>();
@@ -52,6 +53,7 @@ public class EmployeeController {
          changeSalaryListAccess = new LinkedList<>(); changeSalaryListAccess.add(Role.getRole("HRMANAGER"));
          changeStartDateListAccess = new LinkedList<>(); changeStartDateListAccess.add(Role.getRole("HRMANAGER"));
          changeDriverLicenceListAccess = new LinkedList<>(); changeDriverLicenceListAccess.add(Role.getRole("HRMANAGER"));
+         addCancelationListAccess = new LinkedList<>(); addCancelationListAccess.add(Role.getRole("HRMANAGER"));
     }
 
     // commit log in for employee, if exsist
@@ -154,7 +156,7 @@ public class EmployeeController {
 
     public void addPremissionRole(int managerId, String function, String role){
         checkHrManager(managerId);
-        switch (function.toUpperCase()){
+        switch (function){
             case("ADDEMPLOYEE") : {
                 if(addEmployeeListAccess.contains(role)){throw new Error("This role can already do this function in the system.");}
                 addEmployeeListAccess.add(role);
@@ -218,6 +220,84 @@ public class EmployeeController {
             case("CHANGEDRIVERLIVENCE") : {
                 if(changeDriverLicenceListAccess.contains(role)){throw new Error("This role can already do this function in the system.");}
                 changeDriverLicenceListAccess.add(role);
+            }
+            case("ADDCANCELATION") : {
+                if(addCancelationListAccess.contains(role)){throw new Error("This role can already do this function in the system.");}
+                addCancelationListAccess.add(role);
+            }
+        }
+    }
+        
+    public void RemovePremissionRole(int managerId, String function, String role){
+        checkHrManager(managerId);
+        switch (function){
+            case("ADDEMPLOYEE") : {
+                if(!addEmployeeListAccess.contains(role)){throw new Error("This role can not do this function according to system.");}
+                addEmployeeListAccess.remove(role);
+            }
+            case("PRINTALLEMPLOYEES") : {
+                if(!printAllEmployeesListAccess.contains(role)){throw new Error("This role can not do this function according to the system.");}
+                printAllEmployeesListAccess.remove(role);
+            }
+            case("DELETEEMPLOYEE") : {
+                if(!deleteEmployeeListAccess.contains(role)){throw new Error("This role can not do this function according to the system.");}
+                deleteEmployeeListAccess.remove(role);
+            }
+            case("ADDROLETOEMPLOYEE") : {
+                if(!addRolesListAccess.contains(role)){throw new Error("This role can not do this function according to the system.");}
+                addRolesListAccess.remove(role);
+            }
+            case("REMOVEROLEFROMEMPLOYEE") : {
+                if(!removeRolesListAccess.contains(role)){throw new Error("This role can not do this function according to the system.");}
+                removeRolesListAccess.remove(role);
+            }
+            case("ADDBONUS") : {
+                if(!AddBonusListAccess.contains(role)){throw new Error("This role can not do this function according to the system.");}
+                AddBonusListAccess.remove(role);
+            }
+            case("GETALLDRIVERS") : {
+                if(!getAllDriversListAccess.contains(role)){throw new Error("This role can not do this function according to the system.");}
+                getAllDriversListAccess.remove(role);
+            }
+            case("CHANGEFIRSTNAME") : {
+                if(!changeFirstNameListAccess.contains(role)){throw new Error("This role can not do this function according to the system.");}
+                changeFirstNameListAccess.remove(role);
+            }
+            case("CHANGELASTNAME") : {
+                if(!changeLastNameListAccess.contains(role)){throw new Error("This role can not do this function according to the system.");}
+                changeLastNameListAccess.remove(role);
+            }
+            case("CHANGEPASSWORD") : {
+                if(!changePasswordListAccess.contains(role)){throw new Error("This role can not do this function according to the system.");}
+                changePasswordListAccess.remove(role);
+            }
+            case("CHANGEBANKNUMBER") : {
+                if(!changeBankNumListAccess.contains(role)){throw new Error("This role can not do this function according to the system.");}
+                changeBankNumListAccess.remove(role);
+            }
+            case("CHANGEBANKBRANCH") : {
+                if(!changeBankBranchListAccess.contains(role)){throw new Error("This role can not do this function according to the system.");}
+                changeBankBranchListAccess.remove(role);
+            }
+            case("CHANGEBANKACCOUNT") : {
+                if(!changeBankAccountListAccess.contains(role)){throw new Error("This role can not do this function according to the system.");}
+                changeBankAccountListAccess.remove(role);
+            }
+            case("CHANGRSALARY") : {
+                if(!changeSalaryListAccess.contains(role)){throw new Error("This role can not do this function according to the system.");}
+                changeSalaryListAccess.remove(role);
+            }
+            case("CHANGESTARTDATE") : {
+                if(!changeStartDateListAccess.contains(role)){throw new Error("This role can not do this function according to the system.");}
+                changeStartDateListAccess.remove(role);
+            }
+            case("CHANGEDRIVERLIVENCE") : {
+                if(!changeDriverLicenceListAccess.contains(role)){throw new Error("This role can not do this function according to the system.");}
+                changeDriverLicenceListAccess.remove(role);
+            }
+            case("ADDCANCELATION") : {
+                if(!addCancelationListAccess.contains(role)){throw new Error("This role can not do this function according to the system.");}
+                addCancelationListAccess.remove(role);
             }
         }
     }
@@ -294,6 +374,8 @@ public class EmployeeController {
         checkIfEmployeeAllowed(managerId, changeDriverLicenceListAccess);
         getEmployeeById(idEmployee).setDriverLicense(licene);
     }
+
+    public LinkedList<String> getAddCancelationListAccess(){return addCancelationListAccess;}
     
 //-------------------------------------------------------Help Functions------------------------------------------------------------
 

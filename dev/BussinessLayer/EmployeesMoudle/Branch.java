@@ -1,14 +1,14 @@
 package BussinessLayer.EmployeesMoudle;
 
 import java.util.LinkedList;
-import java.util.List;
 
 public class Branch {
     int branchId;
     String address;
-    List<Employee> originEmployees;
-    List<Employee> foreignEmployees;
-    List<Employee> notAllowEmployees;
+    LinkedList<Employee> originEmployees;
+    LinkedList<Employee> foreignEmployees;
+    LinkedList<Employee> notAllowEmployees;
+    LinkedList<Shift> shifts;
 
     public Branch(){
     }
@@ -19,6 +19,7 @@ public class Branch {
         this.originEmployees = new LinkedList<>();
         this.foreignEmployees = new LinkedList<>();
         this.notAllowEmployees = new LinkedList<>();
+        this.shifts = new LinkedList<>();
     }
 
     public void addNewEmployee(Employee employee){
@@ -27,6 +28,10 @@ public class Branch {
 
     public void addForeignEmployee(Employee employee){
         foreignEmployees.add(employee);
+    }
+    
+    public void addShift(Shift shift){
+        shifts.add(shift);
     }
 
     //-------------------------------------Getters And Setters--------------------------------------------------------

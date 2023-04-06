@@ -40,6 +40,10 @@ public class EmployeeService {
     public void addPremissionRole(int managerID, String function, String role){
         employeeController.addPremissionRole(managerID, function.toUpperCase(), Role.getRole(role));
     }
+    
+    public void RemovePremissionRole(int managerID, String function, String role){
+        employeeController.RemovePremissionRole(managerID, function.toUpperCase(), Role.getRole(role));
+    }
 
     //-------------------------------------Getters And Setters--------------------------------------------------------
 

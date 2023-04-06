@@ -44,7 +44,21 @@ public class BranchController {
 
     public void addShift(int managerId, int branchId, LocalDate date, int startHour, int endHour, ShiftTime time){
         employeeController.checkHrManager(managerId);
-        shiftController.addShift(branchId, date, startHour, endHour, time);
+        int shiftID = shiftController.getShiftIdConuter();
+        Shift newShift = new Shift(shiftID, branchId, date, startHour, endHour, time);
+        shiftController.addShift(newShift);
+        Branch branch = getBranchById(branchId);
+        branch.addShift(newShift);
+    }
+    
+    // add constaint to shift
+    public void addConstraint(int branchID, int idEmployee, int shift, String role){
+        // check list is not finishSettingShift
+        Branch branch = getBranchById(branchID);
+        
+
+        // check user in branch
+        // check user and role is not already in the constraints list in this shift
     }
 
     //-------------------------------------Help Functions--------------------------------------------------------

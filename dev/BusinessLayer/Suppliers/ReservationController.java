@@ -5,14 +5,17 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import BusinessLayer.Suppliers.exceptions.SuppliersException;
 
 public class ReservationController {
     private static ReservationController instance = null;
-    // maps between the main reservation and the sub-reservations it was splited into.
+    // maps between the main reservation and the sub-reservations it was splited
+    // into.
     private Map<Integer, List<Reservation>> idToSupplierReservations;
-    // maps between the supplier id and the reservations that were made to that supplier.
+    // maps between the supplier id and the reservations that were made to that
+    // supplier.
     private Map<Integer, List<Reservation>> supplierIdToReservations;
     // list of reservations with 'Ready' status.
     private List<Integer> readyReservations;
@@ -21,6 +24,7 @@ public class ReservationController {
 
     private ReservationController() {
         idToSupplierReservations = new HashMap<>();
+        supplierIdToReservations = new HashMap<>();
         readyReservations = new ArrayList<>();
         lastId = 0;
     }
@@ -111,10 +115,12 @@ public class ReservationController {
         while (amount > 0) {
             minAgreement = null;
             int maxAmount = -1;
-            for (ProductAgreement agreement : productAgreements) {
+            Collection<ProductAgreement> relevantPAs = productAgreements.stream()
+                    .filter(e -> output.get(e.getSupplierId()) == null).collect(Collectors.toList());
+            for (ProductAgreement agreement : relevantPAs) {
                 maxAmount = Math.min(amount, agreement.getStockAmount());
-                if ((minAgreement == null
-                        || agreement.getPrice(maxAmount) < minAgreement.getPrice(maxAmount)))
+                if (minAgreement == null
+                        || agreement.getPrice(maxAmount) < minAgreement.getPrice(maxAmount))
                     minAgreement = agreement;
             }
             if (minAgreement == null)
@@ -162,9 +168,9 @@ public class ReservationController {
         return output;
     }
 
-    public List<Reservation> getSupplierReservations(int supplierId) throws SuppliersException {
+    public List<Reservation> getSupplierReservations(int supplierId) {
         if (!supplierIdToReservations.containsKey(supplierId))
-            throw new SuppliersException("No supplier with id " + supplierId + " found with reservations to return");
+            return new ArrayList<>();
         return supplierIdToReservations.get(supplierId);
     }
 
@@ -176,5 +182,12 @@ public class ReservationController {
                 output.computeIfAbsent(reservationId, k -> new ArrayList<>()).add(r.getDestination());
         }
         return output;
+    }
+
+    public void clearData() {
+        idToSupplierReservations.clear();
+        supplierIdToReservations.clear();
+        readyReservations.clear();
+        lastId = 0;
     }
 }

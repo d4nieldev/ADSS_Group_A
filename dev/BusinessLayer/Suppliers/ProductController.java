@@ -17,6 +17,7 @@ public class ProductController {
 
     private ProductController() {
         productIdToSupplierProducts = new HashMap<>();
+        supplierIdToProductAgreements = new HashMap<>();
         products = new HashMap<>();
     }
 
@@ -26,7 +27,9 @@ public class ProductController {
         return instance;
     }
 
-    public Collection<ProductAgreement> getProductAgreementsOfProduct(int productId) {
+    public Collection<ProductAgreement> getProductAgreementsOfProduct(int productId) throws SuppliersException {
+        if (!productIdToSupplierProducts.containsKey(productId))
+            throw new SuppliersException("Product does not exist");
         return productIdToSupplierProducts.get(productId).values();
     }
 
@@ -77,5 +80,11 @@ public class ProductController {
 
     public Product getProductById(int productId) {
         return products.get(productId);
+    }
+
+    public void clearData() {
+        productIdToSupplierProducts.clear();
+        supplierIdToProductAgreements.clear();
+        products.clear();
     }
 }

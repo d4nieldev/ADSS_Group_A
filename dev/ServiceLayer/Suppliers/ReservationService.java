@@ -58,12 +58,8 @@ public class ReservationService {
     }
 
     public String getSupplierReservations(int supplierId) {
-        try {
-            // TODO: switch to json or something
-            return reservationController.getSupplierReservations(supplierId).toString();
-        } catch (SuppliersException e) {
-            return e.getMessage();
-        }
+        // TODO: switch to json or something
+        return reservationController.getSupplierReservations(supplierId).toString();
     }
 
     public String getReadySupplierToAddresses() {

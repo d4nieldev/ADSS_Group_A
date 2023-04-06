@@ -16,10 +16,10 @@ public class SupplierSystem {
         System.out.println("Enter command (help for a guide): ");
         String[] commandTokens = scanner.nextLine().split(" ");
         switch (commandTokens[0]) {
-            case "help": 
+            case "help":
                 help();
                 break;
-            case "addSupplier": 
+            case "addSupplier":
                 addSupplier();
                 break;
             case "addAgreement":
@@ -89,7 +89,7 @@ public class SupplierSystem {
         List<String> fields = makeFieldsList();
 
         // add amount-discount map
-        Map<Integer, Double> amountTodiscount = makeAmountDiscountPercentageMap();
+        TreeMap<Integer, Double> amountTodiscount = makeAmountDiscountPercentageMap();
 
         // add contacts list
         System.out.print("Enter contacts [phone] [name] pairs (enter 'done' to finish): ");
@@ -105,8 +105,8 @@ public class SupplierSystem {
         } while (!input.equals("done"));
 
         // now we choose the supplier type
-        boolean flag=false;
-        while(!flag){
+        boolean flag = false;
+        while (!flag) {
             System.out.println("Please choose the supplier type:");
             System.out.println("1 - FixedDaysSupplier, 2 - On Order Supplier,  3 - Self Pickup Supplier");
             int type = scanner.nextInt();
@@ -135,7 +135,7 @@ public class SupplierSystem {
                     msg = ss.addFixedDaysSupplierBaseAgreement(name, phone, bankAccount, fields, paymentCondition,
                             amountTodiscount, names, phones, days);
                     System.out.println(msg);
-                    flag=true;
+                    flag = true;
                     break;
                 }
                 case 2: {
@@ -144,7 +144,7 @@ public class SupplierSystem {
                     msg = ss.addOnOrderSupplierBaseAgreement(name, phone, bankAccount, fields, paymentCondition,
                             amountTodiscount, names, phones, maxDays);
                     System.out.println(msg);
-                    flag=true;
+                    flag = true;
                     break;
                 }
                 case 3: {
@@ -153,7 +153,7 @@ public class SupplierSystem {
                     msg = ss.addSelfPickupSupplierBaseAgreement(name, phone, bankAccount, fields, paymentCondition,
                             amountTodiscount, names, phones, address);
                     System.out.println(msg);
-                    flag=true;
+                    flag = true;
                     break;
                 }
                 default: {

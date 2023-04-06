@@ -49,7 +49,7 @@ public class SupplierController {
 
     // Add 'Fixed days' supplier to the system
     public void addFixedDaysSupplierBaseAgreement(String supplierName, String supplierPhone, String supplierBankAccount,
-            List<String> supplierFields, String paymentCondition, Map<Integer, Double> amountToDiscount,
+            List<String> supplierFields, String paymentCondition, TreeMap<Integer, Double> amountToDiscount,
             List<String> contactNames, List<String> contactPhones, List<Integer> days) {
         try {
             FixedDaysSupplier fds = new FixedDaysSupplier(nextSupplierIdInSystem, supplierName, supplierPhone,
@@ -66,7 +66,7 @@ public class SupplierController {
     // Add 'On Order' supplier to the system
     public void addOnOrderSupplierBaseAgreement(String supplierName, String supplierPhone,
             String supplierBankAccount,
-            List<String> supplierFields, String paymentCondition, Map<Integer, Double> amountToDiscount,
+            List<String> supplierFields, String paymentCondition, TreeMap<Integer, Double> amountToDiscount,
             List<String> contactNames, List<String> contactPhones, int maxSupplyDays) {
         try {
             OnOrderSupplier oos = new OnOrderSupplier(nextSupplierIdInSystem, supplierName, supplierPhone,
@@ -83,7 +83,7 @@ public class SupplierController {
     // Add 'Self Pickup' supplier to the system
     public void addSelfPickupSupplierBaseAgreement(String supplierName, String supplierPhone,
             String supplierBankAccount,
-            List<String> supplierFields, String paymentCondition, Map<Integer, Double> amountToDiscount,
+            List<String> supplierFields, String paymentCondition, TreeMap<Integer, Double> amountToDiscount,
             List<String> contactNames, List<String> contactPhones, String address) {
         try {
             SelfPickupSupplier spus = new SelfPickupSupplier(nextSupplierIdInSystem, supplierName, supplierPhone,
@@ -153,10 +153,14 @@ public class SupplierController {
     }
 
     // Update supplier discount
+<<<<<<< HEAD
     public void setSupplierAmountToDiscount(int supplierId, Map<Integer, Double> amountToDiscount) throws SuppliersException {
+=======
+    public void setSupplierAmountToDiscount(int supplierId, TreeMap<Integer, Double> amountToDiscount)
+            throws Exception {
+>>>>>>> a9cb402b15f684611d6d955ebffdbe4adb1e39e4
         try {
             getSupplierById(supplierId).setAmountToDiscount(amountToDiscount);
-            ;
         } catch (Exception e) {
             throw e;
         }
@@ -298,7 +302,7 @@ public class SupplierController {
         for (ReceiptItem item : items)
             amount += item.getAmount();
 
-        double discount_coefficient = idToSupplier.get(supplierId).getAmountToDiscount().get(amount);
+        double discount_coefficient = idToSupplier.get(supplierId).getDiscount(amount);
 
         for (ReceiptItem item : items)
             item.setPricePerUnitAfterDiscount(discount_coefficient * item.getPricePerUnitAfterDiscount());
@@ -326,6 +330,11 @@ public class SupplierController {
 
     public Contact getRandomContactOf(int supplierID) throws SuppliersException {
         return getSupplierById(supplierID).getRandomContact();
+    }
+
+    public void clearData() {
+        idToSupplier.clear();
+        nextSupplierIdInSystem = 0;
     }
 
 }

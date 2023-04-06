@@ -33,7 +33,7 @@ public class SupplierService {
      */
     public String addFixedDaysSupplierBaseAgreement(String supplierName, String supplierPhone,
             String supplierBankAccount,
-            List<String> supplierFields, String paymentCondition, Map<Integer, Double> amountToDiscount,
+            List<String> supplierFields, String paymentCondition, TreeMap<Integer, Double> amountToDiscount,
             List<String> contactNames, List<String> contactPhones, List<Integer> days) {
         try {
             supplierController.addFixedDaysSupplierBaseAgreement(supplierName, supplierPhone, supplierBankAccount,
@@ -60,7 +60,7 @@ public class SupplierService {
      * @return success/error message
      */
     public String addOnOrderSupplierBaseAgreement(String supplierName, String supplierPhone, String supplierBankAccount,
-            List<String> supplierFields, String paymentCondition, Map<Integer, Double> amountToDiscount,
+            List<String> supplierFields, String paymentCondition, TreeMap<Integer, Double> amountToDiscount,
             List<String> contactNames, List<String> contactPhones, int maxSupplyDays) {
         try {
             supplierController.addOnOrderSupplierBaseAgreement(supplierName, supplierPhone, supplierBankAccount,
@@ -88,7 +88,7 @@ public class SupplierService {
      */
     public String addSelfPickupSupplierBaseAgreement(String supplierName, String supplierPhone,
             String supplierBankAccount,
-            List<String> supplierFields, String paymentCondition, Map<Integer, Double> amountToDiscount,
+            List<String> supplierFields, String paymentCondition, TreeMap<Integer, Double> amountToDiscount,
             List<String> contactNames, List<String> contactPhones, String address) {
         try {
             supplierController.addSelfPickupSupplierBaseAgreement(supplierName, supplierPhone, supplierBankAccount,
@@ -176,7 +176,7 @@ public class SupplierService {
     }
 
     // Update supplier discount
-    public String setSupplierAmountToDiscount(int supplierId, Map<Integer, Double> amountToDiscount) {
+    public String setSupplierAmountToDiscount(int supplierId, TreeMap<Integer, Double> amountToDiscount) {
         try {
             supplierController.setSupplierAmountToDiscount(supplierId, amountToDiscount);
             return "Supplier field  updated successfully";

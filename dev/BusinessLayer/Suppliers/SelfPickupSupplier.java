@@ -17,7 +17,7 @@ class SelfPickupSupplier extends Supplier {
 
     // Constructor without contacts, reservation history and fields
     public SelfPickupSupplier(int id, String name, String phone, String bankAcc, String paymentCondition,
-            Map<Integer, Double> amountToDiscount, String address) {
+        Map<Integer, Double> amountToDiscount, String address) {
         super(id, name, phone, bankAcc, paymentCondition, amountToDiscount);
         this.address = address;
     }

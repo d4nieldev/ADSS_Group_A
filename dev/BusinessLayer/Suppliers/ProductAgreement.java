@@ -9,7 +9,7 @@ class ProductAgreement {
     private double basePrice;
     private int stockAmount;
     private Product product;
-    //discount is in percentage (max 100%)
+    // discount is in percentage (max 100%)
     private TreeMap<Integer, Double> amountToDiscount;
 
     public ProductAgreement(int supplierId, Product product, int productSupplierId, double basePrice, int stockAmount,
@@ -23,11 +23,12 @@ class ProductAgreement {
 
     /**
      * Returns the exact price of the all the amount of the product.
+     * 
      * @param amount
      * @return
      */
     public double getPrice(int amount) {
-        Double discountPercentageOfProduct = amountToDiscount.get(amountToDiscount.floorKey(amount));
+        Double discountPercentageOfProduct = amountToDiscount.getOrDefault(amountToDiscount.floorKey(amount), 0.0);
         return (basePrice * (1 - discountPercentageOfProduct)) * amount;
     }
 
@@ -59,7 +60,7 @@ class ProductAgreement {
     // Setter for amount to price map
     public void setAmountToDiscount(TreeMap<Integer, Double> amountToDiscount) {
         this.amountToDiscount = amountToDiscount;
-        
+
     }
 
     // Getter for product
@@ -68,12 +69,12 @@ class ProductAgreement {
     }
 
     // Setter for product base price
-    public void setBasePrice(double basePrice){
+    public void setBasePrice(double basePrice) {
         this.basePrice = basePrice;
     }
 
     // Getter for product base price
-    public double getBasePrice(){
+    public double getBasePrice() {
         return basePrice;
     }
 }

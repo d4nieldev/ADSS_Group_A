@@ -30,6 +30,16 @@ public class Branch {
         foreignEmployees.add(employee);
     }
     
+    public void addNotAllowEmployees(Employee employee){
+        notAllowEmployees.add(employee);
+    }
+
+    public void removeEmployeeFromSystem(Employee employee){
+        if(originEmployees.contains(employee)){originEmployees.remove(employee);}
+        if(foreignEmployees.contains(employee)){foreignEmployees.remove(employee);}
+        if(notAllowEmployees.contains(employee)){notAllowEmployees.remove(employee);}
+    }
+
     public void addShift(Shift shift){
         shifts.add(shift);
     }

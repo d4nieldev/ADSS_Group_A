@@ -23,18 +23,8 @@ public class EmployeeService {
         employeeController.logOut(id);
     }
 
-    // public void addEmployee(int managerId, String firstName, String lastName, int id, String password, int bankNum,
-    // int bankBranch, int bankAccount, int salary, int bonus, LocalDate startDate, License driverLicense, String role, int branch){
-    //     employeeController.addEmployee(managerId, firstName, lastName, id, password, bankNum,
-    //     bankBranch, bankAccount, salary, bonus, startDate, driverLicense, role, branch);
-    // }
-
-    public void deleteEmployee(int managerId, int id){
-        employeeController.deleteEmployee(managerId, id);
-    }
-
-    public void printAllEmployees(int id){
-        employeeController.printAllEmployees(id);
+    public String printAllEmployees(int id){
+        return employeeController.printAllEmployees(id);
     }
 
     public void addPremissionRole(int managerID, String function, String role){

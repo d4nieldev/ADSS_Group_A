@@ -106,28 +106,25 @@ public class EmployeeController {
            throw new Error("You must be logged in, and be an HR manager in order to do that action.");
         }      
     }
+    
+    // delete/remove employee from the system.
+    public void deleteEmployee(int id){
+        Employee employeeToRemove = getEmployeeById(id);
+        employees.remove(employeeToRemove);
+    }
+
 
     // print all employees in the system.
     // only if its HR manager.
-    public void printAllEmployees(int id){
+    public String printAllEmployees(int id){
+        String strPrint = "";
         checkEmployee(id);
         checkLoggedIn(id);
         checkIfEmployeeAllowed(id, printAllEmployeesListAccess);
         for (Employee employee : employees) {
-            System.out.println(employee.toString());
+            strPrint += employee.toString() + "\n";
         }
-    }
-
-    // delete/remove employee from the system.
-    // only if its HR manager and the employee is exsist.
-    public void deleteEmployee(int managerId, int id){
-        checkEmployee(managerId);
-        checkLoggedIn(managerId);
-        checkIfEmployeeAllowed(managerId, deleteEmployeeListAccess);
-        Employee employeeToRemove = getEmployeeById(id);
-        employees.remove(employeeToRemove);
-        System.out.println("The employee " + employeeToRemove.getFirstName() + " " + employeeToRemove.getLastName() + 
-        " has been removed successfully");
+        return strPrint;
     }
 
     public void checkShiftInDate(int idEmployee, LocalDate date){
@@ -404,7 +401,7 @@ public class EmployeeController {
     public LinkedList<String> getAddCancelationListAccess(){return addCancelationListAccess;}
     public LinkedList<String> getPrintFinalShiftListAccess(){return printFinalShiftListAccess;}
     public LinkedList<String> getMissingStaffToRoleListAccess(){return missingStaffToRoleListAccess;}
-    
+    public LinkedList<String> getDeleteEmployeeListAccess(){return deleteEmployeeListAccess;}
 //-------------------------------------------------------Help Functions------------------------------------------------------------
 
     //called only if the employee exist, else will return error.

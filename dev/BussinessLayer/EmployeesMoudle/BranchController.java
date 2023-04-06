@@ -43,6 +43,25 @@ public class BranchController {
         employee.addBranch(branchId);
     }
 
+    public void addNotAllowEmployees(int managerId, int idEmployee, int branchId){
+        Employee employee = employeeController.getEmployeeById(idEmployee);
+        Branch branch = getBranchById(branchId);
+        branch.addNotAllowEmployees(employee);
+        employee.removeBranch(branchId);
+    }
+
+    // delete/remove employee from the system.
+    public void deleteEmployee(int managerId, int id){
+        employeeController.checkEmployee(managerId);
+        employeeController.checkLoggedIn(managerId);
+        employeeController.checkIfEmployeeAllowed(managerId, employeeController.getDeleteEmployeeListAccess());
+        Employee employeeToRemove = employeeController.getEmployeeById(id);
+        for (int branchId : employeeToRemove.getAllBranches()) {
+            getBranchById(branchId).removeEmployeeFromSystem(employeeToRemove);
+        }
+        employeeController.deleteEmployee(id);
+    }
+
     public void addShift(int managerId, int branchId, LocalDate date, int startHour, int endHour, ShiftTime time){
         employeeController.checkHrManager(managerId);
         int shiftID = shiftController.getShiftIdConuter();
@@ -95,6 +114,12 @@ public class BranchController {
         shiftController.checkAssignFinalShift(shift.getID(), hashMapEmployees);
     }
 
+    public void changeSuperBranchForEmployee(int managerID, int employeeID, int oldBranchID, int newBranchID){
+        // check employee managerID and permitions
+        // check employee employeeID
+        // check super branch is correct
+        // switch super branch for employee
+    }
 
     //-------------------------------------Help Functions--------------------------------------------------------
     private Branch getBranchById(int branchId){

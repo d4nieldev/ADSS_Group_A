@@ -77,6 +77,13 @@ public class Employee{
 		branchs.add(branchId);
 	}
 
+	public void removeBranch(int branchId){
+		if(branchs.contains(branchId)) {branchs.remove(branchId);}
+		if(superBranch == branchId){
+			throw new Error("An employee cannot be banded from his origin branch. Please change origin branch before.");
+		}
+	}
+
 	public boolean checkInBranch(int branchId){
 		if(branchs.contains(branchId) || superBranch == branchId){return true;}
 		return false;

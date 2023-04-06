@@ -34,6 +34,14 @@ public class BranchService {
         branchController.addForeignEmployee(managerId, idEmployee, branch);
     }
 
+    public void addNotAllowEmployees(int managerId, int idEmployee, int branchId){
+        branchController.addNotAllowEmployees(managerId, idEmployee, branchId);
+    }
+
+    public void deleteEmployee(int managerId, int id){
+        branchController.deleteEmployee(managerId, id);
+    }
+
     public void addShift(int managerId, int branch, LocalDate date, int startHour, int endHour, ShiftTime time){
         branchController.addShift(managerId, branch, date, startHour, endHour, time);
     }
@@ -44,5 +52,9 @@ public class BranchService {
     
     public void approveFinalShift(int managerID, int shiftID, int branchID, HashMap<Integer, String> hrAssigns){
         branchController.approveFinalShift(managerID, shiftID, branchID, hrAssigns);
+    }
+    
+    public void changeSuperBranchForEmployee(int managerID, int employeeID, int oldBranchID, int newBranchID){
+        branchController.changeSuperBranchForEmployee(managerID, employeeID, oldBranchID, newBranchID);
     }
 }

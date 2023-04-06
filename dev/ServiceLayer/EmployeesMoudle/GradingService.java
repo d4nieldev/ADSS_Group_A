@@ -38,13 +38,9 @@ public class GradingService {
          */    
         employeeS.logOut(id);
     }
-    
-    public void deleteEmployee(int managerId, int id){
-        employeeS.deleteEmployee(managerId, id);
-    }
-    
-    public void printAllEmployees(int id){
-        employeeS.printAllEmployees(id);
+
+    public String printAllEmployees(int id){
+        return employeeS.printAllEmployees(id);
     }
     
     public void changeFirstName(int managerId, int idEmployee, String firstName){
@@ -121,6 +117,14 @@ public class GradingService {
     public void addForeignEmployee(int managerId, int idEmployee, int branch){
         branchS.addForeignEmployee(managerId, idEmployee, branch);
     }
+       
+    public void addNotAllowEmployees(int managerId, int idEmployee, int branchId){
+        branchS.addNotAllowEmployees(managerId, idEmployee, branchId);
+    }
+ 
+    public void deleteEmployee(int managerId, int id){
+        branchS.deleteEmployee(managerId, id);
+    }
     
     public void addShift(int managerId, int branch, LocalDate date, int startHour, int endHour, ShiftTime time){
         branchS.addShift(managerId, branch, date, startHour, endHour, time);
@@ -132,5 +136,9 @@ public class GradingService {
 
     public void approveFinalShift(int managerID, int shiftID, int branchID, HashMap<Integer, String> hrAssigns){
         branchS.approveFinalShift(managerID, shiftID, branchID, hrAssigns);
+    }
+
+    public void changeSuperBranchForEmployee(int managerID, int employeeID, int oldBranchID, int newBranchID){
+        branchS.changeSuperBranchForEmployee(managerID, employeeID, oldBranchID, newBranchID);
     }
 }

@@ -46,7 +46,7 @@ public class Shift{
     }
 
     public void addCancelation(Employee employee, int itemCode, int itemID){
-        if(employee.getRoles().contains(Role.BRANCHMANAGER) || finalShift.get(employee).equals(Role.SHIFTMANAGER)){
+        if(employee.getRoles().contains(Role.getRole("BRANCHMANAGER")) || finalShift.get(employee).equals(Role.getRole("SHIFTMANAGER"))){
             cancellations.put(itemCode, itemID);
         }
         throw new Error("This employee can not cancel an item. Only the shift manager or the super branch manager.");

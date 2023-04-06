@@ -11,22 +11,22 @@ import Misc.*;
 public class EmployeeController {
     private List<Employee> employees;
 
-    private List<Role> addEmployeeList;
-    private List<Role> printAllEmployeesList;
-    private List<Role> deleteEmployeeList;
-    private List<Role> addRolesList;
-    private List<Role> removeRolesList;
-    private List<Role> AddBonusList;
-    private List<Role> getAllDriversList;
-    private List<Role> changeFirstNameList;
-    private List<Role> changeLastNameList;
-    private List<Role> changePasswordList;
-    private List<Role> changeBankNumList;
-    private List<Role> changeBankBranchList;
-    private List<Role> changeBankAccountList;
-    private List<Role> changeSalaryList;
-    private List<Role> changeStartDateList;
-    private List<Role> changeDriverLicenceList;
+    private List<String> addEmployeeListAccess;
+    private List<String> printAllEmployeesListAccess;
+    private List<String> deleteEmployeeListAccess;
+    private List<String> addRolesListAccess;
+    private List<String> removeRolesListAccess;
+    private List<String> AddBonusListAccess;
+    private List<String> getAllDriversListAccess;
+    private List<String> changeFirstNameListAccess;
+    private List<String> changeLastNameListAccess;
+    private List<String> changePasswordListAccess;
+    private List<String> changeBankNumListAccess;
+    private List<String> changeBankBranchListAccess;
+    private List<String> changeBankAccountListAccess;
+    private List<String> changeSalaryListAccess;
+    private List<String> changeStartDateListAccess;
+    private List<String> changeDriverLicenceListAccess;
 
     public EmployeeController(){
         employees = new LinkedList<>();
@@ -34,9 +34,9 @@ public class EmployeeController {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
         LocalDate localDate = LocalDate.parse("01-02-1980", formatter);
         addHRManagerForStartUpTheSystem("Rami", "Arnon", 123456789, "abc", 0, 0,
-         0, 50000, 30000, localDate, null, Role.HRMANAGER, 0);
+         0, 50000, 30000, localDate, null, Role.getRole("HRMANAGER"), 0);
 
-         addEmployeeList = new LinkedList<>();
+         addEmployeeListRoles = new LinkedList<>();
     }
 
     // commit log in for employee, if exsist
@@ -74,7 +74,7 @@ public class EmployeeController {
     // add employee to the system.
     // only if its HR manager and the employee does not exsist already.
     public void addEmployee(int managerId, String firstName, String lastName, int id, String password, int bankNum,
-    int bankBranch, int bankAccount, int salary, int bonus, LocalDate startDate, License driverLicense, Role role, int branch){
+    int bankBranch, int bankAccount, int salary, int bonus, LocalDate startDate, License driverLicense, String role, int branch){
         if (isEmployeeExists(managerId) && isEmployeeLoggedIn(managerId)){
             checkIfEmployeeAllowed(managerId, addEmployeeList);
             //checkEmployee(id); //not needed - CHECK WITH INBAR.
@@ -92,7 +92,7 @@ public class EmployeeController {
     public void printAllEmployees(int id){
         checkEmployee(id);
         checkLoggedIn(id);
-        checkIfEmployeeAllowed(id, printAllEmployeesList);
+        checkIfEmployeeAllowed(id, printAllEmployeesListAccess);
         for (Employee employee : employees) {
             System.out.println(employee.toString());
         }
@@ -103,7 +103,7 @@ public class EmployeeController {
     public void deleteEmployee(int managerId, int id){
         checkEmployee(managerId);
         checkLoggedIn(managerId);
-        checkIfEmployeeAllowed(managerId, deleteEmployeeList);
+        checkIfEmployeeAllowed(managerId, deleteEmployeeListAccess);
         Employee employeeToRemove = getEmployeeById(id);
         employees.remove(employeeToRemove);
         System.out.println("The employee " + employeeToRemove.getFirstName() + " " + employeeToRemove.getLastName() + " has been removed successfully");
@@ -117,19 +117,19 @@ public class EmployeeController {
     }
     
     // need to implement
-    public void addRoles(int managerId, int idEmployee, Role role){
+    public void addRoles(int managerId, int idEmployee, String role){
         checkEmployee(managerId);
         //checkEmployee(idEmployee);
         checkLoggedIn(managerId);
-        checkIfEmployeeAllowed(managerId, addRolesList);
+        checkIfEmployeeAllowed(managerId, addRolesListAccess);
         getEmployeeById(idEmployee).addRole(role);
     }
 
-    public void removeRoles(int managerId, int idEmployee, Role role){
+    public void removeRoles(int managerId, int idEmployee, String role){
         checkEmployee(managerId);
         //checkEmployee(idEmployee);
         checkLoggedIn(managerId);
-        checkIfEmployeeAllowed(managerId, removeRolesList);
+        checkIfEmployeeAllowed(managerId, removeRolesListAccess);
         getEmployeeById(idEmployee).removeRole(role);
     }
     
@@ -137,7 +137,7 @@ public class EmployeeController {
         checkEmployee(managerId);
         //checkEmployee(idEmployee);
         checkLoggedIn(managerId);
-        checkIfEmployeeAllowed(managerId, AddBonusList);
+        checkIfEmployeeAllowed(managerId, AddBonusListAccess);
         getEmployeeById(idEmployee).setBonus(getEmployeeById(idEmployee).getBonus() + bonus);
     }
 
@@ -150,7 +150,7 @@ public class EmployeeController {
     public LinkedList<Employee> getAllDrivers(){
         LinkedList<Employee> drivers = new LinkedList<>();
         for (Employee employee : employees) {
-            if(employee.getRoles().contains(Role.DRIVER)){drivers.add(employee);}
+            if(employee.getRoles().contains(Role.getRole("DRIVER"))){drivers.add(employee);}
         }
         return drivers;
     }
@@ -159,7 +159,7 @@ public class EmployeeController {
         checkEmployee(managerId);
         //checkEmployee(idEmployee);
         checkLoggedIn(managerId);
-        checkIfEmployeeAllowed(managerId, changeFirstNameList);
+        checkIfEmployeeAllowed(managerId, changeFirstNameListAccess);
         getEmployeeById(idEmployee).setFirstName(firstName);
     }
 
@@ -167,7 +167,7 @@ public class EmployeeController {
         checkEmployee(managerId);
         //checkEmployee(idEmployee);
         checkLoggedIn(managerId);
-        checkIfEmployeeAllowed(managerId, changeLastNameList);
+        checkIfEmployeeAllowed(managerId, changeLastNameListAccess);
         getEmployeeById(idEmployee).setLastName(lastName);
     }
 
@@ -178,7 +178,7 @@ public class EmployeeController {
         checkEmployee(managerId);
         //checkEmployee(idEmployee);
         checkLoggedIn(managerId);
-        checkIfEmployeeAllowed(managerId, changePasswordList);
+        checkIfEmployeeAllowed(managerId, changePasswordListAccess);
         getEmployeeById(idEmployee).setPassword(password);
     }
 
@@ -186,7 +186,7 @@ public class EmployeeController {
         checkEmployee(managerId);
         //checkEmployee(idEmployee);
         checkLoggedIn(managerId);
-        checkIfEmployeeAllowed(managerId, changeBankNumList);
+        checkIfEmployeeAllowed(managerId, changeBankNumListAccess);
         getEmployeeById(idEmployee).setBankNum(bankNum);
     }
     
@@ -194,7 +194,7 @@ public class EmployeeController {
         checkEmployee(managerId);
         //checkEmployee(idEmployee);
         checkLoggedIn(managerId);
-        checkIfEmployeeAllowed(managerId, changeBankBranchList);
+        checkIfEmployeeAllowed(managerId, changeBankBranchListAccess);
         getEmployeeById(idEmployee).setBankBranch(bankBranch);
     }
     
@@ -202,7 +202,7 @@ public class EmployeeController {
         checkEmployee(managerId);
         //checkEmployee(idEmployee);
         checkLoggedIn(managerId);
-        checkIfEmployeeAllowed(managerId, changeBankAccountList);
+        checkIfEmployeeAllowed(managerId, changeBankAccountListAccess);
         getEmployeeById(idEmployee).setBankAccount(bankAccount);
     }
     
@@ -210,7 +210,7 @@ public class EmployeeController {
         checkEmployee(managerId);
         //checkEmployee(idEmployee);
         checkLoggedIn(managerId);
-        checkIfEmployeeAllowed(managerId, changeSalaryList);
+        checkIfEmployeeAllowed(managerId, changeSalaryListAccess);
         getEmployeeById(idEmployee).setSalary(salary);
     }
     
@@ -218,7 +218,7 @@ public class EmployeeController {
         checkEmployee(managerId);
         //checkEmployee(idEmployee);
         checkLoggedIn(managerId);
-        checkIfEmployeeAllowed(managerId, changeStartDateList);
+        checkIfEmployeeAllowed(managerId, changeStartDateListAccess);
         getEmployeeById(idEmployee).setStartDate(stastDate);
     }
     
@@ -226,7 +226,7 @@ public class EmployeeController {
         checkEmployee(managerId);
         //checkEmployee(idEmployee);
         checkLoggedIn(managerId);
-        checkIfEmployeeAllowed(managerId, changeDriverLicenceList);
+        checkIfEmployeeAllowed(managerId, changeDriverLicenceListRoles);
         getEmployeeById(idEmployee).setDriverLicense(licene);
     }
     
@@ -267,8 +267,8 @@ public class EmployeeController {
     // return true if the employee is HR manager
     private boolean isEmployeeHRManager(int id){
         Employee employee = getEmployeeById(id);
-        List<Role> managerRoles = employee.getRoles();
-        return managerRoles.contains(Role.HRMANAGER);
+        List<String> managerRoles = employee.getRoles();
+        return managerRoles.contains(Role.getRole("HRMANAGER"));
     }
 
     // check if the employee is a HRmanager and is sign in to the system
@@ -287,10 +287,10 @@ public class EmployeeController {
         }
     }
 
-    public void checkIfEmployeeAllowed(int idEmployee, List<Role> allowed){
+    public void checkIfEmployeeAllowed(int idEmployee, List<String> allowed){
         checkEmployee(idEmployee);
         Employee employee = getEmployeeById(idEmployee);
-        for (Role role : employee.getRoles()) {
+        for (String role : employee.getRoles()) {
             if (allowed.contains(role)){
                 return;
             }
@@ -300,7 +300,7 @@ public class EmployeeController {
 
     // help function that create HR manager to start up the system
     private void addHRManagerForStartUpTheSystem(String firstName, String lastName, int id, String password, int bankNum,
-    int bankBranch, int bankAccount, int salary, int bonus, LocalDate startDate, License driverLicense, Role role, int branch){
+    int bankBranch, int bankAccount, int salary, int bonus, LocalDate startDate, License driverLicense, String role, int branch){
         employees.add(new Employee(firstName, lastName, id, password, bankNum,
         bankBranch, bankAccount, salary, bonus, startDate, driverLicense, role, branch));
     }

@@ -22,13 +22,13 @@ public class Employee{
 	private int bonus;
 	private LocalDate startDate;
 	private License driverLicense;
-	private List<Role> roles;
+	private List<String> roles;
 	private boolean isLoggedIn;
 	private LinkedList<Shift> historyShift;
 	private LinkedList<Integer> superBranches;
 
 	public Employee(String firstName, String lastName, int id, String password, int bankNum, int bankBranch, int bankAccount, 
-	int salary, int bonus, LocalDate startDate, License driverLicense, Role role, int branch){
+	int salary, int bonus, LocalDate startDate, License driverLicense, String role, int branch){
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.id = id;
@@ -49,7 +49,7 @@ public class Employee{
 	}
 
 	// add role if not exsist to employee
-	public void addRole(Role roleToAdd){
+	public void addRole(String roleToAdd){
 		if(roles.contains(roleToAdd)){
 			throw new Error("This employee already have this role.");
 		}
@@ -57,7 +57,7 @@ public class Employee{
 	}
 
 	// remove role if exsist to employee
-	public void removeRole(Role roleToRemove){
+	public void removeRole(String roleToRemove){
 		if(!roles.contains(roleToRemove)){
 			throw new Error("This employee does not have this role. Can not be removed.");
 		}
@@ -125,7 +125,7 @@ public class Employee{
 	public void setStartDate(LocalDate date){this.startDate = date;}
 	public License getDriverLicense(){return driverLicense;}
 	public void setDriverLicense(License driverLicense){this.driverLicense = driverLicense;}
-	public List<Role> getRoles(){return roles;}
+	public List<String> getRoles(){return roles;}
 	public boolean getIsLoggedIn(){return isLoggedIn;}
 	public void SetIsLoggedInToTrue(){isLoggedIn = true;}
 	public void SetIsLoggedInToFalse(){isLoggedIn = false;}

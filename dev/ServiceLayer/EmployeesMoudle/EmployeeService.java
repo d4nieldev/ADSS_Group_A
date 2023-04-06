@@ -24,7 +24,7 @@ public class EmployeeService {
     }
 
     public void addEmployee(int managerId, String firstName, String lastName, int id, String password, int bankNum,
-    int bankBranch, int bankAccount, int salary, int bonus, LocalDate startDate, License driverLicense, Role role, int branch){
+    int bankBranch, int bankAccount, int salary, int bonus, LocalDate startDate, License driverLicense, String role, int branch){
         // Employee manager = employeeController.getEmployeeById(managerId);
         // List<Role> managerRoles = manager.getRoles();
         // if (managerRoles.contains(Role.HRMANAGER)){

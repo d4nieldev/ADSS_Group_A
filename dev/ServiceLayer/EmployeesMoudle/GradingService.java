@@ -13,14 +13,29 @@ public class GradingService {
         branchS = serviceFactory.getBranchService();
     }
 
+    // ------------------------------------------- EMPLOYEE SERVICE ------------------------------------------------------------
+
+    public EmployeeService getEmployeeService(){return employeeS;}
+    
     public void logIn(int id, String password){
+        /*
         try{employeeS.logIn(id, password);}
-        catch (Error error){System.out.println(error.toString());}        
+        catch (Error error){System.out.println(error.toString());}   
+         */     
+        employeeS.logIn(id, password);
     }
     
     public void logOut(int id){
+        /*
         try{employeeS.logOut(id);}
-        catch (Error error){System.out.println(error.toString());}        
+        catch (Error error){System.out.println(error.toString());}    
+         */    
+        employeeS.logOut(id);
     }
     
+    // ------------------------------------------- SHIFT SERVICE ------------------------------------------------------------
+
+
+    // ------------------------------------------- BRANCH SERVICE ------------------------------------------------------------
+
 }

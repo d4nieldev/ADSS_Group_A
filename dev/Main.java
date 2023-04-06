@@ -5,11 +5,14 @@ import java.util.Scanner;
 import javax.swing.text.AbstractDocument.BranchElement;
 
 import Misc.*;
+import ServiceLayer.EmployeesMoudle.GradingService;
+import ServiceLayer.EmployeesMoudle.serviceFactory;
 
 class Main {
     public static void main(String[] args) {
-
-        ServiceLayer.EmployeesMoudle.EmployeeService employeeService = new ServiceLayer.EmployeesMoudle.EmployeeService();
+        ServiceLayer.EmployeesMoudle.GradingService gradingService = new GradingService();
+        ServiceLayer.EmployeesMoudle.EmployeeService employeeService = gradingService.getEmployeeService();
+        //ServiceLayer.EmployeesMoudle.EmployeeService employeeService = new ServiceLayer.EmployeesMoudle.EmployeeService();
 
         Scanner sc = new Scanner(System.in);
         System.out.print("Hello there, in order to login to the syestem please enter your Id: ");
@@ -83,7 +86,8 @@ class Main {
 
                     System.out.print("Role: ");
                     String roleString = sc.nextLine();
-                    Role role = Role.valueOf(roleString.toUpperCase()); //may throw an error.
+                    String role = Role.getRole(roleString);  //may throw an error.
+                    //Role.valueOf(roleString.toUpperCase()); //may throw an error.
                     System.out.println("");
                     
                     System.out.print("Super Branch: ");

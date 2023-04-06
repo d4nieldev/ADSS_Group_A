@@ -1,11 +1,8 @@
 package BussinessLayer.EmployeesMoudle;
-
 import java.util.LinkedList;
 import java.util.List;
-import java.sql.Driver;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-
 import Misc.*;
 
 public class EmployeeController {
@@ -131,14 +128,14 @@ public class EmployeeController {
         }
     }
     
-    public void addRoles(int managerId, int idEmployee, String role){
+    public void addRoleToEmployee(int managerId, int idEmployee, String role){
         checkEmployee(managerId);
         checkLoggedIn(managerId);
         checkIfEmployeeAllowed(managerId, addRolesListAccess);
         getEmployeeById(idEmployee).addRole(role);
     }
 
-    public void removeRoles(int managerId, int idEmployee, String role){
+    public void removeRoleFromEmployee(int managerId, int idEmployee, String role){
         checkEmployee(managerId);
         checkLoggedIn(managerId);
         checkIfEmployeeAllowed(managerId, removeRolesListAccess);
@@ -150,11 +147,16 @@ public class EmployeeController {
         getEmployeeById(idEmployee).checkRoleInEmployee(role);
     }
 
-    public void AddBonus(int managerId, int idEmployee, int bonus){
+    public void addBonus(int managerId, int idEmployee, int bonus){
         checkEmployee(managerId);
         checkLoggedIn(managerId);
         checkIfEmployeeAllowed(managerId, AddBonusListAccess);
         getEmployeeById(idEmployee).setBonus(getEmployeeById(idEmployee).getBonus() + bonus);
+    }
+
+    public void addRoleToSystem(int managerHR, String role){
+        checkHrManager(managerHR);
+        Role.addRole(role.toUpperCase());
     }
 
     public void addPremissionRole(int managerId, String function, String role){

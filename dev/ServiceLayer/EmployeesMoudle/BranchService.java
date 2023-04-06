@@ -1,22 +1,13 @@
 package ServiceLayer.EmployeesMoudle;
-
-import java.security.interfaces.RSAPrivateCrtKey;
 import java.time.LocalDate;
 import java.util.HashMap;
-
-import BussinessLayer.EmployeesMoudle.BranchController;
-import BussinessLayer.EmployeesMoudle.EmployeeController;
-import BussinessLayer.EmployeesMoudle.ShiftController;
+import BussinessLayer.EmployeesMoudle.*;
 import Misc.*;
 
 public class BranchService {
-    private EmployeeController employeeController;
-    private ShiftController shiftController;
     private BranchController branchController;
 
-    public BranchService(EmployeeController employeeController, ShiftController shiftController, BranchController branchController){
-        this.employeeController = employeeController;
-        this.shiftController = shiftController;
+    public BranchService(BranchController branchController){
         this.branchController = branchController;
     }
 

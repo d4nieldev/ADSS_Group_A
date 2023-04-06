@@ -1,5 +1,4 @@
 package BussinessLayer.EmployeesMoudle;
-
 import java.util.LinkedList;
 
 public class Branch {

@@ -1,16 +1,11 @@
 package ServiceLayer.EmployeesMoudle;
 
-import java.util.HashMap;
-
-import BussinessLayer.EmployeesMoudle.EmployeeController;
-import BussinessLayer.EmployeesMoudle.ShiftController;
+import BussinessLayer.EmployeesMoudle.*;
 
 public class ShiftService {
-    private EmployeeController employeeController;
     private ShiftController shiftController;
 
-    public ShiftService(EmployeeController employeeController, ShiftController shiftController){
-        this.employeeController = employeeController;
+    public ShiftService(ShiftController shiftController){
         this.shiftController = shiftController;
     }
 

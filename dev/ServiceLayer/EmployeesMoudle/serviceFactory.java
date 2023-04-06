@@ -17,8 +17,8 @@ public class serviceFactory {
         shiftController = new ShiftController(employeeController);
         branchController = new BranchController(employeeController, shiftController);
         employeeService = new EmployeeService(employeeController);
-        shiftService = new ShiftService(employeeController, shiftController);
-        branchService = new BranchService(employeeController, shiftController, branchController);
+        shiftService = new ShiftService(shiftController);
+        branchService = new BranchService(branchController);
     }
 
     public EmployeeController getEmployeeController(){return employeeController;}

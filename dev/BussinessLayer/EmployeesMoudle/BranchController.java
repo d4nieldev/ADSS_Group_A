@@ -1,14 +1,8 @@
 package BussinessLayer.EmployeesMoudle;
-
 import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.LinkedList;
-import java.util.List;
-
-import javax.management.relation.Role;
-
-import Misc.License;
-import Misc.ShiftTime;
+import Misc.*;
 
 public class BranchController {
     private EmployeeController employeeController;
@@ -79,7 +73,7 @@ public class BranchController {
         Branch branch = getBranchById(idBranch);
         Shift shift = shiftController.getShift(idShift);
         branch.checkShiftInBranch(shift);
-        if(shift.getIsFinishSettingShift()) {throw new Error("This shift is not avalible for submitting  constraints anymore.");}
+        if(shift.getIsFinishSettingShift()) {throw new Error("This shift is not avalible for submitting constraints anymore.");}
         // check employee in branch
         Employee employee = employeeController.getEmployeeById(idEmployee);
         branch.checkEmployeeInBranch(employee);

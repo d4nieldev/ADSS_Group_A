@@ -1,11 +1,6 @@
 package ServiceLayer.EmployeesMoudle;
-
-import BussinessLayer.EmployeesMoudle.Employee;
-import BussinessLayer.EmployeesMoudle.EmployeeController;
-
+import BussinessLayer.EmployeesMoudle.*;
 import java.time.LocalDate;
-import java.util.List;
-
 import Misc.*;
 
 public class EmployeeService {
@@ -25,6 +20,22 @@ public class EmployeeService {
 
     public String printAllEmployees(int id){
         return employeeController.printAllEmployees(id);
+    }
+
+    public void addRoleToEmployee(int managerId, int idEmployee, String role){
+        employeeController.addRoleToEmployee(managerId, idEmployee, role);
+    }
+
+    public void removeRoleFromEmployee(int managerId, int idEmployee, String role){
+        employeeController.removeRoleFromEmployee(managerId, idEmployee, role);
+    }
+
+    public void addBonus(int managerId, int idEmployee, int bonus){
+        employeeController.addBonus(managerId, idEmployee, bonus);
+    }
+
+    public void addRoleToSystem(int managerHR, String role){
+        employeeController.addRoleToSystem(managerHR, role);
     }
 
     public void addPremissionRole(int managerID, String function, String role){

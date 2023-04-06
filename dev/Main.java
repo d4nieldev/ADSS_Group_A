@@ -1,19 +1,12 @@
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Scanner;
-
-import javax.swing.text.AbstractDocument.BranchElement;
-
-import Misc.*;
-import ServiceLayer.EmployeesMoudle.BranchService;
 import ServiceLayer.EmployeesMoudle.GradingService;
-import ServiceLayer.EmployeesMoudle.serviceFactory;
+import Misc.*;
 
 class Main {
     public static void main(String[] args) {
         ServiceLayer.EmployeesMoudle.GradingService gradingService = new GradingService();
-        ServiceLayer.EmployeesMoudle.EmployeeService employeeService = gradingService.getEmployeeService();
-        ServiceLayer.EmployeesMoudle.BranchService branchService = gradingService.getBranchService();
         //ServiceLayer.EmployeesMoudle.EmployeeService employeeService = new ServiceLayer.EmployeesMoudle.EmployeeService();
 
         Scanner sc = new Scanner(System.in);
@@ -25,7 +18,7 @@ class Main {
         String loginPassword = sc.nextLine();
         System.out.println("");
 
-        employeeService.logIn(loginId, loginPassword);
+        gradingService.logIn(loginId, loginPassword);
         System.out.println("");
 
         System.out.println("[0 - Exit system, 1 - Add employee, 2 - print all employees, 7 - Delete an employee, 8 - Login, 9 - Logout, 10 - Edit employee, 11 - Add a role premisstion]");
@@ -96,13 +89,13 @@ class Main {
                     int superBranch = Integer.parseInt(sc.nextLine());
                     System.out.println("");
 
-                    branchService.addNewEmployee(loginId, firstName, lastName, id, password, bankNum, 
+                    gradingService.addNewEmployee(loginId, firstName, lastName, id, password, bankNum, 
                     bankBranch, bankAccount, salary, bonus, localDate, driverLicense, role, superBranch);
 
                 }
 
                 else if (option.equals("2")){ // 2 print all employees
-                    employeeService.printAllEmployees(loginId);
+                    gradingService.printAllEmployees(loginId);
                 }
 
                 // // 3 add shift
@@ -123,7 +116,7 @@ class Main {
                 else if (option.equals("7")){ // 7 delete an employee
                     System.out.print("Enter the Id of the employee you wish to delete: ");
                     int idToDelete = Integer.parseInt(sc.nextLine());
-                    employeeService.deleteEmployee(loginId, idToDelete);
+                    gradingService.deleteEmployee(loginId, idToDelete);
                     System.out.println("");
                 }
 
@@ -136,12 +129,12 @@ class Main {
                     loginPassword = sc.nextLine();
                     System.out.println("");
 
-                    employeeService.logIn(loginId, loginPassword);
+                    gradingService.logIn(loginId, loginPassword);
                     System.out.println("");
                 }
 
                 else if (option.equals("9")){ // 9 logout
-                    employeeService.logOut(loginId);
+                    gradingService.logOut(loginId);
                     System.out.println("");
                 }
 
@@ -157,49 +150,49 @@ class Main {
                             System.out.println("Enter the new first name: ");
                             String firstName = sc.nextLine();
                             System.out.println("");
-                            employeeService.changeFirstName(loginId, idToEdit, firstName);
+                            gradingService.changeFirstName(loginId, idToEdit, firstName);
                         }
 
                         else if (option.equals("1")){
                             System.out.println("Enter the new last name: ");
                             String lastName = sc.nextLine();
                             System.out.println("");
-                            employeeService.changeLastName(loginId, idToEdit, lastName);
+                            gradingService.changeLastName(loginId, idToEdit, lastName);
                         }
 
                         else if (option.equals("2")){
                             System.out.println("Enter the new password: ");
                             String password = sc.nextLine();
                             System.out.println("");
-                            employeeService.changePassword(loginId, idToEdit, password);
+                            gradingService.changePassword(loginId, idToEdit, password);
                         }
 
                         else if (option.equals("3")){
                             System.out.println("Enter the new bank number: ");
                             int bankNumber = Integer.parseInt(sc.nextLine());
                             System.out.println("");
-                            employeeService.changeBankNum(loginId, idToEdit, bankNumber);
+                            gradingService.changeBankNum(loginId, idToEdit, bankNumber);
                         }
 
                         else if (option.equals("4")){
                             System.out.println("Enter the new bank branch: ");
                             int bankBranch = Integer.parseInt(sc.nextLine());
                             System.out.println("");
-                            employeeService.changeBankBranch(loginId, idToEdit, bankBranch);
+                            gradingService.changeBankBranch(loginId, idToEdit, bankBranch);
                         }
 
                         else if (option.equals("5")){
                             System.out.println("Enter the new bank account: ");
                             int bankAccount = Integer.parseInt(sc.nextLine());
                             System.out.println("");
-                            employeeService.changeBankAccount(loginId, idToEdit, bankAccount);
+                            gradingService.changeBankAccount(loginId, idToEdit, bankAccount);
                         }
 
                         else if (option.equals("6")){
                             System.out.println("Enter the new salary: ");
                             int salary = Integer.parseInt(sc.nextLine());
                             System.out.println("");
-                            employeeService.changeSalary(loginId, idToEdit, salary);
+                            gradingService.changeSalary(loginId, idToEdit, salary);
                         }
 
                         else if (option.equals("7")){
@@ -211,7 +204,7 @@ class Main {
                             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
                             LocalDate localDate = LocalDate.parse(startDate, formatter);
 
-                            employeeService.changeStartDate(loginId, idToEdit, localDate);
+                            gradingService.changeStartDate(loginId, idToEdit, localDate);
                         }
 
                         else if (option.equals("8")){
@@ -221,7 +214,7 @@ class Main {
 
                             License driverLicense = License.valueOf(driverLicenseString.toUpperCase());
 
-                            employeeService.changeDriverLicence(loginId, idToEdit, driverLicense);
+                            gradingService.changeDriverLicence(loginId, idToEdit, driverLicense);
                         }
 
                         System.out.println("Which detail would you like to edit not?");
@@ -243,7 +236,7 @@ class Main {
             catch(Error e) {System.out.println(e.toString()); break;} //I think we need to delete the break and add the options again.
         }
 
-        employeeService.logOut(loginId);
+        gradingService.logOut(loginId);
         System.out.println("");
         System.out.print("Thank you for your time. See you next time.");
 

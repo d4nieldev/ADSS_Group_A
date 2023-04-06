@@ -1,6 +1,6 @@
 package BusinessLayer.Suppliers;
 
-import java.util.Map;
+import java.util.TreeMap;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -11,13 +11,12 @@ public abstract class Supplier {
     private String bankAcc;
     private List<String> fields;
     private String paymentCondition;
-    private Map<Integer, Double> amountToDiscount;
+    private TreeMap<Integer, Double> amountToDiscount;
     private List<Contact> contacts;
-
 
     // Copy Constructor
     public Supplier(int id, String name, String phone, String bankAcc, List<String> fields, String paymentCondition,
-            Map<Integer, Double> amountToDiscount, List<Contact> contacts) {
+            TreeMap<Integer, Double> amountToDiscount, List<Contact> contacts) {
         this.id = id;
         this.name = name;
         this.bankAcc = bankAcc;
@@ -31,7 +30,7 @@ public abstract class Supplier {
 
     // Constructor without contacts and fields
     public Supplier(int id, String name, String phone, String bankAcc, String paymentCondition,
-            Map<Integer, Double> amountToDiscount) {
+            TreeMap<Integer, Double> amountToDiscount) {
         this.id = id;
         this.name = name;
         this.bankAcc = bankAcc;
@@ -45,7 +44,7 @@ public abstract class Supplier {
 
     // Constructor without contacts
     public Supplier(int id, String name, String phone, String bankAcc, List<String> fields, String paymentCondition,
-            Map<Integer, Double> amountToDiscount) {
+            TreeMap<Integer, Double> amountToDiscount) {
         this.id = id;
         this.name = name;
         this.bankAcc = bankAcc;
@@ -112,14 +111,13 @@ public abstract class Supplier {
     }
 
     // Getter and setter for amountToDiscount
-    public Map<Integer, Double> getAmountToDiscount() {
+    public TreeMap<Integer, Double> getAmountToDiscount() {
         return amountToDiscount;
     }
 
-    public void setAmountToDiscount(Map<Integer, Double> amountToDiscount) {
+    public void setAmountToDiscount(TreeMap<Integer, Double> amountToDiscount) {
         this.amountToDiscount = amountToDiscount;
     }
-
 
     // Getter and setter for contacts
     public List<Contact> getContacts() {
@@ -164,6 +162,14 @@ public abstract class Supplier {
     // Delete all contacts
     public void deleteAllContacts() {
         this.contacts.clear();
+    }
+
+    public double getDiscount(int amount) {
+        double discount = 0.0;
+        Integer key = amountToDiscount.floorKey(amount);
+        if (key != null)
+            discount = amountToDiscount.get(key);
+        return discount;
     }
 
     @Override

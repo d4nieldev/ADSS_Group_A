@@ -97,12 +97,12 @@ public class GradingService {
         shiftS.addCancelation(shiftId, employeeId, itemId, itemCode);
     }
 
-    public void approveFinalShift(int managerID, HashMap<Integer, String> hrAssigns){
-        shiftS.approveFinalShift(managerID, hrAssigns);
+    public String printFinalShift(int employeeId, int idShift){
+        return shiftS.printFinalShift(employeeId, idShift);
     }
     
-    public String printFinalShift(int idShift){
-        return shiftS.printFinalShift(idShift);
+    public String missingStaffToRole(int employeeId, int shiftId){
+        return shiftS.missingStaffToRole(employeeId, shiftId);
     }
 
     // ------------------------------------------- BRANCH SERVICE ------------------------------------------------------------
@@ -128,5 +128,9 @@ public class GradingService {
     
     public void addConstraint(int branch, int idEmployee, int shift){
         branchS.addConstraint(branch, idEmployee, shift);
+    }
+
+    public void approveFinalShift(int managerID, int shiftID, int branchID, HashMap<Integer, String> hrAssigns){
+        branchS.approveFinalShift(managerID, shiftID, branchID, hrAssigns);
     }
 }

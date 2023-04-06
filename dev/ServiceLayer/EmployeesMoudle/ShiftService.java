@@ -18,11 +18,11 @@ public class ShiftService {
         shiftController.addCancelation(shiftId, employeeId, itemId, itemCode);
     }
 
-    public void approveFinalShift(int managerID, HashMap<Integer, String> hrAssigns){
-        shiftController.approveFinalShift(managerID, hrAssigns);
+    public String printFinalShift(int employeeId, int idShift){
+        return shiftController.printFinalShift(employeeId, idShift);
     }
-
-    public String printFinalShift(int idShift){
-        return shiftController.printFinalShift(idShift);
+    
+    public String missingStaffToRole(int employeeId, int shiftId){
+        return shiftController.missingStaffToRole(employeeId, shiftId);
     }
 }

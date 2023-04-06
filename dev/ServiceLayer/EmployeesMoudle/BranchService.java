@@ -2,6 +2,7 @@ package ServiceLayer.EmployeesMoudle;
 
 import java.security.interfaces.RSAPrivateCrtKey;
 import java.time.LocalDate;
+import java.util.HashMap;
 
 import BussinessLayer.EmployeesMoudle.BranchController;
 import BussinessLayer.EmployeesMoudle.EmployeeController;
@@ -37,7 +38,11 @@ public class BranchService {
         branchController.addShift(managerId, branch, date, startHour, endHour, time);
     }
     
-    public void addConstraint(int branch, int idEmployee, int shift, LinkedList<String> role){
-        branchController.addConstraint(branch, idEmployee, shift, role);
+    public void addConstraint(int branch, int idEmployee, int shift){
+        branchController.addConstraint(branch, idEmployee, shift);
+    }
+    
+    public void approveFinalShift(int managerID, int shiftID, int branchID, HashMap<Integer, String> hrAssigns){
+        branchController.approveFinalShift(managerID, shiftID, branchID, hrAssigns);
     }
 }

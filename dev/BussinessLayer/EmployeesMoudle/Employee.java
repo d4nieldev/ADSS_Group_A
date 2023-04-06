@@ -69,9 +69,21 @@ public class Employee{
 	public void addShift(Shift shift){
 		historyShift.push(shift);
 	}
+	
+	public void addBranch(int branchId){
+		if(branchs.contains(branchId) || superBranch == branchId){
+			throw new Error("This employee is already able to work in branch number " + branchId);
+		}
+		branchs.add(branchId);
+	}
+
+	public boolean checkInBranch(int branchId){
+		if(branchs.contains(branchId) || superBranch == branchId){return true;}
+		return false;
+	}
 
 	// check if the employee have a shift in some date
-	// return dalse if the employee is avalible in this date
+	// return dalse if the employee is avalible in this date = does not have a shift on that day
 	public boolean checkShiftInDate(LocalDate date){
 		for (Shift shift : historyShift) {
 			if(shift.getDate().equals(date)){
@@ -79,6 +91,12 @@ public class Employee{
 			}
 		}
 		return false;
+	}
+
+	public void checkRoleInEmployee(String role) {
+		if(!roles.contains(role)){
+			throw new Error("The employee " + getId() + " does not have the role " + role);
+		}
 	}
 
 	// calculate the salary for month
@@ -93,11 +111,6 @@ public class Employee{
 	}
 
 	public void resetBonus(){bonus = 0;}
-
-	public void addBranch(int branch) {
-		if(branchs.contains(branch)){throw new Error("This employee already assign to the branch " + branch + " in the syatem.");}
-		branchs.add(branch);
-	}
 
 	public String toString(){
 		return "Employee Name: " + firstName + " " + lastName + " [id: " + id + ", bank number: " + bankNum  + ", salary: " + salary 
@@ -133,4 +146,5 @@ public class Employee{
 	public LinkedList<Shift> getHistoryShift(){return historyShift;}
 	public int getSuperBranch(){return superBranch;}
 	public LinkedList<Integer> getAllBranches(){return branchs;}
+
 }

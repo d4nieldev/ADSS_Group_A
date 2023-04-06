@@ -1,6 +1,7 @@
 package BussinessLayer.EmployeesMoudle;
 
 import java.time.LocalDate;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -65,6 +66,35 @@ public class BranchController {
         // if not - add the  constraint to the shift
         shiftController.addConstraint(idShift, employee, employee.getRoles());
     }
+    
+    // aprove function for the HR manager to a final shift
+    public void approveFinalShift(int managerID, int shiftID, int branchID, HashMap<Integer, String> hrAssigns){
+        employeeController.checkHrManager(managerID);
+        Branch branch = getBranchById(branchID);
+        Shift shift = shiftController.getShift(shiftID);
+        branch.checkShiftInBranch(shift);
+        HashMap<Employee, String> hashMapEmployees = new HashMap<>();
+        // new HashMap from Integer and roles to Employees and roles
+        for (Integer employeeId : hrAssigns.keySet()) {
+            hashMapEmployees.put(employeeController.getEmployeeById(employeeId), hrAssigns.get(employeeId));
+        }
+        // check: exist branch for all employees
+        for (Employee employee : hashMapEmployees.keySet()) {
+            branch.checkEmployeeInBranch(employee);
+            employee.checkShiftInDate(shift.getDate());
+        }
+        // check: no employee have a shift on the same day
+        for (Employee employee : hashMapEmployees.keySet()) {
+            employeeController.checkShiftInDate(employee.getId(), shift.getDate());
+        }
+        // check: all the role are existing in the employees that needed
+        for(Employee employee : hashMapEmployees.keySet()){
+            employeeController.checkRoleInEmployee(employee.getId(), hrAssigns.get(employee.getId()));
+        }
+        // check: no over employees then needed
+        shiftController.checkAssignFinalShift(shift.getID(), hashMapEmployees);
+    }
+
 
     //-------------------------------------Help Functions--------------------------------------------------------
     private Branch getBranchById(int branchId){

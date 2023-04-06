@@ -32,17 +32,9 @@ public class ShiftController {
         shift.addCancelation(employee, itemCode, itemId);
     }
 
-    // aprove function for the HR manager to a final shift
-    public void approveFinalShift(int managerID, HashMap<Integer, String> hrAssigns){
-        // new HashMap from Integer and roles to Employees and roles
-        // check: exist super branch for all users
-        // check: no employee have a shift on the same day
-        // check: all the role are existing in the employees that needed
-        // check: no over employees then needed
-        // needs to send a message if some role are missing people, and how mach -> function: missingStaffToRole
-    }
-
-    public String printFinalShift(int idShift){
+    public String printFinalShift(int employeeId, int idShift){
+        employeeController.checkLoggedIn(employeeId);
+        employeeController.checkIfEmployeeAllowed(employeeId, employeeController.getPrintFinalShiftListAccess());
         String strPrint = "";
         Shift shift = getShift(idShift);
         if(!shift.getIsFinishSettingShift()){throw new Error("The shift is not finished yet for printing.");}
@@ -53,6 +45,16 @@ public class ShiftController {
     
     public void addConstraint(int shiftId, Employee employee, LinkedList<String> role) {
         getShift(shiftId).addConstraint(employee, role);
+    }
+
+    public void checkAssignFinalShift(int shiftId, HashMap<Employee, String> hrAssign){
+        getShift(shiftId).checkAssignFinalShift(hrAssign);
+    }
+
+    public String missingStaffToRole(int employeeId, int shiftId){
+        employeeController.checkLoggedIn(employeeId);
+        employeeController.checkIfEmployeeAllowed(employeeId, employeeController.getMissingStaffToRoleListAccess());
+        return getShift(shiftId).missingStaffToRole().toString();
     }
 
 //-------------------------------------Getters And Setters--------------------------------------------------------

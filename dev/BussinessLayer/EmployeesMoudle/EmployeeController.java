@@ -28,6 +28,8 @@ public class EmployeeController {
     private LinkedList<String> changeStartDateListAccess;
     private LinkedList<String> changeDriverLicenceListAccess;
     private LinkedList<String> addCancelationListAccess;
+    private LinkedList<String> printFinalShiftListAccess;
+    private LinkedList<String> missingStaffToRoleListAccess;
 
     public EmployeeController(){
         employees = new LinkedList<>();
@@ -54,6 +56,8 @@ public class EmployeeController {
          changeStartDateListAccess = new LinkedList<>(); changeStartDateListAccess.add(Role.getRole("HRMANAGER"));
          changeDriverLicenceListAccess = new LinkedList<>(); changeDriverLicenceListAccess.add(Role.getRole("HRMANAGER"));
          addCancelationListAccess = new LinkedList<>(); addCancelationListAccess.add(Role.getRole("HRMANAGER"));
+         printFinalShiftListAccess = new LinkedList<>(); printFinalShiftListAccess.add(Role.getRole("HRMANAGER"));
+         missingStaffToRoleListAccess = new LinkedList<>(); missingStaffToRoleListAccess.add(Role.getRole("HRMANAGER"));
     }
 
     // commit log in for employee, if exsist
@@ -126,11 +130,12 @@ public class EmployeeController {
         " has been removed successfully");
     }
 
-    // return true if the employee already have a shift on this date
-    public boolean checkShiftInDate(int idEmployee, LocalDate date){
+    public void checkShiftInDate(int idEmployee, LocalDate date){
         checkEmployee(idEmployee);
         Employee employee = getEmployeeById(idEmployee);
-        return employee.checkShiftInDate(date);
+        if(employee.checkShiftInDate(date)){
+            throw new Error("The employee " + toString() + " already have ha shift on the date " + date.toString());
+        }
     }
     
     public void addRoles(int managerId, int idEmployee, String role){
@@ -147,6 +152,11 @@ public class EmployeeController {
         getEmployeeById(idEmployee).removeRole(role);
     }
     
+    public void checkRoleInEmployee(int idEmployee, String role){
+        checkEmployee(idEmployee);
+        getEmployeeById(idEmployee).checkRoleInEmployee(role);
+    }
+
     public void AddBonus(int managerId, int idEmployee, int bonus){
         checkEmployee(managerId);
         checkLoggedIn(managerId);
@@ -225,6 +235,14 @@ public class EmployeeController {
                 if(addCancelationListAccess.contains(role)){throw new Error("This role can already do this function in the system.");}
                 addCancelationListAccess.add(role);
             }
+            case("PRINTFINALSHIFT") : {
+                if(printFinalShiftListAccess.contains(role)){throw new Error("This role can already do this function in the system.");}
+                printFinalShiftListAccess.add(role);
+            }
+            case("MISSINGSTAFFTOROLE") : {
+                if(missingStaffToRoleListAccess.contains(role)){throw new Error("This role can already do this function in the system.");}
+                missingStaffToRoleListAccess.add(role);
+            }
         }
     }
         
@@ -298,6 +316,14 @@ public class EmployeeController {
             case("ADDCANCELATION") : {
                 if(!addCancelationListAccess.contains(role)){throw new Error("This role can not do this function according to the system.");}
                 addCancelationListAccess.remove(role);
+            }
+            case("PRINTFINALSHIFT") : {
+                if(!printFinalShiftListAccess.contains(role)){throw new Error("This role can not do this function according to the system.");}
+                printFinalShiftListAccess.remove(role);
+            }
+            case("MISSINGSTAFFTOROLE") : {
+                if(!missingStaffToRoleListAccess.contains(role)){throw new Error("This role can not do this function according to the system.");}
+                missingStaffToRoleListAccess.remove(role);
             }
         }
     }
@@ -376,6 +402,8 @@ public class EmployeeController {
     }
 
     public LinkedList<String> getAddCancelationListAccess(){return addCancelationListAccess;}
+    public LinkedList<String> getPrintFinalShiftListAccess(){return printFinalShiftListAccess;}
+    public LinkedList<String> getMissingStaffToRoleListAccess(){return missingStaffToRoleListAccess;}
     
 //-------------------------------------------------------Help Functions------------------------------------------------------------
 

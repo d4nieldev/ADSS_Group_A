@@ -23,10 +23,10 @@ public class Shift{
     private int endHour; 
     private int duration;
     private boolean finishSettingShift;
-    private HashMap<Employee, Role> constraints;
-    private HashMap<Role, Integer> numEmployeesForRole;
-    private HashMap<Role, Integer> helpMapForAssign;
-    private HashMap<Employee, Role> finalShift;
+    private HashMap<Employee, String> constraints;
+    private HashMap<String, Integer> numEmployeesForRole;
+    private HashMap<String, Integer> helpMapForAssign;
+    private HashMap<Employee, String> finalShift;
     private Dictionary<Integer, Integer> cancellations;
 
     public Shift(int idShift, int superBranchNumer, LocalDate date, int startHour, int endHour, ShiftTime time){
@@ -38,10 +38,10 @@ public class Shift{
         this.endHour = endHour;
         this.duration = endHour - startHour;
         finishSettingShift = false;
-        this.constraints = new HashMap<Employee, Role>();
-        this.numEmployeesForRole = new HashMap<Role, Integer>();
-        this.helpMapForAssign = new HashMap<Role, Integer>();
-        this.finalShift = new HashMap<Employee, Role>();
+        this.constraints = new HashMap<Employee, String>();
+        this.numEmployeesForRole = new HashMap<String, Integer>();
+        this.helpMapForAssign = new HashMap<String, Integer>();
+        this.finalShift = new HashMap<Employee, String>();
         cancellations = new Hashtable<>();
     }
 
@@ -52,17 +52,17 @@ public class Shift{
         throw new Error("This employee can not cancel an item. Only the shift manager or the super branch manager.");
     }
 
-    public Map<Employee, Role> getAllConstraints(){
+    public Map<Employee, String> getAllConstraints(){
         return constraints;
     }
-    public void addConstraint(Employee employee, Role role) {
+    public void addConstraint(Employee employee, String role) {
         if(finishSettingShift){
             throw new Error("The shift is close to add constraint. Already have employees.");
         }
         constraints.put(employee, role);
     }
 
-    public void addRole(Role newRole, int numEmployees){
+    public void addRole(String newRole, int numEmployees){
         if(numEmployeesForRole.containsKey(newRole)){
             throw new Error("This shift already contains this role. You can change the number of employees if you wish");
         }
@@ -70,7 +70,7 @@ public class Shift{
     }
     
     // update number of employees in a cartain role in this shift
-    public void updateNumToRole(Role role, int updateNum){
+    public void updateNumToRole(String role, int updateNum){
         int counterCurr = 0;
         for (Employee employee : finalShift.keySet()) {
             if(finalShift.get(employee).equals(role)){
@@ -86,12 +86,12 @@ public class Shift{
     // HR manager done checking the employees in the shift in the controller
     // System check if any role is missing and notify the HR manager
     // set the final shift
-    public void checkAssignFinalShift(HashMap<Employee, Role> hrAssign){
+    public void checkAssignFinalShift(HashMap<Employee, String> hrAssign){
         for (Employee currAssignEmployee : hrAssign.keySet()) {
-            Role currRole = hrAssign.get(currAssignEmployee);
+            String currRole = hrAssign.get(currAssignEmployee);
             if(helpMapForAssign.get(currRole) == null){
                 boolean foundRole = false;
-                for (Role checkRole : numEmployeesForRole.keySet()) {
+                for (String checkRole : numEmployeesForRole.keySet()) {
                     if(checkRole.equals(currRole)){
                         foundRole = true;
                         break;
@@ -110,7 +110,7 @@ public class Shift{
     }
     
     // set the final shift
-    public void assignFinalShift(HashMap<Employee, Role> hrAssign){
+    public void assignFinalShift(HashMap<Employee, String> hrAssign){
         for (Employee currAssignEmployee : hrAssign.keySet()) {
             finalShift.put(currAssignEmployee, hrAssign.get(currAssignEmployee));
             currAssignEmployee.addShift(this);
@@ -118,9 +118,9 @@ public class Shift{
         finishSettingShift = true;
     }
 
-    public HashMap<Role, Integer> missingStaffToRole(){
-        HashMap<Role, Integer> missingStaff = new HashMap<>();
-        for ( Role roleNeddedByHR : numEmployeesForRole.keySet()) {
+    public HashMap<String, Integer> missingStaffToRole(){
+        HashMap<String, Integer> missingStaff = new HashMap<>();
+        for ( String roleNeddedByHR : numEmployeesForRole.keySet()) {
             if(numEmployeesForRole.get(roleNeddedByHR).intValue() != helpMapForAssign.get(roleNeddedByHR).intValue()){
                 missingStaff.put(roleNeddedByHR, numEmployeesForRole.get(roleNeddedByHR).intValue()-helpMapForAssign.get(roleNeddedByHR).intValue());
             }
@@ -128,6 +128,14 @@ public class Shift{
         return missingStaff;
     }
 
+    public String printFinalShift(){
+        return "Final Shift: " + finalShift.toString();
+    }
+    
+    public String toString(){
+		return "Shift ID: " + idShift + " , Super Branch Numer: " + superBranchNumer + " [date: " + date + ", time: " + time.toString() + 
+        ", start hour: " + startHour + ", end hour: " + endHour  + ", duration: " + duration + "]";
+    }
     
 //-------------------------------------Getters And Setters--------------------------------------------------------
     public int getID(){return idShift;}
@@ -142,6 +150,6 @@ public class Shift{
     this.endHour = newEndHour;}
     public int getDuration(){return duration;}
     public boolean getIsFinishSettingShift(){return finishSettingShift;}
-    public HashMap<Employee, Role> getFinalShift(){return finalShift;}
+    public HashMap<Employee, String> getFinalShift(){return finalShift;}
     public Dictionary<Integer, Integer> getCancellations(){return cancellations;}
 }

@@ -21,4 +21,8 @@ public class ShiftService {
     public void approveFinalShift(int managerID, HashMap<Integer, String> hrAssigns){
         shiftController.approveFinalShift(managerID, hrAssigns);
     }
+
+    public String printFinalShift(int idShift){
+        return shiftController.printFinalShift(idShift);
+    }
 }

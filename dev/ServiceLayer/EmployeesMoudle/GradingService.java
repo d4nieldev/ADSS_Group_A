@@ -96,6 +96,10 @@ public class GradingService {
     public void approveFinalShift(int managerID, HashMap<Integer, String> hrAssigns){
         shiftS.approveFinalShift(managerID, hrAssigns);
     }
+    
+    public String printFinalShift(int idShift){
+        return shiftS.printFinalShift(idShift);
+    }
 
     // ------------------------------------------- BRANCH SERVICE ------------------------------------------------------------
 

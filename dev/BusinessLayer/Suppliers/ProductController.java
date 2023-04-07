@@ -33,6 +33,15 @@ public class ProductController {
         return productIdToSupplierProducts.get(productId).values();
     }
 
+    public ProductAgreement getAgreement(int productId, int supplierId) throws SuppliersException {
+        if (!productIdToSupplierProducts.containsKey(productId))
+            throw new SuppliersException("No supplier with id " + supplierId + " exists");
+        if (!productIdToSupplierProducts.get(productId).containsKey(supplierId))
+            throw new SuppliersException(
+                    "Supplier with id " + supplierId + " does not supply product with id " + productId);
+        return productIdToSupplierProducts.get(productId).get(supplierId);
+    }
+
     /**
      * Adds a new product agreement to the map of product agreements.
      * 
@@ -66,12 +75,12 @@ public class ProductController {
     public void deleteAllSupplierAgreements(int supplierId) {
         for (Integer productId : productIdToSupplierProducts.keySet()) {
             for (Integer supId : productIdToSupplierProducts.get(productId).keySet()) {
-                if(supId == supplierId){
+                if (supId == supplierId) {
                     productIdToSupplierProducts.get(productId).remove(supId);
                 }
             }
         }
-        if(supplierIdToProductAgreements.containsKey(supplierId)){
+        if (supplierIdToProductAgreements.containsKey(supplierId)) {
             supplierIdToProductAgreements.get(supplierId).clear();
         }
     }

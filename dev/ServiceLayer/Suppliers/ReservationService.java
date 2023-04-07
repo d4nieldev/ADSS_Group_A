@@ -13,9 +13,9 @@ public class ReservationService {
         reservationController = ReservationController.getInstance();
     }
 
-    public String makeReservation(Map<Integer, Integer> productToAmount) {
+    public String makeReservation(Map<Integer, Integer> productToAmount, String destinationBranch) {
         try {
-            reservationController.makeReservation(productToAmount);
+            reservationController.makeReservation(productToAmount, destinationBranch);
             return "Success";
         } catch (SuppliersException e) {
             return e.getMessage();

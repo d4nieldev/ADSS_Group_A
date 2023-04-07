@@ -2,9 +2,11 @@ package BusinessLayer.Suppliers;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 import BusinessLayer.Suppliers.exceptions.SuppliersException;
@@ -21,6 +23,8 @@ public class ReservationController {
     private List<Integer> readyReservations;
     // the next id for a reservation in the system.
     private int lastId;
+    private ProductController pc = ProductController.getInstance();
+    private SupplierController sc = SupplierController.getInstance();
 
     private ReservationController() {
         idToSupplierReservations = new HashMap<>();
@@ -35,105 +39,130 @@ public class ReservationController {
         return instance;
     }
 
-    /**
-     * Calculates the cheapest division between suppliers if possible and saves in
-     * the system
-     * 
-     * @param productToAmount the reservation in product id (in store) to amount
-     *                        format
-     * @throws SuppliersException if the reservation could not be complete for lack
-     *                            of supply
-     */
-    public void makeReservation(Map<Integer, Integer> productToAmount) throws SuppliersException {
-        Map<Integer, List<ReceiptItem>> supplierToProducts = splitReservation(productToAmount);
-
-        // calculate final discounts and create partial reservations
-        int reservationId = getNextIdAndIncrement();
-        for (Integer supplierId : supplierToProducts.keySet()) {
-            List<ReceiptItem> items = supplierToProducts.get(supplierId);
-            SupplierController.getInstance().calculateSupplierDiscount(supplierId, items);
-            Contact contact = SupplierController.getInstance().getRandomContactOf(supplierId);
-            Reservation reservation = new Reservation(reservationId, supplierId, items, contact);
-            addPartialReservation(reservation);
-        }
-    }
-
-    /**
-     * Returns the cheapest division between suppliers if possible
-     * 
-     * @param productToAmount the reservation in product id (in store) to amount
-     *                        format
-     * @throws SuppliersException if the reservation could not be complete for lack
-     *                            of supply
-     */
-    private Map<Integer, List<ReceiptItem>> splitReservation(Map<Integer, Integer> productToAmount)
+    public void makeManualReservation(Map<Integer, Map<Integer, Integer>> supplierToproductToAmount,
+            String destinationBranch)
             throws SuppliersException {
-        Map<Integer, List<ReceiptItem>> supplierToProducts = new HashMap<Integer, List<ReceiptItem>>();
+        int reservationId = getNextIdAndIncrement();
+        List<Reservation> finalOrder = new ArrayList<>();
 
-        for (Integer productId : productToAmount.keySet()) {
-            int amount = productToAmount.get(productId);
+        for (int supplierId : supplierToproductToAmount.keySet()) {
+            Map<Integer, Integer> productToAmount = supplierToproductToAmount.get(supplierId);
+            Contact contact = sc.getRandomContactOf(supplierId);
+            Reservation r = new Reservation(reservationId, supplierId, new ArrayList<>(), contact, destinationBranch);
 
-            // find the most attractive suppliers for this product
-            Map<Integer, ReceiptItem> supplierToReceiptItem = splitProduct(productId, amount);
+            for (int productId : productToAmount.keySet()) {
+                int amount = productToAmount.get(supplierId);
+                ProductAgreement agreement = pc.getAgreement(productId, supplierId);
+                if (agreement.getStockAmount() < amount)
+                    throw new SuppliersException(
+                            "Supplier " + supplierId + " provides only " + agreement.getStockAmount()
+                                    + " units of product " + productId + " but requested " + amount + ".");
 
-            // add the receipt items to the list of receipt items for each supplier
-            for (Integer supplierId : supplierToReceiptItem.keySet()) {
-                ReceiptItem item = supplierToReceiptItem.get(supplierId);
-                supplierToProducts.computeIfAbsent(supplierId, k -> new ArrayList<ReceiptItem>()).add(item);
+                ReceiptItem item = new ReceiptItem(amount, agreement);
+                r.addReceiptItem(item);
             }
+
+            // calculate final discount
+            List<ReceiptItem> items = r.getReceipt();
+            sc.calculateSupplierDiscount(supplierId, items);
+            finalOrder.add(r);
         }
 
-        return supplierToProducts;
+        // if everything went well, add the reservation to the system
+        addPartialReservations(finalOrder);
+
     }
 
-    /**
-     * Returns the cheapest division between suppliers if possible
-     * 
-     * @param productId the product to split
-     * @param amount    the amount to be splitted
-     * @throws SuppliersException if the reservation could not be complete for lack
-     *                            of supply
-     */
-    private Map<Integer, ReceiptItem> splitProduct(int productId, int amount) throws SuppliersException {
-        Collection<ProductAgreement> productAgreements = ProductController.getInstance()
-                .getProductAgreementsOfProduct(productId);
-        Map<Integer, ReceiptItem> output = new HashMap<>();
-
-        // first check if the product can be ordered from one supplier
-        ProductAgreement minAgreement = null;
-        for (ProductAgreement agreement : productAgreements)
-            if (agreement.getStockAmount() >= amount
-                    && (minAgreement == null
-                            || agreement.getPrice(amount) < minAgreement.getPrice(amount)))
-                minAgreement = agreement;
-        if (minAgreement != null) {
-            output.put(minAgreement.getSupplierId(), new ReceiptItem(amount, minAgreement));
-            return output;
-        }
-
-        // can't be ordered from one supplier - split the amount among suppliers
-        while (amount > 0) {
-            minAgreement = null;
-            int maxAmount = -1;
-            Collection<ProductAgreement> relevantPAs = productAgreements.stream()
-                    .filter(e -> output.get(e.getSupplierId()) == null).collect(Collectors.toList());
-            for (ProductAgreement agreement : relevantPAs) {
-                maxAmount = Math.min(amount, agreement.getStockAmount());
-                if (minAgreement == null
-                        || agreement.getPrice(maxAmount) < minAgreement.getPrice(maxAmount))
-                    minAgreement = agreement;
-            }
-            if (minAgreement == null)
-                throw new SuppliersException("Cannot order product with id " + productId + " and amount " + amount);
-            output.put(minAgreement.getSupplierId(), new ReceiptItem(maxAmount, minAgreement));
-            amount -= maxAmount;
-        }
-        return output;
+    private void addPartialReservations(List<Reservation> reservations) {
+        for (Reservation r : reservations)
+            addPartialReservation(r);
     }
 
     private void addPartialReservation(Reservation reservation) {
         idToSupplierReservations.computeIfAbsent(reservation.getId(), k -> new ArrayList<>()).add(reservation);
         supplierIdToReservations.computeIfAbsent(reservation.getSupplierId(), k -> new ArrayList<>()).add(reservation);
+    }
+
+    public void makeAutoReservation(Map<Integer, Integer> productToAmount, String destinationBranch)
+            throws SuppliersException {
+        int reservationId = getNextIdAndIncrement();
+        Map<Integer, Reservation> supToReservation = maxReservationPerSupplier(productToAmount, destinationBranch,
+                reservationId);
+
+        int amount = productToAmount.values().stream().reduce(0, (a, b) -> a + b);
+        List<Reservation> finalOrder = new ArrayList<>();
+        while (amount > 0 && supToReservation.size() > 0) {
+            // find and choose the best reservation
+            Reservation r = getMostAttractiveReservationAndRemove(supToReservation);
+            amount -= r.getTotalAmount();
+            finalOrder.add(r);
+
+            // update the rest of the reservations
+            for (Reservation other : supToReservation.values())
+                other.subtract(r);
+        }
+
+        if (amount > 0)
+            throw new SuppliersException("The reservation could not be made due to lack of stock.");
+
+        // if everything went well, add the reservation to the system
+        addPartialReservations(finalOrder);
+    }
+
+    private Map<Integer, Reservation> maxReservationPerSupplier(Map<Integer, Integer> productToAmount,
+            String destinationBranch, int reservationId) throws SuppliersException {
+        Map<Integer, Reservation> supplierToReservation = new HashMap<>();
+
+        for (int productId : productToAmount.keySet()) {
+            int amount = productToAmount.get(productId);
+            Collection<ProductAgreement> agreements = pc.getProductAgreementsOfProduct(productId);
+
+            for (ProductAgreement agreement : agreements) {
+                int supplierId = agreement.getSupplierId();
+                // for each supplier, create a new reservation
+                Reservation r = supplierToReservation.get(supplierId);
+                if (r == null) {
+                    Contact contact = sc.getRandomContactOf(supplierId);
+                    r = new Reservation(reservationId, supplierId, new ArrayList<>(), contact, destinationBranch);
+                    supplierToReservation.put(supplierId, r);
+                }
+
+                // for each product and supplier, find the maximum amount that can be purchased
+                int maxAmount = Math.min(amount, agreement.getStockAmount());
+                r.addReceiptItem(new ReceiptItem(maxAmount, agreement));
+            }
+        }
+
+        // update final discount of suppliers
+        for (int supplierId : supplierToReservation.keySet()) {
+            List<ReceiptItem> items = supplierToReservation.get(supplierId).getReceipt();
+            sc.calculateSupplierDiscount(supplierId, items);
+        }
+
+        return supplierToReservation;
+    }
+
+    private Reservation getMostAttractiveReservationAndRemove(Map<Integer, Reservation> supToReservation) {
+        // compare first by amount (desc) then by price (asc)
+        Comparator<Integer> supComp = (sup1, sup2) -> {
+            Reservation r1 = supToReservation.get(sup1);
+            Reservation r2 = supToReservation.get(sup2);
+
+            int amount1 = r1.getTotalAmount();
+            int amount2 = r2.getTotalAmount();
+
+            int output = amount1 - amount2;
+
+            if (output == 0) {
+                // same amount
+                double diff = r2.getPriceAfterDiscount() - r1.getPriceAfterDiscount();
+                output = diff > 0 ? 1 : (diff < 0 ? -1 : 0);
+            }
+            return output;
+        };
+
+        int supplierId = supToReservation.keySet().stream().max(supComp).get();
+        return supToReservation.remove(supplierId);
     }
 
     private int getNextIdAndIncrement() {

@@ -4,7 +4,7 @@ public class ReceiptItem {
     private int amount;
     private double pricePerUnitBeforeDiscount;
     private double pricePerUnitAfterDiscount;
-    Product product;
+    private Product product;
     // TODO: expiration date
 
     public ReceiptItem(int amount, ProductAgreement agreement) {
@@ -16,6 +16,10 @@ public class ReceiptItem {
 
     public int getAmount() {
         return this.amount;
+    }
+
+    public void setAmount(int amount) {
+        this.amount = Math.min(amount, 0);
     }
 
     public double getPricePerUnitAfterDiscount() {
@@ -32,6 +36,10 @@ public class ReceiptItem {
 
     public double getDiscount() {
         return pricePerUnitAfterDiscount - pricePerUnitBeforeDiscount;
+    }
+
+    public Product getProduct() {
+        return this.product;
     }
 
     @Override

@@ -2,6 +2,7 @@ package BusinessLayer.Suppliers;
 
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import BusinessLayer.Suppliers.enums.Status;
 import BusinessLayer.Suppliers.exceptions.SuppliersException;
@@ -15,13 +16,14 @@ public class Reservation {
     private Contact contact;
     private List<ReceiptItem> receipt;
 
-    public Reservation(int id, int supplier_id, List<ReceiptItem> receipt, Contact contact) {
+    public Reservation(int id, int supplier_id, List<ReceiptItem> receipt, Contact contact, String destinationBranch) {
         this.id = id;
         this.supplierId = supplier_id;
         this.date = new Date();
         this.status = Status.NOTREADY;
         this.receipt = receipt;
         this.contact = contact;
+        this.destinationBranch = destinationBranch;
     }
 
     public void cancel() throws SuppliersException {
@@ -68,7 +70,7 @@ public class Reservation {
         return this.destinationBranch;
     }
 
-    public double getTotalBeforeDiscount() {
+    public double getPriceBeforeDiscount() {
         double sum = 0.0;
         for (ReceiptItem item : receipt)
             sum += item.getPricePerUnitBeforeDiscount() * item.getAmount();
@@ -76,12 +78,34 @@ public class Reservation {
         return sum;
     }
 
-    public double getTotalAfterDiscount() {
+    public double getPriceAfterDiscount() {
         double sum = 0.0;
         for (ReceiptItem item : receipt)
             sum += item.getPricePerUnitAfterDiscount() * item.getAmount();
 
         return sum;
+    }
+
+    public void addReceiptItem(ReceiptItem item) {
+        this.receipt.add(item);
+    }
+
+    public int getTotalAmount() {
+        int amount = 0;
+        for (ReceiptItem item : receipt)
+            amount += item.getAmount();
+        return amount;
+    }
+
+    public void subtract(Reservation r) {
+        for (ReceiptItem myItem : this.receipt)
+            for (ReceiptItem otherItem : r.receipt)
+                if (myItem.getProduct() == otherItem.getProduct()) {
+                    myItem.setAmount(myItem.getAmount() - otherItem.getAmount());
+                    break;
+                }
+
+        receipt = receipt.stream().filter(item -> item.getAmount() > 0).collect(Collectors.toList());
     }
 
     public static String reservationsToString(List<Reservation> reservations) {
@@ -91,8 +115,8 @@ public class Reservation {
 
         for (Reservation r : reservations) {
             output += baseToString(r, false) + "\n";
-            totalBeforeDiscount += r.getTotalBeforeDiscount();
-            totalAfterDiscount += r.getTotalAfterDiscount();
+            totalBeforeDiscount += r.getPriceBeforeDiscount();
+            totalAfterDiscount += r.getPriceAfterDiscount();
         }
 
         output += "======================================================================";
@@ -105,8 +129,8 @@ public class Reservation {
     }
 
     private static String baseToString(Reservation r, boolean total) {
-        double totalBeforeDiscount = r.getTotalBeforeDiscount();
-        double totalAfterDiscount = r.getTotalAfterDiscount();
+        double totalBeforeDiscount = r.getPriceBeforeDiscount();
+        double totalAfterDiscount = r.getPriceAfterDiscount();
 
         String output = "";
         output += "======================================================================";

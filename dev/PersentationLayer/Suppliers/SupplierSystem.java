@@ -2,7 +2,6 @@ package PersentationLayer.Suppliers;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.Scanner;
 import java.util.TreeMap;
 
@@ -285,7 +284,7 @@ public class SupplierSystem {
      */
     private static TreeMap<Integer, Double> makeAmountDiscountPercentageMap() {
         System.out.print("Enter [amount] [discount] pairs (enter 'done' to finish): ");
-        System.out.print("**Notice that the discount must be a percentage (max 100%)**");
+        System.out.print("**Notice that the discount must be a percentage (max 100)**");
         TreeMap<Integer, Double> amountTodiscountMap = new TreeMap<Integer, Double>();
         String input;
         do {
@@ -303,7 +302,8 @@ public class SupplierSystem {
                 continue;
             }
             if (AmountDiscount.length > 1) {
-                amountTodiscountMap.put(amount, discount);
+                //TODO: maybe ask the user to provide the discount percantage in 0.XX format.
+                amountTodiscountMap.put(amount, discount / 100);
             }
         } while (!input.equals("done"));
         return amountTodiscountMap;

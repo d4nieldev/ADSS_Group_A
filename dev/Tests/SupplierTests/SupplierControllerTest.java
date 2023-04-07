@@ -9,9 +9,13 @@ import java.util.List;
 import java.util.TreeMap;
 
 import org.junit.*;
-import org.junit.Assert.*;
 
+import BusinessLayer.Suppliers.Contact;
+import BusinessLayer.Suppliers.Product;
 import BusinessLayer.Suppliers.Supplier;
+import BusinessLayer.Suppliers.ProductAgreement;
+import BusinessLayer.Suppliers.ProductController;
+import BusinessLayer.Suppliers.ReceiptItem;
 import BusinessLayer.Suppliers.SupplierController;
 import BusinessLayer.Suppliers.exceptions.SuppliersException;
 
@@ -19,15 +23,21 @@ public class SupplierControllerTest {
 
     SupplierController sc = SupplierController.getInstance();
 
-    @BeforeClass
-    public static void setup() throws Exception {
+    @Before
+    public void setup() throws Exception {
         try {
-            
             createSupplier0();
+            createProduct();
         } catch (Exception e) {
             System.out.println("Could not setup environment");
             e.printStackTrace();
         }
+    }
+
+    @After
+    public void clearController() {
+        ProductController.getInstance().clearData();
+        SupplierController.getInstance().clearData();
     }
 
     /**
@@ -41,8 +51,8 @@ public class SupplierControllerTest {
         List<String> fields = List.of("Tech", "Cleaning");
         String paymentCondition = "net 30 EOM";
         TreeMap<Integer, Double> amountToDiscount = new TreeMap<>();
-        amountToDiscount.put(100, 2.5);
-        amountToDiscount.put(500, 3.0);
+        amountToDiscount.put(100, 0.025);
+        amountToDiscount.put(500, 0.03);
         List<String> contactNames = List.of("Dana Grinberg", "Roni Katz");
         List<String> contactPhones = List.of("0525948325", "0535669897");
         int maxSupplyDays = 4 ;
@@ -51,10 +61,14 @@ public class SupplierControllerTest {
             paymentCondition, amountToDiscount, contactNames, contactPhones, maxSupplyDays);
     }
 
+    public void createProduct() {
+        Product TaraMilk = new Product(203, "Tara Milk 1.5L", "Tara");
+        ProductController.getInstance().addProduct(TaraMilk);
+    }
+
 
     @Test
     public void getExistingSupplierByIdTest() {
-        //TODO: This test fails when all tests run, maybe because there is a test that delete a supplier.
         //test for existing supplier id in system.
         try {
             Supplier s = sc.getSupplierById(0);
@@ -109,15 +123,14 @@ public class SupplierControllerTest {
     public void addFixedDaysSupplierBaseAgreementTest(){
         //to validate creation we try to get this supplier and check if his id, name and phone are correct.
 
-        //TODO: maybe add ToString test to check that unique fields are correct too. (JSON?)
         String name = "AllYouNeed";
         String phone = "0507164588";
         String bankAccount = "09-319-158988";
         List<String> fields = List.of("Meat" , "Sweet drinks");
         String paymentCondition = "net 45 EOM";
         TreeMap<Integer, Double> amountToDiscount = new TreeMap<>();
-        amountToDiscount.put(50, 1.5);
-        amountToDiscount.put(90, 2.0);
+        amountToDiscount.put(50, 0.015);
+        amountToDiscount.put(90, 0.02);
         List<String> contactNames = List.of("Kevin Monk");
         List<String> contactPhones = List.of("0525869525");
         List<Integer> days = List.of(2,4);
@@ -142,8 +155,8 @@ public class SupplierControllerTest {
         List<String> fields = List.of("Meat" , "Sweet drinks");
         String paymentCondition = "net 45 EOM";
         TreeMap<Integer, Double> amountToDiscount = new TreeMap<>();
-        amountToDiscount.put(50, 1.5);
-        amountToDiscount.put(90, 2.0);
+        amountToDiscount.put(50, 0.015);
+        amountToDiscount.put(90, 0.02);
         List<String> contactNames = List.of("Kevin Monk");
         List<String> contactPhones = List.of("0525869525");
         int maxSupplyDays = 7 ;
@@ -168,8 +181,8 @@ public class SupplierControllerTest {
         List<String> fields = List.of("Meat" , "Sweet drinks");
         String paymentCondition = "net 45 EOM";
         TreeMap<Integer, Double> amountToDiscount = new TreeMap<>();
-        amountToDiscount.put(50, 1.5);
-        amountToDiscount.put(90, 2.0);
+        amountToDiscount.put(50, 0.015);
+        amountToDiscount.put(90, 0.02);
         List<String> contactNames = List.of("Kevin Monk");
         List<String> contactPhones = List.of("0525869525");
         String address = "Shilo 4, Ashkelon" ;
@@ -234,69 +247,82 @@ public class SupplierControllerTest {
         assertEquals("SUPPLIERS EXCEPTION: There is no supplier with id " + 5 + " in the system.", e.getMessage());
     }
 
+
     @Test
-    public void addSupplierFieldTest(){
+    public void deleteAllSupplierContactsTest(){
+        //we check that after deleting all contacts we still have the office contact.
         try{
-            sc.addSupplierField(0, "Food");
-            assertTrue("Field not exist!", sc.getSupplierById(0).getFields().contains("Food"));
+            sc.deleteAllSupplierContacts(0);
+            assertEquals(1, sc.getSupplierById(0).getContacts().size());
         }catch(SuppliersException e){
             fail(e.getMessage());
         }
     }
 
     @Test
-    public void setSupplierPaymentConditionTest(){
-        
-    }
-
-    @Test
-    public void setSupplierAmountToDiscountTest(){
-        
-    }
-
-    @Test
-    public void setSupplierContactNamesAndPhonesTest(){
-        
-    }
-
-    @Test
-    public void addSupplierContactTest(){
-        
-    }
-
-    @Test
-    public void deleteSupplierContactTest(){
-        
-    }
-
-    @Test
-    public void deleteAllSupplierContactsTest(){
-        
-    }
-
-    @Test
     public void addSupplierProductAgreementTest(){
-        
+        //we check that after adding a product agreement, our supplier has the product agreement (by checking the prouct's id in the agreement)
+        TreeMap<Integer, Double> amountToDiscount = new TreeMap<>();
+        amountToDiscount.put(50, 0.03);
+        amountToDiscount.put(200, 0.045);
+        try{
+            sc.addSupplierProductAgreement(0, 203,  33, 500, 24.9, amountToDiscount);
+            assertEquals(203, ProductController.getInstance().getProductAgreementsOfSupplier(0).get(0).getProduct().getId());
+        }catch (SuppliersException e){
+            fail(e.getMessage());
+        }
+        //test for Non existing supplier id in system.
+        Exception e = assertThrows(SuppliersException.class, () -> sc.addSupplierProductAgreement(5, 203,  33, 500, 24.9, amountToDiscount));
+        //check that error message is correct.
+        assertEquals("SUPPLIERS EXCEPTION: There is no supplier with id " + 5 + " in the system.", e.getMessage());
+
+        //test for Negative stock amount
+        e = assertThrows(SuppliersException.class, () -> sc.addSupplierProductAgreement(0, 203,  33, -100, 24.9, amountToDiscount));
+        //check that error message is correct.
+        assertEquals("SUPPLIERS EXCEPTION: Stock amount cannot be negative.", e.getMessage());
+
+        //test for Negative base price
+        e = assertThrows(SuppliersException.class, () -> sc.addSupplierProductAgreement(0, 203,  33, 500, -33.4, amountToDiscount));
+        //check that error message is correct.
+        assertEquals("SUPPLIERS EXCEPTION: Base price cannot be negative.", e.getMessage());
     }
     
-    @Test
-    public void updateSupplierProductAgreementTest(){
-        
-    }
 
     @Test
     public void calculateSupplierDiscountTest(){
-        
-    }
-
-    @Test
-    public void getSupplierCardTest(){
-        
+        try{
+            //we make one recipt item for the agreement and check the price of the item before discount and after discount.
+            TreeMap<Integer, Double> amountToDiscount = new TreeMap<>();
+            amountToDiscount.put(50, 0.03);
+            amountToDiscount.put(200, 0.045);
+            sc.addSupplierProductAgreement(0, 203,  33, 500, 24.9, amountToDiscount);
+            ProductAgreement pa = ProductController.getInstance().getProductAgreementsOfSupplier(0).get(0);
+            //creation of recipt item.
+            ReceiptItem ri = new ReceiptItem(400, pa);
+            //we check the price of item before the supplier discount. *Notice that there could be another type of discount before calculating this one.*
+            double pricePerUnitBeforeSupplierDiscount = ri.getPricePerUnitAfterDiscount();
+            System.out.println(pricePerUnitBeforeSupplierDiscount);
+            double predictedPricePerUnitAfterSupplierDiscount = pricePerUnitBeforeSupplierDiscount * (1 - 0.025);
+            System.out.println(predictedPricePerUnitAfterSupplierDiscount);
+            //puting the single recipt in a list and calculating the supplier discount.
+            sc.calculateSupplierDiscount(0, List.of(ri));
+            System.out.println(ri.getPricePerUnitAfterDiscount());
+            assertEquals(predictedPricePerUnitAfterSupplierDiscount, ri.getPricePerUnitAfterDiscount(),0.0001);    
+        }catch (SuppliersException e){
+            fail(e.getMessage());
+        }
+    
     }
     
     @Test
     public void getRandomContactOfTest(){
-        
+        //we check that the contact that we recieved exists in the supplier contacts list.
+        try{
+            Contact c = sc.getRandomContactOf(0);
+            assertTrue(sc.getSupplierById(0).getContacts().contains(c));
+        }catch(SuppliersException e){
+            fail(e.getMessage());
+        }
     }
 
 }

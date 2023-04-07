@@ -1,8 +1,6 @@
 package BusinessLayer.Suppliers;
 
-import java.util.HashMap;
 import java.util.LinkedList;
-import java.util.Map;
 import java.util.TreeMap;
 
 import BusinessLayer.Suppliers.exceptions.SuppliersException;
@@ -11,12 +9,12 @@ import java.util.List;
 
 public class SupplierController {
     private int nextSupplierIdInSystem;
-    private Map<Integer, Supplier> idToSupplier;
+    private TreeMap<Integer, Supplier> idToSupplier;
     private static SupplierController instance = null;
 
     // Constructor for SupplierController
     private SupplierController() {
-        this.idToSupplier = new HashMap<Integer, Supplier>();
+        this.idToSupplier = new TreeMap<Integer, Supplier>();
         this.nextSupplierIdInSystem = 0;
     }
 
@@ -40,6 +38,7 @@ public class SupplierController {
     // Delete Supplier by id
     public void deleteSupplier(int supplierId) throws SuppliersException {
         if (idToSupplier.containsKey(supplierId)) {
+            //TODO: should we delete all the supplier agreements?
             ProductController.getInstance().deleteAllSupplierAgreements(supplierId);
             idToSupplier.remove(supplierId);
         } else {
@@ -153,14 +152,10 @@ public class SupplierController {
     }
 
     // Update supplier discount
-<<<<<<< HEAD
-    public void setSupplierAmountToDiscount(int supplierId, Map<Integer, Double> amountToDiscount) throws SuppliersException {
-=======
-    public void setSupplierAmountToDiscount(int supplierId, TreeMap<Integer, Double> amountToDiscount)
-            throws Exception {
->>>>>>> a9cb402b15f684611d6d955ebffdbe4adb1e39e4
+    public void setSupplierAmountToDiscount(int supplierId, TreeMap<Integer, Double> amountToDiscount) throws SuppliersException {
         try {
             getSupplierById(supplierId).setAmountToDiscount(amountToDiscount);
+            ;
         } catch (Exception e) {
             throw e;
         }
@@ -232,7 +227,7 @@ public class SupplierController {
      * 
      **/
     public void addSupplierProductAgreement(int supplierId, int productShopId, int productSupplierId, int stockAmount,
-            double basePrice, TreeMap<Integer, Double> amountToDiscount) throws Exception {
+            double basePrice, TreeMap<Integer, Double> amountToDiscount) throws SuppliersException {
         try {
             if (supplierId < 0) {
                 throw new SuppliersException("Supplier id cannot be negative.");
@@ -252,7 +247,7 @@ public class SupplierController {
             ProductAgreement pa = new ProductAgreement(supplierId, product, productSupplierId, basePrice, stockAmount,
                     amountToDiscount);
             ProductController.getInstance().addProductAgreement(supplierId, productShopId, pa);
-        } catch (Exception e) {
+        } catch (SuppliersException e) {
             throw e;
         }
 
@@ -296,16 +291,22 @@ public class SupplierController {
         return contactList;
     }
 
+    /**
+     * Sets a new price of items in receipt, after calculating the discount per total order amount.
+     * @param supplierId the id of the supplier
+     * @param items the items of the reservation that their amount sets the discount.
+     */
     public void calculateSupplierDiscount(int supplierId, List<ReceiptItem> items) {
         int amount = 0;
 
         for (ReceiptItem item : items)
             amount += item.getAmount();
 
-        double discount_coefficient = idToSupplier.get(supplierId).getDiscount(amount);
+         Integer keyAmount = idToSupplier.get(supplierId).getAmountToDiscount().floorKey(amount);
+         double discount_coefficient = idToSupplier.get(supplierId).getAmountToDiscount().get(keyAmount);
 
         for (ReceiptItem item : items)
-            item.setPricePerUnitAfterDiscount(discount_coefficient * item.getPricePerUnitAfterDiscount());
+            item.setPricePerUnitAfterDiscount((1 - discount_coefficient) * item.getPricePerUnitAfterDiscount());
     }
 
     /**
@@ -332,7 +333,7 @@ public class SupplierController {
         return getSupplierById(supplierID).getRandomContact();
     }
 
-    public void clearData() {
+    public void clearData(){
         idToSupplier.clear();
         nextSupplierIdInSystem = 0;
     }

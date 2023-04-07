@@ -3,7 +3,6 @@ package BusinessLayer.Suppliers;
 import java.util.TreeMap;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 
 public abstract class Supplier {
 
@@ -158,12 +157,13 @@ public abstract class Supplier {
         this.contacts.remove(contact);
     }
 
-    // Delete all contacts
+    // Delete all contacts (office number is still existing)
     public void deleteAllContacts() {
+        Contact office = new Contact(getOffice().getPhone(), "Office");
         this.contacts.clear();
+        this.contacts.add(office);
     }
 
-<<<<<<< HEAD
     // Add office contact for the begining of the list of contacts
     private List<Contact> addOfficeContact(List<Contact> contacts, String officePhone) {
         List<Contact> newContacts = new LinkedList<>();
@@ -173,14 +173,14 @@ public abstract class Supplier {
             newContacts.add(c);
         }
         return newContacts;
-=======
+    }
     public double getDiscount(int amount) {
         double discount = 0.0;
         Integer key = amountToDiscount.floorKey(amount);
         if (key != null)
             discount = amountToDiscount.get(key);
         return discount;
->>>>>>> a9cb402b15f684611d6d955ebffdbe4adb1e39e4
+
     }
 
     @Override

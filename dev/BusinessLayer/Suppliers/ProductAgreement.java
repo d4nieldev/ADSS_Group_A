@@ -3,7 +3,7 @@ package BusinessLayer.Suppliers;
 import java.util.Map;
 import java.util.TreeMap;
 
-class ProductAgreement {
+public class ProductAgreement {
     private int supplierId;
     private int productSupplierId;
     private double basePrice;

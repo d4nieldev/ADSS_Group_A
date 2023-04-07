@@ -1,8 +1,7 @@
-package Tests.SupplierTests;
+package Tests.ReservationTests;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThrows;
-import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import java.util.HashMap;
@@ -12,7 +11,6 @@ import java.util.TreeMap;
 
 import org.junit.After;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 
 import BusinessLayer.Suppliers.Product;
@@ -105,9 +103,9 @@ public class ReservationControllerTest {
     }
 
     private void clearAllData() {
-        ProductController.getInstance().clearData();
-        SupplierController.getInstance().clearData();
-        ReservationController.getInstance().clearData();
+            ProductController.getInstance().clearData();
+            SupplierController.getInstance().clearData();
+            ReservationController.getInstance().clearData();
     }
 
     /**

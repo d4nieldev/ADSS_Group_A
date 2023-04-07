@@ -64,13 +64,15 @@ public class ProductController {
      * @param supplierId the supplier id
      */
     public void deleteAllSupplierAgreements(int supplierId) {
-        for (Map.Entry<Integer, Map<Integer, ProductAgreement>> ProdToSupToAgree : productIdToSupplierProducts
-                .entrySet()) {
-            for (Map.Entry<Integer, ProductAgreement> SupToAgree : ProdToSupToAgree.getValue().entrySet()) {
-                if (SupToAgree.getKey().equals(supplierId)) {
-                    ProdToSupToAgree.getValue().remove(supplierId);
+        for (Integer productId : productIdToSupplierProducts.keySet()) {
+            for (Integer supId : productIdToSupplierProducts.get(productId).keySet()) {
+                if(supId == supplierId){
+                    productIdToSupplierProducts.get(productId).remove(supId);
                 }
             }
+        }
+        if(supplierIdToProductAgreements.containsKey(supplierId)){
+            supplierIdToProductAgreements.remove(supplierId);
         }
     }
 

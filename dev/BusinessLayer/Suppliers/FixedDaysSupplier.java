@@ -2,7 +2,7 @@ package BusinessLayer.Suppliers;
 
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
+import java.util.TreeMap;
 
 import BusinessLayer.Suppliers.enums.Day;
 
@@ -12,14 +12,14 @@ class FixedDaysSupplier extends Supplier {
     // Copy constructor
     public FixedDaysSupplier(int id, String name, String phone, String bankAcc, List<String> fields,
             String paymentCondition,
-            Map<Integer, Double> amountToDiscount, List<Contact> contacts, List<Integer> days) {
+            TreeMap<Integer, Double> amountToDiscount, List<Contact> contacts, List<Integer> days) {
         super(id, name, phone, bankAcc, fields, paymentCondition, amountToDiscount, contacts);
         this.days = makeDaysList(days);
     }
 
     // Constructor without contacts, reservation history and fields
     public FixedDaysSupplier(int id, String name, String phone, String bankAcc, String paymentCondition,
-            Map<Integer, Double> amountToDiscount, List<Integer> days) {
+            TreeMap<Integer, Double> amountToDiscount, List<Integer> days) {
         super(id, name, phone, bankAcc, paymentCondition, amountToDiscount);
         this.days = makeDaysList(days);
     }
@@ -27,7 +27,7 @@ class FixedDaysSupplier extends Supplier {
     // Constructor without reservation history and contacts
     public FixedDaysSupplier(int id, String name, String phone, String bankAcc, List<String> fields,
             String paymentCondition,
-            Map<Integer, Double> amountToDiscount, List<Integer> days) {
+            TreeMap<Integer, Double> amountToDiscount, List<Integer> days) {
         super(id, name, phone, bankAcc, fields, paymentCondition, amountToDiscount);
         this.days = makeDaysList(days);
 

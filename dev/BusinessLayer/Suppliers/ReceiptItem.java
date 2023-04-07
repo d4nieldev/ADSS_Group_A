@@ -1,6 +1,6 @@
 package BusinessLayer.Suppliers;
 
-class ReceiptItem {
+public class ReceiptItem {
     private int amount;
     private double pricePerUnitBeforeDiscount;
     private double pricePerUnitAfterDiscount;
@@ -9,8 +9,8 @@ class ReceiptItem {
 
     public ReceiptItem(int amount, ProductAgreement agreement) {
         this.amount = amount;
-        this.pricePerUnitBeforeDiscount = agreement.getPrice(0);
-        this.pricePerUnitAfterDiscount = agreement.getPrice(amount);
+        this.pricePerUnitBeforeDiscount = agreement.getPrice(0) / amount;
+        this.pricePerUnitAfterDiscount = agreement.getPrice(amount) / amount;
         this.product = agreement.getProduct();
     }
 

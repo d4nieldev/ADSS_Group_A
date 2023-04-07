@@ -7,6 +7,7 @@ import java.util.List;
 public class TransportService {
     public TransportFacade transportFacade = TransportFacade.getInstance();
     public DriverFacade driverFacade  = DriverFacade.getInstance();
+    public TruckFacade truckFacade = TruckFacade.getInstance();
 
 
     //we need check the license of driver
@@ -72,6 +73,14 @@ public class TransportService {
 
     public Destination addDestination(String address, String phoneNumber, String contactName, Location location,DestinationType destinationType){
         return transportFacade.addDestination(address, phoneNumber, contactName, location, destinationType);
+    }
+
+    public void letTheUserMatch(List<Delivery> deliveries){
+        transportFacade.letTheUserMatch(deliveries, driverFacade.getAvailableDrivers(), truckFacade.getAvailableTrucks());
+    }
+
+    public void runTheTransports(){
+        transportFacade.runTheTransports();
     }
 
 

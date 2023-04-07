@@ -320,13 +320,9 @@ public class TransportFacade {
     }
 
 
-    public void letTheUserMatch(List<Delivery> deliveries)
+    public void letTheUserMatch(List<Delivery> deliveries, List<Driver> availableDrivers, List<Truck> availableTrucks)
     {
-        DriverFacade driverFacade = DriverFacade.getInstance();
-        TruckFacade truckFacade = TruckFacade.getInstance();
 
-        List<Driver> availableDrivers = driverFacade.getAvailableDrivers();
-        List<Truck> availableTrucks = truckFacade.getAvailableTrucks();
         List<Delivery> availableDeliveries = new ArrayList<>(deliveries);
 
         int driverId = 0;

@@ -25,8 +25,8 @@ public class TransportSystem
         List<Delivery> deliveries = transportServices.createDeliveries(sources,dests);
 
 
-        transportServices.transportFacade.letTheUserMatch(deliveries);
-        transportServices.transportFacade.runTheTransports();
+        transportServices.letTheUserMatch(deliveries);
+        transportServices.runTheTransports();
 
 
     }

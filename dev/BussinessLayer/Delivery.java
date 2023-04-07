@@ -23,7 +23,12 @@ public class Delivery {
         driver = null;
         weight=0;
     }
-    public void print() {
+
+    /**
+     * print record of delivery
+     */
+
+    public void deliveryPrint() {
         System.out.println("Delivery from " + source.getAddress() + " to " + dest.getAddress());
         System.out.println("Status: " + status);
         System.out.println("Items: " + items);

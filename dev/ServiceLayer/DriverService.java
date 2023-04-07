@@ -17,7 +17,11 @@ public class DriverService {
     }
 
     public String changeLicence(int id, String newLicence){
-        driverFacade.getDriverById(id).setLicense(newLicence);
-        return "The licence of" + id + "change to" + newLicence;
+        if(!driverFacade.driverExist(id))
+            return "this driver not exist";
+        else {
+            driverFacade.getDriverById(id).setLicense(newLicence);
+            return "The licence of" + id + "change to" + newLicence;
+        }
     }
 }

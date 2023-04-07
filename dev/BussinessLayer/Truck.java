@@ -12,7 +12,7 @@ public class Truck {
         this.model = model;
         this.weightNeto = weightNeto;
         this.weightMax = weightMax;
-        this.isAvailable=true;
+        this.isAvailable = true;
     }
 
     public String getPlateNumber() {
@@ -29,6 +29,11 @@ public class Truck {
 
     public int getWeightMax() {
         return weightMax;
+    }
+
+
+    public boolean isAvailable() {
+        return isAvailable;
     }
 
     public void setPlateNumber(String plateNumber) {
@@ -51,10 +56,20 @@ public class Truck {
         isAvailable = available;
     }
 
+    /**
+     * return How much weight can be loaded on truck
+     *
+     * @return
+     */
     public int calculatePayload() {
         return weightMax - weightNeto;
     }
 
+    /**
+     * return true if weight of products match to weight that can be loaded on truck
+     *
+     * @return
+     */
     public boolean canCarryWeight(int weight) {
         return weight <= calculatePayload();
     }
@@ -63,9 +78,5 @@ public class Truck {
         return "Truck: plateNumber=" + plateNumber + ", model=" + model + ", weightNeto=" + weightNeto + ", weightMax=" + weightMax;
     }
 
-
-    public boolean isAvailable() {
-        return isAvailable;
-    }
 }
 

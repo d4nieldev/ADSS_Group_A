@@ -11,6 +11,10 @@ public class TruckFacade {
     public TruckFacade() {
         trucks = new HashMap<>();
     }
+
+    /**
+     * singleton (design)
+     */
     private static TruckFacade instance = null;
 
     public static TruckFacade getInstance()
@@ -26,44 +30,40 @@ public class TruckFacade {
         
     }
 
+    /**
+     * add truck to facade
+     */
     public void addTruck(Truck truck) {
         trucks.put(truck.getPlateNumber(), truck);
     }
 
+    /**
+     * remove truck from facade
+     */
     public void removeTruck(String plateNumber) {
         trucks.remove(plateNumber);
     }
 
+    // if we will use this function, we must check first has truck(string plateNum)
     public Truck getTruck(String plateNumber) {
         return trucks.get(plateNumber);
     }
 
+    /**
+     * return true if truck exist in facade
+     *
+     * @return
+     */
     public boolean hasTruck(String plateNumber) {
         return trucks.containsKey(plateNumber);
     }
 
-    public int countTrucks() {
-        return trucks.size();
-    }
 
-    public int countTrucksByModel(String model) {
-        int count = 0;
-        for (Truck truck : trucks.values()) {
-            if (truck.getModel().equals(model)) {
-                count++;
-            }
-        }
-        return count;
-    }
-
-    public int calculateTotalPayload() {
-        int totalPayload = 0;
-        for (Truck truck : trucks.values()) {
-            totalPayload += truck.calculatePayload();
-        }
-        return totalPayload;
-    }
-
+    /**
+     * return list of truck that available
+     *
+     * @return
+     */
     public List<Truck> getAvailableTrucks()
     {
         List<Truck> availableTrucks = new ArrayList<>();
@@ -76,10 +76,8 @@ public class TruckFacade {
     }
 
     public void setTruckAvailability(String truckNumber,boolean isAvailable) {
-        Truck truck = trucks.get(truckNumber);
-        if (truck != null) {
-            truck.setAvailable(isAvailable);
-        }
+        if(hasTruck(truckNumber))
+            getTruck(truckNumber).setAvailable(isAvailable);
     }
 
 }

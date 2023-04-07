@@ -250,43 +250,49 @@ public class TransportFacade {
 
         // Print current driver's details
         DriverFacade driverFacade = DriverFacade.getInstance();
-        Driver driver = driverFacade.getDriverById(transport.getDriverId());
-
-        System.out.println("Current driver: " + driver.getName() + ", License: " + driver.getLicense());
-
-        // Print available trucks
-        System.out.println("Available trucks: ");
-        TruckFacade truckFacade = TruckFacade.getInstance();
-        List<Truck> trucks = truckFacade.getAvailableTrucks();
-        for (int i = 0; i < trucks.size(); i++) {
-            Truck truck = trucks.get(i);
-            System.out.println((i + 1) + ". Plate number: " + truck.getPlateNumber() + ", Model: " + truck.getModel());
+        if(!driverFacade.driverExist(transport.getDriverId())) {
+            System.out.println("this driver not exist");
         }
 
-        // Ask user to select a new truck
-        System.out.print("Please enter the number of the truck you want to select: ");
-        int truckIndex = scanner.nextInt();
-        if (truckIndex < 1 || truckIndex > trucks.size()) {
-            System.out.println("Invalid choice. Please try again.");
-            return;
+        else {
+            Driver driver = driverFacade.getDriverById(transport.getDriverId());
+
+
+            System.out.println("Current driver: " + driver.getName() + ", License: " + driver.getLicense());
+
+            // Print available trucks
+            System.out.println("Available trucks: ");
+            TruckFacade truckFacade = TruckFacade.getInstance();
+            List<Truck> trucks = truckFacade.getAvailableTrucks();
+            for (int i = 0; i < trucks.size(); i++) {
+                Truck truck = trucks.get(i);
+                System.out.println((i + 1) + ". Plate number: " + truck.getPlateNumber() + ", Model: " + truck.getModel());
+            }
+
+            // Ask user to select a new truck
+            System.out.print("Please enter the number of the truck you want to select: ");
+            int truckIndex = scanner.nextInt();
+            if (truckIndex < 1 || truckIndex > trucks.size()) {
+                System.out.println("Invalid choice. Please try again.");
+                return;
+            }
+
+            // Verify that the selected truck has the same driver as the current transport
+            Truck newTruck = trucks.get(truckIndex - 1);
+            if (!newTruck.getModel().equals(driver.getLicense())) {
+                System.out.println("The selected truck doesn't match the current driver. Please try again.");
+                return;
+            }
+            truckFacade.setTruckAvailability(transport.getTruckNumber(), true);
+
+            // Set the new truck for the transport
+            transport.setTruckNumber(newTruck.getPlateNumber());
+            transport.setTruckWeightMax(newTruck.getWeightMax());
+            transport.setTruckWeightNeto(newTruck.getWeightNeto());
+            truckFacade.setTruckAvailability(newTruck.getPlateNumber(), false);
+
+            // Rerun the transport
         }
-
-        // Verify that the selected truck has the same driver as the current transport
-        Truck newTruck = trucks.get(truckIndex - 1);
-        if (!newTruck.getModel().equals(driver.getLicense())) {
-            System.out.println("The selected truck doesn't match the current driver. Please try again.");
-            return;
-        }
-        truckFacade.setTruckAvailability(transport.getTruckNumber(),true);
-
-        // Set the new truck for the transport
-        transport.setTruckNumber(newTruck.getPlateNumber());
-        transport.setTruckWeightMax(newTruck.getWeightMax());
-        transport.setTruckWeightNeto(newTruck.getWeightNeto());
-        truckFacade.setTruckAvailability(newTruck.getPlateNumber(),false);
-
-        // Rerun the transport
-
 
 
     }

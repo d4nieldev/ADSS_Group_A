@@ -10,7 +10,7 @@ public class TransportService {
     public TruckFacade truckFacade = TruckFacade.getInstance();
 
 
-    //we need check the license of driver
+    /*
     public String createTransport(String date, String leavingTime, String truckNumber, String driverName, int driverId, String source,
                                   List<Destination> destinationList, List<Delivery> deliveryList, int truckWeightNeto, int truckWeightMax){
        if(!driverFacade.driverExist(driverId))
@@ -22,6 +22,8 @@ public class TransportService {
                 destinationList, deliveryList, truckWeightNeto, truckWeightMax);
         return "Transport was created successfully";
     }
+
+    */
 
     public String changeDate(int id, String date){
         transportFacade.getTransport(id).setDate(date);

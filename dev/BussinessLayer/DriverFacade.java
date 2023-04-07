@@ -11,6 +11,10 @@ public class DriverFacade {
     public DriverFacade() {
         drivers = new HashMap<>();
     }
+
+    /**
+     * singleton (design)
+     */
     private static DriverFacade instance = null;
     public static DriverFacade getInstance()
     {
@@ -23,10 +27,17 @@ public class DriverFacade {
         Driver driver = new Driver(id, name, licence);
         addDriver(driver);
     }
+
+    /**
+     * add driver to facade
+     */
     public void addDriver(Driver driver) {
         drivers.put(driver.getId(), driver);
     }
 
+    /**
+     * remove driver from facade
+     */
     public void removeDriver(int id) {
         drivers.remove(id);
     }
@@ -35,30 +46,29 @@ public class DriverFacade {
         return drivers.get(id);
     }
 
+    /**
+     * return true if driver exist in facade
+     *
+     * @return
+     */
     public Boolean driverExist(int id){
         if(this.drivers.containsKey(id))
             return true;
         return false;
     }
 
-    public Driver getDriverByLicence(String licence) {
-        for (Driver driver : drivers.values()) {
-            if (driver.getLicense().equals(licence)) {
-                return driver;
-            }
-        }
-        return null;
-    }
 
-    public boolean isDriverQualified(Driver driver, Truck truck) {
-        return driver.isQualified(truck);
-    }
 
+    /**
+     * return a list of available drivers in facade
+     *
+     * @return
+     */
     public List<Driver> getAvailableDrivers()
     {
         List<Driver> availableDrivers = new ArrayList<>();
         for (Driver driver : drivers.values()) {
-            if (driver.isAvailable()) {
+            if (driver.isAvailable) {
                 availableDrivers.add(driver);
             }
         }

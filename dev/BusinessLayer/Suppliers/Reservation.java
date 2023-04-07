@@ -6,7 +6,7 @@ import java.util.List;
 import BusinessLayer.Suppliers.enums.Status;
 import BusinessLayer.Suppliers.exceptions.SuppliersException;
 
-class Reservation {
+public class Reservation {
     private int id;
     private int supplierId;
     private Date date;

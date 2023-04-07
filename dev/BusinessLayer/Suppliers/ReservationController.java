@@ -157,15 +157,11 @@ public class ReservationController {
             r.close();
     }
 
-    public List<ReceiptItem> getReservationReceipt(int reservationId) throws SuppliersException {
+    public List<Reservation> getReservationReceipt(int reservationId) throws SuppliersException {
         if (!idToSupplierReservations.containsKey(reservationId))
             throw new SuppliersException("No reservation with id " + reservationId + " found.");
 
-        List<ReceiptItem> output = new ArrayList<>();
-        List<Reservation> reservations = idToSupplierReservations.get(reservationId);
-        for (Reservation reservation : reservations)
-            output.addAll(reservation.getReceipt());
-        return output;
+        return idToSupplierReservations.get(reservationId);
     }
 
     public List<Reservation> getSupplierReservations(int supplierId) {

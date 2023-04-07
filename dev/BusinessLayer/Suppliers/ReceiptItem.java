@@ -22,6 +22,10 @@ public class ReceiptItem {
         return this.pricePerUnitAfterDiscount;
     }
 
+    public double getPricePerUnitBeforeDiscount() {
+        return this.pricePerUnitBeforeDiscount;
+    }
+
     public void setPricePerUnitAfterDiscount(double newPrice) {
         this.pricePerUnitAfterDiscount = newPrice;
     }

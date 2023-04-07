@@ -68,18 +68,69 @@ class Reservation {
         return this.destinationBranch;
     }
 
+    public double getTotalBeforeDiscount() {
+        double sum = 0.0;
+        for (ReceiptItem item : receipt)
+            sum += item.getPricePerUnitBeforeDiscount() * item.getAmount();
+
+        return sum;
+    }
+
+    public double getTotalAfterDiscount() {
+        double sum = 0.0;
+        for (ReceiptItem item : receipt)
+            sum += item.getPricePerUnitAfterDiscount() * item.getAmount();
+
+        return sum;
+    }
+
+    public static String reservationsToString(List<Reservation> reservations) {
+        String output = "";
+        double totalBeforeDiscount = 0.0;
+        double totalAfterDiscount = 0.0;
+
+        for (Reservation r : reservations) {
+            output += baseToString(r, false) + "\n";
+            totalBeforeDiscount += r.getTotalBeforeDiscount();
+            totalAfterDiscount += r.getTotalAfterDiscount();
+        }
+
+        output += "======================================================================";
+        output += "Total before discount: " + totalBeforeDiscount + "\n";
+        output += "Total after discount: " + totalAfterDiscount + "\n";
+        output += "Saved: " + (totalAfterDiscount - totalBeforeDiscount) + "\n";
+
+        return output;
+
+    }
+
+    private static String baseToString(Reservation r, boolean total) {
+        double totalBeforeDiscount = r.getTotalBeforeDiscount();
+        double totalAfterDiscount = r.getTotalAfterDiscount();
+
+        String output = "";
+        output += "======================================================================";
+        output += "id: " + r.id + "\n";
+        output += "supplier id: " + r.supplierId + "\n";
+        output += "address: " + r.destinationBranch + "\n";
+        output += "date: " + r.date + "\n";
+        output += "status: " + r.status + "\n";
+        output += "contact phone: " + r.contact.getPhone() + "\n";
+        output += "---------------------------------------------------------------------";
+        for (ReceiptItem item : r.receipt)
+            output += item.toString() + "\n";
+        if (total) {
+            output += "---------------------------------------------------------------------";
+            output += "Total before discount: " + totalBeforeDiscount + "\n";
+            output += "Total after discount: " + totalAfterDiscount + "\n";
+            output += "Saved: " + (totalAfterDiscount - totalBeforeDiscount) + "\n";
+        }
+        output += "======================================================================";
+        return output;
+    }
+
     @Override
     public String toString() {
-        String output = "id: " + id + "\n";
-        output += "supplier id: " + supplierId + "\n";
-        output += "address: " + destinationBranch + "\n";
-        output += "date: " + date + "\n";
-        output += "status: " + status + "\n";
-        output += "contact phone: " + contact.getPhone() + "\n";
-        output += "---------------------------------------------------------------------";
-        for (ReceiptItem item : receipt)
-            output += item.toString() + "\n";
-        output += "---------------------------------------------------------------------";
-        return output;
+        return baseToString(this, true);
     }
 }

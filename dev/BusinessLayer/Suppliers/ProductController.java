@@ -72,7 +72,7 @@ public class ProductController {
             }
         }
         if(supplierIdToProductAgreements.containsKey(supplierId)){
-            supplierIdToProductAgreements.remove(supplierId);
+            supplierIdToProductAgreements.get(supplierId).clear();
         }
     }
 

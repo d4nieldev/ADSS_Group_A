@@ -26,7 +26,7 @@ public class SupplierController {
 
     // Getter for Supplier by id
     public Supplier getSupplierById(int supplierId) throws SuppliersException {
-        if(supplierId < 0)
+        if (supplierId < 0)
             throw new SuppliersException("Supplier with negative id is illegal in the system.");
         if (idToSupplier.containsKey(supplierId)) {
             return idToSupplier.get(supplierId);
@@ -38,7 +38,7 @@ public class SupplierController {
     // Delete Supplier by id
     public void deleteSupplier(int supplierId) throws SuppliersException {
         if (idToSupplier.containsKey(supplierId)) {
-            //TODO: should we delete all the supplier agreements?
+            // TODO: should we delete all the supplier agreements?
             ProductController.getInstance().deleteAllSupplierAgreements(supplierId);
             idToSupplier.remove(supplierId);
         } else {
@@ -152,7 +152,8 @@ public class SupplierController {
     }
 
     // Update supplier discount
-    public void setSupplierAmountToDiscount(int supplierId, TreeMap<Integer, Double> amountToDiscount) throws SuppliersException {
+    public void setSupplierAmountToDiscount(int supplierId, TreeMap<Integer, Double> amountToDiscount)
+            throws SuppliersException {
         try {
             getSupplierById(supplierId).setAmountToDiscount(amountToDiscount);
             ;
@@ -292,9 +293,12 @@ public class SupplierController {
     }
 
     /**
-     * Sets a new price of items in receipt, after calculating the discount per total order amount.
+     * Sets a new price of items in receipt, after calculating the discount per
+     * total order amount.
+     * 
      * @param supplierId the id of the supplier
-     * @param items the items of the reservation that their amount sets the discount.
+     * @param items      the items of the reservation that their amount sets the
+     *                   discount.
      */
     public void calculateSupplierDiscount(int supplierId, List<ReceiptItem> items) {
         int amount = 0;
@@ -302,11 +306,13 @@ public class SupplierController {
         for (ReceiptItem item : items)
             amount += item.getAmount();
 
-         Integer keyAmount = idToSupplier.get(supplierId).getAmountToDiscount().floorKey(amount);
-         double discount_coefficient = idToSupplier.get(supplierId).getAmountToDiscount().get(keyAmount);
+        Integer keyAmount = idToSupplier.get(supplierId).getAmountToDiscount().floorKey(amount);
+        double discount = 0.0;
+        if (keyAmount != null)
+            discount = idToSupplier.get(supplierId).getAmountToDiscount().get(keyAmount);
 
         for (ReceiptItem item : items)
-            item.setPricePerUnitAfterDiscount((1 - discount_coefficient) * item.getPricePerUnitAfterDiscount());
+            item.setPricePerUnitAfterDiscount((1 - discount) * item.getPricePerUnitAfterDiscount());
     }
 
     /**
@@ -333,7 +339,7 @@ public class SupplierController {
         return getSupplierById(supplierID).getRandomContact();
     }
 
-    public void clearData(){
+    public void clearData() {
         idToSupplier.clear();
         nextSupplierIdInSystem = 0;
     }

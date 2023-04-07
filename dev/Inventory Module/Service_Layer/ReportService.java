@@ -62,9 +62,13 @@ public ReportService(ProductService productService){
     public int getBranchId() {return branchId;}
 
     public void importProductDiscountHistory(int code){
-        reportController.getProductDiscountHistory(code);
+        reportController.getProductDiscountHistoryReport(code);
     }
     public void importInventoryReportByCategories(List<Integer> categoriesIds){
-        reportController.importInventoryReportByCategoried(categoriesIds);
+        reportController.importInventoryReportByCategoryId(categoriesIds);
+
+    }
+    public void importProductSellPriceReport(int code){
+        reportController.importProductSellPriceReport(code);
     }
 }

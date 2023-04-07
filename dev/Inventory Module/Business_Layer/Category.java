@@ -1,5 +1,6 @@
 package Business_Layer;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Category {
@@ -15,6 +16,7 @@ public class Category {
         this.id = Global.getNewCategoryid();
         this.name = name;
         this.main = ParentCategory;
+        this.allCategories = new ArrayList<>();
         //insert all the categories to the categories list
         Category cat1 = ParentCategory;
         while (cat1 != null)
@@ -28,6 +30,8 @@ public class Category {
         this.id = Global.getNewCategoryid();
         this.name = name;
         this.main = null;
+        this.allCategories = new ArrayList<>();
+
     }
 
     //getter and setters

@@ -10,7 +10,7 @@ public class CategoryController {
     private static CategoryController instance = null;
 
 private CategoryController() {
-    this.allCategories = new ArrayList<Category>();
+    this.allCategories = new ArrayList<>();
     this.categoryDic = new Hashtable<>();
 }
 

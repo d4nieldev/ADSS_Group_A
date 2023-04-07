@@ -30,12 +30,14 @@ class Main {
         System.out.println("10 - report flaw product");
         System.out.println("11 - import flaw Report");
         System.out.println("12 - import inventory repor -By categories");
+        System.out.println("13 - import buy-sell ");
         int choose = scanner.nextInt();
         while (choose != -1)
         {
             if (choose == 1){
 
                 productService.addNewProduct("Milk", 1,100,"Tnuva",100,100);
+                productService.addNewProduct("TestSubCategoey", 3,100,"Tnuva",100,100);
 //                productService.addNewProduct("Shoko", 2,10,"Tnuva",100,222);;
 
             }
@@ -56,11 +58,13 @@ class Main {
             }
             else if ( choose == 5){
                 List<Integer> lst = new ArrayList<>();
+                lst.add(0);
                 lst.add(1);
                 lst.add(2);
                 productService.setDiscountByProducts(lst, LocalDate.parse("2023-04-07"),LocalDate.parse("2023-04-07"),20);
             } else if (choose == 6) {
                 List<Integer> ids = new ArrayList<>();
+                ids.add(0);
                 ids.add(1);
                 ids.add(2);
                 productService.setDiscountByProducts(ids, LocalDate.parse("2023-04-06"),LocalDate.parse("2023-04-07"),20);
@@ -77,8 +81,10 @@ class Main {
             } else if (choose == 12) {
                 List<Integer> lst = new ArrayList<>();
                 lst.add(0);
-                lst.add(1);
+//                lst.add(1);
                 reportService.importInventoryReportByCategories(lst);
+            } else if (choose == 13) {
+                reportService.importProductSellPriceReport(2);
             }
 
 

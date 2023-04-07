@@ -48,6 +48,8 @@ public class ProductController {
          * @return
          */
         public GeneralProduct getGeneralProductByCode(int code) {
+                if(code < 0)
+                        throw new IllegalArgumentException("code cannot be negative");
 
                 GeneralProduct general = null;
 
@@ -610,6 +612,7 @@ public class ProductController {
                List<Category> allSubCategories = new ArrayList<>();
                for(Category category : categories){
                        List<Category> subCategory = categoryController.getAllSubCategories(category);
+                       subCategory.add(category);
                        allSubCategories.addAll(subCategory);
                }
                for(GeneralProduct gp : allGeneralProducts){
@@ -694,7 +697,7 @@ public class ProductController {
                         String categoryName = scanner.nextLine();
                         System.out.println("if category is sub category enter its parent category, otherwise -1");
                         int parentCategory = scanner.nextInt();
-                        Category parent = categoryController.getCategoryById(id);
+                        Category parent = categoryController.getCategoryById(parentCategory);
                         Category category = new Category(categoryName, parent);
                         categoryController.addNewCategory(category);
 
@@ -716,5 +719,14 @@ public class ProductController {
                 return productDiscountHistory.get(gp);
 
         }
+
+        public HashMap<Integer, Double> getSellPrice(int code) {
+                GeneralProduct gp = getGeneralProductByCode(code);
+                return gp.getIdsSellPrice();
+        }
+        public double getBuyPrice(int code,int id){
+                return getSupplyByCodeId(code,id).getBuyPrice();
+        }
+
 
 }

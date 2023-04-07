@@ -92,16 +92,20 @@ public class ReportController {
         }
     }
 
-    public void importInventoryReportByCategoried(List<Integer> categoriesIds)
+    /**
+     *
+     * @param categoriesIds
+     */
+    public void importInventoryReportByCategoryId(List<Integer> categoriesIds)
     {
         System.out.println("------------------Inventory Report------------------");
-        System.out.format("%-10s%-10s%-10s%-10s%-10s%-10s%-10s%-10s%n", "NO.", "name", "code", "price", "total_quantity","min_quantity", "manufacturer" ,"category");
+        System.out.format("%-10s%-20s%-10s%-20s%-20s%-20s%-20s%-20s%n", "NO.", "name", "code", "price", "total_quantity","min_quantity", "manufacturer" ,"category");
         List<Category> categories = categoryController.getCategoriesByIds(categoriesIds);
         List<GeneralProduct> allGeneralProducts = productController.getAllProductByCategories(categories);
         int index = 0;
         for (GeneralProduct gp : allGeneralProducts)
         {
-            System.out.format("%-10d%-10s%-10d%-10f%-10d%-10d%-10s%-10s%n", index++, gp.getName(), gp.getCode(),gp.getCurrentPrice(), gp.getTotal_quantity(), gp.getMin_quantity(), gp.getManufacturer(), gp.getCategory().getName());
+            System.out.format("%-10d%-20s%-10d%-20f%-20d%-20d%-20s%-20s%n", index++, gp.getName(), gp.getCode(),gp.getCurrentPrice(), gp.getTotal_quantity(), gp.getMin_quantity(), gp.getManufacturer(), gp.getCategory().getName());
         }
         System.out.println("----------------------------------------------------");
     }
@@ -165,7 +169,7 @@ public class ReportController {
         System.out.println("----------------------------------------------------");
     }
 
-    public void getProductDiscountHistory(int code){
+    public void getProductDiscountHistoryReport(int code){
         System.out.println("------------------product discount history Report------------------");
         System.out.format("%-10s%-10s%-10s%-20s%-20s%-20s%-20s%n", "NO.","name", "code", "price","discount percentage", "start date","end date");
         int index = 0;
@@ -176,6 +180,22 @@ public class ReportController {
             System.out.format("%-10d%-10s%-10d%-20f%-20f%-20s%-20s%n", index, gp.getName(), code, price, discount.getDiscount_percentage(), discount.getStart_date(), discount.getEnd_date());
             index++;
         }
+
+        System.out.println("----------------------------------------------------");
+    }
+
+    public void importProductSellPriceReport(int code){
+        System.out.println("------------------product sell-price Report------------------");
+        System.out.format("%-10s%-10s%-10s%-20s%-20s%n", "NO.","name", "code", "buy price","sell price");
+        int index = 0;
+        HashMap<Integer,Double> sellPrice  = productController.getSellPrice(code);
+        GeneralProduct gp = productController.getGeneralProductByCode(code);
+        for(int id : sellPrice.keySet()){
+
+            System.out.format("%-10d%-10s%-10d%-20f%-20f%n", index, gp.getName(), code, productController.getBuyPrice(code,id),sellPrice.get(id));
+            index++;
+        }
+
 
         System.out.println("----------------------------------------------------");
     }

@@ -15,20 +15,13 @@ public class GeneralProduct {
     private Category category;
     private boolean onDiscount;
     private Discount discount;
-    private List<Supply> productSupply;
-    private List<Integer> onShelf;
-    private List<Integer> onStorage;
+    private List<Supply> productSupply; // list of all the geneeral product supply
+    private List<Integer> onShelf;// list of all the products id that  on shop's shelf
+    private List<Integer> onStorage;// list of all the products id that in storage
     private HashMap<Integer,String> allFlowProducts;// id-flow description
     private  List<Integer> allExpiredProducts; // ids
-
-
-
-
     public  enum Location{STORAGE,SHOP};
-    public HashMap<Integer, Double> getIdsSellPrice() {
-        return idsSellPrice;
-    }
-    private HashMap<Integer,Double> idsSellPrice;
+    private HashMap<Integer,Double> idsSellPrice;// <productId,sellPrice> hash map
     private int currentId;
 
 
@@ -226,6 +219,9 @@ public class GeneralProduct {
             this.allExpiredProducts.add(id);
         }
     }
+    public HashMap<Integer, Double> getIdsSellPrice() {
+        return idsSellPrice;
+    }
     public void addToShelf(int id) {
         this.onShelf.add(id);
     }
@@ -303,7 +299,6 @@ public class GeneralProduct {
         }
 
     }
-
 
     @Override
     public String toString() {

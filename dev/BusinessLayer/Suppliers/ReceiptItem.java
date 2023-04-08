@@ -9,7 +9,7 @@ public class ReceiptItem {
 
     public ReceiptItem(int amount, ProductAgreement agreement) {
         this.amount = amount;
-        this.pricePerUnitBeforeDiscount = agreement.getPrice(0) / amount;
+        this.pricePerUnitBeforeDiscount = agreement.getBasePrice();
         this.pricePerUnitAfterDiscount = agreement.getPrice(amount) / amount;
         this.product = agreement.getProduct();
     }
@@ -19,7 +19,7 @@ public class ReceiptItem {
     }
 
     public void setAmount(int amount) {
-        this.amount = Math.min(amount, 0);
+        this.amount = Math.max(amount, 0);
     }
 
     public double getPricePerUnitAfterDiscount() {

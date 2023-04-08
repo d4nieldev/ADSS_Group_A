@@ -89,24 +89,36 @@ public class ReservationController {
         Map<Integer, Reservation> supToReservation = maxReservationPerSupplier(productToAmount, destinationBranch,
                 reservationId);
 
-        int amount = productToAmount.values().stream().reduce(0, (a, b) -> a + b);
         List<Reservation> finalOrder = new ArrayList<>();
-        while (amount > 0 && supToReservation.size() > 0) {
+        while (productToAmount.size() > 0 && supToReservation.size() > 0) {
             // find and choose the best reservation
             Reservation r = getMostAttractiveReservationAndRemove(supToReservation);
-            amount -= r.getTotalAmount();
             finalOrder.add(r);
 
-            // update the rest of the reservations
+            subtractReservationFromOrder(productToAmount, r);
+
             for (Reservation other : supToReservation.values())
-                other.subtract(r);
+                other.floorReservation(productToAmount);
         }
 
-        if (amount > 0)
+        if (productToAmount.size() > 0)
             throw new SuppliersException("The reservation could not be made due to lack of stock.");
 
         // if everything went well, add the reservation to the system
         addPartialReservations(finalOrder);
+    }
+
+    private void subtractReservationFromOrder(Map<Integer, Integer> productToAmount, Reservation r) {
+        for (ReceiptItem item : r.getReceipt()) {
+            int productId = item.getProduct().getId();
+            int amountOrdered = item.getAmount();
+            int prevAmount = productToAmount.get(productId);
+            int leftAmount = prevAmount - amountOrdered;
+            if (leftAmount == 0)
+                productToAmount.remove(productId);
+            else
+                productToAmount.put(productId, leftAmount);
+        }
     }
 
     private Map<Integer, Reservation> maxReservationPerSupplier(Map<Integer, Integer> productToAmount,

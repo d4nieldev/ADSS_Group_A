@@ -2,6 +2,7 @@ package BusinessLayer.Suppliers;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import BusinessLayer.Suppliers.enums.Status;
@@ -97,15 +98,18 @@ public class Reservation {
         return amount;
     }
 
-    public void subtract(Reservation r) {
-        for (ReceiptItem myItem : this.receipt)
-            for (ReceiptItem otherItem : r.receipt)
-                if (myItem.getProduct() == otherItem.getProduct()) {
-                    myItem.setAmount(myItem.getAmount() - otherItem.getAmount());
-                    break;
-                }
+    public void floorReservation(Map<Integer, Integer> productToAmount) {
+        for (ReceiptItem item : receipt) {
+            int productId = item.getProduct().getId();
+            if (productToAmount.containsKey(productId)) {
+                int amount = Math.min(item.getAmount(), productToAmount.get(productId));
+                item.setAmount(amount);
+            }
+        }
 
-        receipt = receipt.stream().filter(item -> item.getAmount() > 0).collect(Collectors.toList());
+        receipt = receipt.stream()
+                .filter(item -> productToAmount.containsKey(item.getProduct().getId()) && item.getAmount() > 0)
+                .collect(Collectors.toList());
     }
 
     public static String reservationsToString(List<Reservation> reservations) {

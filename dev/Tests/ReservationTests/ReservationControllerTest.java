@@ -103,9 +103,9 @@ public class ReservationControllerTest {
     }
 
     private void clearAllData() {
-            ProductController.getInstance().clearData();
-            SupplierController.getInstance().clearData();
-            ReservationController.getInstance().clearData();
+        ProductController.getInstance().clearData();
+        SupplierController.getInstance().clearData();
+        ReservationController.getInstance().clearData();
     }
 
     /**
@@ -148,36 +148,36 @@ public class ReservationControllerTest {
     }
 
     @Test
-    public void makeReservationInsufficientAmountTest() {
+    public void makeAutoReservationInsufficientAmountTest() {
         Map<Integer, Integer> productToAmount = new HashMap<>();
         productToAmount.put(0, 1000);
 
         // check that the reservation is not possible
-        assertThrows(SuppliersException.class, () -> rc.makeReservation(productToAmount));
+        assertThrows(SuppliersException.class, () -> rc.makeAutoReservation(productToAmount, "Ness Ziona"));
 
         // check that no reservation is made
         assertThrows(SuppliersException.class, () -> rc.getReservationReceipt(0));
     }
 
     @Test
-    public void makeReservationNoSuchProductTest() {
+    public void makeAutoReservationNoSuchProductTest() {
         Map<Integer, Integer> productToAmount = new HashMap<>();
         productToAmount.put(7, 1);
 
         // check that the reservation is not possible
-        assertThrows(SuppliersException.class, () -> rc.makeReservation(productToAmount));
+        assertThrows(SuppliersException.class, () -> rc.makeAutoReservation(productToAmount, "Ashkelon"));
 
         // check that no reservation is made
         assertThrows(SuppliersException.class, () -> rc.getReservationReceipt(0));
     }
 
     @Test
-    public void makeReservationNoSplitTest() {
+    public void makeAutoReservationNoSplitTest() {
         Map<Integer, Integer> productToAmount = new HashMap<>();
         productToAmount.put(0, 1); // should order from supplier 1
 
         try {
-            rc.makeReservation(productToAmount);
+            rc.makeAutoReservation(productToAmount, "Haifa");
             assertEquals(0, rc.getSupplierReservations(0).size());
             assertEquals(1, rc.getSupplierReservations(1).size());
         } catch (SuppliersException e) {
@@ -187,12 +187,12 @@ public class ReservationControllerTest {
     }
 
     @Test
-    public void makeReservationSplitTest() {
+    public void makeAutoReservationSplitTest() {
         Map<Integer, Integer> productToAmount = new HashMap<>();
         productToAmount.put(0, 150); // should order 150 from supplier 1
         productToAmount.put(1, 80); // should order 50 from supplier 0 and 30 from supplier 1
         try {
-            rc.makeReservation(productToAmount);
+            rc.makeAutoReservation(productToAmount, "Tel Aviv");
             assertEquals(1, rc.getSupplierReservations(0).size());
             assertEquals(1, rc.getSupplierReservations(1).size());
         } catch (SuppliersException e) {

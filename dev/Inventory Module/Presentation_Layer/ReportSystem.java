@@ -25,6 +25,15 @@ public class ReportSystem {
             System.out.println("Error occurred - please try again ");
         }
     }
+    public static void importShortageReport(ReportService reportService){
+        try{
+            reportService.importShortageReport();
+        }
+        catch (Exception e){
+            System.out.println("Error occurred - please try again ");
+        }
+    }
+
     public static void importProductDiscountHistory(ReportService reportService){
         try{
         System.out.println("Enter general product code");

@@ -151,8 +151,9 @@ public class ProductsSystem {
             System.out.println("enter your desire product code . -1 if done");
             chose = scanner.nextInt();
             scanner.skip("\n");
-
-            lst.add(chose);
+            if (chose != -1) {
+                lst.add(chose);
+            }
         }
         System.out.println("please enter the discount start date : in format YYYY-MM-DD");
         String startDate = scanner.nextLine();
@@ -179,20 +180,21 @@ public class ProductsSystem {
         productService.reportFlawProduct(code,id,description);
     }
     public static void getMenu() {
-        System.out.println("please choose Action - press 0 for showing the menu");
-        System.out.println("1  - add new product");
-        System.out.println("2  - import inventory report");
-        System.out.println("3  - receive Supply");
-        System.out.println("4  - sell product");
-        System.out.println("5  - set discount - categories");
-        System.out.println("6  - set discount - product");
-        System.out.println("7  - import expired product report");
-        System.out.println("8  - import general product report");
-        System.out.println("9  - import product history discount");
-        System.out.println("10 - report flaw product");
-        System.out.println("11 - import flaw Report");
-        System.out.println("12 - import inventory report -By categories");
-        System.out.println("13 - import buy-sell ");
+        System.out.println("Please choose an action (press 0 for menu):");
+        System.out.println("1.  Add new product");
+        System.out.println("2.  Import inventory report");
+        System.out.println("3.  Receive supply");
+        System.out.println("4.  Sell product");
+        System.out.println("5.  Set discount - categories");
+        System.out.println("6.  Set discount - product");
+        System.out.println("7.  Report flaw product");
+        System.out.println("8.  Import general product report");
+        System.out.println("9.  Import product history discount");
+        System.out.println("10. Import expired product report");
+        System.out.println("11. Import flaw report");
+        System.out.println("12. Import inventory report by categories");
+        System.out.println("13. Import buy-sell");
+        System.out.println("14. Import shortage report");
     }
 
     public static void getStart(){
@@ -201,19 +203,20 @@ public class ProductsSystem {
             System.out.println("              Welcome to the Inventory System             ");
             System.out.println("--------------------------------------------------------");
             System.out.println("Please choose an action (press 0 for menu):");
-            System.out.println("1. Add new product");
-            System.out.println("2. Import inventory report");
-            System.out.println("3. Receive supply");
-            System.out.println("4. Sell product");
-            System.out.println("5. Set discount - categories");
-            System.out.println("6. Set discount - product");
-            System.out.println("7. Import expired product report");
-            System.out.println("8. Import general product report");
-            System.out.println("9. Import product history discount");
-            System.out.println("10. Report flaw product");
+            System.out.println("1.  Add new product");
+            System.out.println("2.  Import inventory report");
+            System.out.println("3.  Receive supply");
+            System.out.println("4.  Sell product");
+            System.out.println("5.  Set discount - categories");
+            System.out.println("6.  Set discount - product");
+            System.out.println("7.  Report flaw product");
+            System.out.println("8.  Import general product report");
+            System.out.println("9.  Import product history discount");
+            System.out.println("10. Import expired product report");
             System.out.println("11. Import flaw report");
             System.out.println("12. Import inventory report by categories");
             System.out.println("13. Import buy-sell");
+            System.out.println("14. Import shortage report");
             System.out.println("--------------------------------------------------------");
 
     }

@@ -60,6 +60,12 @@ public class Supply {
         return buyPrice;
     }
 
+    /**
+     * setr the amount to be minus 1 and remove the specific id from the specific location
+     * @param id
+     * @param location
+     * @return
+     */
     public boolean setAmount(int id,Enum.Location location) {
         boolean res = false;
         if (ids.contains(id)) {
@@ -97,10 +103,6 @@ public class Supply {
         else
             return false;
     }
-
-//    public void addToSellPrice(double price) {
-//        this.sellPrice.add(price);
-//    }
 
     public int getShopAmount() {
         return this.shopAmount;
@@ -154,6 +156,7 @@ public class Supply {
         this.amount += i;
         this.shopAmount += i;
     }
+
     public void printIds(){
         for(int id : ids){
             System.out.print(id +", ");

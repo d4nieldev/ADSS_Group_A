@@ -4,25 +4,26 @@ import java.time.LocalDate;
 import java.util.*;
 
 public class GeneralProduct {
-    private String name;
-    private int code;
-    private double price;
-    private String manufacturer;
-    private int min_quantity;
-    private int total_quantity;
-    private int shop_quantity;
-    private int storage_quantity;
-    private Category category;
-    private boolean onDiscount;
-    private Discount discount;
-    private List<Supply> productSupply; // list of all the geneeral product supply
-    private List<Integer> onShelf;// list of all the products id that  on shop's shelf
-    private List<Integer> onStorage;// list of all the products id that in storage
-    private HashMap<Integer,String> allFlowProducts;// id-flow description
-    private  List<Integer> allExpiredProducts; // ids
-    public  enum Location{STORAGE,SHOP};
-    private HashMap<Integer,Double> idsSellPrice;// <productId,sellPrice> hash map
-    private int currentId;
+    private String name; // The name of the product
+    private int code; // The unique code of the product
+    private double price; // The price of the product
+    private String manufacturer; // The manufacturer of the product
+    private int min_quantity; // The minimum quantity that should be kept in the storage
+    private int total_quantity; // The total quantity of the product
+    private int shop_quantity; // The quantity of the product on the shop shelf
+    private int storage_quantity; // The quantity of the product in storage
+    private Category category; // The category that the product belongs to
+    private boolean onDiscount; // A boolean indicating if the product is currently on discount
+    private Discount discount; // The discount object that the product is currently on
+    private List<Supply> productSupply; // A list of all the GeneralProduct's supplies
+    private List<Integer> onShelf; // A list of all the product's IDs that are on the shop's shelf
+    private List<Integer> onStorage; // A list of all the product's IDs that are in storage
+    private HashMap<Integer, String> allFlowProducts; // A HashMap containing the IDs and the descriptions of all the product's flow
+    private List<Integer> allExpiredProducts; // A list of all the product's IDs that have expired
+    public enum Location {STORAGE, SHOP}; // An enum indicating the location of the product
+    private HashMap<Integer, Double> idsSellPrice; // A HashMap containing the IDs and the sell prices of all the product's supplies
+    private int currentId; // The current ID of the product (used for generating new supply IDs)
+
 
 
     public GeneralProduct(String name, int code, double price, String manufacturer, int min_quantity, Category category) {
@@ -175,33 +176,65 @@ public class GeneralProduct {
      * @param location
      * @return
      */
-    public boolean removeItem(int id, Enum.Location location)
-    {
-        boolean res = false;
-        if(total_quantity == 0 || total_quantity < 0 )
+
+//        /    public boolean removeItem(int id, Enum.Location location)
+//    {
+//        boolean res = false;
+//        if(total_quantity == 0 || total_quantity < 0 )
+//            res = false;
+//        else {
+//            if (location.equals(Enum.Location.SHOP)) {
+//                if(onShelf.contains(id)) {
+//                    deleteElement(onShelf,id);
+//                    shop_quantity--;
+//                    total_quantity--;
+//                    res = true;
+//                }
+//                } else if (location.equals(Enum.Location.STORAGE)) {
+//                if (onStorage.contains(id)) {
+//                    deleteElement(onStorage,id);
+//                    storage_quantity--;
+//                    total_quantity--;
+//                    res = true;
+//                }
+//            }
+//
+//        }
+//        return res;
+//    }
+    public boolean removeItem(int id, Enum.Location location) {
+        boolean res = false; // Initialize a boolean variable to track whether the item was successfully removed
+
+        // Check if the total quantity of items is 0 or negative, in which case it's not possible to remove an item
+        if (total_quantity == 0 || total_quantity < 0)
             res = false;
         else {
+            // If the item is in the shop location
             if (location.equals(Enum.Location.SHOP)) {
-                if(onShelf.contains(id)) {
-//                    onShelf.remove(Integer.valueOf(id));
-                    deleteElement(onShelf,id);
+                // Check if the item is on the shelf
+                if (onShelf.contains(id)) {
+                    // Remove the item from the shelf, decrement the shop quantity and the total quantity, and set res to true
+                    deleteElement(onShelf, id);
                     shop_quantity--;
                     total_quantity--;
                     res = true;
                 }
-                } else if (location.equals(Enum.Location.STORAGE)) {
+            }
+            // If the item is in the storage location
+            else if (location.equals(Enum.Location.STORAGE)) {
+                // Check if the item is in storage
                 if (onStorage.contains(id)) {
-//                    onStorage.remove(Integer.valueOf(id));
-                    deleteElement(onStorage,id);
+                    // Remove the item from storage, decrement the storage quantity and the total quantity, and set res to true
+                    deleteElement(onStorage, id);
                     storage_quantity--;
                     total_quantity--;
                     res = true;
                 }
             }
-
         }
-        return res;
+        return res; // Return the result of the removal operation
     }
+
     private void deleteElement(List<Integer> lst,int id){
         int i = 0;
         while (i < lst.size()){

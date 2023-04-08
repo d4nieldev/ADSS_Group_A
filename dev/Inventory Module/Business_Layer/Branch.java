@@ -1,23 +1,26 @@
 package Business_Layer;
 
 public class Branch {
-    int branchId;
-    ProductController productController;
-    ReportController reportController;
 
-    public Branch(int branchId){
-        this.branchId = branchId;
-        this.productController = new ProductController();
-        this.reportController = new ReportController(productController);
-    }
+  private int branchId;
+  private ProductController productController;
+  private ReportController reportController;
 
-    public int getId() {return this.branchId;}
+  public Branch(int branchId) {
+    this.branchId = branchId;
+    this.productController = new ProductController();
+    this.reportController = new ReportController(productController);
+  }
 
-    public ProductController getProductController() {
-        return productController;
-    }
+  public int getId() {
+    return this.branchId;
+  }
 
-    public ReportController getReportController() {
-        return reportController;
-    }
+  public ProductController getProductController() {
+    return productController;
+  }
+
+  public ReportController getReportController() {
+    return reportController;
+  }
 }

@@ -23,23 +23,6 @@ public class ReportController {
     }
 
 
-//    public void importInventoryReport ()
-//    {
-//        System.out.println("------------------Inventory Report------------------");
-//        System.out.format("%-10s%-15s%-10s%-20s%-20s%-20s%-15s%-15s%n", "NO.", "name", "code", "price", "total_quantity", "min_quantity", "manufacturer" , "category");
-//
-//        List<GeneralProduct> allGeneralProducts = productController.getAllGeneralProducts();
-//        int index = 0;
-//        for (GeneralProduct gp : allGeneralProducts)
-//        {
-//            System.out.format("%-10d%-15s%-10d%-20f%-20d%-20d%-15s%-15s%n", index, gp.getName(), gp.getCode(),gp.getCurrentPrice(), gp.getTotal_quantity(), gp.getMin_quantity(), gp.getManufacturer(), gp.getCategory().getName().toString());
-//
-//            index ++;
-//        }
-//        System.out.println("----------------------------------------------------");
-//
-//
-//    }
 public void importInventoryReport() {
     System.out.println("===============================================");
     System.out.println("          Inventory Report");
@@ -192,12 +175,12 @@ public void importFlawReport() {
         System.out.println("           Shortage Products Report");
         System.out.println("===============================================");
 
-        System.out.format("%-10s%-10s%-10s%-10s%-10s%-10s%-10s%-10s%n", "NO.", "name", "code", "price", "total_quantity","min_quantity", "manufacturer" ,"category","");
+        System.out.format("%-10s%-10s%-10s%-15s%-20s%-20s%-20s%-20s%n", "NO.", "name", "code", "price", "total_quantity","min_quantity", "manufacturer" ,"category","");
 
         List<GeneralProduct> shortageProducts = productController.getShortageProducts();
         int index = 0;
         for(GeneralProduct gp : shortageProducts){
-            System.out.format("%-10d%-10d%-10b%-10f%-10s%-10f%-10d%-10d%-10s%n", index++, gp.getName(), gp.getCode(),gp.getCurrentPrice(), gp.getTotal_quantity(), gp.getMin_quantity(), gp.getManufacturer(), gp.getCategory().getName(),"|");
+            System.out.format("%-10d%-10s%-10d%-15f%-20d%-20d%-20s%-20s%n", index++, gp.getName(), gp.getCode(),gp.getCurrentPrice(), gp.getTotal_quantity(), gp.getMin_quantity(), gp.getManufacturer(), gp.getCategory().getName());
         }
         System.out.println("====================================================");
     }
@@ -207,7 +190,7 @@ public void importFlawReport() {
         System.out.println("        product discount history Report");
         System.out.println("===============================================");
         System.out.println("------------------product discount history Report------------------");
-        System.out.format("%-10s%-10s%-10s%-20s%-25s%-20s%-20s%n", "NO.","name", "code", "price","discount percentage", "start date","end date");
+        System.out.format("%-10s%-10s%-10s%-20s%-25s%-20s%-20s%n", "NO.","Name", "Code", "Price","Discount percentage", "Start date","End date");
         int index = 0;
         List<Discount> lst = productController.getProductDiscountHistory(code);
         GeneralProduct gp = productController.getGeneralProductByCode(code);
@@ -234,7 +217,6 @@ public void importFlawReport() {
             System.out.format("%-10d%-10s%-10d%-20f%-20f%n", index, gp.getName(), code, productController.getBuyPrice(code,id),sellPrice.get(id));
             index++;
         }
-
 
         System.out.println("====================================================");
     }

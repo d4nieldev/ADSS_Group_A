@@ -2,15 +2,12 @@ package BussinessLayer.EmployeesMoudle;
 import java.util.LinkedList;
 
 public class Branch {
-    int branchId;
-    String address;
-    LinkedList<Employee> originEmployees;
-    LinkedList<Employee> foreignEmployees;
-    LinkedList<Employee> notAllowEmployees;
-    LinkedList<Shift> shifts;
-
-    public Branch(){
-    }
+    private int branchId;
+    private String address;
+    private LinkedList<Employee> originEmployees;
+    private LinkedList<Employee> foreignEmployees;
+    private LinkedList<Employee> notAllowEmployees;
+    private LinkedList<Shift> shifts;
 
     public Branch(int branchId, String address){
         this.branchId = branchId;

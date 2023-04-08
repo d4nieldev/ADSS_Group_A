@@ -90,8 +90,12 @@ class Main {
                     int superBranch = Integer.parseInt(sc.nextLine());
                     System.out.println("");
 
+                    System.out.print("Status: ");
+                    String status = sc.nextLine();
+                    System.out.println("");
+
                     gradingService.addNewEmployee(loginId, firstName, lastName, id, password, bankNum, 
-                    bankBranch, bankAccount, salary, bonus, localDate, driverLicense, role, superBranch);
+                    bankBranch, bankAccount, salary, bonus, localDate, driverLicense, role, superBranch, status);
 
                 }
 

@@ -16,9 +16,9 @@ public class BranchService {
     }
     
     public void addNewEmployee(int managerId, String firstName, String lastName, int id, String password, int bankNum,
-    int bankBranch, int bankAccount, int salary, int bonus, LocalDate startDate, License driverLicense, String role, int branch){
+    int bankBranch, int bankAccount, int salary, int bonus, LocalDate startDate, License driverLicense, String role, int branch, String status){
         branchController.addNewEmployee(managerId, firstName, lastName, id, password, bankNum,
-        bankBranch, bankAccount, salary, bonus, startDate, driverLicense, role, branch);
+        bankBranch, bankAccount, salary, bonus, startDate, driverLicense, role, branch, status);
     }
 
     public void addForeignEmployee(int managerId, int idEmployee, int branch){

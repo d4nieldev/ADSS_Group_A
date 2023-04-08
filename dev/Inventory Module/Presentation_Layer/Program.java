@@ -14,7 +14,7 @@ public class Program {
         BranchService branchService = new BranchService();
         System.out.println("We created for you the first branch its id is 1");
 
-        ProductsSystem.getGuide();
+        ProductsSystem.getStart();
         Scanner scanner = new Scanner(System.in);
 
         int choose = scanner.nextInt();
@@ -60,7 +60,7 @@ public class Program {
                     ReportSystem.importProductSellPriceReport(reportService);
                     break;
                 case 0:
-                    ProductsSystem.getGuide();
+                    ProductsSystem.getMenu();
                     break;
                 default:
                     System.out.println("Invalid input");

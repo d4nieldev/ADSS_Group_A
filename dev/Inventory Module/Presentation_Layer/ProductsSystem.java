@@ -178,7 +178,7 @@ public class ProductsSystem {
         String description = scanner.nextLine();
         productService.reportFlawProduct(code,id,description);
     }
-    public static void getGuide() {
+    public static void getMenu() {
         System.out.println("please choose Action - press 0 for showing the menu");
         System.out.println("1  - add new product");
         System.out.println("2  - import inventory report");
@@ -194,4 +194,28 @@ public class ProductsSystem {
         System.out.println("12 - import inventory report -By categories");
         System.out.println("13 - import buy-sell ");
     }
+
+    public static void getStart(){
+
+            System.out.println("--------------------------------------------------------");
+            System.out.println("              Welcome to the Inventory System             ");
+            System.out.println("--------------------------------------------------------");
+            System.out.println("Please choose an action (press 0 for menu):");
+            System.out.println("1. Add new product");
+            System.out.println("2. Import inventory report");
+            System.out.println("3. Receive supply");
+            System.out.println("4. Sell product");
+            System.out.println("5. Set discount - categories");
+            System.out.println("6. Set discount - product");
+            System.out.println("7. Import expired product report");
+            System.out.println("8. Import general product report");
+            System.out.println("9. Import product history discount");
+            System.out.println("10. Report flaw product");
+            System.out.println("11. Import flaw report");
+            System.out.println("12. Import inventory report by categories");
+            System.out.println("13. Import buy-sell");
+            System.out.println("--------------------------------------------------------");
+
+    }
+
 }

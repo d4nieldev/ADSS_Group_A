@@ -78,6 +78,10 @@ public class GeneralProduct {
         return productSupply;
     }
 
+    public void setTotal_quantity(int total_quantity) {
+        this.total_quantity = total_quantity;
+    }
+
     public double getPrice() {
         return price;
     }
@@ -179,14 +183,16 @@ public class GeneralProduct {
         else {
             if (location.equals(Enum.Location.SHOP)) {
                 if(onShelf.contains(id)) {
-                    onShelf.remove(id);
+//                    onShelf.remove(Integer.valueOf(id));
+                    deleteElement(onShelf,id);
                     shop_quantity--;
                     total_quantity--;
                     res = true;
                 }
                 } else if (location.equals(Enum.Location.STORAGE)) {
                 if (onStorage.contains(id)) {
-                    onStorage.remove(id);
+//                    onStorage.remove(Integer.valueOf(id));
+                    deleteElement(onStorage,id);
                     storage_quantity--;
                     total_quantity--;
                     res = true;
@@ -195,6 +201,14 @@ public class GeneralProduct {
 
         }
         return res;
+    }
+    private void deleteElement(List<Integer> lst,int id){
+        int i = 0;
+        while (i < lst.size()){
+            if(lst.get(i).equals(id))
+                lst.remove(i);
+            i++;
+        }
     }
 
     public void removeFromShop(int amount)
@@ -224,6 +238,7 @@ public class GeneralProduct {
     }
     public void addToShelf(int id) {
         this.onShelf.add(id);
+
     }
 
     public void addQuantityToStorage(int quantity)
@@ -242,6 +257,7 @@ public class GeneralProduct {
 
     public void addToStorage(List<Integer> ids) {
         onStorage.addAll(ids);
+
     }
     public void setMinimumQuantity(int minQuantity) {
         this.min_quantity = minQuantity;
@@ -295,7 +311,8 @@ public class GeneralProduct {
     private void removeStorageIds(List<Integer> ids) {
         for(int id : ids)
         {
-            onStorage.remove(id);
+//            onStorage.remove(id);
+            onStorage.remove(Integer.valueOf(id));
         }
 
     }

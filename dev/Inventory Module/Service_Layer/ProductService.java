@@ -102,32 +102,52 @@ public ProductService(int branchId){
 
     }
 
-    public void addNewProduct(String name, int code, double price, String manufacturer, int min_quantity,int total_quantity){
-        productController.addNewGeneralProduct(name,code,price,manufacturer,min_quantity,total_quantity);
+//    public void addNewProduct(String name, int code, double price, String manufacturer, int min_quantity,int total_quantity){
+//        productController.addNewGeneralProduct(name,code,price,manufacturer,min_quantity,total_quantity);
+//    }
+    public void addNewProduct(String name, int code, double price, String manufacturer, int min_quantity,int total_quantity, int categoryId, String categoryName, int parentCategory){
+        productController.addNewGeneralProduct(name,code,price,manufacturer,min_quantity,total_quantity,categoryId,categoryName,parentCategory);
     }
 
-    public void receiveSupply(int code,String name, double price, int amount, LocalDate expiredDate, String manufacturer){
-        productController.receiveSupply( code, name,  price,  amount,  expiredDate,  manufacturer);
-
-    }
+//    public void receiveSupply(int code,String name, double price, int amount, LocalDate expiredDate, String manufacturer){
+//        productController.receiveSupply( code, name,  price,  amount,  expiredDate,  manufacturer);
+//
+//    }
 
     public void changeProductMinQuantity(int code,int minQuantity){
         productController.setProductMinQuantity(code,minQuantity);
     }
 
-    public void receiveSupply(int code,String name,double price,int amount, String expiredDate,String manufacturer){
-        productController.receiveSupply(code,name,price,amount,LocalDate.parse(expiredDate),manufacturer);
-
-        System.out.println("Supply added successfully");
+//    public void receiveSupply(int code,String name,double price,int amount, String expiredDate,String manufacturer){
+//        GeneralProduct gp = productController.getGeneralProductByCode(code);
+//        if (gp != null) {
+//           productController.receiveExistSupply(code,price,amount,LocalDate.parse(expiredDate));
+//        }
+//        else{
+//            Scanner scanner = new Scanner(System.in);
+//
+//        }
+//        productController.receiveSupply(code,name,price,amount,LocalDate.parse(expiredDate),manufacturer);
+//
+//        System.out.println("Supply added successfully");
+//    }
+    public void receiveExistSupply(int code,String name,double price,int amount, String expiredDate,String manufacturer,int CategoryId){
+        productController.receiveExistSupply(code,price,amount,LocalDate.parse(expiredDate));
+    }
+    public void receiveNewtSupply(int code,String name,double price,int amount, String expiredDate,String manufacturer,int minQuantity, int categoryId,String categoryName,int categoryParentId){
+        productController.receiveNewSupply(code,name,price, amount, LocalDate.parse(expiredDate), manufacturer, minQuantity,categoryId,categoryName,categoryParentId);
     }
 
-    public void sellProduct(int code, int id){
+        public void sellProduct(int code, int id){
         productController.sellProduct(code,id);
-        System.out.println("the sell been successful");
+//        System.out.println("the sell been successful");
     }
 
     public void reportFlawProduct(int code,int id, String description){
         productController.reportFlowProduct(code,id,description);
+    }
+    public GeneralProduct getProductByCode (int code){
+        return productController.getGeneralProductByCode(code);
     }
 
 

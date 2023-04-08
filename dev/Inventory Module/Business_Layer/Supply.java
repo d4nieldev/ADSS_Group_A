@@ -87,10 +87,10 @@ public class Supply {
             return false;
     }
     public boolean setAmountFromStorage(int id){
-        if (amount > 0) {
+        if (amount > 0 ) {
             amount--;
             storageAmount--;
-            ids.remove(id);
+            ids.remove(Integer.valueOf(id));
 
             return true;
         }

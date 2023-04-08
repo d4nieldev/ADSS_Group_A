@@ -32,8 +32,6 @@ public class ReportController {
         int index = 0;
         for (GeneralProduct gp : allGeneralProducts)
         {
-//            System.out.format("%-10s%-10s%-10s%-10s%-10s%-10s%-10s%-10s%n", "NO.", "name", "code", "price", "total_quantity", "min_quantity", "manufacturer" , "category");
-//            System.out.format("%-10s%-10d%-10b%-10f%-10s%-10f%-10d%-10d%n", index, gp.getName(), gp.getCode(),gp.getCurrentPrice(), gp.getTotal_quantity(), gp.getMin_quantity(), gp.getManufacturer(), gp.getCategory().getName().toString());
             System.out.format("%-10d%-15s%-10d%-20f%-20d%-20d%-15s%-15s%n", index, gp.getName(), gp.getCode(),gp.getCurrentPrice(), gp.getTotal_quantity(), gp.getMin_quantity(), gp.getManufacturer(), gp.getCategory().getName().toString());
 
             index ++;
@@ -58,7 +56,7 @@ public class ReportController {
             HashMap<Integer,String> flowProducts = gp.getAllFlowProducts();
             for(int id: flowProducts.keySet())
             {
-                System.out.format("%-10d%-10s%-10d%-20d%-20s%-20s%-20s%n", index++, gp.getName(), gp.getCode(),id,gp.getManufacturer(),gp.getCategory().getName(),flowProducts.get(id));
+                System.out.format("%-10s%-10s%-10s%-20s%-20s%-20s%-20s%n", index++, gp.getName(), gp.getCode(),id,gp.getManufacturer(),gp.getCategory().getName(),flowProducts.get(id));
             }
 
         }
@@ -69,7 +67,7 @@ public class ReportController {
             for(int id: expiredProducts)
             {
 
-                System.out.format("%-10s%-10d%-10b%-10f%-10s%-10f%-10d%-10d%n", index++, gp.getName(), gp.getCode(),id,gp.getManufacturer(),gp.getCategory().getName(),"!!EXPIRED!!");
+                System.out.format("%-10d%-10s%-10d%-20s%-20s%-20s%-20s%n", index++, gp.getName(), gp.getCode(),id,gp.getManufacturer(),gp.getCategory().getName(),"!!EXPIRED!!");
             }
 
         }
@@ -171,13 +169,13 @@ public class ReportController {
 
     public void getProductDiscountHistoryReport(int code){
         System.out.println("------------------product discount history Report------------------");
-        System.out.format("%-10s%-10s%-10s%-20s%-20s%-20s%-20s%n", "NO.","name", "code", "price","discount percentage", "start date","end date");
+        System.out.format("%-10s%-10s%-10s%-20s%-25s%-20s%-20s%n", "NO.","name", "code", "price","discount percentage", "start date","end date");
         int index = 0;
         List<Discount> lst = productController.getProductDiscountHistory(code);
         GeneralProduct gp = productController.getGeneralProductByCode(code);
         for(Discount discount : lst){
             double price = gp.getPrice()* (1 - discount.getDiscount_percentage()/100);
-            System.out.format("%-10d%-10s%-10d%-20f%-20f%-20s%-20s%n", index, gp.getName(), code, price, discount.getDiscount_percentage(), discount.getStart_date(), discount.getEnd_date());
+            System.out.format("%-10d%-10s%-10d%-20f%-25f%-20s%-20s%n", index, gp.getName(), code, price, discount.getDiscount_percentage(), discount.getStart_date(), discount.getEnd_date());
             index++;
         }
 

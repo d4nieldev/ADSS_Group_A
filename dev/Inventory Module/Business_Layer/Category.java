@@ -34,6 +34,7 @@ public class Category {
 
     }
 
+
     //getter and setters
 
     public int getId() {return id;}

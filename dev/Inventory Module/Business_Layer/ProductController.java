@@ -1,5 +1,8 @@
 package Business_Layer;
 
+
+import org.junit.jupiter.params.aggregator.ArgumentAccessException;
+
 import java.util.*;
 import java.time.LocalDate;
 
@@ -8,7 +11,7 @@ public class ProductController {
 
 //        private List<SpecificProduct> allSpecificProducts;
         private List<GeneralProduct> allGeneralProducts;
-        private HashMap<GeneralProduct,Integer> allExpiredProducts; //map with a product and the amount
+        private HashMap<GeneralProduct,Integer> allExpiredProducts; //map with a product and the amount of expired
         private HashMap<GeneralProduct,Integer> allFlawProducts; //map with a product and the amount
         private List<Supply> allSupply; //store all the supply that we received
         private List<Supply> allRelevantSupply; //store all the supply that relevant
@@ -91,7 +94,7 @@ public class ProductController {
         private Boolean supplyContainsId(int id,Supply sp)
         {
                 boolean res = false;
-               if(id > sp.getFirstId() - 1 || id < sp.getLastId() + 1)
+               if(id > sp.getFirstId() - 1 && id < sp.getLastId() + 1)
                        res = true;
 
                return res;
@@ -161,7 +164,7 @@ public class ProductController {
                                          if (sp.getAmount() == 0) {
                                                  allRelevantSupply.remove(sp);
                                          }
-                                         AlertForMinimumQuantity(gp);
+                                         alertForMinimumQuantity(gp);
                                  }
                          }
                  }
@@ -171,9 +174,10 @@ public class ProductController {
          * alert for reaching to the minimum quantity
          * @param gp
          */
-        private void AlertForMinimumQuantity(GeneralProduct gp) {
+        public void alertForMinimumQuantity(GeneralProduct gp) {
                 if(gp.getMin_quantity() > gp.getTotal_quantity())
                         System.out.println("Warning!!! the +" + gp.getName() +" is below the minimum Quantity !!!!!!!!!!!!!");
+
 
         }
 
@@ -427,18 +431,7 @@ public class ProductController {
          * @param expiredDate
          * @param manufacturer
          */
-        public void receiveSupply(int code,String name, double price, int amount, LocalDate expiredDate, String manufacturer)
-        {
-                GeneralProduct gp = getGeneralProductByCode(code);
-                if(gp != null)
-                {
-                        receiveExistSupply(code,price,amount,expiredDate);
-                }
-                else {
-                        receiveNewSupply(code,name,price,amount,expiredDate,manufacturer);
-
-                }
-        }
+//
 
         /**
          * if the general produce was already exist receive it
@@ -447,7 +440,7 @@ public class ProductController {
          * @param amount
          * @param expiredDate
          */
-        private void receiveExistSupply(int code, double price, int amount, LocalDate expiredDate)
+        public void receiveExistSupply(int code, double price, int amount, LocalDate expiredDate)
         {
 
                 GeneralProduct gp = getGeneralProductByCode(code);
@@ -458,13 +451,17 @@ public class ProductController {
                 gp.addToStorage(ids);
                 Supply sp = new Supply(gp,expiredDate,price,amount,ids);
                 gp.addSupply(sp);
+                if(sp.getExpiredDate().isBefore(LocalDate.now())){
+
+                }
                 allSupply.add(sp);
                 allRelevantSupply.add(sp);
+                findExpiredProducts();
         }
         private List<Integer> addIdsList(int index,int amount)
         {
                 List<Integer> result = new ArrayList<>();
-                while (amount >= 0)
+                while (amount > 0)
                 {
                         result.add(index);
                         index++;
@@ -483,7 +480,7 @@ public class ProductController {
          * @param expiredDate
          * @param manufacturer
          */
-        private void receiveNewSupply(int code,String name, double price, int amount, LocalDate expiredDate, String manufacturer)
+        public void receiveNewSupply2(int code,String name, double price, int amount, LocalDate expiredDate, String manufacturer)
         {
                 Scanner scanner = new Scanner(System.in);
                 int id = -1;
@@ -531,6 +528,38 @@ public class ProductController {
         }
 
         /**
+         * function for receving new supply - if it is a new general product it will be created else will be added
+         * @param code
+         * @param name
+         * @param price
+         * @param amount
+         * @param expiredDate
+         * @param manufacturer
+         * @param minQuantity
+         * @param categoryId
+         * @param categoryName
+         * @param categoryParentId
+         */
+        public void receiveNewSupply(int code,String name, double price, int amount, LocalDate expiredDate, String manufacturer,int minQuantity,int categoryId,String categoryName,int categoryParentId){
+//                Scanner scanner = new Scanner(System.in);
+                Category category;
+                if(categoryId != -1) {
+                        category = categoryController.getCategoryById(categoryId);
+                        if (category == null)
+                                category = new Category(categoryName);
+                }
+                else {
+                        Category parent = categoryController.getCategoryById(categoryParentId);
+                        category = new Category(categoryName,parent);
+                }
+                categoryController.addNewCategory(category);
+                GeneralProduct gp = new GeneralProduct(name,code,price,manufacturer,minQuantity,category);
+                allGeneralProducts.add(gp);
+                receiveExistSupply(code,price,amount,expiredDate);
+
+        }
+
+        /**
          * return a list in size @amount with all the products ids that the worker need to transfer from
          * storage to shop- שso transfer the products
          * @param code
@@ -567,7 +596,13 @@ public class ProductController {
                                         sp.setIds(new ArrayList<>(sp.getIds().subList(cut , sp.getIds().size() -1))) ;
 
                                         sp.transferFromStorageToShop(cut);
-                                        gp.transferFromStorageToShop(cut,new ArrayList<>(sp.getIds().subList(cut , sp.getIds().size() -1)) );
+//                                        List<Integer> ids = new ArrayList<>();
+//                                        ids = sp.getIds();
+//                                        List<Integer> tranfer  = new ArrayList<>();
+//                                        tranfer = ids.subList(cut)
+//                                        gp.transferFromStorageToShop(cut,new ArrayList<>(sp.getIds().subList(cut , sp.getIds().size() -1)) );
+                                        List<Integer> newList = new ArrayList<>(sp.getIds());
+                                        gp.transferFromStorageToShop(cut,sublist);
                                 }
                                 // i need extra supply
                                 else {
@@ -671,8 +706,11 @@ public class ProductController {
                 return result;
         }
 
-        public void addNewGeneralProduct(String name, int code, double price, String manufacturer, int min_quantity,int total_quantity) {
+        public void addNewGeneralProduct2(String name, int code, double price, String manufacturer, int min_quantity,int total_quantity) {
 
+                if(code < 0 || price < 0 || manufacturer == "" || min_quantity < 0 || total_quantity < 0){
+                        throw new ArgumentAccessException("one or more of your arguments not illegal");
+                }
                 Scanner scanner = new Scanner(System.in);
                 int id = -1;
                 System.out.println("is the product's category exist? enter y/n");
@@ -709,6 +747,39 @@ public class ProductController {
                 }
         }
 
+        public void addNewGeneralProduct(String name, int code, double price, String manufacturer, int min_quantity, int total_quantity, int categoryId, String categoryName, int parentCategory) {
+
+
+               GeneralProduct gp2 = getGeneralProductByCode(code);
+               if(gp2 == null){
+
+
+                boolean check = categoryController.ExistCategory(categoryId);
+                //if Category already exist
+                if (check) {
+                        Category category = categoryController.getCategoryById(categoryId);
+                        //CREATE NEW SUPPLY OBJECT!!!!!!!!
+                        GeneralProduct gp = new GeneralProduct(name, code, price, manufacturer, min_quantity, category, total_quantity);
+                        allGeneralProducts.add(gp);
+                        System.out.println("Product added successful");
+                }
+                //it's a new category
+                else {
+
+                        Category parent = categoryController.getCategoryById(parentCategory);
+                        Category category = new Category(categoryName, parent);
+                        categoryController.addNewCategory(category);
+
+                        GeneralProduct gp = new GeneralProduct(name, code, price, manufacturer, min_quantity, category, total_quantity);
+                        allGeneralProducts.add(gp);
+
+                        System.out.println("Product added successful");
+
+                }
+               }
+
+        }
+
         public void setProductMinQuantity(int code,int minQuantity){
                 GeneralProduct gp = getGeneralProductByCode(code);
                 gp.setMinimumQuantity(minQuantity);
@@ -726,6 +797,12 @@ public class ProductController {
         }
         public double getBuyPrice(int code,int id){
                 return getSupplyByCodeId(code,id).getBuyPrice();
+        }
+
+        public void addNewGeneralProduct(GeneralProduct generalProduct, int totalQuantity){
+                generalProduct.setTotal_quantity(totalQuantity);
+                allGeneralProducts.add(generalProduct);
+
         }
 
 

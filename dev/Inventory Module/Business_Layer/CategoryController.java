@@ -21,6 +21,11 @@ private CategoryController() {
         }
         return instance;
     }
+
+   public static void putCategory(int id,Category category){
+        categoryDic.put(id,category);
+   }
+
     public Category getCategoryById(int id)
     {
         return categoryDic.get(id);
@@ -50,6 +55,7 @@ private CategoryController() {
     public List<Category> getAllSubCategories(Category category)
     {
         List<Category> result = new ArrayList<>();
+        result.add(category);
      for(Category cat : allCategories)
      {
          List<Category> allParent = getAllParenCategories(cat);
@@ -108,9 +114,15 @@ private CategoryController() {
             categoryDic.put(category.getId(), category);
         }
     }
-    public void addNewCategory(Category category){
+
+    public static Hashtable<Integer, Category> getCategoryDic() {
+        return categoryDic;
+    }
+
+    public int addNewCategory(Category category){
         allCategories.add(category);
         categoryDic.put(category.getId(),category);
+        return category.getId();
     }
     public boolean ExistCategory(int id)
     {

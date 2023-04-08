@@ -11,7 +11,7 @@ class Main {
         //ServiceLayer.EmployeesMoudle.EmployeeService employeeService = new ServiceLayer.EmployeesMoudle.EmployeeService();
 
         Scanner sc = new Scanner(System.in);
-        System.out.print("Hello there, in order to login to the syestem please enter your Id: ");
+        System.out.print("Hello there, in order to login to the system please enter your Id: ");
         int loginId = Integer.parseInt(sc.nextLine());
         System.out.println("");
 
@@ -22,7 +22,7 @@ class Main {
         gradingService.logIn(loginId, loginPassword);
         System.out.println("");
 
-        System.out.println("[0 - Exit system, 1 - Add employee, 2 - Print all employees, 3 - Add empty shift, 4 - Submit a shift, 7 - Delete an employee, 8 - Login, 9 - Logout, 10 - Edit employee, 11 - Add a role premisstion]");
+        System.out.println("[0 - Exit system, 1 - Add employee, 2 - Print all employees, 3 - Add empty shift, 4 - Submit a shift, 5 - Add constraint for some Employee to Shift, 6 - Edit employee, 7 - Delete an employee, 8 - Login, 9 - Logout]");
         System.out.print("Please enter your request to the system according to the PDF file: ");
         String option = sc.nextLine();
 
@@ -103,7 +103,7 @@ class Main {
                     gradingService.printAllEmployees(loginId);
                 }
 
-                else if (option.equals("3")){
+                else if (option.equals("3")){ // 3 add an empty shift
                     System.out.println("You choose to add empty shift.");
                     System.out.println("please enter the following information:");
                     System.out.println("");
@@ -179,7 +179,7 @@ class Main {
                     gradingService.addShift(loginId, branchId, localDate, startHour, endHour, morningEvningShiftTime, numEmployeesForRole);
                 }
                 
-                else if (option.equals("4")){
+                else if (option.equals("4")){ // 4 hr manager submit a shift
                     System.out.println("You choose to submit a final shift.");
                     System.out.println("please enter the following information:");
                     System.out.println("");
@@ -214,32 +214,27 @@ class Main {
                     gradingService.approveFinalShift(loginId,shiftId,branchId,shiftAssign);
                 }
 
-                else if (option.equals("7")){ // 7 delete an employee
-                    System.out.print("Enter the Id of the employee you wish to delete: ");
-                    int idToDelete = Integer.parseInt(sc.nextLine());
-                    gradingService.deleteEmployee(loginId, idToDelete);
+                else if(option.equals("5")){ // 5 add constraint for an employee to a shift
+                    System.out.println("You choose to add constraint for an employee to a shift.");
+                    System.out.println("please enter the following information:");
                     System.out.println("");
+
+                    System.out.print("Branch Id: ");
+                    int branch = Integer.parseInt(sc.nextLine());
+                    System.out.println("");
+
+                    System.out.print("Employee Id: ");
+                    int idEmployee = Integer.parseInt(sc.nextLine());
+                    System.out.println("");
+
+                    System.out.print("Shift Id: ");
+                    int shift = Integer.parseInt(sc.nextLine());
+                    System.out.println("");
+
+                    gradingService.addConstraint(branch, idEmployee, shift);
                 }
 
-                else if (option.equals("8")){ // 8 login
-                    System.out.print("Hello there, in order to login to the syestem please enter your Id: ");
-                    loginId = Integer.parseInt(sc.nextLine());
-                    System.out.println("");
-
-                    System.out.print("Great, now enter your password: ");
-                    loginPassword = sc.nextLine();
-                    System.out.println("");
-
-                    gradingService.logIn(loginId, loginPassword);
-                    System.out.println("");
-                }
-
-                else if (option.equals("9")){ // 9 logout
-                    gradingService.logOut(loginId);
-                    System.out.println("");
-                }
-
-                else if (option.equals("10")){
+                else if (option.equals("6")){ // 6 edit employee
                     System.out.print("Enter the Id of the employee you wish to edit: ");
                     int idToEdit = Integer.parseInt(sc.nextLine());
                     System.out.println("You choose to edit an employee, which detail would you like to edit?\n");
@@ -325,16 +320,42 @@ class Main {
                     
                 }
 
-                else if (option.equals("11")){
-                    
+                else if (option.equals("7")){ // 7 delete an employee
+                    System.out.print("Enter the Id of the employee you wish to delete: ");
+                    int idToDelete = Integer.parseInt(sc.nextLine());
+                    gradingService.deleteEmployee(loginId, idToDelete);
+                    System.out.println("");
                 }
+
+                else if (option.equals("8")){ // 8 login
+                    System.out.print("Hello there, in order to login to the syestem please enter your Id: ");
+                    loginId = Integer.parseInt(sc.nextLine());
+                    System.out.println("");
+
+                    System.out.print("Great, now enter your password: ");
+                    loginPassword = sc.nextLine();
+                    System.out.println("");
+
+                    gradingService.logIn(loginId, loginPassword);
+                    System.out.println("");
+                }
+
+                else if (option.equals("9")){ // 9 logout
+                    gradingService.logOut(loginId);
+                    System.out.println("");
+                }
+
                 
                 System.out.println("");
-                System.out.println("[0 - Exit system, 1 - Add employee, 2 - Print all employees, 3 - Add empty shift, 4 - Submit a shift, 7 - Delete an employee, 8 - Login, 9 - Logout, 10 - Edit employee, 11 - Add a role premisstion]");
+                System.out.println("[0 - Exit system, 1 - Add employee, 2 - Print all employees, 3 - Add empty shift, 4 - Submit a shift, 5 - Add constraint for some Employee to Shift, 6 - Edit employee, 7 - Delete an employee, 8 - Login, 9 - Logout]");
                 System.out.print("Please enter your request to the system according to the PDF file: ");
                 option = sc.nextLine();
             }
-            catch(Error e) {System.out.println(e.toString()); break;} //I think we need to delete the break and add the options again.
+            catch(Error e) {
+                System.out.println(e.toString());
+                System.out.print("Please enter AGAIN your request to the system according to the PDF file: ");
+                option = sc.nextLine();
+            }
         }
 
         gradingService.logOut(loginId);

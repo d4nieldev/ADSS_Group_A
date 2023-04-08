@@ -13,7 +13,7 @@ public class Program {
                 help();
                 break;
             case "makereservation":
-                ReservationSystem.makereservation(scanner);
+                ReservationSystem.makereservation(commandTokens, scanner);
                 break;
             case "receipt":
                 ReservationSystem.receipt(commandTokens);

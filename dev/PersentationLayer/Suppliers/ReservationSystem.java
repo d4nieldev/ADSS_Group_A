@@ -14,11 +14,13 @@ public class ReservationSystem {
         manual += "===========================================================================================";
         manual += "This is the manual for how to use the reservations system:\n";
         manual += "help = show the manual\n";
-        manual += "makereservation = open the reservation menu. enter lines in the format of \"[product_id] [amount]\"\n";
-        manual += "                  for changing amount of product type the line again with the updated amount\n";
-        manual += "                  for closing the reservation menu enter \"done\"\n";
-        manual += "                  for aborting the reservation enter \"abort\"\n";
-        manual += "                  after completing the reservation. You will get a response with the reservation id if was successful\n";
+        manual += "makereservation [auto/manual] [branch] = open the reservation menu.\n";
+        manual += "    auto - enter lines in the format of \"[product_id] [amount]\"\n";
+        manual += "    manual - enter lines in the format of \"[supplier_id] [product_id] [amount]\"\n";
+        manual += "    for changing amount of product type the line again with the updated amount\n";
+        manual += "    for closing the reservation menu enter \"done\"\n";
+        manual += "    for aborting the reservation enter \"abort\"\n";
+        manual += "    after completing the reservation. You will get a response with the reservation id if was successful\n";
         manual += "receipt [reservation_id] = show all items, amounts, and prices for this reservation\n";
         manual += "reservations [supplier_id] = show all reservations history with the supplier\n";
         manual += "ready = for each supplier, show the destinations of the reservations that are ready\n";
@@ -26,7 +28,20 @@ public class ReservationSystem {
         System.out.println(manual);
     }
 
-    public static void makereservation(Scanner scanner) {
+    public static void makereservation(String[] commandTokens, Scanner scanner) {
+        if (commandTokens.length != 3) {
+            System.out.println("makereservation command requires 3 arguments");
+            return;
+        }
+
+        if (commandTokens[1].equals("auto")) {
+            makeAutoReservation(scanner, commandTokens[2]);
+        } else if (commandTokens[1].equals("manual")) {
+            makeManualReservation(scanner, commandTokens[2]);
+        }
+    }
+
+    private static void makeAutoReservation(Scanner scanner, String destinationBranch) {
         Map<Integer, Integer> productToAmount = new HashMap<>();
         String line;
 
@@ -59,7 +74,44 @@ public class ReservationSystem {
         } while (!line.equals("done") && !line.equals("abort"));
 
         if (line.equals("done"))
-            System.out.println(rs.makeReservation(productToAmount));
+            System.out.println(rs.makeAutoReservation(productToAmount, destinationBranch));
+
+    }
+
+    private static void makeManualReservation(Scanner scanner, String destinationBranch) {
+        Map<Integer, Map<Integer, Integer>> supplierToproductToAmount = new HashMap<>();
+        String line;
+
+        do {
+            line = scanner.nextLine();
+
+            String[] command = line.split(" ");
+            if (command.length != 3) {
+                System.out.println(
+                        "The format of the command is \"[supplier_id] [product_id] [amount]\". Please try again.\n");
+                continue;
+            }
+            int supplierId = tryParseInt(command[0], Integer.MIN_VALUE);
+            if (supplierId <= 0) {
+                System.out.println("supplier id must be a non negative integer. Please try again.\n");
+                continue;
+            }
+            int productId = tryParseInt(command[1], Integer.MIN_VALUE);
+            if (productId <= 0) {
+                System.out.println("product id must be a non negative integer. Please try again.\n");
+                continue;
+            }
+            int amount = tryParseInt(command[2], Integer.MIN_VALUE);
+            if (amount <= 0) {
+                System.out.println("amount must be a non negative integer. Please try again.\n");
+                continue;
+            }
+
+            supplierToproductToAmount.computeIfAbsent(supplierId, k -> new HashMap<>()).put(productId, amount);
+        } while (!line.equals("done") && !line.equals("abort"));
+
+        if (line.equals("done"))
+            System.out.println(rs.makeManualReservation(supplierToproductToAmount, destinationBranch));
     }
 
     public static void receipt(String[] commandTokens) {

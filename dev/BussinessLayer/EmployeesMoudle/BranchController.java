@@ -23,10 +23,10 @@ public class BranchController {
     }
 
     public void addNewEmployee(int managerId, String firstName, String lastName, int id, String password, int bankNum,
-    int bankBranch, int bankAccount, int salary, int bonus, LocalDate startDate, License driverLicense, String role, int branchId){
+    int bankBranch, int bankAccount, int salary, int bonus, LocalDate startDate, License driverLicense, String role, int branchId, String status){
         // only HR manager
         employeeController.addEmployee(managerId, firstName, lastName, id, password, bankNum, bankBranch, bankAccount, salary, 
-        bonus, startDate, driverLicense, role, branchId);
+        bonus, startDate, driverLicense, role, branchId, status);
         Branch branch = getBranchById(branchId);
         Employee employee = employeeController.getEmployeeById(id);
         branch.addNewEmployee(employee);
@@ -58,10 +58,10 @@ public class BranchController {
         employeeController.deleteEmployee(id);
     }
 
-    public void addShift(int managerId, int branchId, LocalDate date, int startHour, int endHour, ShiftTime time){
+    public void addShift(int managerId, int branchId, LocalDate date, int startHour, int endHour, ShiftTime time, HashMap<String, Integer> numEmployeesForRole){
         employeeController.checkHrManager(managerId);  // only HR manager
         int shiftID = shiftController.getShiftIdConuter();
-        Shift newShift = new Shift(shiftID, branchId, date, startHour, endHour, time);
+        Shift newShift = new Shift(shiftID, branchId, date, startHour, endHour, time, numEmployeesForRole);
         shiftController.addShift(newShift);
         Branch branch = getBranchById(branchId);
         branch.addShift(newShift);

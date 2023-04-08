@@ -32,7 +32,7 @@ public class EmployeeController {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
         LocalDate localDate = LocalDate.parse("01-02-1980", formatter);
         addHRManagerForStartUpTheSystem("Rami", "Arnon", 123456789, "abc", 0, 0,
-         0, 50000, 30000, localDate, null, Role.getRole("HRMANAGER"), 0);
+         0, 50000, 30000, localDate, null, Role.getRole("HRMANAGER"), 0, "King");
 
          printAllEmployeesListAccess = new LinkedList<>(); printAllEmployeesListAccess.add(Role.getRole("HRMANAGER"));
          addRolesListAccess = new LinkedList<>(); addRolesListAccess.add(Role.getRole("HRMANAGER"));
@@ -88,11 +88,11 @@ public class EmployeeController {
     // add employee to the system.
     // only if its HR manager and the employee does not exsist already.
     public void addEmployee(int managerId, String firstName, String lastName, int id, String password, int bankNum,
-    int bankBranch, int bankAccount, int salary, int bonus, LocalDate startDate, License driverLicense, String role, int branch){
+    int bankBranch, int bankAccount, int salary, int bonus, LocalDate startDate, License driverLicense, String role, int branch, String status){
         if (isEmployeeExists(managerId) && isEmployeeLoggedIn(managerId)){
             checkHrManager(managerId);
             employees.add(new Employee(firstName, lastName, id, password, bankNum,
-            bankBranch, bankAccount, salary, bonus, startDate, driverLicense, role, branch));
+            bankBranch, bankAccount, salary, bonus, startDate, driverLicense, role, branch, status));
             System.out.println("The employee " + firstName + " " + lastName + " has been added successfully");
         }
         else{
@@ -454,8 +454,8 @@ public class EmployeeController {
 
     // help function that create HR manager to start up the system
     private void addHRManagerForStartUpTheSystem(String firstName, String lastName, int id, String password, int bankNum,
-    int bankBranch, int bankAccount, int salary, int bonus, LocalDate startDate, License driverLicense, String role, int branch){
+    int bankBranch, int bankAccount, int salary, int bonus, LocalDate startDate, License driverLicense, String role, int branch, String status){
         employees.add(new Employee(firstName, lastName, id, password, bankNum,
-        bankBranch, bankAccount, salary, bonus, startDate, driverLicense, role, branch));
+        bankBranch, bankAccount, salary, bonus, startDate, driverLicense, role, branch, status));
     }
 }

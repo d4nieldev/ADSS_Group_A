@@ -110,8 +110,8 @@ public class GradingService {
     }
 
     public void addNewEmployee(int managerId, String firstName, String lastName, int id, String password, int bankNum,
-    int bankBranch, int bankAccount, int salary, int bonus, LocalDate startDate, License driverLicense, String role, int branch){
-        branchS.addNewEmployee(managerId, firstName, lastName, id, password, bankNum, bankBranch, bankAccount, salary, bonus, startDate, driverLicense, role, branch);
+    int bankBranch, int bankAccount, int salary, int bonus, LocalDate startDate, License driverLicense, String role, int branch, String status){
+        branchS.addNewEmployee(managerId, firstName, lastName, id, password, bankNum, bankBranch, bankAccount, salary, bonus, startDate, driverLicense, role, branch, status);
     }
     
     public void addForeignEmployee(int managerId, int idEmployee, int branch){
@@ -126,8 +126,8 @@ public class GradingService {
         branchS.deleteEmployee(managerId, id);
     }
     
-    public void addShift(int managerId, int branch, LocalDate date, int startHour, int endHour, ShiftTime time){
-        branchS.addShift(managerId, branch, date, startHour, endHour, time);
+    public void addShift(int managerId, int branch, LocalDate date, int startHour, int endHour, ShiftTime time, HashMap<String, Integer> numEmployeesForRole){
+        branchS.addShift(managerId, branch, date, startHour, endHour, time, numEmployeesForRole);
     }
     
     public void addConstraint(int branch, int idEmployee, int shift){

@@ -16,9 +16,9 @@ public class BranchService {
     }
     
     public void addNewEmployee(int managerId, String firstName, String lastName, int id, String password, int bankNum,
-    int bankBranch, int bankAccount, int salary, int bonus, LocalDate startDate, License driverLicense, String role, int branch){
+    int bankBranch, int bankAccount, int salary, int bonus, LocalDate startDate, License driverLicense, String role, int branch, String status){
         branchController.addNewEmployee(managerId, firstName, lastName, id, password, bankNum,
-        bankBranch, bankAccount, salary, bonus, startDate, driverLicense, role, branch);
+        bankBranch, bankAccount, salary, bonus, startDate, driverLicense, role, branch, status);
     }
 
     public void addForeignEmployee(int managerId, int idEmployee, int branch){
@@ -33,8 +33,8 @@ public class BranchService {
         branchController.deleteEmployee(managerId, id);
     }
 
-    public void addShift(int managerId, int branch, LocalDate date, int startHour, int endHour, ShiftTime time){
-        branchController.addShift(managerId, branch, date, startHour, endHour, time);
+    public void addShift(int managerId, int branch, LocalDate date, int startHour, int endHour, ShiftTime time, HashMap<String, Integer> numEmployeesForRole){
+        branchController.addShift(managerId, branch, date, startHour, endHour, time, numEmployeesForRole);
     }
     
     public void addConstraint(int branch, int idEmployee, int shift){

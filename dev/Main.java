@@ -1,5 +1,6 @@
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.HashMap;
 import java.util.Scanner;
 import ServiceLayer.EmployeesMoudle.GradingService;
 import Misc.*;
@@ -21,7 +22,7 @@ class Main {
         gradingService.logIn(loginId, loginPassword);
         System.out.println("");
 
-        System.out.println("[0 - Exit system, 1 - Add employee, 2 - print all employees, 7 - Delete an employee, 8 - Login, 9 - Logout, 10 - Edit employee, 11 - Add a role premisstion]");
+        System.out.println("[0 - Exit system, 1 - Add employee, 2 - Print all employees, 3 - Add empty shift, 4 - Submit a shift, 7 - Delete an employee, 8 - Login, 9 - Logout, 10 - Edit employee, 11 - Add a role premisstion]");
         System.out.print("Please enter your request to the system according to the PDF file: ");
         String option = sc.nextLine();
 
@@ -89,8 +90,12 @@ class Main {
                     int superBranch = Integer.parseInt(sc.nextLine());
                     System.out.println("");
 
+                    System.out.print("Status: ");
+                    String status = sc.nextLine();
+                    System.out.println("");
+
                     gradingService.addNewEmployee(loginId, firstName, lastName, id, password, bankNum, 
-                    bankBranch, bankAccount, salary, bonus, localDate, driverLicense, role, superBranch);
+                    bankBranch, bankAccount, salary, bonus, localDate, driverLicense, role, superBranch, status);
 
                 }
 
@@ -98,20 +103,116 @@ class Main {
                     gradingService.printAllEmployees(loginId);
                 }
 
-                // // 3 add shift
-                // addShift();
+                else if (option.equals("3")){
+                    System.out.println("You choose to add empty shift.");
+                    System.out.println("please enter the following information:");
+                    System.out.println("");
 
-                // // 4 add constraint for employee to shift
-                // addConstraint();
+                    System.out.print("Branch Id: ");
+                    int branchId = Integer.parseInt(sc.nextLine());
+                    System.out.println("");
 
-                // // 5 print all constraints for some shift
-                // printAllConstraints();
+                    System.out.println("please enster the date in that format Date: 05-06-2003");
+                    System.out.print("Shift Date: ");
+                    String shiftDate = sc.nextLine();
+                    System.out.println("");;
 
-                // // 6 HR manager assign emlpoyee to shift
-                // assignEmployeeToShift();
+                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+                    LocalDate localDate = LocalDate.parse(shiftDate, formatter);
 
-                // // 7 delete employee from the system
-                // deleteEmployee();
+                    System.out.print("Start hour: ");
+                    int startHour = Integer.parseInt(sc.nextLine());
+                    System.out.println("");
+
+                    System.out.print("End hour: ");
+                    int endHour = Integer.parseInt(sc.nextLine());
+                    System.out.println("");
+
+                    System.out.print("Morning Or Eveing: ");
+                    String morningEvningString = sc.nextLine();
+                    ShiftTime morningEvningShiftTime = ShiftTime.valueOf(morningEvningString.toUpperCase());
+                    System.out.println("");
+
+                    HashMap<String, Integer> numEmployeesForRole = new HashMap<>();
+
+                    System.out.print("Now enter the number of employees for each role. ");
+                    System.out.print("Branch Manager: ");
+                    int branchManagerNum = Integer.parseInt(sc.nextLine());
+                    numEmployeesForRole.put("BRANCHMANAGER", branchManagerNum);
+                    System.out.println("");
+
+                    System.out.print("Shift Manager: ");
+                    int shiftManagerNum = Integer.parseInt(sc.nextLine());
+                    numEmployeesForRole.put("SHIFTMANAGER", shiftManagerNum);
+                    System.out.println("");
+
+                    System.out.print("Cashier: ");
+                    int chahierNum = Integer.parseInt(sc.nextLine());
+                    numEmployeesForRole.put("CHASHIER", chahierNum);
+                    System.out.println("");
+
+                    System.out.print("Storekeeper: ");
+                    int storeeeperNum = Integer.parseInt(sc.nextLine());
+                    numEmployeesForRole.put("STOREKEEPER", storeeeperNum);
+                    System.out.println("");
+
+                    System.out.print("Driver: ");
+                    int driverNum = Integer.parseInt(sc.nextLine());
+                    numEmployeesForRole.put("DRIVER", driverNum);
+                    System.out.println("");
+
+                    System.out.println("Generral");
+                    int generralNum = Integer.parseInt(sc.nextLine());
+                    numEmployeesForRole.put("GENERRAL", generralNum);
+                    System.out.println("");
+
+                    System.out.println("Cleaner");
+                    int cleanerNum = Integer.parseInt(sc.nextLine());
+                    numEmployeesForRole.put("CLEANER", cleanerNum);
+                    System.out.println("");
+
+                    System.out.println("Security");
+                    int securityNum = Integer.parseInt(sc.nextLine());
+                    numEmployeesForRole.put("SECURITY", securityNum);
+                    System.out.println("");
+       
+                    gradingService.addShift(loginId, branchId, localDate, startHour, endHour, morningEvningShiftTime, numEmployeesForRole);
+                }
+                
+                else if (option.equals("4")){
+                    System.out.println("You choose to submit a final shift.");
+                    System.out.println("please enter the following information:");
+                    System.out.println("");
+
+                    System.out.print("Shift Id: ");
+                    int shiftId = Integer.parseInt(sc.nextLine());
+                    System.out.println("");
+
+                    System.out.print("Branch Id: ");
+                    int branchId = Integer.parseInt(sc.nextLine());
+                    System.out.println("");
+
+                    HashMap<Integer, String> shiftAssign = new HashMap<>();
+
+                    System.out.println("please enter the Id for every employee and then his role, when you are done enter in the Id 000.");
+                    System.out.println("Employee Id: ");
+                    int employeeId = Integer.parseInt(sc.nextLine());
+                    System.out.println("");
+                    
+                    while (employeeId != 000){
+                        System.out.println("Employee role: ");
+                        String employeeRole = sc.nextLine();
+                        System.out.println("");
+
+                        shiftAssign.put(employeeId, employeeRole);
+
+                        System.out.println("Next employee Id: ");
+                        employeeId = Integer.parseInt(sc.nextLine());
+                        System.out.println("");
+                    }
+
+                    gradingService.approveFinalShift(loginId,shiftId,branchId,shiftAssign);
+                }
 
                 else if (option.equals("7")){ // 7 delete an employee
                     System.out.print("Enter the Id of the employee you wish to delete: ");
@@ -217,7 +318,7 @@ class Main {
                             gradingService.changeDriverLicence(loginId, idToEdit, driverLicense);
                         }
 
-                        System.out.println("Which detail would you like to edit not?");
+                        System.out.println("Which detail would you like to edit now?");
                         System.out.println("[0 - First name, 1 - Last name, 2 - Password, 3 - Bank number, 4 - Bank branch, 5 - Bank account, 6 - Salary, 7 - Start date, 8 - Driver licence, 9 - Done editing]");
                         option = sc.nextLine();
                     }
@@ -229,7 +330,7 @@ class Main {
                 }
                 
                 System.out.println("");
-                System.out.println("[0 - Exit system, 1 - Add employee, 2 - print all employees, 7 - Delete an employee, 8 - Login, 9 - Logout, 10 - Edit employee]");
+                System.out.println("[0 - Exit system, 1 - Add employee, 2 - Print all employees, 3 - Add empty shift, 4 - Submit a shift, 7 - Delete an employee, 8 - Login, 9 - Logout, 10 - Edit employee, 11 - Add a role premisstion]");
                 System.out.print("Please enter your request to the system according to the PDF file: ");
                 option = sc.nextLine();
             }
@@ -241,165 +342,6 @@ class Main {
         System.out.print("Thank you for your time. See you next time.");
 
         sc.close();
-
-        //service.logIn(12345, "12345");
-        //service.logOut(12345);
-
-        // if (!option.equals("1"))
-        // {
-        //     throw new Error("Expected 1 but got somthing else. Please try again.");
-        // }
-        // try{
-            
-        //     //enter new HR manager           
-        //     System.out.print("First name: ");
-        //     String firstName = sc.nextLine();
-        //     System.out.println("");
-            
-        //     System.out.print("Last name: ");
-        //     String lastName = sc.nextLine();
-        //     System.out.println("");
-
-        //     System.out.print("Id: ");
-        //     int id = sc.nextInt();
-        //     System.out.println("");
-
-        //     System.out.print("Password: ");
-        //     String password = sc.nextLine();
-        //     System.out.println("");
-
-        //     System.out.print("Bank number: ");
-        //     int bankNum = sc.nextInt();
-        //     System.out.println("");
-
-        //     System.out.print("Bank branch number: ");
-        //     int bankBranch = sc.nextInt();
-        //     System.out.println("");
-
-        //     System.out.print("Bank account number: ");
-        //     int bankAccount = sc.nextInt();
-        //     System.out.println("");
-
-        //     System.out.print("Salary: ");
-        //     int salary = sc.nextInt();
-        //     System.out.println("");
-
-        //     System.out.print("Start Date: ");
-        //     System.out.println("please enster the date in that format Date: 05-06-2003");
-        //     String startDate = sc.nextLine();
-        //     System.out.println("");
-            
-        //     System.out.print("Bouns: ");
-        //     int bonus = sc.nextInt();
-        //     System.out.println("");
-
-        //     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
-        //     LocalDate localDate = LocalDate.parse(startDate, formatter);
-            
-        //     // Scanner year = new Scanner(System.in);
-        //     // System.out.print("Month: ");
-        //     // Scanner month = new Scanner(System.in);
-        //     // System.out.print("Day: ");
-        //     // Scanner day = new Scanner(System.in);
-
-        //     System.out.print("Driver license if he is a driver (null/B/C) :");
-        //     //Scanner driverLicense = new Scanner(System.in);
-
-        //     Role role = Role.HRmanager;
-        //     License driverLicense = License.Null;
-
-        //     service.addEmployee(firstName, lastName, id, password, bankNum, 
-        //     bankBranch, bankAccount, salary, bonus, localDate, driverLicense, role);
-
-    //         System.out.print("Please enter your request to the system according to the PDF file: ");
-    //         option = sc.nextLine();
-            
-    //         while(!option.equals("0")){
-    //             // // 1 enter new employee
-    //             // addEmployee();
-
-    //             // // 2 print all employees
-    //             // printAllEmployees();
-
-    //             // // 3 add shift
-    //             // addShift();
-
-    //             // // 4 add constraint for employee to shift
-    //             // addConstraint();
-
-    //             // // 5 print all constraints for some shift
-    //             // printAllConstraints();
-
-    //             // // 6 HR manager assign emlpoyee to shift
-    //             // assignEmployeeToShift();
-
-    //             // // 7 delete employee from the system
-    //             // deleteEmployee();
-
-
-    //             // System.out.print("Please enter your request to the system according to the PDF file: ");
-    //             // sc = new Scanner(System.in);
-    //         }
-    //     }
-    //     catch (Error e) {System.out.println(e.toString());}
-            
-    //     System.out.print("Thank you for your time. See you next time.");
-    // }
-
-    // public static void addEmployee() {
-    //     System.out.print("First name: ");
-    //     Scanner firstName = new Scanner(System.in);
-    //     System.out.print("Last name: ");
-    //     Scanner lastName = new Scanner(System.in);
-    //     System.out.print("Id: ");
-    //     Scanner id = new Scanner(System.in);
-    //     System.out.print("Password: ");
-    //     Scanner password = new Scanner(System.in);
-    //     System.out.print("Bank number: ");
-    //     Scanner bankNum = new Scanner(System.in);
-    //     System.out.print("Bank branch number: ");
-    //     Scanner bankBranch = new Scanner(System.in);
-    //     System.out.print("Bank account number: ");
-    //     Scanner bankAccount = new Scanner(System.in);
-    //     System.out.print("Salary: ");
-    //     Scanner salary = new Scanner(System.in);
-    //     System.out.print("Start Date: Year:");
-    //     Scanner year = new Scanner(System.in);
-    //     System.out.print("Month: ");
-    //     Scanner month = new Scanner(System.in);
-    //     System.out.print("Day: ");
-    //     Scanner day = new Scanner(System.in);
-    //     System.out.print("Driver license if he is a driver (null/B/C) :");
-    //     Scanner driverLicense = new Scanner(System.in);
-    //     System.out.print("Role (branchManager, shiftManager, chashier, storekeeper, driver, generral, cleaner, security): ");
-    //     Scanner role = new Scanner(System.in);
-
-    //     ServiceLayer.EmployeesMoudle.EmployeeService.addEmployee(firstName, lastName, id, password, bankNum, bankBranch, bankAccount, salary, year, month, day, driverLicense, role);
-    // }
-
-    // public static void printAllEmployees() {
-    //     ServiceLayer.EmployeesMoudle.EmployeeService.printAllEmployees();
-    // }
-    
-    // public static void addShift() {
-    //     ServiceLayer.EmployeesMoudle.ShiftService.addShift();
-    // }
-    
-    // public static void addConstraint() {
-    //     ServiceLayer.EmployeesMoudle.??????;
-    // }
-    
-    // public static void printAllConstraints() {
-    //     ServiceLayer.EmployeesMoudle.ShiftService.printAllConstraints();
-    // }
-    
-    // public static void assignEmployeeToShift() {
-    // }
-    // ServiceLayer.EmployeesMoudle.??????;
-    
-    // public static void deleteEmployee() {
-    //     ServiceLayer.EmployeesMoudle.EmployeeService.deleteEmployee();
-    // }
 
     }
 }

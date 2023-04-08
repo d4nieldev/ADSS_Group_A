@@ -126,6 +126,7 @@ public class Transport {
     public List<Delivery> run() {
         // Set leaving time to now and date to today
         TruckFacade truckFacade = TruckFacade.getInstance();
+        DriverFacade.getInstance().getDriverById(driverId).setAvailable(false);
         truckFacade.setTruckAvailability(truckNumber,false);
         onTheWay(deliveryList);
         Date today = new Date();
@@ -144,7 +145,7 @@ public class Transport {
                 for (Delivery delivery : deliveryList) {
                     if (delivery.getSource().equals(dest)) {
                         loadedItems.addAll(delivery.getItems());
-                        System.out.println("You are in a source location, there might be more than one delivery you collect from here, we will weight each one of them "+ ", the weight before loading was: " + currentWeight+" How much weight does the truck gained from this delivery?");
+                        System.out.println("You are in a source location, there might be more than one delivery you collect from here, we will weight each one of them.\n "+ "the weight before loading was: " + currentWeight+"\nHow much weight does the truck gained from this delivery?");
                         int newWeight = scanner.nextInt();
                         delivery.setWeight(newWeight);
                         currentWeight = currentWeight+ newWeight;

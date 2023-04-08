@@ -140,7 +140,6 @@ public class TransportFacade {
 
     private void changeDestination(Transport transport) {
         List<Destination> destinationList = transport.getDestinationList();
-        List<Delivery> deliveryList = transport.getDeliveryList();
         Scanner scanner = new Scanner(System.in);
 
 
@@ -153,7 +152,7 @@ public class TransportFacade {
 
             // Ask the user what they want to do
             System.out.println("What would you like to do?");
-            System.out.println("1. Switch a destination with another one");
+            System.out.println("1. change the order of destinations");
             System.out.println("2. Remove a destination from the list");
 
             int choice = scanner.nextInt();
@@ -161,24 +160,12 @@ public class TransportFacade {
             switch (choice) {
                 case 1:
 
+                    changingOrder(transport);
+
                     break;
                 case 2:
-                    // Ask the user which destination they want to remove
-                    System.out.println("Which destination do you want to remove? (Enter the number)");
-                    int indexToRemove = scanner.nextInt() - 1;
 
-                    // Remove the destination from the list
-                    Destination destinationToRemove = destinationList.remove(indexToRemove);
-
-                    // Remove any deliveries with the chosen destination as the source or destination
-                    List<Delivery> deliveriesToRemove = new ArrayList<>();
-                    for (Delivery delivery : deliveryList) {
-                        if (delivery.getSource().equals(destinationToRemove) || delivery.getDestination().equals(destinationToRemove)) {
-                            deliveriesToRemove.add(delivery);
-                        }
-                    }
-                    deliveryList.removeAll(deliveriesToRemove);
-                    transport.setDeliveryList(deliveryList);
+                    removingDestination(transport);
 
                     // If the user made a change to the destinations, break the loop and run the transport again
                     break;
@@ -188,12 +175,63 @@ public class TransportFacade {
             }
 
             // If the user made a change to the destinations, break the loop and run the transport again
-
-
                 break;
 
         }
     }
+
+    private void removingDestination(Transport transport)
+    {
+        List<Destination> destinationList = transport.getDestinationList();
+        List<Delivery> deliveryList = transport.getDeliveryList();
+        Scanner scanner = new Scanner(System.in);
+        // Ask the user which destination they want to remove
+        System.out.println("Which destination do you want to remove? (Enter the number)");
+        int indexToRemove = scanner.nextInt() - 1;
+
+        // Remove the destination from the list
+        Destination destinationToRemove = destinationList.remove(indexToRemove);
+
+        // Remove any deliveries with the chosen destination as the source or destination
+        List<Delivery> deliveriesToRemove = new ArrayList<>();
+        for (Delivery delivery : deliveryList) {
+            if (delivery.getSource().equals(destinationToRemove) || delivery.getDestination().equals(destinationToRemove)) {
+                deliveriesToRemove.add(delivery);
+            }
+        }
+        deliveryList.removeAll(deliveriesToRemove);
+        transport.setDeliveryList(deliveryList);
+    }
+
+    private void changingOrder(Transport transport) {
+        List<Destination> destinationList = transport.getDestinationList();
+        Scanner scanner = new Scanner(System.in);
+
+        // Print the list of destinations
+        System.out.println("Current list of Destinations:");
+        for (int i = 0; i < destinationList.size(); i++) {
+            System.out.println((i + 1) + ". " + destinationList.get(i).getAddress());
+        }
+
+        // Ask the user for the new order of destinations
+        System.out.println("Enter the new order of destinations separated by commas:");
+        String input = scanner.nextLine();
+        String[] inputArr = input.split(",");
+
+        // Create a new list of destinations in the specified order
+        List<Destination> newDestinationList = new ArrayList<>();
+        for (String str : inputArr) {
+            int index = Integer.parseInt(str.trim()) - 1;
+            newDestinationList.add(destinationList.get(index));
+        }
+
+        // Update the transport's list of destinations
+        transport.setDestinationList(newDestinationList);
+
+        System.out.println("The order of destinations has been updated.");
+    }
+
+
 
 
 
@@ -301,25 +339,65 @@ public class TransportFacade {
 
     public List<Delivery> createDeliveries(List<Destination> sources, List<Destination> dests) {
         List<Delivery> deliveries = new ArrayList<>();
-        List<String> firstList = Arrays.asList("pepsi", "diet", "zero");
-        List<String> secondList = Arrays.asList("bamba", "bisli");
-        List<String> thirdList = Arrays.asList("cheese", "milk", "butter", "milki");
 
-        Delivery delivery1 = new Delivery(1,sources.get(0),dests.get(0),Status.PENDING,firstList);
-        Delivery delivery2 = new Delivery(2,sources.get(0),dests.get(1),Status.PENDING,firstList);
-        Delivery delivery3 = new Delivery(3,sources.get(1),dests.get(0),Status.PENDING,secondList);
-        Delivery delivery4 = new Delivery(4,sources.get(1),dests.get(1),Status.PENDING,secondList);
-        Delivery delivery5 = new Delivery(5,sources.get(2),dests.get(0),Status.PENDING,thirdList);
-        Delivery delivery6 = new Delivery(6,sources.get(2),dests.get(1),Status.PENDING,thirdList);
-        deliveries.add(delivery1);
-        deliveries.add(delivery2);
-        deliveries.add(delivery3);
-        deliveries.add(delivery4);
-        deliveries.add(delivery5);
-        deliveries.add(delivery6);
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Enter '1' to enter deliveries manually, or '2' to use default values:");
+        int choice = scanner.nextInt();
+
+        if (choice == 2) {
+            List<String> firstList = Arrays.asList("pepsi", "diet", "zero");
+            List<String> secondList = Arrays.asList("bamba", "bisli");
+            List<String> thirdList = Arrays.asList("cheese", "milk", "butter", "milki");
+
+            Delivery delivery1 = new Delivery(1, sources.get(0), dests.get(0), Status.PENDING, firstList);
+            Delivery delivery2 = new Delivery(2, sources.get(0), dests.get(1), Status.PENDING, firstList);
+            Delivery delivery3 = new Delivery(3, sources.get(1), dests.get(0), Status.PENDING, secondList);
+            Delivery delivery4 = new Delivery(4, sources.get(1), dests.get(1), Status.PENDING, secondList);
+            Delivery delivery5 = new Delivery(5, sources.get(2), dests.get(0), Status.PENDING, thirdList);
+            Delivery delivery6 = new Delivery(6, sources.get(2), dests.get(1), Status.PENDING, thirdList);
+
+            deliveries.add(delivery1);
+            deliveries.add(delivery2);
+            deliveries.add(delivery3);
+            deliveries.add(delivery4);
+            deliveries.add(delivery5);
+            deliveries.add(delivery6);
+
+        } else if (choice == 1) {
+            System.out.println("Enter the number of deliveries you want to create:");
+            int numDeliveries = scanner.nextInt();
+
+            for (int i = 0; i < numDeliveries; i++) {
+                System.out.println("Delivery " + (i + 1) + ":");
+                System.out.println("Choose a source (enter the number):");
+
+                for (int j = 0; j < sources.size(); j++) {
+                    System.out.println((j + 1) + ": " + sources.get(j).getAddress());
+                }
+                int sourceIndex = scanner.nextInt() - 1;
+                Destination source = sources.get(sourceIndex);
+
+                System.out.println("Choose a destination (enter the number):");
+                for (int j = 0; j < dests.size(); j++) {
+                    System.out.println((j + 1) + ": " + dests.get(j).getAddress());
+                }
+                int destIndex = scanner.nextInt() - 1;
+                Destination dest = dests.get(destIndex);
+
+                System.out.println("Enter the items to deliver (separated by commas):");
+                String itemsInput = scanner.next();
+                List<String> items = Arrays.asList(itemsInput.split(","));
+
+                Delivery delivery = new Delivery(i + 1, source, dest, Status.PENDING, items);
+                deliveries.add(delivery);
+            }
+        } else {
+            System.out.println("Invalid choice.");
+        }
+
         return deliveries;
-
     }
+
 
     public Destination addDestination(String address, String phoneNumber, String contactName, Location location,DestinationType destinationType){
         return new Destination(address, phoneNumber, contactName, location, destinationType);

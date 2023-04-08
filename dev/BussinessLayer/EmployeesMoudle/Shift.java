@@ -20,7 +20,7 @@ public class Shift{
     private HashMap<Employee, String> finalShift;
     private HashMap<Integer, LinkedList<Integer>> cancellations;
 
-    public Shift(int idShift, int superBranchNumer, LocalDate date, int startHour, int endHour, ShiftTime time){
+    public Shift(int idShift, int superBranchNumer, LocalDate date, int startHour, int endHour, ShiftTime time, HashMap<String, Integer> numEmployeesForRole){
         this.idShift = idShift;
         this.superBranchNumer = superBranchNumer;
         this.date = date;
@@ -30,7 +30,7 @@ public class Shift{
         this.duration = endHour - startHour;
         finishSettingShift = false;
         this.constraints = new HashMap<Employee, LinkedList<String>>();
-        this.numEmployeesForRole = new HashMap<String, Integer>();
+        this.numEmployeesForRole = numEmployeesForRole;
         this.helpMapForAssign = new HashMap<String, Integer>();
         this.finalShift = new HashMap<Employee, String>();
         cancellations = new HashMap<Integer, LinkedList<Integer>>();

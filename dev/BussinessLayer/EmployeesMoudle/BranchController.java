@@ -58,10 +58,10 @@ public class BranchController {
         employeeController.deleteEmployee(id);
     }
 
-    public void addShift(int managerId, int branchId, LocalDate date, int startHour, int endHour, ShiftTime time){
+    public void addShift(int managerId, int branchId, LocalDate date, int startHour, int endHour, ShiftTime time, HashMap<String, Integer> numEmployeesForRole){
         employeeController.checkHrManager(managerId);  // only HR manager
         int shiftID = shiftController.getShiftIdConuter();
-        Shift newShift = new Shift(shiftID, branchId, date, startHour, endHour, time);
+        Shift newShift = new Shift(shiftID, branchId, date, startHour, endHour, time, numEmployeesForRole);
         shiftController.addShift(newShift);
         Branch branch = getBranchById(branchId);
         branch.addShift(newShift);

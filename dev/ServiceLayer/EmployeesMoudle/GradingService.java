@@ -126,8 +126,8 @@ public class GradingService {
         branchS.deleteEmployee(managerId, id);
     }
     
-    public void addShift(int managerId, int branch, LocalDate date, int startHour, int endHour, ShiftTime time){
-        branchS.addShift(managerId, branch, date, startHour, endHour, time);
+    public void addShift(int managerId, int branch, LocalDate date, int startHour, int endHour, ShiftTime time, HashMap<String, Integer> numEmployeesForRole){
+        branchS.addShift(managerId, branch, date, startHour, endHour, time, numEmployeesForRole);
     }
     
     public void addConstraint(int branch, int idEmployee, int shift){

@@ -5,9 +5,9 @@ import BussinessLayer.*;
 import java.util.List;
 
 public class TransportService {
-    public TransportFacade transportFacade = TransportFacade.getInstance();
-    public DriverFacade driverFacade  = DriverFacade.getInstance();
-    public TruckFacade truckFacade = TruckFacade.getInstance();
+    private TransportFacade transportFacade = TransportFacade.getInstance();
+    private DriverFacade driverFacade  = DriverFacade.getInstance();
+    private TruckFacade truckFacade = TruckFacade.getInstance();
 
 
     /*

@@ -4,7 +4,7 @@ import BussinessLayer.DriverFacade;
 
 public class DriverService {
 
-    public DriverFacade driverFacade = DriverFacade.getInstance();
+    private DriverFacade driverFacade = DriverFacade.getInstance();
 
     public String addDriver(int id, String name, String licence){
         driverFacade.newDriver(id, name , licence);

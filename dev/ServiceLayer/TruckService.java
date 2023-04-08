@@ -4,7 +4,7 @@ import BussinessLayer.TruckFacade;
 
 public class TruckService {
 
-    public TruckFacade truckFacade = TruckFacade.getInstance();
+    private TruckFacade truckFacade = TruckFacade.getInstance();
 
     public String addTruck(String plateNumber, String model, int weightNeto, int weightMax){
         truckFacade.newTrack(plateNumber, model, weightNeto, weightMax);

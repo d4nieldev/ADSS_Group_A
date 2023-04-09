@@ -22,8 +22,6 @@ public class TransportFacade {
     }
 
 
-
-    //this function create transport
     public void createTransport(String date, String leavingTime, String truckNumber, String driverName, int driverId, String source,
                                 List<Destination> destinationList,List<Delivery> deliveryList,int truckWeightNeto,int truckWeightMax)
     {
@@ -34,6 +32,9 @@ public class TransportFacade {
         id++;
     }
 
+    /**
+     * add transport to facade
+     */
     public void addTransport(int id, Transport transport) {
         transportMap.put(id, transport);
     }
@@ -42,15 +43,16 @@ public class TransportFacade {
         return transportMap.get(id);
     }
 
+    /**
+     * remove transport from facade
+     */
     public void removeTransport(Integer id) {
         transportMap.remove(id);
     }
 
-    public Map<Integer, Transport> getAllTransport() {
-        return transportMap;
-    }
-
-
+    /**
+     * remove the process of create transport by user
+     */
     public void runTheTransports()
     {
         for (Transport transport : transportMap.values())
@@ -104,6 +106,9 @@ public class TransportFacade {
         }
     }
 
+    /**
+     * remove item from transport
+     */
     private void dropItems(Transport transport) {
         List<String> loadedItems = transport.getLoadedItems();
         Scanner scanner = new Scanner(System.in);
@@ -137,7 +142,9 @@ public class TransportFacade {
     }
 
 
-
+    /**
+     * change the list of destination
+     */
     private void changeDestination(Transport transport) {
         List<Destination> destinationList = transport.getDestinationList();
         Scanner scanner = new Scanner(System.in);
@@ -180,6 +187,9 @@ public class TransportFacade {
         }
     }
 
+    /**
+     * remove destination from transport
+     */
     private void removingDestination(Transport transport)
     {
         List<Destination> destinationList = transport.getDestinationList();
@@ -203,6 +213,9 @@ public class TransportFacade {
         transport.setDeliveryList(deliveryList);
     }
 
+    /**
+     * update the order od delivery
+     */
     private void changingOrder(Transport transport) {
         List<Destination> destinationList = transport.getDestinationList();
         Scanner scanner = new Scanner(System.in);
@@ -232,9 +245,10 @@ public class TransportFacade {
     }
 
 
-
-
-
+    /**
+     * return list of destination that user want transport for them
+     * @return
+     */
     public List<Destination> letTheUserChooseTheOrder(List<Delivery> matchedDeliveries) {
         // Create a list of all destinations without duplicates
         List<Destination> allDestinations = new ArrayList<>();
@@ -283,6 +297,9 @@ public class TransportFacade {
     }
 
 
+    /**
+     * change truck that match to transport
+     */
     private void changeTruck(Transport transport) {
         Scanner scanner = new Scanner(System.in);
 
@@ -335,8 +352,10 @@ public class TransportFacade {
 
     }
 
-
-
+    /**
+     * return list of delivery
+     * @return
+     */
     public List<Delivery> createDeliveries(List<Destination> sources, List<Destination> dests) {
         List<Delivery> deliveries = new ArrayList<>();
 
@@ -398,12 +417,18 @@ public class TransportFacade {
         return deliveries;
     }
 
-
+    /**
+     * return new destination
+     * @return
+     */
     public Destination addDestination(String address, String phoneNumber, String contactName, Location location,DestinationType destinationType){
         return new Destination(address, phoneNumber, contactName, location, destinationType);
     }
 
 
+    /**
+     * make match of all choise of user
+     */
     public void letTheUserMatch(List<Delivery> deliveries, List<Driver> availableDrivers, List<Truck> availableTrucks)
     {
 

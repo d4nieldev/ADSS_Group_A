@@ -123,6 +123,13 @@ public class Transport {
         this.destinationList = destinationList;
     }
 
+
+
+    /**
+     * return list of delivery that not complete
+     *
+     * @return
+     */
     public List<Delivery> run() {
         // Set leaving time to now and date to today
         TruckFacade truckFacade = TruckFacade.getInstance();
@@ -175,12 +182,20 @@ public class Transport {
         return incompleteDeliveries;
     }
 
+    /**
+     * update the status of delivery in specific transport to "on the way"
+     */
     private void onTheWay(List<Delivery> deliveryList) {
         for (Delivery delivery : deliveryList) {
             delivery.setStatus(Status.ON_THE_WAY);
         }
     }
 
+    /**
+     * return list of delivery that not complete
+     *
+     * @return
+     */
     private List<Delivery> thinkAgain(String reason, String destination, String driver, int weightBefore, int weightAfter, int maxWeight) {
         System.out.println("Transport didn't complete due to " + reason);
         System.out.println("In destination " + destination + ", driver " + driver + ", you added " + (weightAfter - weightBefore) + " kg to the truck weight.");

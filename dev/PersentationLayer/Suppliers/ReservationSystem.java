@@ -21,6 +21,9 @@ public class ReservationSystem {
         manual += "    for closing the reservation menu enter \"done\"\n";
         manual += "    for aborting the reservation enter \"abort\"\n";
         manual += "    after completing the reservation. You will get a response with the reservation id if was successful\n";
+        manual += "cancelreservation [reservation_id] = cancel the reservation\n";
+        manual += "readyreservation [reservation_id] = make the reservation ready\n";
+        manual += "closereservation [reservation_id] = close the reservation\n";
         manual += "receipt [reservation_id] = show all items, amounts, and prices for this reservation\n";
         manual += "reservations [supplier_id] = show all reservations history with the supplier\n";
         manual += "ready = for each supplier, show the destinations of the reservations that are ready\n";
@@ -112,6 +115,46 @@ public class ReservationSystem {
 
         if (line.equals("done"))
             System.out.println(rs.makeManualReservation(supplierToproductToAmount, destinationBranch));
+    }
+
+    public static void cancelreservation(String[] commandTokens) {
+        if (commandTokens.length != 2) {
+            System.out.println("cancelreservation command requires 2 arguments");
+            return;
+        }
+
+        int reservationId = tryParseInt(commandTokens[1], Integer.MIN_VALUE);
+        if (reservationId == Integer.MIN_VALUE) {
+            System.out.println("reservation id must be an integer. Please try again.\n");
+            return;
+        }
+        rs.cancelReservation(reservationId);
+    }
+
+    public static void readyreservation(String[] commandTokens) {
+        if (commandTokens.length != 2) {
+            System.out.println("readyreservation command requires 2 arguments");
+            return;
+        }
+        int reservationId = tryParseInt(commandTokens[1], Integer.MIN_VALUE);
+        if (reservationId == Integer.MIN_VALUE) {
+            System.out.println("reservation id must be an integer. Please try again.\n");
+            return;
+        }
+        rs.makeReservationReady(reservationId);
+    }
+
+    public static void closereservation(String[] commandTokens) {
+        if (commandTokens.length != 2) {
+            System.out.println("closereservation command requires 2 arguments");
+            return;
+        }
+        int reservationId = tryParseInt(commandTokens[1], Integer.MIN_VALUE);
+        if (reservationId == Integer.MIN_VALUE) {
+            System.out.println("reservation id must be an integer. Please try again.\n");
+            return;
+        }
+        rs.closeReservation(reservationId);
     }
 
     public static void receipt(String[] commandTokens) {

@@ -10,7 +10,6 @@ public class Global {
     Productid++;
     return Productid - 1;
   }
-
   public static int getNewCategoryid() {
     Categoryid++;
     return Categoryid - 1;

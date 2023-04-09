@@ -318,73 +318,6 @@ public class ProductController {
     }
 
 
-//        /**
-//         * return the general product of a supply by code - null if not such a product
-//         * @param code
-//         * @return
-//         */
-//        private GeneralProduct getGeneralProductByCod(int code) {
-//                GeneralProduct gp = null;
-//                for (Supply supply : allSupply) {
-//                        if (supply.getCode() == code)
-//                        {
-//                                gp = supply.getGeneralProduct();
-//                                break;
-//                        }
-//                }
-//                if(gp == null)
-//                {
-//                        System.out.println("not such product - please check the code again");
-//                }
-//               return gp;
-//        }
-
-    /**
-     * return supply product by code -null if not such product
-     * @param code
-     * @return
-     */
-//        private Supply findSupplyByCode(int code)
-//        {
-//                Supply supply = null;
-//                for(Supply sp : allSupply) {
-//                        if (sp.getCode() == code){
-//                                supply = sp;
-//                                break;
-//                        }
-//                }
-//                if(supply == null)
-//                {
-//                        System.out.println("not such product - please check the code");
-//                }
-//                return supply;
-//        }
-
-    /**
-     * set a discount on specific category and all its subCategories- will receive the sub categories from the service layer
-     *
-     * @param categories
-     * @param startDate
-     * @param endDate
-     * @param discountPercentage
-     */
-//        public void setDiscountOnCategory(List<Category> categories, LocalDate startDate,LocalDate endDate, double discountPercentage)
-//        {
-//                List<Category> allSubCategories = categoryController.getListAllSubCategories(categories);
-//                Discount discount = new Discount(startDate,endDate,discountPercentage);
-//                for(GeneralProduct gp : allGeneralProducts)
-//                {
-//                        if (allSubCategories.contains(gp.getCategory()))
-//                        {
-//                                if(startDate.isBefore(LocalDate.now().plusDays(1))) {
-//                                        gp.setOnDiscount(true);
-//                                }
-//                                if(gp.getDiscount() != null && gp.getDiscount().getDiscount_percentage() < discount.getDiscount_percentage())
-//                                   gp.setDiscount(discount);
-//                                addProductDiscount(gp,discount);
-//                        }
-//                }
-//        }
     public void setDiscountOnCategory(List<Category> categories, LocalDate startDate, LocalDate endDate, double discountPercentage) {
         // Get a list of all sub-categories from the provided list of categories
         List<Category> allSubCategories = categoryController.getListAllSubCategories(categories);
@@ -451,16 +384,6 @@ public class ProductController {
         }
     }
 
-    /**
-     * receive supply -
-     * @param code
-     * @param name
-     * @param price
-     * @param amount
-     * @param expiredDate
-     * @param manufacturer
-     */
-//
 
     /**
      * if the general produce was already exist receive it
@@ -497,61 +420,6 @@ public class ProductController {
         }
 
         return result;
-    }
-
-    /**
-     * if product is a new product create it and receive the supply
-     *
-     * @param code
-     * @param name
-     * @param price
-     * @param amount
-     * @param expiredDate
-     * @param manufacturer
-     */
-    public void receiveNewSupply2(int code, String name, double price, int amount, LocalDate expiredDate, String manufacturer) {
-        Scanner scanner = new Scanner(System.in);
-        int id = -1;
-        // Prompt the user to enter their name
-        System.out.print("We notice a new General Product: name: " + name + " code " + code);
-        System.out.println("is the product's category exist? enter y/n");
-        String answer = scanner.nextLine();
-        if (answer.toLowerCase() == "y") {
-            System.out.println("please enter product lowest category id");
-            // Read the user's input as a string
-            id = scanner.nextInt();
-            scanner.skip("\n");
-        }
-        System.out.println("please enter minimum quantity for product : " + name);
-        int minQuantity = scanner.nextInt();
-        scanner.skip("\n");
-
-        boolean check = categoryController.ExistCategory(id);
-        //if Category already exist
-        if (check) {
-            Category category = categoryController.getCategoryById(id);
-            //CREATE NEW SUPPLY OBJECT!!!!!!!!
-            GeneralProduct gp = new GeneralProduct(name, code, price, manufacturer, minQuantity, category, amount);
-            allGeneralProducts.add(gp);
-            receiveExistSupply(code, price, amount, expiredDate);
-        }
-        //it's a new category
-        else {
-            System.out.println("this category is a new category, please enter category name: ");
-            String categoryName = scanner.nextLine();
-            System.out.println("if category is sub category enter its parent category, otherwise -1");
-            int parentCategory = scanner.nextInt();
-            scanner.skip("\n");
-            Category parent = categoryController.getCategoryById(id);
-            Category category = new Category(categoryName, parent);
-            categoryController.addNewCategory(category);
-
-
-            //CREATE NEW SUPPLY OBJECT!!!!!!!!
-            GeneralProduct gp = new GeneralProduct(name, code, price, manufacturer, minQuantity, category);
-            allGeneralProducts.add(gp);
-            receiveExistSupply(code, price, amount, expiredDate);
-        }
     }
 
     /**

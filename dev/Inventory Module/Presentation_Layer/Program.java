@@ -61,9 +61,14 @@ public class Program {
         case 14:
           ReportSystem.importShortageReport(reportService);
           break;
+        case 15:
+          ReportSystem.importFutureExpiredProductds(reportService);
+          break;
         case 0:
           ProductsSystem.getMenu();
           break;
+        case -1:
+          System.exit(-1);
         default:
           System.out.println("Invalid input");
           break;

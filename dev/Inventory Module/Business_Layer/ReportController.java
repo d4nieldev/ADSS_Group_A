@@ -80,12 +80,12 @@ public void importFlawReport() {
         System.out.println("===============================================");
 
 
-        System.out.format("%-10s%-10s%-10s%-10s%-10s%-10s%-10s%-10s%n", "NO.", "name", "code", "manufacturer" ,"category","All ids");
+        System.out.format("%-10s%-10s%-10s%-20s%-20s%-20s%n", "NO.", "name", "code", "manufacturer" ,"category","All ids");
         List<Supply> futureExpired = productController.getAllFutureExpiredProducts(dateToBeExpired);
         int index = 0;
         for(Supply sp : futureExpired){
             GeneralProduct gp = sp.getGeneralProduct();
-            System.out.format("%-10s%-10d%-10b%-10f%-10s%-10f%-10d%-10d%n", index++, gp.getName(), gp.getCode(),gp.getManufacturer(),gp.getCategory().getName(),sp.getIds());
+            System.out.format("%-10d%-10s%-10d%-20s%-20s%-20s%n", index++, gp.getName(), gp.getCode(),gp.getManufacturer(),gp.getCategory().getName(),sp.getIds().toString());
 
         }
         System.out.println("====================================================");

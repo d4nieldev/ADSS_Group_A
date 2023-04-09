@@ -195,6 +195,8 @@ public class ProductsSystem {
         System.out.println("12. Import inventory report by categories");
         System.out.println("13. Import buy-sell");
         System.out.println("14. Import shortage report");
+        System.out.println("15. Import future expired products");
+        System.out.println("-1. close the program");
     }
 
     public static void getStart(){
@@ -217,6 +219,8 @@ public class ProductsSystem {
             System.out.println("12. Import inventory report by categories");
             System.out.println("13. Import buy-sell");
             System.out.println("14. Import shortage report");
+            System.out.println("15. Import future expired products");
+            System.out.println("-1. close the program");
             System.out.println("--------------------------------------------------------");
 
     }

@@ -2,6 +2,8 @@ package Service_Layer;
 
 import Business_Layer.ProductController;
 import Business_Layer.ReportController;
+
+import java.time.LocalDate;
 import java.util.List;
 
 public class ReportService {
@@ -71,5 +73,8 @@ public class ReportService {
 
   public void importProductSellPriceReport(int code) {
     reportController.importProductSellPriceReport(code);
+  }
+  public void importFutureExpiredProduct(LocalDate expiredDate){
+    reportController.importFutureExpiredProducts(expiredDate);
   }
 }

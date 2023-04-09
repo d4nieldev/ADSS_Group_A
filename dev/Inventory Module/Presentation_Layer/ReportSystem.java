@@ -2,6 +2,7 @@ package Presentation_Layer;
 
 import Service_Layer.ReportService;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -90,5 +91,14 @@ public class ReportSystem {
     }
 
 
-
+    public static void importFutureExpiredProductds(ReportService reportService) {
+        try{
+            System.out.println("please enter the last date you want to check in format - YYYY-MM-DD ");
+            String date = scanner.nextLine();
+            reportService.importFutureExpiredProduct(LocalDate.parse(date));
+        }
+        catch (Exception e){
+            System.out.println("Error occurred - please try again ");
+        }
+    }
 }

@@ -48,6 +48,8 @@ public class Program {
                 case "getCard":
                     SupplierSystem.getSupplierCard(commandTokens);
                     break;
+                case "exit":
+                    return;
                 default:
                     System.out.println("Unknown command");
                     break;
@@ -58,6 +60,7 @@ public class Program {
     private static void help() {
         ReservationSystem.help();
         SupplierSystem.help();
+        System.out.println("exit = exit the program");
     }
 
 }

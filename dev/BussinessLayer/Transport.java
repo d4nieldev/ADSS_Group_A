@@ -228,7 +228,9 @@ public class Transport {
 
 
 
-
+    /**
+     * print document of transport with the list of items (client ask this to driver)
+     */
     public void printTransportDetails() {
         System.out.println("Transport Details:");
         System.out.println("ID: " + id);

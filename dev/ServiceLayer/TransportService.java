@@ -81,8 +81,21 @@ public class TransportService {
         transportFacade.letTheUserMatch(deliveries, driverFacade.getAvailableDrivers(), truckFacade.getAvailableTrucks());
     }
 
+
     public void runTheTransports(){
         transportFacade.runTheTransports();
+    }
+
+    /**
+     * Print document Transport or return that the transport not exist if  the id don't match to any transport
+     *
+     * @return
+     */
+    public String printDocumentTransport(Integer id){
+        if(!transportFacade.hasTranspot(id))
+            return "this transport not exist";
+        transportFacade.getTransport(id).printTransportDetails();
+        return " ";
     }
 
 

@@ -39,6 +39,13 @@ public class TransportFacade {
         transportMap.put(id, transport);
     }
 
+    /**
+     * return true if truck exist in facade
+     *
+     * @return
+     */
+    public  Boolean hasTranspot(Integer id){return transportMap.containsKey(id);}
+
     public Transport getTransport(Integer ide) {
         return transportMap.get(id);
     }

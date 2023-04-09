@@ -199,4 +199,71 @@ public class ReservationControllerTest {
             fail(e.getMessage());
         }
     }
+
+    /*************************** MANUAL **********************************/
+    @Test
+    public void makeManualReservationInsufficientAmountTest() {
+        Map<Integer, Map<Integer, Integer>> supplierToProductToAmount = new HashMap<>();
+        Map<Integer, Integer> supplier0productToAmount = new HashMap<>();
+        supplier0productToAmount.put(0, 150);
+        supplierToProductToAmount.put(0, supplier0productToAmount);
+
+        // check that the reservation is not possible
+        assertThrows(SuppliersException.class, () -> rc.makeManualReservation(supplierToProductToAmount, "Ness Ziona"));
+
+        // check that no reservation is made
+        assertThrows(SuppliersException.class, () -> rc.getReservationReceipt(0));
+    }
+
+    @Test
+    public void makeManualReservationNoSuchProductTest() {
+        Map<Integer, Map<Integer, Integer>> supplierToProductToAmount = new HashMap<>();
+        Map<Integer, Integer> supplier0productToAmount = new HashMap<>();
+        supplier0productToAmount.put(7, 1);
+        supplierToProductToAmount.put(0, supplier0productToAmount);
+
+        // check that the reservation is not possible
+        assertThrows(SuppliersException.class, () -> rc.makeManualReservation(supplierToProductToAmount, "Ashkelon"));
+
+        // check that no reservation is made
+        assertThrows(SuppliersException.class, () -> rc.getReservationReceipt(0));
+    }
+
+    @Test
+    public void makeManualReservationNoSplitTest() {
+        Map<Integer, Map<Integer, Integer>> supplierToProductToAmount = new HashMap<>();
+        Map<Integer, Integer> supplier1productToAmount = new HashMap<>();
+        supplier1productToAmount.put(0, 150);
+        supplier1productToAmount.put(1, 20);
+        supplierToProductToAmount.put(1, supplier1productToAmount);
+
+        try {
+            rc.makeManualReservation(supplierToProductToAmount, "Haifa");
+            assertEquals(0, rc.getSupplierReservations(0).size());
+            assertEquals(1, rc.getSupplierReservations(1).size());
+        } catch (SuppliersException e) {
+            fail(e.getMessage());
+        }
+
+    }
+
+    @Test
+    public void makeManualReservationSplitTest() {
+        Map<Integer, Map<Integer, Integer>> supplierToProductToAmount = new HashMap<>();
+        Map<Integer, Integer> supplier0productToAmount = new HashMap<>();
+        supplier0productToAmount.put(0, 70);
+        supplierToProductToAmount.put(0, supplier0productToAmount);
+        Map<Integer, Integer> supplier1productToAmount = new HashMap<>();
+        supplier1productToAmount.put(0, 150);
+        supplier1productToAmount.put(1, 20);
+        supplierToProductToAmount.put(1, supplier1productToAmount);
+
+        try {
+            rc.makeManualReservation(supplierToProductToAmount, "Tel Aviv");
+            assertEquals(1, rc.getSupplierReservations(0).size());
+            assertEquals(1, rc.getSupplierReservations(1).size());
+        } catch (SuppliersException e) {
+            fail(e.getMessage());
+        }
+    }
 }

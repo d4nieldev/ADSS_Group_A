@@ -49,7 +49,7 @@ public class ReservationController {
             Reservation r = new Reservation(reservationId, supplierId, new ArrayList<>(), contact, destinationBranch);
 
             for (int productId : productToAmount.keySet()) {
-                int amount = productToAmount.get(supplierId);
+                int amount = productToAmount.get(productId);
                 ProductAgreement agreement = pc.getAgreement(productId, supplierId);
                 if (agreement.getStockAmount() < amount)
                     throw new SuppliersException(

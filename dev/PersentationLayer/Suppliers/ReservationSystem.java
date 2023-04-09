@@ -128,7 +128,7 @@ public class ReservationSystem {
             System.out.println("reservation id must be an integer. Please try again.\n");
             return;
         }
-        rs.cancelReservation(reservationId);
+        System.out.println(rs.cancelReservation(reservationId));
     }
 
     public static void readyreservation(String[] commandTokens) {
@@ -141,7 +141,7 @@ public class ReservationSystem {
             System.out.println("reservation id must be an integer. Please try again.\n");
             return;
         }
-        rs.makeReservationReady(reservationId);
+        System.out.println(rs.makeReservationReady(reservationId));
     }
 
     public static void closereservation(String[] commandTokens) {
@@ -154,7 +154,7 @@ public class ReservationSystem {
             System.out.println("reservation id must be an integer. Please try again.\n");
             return;
         }
-        rs.closeReservation(reservationId);
+        System.out.println(rs.closeReservation(reservationId));
     }
 
     public static void receipt(String[] commandTokens) {

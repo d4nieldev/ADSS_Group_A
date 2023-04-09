@@ -6,7 +6,6 @@ public class CategoryController {
 
   private static List<Category> allCategories;
   private static Hashtable<Integer, Category> categoryDic;
-
   private static CategoryController instance = null;
 
   private CategoryController() {

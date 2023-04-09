@@ -1,8 +1,4 @@
 package Business_Layer;
-
-
-//import org.junit.jupiter.params.aggregator.ArgumentAccessException;
-
 import java.util.*;
 import java.time.LocalDate;
 
@@ -14,7 +10,7 @@ public class ProductController {
     private HashMap<GeneralProduct, Integer> allFlawProducts; // map with a product and the amount
     private List<Supply> allSupply; // store all the supply that we received
     private List<Supply> allRelevantSupply; // store all the supply that relevant
-    CategoryController categoryController; // controller for categories
+    private CategoryController categoryController; // controller for categories
     private HashMap<GeneralProduct, List<Discount>> productDiscountHistory; // map of product and its discount history
 
 

@@ -235,11 +235,10 @@ public class SupplierService {
      * @param stockAmount
      * @param basePrice
      * @param amountToDiscount
-     * @param manufacturer
      * @return success/error message
      */
     public String addSupplierProductAgreement(int supplierId, int productShopId, int productSupplierId, int stockAmount,
-            double basePrice, TreeMap<Integer, Double> amountToDiscount, String manufacturer) {
+            double basePrice, TreeMap<Integer, Double> amountToDiscount) {
         try {
             supplierController.addSupplierProductAgreement(supplierId, productShopId, productSupplierId, stockAmount,
                     basePrice, amountToDiscount);

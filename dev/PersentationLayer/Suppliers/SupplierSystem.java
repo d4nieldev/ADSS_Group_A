@@ -9,43 +9,10 @@ import ServiceLayer.Suppliers.SupplierService;
 
 public class SupplierSystem {
     private static SupplierService ss = new SupplierService();
-    private static Scanner scanner = new Scanner(System.in);
-
-    public static void main(String[] args) {
-        System.out.println("Enter command (help for a guide): ");
-        String[] commandTokens = scanner.nextLine().split(" ");
-        switch (commandTokens[0]) {
-            case "help":
-                help();
-                break;
-            case "addSupplier":
-                addSupplier();
-                break;
-            case "addAgreement":
-                addAgreement(commandTokens);
-                break;
-            case "deleteSupplier":
-                deleteSupplier(commandTokens);
-                break;
-            case "editSupplier":
-                editSupplier(commandTokens);
-                break;
-            case "getCard":
-                getSupplierCard(commandTokens);
-                break;
-            default:
-                System.out.println("Unknown command");
-                break;
-        }
-        System.out.println("press any key to exit");
-        scanner.nextLine();
-    }
 
     public static void help() {
         String manual = "";
         manual += "===========================================================================================\n";
-        manual += "This is the manual for how to use the suppliers system:\n";
-        manual += "help = show the manual\n";
         manual += "addSupplier = Adds a new supplier to the system. Enter the information that the system will ask you to about the supplier you want to add.\n";
         manual += "deleteSupplier [supplier_id] = Deletes an existing supplier from the system.\n";
         manual += "editSupplier [supplier_id] = After typing this command, you can edit the supplier information with the following commands: \n";
@@ -70,7 +37,7 @@ public class SupplierSystem {
     /**
      * Adds a new supplier to the system
      */
-    public static void addSupplier() {
+    public static void addSupplier(Scanner scanner) {
         System.out.println("Enter the following information about the supplier you want to add:");
         System.out.print("Enter supplier name: ");
         String name = scanner.nextLine();
@@ -85,10 +52,10 @@ public class SupplierSystem {
         String paymentCondition = scanner.nextLine();
 
         // add fields
-        List<String> fields = makeFieldsList();
+        List<String> fields = makeFieldsList(scanner);
 
         // add amount-discount map
-        TreeMap<Integer, Double> amountTodiscount = makeAmountDiscountPercentageMap();
+        TreeMap<Integer, Double> amountTodiscount = makeAmountDiscountPercentageMap(scanner);
 
         // add contacts list
         System.out.println("Enter contacts [phone] [name] pairs (enter 'done' to finish): ");
@@ -110,7 +77,7 @@ public class SupplierSystem {
         while (!enteredSupplierType) {
             System.out.println("Please choose the supplier type:");
             System.out.println("1 - FixedDaysSupplier, 2 - On Order Supplier,  3 - Self Pickup Supplier");
-            int type = scanner.nextInt();
+            int type = Integer.parseInt(scanner.nextLine());
 
             String msg;
             switch (type) {
@@ -120,26 +87,22 @@ public class SupplierSystem {
                             "1 - Sunday, 2 - Monday, 3 - Tuesday, 4 - Wednesday, 5 - Thursday, 6 - Friday, 7 - Saturday");
                     List<Integer> days = new ArrayList<Integer>();
 
-                    Integer day = 0;
-                    do {
+                    Integer day;
+                    while (true) {
                         System.out.print("Enter day: ");
-                        day = scanner.nextInt();
-                    } while (day < 1 || day > 7);
-                    days.add(day);
+                        day = Integer.parseInt(scanner.nextLine());
+                        if (day < 1 || day > 7)
+                            break;
 
-                    while ((1 <= day && day <= 7) && days.size() < 7) {
                         if (!days.contains(day)) {
                             days.add(day);
                             if (days.size() == 7) {
                                 System.out.println("All days were inserted");
-                                continue;
+                                break;
                             }
                         } else {
                             System.out.println("Day already exists");
-                            continue;
                         }
-                        System.out.print("Enter day: ");
-                        day = scanner.nextInt();
                     }
                     msg = ss.addFixedDaysSupplierBaseAgreement(name, phone, bankAccount, fields, paymentCondition,
                             amountTodiscount, names, phones, days);
@@ -149,7 +112,7 @@ public class SupplierSystem {
                 }
                 case 2: {
                     System.out.print("Enter maximum supply days: ");
-                    int maxDays = scanner.nextInt();
+                    int maxDays = Integer.parseInt(scanner.nextLine());
                     msg = ss.addOnOrderSupplierBaseAgreement(name, phone, bankAccount, fields, paymentCondition,
                             amountTodiscount, names, phones, maxDays);
                     System.out.println(msg);
@@ -179,17 +142,18 @@ public class SupplierSystem {
      * 
      * @return
      */
-    private static List<String> makeFieldsList() {
+    private static List<String> makeFieldsList(Scanner scanner) {
         System.out.println("Enter supplier fields (enter 'done' to finish): ");
+        System.out.print("Enter field: ");
         String field = scanner.nextLine();
 
         List<String> fields = new ArrayList<String>();
         while (!field.equals("done")) {
             if (fields.contains(field)) {
                 System.out.println("Field already exists");
-                continue;
+            } else {
+                fields.add(field);
             }
-            fields.add(field);
             System.out.print("Enter field: ");
             field = scanner.nextLine();
         }
@@ -221,7 +185,7 @@ public class SupplierSystem {
      * 
      * @param commandTokens
      */
-    public static void editSupplier(String[] commandTokens) {
+    public static void editSupplier(String[] commandTokens, Scanner scanner) {
         System.out.println("Please enter the edit command:");
         String command = scanner.nextLine();
         String[] editCommandTokens = command.split(" ");
@@ -238,13 +202,13 @@ public class SupplierSystem {
                 msg = ss.setSupplierBankAccount(supId, editCommandTokens[1]);
                 break;
             case "updateFields":
-                msg = ss.setSupplierFields(supId, makeFieldsList());
+                msg = ss.setSupplierFields(supId, makeFieldsList(scanner));
                 break;
             case "updatePaymentCondition":
                 msg = ss.setSupplierPaymentCondition(supId, editCommandTokens[1]);
                 break;
             case "updateAmountDiscount":
-                msg = ss.setSupplierAmountToDiscount(supId, makeAmountDiscountPercentageMap());
+                msg = ss.setSupplierAmountToDiscount(supId, makeAmountDiscountPercentageMap(scanner));
                 break;
             case "deleteContact":
                 msg = ss.deleteSupplierContact(supId, editCommandTokens[1], editCommandTokens[2]);
@@ -268,28 +232,25 @@ public class SupplierSystem {
      * 
      * @param commandTokens
      */
-    public static void addAgreement(String[] commandTokens) {
+    public static void addAgreement(String[] commandTokens, Scanner scanner) {
         System.out.println("New agreement:");
-        Integer productId = Integer.parseInt(commandTokens[2]);
-        Integer supplierId = Integer.parseInt(commandTokens[3]);
+        Integer productId = Integer.parseInt(commandTokens[1]);
+        Integer supplierId = Integer.parseInt(commandTokens[2]);
         // int productSupplierId, int stockAmount,
         // TreeMap<Integer, Double> amountToPrice, String manufacturer
         System.out.println("Enter the product id in the supplier's system:");
-        Integer productSupplierId = scanner.nextInt();
+        Integer productSupplierId = Integer.parseInt(scanner.nextLine());
 
         System.out.println("Enter the stock amount that the supplier provides:");
-        Integer stockAmount = scanner.nextInt();
-
-        System.out.println("Enter the product's manufacturer:");
-        String manufacturer = scanner.nextLine();
+        Integer stockAmount = Integer.parseInt(scanner.nextLine());
 
         System.out.println("Enter the product's base price:");
-        Integer basePrice = scanner.nextInt();
+        Integer basePrice = Integer.parseInt(scanner.nextLine());
 
-        TreeMap<Integer, Double> amountDiscount = makeAmountDiscountPercentageMap();
+        TreeMap<Integer, Double> amountDiscount = makeAmountDiscountPercentageMap(scanner);
 
         String msg = ss.addSupplierProductAgreement(supplierId, productId, productSupplierId, basePrice, stockAmount,
-                amountDiscount, manufacturer);
+                amountDiscount);
         System.out.println(msg);
 
     }
@@ -299,7 +260,7 @@ public class SupplierSystem {
      * 
      * @return
      */
-    private static TreeMap<Integer, Double> makeAmountDiscountPercentageMap() {
+    private static TreeMap<Integer, Double> makeAmountDiscountPercentageMap(Scanner scanner) {
         System.out.println(
                 "Enter total amount to discount in format of [amount] [discount] pairs (enter 'done' to finish): ");
         System.out.println("**Notice that the discount must be a percentage (0-100)**");
@@ -313,11 +274,9 @@ public class SupplierSystem {
             Double discount = Double.parseDouble(AmountDiscount[1]);
             if (amount < 0 || discount < 0) {
                 System.out.println("Amount and discount cant be negative");
-                continue;
             }
             if (discount > 100) {
                 System.out.println("Discount must be a percentage (no more than 100%)");
-                continue;
             }
             if (AmountDiscount.length > 1) {
                 // TODO: maybe ask the user to provide the discount percantage in 0.XX format.

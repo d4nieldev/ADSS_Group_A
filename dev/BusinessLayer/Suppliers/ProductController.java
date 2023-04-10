@@ -85,7 +85,10 @@ public class ProductController {
         }
     }
 
-    public void addProduct(Product product) {
+    public void addProduct(Product product) throws SuppliersException {
+        if (products.containsKey(product.getId()))
+            throw new SuppliersException("A product with id " + product.getId() + " already exists");
+
         products.put(product.getId(), product);
     }
 

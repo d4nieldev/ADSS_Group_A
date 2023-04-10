@@ -49,17 +49,14 @@ public class SupplierController {
     // Add 'Fixed days' supplier to the system
     public void addFixedDaysSupplierBaseAgreement(String supplierName, String supplierPhone, String supplierBankAccount,
             List<String> supplierFields, String paymentCondition, TreeMap<Integer, Double> amountToDiscount,
-            List<String> contactNames, List<String> contactPhones, List<Integer> days) {
-        try {
-            FixedDaysSupplier fds = new FixedDaysSupplier(nextSupplierIdInSystem, supplierName, supplierPhone,
-                    supplierBankAccount,
-                    supplierFields, paymentCondition, amountToDiscount,
-                    makeContactList(contactPhones, contactNames, nextSupplierIdInSystem), days);
-            idToSupplier.put(nextSupplierIdInSystem, fds);
-            nextSupplierIdInSystem++;
-        } catch (Exception e) {
-            throw e;
-        }
+            List<String> contactNames, List<String> contactPhones, List<Integer> days) throws SuppliersException {
+        FixedDaysSupplier fds = new FixedDaysSupplier(nextSupplierIdInSystem, supplierName, supplierPhone,
+                supplierBankAccount,
+                supplierFields, paymentCondition, amountToDiscount,
+                makeContactList(contactPhones, contactNames, nextSupplierIdInSystem), days);
+        idToSupplier.put(nextSupplierIdInSystem, fds);
+        nextSupplierIdInSystem++;
+
     }
 
     // Add 'On Order' supplier to the system

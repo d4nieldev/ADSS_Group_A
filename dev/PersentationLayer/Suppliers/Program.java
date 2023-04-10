@@ -33,17 +33,20 @@ public class Program {
                 case "ready":
                     ReservationSystem.ready();
                     break;
+                case "addProduct":
+                    ReservationSystem.addProduct(commandTokens);
+                    break;
                 case "addSupplier":
-                    SupplierSystem.addSupplier();
+                    SupplierSystem.addSupplier(scanner);
                     break;
                 case "addAgreement":
-                    SupplierSystem.addAgreement(commandTokens);
+                    SupplierSystem.addAgreement(commandTokens, scanner);
                     break;
                 case "deleteSupplier":
                     SupplierSystem.deleteSupplier(commandTokens);
                     break;
                 case "editSupplier":
-                    SupplierSystem.editSupplier(commandTokens);
+                    SupplierSystem.editSupplier(commandTokens, scanner);
                     break;
                 case "getCard":
                     SupplierSystem.getSupplierCard(commandTokens);
@@ -51,13 +54,15 @@ public class Program {
                 case "exit":
                     return;
                 default:
-                    System.out.println("Unknown command");
+                    System.out.println("Unknown command - \"" + commandTokens[0] + "\"");
                     break;
             }
         }
     }
 
     private static void help() {
+        System.out.println("This is the manual for how to use the system:");
+        System.out.println("help = show the manual");
         ReservationSystem.help();
         SupplierSystem.help();
         System.out.println("exit = exit the program");

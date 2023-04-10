@@ -19,6 +19,7 @@ public class TransportSystem
 
     public static void main(String[] args)
     {
+        System.out.println("wellcome");
         makeSomeDrivers();
         makeSomeTrucks();
         List<Destination> dests = makeSomeDestinations();

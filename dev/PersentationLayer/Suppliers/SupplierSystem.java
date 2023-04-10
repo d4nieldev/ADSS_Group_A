@@ -157,13 +157,20 @@ public class SupplierSystem {
      * @return
      */
     private static List<String> makeFieldsList(Scanner scanner) {
-        System.out.print("Enter supplier fields (enter 'done' to finish): ");
-        String field;
+        System.out.println("Enter supplier fields (enter 'done' to finish): ");
+        System.out.print("Enter field: ");
+        String field = scanner.nextLine();
+
         List<String> fields = new ArrayList<String>();
-        do {
+        while (!field.equals("done")) {
+            if (fields.contains(field)) {
+                System.out.println("Field already exists");
+            } else {
+                fields.add(field);
+            }
             System.out.print("Enter field: ");
             field = scanner.nextLine();
-        } while (!field.equals("done"));
+        }
         return fields;
     }
 
@@ -283,12 +290,12 @@ public class SupplierSystem {
             return;
         }
         System.out.println("New agreement:");
-        Integer productId = tryParseInt(commandTokens[2], Integer.MIN_VALUE);
+        Integer productId = tryParseInt(commandTokens[1], Integer.MIN_VALUE);
         if(productId == Integer.MIN_VALUE){
             System.out.println("Wrong format, please try again");
             return;
         }
-        Integer supplierId = tryParseInt(commandTokens[3], Integer.MIN_VALUE);
+        Integer supplierId = tryParseInt(commandTokens[2], Integer.MIN_VALUE);
         if(supplierId == Integer.MIN_VALUE){
             System.out.println("Wrong format, please try again");
             return;

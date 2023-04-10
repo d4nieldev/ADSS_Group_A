@@ -19,8 +19,8 @@ public class UnitTest {
     @BeforeEach
     public void setUp() {
         driverFacade = new DriverFacade();
-        driverFacade.getDrivers().put(1, new Driver(1, "John Smith", "ABC123"));
-        driverFacade.getDrivers().put(2, new Driver(2, "Jane Doe", "DEF456"));
+        driverFacade.getDrivers().put(1, new Driver(1, "rotem", "ABC123"));
+        driverFacade.getDrivers().put(2, new Driver(2, "kfir", "DEF456"));
     }
 
     @Test
@@ -93,13 +93,13 @@ public class UnitTest {
         List<String> items = new ArrayList<>();
         items.add("Item 1");
         items.add("Item 2");
-        Destination source = new Destination("123 Main St", "555-1234", "John Smith", Location.SOUTH, DestinationType.SOURCE);
-        Destination dest = new Destination("456 Market St", "555-5678", "Jane Doe", Location.SOUTH, DestinationType.DESTINATION);
+        Destination source = new Destination("123 St", "555-1234", "John", Location.SOUTH, DestinationType.SOURCE);
+        Destination dest = new Destination("456 St", "555-5678", "Jane", Location.SOUTH, DestinationType.DESTINATION);
         Delivery delivery = new Delivery(1, source, dest, Status.PENDING, items);
         ByteArrayOutputStream outContent = new ByteArrayOutputStream();
         System.setOut(new PrintStream(outContent));
         delivery.deliveryPrint();
-        String expectedOutput = "Delivery from 123 Main St to 456 Market St\nStatus: PENDING\nItems: [Item 1, Item 2]\n------------------------------\n";
+        String expectedOutput = "Delivery from 123 St to 456 St\nStatus: PENDING\nItems: [Item 1, Item 2]\n------------------------------\n";
         assertEquals(expectedOutput, outContent.toString());
     }
 

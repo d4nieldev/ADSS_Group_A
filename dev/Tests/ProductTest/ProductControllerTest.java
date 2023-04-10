@@ -12,6 +12,7 @@ import org.junit.Test;
 import BusinessLayer.Suppliers.Product;
 import BusinessLayer.Suppliers.ProductController;
 import BusinessLayer.Suppliers.SupplierController;
+import BusinessLayer.Suppliers.exceptions.SuppliersException;
 
 public class ProductControllerTest {
 
@@ -53,7 +54,7 @@ public class ProductControllerTest {
             paymentCondition, amountToDiscount, contactNames, contactPhones, maxSupplyDays);
     }
 
-    private void createTwoProducts() {
+    private void createTwoProducts() throws SuppliersException {
         Product p1 = new Product(17, "Gumi Gum", "Statboy");
         ProductController.getInstance().addProduct(p1);
         Product p2 = new Product(52, "Shokobo", "Jordi");

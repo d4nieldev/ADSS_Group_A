@@ -12,8 +12,6 @@ public class ReservationSystem {
     public static void help() {
         String manual = "";
         manual += "===========================================================================================";
-        manual += "This is the manual for how to use the reservations system:\n";
-        manual += "help = show the manual\n";
         manual += "makereservation [auto/manual] [branch] = open the reservation menu.\n";
         manual += "    auto - enter lines in the format of \"[product_id] [amount]\"\n";
         manual += "    manual - enter lines in the format of \"[supplier_id] [product_id] [amount]\"\n";
@@ -27,6 +25,7 @@ public class ReservationSystem {
         manual += "receipt [reservation_id] = show all items, amounts, and prices for this reservation\n";
         manual += "reservations [supplier_id] = show all reservations history with the supplier\n";
         manual += "ready = for each supplier, show the destinations of the reservations that are ready\n";
+        manual += "addProduct [id] [name] [manufacturer] = add a new product to the system\n";
         manual += "===========================================================================================";
         System.out.println(manual);
     }
@@ -41,14 +40,19 @@ public class ReservationSystem {
             makeAutoReservation(scanner, commandTokens[2]);
         } else if (commandTokens[1].equals("manual")) {
             makeManualReservation(scanner, commandTokens[2]);
+        } else {
+            System.out.println("only auto and manual commands are allowed for makereservation");
         }
     }
 
     private static void makeAutoReservation(Scanner scanner, String destinationBranch) {
         Map<Integer, Integer> productToAmount = new HashMap<>();
-        String line = scanner.nextLine();
+        String line;
 
-        while (!line.equals("done") && !line.equals("abort")) {
+        while (true) {
+            line = scanner.nextLine();
+            if (line.equals("done") || line.equals("abort"))
+                break;
             String[] command = line.split(" ");
             if (command.length != 2) {
                 System.out.println("The format of the command is \"[product_id] [amount]\". Please try again.\n");
@@ -58,8 +62,8 @@ public class ReservationSystem {
             if (productId == Integer.MIN_VALUE) {
                 System.out.println("product id must be an integer. Please try again.\n");
                 continue;
-            } else if (productId <= 0) {
-                System.out.println("product id must be greater than 0. Please try again.\n");
+            } else if (productId < 0) {
+                System.out.println("product id must be greater or equal to 0. Please try again.\n");
                 continue;
             }
             int amount = tryParseInt(command[1], Integer.MIN_VALUE);
@@ -72,8 +76,6 @@ public class ReservationSystem {
             }
 
             productToAmount.put(productId, amount);
-
-            line = scanner.nextLine();
         }
 
         if (line.equals("done") && productToAmount.size() > 0)
@@ -83,9 +85,13 @@ public class ReservationSystem {
 
     private static void makeManualReservation(Scanner scanner, String destinationBranch) {
         Map<Integer, Map<Integer, Integer>> supplierToproductToAmount = new HashMap<>();
-        String line = scanner.nextLine();
+        String line;
 
-        while (!line.equals("done") && !line.equals("abort")) {
+        while (true) {
+            line = scanner.nextLine();
+            if (line.equals("done") || line.equals("abort"))
+                break;
+
             String[] command = line.split(" ");
             if (command.length != 3) {
                 System.out.println(
@@ -186,6 +192,21 @@ public class ReservationSystem {
 
     public static void ready() {
         System.out.println(rs.getReadySupplierToAddresses());
+    }
+
+    public static void addProduct(String[] commandTokens) {
+        if (commandTokens.length != 4) {
+            System.out.println("addProduct command must have 4 arguments. Please try again.\n");
+            return;
+        }
+        int productId = tryParseInt(commandTokens[1], Integer.MIN_VALUE);
+        if (productId == Integer.MIN_VALUE) {
+            System.out.println("product id must be an integer. Please try again.\n");
+            return;
+        }
+        String name = commandTokens[2];
+        String manufacturer = commandTokens[3];
+        System.out.println(rs.addProduct(productId, name, manufacturer));
     }
 
     public static int tryParseInt(String s, int defaultValue) {

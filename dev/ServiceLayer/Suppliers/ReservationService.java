@@ -2,6 +2,8 @@ package ServiceLayer.Suppliers;
 
 import java.util.Map;
 
+import BusinessLayer.Suppliers.Product;
+import BusinessLayer.Suppliers.ProductController;
 import BusinessLayer.Suppliers.Reservation;
 import BusinessLayer.Suppliers.ReservationController;
 import BusinessLayer.Suppliers.exceptions.SuppliersException;
@@ -70,11 +72,21 @@ public class ReservationService {
 
     public String getSupplierReservations(int supplierId) {
         // TODO: switch to json or something
-        return Reservation.reservationsToString(reservationController.getSupplierReservations(supplierId));
+        return reservationController.getSupplierReservations(supplierId).toString();
     }
 
     public String getReadySupplierToAddresses() {
         // TODO: convert to json or something
         return reservationController.getReadySupplierToAddresses().toString();
+    }
+
+    public String addProduct(int id, String name, String manufacturer) {
+        try {
+            Product product = new Product(id, name, manufacturer);
+            ProductController.getInstance().addProduct(product);
+            return "Success";
+        } catch (SuppliersException e) {
+            return e.getMessage();
+        }
     }
 }

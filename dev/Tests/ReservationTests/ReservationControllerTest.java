@@ -22,7 +22,7 @@ import BusinessLayer.Suppliers.exceptions.SuppliersException;
 public class ReservationControllerTest {
     ReservationController rc = ReservationController.getInstance();
 
-    private void createProducts() {
+    private void createProducts() throws SuppliersException {
         Product product0 = new Product(0, "Product 0", "Manufacturer 0");
         Product product1 = new Product(1, "Product 1", "Manufacturer 1");
         ProductController.getInstance().addProduct(product0);

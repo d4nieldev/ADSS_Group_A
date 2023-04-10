@@ -72,7 +72,7 @@ public class ReservationService {
 
     public String getSupplierReservations(int supplierId) {
         // TODO: switch to json or something
-        return Reservation.reservationsToString(reservationController.getSupplierReservations(supplierId));
+        return reservationController.getSupplierReservations(supplierId).toString();
     }
 
     public String getReadySupplierToAddresses() {

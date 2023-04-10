@@ -40,6 +40,8 @@ public class ReservationSystem {
             makeAutoReservation(scanner, commandTokens[2]);
         } else if (commandTokens[1].equals("manual")) {
             makeManualReservation(scanner, commandTokens[2]);
+        } else {
+            System.out.println("only auto and manual commands are allowed for makereservation");
         }
     }
 
@@ -74,7 +76,6 @@ public class ReservationSystem {
             }
 
             productToAmount.put(productId, amount);
-
         }
 
         if (line.equals("done") && productToAmount.size() > 0)

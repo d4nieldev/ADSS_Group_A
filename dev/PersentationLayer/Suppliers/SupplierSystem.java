@@ -66,6 +66,11 @@ public class SupplierSystem {
 
         while (!input.equals("done")) {
             String[] PhoneName = input.split(" ");
+            if (PhoneName.length != 2) {
+                System.out.println("phone name must be in the format \"[phone] [name]\"!");
+                continue;
+            }
+
             phones.add(PhoneName[0]);
             names.add(PhoneName[1]);
             System.out.print("Enter phone-name pair: ");
@@ -186,32 +191,52 @@ public class SupplierSystem {
      * @param commandTokens
      */
     public static void editSupplier(String[] commandTokens, Scanner scanner) {
+        if (commandTokens.length != 2) {
+            System.out.println("Expected supplier id. Try again");
+            return;
+        }
+        Integer supId = Integer.parseInt(commandTokens[1]);
+
         System.out.println("Please enter the edit command:");
         String command = scanner.nextLine();
         String[] editCommandTokens = command.split(" ");
-        Integer supId = Integer.parseInt(commandTokens[1]);
         String msg = "";
         switch (editCommandTokens[0]) {
             case "updateName":
-                msg = ss.setSupplierName(supId, editCommandTokens[1]);
+                if (editCommandTokens.length != 2)
+                    System.out.println("Expected name. Try again");
+                else
+                    msg = ss.setSupplierName(supId, editCommandTokens[1]);
                 break;
             case "updatePhone":
-                msg = ss.setSupplierPhone(supId, editCommandTokens[1]);
+                if (editCommandTokens.length != 2)
+                    System.out.println("Expected phone. Try again");
+                else
+                    msg = ss.setSupplierPhone(supId, editCommandTokens[1]);
                 break;
             case "updateBankAccount":
-                msg = ss.setSupplierBankAccount(supId, editCommandTokens[1]);
+                if (editCommandTokens.length != 2)
+                    System.out.println("Expected bank account. Try again");
+                else
+                    msg = ss.setSupplierBankAccount(supId, editCommandTokens[1]);
                 break;
             case "updateFields":
                 msg = ss.setSupplierFields(supId, makeFieldsList(scanner));
                 break;
             case "updatePaymentCondition":
-                msg = ss.setSupplierPaymentCondition(supId, editCommandTokens[1]);
+                if (editCommandTokens.length != 2)
+                    System.out.println("Expected payment condition. Try again");
+                else
+                    msg = ss.setSupplierPaymentCondition(supId, editCommandTokens[1]);
                 break;
             case "updateAmountDiscount":
                 msg = ss.setSupplierAmountToDiscount(supId, makeAmountDiscountPercentageMap(scanner));
                 break;
             case "deleteContact":
-                msg = ss.deleteSupplierContact(supId, editCommandTokens[1], editCommandTokens[2]);
+                if (editCommandTokens.length != 3)
+                    System.out.println("Expected phone and name. Try again");
+                else
+                    msg = ss.deleteSupplierContact(supId, editCommandTokens[1], editCommandTokens[2]);
                 break;
             case "deleteAllContacts":
                 msg = ss.deleteAllSupplierContacts(supId);
@@ -220,7 +245,10 @@ public class SupplierSystem {
                 msg = ss.addSupplierContact(supId, editCommandTokens[1], editCommandTokens[2]);
                 break;
             default:
-                System.out.println("Unknown edit command. Try again");
+                if (editCommandTokens.length != 3)
+                    System.out.println("Expected phone and name. Try again");
+                else
+                    System.out.println("Unknown edit command. Try again");
                 break;
         }
         System.out.println(msg);
@@ -233,6 +261,10 @@ public class SupplierSystem {
      * @param commandTokens
      */
     public static void addAgreement(String[] commandTokens, Scanner scanner) {
+        if (commandTokens.length != 3) {
+            System.out.println("addAgreement expects 3 arguments. Try again");
+            return;
+        }
         System.out.println("New agreement:");
         Integer productId = Integer.parseInt(commandTokens[1]);
         Integer supplierId = Integer.parseInt(commandTokens[2]);
@@ -270,6 +302,10 @@ public class SupplierSystem {
 
         while (!input.equals("done")) {
             String[] AmountDiscount = input.split(" ");
+            if (AmountDiscount.length != 2) {
+                System.out.println("Invalid amount discount pair. Try again");
+                continue;
+            }
             Integer amount = Integer.parseInt(AmountDiscount[0]);
             Double discount = Double.parseDouble(AmountDiscount[1]);
             if (amount < 0 || discount < 0) {

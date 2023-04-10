@@ -100,7 +100,7 @@ class Main {
                 }
 
                 else if (option.equals("2")){ // 2 print all employees
-                    gradingService.printAllEmployees(loginId);
+                    System.out.println(gradingService.printAllEmployees(loginId));
                 }
 
                 else if (option.equals("3")){ // 3 add an empty shift
@@ -357,7 +357,7 @@ class Main {
                 option = sc.nextLine();
             }
         }
-        
+
         System.out.println("");
         System.out.print("Thank you for your time. See you next time.");
 

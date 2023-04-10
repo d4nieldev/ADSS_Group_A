@@ -437,7 +437,7 @@ public class EmployeeController {
     // throw an error if something went wrong
     public void checkEmployee(int idEmployee){
         if (!isEmployeeExists(idEmployee)){
-            throw new Error("The id " + idEmployee + "is not in the system. Please try again");
+            throw new Error("The id " + idEmployee + " is not in the system. Please try again");
         }
     }
 

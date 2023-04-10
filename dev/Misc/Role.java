@@ -7,7 +7,7 @@ import java.util.List;
 public class Role {
 
     public final static List<String> listRoles = Arrays.asList(
-        "HRMANAGER", "BRANCHMANAGER", "SHIFTMANAGER", "CHASHIER", "STOREKEEPER", "DRIVER", "GENERRAL", "CLEANER", "SECURITY");
+        "HRMANAGER", "BRANCHMANAGER", "SHIFTMANAGER", "CASHIER", "STOREKEEPER", "DRIVER", "GENERRAL", "CLEANER", "SECURITY");
 
     public static void addRole(String role){
         if(listRoles.contains(role)){throw new Error("This role is already exsist in the system.");}
@@ -15,7 +15,7 @@ public class Role {
     }
 
     public static String getRole(String role){
-        role.toUpperCase();
+        role = role.toUpperCase();
         if(!listRoles.contains(role)){throw new Error("This role is not in the system.");}
         return role;
     }

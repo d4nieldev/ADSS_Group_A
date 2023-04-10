@@ -14,6 +14,7 @@ public class BranchController {
         this.employeeController = employeeController;
         this.shiftController = shiftController;
         branchs = new LinkedList<>();
+        branchs.add(new Branch(0, "BGU"));
     }
     
     public void addBranch(int managerId, String address) {
@@ -25,8 +26,8 @@ public class BranchController {
     public void addNewEmployee(int managerId, String firstName, String lastName, int id, String password, int bankNum,
     int bankBranch, int bankAccount, int salary, int bonus, LocalDate startDate, License driverLicense, String role, int branchId, String status){
         // only HR manager
-        employeeController.addEmployee(managerId, firstName, lastName, id, password, bankNum, bankBranch, bankAccount, salary, 
-        bonus, startDate, driverLicense, role, branchId, status);
+        employeeController.addEmployee(managerId, firstName, lastName, id, password, bankNum, bankBranch, bankAccount, salary,
+                bonus, startDate, driverLicense, role, branchId, status);
         Branch branch = getBranchById(branchId);
         Employee employee = employeeController.getEmployeeById(id);
         branch.addNewEmployee(employee);

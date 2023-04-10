@@ -48,7 +48,7 @@ public class Driver {
     }
 
     /**
-     * return true if license of deiver match to model truck
+     * return true if license of driver match to model truck
      *
      * @return
      */

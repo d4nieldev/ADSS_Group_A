@@ -7,7 +7,7 @@ public class TruckService {
     private TruckFacade truckFacade = TruckFacade.getInstance();
 
     /**
-     * create new truck and return mesaage
+     * create new truck and return message
      *
      * @return
      */

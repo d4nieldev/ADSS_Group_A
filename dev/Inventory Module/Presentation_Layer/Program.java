@@ -26,12 +26,7 @@ public class Program {
           reportService.importInventoryReport();
           break;
         case 3:
-          try {
             ProductsSystem.reciveSupply(productService);
-          }
-          catch (Exception e){
-            System.out.println("Try again");
-          }
           break;
         case 4:
           ProductsSystem.sellProduct(productService);

@@ -357,8 +357,7 @@ class Main {
                 option = sc.nextLine();
             }
         }
-
-        gradingService.logOut(loginId);
+        
         System.out.println("");
         System.out.print("Thank you for your time. See you next time.");
 

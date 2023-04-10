@@ -32,7 +32,7 @@ public class ProductControllerTest {
             createTwoProducts();
             addTwoAgreementsToSupplier();
         } catch (Exception e) {
-            throw e;
+           throw e;
         }
     }
 
@@ -50,7 +50,7 @@ public class ProductControllerTest {
         int maxSupplyDays = 4;
 
         SupplierController.getInstance().addOnOrderSupplierBaseAgreement(name, phone, bankAccount, fields,
-                paymentCondition, amountToDiscount, contactNames, contactPhones, maxSupplyDays);
+            paymentCondition, amountToDiscount, contactNames, contactPhones, maxSupplyDays);
     }
 
     private void createTwoProducts() {

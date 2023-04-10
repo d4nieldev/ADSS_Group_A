@@ -49,7 +49,7 @@ public class Employee{
 		if(roles.contains(roleToAdd)){
 			throw new Error("This employee already have this role.");
 		}
-		roles.remove(roleToAdd);
+		roles.add(roleToAdd);
 	}
 
 	// remove role if exsist to employee

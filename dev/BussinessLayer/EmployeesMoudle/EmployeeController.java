@@ -89,14 +89,14 @@ public class EmployeeController {
     // only if its HR manager and the employee does not exsist already.
     public void addEmployee(int managerId, String firstName, String lastName, int id, String password, int bankNum,
     int bankBranch, int bankAccount, int salary, int bonus, LocalDate startDate, License driverLicense, String role, int branch, String status){
-        if (isEmployeeExists(managerId) && isEmployeeLoggedIn(managerId)){
+        if (isEmployeeExists(managerId) && isEmployeeLoggedIn(managerId) && !isEmployeeExists(id)){
             checkHrManager(managerId);
             employees.add(new Employee(firstName, lastName, id, password, bankNum,
             bankBranch, bankAccount, salary, bonus, startDate, driverLicense, role, branch, status));
             System.out.println("The employee " + firstName + " " + lastName + " has been added successfully");
         }
         else{
-           throw new Error("You must be logged in, and be an HR manager in order to do that action.");
+           throw new Error("You must be logged in, be an HR manager and enter a non exist employee in order to do that action.");
         }      
     }
     

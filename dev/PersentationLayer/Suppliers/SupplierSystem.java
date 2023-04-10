@@ -156,7 +156,7 @@ public class SupplierSystem {
      * 
      * @return
      */
-    private static List<String> makeFieldsList() {
+    private static List<String> makeFieldsList(Scanner scanner) {
         System.out.print("Enter supplier fields (enter 'done' to finish): ");
         String field;
         List<String> fields = new ArrayList<String>();

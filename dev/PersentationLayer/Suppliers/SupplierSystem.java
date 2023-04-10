@@ -71,7 +71,7 @@ public class SupplierSystem {
      * Adds a new supplier to the system
      */
     public static void addSupplier() {
-        System.out.println("Enter the information the following information about the supplier you want to add:");
+        System.out.println("Enter the following information about the supplier you want to add:");
         System.out.print("Enter supplier name: ");
         String name = scanner.nextLine();
 
@@ -91,21 +91,23 @@ public class SupplierSystem {
         TreeMap<Integer, Double> amountTodiscount = makeAmountDiscountPercentageMap();
 
         // add contacts list
-        System.out.print("Enter contacts [phone] [name] pairs (enter 'done' to finish): ");
+        System.out.println("Enter contacts [phone] [name] pairs (enter 'done' to finish): ");
         List<String> phones = new ArrayList<>();
         List<String> names = new ArrayList<>();
-        String input;
-        do {
-            System.out.print("Enter phone-name pair: ");
-            input = scanner.nextLine();
+        System.out.print("Enter phone-name pair: ");
+        String input = scanner.nextLine();
+
+        while (!input.equals("done")) {
             String[] PhoneName = input.split(" ");
             phones.add(PhoneName[0]);
             names.add(PhoneName[1]);
-        } while (!input.equals("done"));
+            System.out.print("Enter phone-name pair: ");
+            input = scanner.nextLine();
+        }
 
         // now we choose the supplier type
-        boolean flag = false;
-        while (!flag) {
+        boolean enteredSupplierType = false;
+        while (!enteredSupplierType) {
             System.out.println("Please choose the supplier type:");
             System.out.println("1 - FixedDaysSupplier, 2 - On Order Supplier,  3 - Self Pickup Supplier");
             int type = scanner.nextInt();
@@ -117,46 +119,55 @@ public class SupplierSystem {
                     System.out.println(
                             "1 - Sunday, 2 - Monday, 3 - Tuesday, 4 - Wednesday, 5 - Thursday, 6 - Friday, 7 - Saturday");
                     List<Integer> days = new ArrayList<Integer>();
-                    Integer day;
+
+                    Integer day = 0;
                     do {
                         System.out.print("Enter day: ");
                         day = scanner.nextInt();
+                    } while (day < 1 || day > 7);
+                    days.add(day);
+
+                    while ((1 <= day && day <= 7) && days.size() < 7) {
                         if (!days.contains(day)) {
                             days.add(day);
                             if (days.size() == 7) {
                                 System.out.println("All days were inserted");
+                                continue;
                             }
                         } else {
                             System.out.println("Day already exists");
                             continue;
                         }
-                    } while (!day.equals(0) && days.size() < 7);
+                        System.out.print("Enter day: ");
+                        day = scanner.nextInt();
+                    }
                     msg = ss.addFixedDaysSupplierBaseAgreement(name, phone, bankAccount, fields, paymentCondition,
                             amountTodiscount, names, phones, days);
                     System.out.println(msg);
-                    flag = true;
+                    enteredSupplierType = true;
                     break;
                 }
                 case 2: {
-                    System.out.println("Enter maximum supply days: ");
+                    System.out.print("Enter maximum supply days: ");
                     int maxDays = scanner.nextInt();
                     msg = ss.addOnOrderSupplierBaseAgreement(name, phone, bankAccount, fields, paymentCondition,
                             amountTodiscount, names, phones, maxDays);
                     System.out.println(msg);
-                    flag = true;
+                    enteredSupplierType = true;
                     break;
                 }
                 case 3: {
-                    System.out.println("Enter the supplier's address: ");
+                    System.out.print("Enter the supplier's address: ");
                     String address = scanner.nextLine();
                     msg = ss.addSelfPickupSupplierBaseAgreement(name, phone, bankAccount, fields, paymentCondition,
                             amountTodiscount, names, phones, address);
                     System.out.println(msg);
-                    flag = true;
+                    enteredSupplierType = true;
                     break;
                 }
                 default: {
                     System.out.println("Unknown supplier type. Try again");
+                    enteredSupplierType = false;
                     break;
                 }
             }
@@ -169,13 +180,19 @@ public class SupplierSystem {
      * @return
      */
     private static List<String> makeFieldsList() {
-        System.out.print("Enter supplier fields (enter 'done' to finish): ");
-        String field;
+        System.out.println("Enter supplier fields (enter 'done' to finish): ");
+        String field = scanner.nextLine();
+
         List<String> fields = new ArrayList<String>();
-        do {
+        while (!field.equals("done")) {
+            if (fields.contains(field)) {
+                System.out.println("Field already exists");
+                continue;
+            }
+            fields.add(field);
             System.out.print("Enter field: ");
             field = scanner.nextLine();
-        } while (!field.equals("done"));
+        }
         return fields;
     }
 
@@ -283,13 +300,14 @@ public class SupplierSystem {
      * @return
      */
     private static TreeMap<Integer, Double> makeAmountDiscountPercentageMap() {
-        System.out.print("Enter [amount] [discount] pairs (enter 'done' to finish): ");
-        System.out.print("**Notice that the discount must be a percentage (max 100)**");
+        System.out.println(
+                "Enter total amount to discount in format of [amount] [discount] pairs (enter 'done' to finish): ");
+        System.out.println("**Notice that the discount must be a percentage (0-100)**");
         TreeMap<Integer, Double> amountTodiscountMap = new TreeMap<Integer, Double>();
-        String input;
-        do {
-            System.out.print("Enter amount discount pair: ");
-            input = scanner.nextLine();
+        System.out.print("Enter amount discount pair: ");
+        String input = scanner.nextLine();
+
+        while (!input.equals("done")) {
             String[] AmountDiscount = input.split(" ");
             Integer amount = Integer.parseInt(AmountDiscount[0]);
             Double discount = Double.parseDouble(AmountDiscount[1]);
@@ -302,10 +320,13 @@ public class SupplierSystem {
                 continue;
             }
             if (AmountDiscount.length > 1) {
-                //TODO: maybe ask the user to provide the discount percantage in 0.XX format.
+                // TODO: maybe ask the user to provide the discount percantage in 0.XX format.
                 amountTodiscountMap.put(amount, discount / 100);
             }
-        } while (!input.equals("done"));
+
+            System.out.print("Enter amount discount pair: ");
+            input = scanner.nextLine();
+        }
         return amountTodiscountMap;
     }
 }

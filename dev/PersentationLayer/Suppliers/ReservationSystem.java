@@ -46,11 +46,9 @@ public class ReservationSystem {
 
     private static void makeAutoReservation(Scanner scanner, String destinationBranch) {
         Map<Integer, Integer> productToAmount = new HashMap<>();
-        String line;
+        String line = scanner.nextLine();
 
-        do {
-            line = scanner.nextLine();
-
+        while (!line.equals("done") && !line.equals("abort")) {
             String[] command = line.split(" ");
             if (command.length != 2) {
                 System.out.println("The format of the command is \"[product_id] [amount]\". Please try again.\n");
@@ -74,20 +72,20 @@ public class ReservationSystem {
             }
 
             productToAmount.put(productId, amount);
-        } while (!line.equals("done") && !line.equals("abort"));
 
-        if (line.equals("done"))
+            line = scanner.nextLine();
+        }
+
+        if (line.equals("done") && productToAmount.size() > 0)
             System.out.println(rs.makeAutoReservation(productToAmount, destinationBranch));
 
     }
 
     private static void makeManualReservation(Scanner scanner, String destinationBranch) {
         Map<Integer, Map<Integer, Integer>> supplierToproductToAmount = new HashMap<>();
-        String line;
+        String line = scanner.nextLine();
 
-        do {
-            line = scanner.nextLine();
-
+        while (!line.equals("done") && !line.equals("abort")) {
             String[] command = line.split(" ");
             if (command.length != 3) {
                 System.out.println(
@@ -111,10 +109,13 @@ public class ReservationSystem {
             }
 
             supplierToproductToAmount.computeIfAbsent(supplierId, k -> new HashMap<>()).put(productId, amount);
-        } while (!line.equals("done") && !line.equals("abort"));
 
-        if (line.equals("done"))
+            line = scanner.nextLine();
+        }
+
+        if (line.equals("done") && supplierToproductToAmount.size() > 0)
             System.out.println(rs.makeManualReservation(supplierToproductToAmount, destinationBranch));
+
     }
 
     public static void cancelreservation(String[] commandTokens) {

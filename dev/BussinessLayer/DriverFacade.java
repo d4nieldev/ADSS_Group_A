@@ -74,5 +74,10 @@ public class DriverFacade {
         }
         return availableDrivers;
     }
+
+    public Map<Integer, Driver> getDrivers() {
+        return drivers;
+    }
+
 }
 

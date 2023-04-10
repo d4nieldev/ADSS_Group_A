@@ -223,7 +223,7 @@ public class TransportFacade {
     /**
      * update the order od delivery
      */
-    private void changingOrder(Transport transport) {
+    public void changingOrder(Transport transport) {
         List<Destination> destinationList = transport.getDestinationList();
         Scanner scanner = new Scanner(System.in);
 
@@ -545,5 +545,9 @@ public class TransportFacade {
                     + delivery.getDest().getAddress() + " (" + delivery.getDest().getLocation() + ")");
         }
         System.out.println();
+    }
+
+    public Map<Integer, Transport> getTransportMap() {
+        return transportMap;
     }
 }

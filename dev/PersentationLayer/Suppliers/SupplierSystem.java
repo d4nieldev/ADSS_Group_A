@@ -82,8 +82,11 @@ public class SupplierSystem {
         while (!enteredSupplierType) {
             System.out.println("Please choose the supplier type:");
             System.out.println("1 - FixedDaysSupplier, 2 - On Order Supplier,  3 - Self Pickup Supplier");
-            int type = Integer.parseInt(scanner.nextLine());
-
+            int type = tryParseInt(scanner.nextLine(), Integer.MIN_VALUE);
+            if(type==Integer.MIN_VALUE){
+                System.out.println("Wrong format, please try again");
+                continue;
+            }
             String msg;
             switch (type) {
                 case 1: {
@@ -91,14 +94,16 @@ public class SupplierSystem {
                     System.out.println(
                             "1 - Sunday, 2 - Monday, 3 - Tuesday, 4 - Wednesday, 5 - Thursday, 6 - Friday, 7 - Saturday");
                     List<Integer> days = new ArrayList<Integer>();
-
                     Integer day;
                     while (true) {
                         System.out.print("Enter day: ");
-                        day = Integer.parseInt(scanner.nextLine());
+                        day = tryParseInt(scanner.nextLine(), Integer.MIN_VALUE);
+                        if(day == Integer.MIN_VALUE){
+                            System.out.println("Wrong format, please try again");
+                            continue;
+                        }
                         if (day < 1 || day > 7)
                             break;
-
                         if (!days.contains(day)) {
                             days.add(day);
                             if (days.size() == 7) {
@@ -116,8 +121,12 @@ public class SupplierSystem {
                     break;
                 }
                 case 2: {
-                    System.out.print("Enter maximum supply days: ");
-                    int maxDays = Integer.parseInt(scanner.nextLine());
+                    System.out.println("Enter maximum supply days: ");
+                    int maxDays = tryParseInt(scanner.nextLine(), Integer.MIN_VALUE);
+                    if(maxDays == Integer.MIN_VALUE){
+                        System.out.println("Wrong format, please try again");
+                        continue;
+                    }
                     msg = ss.addOnOrderSupplierBaseAgreement(name, phone, bankAccount, fields, paymentCondition,
                             amountTodiscount, names, phones, maxDays);
                     System.out.println(msg);
@@ -125,7 +134,7 @@ public class SupplierSystem {
                     break;
                 }
                 case 3: {
-                    System.out.print("Enter the supplier's address: ");
+                    System.out.println("Enter the supplier's address: ");
                     String address = scanner.nextLine();
                     msg = ss.addSelfPickupSupplierBaseAgreement(name, phone, bankAccount, fields, paymentCondition,
                             amountTodiscount, names, phones, address);
@@ -147,21 +156,14 @@ public class SupplierSystem {
      * 
      * @return
      */
-    private static List<String> makeFieldsList(Scanner scanner) {
-        System.out.println("Enter supplier fields (enter 'done' to finish): ");
-        System.out.print("Enter field: ");
-        String field = scanner.nextLine();
-
+    private static List<String> makeFieldsList() {
+        System.out.print("Enter supplier fields (enter 'done' to finish): ");
+        String field;
         List<String> fields = new ArrayList<String>();
-        while (!field.equals("done")) {
-            if (fields.contains(field)) {
-                System.out.println("Field already exists");
-            } else {
-                fields.add(field);
-            }
+        do {
             System.out.print("Enter field: ");
             field = scanner.nextLine();
-        }
+        } while (!field.equals("done"));
         return fields;
     }
 
@@ -171,7 +173,12 @@ public class SupplierSystem {
      * @param commandTokens
      */
     public static void deleteSupplier(String[] commandTokens) {
-        String msg = ss.deleteSupplierBaseAgreement(Integer.parseInt(commandTokens[1]));
+        int supplierId = tryParseInt(commandTokens[1], Integer.MIN_VALUE);
+        if(supplierId == Integer.MIN_VALUE){
+            System.out.println("Wrong supplier id format, please try again");
+            return;
+        }
+        String msg = ss.deleteSupplierBaseAgreement(supplierId);
         System.out.println(msg);
     }
 
@@ -181,7 +188,12 @@ public class SupplierSystem {
      * @param commandTokens
      */
     public static void getSupplierCard(String[] commandTokens) {
-        String msg = ss.getSupplierCard(Integer.parseInt(commandTokens[1]));
+        int supplierId = tryParseInt(commandTokens[1], Integer.MIN_VALUE);
+        if(supplierId == Integer.MIN_VALUE){
+            System.out.println("Wrong supplier id format, please try again");
+            return;
+        }
+        String msg = ss.getSupplierCard(supplierId);
         System.out.println(msg);
     }
 
@@ -195,11 +207,16 @@ public class SupplierSystem {
             System.out.println("Expected supplier id. Try again");
             return;
         }
-        Integer supId = Integer.parseInt(commandTokens[1]);
+        Integer supId = tryParseInt(commandTokens[1], Integer.MIN_VALUE);
+        if(supId == Integer.MIN_VALUE){
+            System.out.println("Wrong supplier id format, please try again");
+            return;
+        }
 
         System.out.println("Please enter the edit command:");
         String command = scanner.nextLine();
         String[] editCommandTokens = command.split(" ");
+        
         String msg = "";
         switch (editCommandTokens[0]) {
             case "updateName":
@@ -266,18 +283,39 @@ public class SupplierSystem {
             return;
         }
         System.out.println("New agreement:");
-        Integer productId = Integer.parseInt(commandTokens[1]);
-        Integer supplierId = Integer.parseInt(commandTokens[2]);
+        Integer productId = tryParseInt(commandTokens[2], Integer.MIN_VALUE);
+        if(productId == Integer.MIN_VALUE){
+            System.out.println("Wrong format, please try again");
+            return;
+        }
+        Integer supplierId = tryParseInt(commandTokens[3], Integer.MIN_VALUE);
+        if(supplierId == Integer.MIN_VALUE){
+            System.out.println("Wrong format, please try again");
+            return;
+        }
         // int productSupplierId, int stockAmount,
         // TreeMap<Integer, Double> amountToPrice, String manufacturer
         System.out.println("Enter the product id in the supplier's system:");
-        Integer productSupplierId = Integer.parseInt(scanner.nextLine());
+        Integer productSupplierId = tryParseInt(scanner.nextLine(), Integer.MIN_VALUE);
+        if(productSupplierId == Integer.MIN_VALUE){
+            System.out.println("Wrong format, please try again");
+            return;
+        }
 
         System.out.println("Enter the stock amount that the supplier provides:");
-        Integer stockAmount = Integer.parseInt(scanner.nextLine());
+        Integer stockAmount = tryParseInt(scanner.nextLine(), Integer.MIN_VALUE);
+        if(stockAmount == Integer.MIN_VALUE){
+            System.out.println("Wrong format, please try again");
+            return;
+        }
+
 
         System.out.println("Enter the product's base price:");
-        Integer basePrice = Integer.parseInt(scanner.nextLine());
+        Integer basePrice = tryParseInt(scanner.nextLine(), Integer.MIN_VALUE);
+        if(basePrice == Integer.MIN_VALUE){
+            System.out.println("Wrong format, please try again");
+            return;
+        }
 
         TreeMap<Integer, Double> amountDiscount = makeAmountDiscountPercentageMap(scanner);
 
@@ -306,8 +344,16 @@ public class SupplierSystem {
                 System.out.println("Invalid amount discount pair. Try again");
                 continue;
             }
-            Integer amount = Integer.parseInt(AmountDiscount[0]);
-            Double discount = Double.parseDouble(AmountDiscount[1]);
+            Integer amount = tryParseInt(AmountDiscount[0], Integer.MIN_VALUE);
+            if(amount == Integer.MIN_VALUE){
+                System.out.println("Wrong format, please try again");
+                continue;
+            }
+            Double discount = tryParseDouble(AmountDiscount[1], Double.MIN_VALUE);
+            if(discount == Double.MIN_VALUE){
+                System.out.println("Wrong format, please try again");
+                continue;
+            }
             if (amount < 0 || discount < 0) {
                 System.out.println("Amount and discount cant be negative");
             }
@@ -315,13 +361,28 @@ public class SupplierSystem {
                 System.out.println("Discount must be a percentage (no more than 100%)");
             }
             if (AmountDiscount.length > 1) {
-                // TODO: maybe ask the user to provide the discount percantage in 0.XX format.
+                //TODO: maybe ask the user to provide the discount percantage in 0.XX format.
                 amountTodiscountMap.put(amount, discount / 100);
             }
-
             System.out.print("Enter amount discount pair: ");
             input = scanner.nextLine();
         }
         return amountTodiscountMap;
+    }
+
+    public static int tryParseInt(String s, int defaultValue) {
+        try {
+            return Integer.parseInt(s);
+        } catch (NumberFormatException e) {
+            return defaultValue;
+        }
+    }
+
+    public static double tryParseDouble(String s, double defaultValue) {
+        try {
+            return Double.parseDouble(s);
+        } catch (NumberFormatException e) {
+            return defaultValue;
+        }
     }
 }

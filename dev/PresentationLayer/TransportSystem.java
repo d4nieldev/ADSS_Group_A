@@ -33,6 +33,11 @@ public class TransportSystem
 
     }
 
+    /**
+     * Makes default list of destination or scan this from user
+     *
+     * @return
+     */
     private static List<Destination> makeSomeDestinations() {
         List<Destination> dests = new ArrayList<Destination>();
 
@@ -70,6 +75,12 @@ public class TransportSystem
         return dests;
     }
 
+
+    /**
+     * Makes default list of sources or scan this from user
+     *
+     * @return
+     */
     private static List<Destination> makeSomeSources() {
         List<Destination> sources = new ArrayList<Destination>();
         Scanner scanner = new Scanner(System.in);
@@ -104,6 +115,12 @@ public class TransportSystem
         return sources;
     }
 
+
+    /**
+     * Makes default trucks in facade or scan this from user
+     *
+     * @return
+     */
     private static void makeSomeTrucks() {
         Scanner scanner = new Scanner(System.in);
 
@@ -144,6 +161,12 @@ public class TransportSystem
         }
     }
 
+
+    /**
+     * Makes default drivers in facade or scan this from user
+     *
+     * @return
+     */
     private static void makeSomeDrivers() {
         Scanner scanner = new Scanner(System.in);
 

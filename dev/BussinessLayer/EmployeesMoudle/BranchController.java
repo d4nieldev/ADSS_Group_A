@@ -112,6 +112,8 @@ public class BranchController {
         for (Integer employeeId : hrAssigns.keySet()) {
             hashMapEmployees.put(employeeController.getEmployeeById(employeeId), hrAssigns.get(employeeId));
         }
+        // check: have to be at least one SHIFTMANAGER in the shift
+        checkShiftManagerExist(hashMapEmployees);
         // check: exist branch for all employees
         for (Employee employee : hashMapEmployees.keySet()) {
             branch.checkEmployeeInBranch(employee);
@@ -136,5 +138,16 @@ public class BranchController {
                 return branch;
         }
         throw new Error("The branch id " + branchId + "is not in the system. Please try again");
+    }
+
+    private void checkShiftManagerExist( HashMap<Employee, String> hashMapEmployees){
+        boolean foundManager = false;
+        for (Employee employee : hashMapEmployees.keySet()) {
+            if(hashMapEmployees.get(employee).equals(Role.getRole("SHIFTMANAGER"))){
+                foundManager = true;
+                break;
+            }
+        }
+        if(!foundManager){throw new Error("A shift have to contain at least one Shift Manager");}
     }
 }

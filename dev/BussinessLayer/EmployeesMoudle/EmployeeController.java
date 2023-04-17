@@ -50,6 +50,7 @@ public class EmployeeController {
          changeStartDateListAccess = new LinkedList<>(); changeStartDateListAccess.add(Role.getRole("HRMANAGER"));
          changeDriverLicenceListAccess = new LinkedList<>(); changeDriverLicenceListAccess.add(Role.getRole("HRMANAGER"));
          addCancelationListAccess = new LinkedList<>(); addCancelationListAccess.add(Role.getRole("HRMANAGER"));
+         addCancelationListAccess.add(Role.getRole("SHIFTMANAGER"));
          printFinalShiftListAccess = new LinkedList<>(); printFinalShiftListAccess.add(Role.getRole("HRMANAGER"));
          missingStaffToRoleListAccess = new LinkedList<>(); missingStaffToRoleListAccess.add(Role.getRole("HRMANAGER"));
     }

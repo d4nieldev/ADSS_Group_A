@@ -68,8 +68,8 @@ class Main {
                     String startDate = sc.nextLine();
                     System.out.println("");
                     
-                    System.out.print("Bouns: ");
-                    int bonus = Integer.parseInt(sc.nextLine());
+                    System.out.print("Initialize Bouns: ");
+                    int InitializeBonus = Integer.parseInt(sc.nextLine());
                     System.out.println("");
 
                     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
@@ -95,7 +95,7 @@ class Main {
                     System.out.println("");
 
                     gradingService.addNewEmployee(loginId, firstName, lastName, id, password, bankNum, 
-                    bankBranch, bankAccount, salary, bonus, localDate, driverLicense, role, superBranch, status);
+                    bankBranch, bankAccount, salary, InitializeBonus, localDate, driverLicense, role, superBranch, status);
 
                 }
 

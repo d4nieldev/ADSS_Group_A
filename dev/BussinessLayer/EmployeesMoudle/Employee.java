@@ -1,5 +1,7 @@
 package BussinessLayer.EmployeesMoudle;
 import java.time.LocalDate;
+import java.time.Month;
+import java.util.HashMap;
 import java.util.LinkedList;
 import Misc.*;
 
@@ -12,7 +14,7 @@ public class Employee{
 	private int bankBranch;
 	private int bankAccount;
 	private int salary;
-	private int bonus;
+	private HashMap<Pair<Integer, Month>, Integer> bonus; // HashMap for pairs<year,month> and the bonus for this month
 	private LocalDate startDate;
 	private License driverLicense;
 	private LinkedList<String> roles;
@@ -23,7 +25,7 @@ public class Employee{
 	private String status;
 
 	public Employee(String firstName, String lastName, int id, String password, int bankNum, int bankBranch, int bankAccount, 
-	int salary, int bonus, LocalDate startDate, License driverLicense, String role, int branch, String status){
+	int salary, int InitializeBonus, LocalDate startDate, License driverLicense, String role, int branch, String status){
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.id = id;
@@ -32,7 +34,9 @@ public class Employee{
 		this.bankBranch = bankBranch;
 		this.bankAccount = bankAccount;
 		this.salary = salary;
-		this.bonus = bonus;
+		Pair<Integer, Month> helpPair1 = new Pair<Integer,Month>(startDate.getYear(), startDate.getMonth());
+		this.bonus = new HashMap<>();
+		bonus.put(helpPair1, InitializeBonus);
 		this.startDate = startDate;
 		this.driverLicense = driverLicense;
 		roles = new LinkedList<>();
@@ -112,7 +116,7 @@ public class Employee{
 		return countHours * salary;
 	}
 
-	public void resetBonus(){bonus = 0;}
+	//public void resetBonus(){bonus = 0;}
 
 	public String toString(){
 		return "Employee Name: " + firstName + " " + lastName + " [id: " + id + ", bank number: " + bankNum  + ", salary: " + salary 
@@ -135,8 +139,14 @@ public class Employee{
 	public void setBankAccount(int bankAccount){this.bankAccount = bankAccount;}
 	public int getSalary(){return salary;}
 	public void setSalary(int salary){this.salary = salary;}
-	public int getBonus(){return bonus;}
-	public void setBonus(int bonus){this.bonus = bonus;}
+	public int getBonus(int year, Month month){
+		Pair<Integer, Month> getPair = new Pair<>(year, month);
+		return bonus.get(getPair);
+	}
+	public void setBonus(int year, Month month, int newBonus){
+		Pair<Integer, Month> checkPair = new Pair<>(year, month);
+		bonus.put(checkPair, newBonus);
+	}
 	public LocalDate getStartDate(){return startDate;}
 	public void setStartDate(LocalDate date){this.startDate = date;}
 	public License getDriverLicense(){return driverLicense;}

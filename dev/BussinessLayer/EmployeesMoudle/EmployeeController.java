@@ -2,6 +2,7 @@ package BussinessLayer.EmployeesMoudle;
 import java.util.LinkedList;
 import java.util.List;
 import java.time.LocalDate;
+import java.time.Month;
 import java.time.format.DateTimeFormatter;
 import Misc.*;
 
@@ -88,11 +89,11 @@ public class EmployeeController {
     // add employee to the system.
     // only if its HR manager and the employee does not exsist already.
     public void addEmployee(int managerId, String firstName, String lastName, int id, String password, int bankNum,
-    int bankBranch, int bankAccount, int salary, int bonus, LocalDate startDate, License driverLicense, String role, int branch, String status){
+    int bankBranch, int bankAccount, int salary, int InitializeBonus, LocalDate startDate, License driverLicense, String role, int branch, String status){
         if (isEmployeeExists(managerId) && isEmployeeLoggedIn(managerId) && !isEmployeeExists(id)){
             checkHrManager(managerId);
             employees.add(new Employee(firstName, lastName, id, password, bankNum,
-            bankBranch, bankAccount, salary, bonus, startDate, driverLicense, role, branch, status));
+            bankBranch, bankAccount, salary, InitializeBonus, startDate, driverLicense, role, branch, status));
             System.out.println("The employee " + firstName + " " + lastName + " has been added successfully");
         }
         else{
@@ -147,11 +148,11 @@ public class EmployeeController {
         getEmployeeById(idEmployee).checkRoleInEmployee(role);
     }
 
-    public void addBonus(int managerId, int idEmployee, int bonus){
+    public void addBonus(int managerId, int idEmployee, int bonus, int year, Month month){
         checkEmployee(managerId);
         checkLoggedIn(managerId);
         checkIfEmployeeAllowed(managerId, AddBonusListAccess);
-        getEmployeeById(idEmployee).setBonus(getEmployeeById(idEmployee).getBonus() + bonus);
+        getEmployeeById(idEmployee).setBonus(year, month, getEmployeeById(idEmployee).getBonus(year, month) + bonus);
     }
 
     public void addRoleToSystem(int managerHR, String role){

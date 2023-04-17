@@ -1,6 +1,8 @@
 package ServiceLayer.EmployeesMoudle;
 import BussinessLayer.EmployeesMoudle.*;
 import java.time.LocalDate;
+import java.time.Month;
+
 import Misc.*;
 
 public class EmployeeService {
@@ -30,8 +32,8 @@ public class EmployeeService {
         employeeController.removeRoleFromEmployee(managerId, idEmployee, role);
     }
 
-    public void addBonus(int managerId, int idEmployee, int bonus){
-        employeeController.addBonus(managerId, idEmployee, bonus);
+    public void addBonus(int managerId, int idEmployee, int bonus, int year, Month month){
+        employeeController.addBonus(managerId, idEmployee, bonus, year, month);
     }
 
     public void addRoleToSystem(int managerHR, String role){

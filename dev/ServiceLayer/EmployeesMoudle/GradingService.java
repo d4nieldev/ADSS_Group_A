@@ -134,6 +134,10 @@ public class GradingService {
         branchS.addConstraint(branch, idEmployee, shift);
     }
 
+    public void removeConstraint(int branch, int idEmployee, int shift){
+        branchS.removeConstraint(branch, idEmployee, shift);
+    }
+
     public void approveFinalShift(int managerID, int shiftID, int branchID, HashMap<Integer, String> hrAssigns){
         branchS.approveFinalShift(managerID, shiftID, branchID, hrAssigns);
     }

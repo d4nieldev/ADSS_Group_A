@@ -52,6 +52,13 @@ public class Shift{
         constraints.put(employee, role);
     }
 
+    public void removeConstraint(Employee employee) {
+        if(constraints.containsKey(employee)){
+            throw new Error("The employee is not sign to this sift in the constraints list.");
+        }
+        constraints.remove(employee);
+    }
+
     public void addRole(String newRole, int numEmployees){
         if(numEmployeesForRole.containsKey(newRole)){
             throw new Error("This shift already contains this role. You can change the number of employees if you wish");

@@ -74,7 +74,9 @@ public class BranchController {
         Branch branch = getBranchById(idBranch);
         Shift shift = shiftController.getShift(idShift);
         branch.checkShiftInBranch(shift);
-        if(shift.getIsFinishSettingShift()) {throw new Error("This shift is not avalible for submitting constraints anymore.");}
+        if(shift.getIsFinishSettingShift()) {
+            throw new Error("Cannot add constraints. This shift was approved by the manager.");
+        }
         // check employee in branch
         Employee employee = employeeController.getEmployeeById(idEmployee);
         branch.checkEmployeeInBranch(employee);
@@ -83,6 +85,22 @@ public class BranchController {
         shiftController.addConstraint(idShift, employee, employee.getRoles());
     }
     
+    // remove constaint to shift
+    public void removeConstraint(int idBranch, int idEmployee, int idShift){
+        // check list is not finishSettingShift
+        Branch branch = getBranchById(idBranch);
+        Shift shift = shiftController.getShift(idShift);
+        branch.checkShiftInBranch(shift);
+        if(shift.getIsFinishSettingShift()) {
+            throw new Error("Cannot remove constraints. This shift was approved by the manager.");
+        }
+        // check employee in branch
+        Employee employee = employeeController.getEmployeeById(idEmployee);
+        branch.checkEmployeeInBranch(employee);
+        // if not - remove the  constraint to the shift
+        shiftController.removeConstraint(idShift, employee);
+    }
+
     // aprove function for the HR manager to a final shift
     public void approveFinalShift(int managerID, int shiftID, int branchID, HashMap<Integer, String> hrAssigns){
         employeeController.checkHrManager(managerID);

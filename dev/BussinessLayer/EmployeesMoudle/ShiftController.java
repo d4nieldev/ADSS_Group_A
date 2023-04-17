@@ -42,6 +42,10 @@ public class ShiftController {
         getShift(shiftId).addConstraint(employee, role);
     }
 
+    public void removeConstraint(int shiftId, Employee employee) {
+        getShift(shiftId).removeConstraint(employee);
+    }
+
     public void checkAssignFinalShift(int shiftId, HashMap<Employee, String> hrAssign){
         getShift(shiftId).checkAssignFinalShift(hrAssign);
     }

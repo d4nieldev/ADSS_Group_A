@@ -2,12 +2,13 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.Scanner;
-import ServiceLayer.EmployeesMoudle.GradingService;
+
 import Misc.*;
+import ServiceLayer.EmployeesLayer.GradingService;
 
 class Main {
     public static void main(String[] args) {
-        ServiceLayer.EmployeesMoudle.GradingService gradingService = new GradingService();
+        ServiceLayer.EmployeesLayer.GradingService gradingService = new GradingService();
         //ServiceLayer.EmployeesMoudle.EmployeeService employeeService = new ServiceLayer.EmployeesMoudle.EmployeeService();
 
         Scanner sc = new Scanner(System.in);

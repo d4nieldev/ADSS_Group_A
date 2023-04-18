@@ -1,10 +1,14 @@
 package PresentationLayer;
 
 import BussinessLayer.*;
-import ServiceLayer.DriverService;
-import ServiceLayer.TransportService;
-import ServiceLayer.TruckService;
-import Test.UnitTest;
+import BussinessLayer.TransPortLayer.Delivery;
+import BussinessLayer.TransPortLayer.Destination;
+import BussinessLayer.TransPortLayer.DestinationType;
+import BussinessLayer.TransPortLayer.Location;
+import ServiceLayer.TransportLayer.DriverService;
+import ServiceLayer.TransportLayer.TransportService;
+import ServiceLayer.TransportLayer.TruckService;
+import TestEmployee.UnitTest;
 
 import java.util.*;
 import java.util.stream.Collectors;

@@ -2,6 +2,7 @@ package PresentationLayer;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Scanner;
@@ -62,8 +63,7 @@ class MainV2 {
         switch (managerRole){
             case("HRMANAGER") : {
 
-                System.out.println("[0 - Exit system, 1 - Add employee, 2 - Print all employees, 3 - Add empty shift, 4 - Submit a shift, 5 - Add constraint for some Employee to Shift, 6 - Edit employee, 7 - Delete an employee, 8 - Login, 9 - Logout]");
-                System.out.print("Please enter your request to the system according to the PDF file: ");
+                System.out.println("0 - Exit system\n1 - Add employee\n2 - Print all employees\n3 - Add empty shift\n4 - Submit a shift\n5 - Add constraint for some Employee to Shift\n6 - Edit employee\n7 - Delete an employee\n8 - Login\n9 - Logout");
                 String option = sc.nextLine();
 
                 while(!option.equals("0")){
@@ -387,9 +387,7 @@ class MainV2 {
 
 
                         System.out.println("");
-                        System.out.println("[0 - Exit system, 1 - Add employee, 2 - Print all employees, 3 - Add empty shift, 4 - Submit a shift, 5 - Add constraint for some Employee to Shift, 6 - Edit employee, 7 - Delete an employee, 8 - Login, 9 - Logout]");
-                        System.out.print("Please enter your request to the system according to the PDF file: ");
-                        option = sc.nextLine();
+                        System.out.println("0 - Exit system\n1 - Add employee\n2 - Print all employees\n3 - Add empty shift\n4 - Submit a shift\n5 - Add constraint for some Employee to Shift\n6 - Edit employee\n7 - Delete an employee\n8 - Login\n9 - Logout");
                     }
                     catch(Error e) {
                         System.out.println(e.toString());
@@ -397,6 +395,7 @@ class MainV2 {
                         option = sc.nextLine();
                     }
                 }
+                break;
             }
                 
 
@@ -411,7 +410,6 @@ class MainV2 {
                 transportServices.letTheUserMatch(deliveries);
                 transportServices.runTheTransports();
 
-                Scanner scanner = new Scanner(System.in);
                 boolean continueChoosing = true;
                 while (continueChoosing) {
                     System.out.println("\nWhat would you like to change?");
@@ -420,8 +418,8 @@ class MainV2 {
                     System.out.println("3. Transports");
                     System.out.println("4. Exit");
 
-                    int choice = scanner.nextInt();
-                    scanner.nextLine(); // consume the newline character
+                    int choice = sc.nextInt();
+                    sc.nextLine(); // consume the newline character
 
                     switch (choice) {
                         case 1:
@@ -442,6 +440,8 @@ class MainV2 {
                 }
 
                 System.out.println("Thank you for using the Transport System!");
+
+                break;
             }
         }
 
@@ -449,7 +449,6 @@ class MainV2 {
         System.out.print("Thank you for your time. See you next time.");
 
         sc.close();
-
     }
 
     private static void changeDriverService() {
@@ -520,6 +519,8 @@ class MainV2 {
                     System.out.println("Invalid choice. Please choose again.");
                     break;
             }
+
+            scanner.close();
         }
     }
 
@@ -607,6 +608,8 @@ class MainV2 {
             default:
                 System.out.println("Invalid choice");
         }
+
+        scanner.close();
     }
 
     private static void changeTransportService() {
@@ -678,6 +681,185 @@ class MainV2 {
             default:
                 System.out.println("Invalid choice!");
                 break;
+        }
+
+        scanner.close();
+    }
+
+    /**
+     * Makes default list of destination or scan this from user
+     *
+     * @return
+     */
+    private static List<Destination> makeSomeDestinations() {
+        List<Destination> dests = new ArrayList<Destination>();
+
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.println("Do you want to enter the destinations yourself? (Y/N)");
+        String choice = scanner.nextLine();
+
+        if (choice.equalsIgnoreCase("Y")) {
+            while (true) {
+                System.out.println("Enter destination name (or 'done' to stop):");
+                String name = scanner.nextLine();
+                if (name.equalsIgnoreCase("done")) {
+                    break;
+                }
+
+                System.out.println("Enter destination phone number:");
+                String phoneNumber = scanner.nextLine();
+
+                System.out.println("Enter contact name:");
+                String contactName = scanner.nextLine();
+
+                System.out.println("Enter destination location (NORTH/SOUTH/CENTER):");
+                String locationStr = scanner.nextLine();
+                Location location = Location.valueOf(locationStr.toUpperCase());
+
+                dests.add(new Destination(name, phoneNumber, contactName, location, DestinationType.DESTINATION));
+            }
+        } else {
+            dests.add(transportServices.addDestination("tel aviv", "555-1234", "John Smith", Location.NORTH, DestinationType.DESTINATION));
+            dests.add(transportServices.addDestination("raanana", "555-5678", "Jane Doe", Location.SOUTH, DestinationType.DESTINATION));
+            dests.add(new Destination("ashkelon", "555-9012", "Bob Johnson", Location.CENTER, DestinationType.DESTINATION));
+        }
+
+        scanner.close();
+
+        return dests;
+    }
+
+
+    /**
+     * Makes default list of sources or scan this from user
+     *
+     * @return
+     */
+    private static List<Destination> makeSomeSources() {
+        List<Destination> sources = new ArrayList<Destination>();
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.println("Do you want to enter the sources manually? (Y/N)");
+        String choice = scanner.next();
+
+        if (choice.equalsIgnoreCase("Y")) {
+            // Ask the user to enter the sources
+            System.out.println("Enter the number of sources:");
+            int numSources = scanner.nextInt();
+
+            for (int i = 0; i < numSources; i++) {
+                System.out.println("Enter source name:");
+                String name = scanner.next();
+                System.out.println("Enter source phone number:");
+                String phone = scanner.next();
+                System.out.println("Enter source contact name:");
+                String contact = scanner.next();
+                System.out.println("Enter source location (NORTH, SOUTH, CENTER):");
+                Location location = Location.valueOf(scanner.next().toUpperCase());
+
+                sources.add(transportServices.addDestination(name, phone, contact, location, DestinationType.SOURCE));
+            }
+        } else {
+            // Use default sources
+            sources.add(transportServices.addDestination("cola", "555-1234", "John Smith", Location.NORTH, DestinationType.SOURCE));
+            sources.add(transportServices.addDestination("osem", "555-5678", "Jane Doe", Location.SOUTH, DestinationType.SOURCE));
+            sources.add(transportServices.addDestination("tnuva", "555-9012", "Bob Johnson", Location.CENTER, DestinationType.SOURCE));
+        }
+
+        scanner.close();
+
+        return sources;
+    }
+
+
+    /**
+     * Makes default trucks in facade or scan this from user
+     *
+     * @return
+     */
+    private static void makeSomeTrucks() {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.println("Do you want to create your own trucks? (Y/N)");
+        String choice = scanner.nextLine();
+
+        if (choice.equalsIgnoreCase("Y")) {
+            while (true) {
+                System.out.println("Enter the plate number of the truck:");
+                String make = scanner.nextLine();
+
+                System.out.println("Enter the model of the truck:");
+                String model = scanner.nextLine();
+
+                System.out.println("Enter the weight neto of the truck:");
+                int weightCapacity = scanner.nextInt();
+                scanner.nextLine();
+
+                System.out.println("Enter the maximum weight of the truck:");
+                int maxSpeed = scanner.nextInt();
+                scanner.nextLine();
+
+                System.out.println(truckService.addTruck(make, model, weightCapacity, maxSpeed));
+
+                System.out.println("Do you want to add another truck? (Y/N)");
+                choice = scanner.nextLine();
+
+                if (choice.equalsIgnoreCase("N")) {
+                    break;
+                }
+            }
+        } else {
+            System.out.println(truckService.addTruck("aaaa", "a", 200, 250));
+            System.out.println(truckService.addTruck("bbbb", "b", 200, 1000));
+            System.out.println(truckService.addTruck("cccc", "c", 200, 1000));
+            System.out.println(truckService.addTruck("dddd", "d", 200, 1000));
+            System.out.println(truckService.addTruck("eeee", "a", 200, 1000));
+        }
+
+        scanner.close();
+    }
+
+
+    /**
+     * Makes default drivers in facade or scan this from user
+     *
+     * @return
+     */
+    private static void makeSomeDrivers() {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.println("Do you want to create the drivers yourself? (y/n)");
+        String choice = scanner.nextLine();
+
+        if (choice.equalsIgnoreCase("y")) {
+            // Let the user create the drivers
+            while (true) {
+                System.out.println("Enter driver ID (integer):");
+                int id = scanner.nextInt();
+                scanner.nextLine(); // Consume the newline character
+
+                System.out.println("Enter driver name:");
+                String name = scanner.nextLine();
+
+                System.out.println("Enter driver license number:");
+                String licenseNumber = scanner.nextLine();
+
+                System.out.println(driverService.addDriver(id, name, licenseNumber));
+
+                System.out.println("Do you want to add another driver? (y/n)");
+                choice = scanner.nextLine();
+                if (choice.equalsIgnoreCase("n")) {
+                    break;
+                }
+            }
+        } else {
+            // Use the default drivers
+            System.out.println(driverService.addDriver(1,"rotem","a"));
+            System.out.println(driverService.addDriver(2,"kfir","b"));
+            System.out.println(driverService.addDriver(3,"adi","c"));
+            System.out.println(driverService.addDriver(4,"messi","d"));
+            System.out.println(driverService.addDriver(5,"ronaldo","e"));
         }
 
         scanner.close();

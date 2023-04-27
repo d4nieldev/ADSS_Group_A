@@ -41,6 +41,9 @@ public class EmployeeFacade {
         addHRManagerForStartUpTheSystem("Rami", "Arnon", 123456789, "abc", 0, 0,
          0, 50000, 30000, localDate, null, Role.getRole("HRMANAGER"), 0, "King");
 
+        addTransportManagerForStartUpTheSystem("Kfir", "Rotem", 987654321, "abc", 0, 0,
+         0, 0, 0, localDate, null, "TRANSPORTMANAGER", 0, "Queen");
+
          printAllEmployeesListAccess = new LinkedList<>(); printAllEmployeesListAccess.add(Role.getRole("HRMANAGER"));
          addRolesListAccess = new LinkedList<>(); addRolesListAccess.add(Role.getRole("HRMANAGER"));
          removeRolesListAccess = new LinkedList<>(); removeRolesListAccess.add(Role.getRole("HRMANAGER"));
@@ -471,4 +474,11 @@ public class EmployeeFacade {
         employees.add(new Employee(firstName, lastName, id, password, bankNum,
         bankBranch, bankAccount, salary, bonus, startDate, driverLicense, role, branch, status));
     }
+
+     // help function that create HR manager to start up the system
+     private void addTransportManagerForStartUpTheSystem(String firstName, String lastName, int id, String password, int bankNum,
+     int bankBranch, int bankAccount, int salary, int bonus, LocalDate startDate, License driverLicense, String role, int branch, String status){
+         employees.add(new Employee(firstName, lastName, id, password, bankNum,
+         bankBranch, bankAccount, salary, bonus, startDate, driverLicense, role, branch, status));
+     }
 }

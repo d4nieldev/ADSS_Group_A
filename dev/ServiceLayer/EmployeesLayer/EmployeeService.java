@@ -48,6 +48,7 @@ public class EmployeeService {
         employeeFacade.RemovePremissionRole(managerID, function.toUpperCase(), Role.getRole(role));
     }
 
+
     //-------------------------------------Getters And Setters--------------------------------------------------------
 
     public void changeFirstName(int managerId, int idEmployee, String firstName){
@@ -84,5 +85,9 @@ public class EmployeeService {
 
     public void changeDriverLicence(int managerId, int idEmployee, License licene){
         employeeFacade.changeDriverLicence(managerId, idEmployee, licene);
+    }
+
+    public String getManagerType(int id){
+        return employeeFacade.getManagerType(id);
     }
 }

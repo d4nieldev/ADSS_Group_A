@@ -393,6 +393,10 @@ public class EmployeeFacade {
     public LinkedList<String> getPrintFinalShiftListAccess(){return printFinalShiftListAccess;}
     public LinkedList<String> getMissingStaffToRoleListAccess(){return missingStaffToRoleListAccess;}
 
+    public String getManagerType(int id){
+        Employee manager = getEmployeeById(id);
+        return manager.getRoles().getFirst();
+    }
     //-------------------------------------------------------Help Functions------------------------------------------------------------
 
     //called only if the employee exist, else will return error.

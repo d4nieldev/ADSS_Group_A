@@ -87,6 +87,10 @@ public class GradingService {
         employeeS.RemovePremissionRole(managerID, function, role);
     }
 
+    public String getManagerType(int id){
+        return employeeS.getManagerType(id);
+    }
+
     // ------------------------------------------- SHIFT SERVICE ------------------------------------------------------------
 
     public void addCancelation(int shiftId, int employeeId ,int itemId, int itemCode){

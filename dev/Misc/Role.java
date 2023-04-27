@@ -7,7 +7,7 @@ import java.util.List;
 public class Role {
 
     public final static List<String> listRoles = Arrays.asList(
-        "HRMANAGER", "BRANCHMANAGER", "SHIFTMANAGER", "CASHIER", "STOREKEEPER", "DRIVER", "GENERRAL", "CLEANER", "SECURITY");
+        "HRMANAGER", "BRANCHMANAGER", "SHIFTMANAGER", "CASHIER", "STOREKEEPER", "DRIVER", "GENERRAL", "CLEANER", "SECURITY", "TRANSPORTMANAGER");
 
     public static void addRole(String role){
         if(listRoles.contains(role)){throw new Error("This role is already exsist in the system.");}

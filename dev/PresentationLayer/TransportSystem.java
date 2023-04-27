@@ -18,8 +18,8 @@ public class TransportSystem
 
 {
 
-    private  static TransportService transportServices = new TransportService();
-    private  static DriverService driverService = new DriverService();
+    private static TransportService transportServices = new TransportService();
+    private static DriverService driverService = new DriverService();
     private static TruckService truckService = new TruckService();
 
 

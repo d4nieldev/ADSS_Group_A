@@ -2,7 +2,7 @@ package BussinessLayer.EmployeesLayer;
 import java.util.LinkedList;
 import java.util.List;
 
-import DataAccessLayer.DAO.EmployeesLayer.EmployeeDAO;
+import DataAccessLayer.DAO.EmployeesLayer.EmployeesDAO;
 
 import java.time.LocalDate;
 import java.time.Month;
@@ -13,7 +13,7 @@ public class EmployeeFacade {
     private LinkedList<Employee> employees;
     private LinkedList<Driver> drivers;
     
-    private EmployeeDAO employeeDAO = new EmployeeDAO();
+    private EmployeesDAO employeesDAO = new EmployeesDAO();
     //private DriverDAO driverDAO = new DriverDAO();
 
     private LinkedList<String> printAllEmployeesListAccess;

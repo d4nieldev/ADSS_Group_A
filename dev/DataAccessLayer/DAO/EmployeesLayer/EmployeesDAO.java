@@ -3,9 +3,9 @@ package DataAccessLayer.DAO.EmployeesLayer;
 import DataAccessLayer.DAO.DAO;
 import DataAccessLayer.DTO.EmployeeLayer.*;
 
-public class EmployeeDAO extends DAO<EmployeeDTO> {
+public class EmployeesDAO extends DAO<EmployeeDTO> {
 
-    public EmployeeDAO() {
+    public EmployeesDAO() {
         this.tableName = "Employees";
     }
 

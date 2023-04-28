@@ -52,6 +52,10 @@ public class GradingService {
         return employeeS.printAllEmployees(id);
     }
     
+    public String printDayTransports(int idEmployee, LocalDate date){
+        return employeeS.printDayTransports(idEmployee, date);
+    }
+
     public void changeFirstName(int managerId, int idEmployee, String firstName){
         employeeS.changeFirstName(managerId, idEmployee, firstName);
     }

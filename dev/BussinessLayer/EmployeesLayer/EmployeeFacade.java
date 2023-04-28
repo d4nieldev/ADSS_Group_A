@@ -33,6 +33,7 @@ public class EmployeeFacade {
     private LinkedList<String> addCancelationListAccess;
     private LinkedList<String> printFinalShiftListAccess;
     private LinkedList<String> missingStaffToRoleListAccess;
+    private LinkedList<String> printTransportsListAccess;
 
     public EmployeeFacade(){
         employees = new LinkedList<>();
@@ -64,6 +65,9 @@ public class EmployeeFacade {
          addCancelationListAccess.add(Role.getRole("SHIFTMANAGER"));
          printFinalShiftListAccess = new LinkedList<>(); printFinalShiftListAccess.add(Role.getRole("HRMANAGER"));
          missingStaffToRoleListAccess = new LinkedList<>(); missingStaffToRoleListAccess.add(Role.getRole("HRMANAGER"));
+         printTransportsListAccess = new LinkedList<>(); printTransportsListAccess.add(Role.getRole("HRMANAGER"));
+         printTransportsListAccess.add(Role.getRole("SHIFTMANAGER"));
+         printTransportsListAccess.add(Role.getRole("STOREKEEPER"));
     }
 
     // commit log in for employee, if exsist
@@ -267,6 +271,10 @@ public class EmployeeFacade {
                 if(missingStaffToRoleListAccess.contains(role)){throw new Error("This role can already do this function in the system.");}
                 missingStaffToRoleListAccess.add(role);
             }
+            case("PRINTTRANSPORTS") : {
+                if(printTransportsListAccess.contains(role)){throw new Error("This role can already do this function in the system.");}
+                printTransportsListAccess.add(role);
+            }
         }
     }
         
@@ -341,6 +349,10 @@ public class EmployeeFacade {
                 if(!missingStaffToRoleListAccess.contains(role)){throw new Error("This role can not do this function according to the system.");}
                 missingStaffToRoleListAccess.remove(role);
             }
+            case("PRINTTRANSPORTS") : {
+                if(!printTransportsListAccess.contains(role)){throw new Error("This role can not do this function according to the system.");}
+                printTransportsListAccess.remove(role);
+            }
         }
     }
 
@@ -414,11 +426,13 @@ public class EmployeeFacade {
     public LinkedList<String> getAddCancelationListAccess(){return addCancelationListAccess;}
     public LinkedList<String> getPrintFinalShiftListAccess(){return printFinalShiftListAccess;}
     public LinkedList<String> getMissingStaffToRoleListAccess(){return missingStaffToRoleListAccess;}
+    public LinkedList<String> getPrintTransportsListAccess(){return printTransportsListAccess;}
 
     public String getManagerType(int id){
         Employee manager = getEmployeeById(id);
         return manager.getRoles().getFirst();
     }
+
     //-------------------------------------------------------Help Functions------------------------------------------------------------
 
     //called only if the employee exist, else will return error.
@@ -440,7 +454,7 @@ public class EmployeeFacade {
     }
 
     // return true if the employee exsist already in the system
-    private boolean isEmployeeExists(int id){
+    public boolean isEmployeeExists(int id){
         for (Employee employee : employees) {
             if (employee.getId() == id)
                 return true;
@@ -453,7 +467,7 @@ public class EmployeeFacade {
     }
 
     // return true if the employee logged in to the system
-    private boolean isEmployeeLoggedIn(int id){
+    public boolean isEmployeeLoggedIn(int id){
         Employee employee = getEmployeeById(id);
         return employee.getIsLoggedIn();
     }
@@ -496,6 +510,10 @@ public class EmployeeFacade {
             if (allowed.contains(role)){
                 return;
             }
+        }
+        Driver driver = getDriverById(idEmployee);
+        if (allowed.contains("DRIVER")){
+                return;
         }
         throw new Error("The id " + idEmployee + " is not allowed to do that function.");
     }

@@ -8,7 +8,9 @@ import BussinessLayer.EmployeesLayer.EmployeeFacade;
 
 public class EmployeeTransportFacade {
     private EmployeeFacade employeeFacade;
-    // privates for starnsport moudle
+    
+    // privates for transport moudle
+    // ----------------------------------------------------
 
     public EmployeeTransportFacade(EmployeeFacade employeeFacade){
         this.employeeFacade = employeeFacade;
@@ -22,5 +24,14 @@ public class EmployeeTransportFacade {
         employeeFacade.checkIfEmployeeAllowed(idEmployee, employeeFacade.getPrintTransportsListAccess());
         // TODO - add to str all the transport in the date - transport moudle
         return strTransports;
+    }
+
+    public String printDayDrivers(int idEmployee, LocalDate date){
+        employeeFacade.checkLoggedIn(idEmployee);
+        employeeFacade.checkEmployee(idEmployee);
+        Employee employee = employeeFacade.getEmployeeById(idEmployee);
+        employeeFacade.checkIfEmployeeAllowed(idEmployee, employeeFacade.getPrintAllEmployeesListAccess());
+        if(date.compareTo(LocalDate.now()) <= 0) {return employeeFacade.printDayDriversPast(date);}
+        else {return employeeFacade.printDayDriversFuture(date);}
     }
 }

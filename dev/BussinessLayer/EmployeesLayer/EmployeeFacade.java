@@ -160,6 +160,19 @@ public class EmployeeFacade {
         }
         return strPrint;
     }
+    
+    // print all employees in the system.
+    // only if its HR manager.
+    public String printAllDrivers(int id){
+        String strPrint = "";
+        checkEmployee(id);
+        checkLoggedIn(id);
+        checkIfEmployeeAllowed(id, printAllEmployeesListAccess);
+        for (Driver driver : drivers) {
+            strPrint += driver.toString() + "\n";
+        }
+        return strPrint;
+    }
 
     public void checkShiftInDate(int idEmployee, LocalDate date){
         checkEmployee(idEmployee);
@@ -212,6 +225,21 @@ public class EmployeeFacade {
         getDriverById(driverId).RemoveConstraintDriver(date);
     }
 
+    public String printDayDriversPast(LocalDate date){
+        String strDrivers = "";
+        for (Driver driver : drivers) {
+            if(driver.getWorkedDates().contains(date)) {strDrivers += driver.toString();}
+        }
+        return strDrivers;
+    }
+
+    public String printDayDriversFuture(LocalDate date){
+        String strDrivers = "";
+        for (Driver driver : drivers) {
+            if(driver.getAvailableShiftDates().contains(date)) {strDrivers += driver.toString();}
+        }
+        return strDrivers;
+    }
 
     public void addPremissionRole(int managerId, String function, String role){
         checkHrManager(managerId);
@@ -436,6 +464,7 @@ public class EmployeeFacade {
         getDriverById(idEmployee).setDriverLicense(licene);
     }
 
+    public LinkedList<String> getPrintAllEmployeesListAccess(){return printAllEmployeesListAccess;}
     public LinkedList<String> getAddCancelationListAccess(){return addCancelationListAccess;}
     public LinkedList<String> getPrintFinalShiftListAccess(){return printFinalShiftListAccess;}
     public LinkedList<String> getMissingStaffToRoleListAccess(){return missingStaffToRoleListAccess;}

@@ -37,8 +37,16 @@ public class EmployeeService {
         return employeeFacade.printAllEmployees(id);
     }
 
+    public String printAllDrivers(int id){
+        return employeeFacade.printAllDrivers(id);
+    }
+
     public String printDayTransports(int idEmployee, LocalDate date){
         return employeeTransportFacade.printDayTransports(idEmployee, date);
+    }
+
+    public String printDayDrivers(int idEmployee, LocalDate date){
+        return employeeTransportFacade.printDayDrivers(idEmployee, date);
     }
 
     public void addRoleToEmployee(int managerId, int idEmployee, String role){

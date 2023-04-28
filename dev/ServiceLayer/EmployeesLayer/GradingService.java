@@ -51,9 +51,17 @@ public class GradingService {
     public String printAllEmployees(int id){
         return employeeS.printAllEmployees(id);
     }
+
+    public String printAllDrivers(int id){
+        return employeeS.printAllDrivers(id);
+    }
     
     public String printDayTransports(int idEmployee, LocalDate date){
         return employeeS.printDayTransports(idEmployee, date);
+    }
+
+    public String printDayDrivers(int idEmployee, LocalDate date){
+        return employeeS.printDayDrivers(idEmployee, date);
     }
 
     public void changeFirstName(int managerId, int idEmployee, String firstName){

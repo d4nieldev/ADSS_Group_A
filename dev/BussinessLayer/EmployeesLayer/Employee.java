@@ -24,10 +24,9 @@ public class Employee{
 	private LinkedList<Shift> historyShift;
 	private int superBranch;
 	private LinkedList<Integer> branchs;
-	private String status;
 
 	public Employee(String firstName, String lastName, int id, String password, int bankNum, int bankBranch, int bankAccount, 
-	int salary, int InitializeBonus, LocalDate startDate, License driverLicense, String role, int branch, String status){
+	int salary, int InitializeBonus, LocalDate startDate, License driverLicense, String role, int branch){
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.id = id;
@@ -47,7 +46,6 @@ public class Employee{
 		historyShift = new LinkedList<>();
 		superBranch = branch;
 		branchs = new LinkedList<>();
-		this.status = status;
 	}
 
 	// constructor from database

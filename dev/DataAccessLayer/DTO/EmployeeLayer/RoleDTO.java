@@ -1,5 +1,5 @@
 package DataAccessLayer.DTO.EmployeeLayer;
 
-public class RolesDTO {
+public class RoleDTO {
     
 }

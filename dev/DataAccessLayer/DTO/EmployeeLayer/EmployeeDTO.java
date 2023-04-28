@@ -1,10 +1,10 @@
 package DataAccessLayer.DTO.EmployeeLayer;
 
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.util.Date;
 import java.util.LinkedList;
-
 import BussinessLayer.EmployeesLayer.Shift;
-import Misc.*;
 
 public class EmployeeDTO {
 	public String firstName;
@@ -16,17 +16,17 @@ public class EmployeeDTO {
 	public int bankAccount;
 	public int salary;
 	public int bonus;
-	public LocalDate startDate;
-	public License driverLicense;
+	public Date startDate;
+	public String tempsEmployment;
 	public LinkedList<String> roles;
 	public boolean isLoggedIn;
 	public LinkedList<Shift> historyShift;
 	public int superBranch;
 	public LinkedList<Integer> branchs;
-	public String status;
 
-	public EmployeeDTO(String firstName, String lastName, int id, String password, int bankNum, int bankBranch, int bankAccount, 
-	int salary, int bonus, LocalDate startDate, License driverLicense, String role, int branch, String status){
+	
+	public EmployeeDTO(int id, String firstName, String lastName, String password, int bankNum, int bankBranch, int bankAccount, 
+	int salary, int InitializeBonus, Date startDate, String tempsEmployment, Boolean isLoggedIn, Integer branch){
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.id = id;
@@ -35,17 +35,28 @@ public class EmployeeDTO {
 		this.bankBranch = bankBranch;
 		this.bankAccount = bankAccount;
 		this.salary = salary;
-		this.bonus = bonus;
+		this.bonus = InitializeBonus;
 		this.startDate = startDate;
-		this.driverLicense = driverLicense;
-		roles = new LinkedList<>();
-		roles.add(role);
-		isLoggedIn = false;
+		this.tempsEmployment = tempsEmployment;
+		roles = new LinkedList<String>();
+		this.isLoggedIn = isLoggedIn;
 		historyShift = new LinkedList<>();
 		superBranch = branch;
 		branchs = new LinkedList<>();
-		this.status = status;
 	}
 
     public int getId(){return id;}
+	
+    public String fieldsToString() {
+        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+        return String.format("(\"%s\",\"%s\",\"%s\",\"%s\",%s,\"%s\",\"%s\",\"%s\",\"%s\",\"%s\",%s,\"%s\",\"%s\")",
+		 this.firstName, this.lastName, this.id, this.password, this.bankNum, this.bankBranch, this.bankAccount, this.salary,
+		 this.bonus, formatter.format(this.startDate), this.tempsEmployment, this.isLoggedIn, this.superBranch);
+    }
+
+	public int getNumberOfRoles(){return roles.size();}
+	
+    public String getRole(int index) {
+        return String.format("(\"%s\",%s)", this.id, roles.get(index));
+    }
 }

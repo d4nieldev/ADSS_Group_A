@@ -4,4 +4,8 @@ import DataAccessLayer.DTO.EmployeeLayer.*;
 
 public class RolesDAO extends DAO<RoleDTO> {
     
+    public RolesDAO() {
+        this.tableName = "Roles";
+    }
+    
 }

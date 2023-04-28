@@ -3,8 +3,7 @@ package ServiceLayer.EmployeesLayer;
 import java.time.LocalDate;
 import java.util.HashMap;
 
-import Misc.License;
-import Misc.ShiftTime;
+import Misc.*;
 
 public class GradingService {
     private EmployeeService employeeS;
@@ -104,13 +103,13 @@ public class GradingService {
     public String missingStaffToRole(int employeeId, int shiftId){
         return shiftS.missingStaffToRole(employeeId, shiftId);
     }
-
+    
     // ------------------------------------------- BRANCH SERVICE ------------------------------------------------------------
 
     public BranchService getBranchService(){return branchS;}
 
-    public void addBranch(int managetId, String address){
-        branchS.addBranch(managetId, address);
+    public void addBranch(int managetId, String address, Location location){
+        branchS.addBranch(managetId, address, location);
     }
 
     public void addNewEmployee(int managerId, String firstName, String lastName, int id, String password, int bankNum,

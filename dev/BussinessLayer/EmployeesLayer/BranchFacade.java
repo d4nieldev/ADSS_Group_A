@@ -14,12 +14,12 @@ public class BranchFacade {
         this.employeeController = employeeController;
         this.shiftController = shiftController;
         branchs = new LinkedList<>();
-        branchs.add(new Branch(0, "BGU"));
+        branchs.add(new Branch(0, "BGU", Location.SOUTH));
     }
     
-    public void addBranch(int managerId, String address) {
+    public void addBranch(int managerId, String address, Location location) {
         employeeController.checkHrManager(managerId);
-        branchs.add(new Branch(branchIdConuter, address));
+        branchs.add(new Branch(branchIdConuter, address, location));
         branchIdConuter++;
     }
 
@@ -62,9 +62,9 @@ public class BranchFacade {
     public void addShift(int managerId, int branchId, LocalDate date, int startHour, int endHour, ShiftTime time, HashMap<String, Integer> numEmployeesForRole){
         employeeController.checkHrManager(managerId);  // only HR manager
         int shiftID = shiftController.getShiftIdConuter();
-        Shift newShift = new Shift(shiftID, branchId, date, startHour, endHour, time, numEmployeesForRole);
-        shiftController.addShift(newShift);
         Branch branch = getBranchById(branchId);
+        Shift newShift = new Shift(shiftID, branch, date, startHour, endHour, time, numEmployeesForRole);
+        shiftController.addShift(newShift);
         branch.addShift(newShift);
     }
     

@@ -7,7 +7,7 @@ import Misc.*;
 
 public class Shift{
     public int idShift;
-    private int superBranchNumer;
+    private Branch superBranch;
     private LocalDate date;
     private ShiftTime time;
     private int startHour;
@@ -20,9 +20,9 @@ public class Shift{
     private HashMap<Employee, String> finalShift;
     private HashMap<Integer, LinkedList<Integer>> cancellations;
 
-    public Shift(int idShift, int superBranchNumer, LocalDate date, int startHour, int endHour, ShiftTime time, HashMap<String, Integer> numEmployeesForRole){
+    public Shift(int idShift, Branch superBranch, LocalDate date, int startHour, int endHour, ShiftTime time, HashMap<String, Integer> numEmployeesForRole){
         this.idShift = idShift;
-        this.superBranchNumer = superBranchNumer;
+        this.superBranch = superBranch;
         this.date = date;
         this.time = time;
         this.startHour = startHour;
@@ -138,13 +138,15 @@ public class Shift{
     }
     
     public String toString(){
-		return "Shift ID: " + idShift + " , Super Branch Numer: " + superBranchNumer + " [date: " + date + ", time: " + time.toString() + 
+		return "Shift ID: " + idShift + " , Super Branch Id: " + superBranch.getBranchId() + " [date: " + date + ", time: " + time.toString() + 
         ", start hour: " + startHour + ", end hour: " + endHour  + ", duration: " + duration + "]";
     }
     
 //-------------------------------------Getters And Setters--------------------------------------------------------
     public int getID(){return idShift;}
-    public int getSuperBranhNumber(){return superBranchNumer;}
+    public int getSuperBranhId(){return superBranch.getBranchId();}
+    public String getSuperBranhAddress(){return superBranch.getBranchAddress();}
+    public String getLocation(){return superBranch.getBranchLocation().toString(); }
     public LocalDate getDate(){return date;}
     public ShiftTime getShiftTime(){return time;}
     public void setStartHour(int newStartHour){

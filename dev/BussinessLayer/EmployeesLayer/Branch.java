@@ -1,17 +1,21 @@
 package BussinessLayer.EmployeesLayer;
 import java.util.LinkedList;
 
+import Misc.*;
+
 public class Branch {
     private int branchId;
     private String address;
+    private Location location;
     private LinkedList<Employee> originEmployees;
     private LinkedList<Employee> foreignEmployees;
     private LinkedList<Employee> notAllowEmployees;
     private LinkedList<Shift> shifts;
 
-    public Branch(int branchId, String address){
+    public Branch(int branchId, String address, Location location){
         this.branchId = branchId;
         this.address = address;
+        this.location = location;
         this.originEmployees = new LinkedList<>();
         this.foreignEmployees = new LinkedList<>();
         this.notAllowEmployees = new LinkedList<>();
@@ -55,7 +59,8 @@ public class Branch {
 
     //-------------------------------------Getters And Setters--------------------------------------------------------
 
-    public int getBranchId(){ return this.branchId;}
-
-    public LinkedList<Shift> getAllShifts(){return shifts;}
+    public int getBranchId(){ return this.branchId; }
+    public String getBranchAddress(){ return this.address; }
+    public Location getBranchLocation(){ return this.location; }
+    public LinkedList<Shift> getAllShifts(){return shifts; }
 }

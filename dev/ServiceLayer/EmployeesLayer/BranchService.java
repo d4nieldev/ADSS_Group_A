@@ -12,8 +12,8 @@ public class BranchService {
         this.branchFacade = branchFacade;
     }
 
-    public void addBranch(int managerId, String address){
-        branchFacade.addBranch(managerId, address);
+    public void addBranch(int managerId, String address, Location location){
+        branchFacade.addBranch(managerId, address, location);
     }
     
     public void addNewEmployee(int managerId, String firstName, String lastName, int id, String password, int bankNum,

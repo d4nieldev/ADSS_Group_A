@@ -2,7 +2,9 @@ package BussinessLayer;
 
 import java.io.EOFException;
 import java.time.LocalDate;
+import java.util.LinkedList;
 
+import BussinessLayer.EmployeesLayer.Driver;
 import BussinessLayer.EmployeesLayer.Employee;
 import BussinessLayer.EmployeesLayer.EmployeeFacade;
 
@@ -33,5 +35,14 @@ public class EmployeeTransportFacade {
         employeeFacade.checkIfEmployeeAllowed(idEmployee, employeeFacade.getPrintAllEmployeesListAccess());
         if(date.compareTo(LocalDate.now()) <= 0) {return employeeFacade.printDayDriversPast(date);}
         else {return employeeFacade.printDayDriversFuture(date);}
+    }
+
+    public LinkedList<Driver> getDayDrivers(int idEmployee, LocalDate date){
+        employeeFacade.checkLoggedIn(idEmployee);
+        employeeFacade.checkEmployee(idEmployee);
+        Employee employee = employeeFacade.getEmployeeById(idEmployee);
+        employeeFacade.checkIfEmployeeAllowed(idEmployee, employeeFacade.getPrintAllEmployeesListAccess());
+        if(date.compareTo(LocalDate.now()) <= 0) {return employeeFacade.getDayDriversPast(date);}
+        else {return employeeFacade.getDayDriversFuture(date);}
     }
 }

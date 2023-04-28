@@ -48,6 +48,10 @@ public class EmployeeService {
     public String printDayDrivers(int idEmployee, LocalDate date){
         return employeeTransportFacade.printDayDrivers(idEmployee, date);
     }
+  
+    public String getDayDrivers(int idEmployee, LocalDate date){
+        return employeeTransportFacade.getDayDrivers(idEmployee, date);
+    }
 
     public void addRoleToEmployee(int managerId, int idEmployee, String role){
         employeeFacade.addRoleToEmployee(managerId, idEmployee, role);

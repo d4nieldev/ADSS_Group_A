@@ -241,6 +241,22 @@ public class EmployeeFacade {
         return strDrivers;
     }
 
+    public LinkedList<Driver> getDayDriversPast(LocalDate date){
+        LinkedList<Driver> returnDrivers = new LinkedList<>();
+        for (Driver driver : drivers) {
+            if(driver.getWorkedDates().contains(date)) {returnDrivers.add(driver);}
+        }
+        return returnDrivers;
+    }
+
+    public LinkedList<Driver> getDayDriversFuture(LocalDate date){
+        LinkedList<Driver> returnDrivers = new LinkedList<>();
+        for (Driver driver : drivers) {
+            if(driver.getAvailableShiftDates().contains(date)) {returnDrivers.add(driver);}
+        }
+        return returnDrivers;
+    }
+
     public void addPremissionRole(int managerId, String function, String role){
         checkHrManager(managerId);
         switch (function){

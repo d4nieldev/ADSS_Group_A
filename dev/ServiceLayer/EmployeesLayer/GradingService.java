@@ -64,6 +64,10 @@ public class GradingService {
         return employeeS.printDayDrivers(idEmployee, date);
     }
 
+    public String getDayDrivers(int idEmployee, LocalDate date){
+        return employeeS.getDayDrivers(idEmployee, date);
+    }
+
     public void changeFirstName(int managerId, int idEmployee, String firstName){
         employeeS.changeFirstName(managerId, idEmployee, firstName);
     }

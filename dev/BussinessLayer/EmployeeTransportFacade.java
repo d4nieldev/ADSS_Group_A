@@ -1,11 +1,9 @@
 package BussinessLayer;
 
-import java.io.EOFException;
 import java.time.LocalDate;
 import java.util.LinkedList;
 
 import BussinessLayer.EmployeesLayer.Driver;
-import BussinessLayer.EmployeesLayer.Employee;
 import BussinessLayer.EmployeesLayer.EmployeeFacade;
 
 public class EmployeeTransportFacade {
@@ -22,7 +20,7 @@ public class EmployeeTransportFacade {
         String strTransports = "";
         employeeFacade.checkLoggedIn(idEmployee);
         employeeFacade.checkEmployee(idEmployee);
-        Employee employee = employeeFacade.getEmployeeById(idEmployee);
+        //Employee employee = employeeFacade.getEmployeeById(idEmployee);
         employeeFacade.checkIfEmployeeAllowed(idEmployee, employeeFacade.getPrintTransportsListAccess());
         // TODO - add to str all the transport in the date - transport moudle
         return strTransports;
@@ -31,7 +29,7 @@ public class EmployeeTransportFacade {
     public String printDayDrivers(int idEmployee, LocalDate date){
         employeeFacade.checkLoggedIn(idEmployee);
         employeeFacade.checkEmployee(idEmployee);
-        Employee employee = employeeFacade.getEmployeeById(idEmployee);
+        //Employee employee = employeeFacade.getEmployeeById(idEmployee);
         employeeFacade.checkIfEmployeeAllowed(idEmployee, employeeFacade.getPrintAllEmployeesListAccess());
         if(date.compareTo(LocalDate.now()) <= 0) {return employeeFacade.printDayDriversPast(date);}
         else {return employeeFacade.printDayDriversFuture(date);}
@@ -40,7 +38,7 @@ public class EmployeeTransportFacade {
     public LinkedList<Driver> getDayDrivers(int idEmployee, LocalDate date){
         employeeFacade.checkLoggedIn(idEmployee);
         employeeFacade.checkEmployee(idEmployee);
-        Employee employee = employeeFacade.getEmployeeById(idEmployee);
+        //Employee employee = employeeFacade.getEmployeeById(idEmployee);
         employeeFacade.checkIfEmployeeAllowed(idEmployee, employeeFacade.getPrintAllEmployeesListAccess());
         if(date.compareTo(LocalDate.now()) <= 0) {return employeeFacade.getDayDriversPast(date);}
         else {return employeeFacade.getDayDriversFuture(date);}

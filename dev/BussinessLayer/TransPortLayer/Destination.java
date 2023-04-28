@@ -1,7 +1,5 @@
 package BussinessLayer.TransPortLayer;
 
-import BussinessLayer.TransPortLayer.Location;
-
 public class Destination {
     private String address;
     private String phoneNumber;

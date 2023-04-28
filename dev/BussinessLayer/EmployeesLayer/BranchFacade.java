@@ -24,7 +24,7 @@ public class BranchFacade {
     }
 
     public void addNewEmployee(int managerId, String firstName, String lastName, int id, String password, int bankNum,
-    int bankBranch, int bankAccount, int salary, int InitializeBonus, LocalDate startDate, String tempsEmployment, License driverLicense, String role, int branchId){
+    int bankBranch, int bankAccount, int salary, int InitializeBonus, LocalDate startDate, String tempsEmployment, License driverLicense, Integer role, int branchId){
         // only HR manager
         employeeFacade.addEmployee(managerId, firstName, lastName, id, password, bankNum, bankBranch, bankAccount, salary,
         InitializeBonus, startDate, tempsEmployment, driverLicense, role, branchId);
@@ -59,13 +59,13 @@ public class BranchFacade {
         employeeFacade.deleteEmployee(id);
     }
 
-    public void addShift(int managerId, int branchId, LocalDate date, int startHour, int endHour, ShiftTime time, HashMap<String, Integer> numEmployeesForRole){
+    public void addShift(int managerId, int branchId, LocalDate date, int startHour, int endHour, ShiftTime time, HashMap<Integer, Integer> numEmployeesForRole){
         employeeFacade.checkHrManager(managerId);  // only HR manager
         int shiftID = shiftController.getShiftIdConuter();
         Branch branch = getBranchById(branchId);
         // check there is shift manager  in each shift
-        if(!numEmployeesForRole.keySet().contains(Role.getRole("SHIFTMANAGER"))
-            ||numEmployeesForRole.get(Role.getRole("SHIFTMANAGER")) < 1 )
+        if(!numEmployeesForRole.keySet().contains(Role.getRoleByName("SHIFTMANAGER").getId())
+            ||numEmployeesForRole.get(Role.getRoleByName("SHIFTMANAGER").getId()) < 1 )
             throw new Error("You have to role at least one SHIFTMANAGER for each shift.");
         Shift newShift = new Shift(shiftID, branch, date, startHour, endHour, time, numEmployeesForRole);
         shiftController.addShift(newShift);
@@ -106,12 +106,12 @@ public class BranchFacade {
     }
 
     // aprove function for the HR manager to a final shift
-    public void approveFinalShift(int managerID, int shiftID, int branchID, HashMap<Integer, String> hrAssigns){
+    public void approveFinalShift(int managerID, int shiftID, int branchID, HashMap<Integer, Integer> hrAssigns){
         employeeFacade.checkHrManager(managerID);
         Branch branch = getBranchById(branchID);
         Shift shift = shiftController.getShift(shiftID);
         branch.checkShiftInBranch(shift);
-        HashMap<Employee, String> hashMapEmployees = new HashMap<>();
+        HashMap<Employee, Integer> hashMapEmployees = new HashMap<>();
         // new HashMap from Integer and roles to Employees and roles
         for (Integer employeeId : hrAssigns.keySet()) {
             hashMapEmployees.put(employeeFacade.getEmployeeById(employeeId), hrAssigns.get(employeeId));
@@ -144,10 +144,10 @@ public class BranchFacade {
         throw new Error("The branch id " + branchId + "is not in the system. Please try again");
     }
 
-    private void checkShiftManagerExist( HashMap<Employee, String> hashMapEmployees){
+    private void checkShiftManagerExist( HashMap<Employee, Integer> hashMapEmployees){
         boolean foundManager = false;
         for (Employee employee : hashMapEmployees.keySet()) {
-            if(hashMapEmployees.get(employee).equals(Role.getRole("SHIFTMANAGER"))){
+            if(hashMapEmployees.get(employee).equals(Role.getRoleByName("SHIFTMANAGER").getId())){
                 foundManager = true;
                 break;
             }

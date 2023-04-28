@@ -126,7 +126,7 @@ class MainV2 {
 
                             System.out.print("Role: ");
                             String roleString = sc.nextLine();
-                            String role = Role.getRole(roleString);  //may throw an error.
+                            Integer role = Role.getRoleByName(roleString.toUpperCase()).getId();  //may throw an error.
                             //Role.valueOf(roleString.toUpperCase()); //may throw an error.
                             System.out.println("");
 
@@ -173,47 +173,47 @@ class MainV2 {
                             ShiftTime morningEvningShiftTime = ShiftTime.valueOf(morningEvningString.toUpperCase());
                             System.out.println("");
 
-                            HashMap<String, Integer> numEmployeesForRole = new HashMap<>();
+                            HashMap<Integer, Integer> numEmployeesForRole = new HashMap<>();
 
                             System.out.print("Now enter the number of employees for each role. ");
                             System.out.print("Branch Manager: ");
                             int branchManagerNum = Integer.parseInt(sc.nextLine());
-                            numEmployeesForRole.put("BRANCHMANAGER", branchManagerNum);
+                            numEmployeesForRole.put(Role.getRoleByName("BRANCHMANAGER").getId(), branchManagerNum);
                             System.out.println("");
 
                             System.out.print("Shift Manager: ");
                             int shiftManagerNum = Integer.parseInt(sc.nextLine());
-                            numEmployeesForRole.put("SHIFTMANAGER", shiftManagerNum);
+                            numEmployeesForRole.put(Role.getRoleByName("SHIFTMANAGER").getId(), shiftManagerNum);
                             System.out.println("");
 
                             System.out.print("Cashier: ");
                             int chahierNum = Integer.parseInt(sc.nextLine());
-                            numEmployeesForRole.put("CHASHIER", chahierNum);
+                            numEmployeesForRole.put(Role.getRoleByName("CHASHIER").getId(), chahierNum);
                             System.out.println("");
 
                             System.out.print("Storekeeper: ");
                             int storeeeperNum = Integer.parseInt(sc.nextLine());
-                            numEmployeesForRole.put("STOREKEEPER", storeeeperNum);
+                            numEmployeesForRole.put(Role.getRoleByName("STOREKEEPER").getId(), storeeeperNum);
                             System.out.println("");
 
                             System.out.print("Driver: ");
                             int driverNum = Integer.parseInt(sc.nextLine());
-                            numEmployeesForRole.put("DRIVER", driverNum);
+                            numEmployeesForRole.put(Role.getRoleByName("DRIVER").getId(), driverNum);
                             System.out.println("");
 
                             System.out.println("Generral");
                             int generralNum = Integer.parseInt(sc.nextLine());
-                            numEmployeesForRole.put("GENERRAL", generralNum);
+                            numEmployeesForRole.put(Role.getRoleByName("GENERRAL").getId(), generralNum);
                             System.out.println("");
 
                             System.out.println("Cleaner");
                             int cleanerNum = Integer.parseInt(sc.nextLine());
-                            numEmployeesForRole.put("CLEANER", cleanerNum);
+                            numEmployeesForRole.put(Role.getRoleByName("CLEANER").getId(), cleanerNum);
                             System.out.println("");
 
                             System.out.println("Security");
                             int securityNum = Integer.parseInt(sc.nextLine());
-                            numEmployeesForRole.put("SECURITY", securityNum);
+                            numEmployeesForRole.put(Role.getRoleByName("SECURITY").getId(), securityNum);
                             System.out.println("");
 
                             gradingService.addShift(loginId, branchId, localDate, startHour, endHour, morningEvningShiftTime, numEmployeesForRole);

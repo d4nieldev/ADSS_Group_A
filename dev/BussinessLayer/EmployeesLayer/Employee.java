@@ -19,14 +19,14 @@ public class Employee{
 	private HashMap<Pair<Integer, Month>, Integer> bonus; // HashMap for pairs<year,month> and the bonus for this month
 	private LocalDate startDate;
 	private String tempsEmployment;
-	private LinkedList<String> roles;
+	private LinkedList<Integer> roles;
 	private boolean isLoggedIn;
 	private LinkedList<Shift> historyShift;
 	private int superBranch;
 	private LinkedList<Integer> branchs;
 
 	public Employee(String firstName, String lastName, int id, String password, int bankNum, int bankBranch, int bankAccount, 
-	int salary, int InitializeBonus, LocalDate startDate, String tempsEmployment, String role, Integer branch){
+	int salary, int InitializeBonus, LocalDate startDate, String tempsEmployment, Integer role, Integer branch){
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.id = id;
@@ -57,7 +57,7 @@ public class Employee{
 	}
 
 	// add role if not exsist to employee
-	public void addRole(String roleToAdd){
+	public void addRole(Integer roleToAdd){
 		if(roles.contains(roleToAdd)){
 			throw new Error("This employee already have this role.");
 		}
@@ -65,7 +65,7 @@ public class Employee{
 	}
 
 	// remove role if exsist to employee
-	public void removeRole(String roleToRemove){
+	public void removeRole(Integer roleToRemove){
 		if(!roles.contains(roleToRemove)){
 			throw new Error("This employee does not have this role. Can not be removed.");
 		}
@@ -107,7 +107,7 @@ public class Employee{
 		return false;
 	}
 
-	public void checkRoleInEmployee(String role) {
+	public void checkRoleInEmployee(Integer role) {
 		if(!roles.contains(role)){
 			throw new Error("The employee " + getId() + " does not have the role " + role);
 		}
@@ -157,7 +157,7 @@ public class Employee{
 	}
 	public LocalDate getStartDate(){return startDate;}
 	public void setStartDate(LocalDate date){this.startDate = date;}
-	public LinkedList<String> getRoles(){return roles;}
+	public LinkedList<Integer> getRoles(){return roles;}
 	public boolean getIsLoggedIn(){return isLoggedIn;}
 	public void SetIsLoggedInToTrue(){isLoggedIn = true;}
 	public void SetIsLoggedInToFalse(){isLoggedIn = false;}

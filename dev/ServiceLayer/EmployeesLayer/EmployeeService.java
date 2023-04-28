@@ -49,11 +49,11 @@ public class EmployeeService {
         return employeeTransportFacade.printDayDrivers(idEmployee, date);
     }
 
-    public void addRoleToEmployee(int managerId, int idEmployee, String role){
+    public void addRoleToEmployee(int managerId, int idEmployee, Integer role){
         employeeFacade.addRoleToEmployee(managerId, idEmployee, role);
     }
 
-    public void removeRoleFromEmployee(int managerId, int idEmployee, String role){
+    public void removeRoleFromEmployee(int managerId, int idEmployee, Integer role){
         employeeFacade.removeRoleFromEmployee(managerId, idEmployee, role);
     }
 
@@ -66,11 +66,11 @@ public class EmployeeService {
     }
 
     public void addPremissionRole(int managerID, String function, String role){
-        employeeFacade.addPremissionRole(managerID, function.toUpperCase(), Role.getRole(role));
+        employeeFacade.addPremissionRole(managerID, function.toUpperCase(), Role.getRoleByName(role).getId());
     }
     
-    public void RemovePremissionRole(int managerID, String function, String role){
-        employeeFacade.RemovePremissionRole(managerID, function.toUpperCase(), Role.getRole(role));
+    public void RemovePremissionRole(int managerID, String function, Integer role){
+        employeeFacade.RemovePremissionRole(managerID, function.toUpperCase(), role);
     }
     
 

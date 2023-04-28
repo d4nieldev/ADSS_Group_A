@@ -49,7 +49,7 @@ public class ShiftFacade {
         return strPrint;
     }
     
-    public void addConstraint(int shiftId, Employee employee, LinkedList<String> role) {
+    public void addConstraint(int shiftId, Employee employee, LinkedList<Integer> role) {
         getShift(shiftId).addConstraint(employee, role);
     }
 
@@ -57,7 +57,7 @@ public class ShiftFacade {
         getShift(shiftId).removeConstraint(employee);
     }
 
-    public void checkAssignFinalShift(int shiftId, HashMap<Employee, String> hrAssign){
+    public void checkAssignFinalShift(int shiftId, HashMap<Employee, Integer> hrAssign){
         getShift(shiftId).checkAssignFinalShift(hrAssign);
     }
 

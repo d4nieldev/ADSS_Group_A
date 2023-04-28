@@ -16,24 +16,24 @@ public class EmployeeFacade {
     private EmployeesDAO employeesDAO = new EmployeesDAO();
     //private DriverDAO driverDAO = new DriverDAO();
 
-    private LinkedList<String> printAllEmployeesListAccess;
-    private LinkedList<String> addRolesListAccess;
-    private LinkedList<String> removeRolesListAccess;
-    private LinkedList<String> AddBonusListAccess;
-    private LinkedList<String> getAllDriversListAccess;
-    private LinkedList<String> changeFirstNameListAccess;
-    private LinkedList<String> changeLastNameListAccess;
-    private LinkedList<String> changePasswordListAccess;
-    private LinkedList<String> changeBankNumListAccess;
-    private LinkedList<String> changeBankBranchListAccess;
-    private LinkedList<String> changeBankAccountListAccess;
-    private LinkedList<String> changeSalaryListAccess;
-    private LinkedList<String> changeStartDateListAccess;
-    private LinkedList<String> changeDriverLicenceListAccess;
-    private LinkedList<String> addCancelationListAccess;
-    private LinkedList<String> printFinalShiftListAccess;
-    private LinkedList<String> missingStaffToRoleListAccess;
-    private LinkedList<String> printTransportsListAccess;
+    private LinkedList<Integer> printAllEmployeesListAccess;
+    private LinkedList<Integer> addRolesListAccess;
+    private LinkedList<Integer> removeRolesListAccess;
+    private LinkedList<Integer> AddBonusListAccess;
+    private LinkedList<Integer> getAllDriversListAccess;
+    private LinkedList<Integer> changeFirstNameListAccess;
+    private LinkedList<Integer> changeLastNameListAccess;
+    private LinkedList<Integer> changePasswordListAccess;
+    private LinkedList<Integer> changeBankNumListAccess;
+    private LinkedList<Integer> changeBankBranchListAccess;
+    private LinkedList<Integer> changeBankAccountListAccess;
+    private LinkedList<Integer> changeSalaryListAccess;
+    private LinkedList<Integer> changeStartDateListAccess;
+    private LinkedList<Integer> changeDriverLicenceListAccess;
+    private LinkedList<Integer> addCancelationListAccess;
+    private LinkedList<Integer> printFinalShiftListAccess;
+    private LinkedList<Integer> missingStaffToRoleListAccess;
+    private LinkedList<Integer> printTransportsListAccess;
 
     public EmployeeFacade(){
         employees = new LinkedList<>();
@@ -42,32 +42,32 @@ public class EmployeeFacade {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
         LocalDate localDate = LocalDate.parse("01-02-1980", formatter);
         addHRManagerForStartUpTheSystem("Rami", "Arnon", 123456789, "abc", 0, 0,
-         0, 50000, 30000, localDate, "free terms of employment", null, Role.getRole("HRMANAGER"), 0);
+         0, 50000, 30000, localDate, "free terms of employment", null, Role.getRoleByName("HRMANAGER").getId(), 0);
 
         addTransportManagerForStartUpTheSystem("Kfir", "Rotem", 987654321, "abc", 0, 0,
-         0, 0, 0, localDate, "free terms of employment", null, "TRANSPORTMANAGER", 0);
+         0, 0, 0, localDate, "free terms of employment", null, Role.getRoleByName("TRANSPORTMANAGER").getId(), 0);
 
-         printAllEmployeesListAccess = new LinkedList<>(); printAllEmployeesListAccess.add(Role.getRole("HRMANAGER"));
-         addRolesListAccess = new LinkedList<>(); addRolesListAccess.add(Role.getRole("HRMANAGER"));
-         removeRolesListAccess = new LinkedList<>(); removeRolesListAccess.add(Role.getRole("HRMANAGER"));
-         AddBonusListAccess = new LinkedList<>(); AddBonusListAccess.add(Role.getRole("HRMANAGER"));
-         getAllDriversListAccess = new LinkedList<>(); getAllDriversListAccess.add(Role.getRole("HRMANAGER"));
-         changeFirstNameListAccess = new LinkedList<>(); changeFirstNameListAccess.add(Role.getRole("HRMANAGER"));
-         changeLastNameListAccess = new LinkedList<>(); changeLastNameListAccess.add(Role.getRole("HRMANAGER"));
-         changePasswordListAccess = new LinkedList<>(); changePasswordListAccess.add(Role.getRole("HRMANAGER"));
-         changeBankNumListAccess = new LinkedList<>(); changeBankNumListAccess.add(Role.getRole("HRMANAGER"));
-         changeBankBranchListAccess = new LinkedList<>(); changeBankBranchListAccess.add(Role.getRole("HRMANAGER"));
-         changeBankAccountListAccess = new LinkedList<>(); changeBankAccountListAccess.add(Role.getRole("HRMANAGER"));
-         changeSalaryListAccess = new LinkedList<>(); changeSalaryListAccess.add(Role.getRole("HRMANAGER"));
-         changeStartDateListAccess = new LinkedList<>(); changeStartDateListAccess.add(Role.getRole("HRMANAGER"));
-         changeDriverLicenceListAccess = new LinkedList<>(); changeDriverLicenceListAccess.add(Role.getRole("HRMANAGER"));
-         addCancelationListAccess = new LinkedList<>(); addCancelationListAccess.add(Role.getRole("HRMANAGER"));
-         addCancelationListAccess.add(Role.getRole("SHIFTMANAGER"));
-         printFinalShiftListAccess = new LinkedList<>(); printFinalShiftListAccess.add(Role.getRole("HRMANAGER"));
-         missingStaffToRoleListAccess = new LinkedList<>(); missingStaffToRoleListAccess.add(Role.getRole("HRMANAGER"));
-         printTransportsListAccess = new LinkedList<>(); printTransportsListAccess.add(Role.getRole("HRMANAGER"));
-         printTransportsListAccess.add(Role.getRole("SHIFTMANAGER"));
-         printTransportsListAccess.add(Role.getRole("STOREKEEPER"));
+         printAllEmployeesListAccess = new LinkedList<>(); printAllEmployeesListAccess.add(Role.getRoleByName("HRMANAGER").getId());
+         addRolesListAccess = new LinkedList<>(); addRolesListAccess.add(Role.getRoleByName("HRMANAGER").getId());
+         removeRolesListAccess = new LinkedList<>(); removeRolesListAccess.add(Role.getRoleByName("HRMANAGER").getId());
+         AddBonusListAccess = new LinkedList<>(); AddBonusListAccess.add(Role.getRoleByName("HRMANAGER").getId());
+         getAllDriversListAccess = new LinkedList<>(); getAllDriversListAccess.add(Role.getRoleByName("HRMANAGER").getId());
+         changeFirstNameListAccess = new LinkedList<>(); changeFirstNameListAccess.add(Role.getRoleByName("HRMANAGER").getId());
+         changeLastNameListAccess = new LinkedList<>(); changeLastNameListAccess.add(Role.getRoleByName("HRMANAGER").getId());
+         changePasswordListAccess = new LinkedList<>(); changePasswordListAccess.add(Role.getRoleByName("HRMANAGER").getId());
+         changeBankNumListAccess = new LinkedList<>(); changeBankNumListAccess.add(Role.getRoleByName("HRMANAGER").getId());
+         changeBankBranchListAccess = new LinkedList<>(); changeBankBranchListAccess.add(Role.getRoleByName("HRMANAGER").getId());
+         changeBankAccountListAccess = new LinkedList<>(); changeBankAccountListAccess.add(Role.getRoleByName("HRMANAGER").getId());
+         changeSalaryListAccess = new LinkedList<>(); changeSalaryListAccess.add(Role.getRoleByName("HRMANAGER").getId());
+         changeStartDateListAccess = new LinkedList<>(); changeStartDateListAccess.add(Role.getRoleByName("HRMANAGER").getId());
+         changeDriverLicenceListAccess = new LinkedList<>(); changeDriverLicenceListAccess.add(Role.getRoleByName("HRMANAGER").getId());
+         addCancelationListAccess = new LinkedList<>(); addCancelationListAccess.add(Role.getRoleByName("HRMANAGER").getId());
+         addCancelationListAccess.add(Role.getRoleByName("SHIFTMANAGER").getId());
+         printFinalShiftListAccess = new LinkedList<>(); printFinalShiftListAccess.add(Role.getRoleByName("HRMANAGER").getId());
+         missingStaffToRoleListAccess = new LinkedList<>(); missingStaffToRoleListAccess.add(Role.getRoleByName("HRMANAGER").getId());
+         printTransportsListAccess = new LinkedList<>(); printTransportsListAccess.add(Role.getRoleByName("HRMANAGER").getId());
+         printTransportsListAccess.add(Role.getRoleByName("SHIFTMANAGER").getId());
+         printTransportsListAccess.add(Role.getRoleByName("STOREKEEPER").getId());
     }
 
     // commit log in for employee, if exsist
@@ -105,7 +105,7 @@ public class EmployeeFacade {
     // add employee to the system.
     // only if its HR manager and the employee does not exsist already.
     public void addEmployee(int managerId, String firstName, String lastName, int id, String password, int bankNum,
-    int bankBranch, int bankAccount, int salary, int InitializeBonus, LocalDate startDate, String tempsEmployment, License driverLicense, String role, int branch){
+    int bankBranch, int bankAccount, int salary, int InitializeBonus, LocalDate startDate, String tempsEmployment, License driverLicense, Integer role, int branch){
         if (isEmployeeExists(managerId) && isEmployeeLoggedIn(managerId) && !isEmployeeExists(id)){
             checkHrManager(managerId);
             employees.add(new Employee(firstName, lastName, id, password, bankNum, 
@@ -182,21 +182,21 @@ public class EmployeeFacade {
         }
     }
     
-    public void addRoleToEmployee(int managerId, int idEmployee, String role){
+    public void addRoleToEmployee(int managerId, int idEmployee, Integer role){
         checkEmployee(managerId);
         checkLoggedIn(managerId);
         checkIfEmployeeAllowed(managerId, addRolesListAccess);
         getEmployeeById(idEmployee).addRole(role);
     }
 
-    public void removeRoleFromEmployee(int managerId, int idEmployee, String role){
+    public void removeRoleFromEmployee(int managerId, int idEmployee, Integer role){
         checkEmployee(managerId);
         checkLoggedIn(managerId);
         checkIfEmployeeAllowed(managerId, removeRolesListAccess);
         getEmployeeById(idEmployee).removeRole(role);
     }
     
-    public void checkRoleInEmployee(int idEmployee, String role){
+    public void checkRoleInEmployee(int idEmployee, Integer role){
         checkEmployee(idEmployee);
         getEmployeeById(idEmployee).checkRoleInEmployee(role);
     }
@@ -257,7 +257,7 @@ public class EmployeeFacade {
         return returnDrivers;
     }
 
-    public void addPremissionRole(int managerId, String function, String role){
+    public void addPremissionRole(int managerId, String function, int role){
         checkHrManager(managerId);
         switch (function){
             case("PRINTALLEMPLOYEES") : {
@@ -335,7 +335,7 @@ public class EmployeeFacade {
         }
     }
         
-    public void RemovePremissionRole(int managerId, String function, String role){
+    public void RemovePremissionRole(int managerId, String function, Integer role){
         checkHrManager(managerId);
         switch (function){
             case("PRINTALLEMPLOYEES") : {
@@ -480,15 +480,15 @@ public class EmployeeFacade {
         getDriverById(idEmployee).setDriverLicense(licene);
     }
 
-    public LinkedList<String> getPrintAllEmployeesListAccess(){return printAllEmployeesListAccess;}
-    public LinkedList<String> getAddCancelationListAccess(){return addCancelationListAccess;}
-    public LinkedList<String> getPrintFinalShiftListAccess(){return printFinalShiftListAccess;}
-    public LinkedList<String> getMissingStaffToRoleListAccess(){return missingStaffToRoleListAccess;}
-    public LinkedList<String> getPrintTransportsListAccess(){return printTransportsListAccess;}
+    public LinkedList<Integer> getPrintAllEmployeesListAccess(){return printAllEmployeesListAccess;}
+    public LinkedList<Integer> getAddCancelationListAccess(){return addCancelationListAccess;}
+    public LinkedList<Integer> getPrintFinalShiftListAccess(){return printFinalShiftListAccess;}
+    public LinkedList<Integer> getMissingStaffToRoleListAccess(){return missingStaffToRoleListAccess;}
+    public LinkedList<Integer> getPrintTransportsListAccess(){return printTransportsListAccess;}
 
     public String getManagerType(int id){
         Employee manager = getEmployeeById(id);
-        return manager.getRoles().getFirst();
+        return Role.getRoleById(manager.getRoles().getFirst()).getName();
     }
 
     //-------------------------------------------------------Help Functions------------------------------------------------------------
@@ -541,8 +541,8 @@ public class EmployeeFacade {
     // return true if the employee is HR manager
     private boolean isEmployeeHRManager(int id){
         Employee employee = getEmployeeById(id);
-        List<String> managerRoles = employee.getRoles();
-        return managerRoles.contains(Role.getRole("HRMANAGER"));
+        List<Integer> managerRoles = employee.getRoles();
+        return managerRoles.contains(Role.getRoleByName("HRMANAGER").getId());
     }
 
     // check if the employee is a HRmanager and is sign in to the system
@@ -561,16 +561,16 @@ public class EmployeeFacade {
         }
     }
 
-    public void checkIfEmployeeAllowed(int idEmployee, List<String> allowed){
+    public void checkIfEmployeeAllowed(int idEmployee, List<Integer> allowed){
         checkEmployee(idEmployee);
         Employee employee = getEmployeeById(idEmployee);
-        for (String role : employee.getRoles()) {
+        for (Integer role : employee.getRoles()) {
             if (allowed.contains(role)){
                 return;
             }
         }
-        Driver driver = getDriverById(idEmployee);
-        if (allowed.contains("DRIVER")){
+        //Driver driver = getDriverById(idEmployee);
+        if (allowed.contains(Role.getRoleByName("DRIVER").getId())){
                 return;
         }
         throw new Error("The id " + idEmployee + " is not allowed to do that function.");
@@ -578,14 +578,14 @@ public class EmployeeFacade {
 
     // help function that create HR manager to start up the system
     private void addHRManagerForStartUpTheSystem(String firstName, String lastName, int id, String password, int bankNum,
-    int bankBranch, int bankAccount, int salary, int bonus, LocalDate startDate, String tempsEmployment, License driverLicense, String role, int branch){
+    int bankBranch, int bankAccount, int salary, int bonus, LocalDate startDate, String tempsEmployment, License driverLicense, Integer role, int branch){
         employees.add(new Employee(firstName, lastName, id, password, bankNum,
         bankBranch, bankAccount, salary, bonus, startDate, tempsEmployment, role, branch));
     }
 
      // help function that create HR manager to start up the system
      private void addTransportManagerForStartUpTheSystem(String firstName, String lastName, int id, String password, int bankNum,
-     int bankBranch, int bankAccount, int salary, int bonus, LocalDate startDate, String tempsEmployment, License driverLicense, String role, int branch){
+     int bankBranch, int bankAccount, int salary, int bonus, LocalDate startDate, String tempsEmployment, License driverLicense, Integer role, int branch){
          employees.add(new Employee(firstName, lastName, id, password, bankNum,
          bankBranch, bankAccount, salary, bonus, startDate, tempsEmployment, role, branch));
      }

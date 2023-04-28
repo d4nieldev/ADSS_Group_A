@@ -1,4 +1,5 @@
 package Misc;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -6,17 +7,33 @@ import java.util.List;
 
 public class Role {
 
-    public final static List<String> listRoles = Arrays.asList(
-        "HRMANAGER", "BRANCHMANAGER", "SHIFTMANAGER", "CASHIER", "STOREKEEPER", "DRIVER", "GENERRAL", "CLEANER", "SECURITY", "TRANSPORTMANAGER");
+    static private int counterRoles = 0;
+    static private List<instanceRole> roles;
 
-    public static void addRole(String role){
-        if(listRoles.contains(role)){throw new Error("This role is already exsist in the system.");}
-        listRoles.add(role);
+// "HRMANAGER", "BRANCHMANAGER", "SHIFTMANAGER", "CASHIER", "STOREKEEPER", "DRIVER", "GENERRAL", "CLEANER", "SECURITY", "TRANSPORTMANAGER"
+
+    public Role(){
+        roles = new ArrayList<instanceRole>();
+    }
+    
+    public static void addRole(String nameRole){
+        roles.add(counterRoles, new instanceRole(counterRoles, nameRole));
+        counterRoles++;
     }
 
-    public static String getRole(String role){
-        role = role.toUpperCase();
-        if(!listRoles.contains(role)){throw new Error("This role is not in the system.");}
-        return role;
+    public void updateRoleName(String oldName, String newName){
+        instanceRole role = getRoleByName(oldName);
+        role.setName(newName);
+    }
+
+    public static instanceRole getRoleById(int id){
+        return roles.get(id);
+    }
+
+    public static instanceRole getRoleByName(String name){
+        for (instanceRole instanceRole : roles) {
+            if(instanceRole.getName().equals(name)){return instanceRole;}
+        }
+        throw new Error("Not found a role in the system with that name.");
     }
 }

@@ -2,14 +2,17 @@ package ServiceLayer.EmployeesLayer;
 import java.time.LocalDate;
 import java.time.Month;
 
+import BussinessLayer.EmployeeTransportFacade;
 import BussinessLayer.EmployeesLayer.*;
 import Misc.*;
 
 public class EmployeeService {
     private EmployeeFacade employeeFacade;
+    private EmployeeTransportFacade employeeTransportFacade;
 
-    public EmployeeService(EmployeeFacade employeeFacade){
+    public EmployeeService(EmployeeFacade employeeFacade, EmployeeTransportFacade employeeTransportFacade){
         this.employeeFacade = employeeFacade;
+        this.employeeTransportFacade = employeeTransportFacade;
     }
 
     public void logIn(int id, String password){

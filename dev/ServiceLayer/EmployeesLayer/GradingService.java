@@ -104,6 +104,14 @@ public class GradingService {
         return employeeS.getManagerType(id);
     }
 
+    public void AddConstraintDriver(int driverId, LocalDate date){
+        employeeS.AddConstraintDriver(driverId, date);
+    }
+
+    public void RemoveConstraintDriver(int driverId, LocalDate date){
+        employeeS.RemoveConstraintDriver(driverId, date);
+    }
+
     // ------------------------------------------- SHIFT SERVICE ------------------------------------------------------------
 
     public void addCancelation(int shiftId, int employeeId ,int itemId, int itemCode){

@@ -107,4 +107,13 @@ public class EmployeeService {
     public String getManagerType(int id){
         return employeeFacade.getManagerType(id);
     }
+    
+    public void AddConstraintDriver(int driverId, LocalDate date){
+        employeeFacade.AddConstraintDriver(driverId, date);
+    }
+
+    public void RemoveConstraintDriver(int driverId, LocalDate date){
+        employeeFacade.RemoveConstraintDriver(driverId, date);
+    }
+
 }

@@ -199,6 +199,19 @@ public class EmployeeFacade {
         checkHrManager(managerHR);
         Role.addRole(role.toUpperCase());
     }
+    
+    public void AddConstraintDriver(int driverId, LocalDate date){
+        checkEmployee(driverId);
+        checkLoggedIn(driverId);
+        getDriverById(driverId).AddConstraintDriver(date);
+    }
+
+    public void RemoveConstraintDriver(int driverId, LocalDate date){
+        checkEmployee(driverId);
+        checkLoggedIn(driverId);
+        getDriverById(driverId).RemoveConstraintDriver(date);
+    }
+
 
     public void addPremissionRole(int managerId, String function, String role){
         checkHrManager(managerId);

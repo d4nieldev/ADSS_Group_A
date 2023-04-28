@@ -18,6 +18,26 @@ public class Driver extends Employee {
         this.driverLicense = driverLicense;
         availableShiftDays = new LinkedList<>();
     }
+    
+    public void AddConstraintDriver(LocalDate date){
+        if(availableShiftDays.contains(date)){
+            throw new Error("This driver is allready asked to work on this day.");
+        }
+        if(date.compareTo(LocalDate.now()) <= 0){
+            throw new Error("Can not submit a shift to a past date or today.");
+        }
+        availableShiftDays.add(date);
+    }
+
+    public void RemoveConstraintDriver(LocalDate date){
+        if(!availableShiftDays.contains(date)){
+            throw new Error("This driver did not asked to work on this day.");
+        }
+        if(date.compareTo(LocalDate.now()) <= 0){
+            throw new Error("Can not change constraint to a shift on a past date or today.");
+        }
+        availableShiftDays.remove(date);
+    }
 
     /**
      * return true if license of driver match to model truck

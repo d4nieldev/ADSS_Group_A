@@ -38,6 +38,17 @@ public class ShiftFacade {
         return strPrint;
     }
     
+    public String printConstarintsShift(int employeeId, int idShift){
+        employeeController.checkLoggedIn(employeeId);
+        employeeController.checkIfEmployeeAllowed(employeeId, employeeController.getPrintFinalShiftListAccess());
+        String strPrint = "";
+        Shift shift = getShift(idShift);
+        if(shift.getIsFinishSettingShift()){throw new Error("The shift is finished setting.");}
+        strPrint += shift.toString();
+        strPrint += shift.printConstraints();
+        return strPrint;
+    }
+    
     public void addConstraint(int shiftId, Employee employee, LinkedList<String> role) {
         getShift(shiftId).addConstraint(employee, role);
     }

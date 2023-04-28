@@ -64,10 +64,6 @@ public class GradingService {
         return employeeS.printDayDrivers(idEmployee, date);
     }
 
-    public String getDayDrivers(int idEmployee, LocalDate date){
-        return employeeS.getDayDrivers(idEmployee, date);
-    }
-
     public void changeFirstName(int managerId, int idEmployee, String firstName){
         employeeS.changeFirstName(managerId, idEmployee, firstName);
     }
@@ -132,6 +128,10 @@ public class GradingService {
 
     public String printFinalShift(int employeeId, int idShift){
         return shiftS.printFinalShift(employeeId, idShift);
+    }
+    
+    public String printConstarintsShift(int employeeId, int idShift){
+        return shiftS.printConstarintsShift(employeeId, idShift);
     }
     
     public String missingStaffToRole(int employeeId, int shiftId){

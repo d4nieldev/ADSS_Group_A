@@ -16,6 +16,10 @@ public class ShiftService {
     public String printFinalShift(int employeeId, int idShift){
         return shiftFacade.printFinalShift(employeeId, idShift);
     }
+
+    public String printConstarintsShift(int employeeId, int idShift){
+        return shiftFacade.printConstarintsShift(employeeId, idShift);
+    }
     
     public String missingStaffToRole(int employeeId, int shiftId){
         return shiftFacade.missingStaffToRole(employeeId, shiftId);

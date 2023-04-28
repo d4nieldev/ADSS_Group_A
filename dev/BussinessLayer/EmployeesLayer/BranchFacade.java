@@ -63,6 +63,10 @@ public class BranchFacade {
         employeeController.checkHrManager(managerId);  // only HR manager
         int shiftID = shiftController.getShiftIdConuter();
         Branch branch = getBranchById(branchId);
+        // check there is shift manager  in each shift
+        if(!numEmployeesForRole.keySet().contains(Role.getRole("SHIFTMANAGER"))
+            ||numEmployeesForRole.get(Role.getRole("SHIFTMANAGER")) < 1 )
+            throw new Error("You have to role at least one SHIFTMANAGER for each shift.");
         Shift newShift = new Shift(shiftID, branch, date, startHour, endHour, time, numEmployeesForRole);
         shiftController.addShift(newShift);
         branch.addShift(newShift);

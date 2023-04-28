@@ -38,6 +38,16 @@ public class GradingService {
         employeeS.logOut(id);
     }
 
+    public void addDriver(int managerId, String firstName, String lastName, int id, String password, int bankNum, int bankBranch, int bankAccount, 
+	int salary, int InitializeBonus, LocalDate startDate, String tempsEmployment, License licence){
+        employeeS.addDriver(managerId, firstName, lastName, id, password, bankNum, bankBranch, bankAccount, salary, InitializeBonus,
+        startDate, tempsEmployment, licence);
+    }
+
+    public void deleteDriver(int managerId, int id){
+        employeeS.deleteDriver(managerId, id);
+    }
+
     public String printAllEmployees(int id){
         return employeeS.printAllEmployees(id);
     }
@@ -85,7 +95,7 @@ public class GradingService {
     public void RemovePremissionRole(int managerID, String function, String role){
         employeeS.RemovePremissionRole(managerID, function, role);
     }
-
+    
     public String getManagerType(int id){
         return employeeS.getManagerType(id);
     }

@@ -11,6 +11,7 @@ import Misc.*;
 
 public class EmployeeFacade {
     private LinkedList<Employee> employees;
+    private LinkedList<Driver> drivers;
     
     private EmployeeDAO employeeDAO = new EmployeeDAO();
     //private DriverDAO driverDAO = new DriverDAO();
@@ -35,6 +36,7 @@ public class EmployeeFacade {
 
     public EmployeeFacade(){
         employees = new LinkedList<>();
+        drivers = new LinkedList<>();
         //Adding Hr manager manualy to the system.
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
         LocalDate localDate = LocalDate.parse("01-02-1980", formatter);
@@ -103,9 +105,26 @@ public class EmployeeFacade {
         if (isEmployeeExists(managerId) && isEmployeeLoggedIn(managerId) && !isEmployeeExists(id)){
             checkHrManager(managerId);
             employees.add(new Employee(firstName, lastName, id, password, bankNum, 
-            bankBranch, bankAccount, salary, InitializeBonus, startDate, tempsEmployment, driverLicense, role, branch));
+            bankBranch, bankAccount, salary, InitializeBonus, startDate, tempsEmployment, role, branch));
             System.out.println("The employee " + firstName + " " + lastName + " has been added successfully");
             // this.employeeDAO.insert(employee.toDTO());//add to DB
+        }
+        else{
+           throw new Error("You must be logged in, be an HR manager and enter a non exist employee in order to do that action.");
+        }      
+    }
+
+    
+    // add driver to the system.
+    // only if its HR manager and the employee does not exsist already.
+    public void addDriver(int managerId, String firstName, String lastName, int id, String password, int bankNum, int bankBranch,
+     int bankAccount, int salary, int InitializeBonus, LocalDate startDate, String tempsEmployment, License driverLicense){
+        if (isEmployeeExists(managerId) && isEmployeeLoggedIn(managerId) && !isEmployeeExists(id)){
+            checkHrManager(managerId);
+            drivers.add(new Driver(firstName, lastName, id, password, bankNum, 
+            bankBranch, bankAccount, salary, InitializeBonus, startDate, tempsEmployment, driverLicense));
+            System.out.println("The driver " + firstName + " " + lastName + " has been added successfully");
+            // this.driverDAO.insert(driver.toDTO());//add to DB
         }
         else{
            throw new Error("You must be logged in, be an HR manager and enter a non exist employee in order to do that action.");
@@ -118,6 +137,12 @@ public class EmployeeFacade {
         employees.remove(employeeToRemove);
     }
 
+    // delete/remove driver from the system.
+    public void deleteDriver(int managerId, int id){
+        checkHrManager(managerId);  // only HR manager
+        Driver driverToRemove = getDriverById(id);
+        drivers.remove(driverToRemove);
+    }
 
     // print all employees in the system.
     // only if its HR manager.
@@ -321,13 +346,7 @@ public class EmployeeFacade {
 
 //-------------------------------------Getters And Setters--------------------------------------------------------
 
-    public LinkedList<Employee> getAllDrivers(){
-        LinkedList<Employee> drivers = new LinkedList<>();
-        for (Employee employee : employees) {
-            if(employee.getRoles().contains(Role.getRole("DRIVER"))){drivers.add(employee);}
-        }
-        return drivers;
-    }
+    public LinkedList<Driver> getAllDrivers(){ return drivers; }
 
     public void changeFirstName(int managerId, int idEmployee, String firstName){
         checkEmployee(managerId);
@@ -389,7 +408,7 @@ public class EmployeeFacade {
         checkEmployee(managerId);
         checkLoggedIn(managerId);
         checkIfEmployeeAllowed(managerId, changeDriverLicenceListAccess);
-        getEmployeeById(idEmployee).setDriverLicense(licene);
+        getDriverById(idEmployee).setDriverLicense(licene);
     }
 
     public LinkedList<String> getAddCancelationListAccess(){return addCancelationListAccess;}
@@ -410,11 +429,24 @@ public class EmployeeFacade {
         }
         throw new Error("The id " + id + "is not in the system. Please try again");
     }
+    
+    //called only if the employee exist, else will return error.
+    public Driver getDriverById(int id){ 
+        for (Driver driver : drivers) {
+            if (driver.getId() == id)
+                return driver;
+        }
+        throw new Error("The id " + id + "is not in the system. Please try again");
+    }
 
     // return true if the employee exsist already in the system
     private boolean isEmployeeExists(int id){
         for (Employee employee : employees) {
             if (employee.getId() == id)
+                return true;
+        }
+        for (Driver driver : drivers) {
+            if (driver.getId() == id)
                 return true;
         }
         return false;
@@ -472,13 +504,13 @@ public class EmployeeFacade {
     private void addHRManagerForStartUpTheSystem(String firstName, String lastName, int id, String password, int bankNum,
     int bankBranch, int bankAccount, int salary, int bonus, LocalDate startDate, String tempsEmployment, License driverLicense, String role, int branch){
         employees.add(new Employee(firstName, lastName, id, password, bankNum,
-        bankBranch, bankAccount, salary, bonus, startDate, tempsEmployment, driverLicense, role, branch));
+        bankBranch, bankAccount, salary, bonus, startDate, tempsEmployment, role, branch));
     }
 
      // help function that create HR manager to start up the system
      private void addTransportManagerForStartUpTheSystem(String firstName, String lastName, int id, String password, int bankNum,
      int bankBranch, int bankAccount, int salary, int bonus, LocalDate startDate, String tempsEmployment, License driverLicense, String role, int branch){
          employees.add(new Employee(firstName, lastName, id, password, bankNum,
-         bankBranch, bankAccount, salary, bonus, startDate, tempsEmployment, driverLicense, role, branch));
+         bankBranch, bankAccount, salary, bonus, startDate, tempsEmployment, role, branch));
      }
 }

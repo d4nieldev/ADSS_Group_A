@@ -5,20 +5,20 @@ import java.util.LinkedList;
 import Misc.*;
 
 public class BranchFacade {
-    private EmployeeFacade employeeController;
+    private EmployeeFacade employeeFacade;
     private ShiftFacade shiftController;
     private LinkedList<Branch> branchs;
     private static int branchIdConuter = 0;
 
-    public BranchFacade(EmployeeFacade employeeController, ShiftFacade shiftController){
-        this.employeeController = employeeController;
+    public BranchFacade(EmployeeFacade employeeFacade, ShiftFacade shiftController){
+        this.employeeFacade = employeeFacade;
         this.shiftController = shiftController;
         branchs = new LinkedList<>();
         branchs.add(new Branch(0, "BGU", Location.SOUTH));
     }
     
     public void addBranch(int managerId, String address, Location location) {
-        employeeController.checkHrManager(managerId);
+        employeeFacade.checkHrManager(managerId);
         branchs.add(new Branch(branchIdConuter, address, location));
         branchIdConuter++;
     }
@@ -26,24 +26,24 @@ public class BranchFacade {
     public void addNewEmployee(int managerId, String firstName, String lastName, int id, String password, int bankNum,
     int bankBranch, int bankAccount, int salary, int InitializeBonus, LocalDate startDate, String tempsEmployment, License driverLicense, String role, int branchId){
         // only HR manager
-        employeeController.addEmployee(managerId, firstName, lastName, id, password, bankNum, bankBranch, bankAccount, salary,
+        employeeFacade.addEmployee(managerId, firstName, lastName, id, password, bankNum, bankBranch, bankAccount, salary,
         InitializeBonus, startDate, tempsEmployment, driverLicense, role, branchId);
         Branch branch = getBranchById(branchId);
-        Employee employee = employeeController.getEmployeeById(id);
+        Employee employee = employeeFacade.getEmployeeById(id);
         branch.addNewEmployee(employee);
     }
     
     public void addForeignEmployee(int managerId, int idEmployee, int branchId){
-        employeeController.checkHrManager(managerId);  // only HR manager
-        Employee employee = employeeController.getEmployeeById(idEmployee);
+        employeeFacade.checkHrManager(managerId);  // only HR manager
+        Employee employee = employeeFacade.getEmployeeById(idEmployee);
         Branch branch = getBranchById(branchId);
         employee.addBranch(branchId); // check not exists already here
         branch.addForeignEmployee(employee);
     }
 
     public void addNotAllowEmployees(int managerId, int idEmployee, int branchId){
-        employeeController.checkHrManager(managerId);  // only HR manager
-        Employee employee = employeeController.getEmployeeById(idEmployee);
+        employeeFacade.checkHrManager(managerId);  // only HR manager
+        Employee employee = employeeFacade.getEmployeeById(idEmployee);
         Branch branch = getBranchById(branchId);
         employee.removeBranch(branchId); // check not removed already here
         branch.addNotAllowEmployees(employee);
@@ -51,16 +51,16 @@ public class BranchFacade {
 
     // delete/remove employee from the system.
     public void deleteEmployee(int managerId, int id){
-        employeeController.checkHrManager(managerId);  // only HR manager
-        Employee employeeToRemove = employeeController.getEmployeeById(id);
+        employeeFacade.checkHrManager(managerId);  // only HR manager
+        Employee employeeToRemove = employeeFacade.getEmployeeById(id);
         for (int branchId : employeeToRemove.getAllBranches()) {
             getBranchById(branchId).removeEmployeeFromSystem(employeeToRemove);
         }
-        employeeController.deleteEmployee(id);
+        employeeFacade.deleteEmployee(id);
     }
 
     public void addShift(int managerId, int branchId, LocalDate date, int startHour, int endHour, ShiftTime time, HashMap<String, Integer> numEmployeesForRole){
-        employeeController.checkHrManager(managerId);  // only HR manager
+        employeeFacade.checkHrManager(managerId);  // only HR manager
         int shiftID = shiftController.getShiftIdConuter();
         Branch branch = getBranchById(branchId);
         // check there is shift manager  in each shift
@@ -82,7 +82,7 @@ public class BranchFacade {
             throw new Error("Cannot add constraints. This shift was approved by the manager.");
         }
         // check employee in branch
-        Employee employee = employeeController.getEmployeeById(idEmployee);
+        Employee employee = employeeFacade.getEmployeeById(idEmployee);
         branch.checkEmployeeInBranch(employee);
         // check employee and role is not already in the constraints list in this shift
         // if not - add the  constraint to the shift
@@ -99,7 +99,7 @@ public class BranchFacade {
             throw new Error("Cannot remove constraints. This shift was approved by the manager.");
         }
         // check employee in branch
-        Employee employee = employeeController.getEmployeeById(idEmployee);
+        Employee employee = employeeFacade.getEmployeeById(idEmployee);
         branch.checkEmployeeInBranch(employee);
         // if not - remove the  constraint to the shift
         shiftController.removeConstraint(idShift, employee);
@@ -107,14 +107,14 @@ public class BranchFacade {
 
     // aprove function for the HR manager to a final shift
     public void approveFinalShift(int managerID, int shiftID, int branchID, HashMap<Integer, String> hrAssigns){
-        employeeController.checkHrManager(managerID);
+        employeeFacade.checkHrManager(managerID);
         Branch branch = getBranchById(branchID);
         Shift shift = shiftController.getShift(shiftID);
         branch.checkShiftInBranch(shift);
         HashMap<Employee, String> hashMapEmployees = new HashMap<>();
         // new HashMap from Integer and roles to Employees and roles
         for (Integer employeeId : hrAssigns.keySet()) {
-            hashMapEmployees.put(employeeController.getEmployeeById(employeeId), hrAssigns.get(employeeId));
+            hashMapEmployees.put(employeeFacade.getEmployeeById(employeeId), hrAssigns.get(employeeId));
         }
         // check: have to be at least one SHIFTMANAGER in the shift
         checkShiftManagerExist(hashMapEmployees);
@@ -125,11 +125,11 @@ public class BranchFacade {
         }
         // check: no employee have a shift on the same day
         for (Employee employee : hashMapEmployees.keySet()) {
-            employeeController.checkShiftInDate(employee.getId(), shift.getDate());
+            employeeFacade.checkShiftInDate(employee.getId(), shift.getDate());
         }
         // check: all the role are existing in the employees that needed
         for(Employee employee : hashMapEmployees.keySet()){
-            employeeController.checkRoleInEmployee(employee.getId(), hrAssigns.get(employee.getId()));
+            employeeFacade.checkRoleInEmployee(employee.getId(), hrAssigns.get(employee.getId()));
         }
         // check: no over employees then needed
         shiftController.checkAssignFinalShift(shift.getID(), hashMapEmployees);

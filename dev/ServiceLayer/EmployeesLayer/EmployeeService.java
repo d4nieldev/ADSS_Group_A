@@ -23,6 +23,16 @@ public class EmployeeService {
         employeeFacade.logOut(id);
     }
 
+    public void deleteDriver(int managerId, int id){
+        employeeFacade.deleteDriver(managerId, id);
+    }
+    
+    public void addDriver(int managerId, String firstName, String lastName, int id, String password, int bankNum, int bankBranch, int bankAccount, 
+	int salary, int InitializeBonus, LocalDate startDate, String tempsEmployment, License licence){
+        employeeFacade.addDriver(managerId, firstName, lastName, id, password, bankNum, bankBranch, bankAccount, salary, InitializeBonus,
+        startDate, tempsEmployment, licence);
+    }
+
     public String printAllEmployees(int id){
         return employeeFacade.printAllEmployees(id);
     }
@@ -50,7 +60,7 @@ public class EmployeeService {
     public void RemovePremissionRole(int managerID, String function, String role){
         employeeFacade.RemovePremissionRole(managerID, function.toUpperCase(), Role.getRole(role));
     }
-
+    
 
     //-------------------------------------Getters And Setters--------------------------------------------------------
 

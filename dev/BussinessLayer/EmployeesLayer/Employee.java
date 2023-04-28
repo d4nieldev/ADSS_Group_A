@@ -19,7 +19,6 @@ public class Employee{
 	private HashMap<Pair<Integer, Month>, Integer> bonus; // HashMap for pairs<year,month> and the bonus for this month
 	private LocalDate startDate;
 	private String tempsEmployment;
-	private License driverLicense;
 	private LinkedList<String> roles;
 	private boolean isLoggedIn;
 	private LinkedList<Shift> historyShift;
@@ -27,7 +26,7 @@ public class Employee{
 	private LinkedList<Integer> branchs;
 
 	public Employee(String firstName, String lastName, int id, String password, int bankNum, int bankBranch, int bankAccount, 
-	int salary, int InitializeBonus, LocalDate startDate, String tempsEmployment, License driverLicense, String role, int branch){
+	int salary, int InitializeBonus, LocalDate startDate, String tempsEmployment, String role, Integer branch){
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.id = id;
@@ -41,7 +40,6 @@ public class Employee{
 		bonus.put(helpPair1, InitializeBonus);
 		this.startDate = startDate;
 		this.tempsEmployment = tempsEmployment;
-		this.driverLicense = driverLicense;
 		roles = new LinkedList<>();
 		roles.add(role);
 		isLoggedIn = false;
@@ -159,8 +157,6 @@ public class Employee{
 	}
 	public LocalDate getStartDate(){return startDate;}
 	public void setStartDate(LocalDate date){this.startDate = date;}
-	public License getDriverLicense(){return driverLicense;}
-	public void setDriverLicense(License driverLicense){this.driverLicense = driverLicense;}
 	public LinkedList<String> getRoles(){return roles;}
 	public boolean getIsLoggedIn(){return isLoggedIn;}
 	public void SetIsLoggedInToTrue(){isLoggedIn = true;}

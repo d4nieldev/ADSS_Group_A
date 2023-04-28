@@ -111,6 +111,10 @@ class MainV2 {
                             System.out.print("Initialize Bouns: ");
                             int InitializeBonus = Integer.parseInt(sc.nextLine());
                             System.out.println("");
+                            
+                            System.out.print("Terms of Employment: ");
+                            String tempsEmployment = sc.nextLine();
+                            System.out.println("");
 
                             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
                             LocalDate localDate = LocalDate.parse(startDate, formatter);
@@ -131,7 +135,7 @@ class MainV2 {
                             System.out.println("");
 
                             gradingService.addNewEmployee(loginId, firstName, lastName, id, password, bankNum,
-                                    bankBranch, bankAccount, salary, InitializeBonus, localDate, driverLicense, role, superBranch);
+                                    bankBranch, bankAccount, salary, InitializeBonus, localDate, tempsEmployment, driverLicense, role, superBranch);
 
                         }
 

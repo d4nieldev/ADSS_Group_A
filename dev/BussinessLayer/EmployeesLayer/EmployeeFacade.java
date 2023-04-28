@@ -39,10 +39,10 @@ public class EmployeeFacade {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
         LocalDate localDate = LocalDate.parse("01-02-1980", formatter);
         addHRManagerForStartUpTheSystem("Rami", "Arnon", 123456789, "abc", 0, 0,
-         0, 50000, 30000, localDate, null, Role.getRole("HRMANAGER"), 0);
+         0, 50000, 30000, localDate, "free terms of employment", null, Role.getRole("HRMANAGER"), 0);
 
         addTransportManagerForStartUpTheSystem("Kfir", "Rotem", 987654321, "abc", 0, 0,
-         0, 0, 0, localDate, null, "TRANSPORTMANAGER", 0);
+         0, 0, 0, localDate, "free terms of employment", null, "TRANSPORTMANAGER", 0);
 
          printAllEmployeesListAccess = new LinkedList<>(); printAllEmployeesListAccess.add(Role.getRole("HRMANAGER"));
          addRolesListAccess = new LinkedList<>(); addRolesListAccess.add(Role.getRole("HRMANAGER"));
@@ -99,11 +99,11 @@ public class EmployeeFacade {
     // add employee to the system.
     // only if its HR manager and the employee does not exsist already.
     public void addEmployee(int managerId, String firstName, String lastName, int id, String password, int bankNum,
-    int bankBranch, int bankAccount, int salary, int InitializeBonus, LocalDate startDate, License driverLicense, String role, int branch){
+    int bankBranch, int bankAccount, int salary, int InitializeBonus, LocalDate startDate, String tempsEmployment, License driverLicense, String role, int branch){
         if (isEmployeeExists(managerId) && isEmployeeLoggedIn(managerId) && !isEmployeeExists(id)){
             checkHrManager(managerId);
             employees.add(new Employee(firstName, lastName, id, password, bankNum, 
-            bankBranch, bankAccount, salary, InitializeBonus, startDate, driverLicense, role, branch));
+            bankBranch, bankAccount, salary, InitializeBonus, startDate, tempsEmployment, driverLicense, role, branch));
             System.out.println("The employee " + firstName + " " + lastName + " has been added successfully");
             // this.employeeDAO.insert(employee.toDTO());//add to DB
         }
@@ -470,15 +470,15 @@ public class EmployeeFacade {
 
     // help function that create HR manager to start up the system
     private void addHRManagerForStartUpTheSystem(String firstName, String lastName, int id, String password, int bankNum,
-    int bankBranch, int bankAccount, int salary, int bonus, LocalDate startDate, License driverLicense, String role, int branch){
+    int bankBranch, int bankAccount, int salary, int bonus, LocalDate startDate, String tempsEmployment, License driverLicense, String role, int branch){
         employees.add(new Employee(firstName, lastName, id, password, bankNum,
-        bankBranch, bankAccount, salary, bonus, startDate, driverLicense, role, branch));
+        bankBranch, bankAccount, salary, bonus, startDate, tempsEmployment, driverLicense, role, branch));
     }
 
      // help function that create HR manager to start up the system
      private void addTransportManagerForStartUpTheSystem(String firstName, String lastName, int id, String password, int bankNum,
-     int bankBranch, int bankAccount, int salary, int bonus, LocalDate startDate, License driverLicense, String role, int branch){
+     int bankBranch, int bankAccount, int salary, int bonus, LocalDate startDate, String tempsEmployment, License driverLicense, String role, int branch){
          employees.add(new Employee(firstName, lastName, id, password, bankNum,
-         bankBranch, bankAccount, salary, bonus, startDate, driverLicense, role, branch));
+         bankBranch, bankAccount, salary, bonus, startDate, tempsEmployment, driverLicense, role, branch));
      }
 }

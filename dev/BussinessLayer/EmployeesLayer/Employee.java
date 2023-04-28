@@ -18,6 +18,7 @@ public class Employee{
 	private int salary;
 	private HashMap<Pair<Integer, Month>, Integer> bonus; // HashMap for pairs<year,month> and the bonus for this month
 	private LocalDate startDate;
+	private String tempsEmployment;
 	private License driverLicense;
 	private LinkedList<String> roles;
 	private boolean isLoggedIn;
@@ -26,7 +27,7 @@ public class Employee{
 	private LinkedList<Integer> branchs;
 
 	public Employee(String firstName, String lastName, int id, String password, int bankNum, int bankBranch, int bankAccount, 
-	int salary, int InitializeBonus, LocalDate startDate, License driverLicense, String role, int branch){
+	int salary, int InitializeBonus, LocalDate startDate, String tempsEmployment, License driverLicense, String role, int branch){
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.id = id;
@@ -39,6 +40,7 @@ public class Employee{
 		this.bonus = new HashMap<>();
 		bonus.put(helpPair1, InitializeBonus);
 		this.startDate = startDate;
+		this.tempsEmployment = tempsEmployment;
 		this.driverLicense = driverLicense;
 		roles = new LinkedList<>();
 		roles.add(role);

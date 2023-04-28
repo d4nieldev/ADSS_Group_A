@@ -24,10 +24,10 @@ public class BranchFacade {
     }
 
     public void addNewEmployee(int managerId, String firstName, String lastName, int id, String password, int bankNum,
-    int bankBranch, int bankAccount, int salary, int InitializeBonus, LocalDate startDate, License driverLicense, String role, int branchId){
+    int bankBranch, int bankAccount, int salary, int InitializeBonus, LocalDate startDate, String tempsEmployment, License driverLicense, String role, int branchId){
         // only HR manager
         employeeController.addEmployee(managerId, firstName, lastName, id, password, bankNum, bankBranch, bankAccount, salary,
-        InitializeBonus, startDate, driverLicense, role, branchId);
+        InitializeBonus, startDate, tempsEmployment, driverLicense, role, branchId);
         Branch branch = getBranchById(branchId);
         Employee employee = employeeController.getEmployeeById(id);
         branch.addNewEmployee(employee);

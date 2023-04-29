@@ -125,6 +125,14 @@ public class Shift{
         return missingStaff;
     }
 
+    public boolean isShiftContainStorekeeper(){
+        if(!finishSettingShift) {return false;}
+        for (Employee employeeInShift : finalShift.keySet()) {
+            if(finalShift.get(employeeInShift).equals(Role.getRoleByName("STOREKEEPER").getId())) {return true;}
+        }
+        return false;
+    }
+
     public String printFinalShift(){
         return "Final Shift: " + finalShift.toString();
     }

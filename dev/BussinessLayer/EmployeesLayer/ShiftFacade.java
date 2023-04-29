@@ -1,6 +1,9 @@
 package BussinessLayer.EmployeesLayer;
+import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.LinkedList;
+
+import Misc.ShiftTime;
 
 public class ShiftFacade {
     private EmployeeFacade employeeController;
@@ -67,6 +70,13 @@ public class ShiftFacade {
         return getShift(shiftId).missingStaffToRole().toString();
     }
 
+    public boolean checkstorekeeperInShift(String address, LocalDate date){
+        boolean res = false;
+        res = getShiftByAddressDateMorning(address, date).isShiftContainStorekeeper() 
+                && getShiftByAddressDateEvening(address, date).isShiftContainStorekeeper();
+        return res;
+    }
+    
 //-------------------------------------Getters And Setters--------------------------------------------------------
 
     // throw Error if there is not shift with this ID
@@ -80,5 +90,21 @@ public class ShiftFacade {
     public int getShiftIdConuter(){return shiftIdConuter;}
 
 //-------------------------------------Help Functions--------------------------------------------------------
+
+    public Shift getShiftByAddressDateMorning(String address, LocalDate date){
+        for (Shift shift : shifts) {
+            if(shift.getSuperBranhAddress().equals(address) && shift.getDate().equals(date) && shift.getShiftTime().equals(ShiftTime.MORNING))
+                return shift;
+        }
+        return null;
+    }
+
+    public Shift getShiftByAddressDateEvening(String address, LocalDate date){
+        for (Shift shift : shifts) {
+            if(shift.getSuperBranhAddress().equals(address) && shift.getDate().equals(date) && shift.getShiftTime().equals(ShiftTime.EVENING))
+                return shift;
+        }
+        return null;
+    }
 
 }

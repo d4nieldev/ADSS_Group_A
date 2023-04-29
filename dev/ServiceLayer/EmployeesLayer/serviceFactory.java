@@ -18,7 +18,7 @@ public class serviceFactory {
         employeeFacade = new EmployeeFacade();
         shiftFacade = new ShiftFacade(employeeFacade);
         branchFacade = new BranchFacade(employeeFacade, shiftFacade);
-        employeeTransportFacade = new EmployeeTransportFacade(employeeFacade);
+        employeeTransportFacade = new EmployeeTransportFacade(employeeFacade, shiftFacade);
         employeeService = new EmployeeService(employeeFacade, employeeTransportFacade);
         shiftService = new ShiftService(shiftFacade);
         branchService = new BranchService(branchFacade);

@@ -5,9 +5,9 @@ import DataAccessLayer.DAO.DAO;
 import DataAccessLayer.DTO.EmployeeLayer.*;
 import java.sql.*;
 
-public class EmployeeRoleDAO extends DAO<EmployeeRoleDTO> {
+public class EmployeesRolesDAO extends DAO<EmployeeRoleDTO> {
     
-    public EmployeeRoleDAO() {
+    public EmployeesRolesDAO() {
         this.tableName = "EmployeesRoles";
     }
     

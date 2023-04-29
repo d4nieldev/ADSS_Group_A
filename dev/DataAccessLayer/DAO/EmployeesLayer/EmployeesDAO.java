@@ -8,11 +8,11 @@ import java.text.SimpleDateFormat;
 import java.util.List;
 
 public class EmployeesDAO extends DAO<EmployeeDTO> {
-    private EmployeeRoleDAO employeeRoleDAO;
+    private EmployeesRolesDAO employeeRoleDAO;
 
     public EmployeesDAO() {
         this.tableName = "Employees";
-        employeeRoleDAO = new EmployeeRoleDAO();
+        employeeRoleDAO = new EmployeesRolesDAO();
     }
 
     @Override

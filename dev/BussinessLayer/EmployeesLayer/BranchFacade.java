@@ -133,6 +133,7 @@ public class BranchFacade {
         }
         // check: no over employees then needed
         shiftController.checkAssignFinalShift(shift.getID(), hashMapEmployees);
+        shift.assignFinalShift(hashMapEmployees);
     }
 
     //-------------------------------------Help Functions--------------------------------------------------------

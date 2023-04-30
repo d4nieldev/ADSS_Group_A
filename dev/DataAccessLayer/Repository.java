@@ -126,6 +126,15 @@ public class Repository {
                 "\tFOREIGN KEY(\"EmployeeID\") REFERENCES \"Employees\"(\"ID\") ON DELETE CASCADE\n" +
                 "\tFOREIGN KEY(\"BranchID\") REFERENCES \"Branches\"(\"BranchID\") ON DELETE CASCADE\n" +
                 ");";
+        String ShiftsCancellationsTable = "CREATE TABLE IF NOT EXISTS \"ShiftsCancellations\" (\n" +
+                "\t\"ShiftID\"\tINTEGER,\n" +
+                "\t\"ProductCode\"\tINTEGER,\n" +
+                "\t\"ProductID\"\tINTEGER,\n" +
+                "\tPRIMARY KEY(\"ShiftID\",\"ProductCode\"),\"ProductID\"),\n" +
+                "\tFOREIGN KEY(\"ShiftID\") REFERENCES \"Shifts\"(\"ShiftID\") ON DELETE CASCADE\n" +
+                // "\tFOREIGN KEY(\"ProductCode\") REFERENCES \"???\"(\"???\") ON DELETE CASCADE\n" +
+                // "\tFOREIGN KEY(\"ProductID\") REFERENCES \"???\"(\"???\") ON DELETE CASCADE\n" +
+                ");";
 
         Connection conn = connect();
         if (conn == null) return;
@@ -142,6 +151,7 @@ public class Repository {
             stmt.execute(EmployeesShiftsConstraintsTable);
             stmt.execute(EmployeesShiftsFinalsTable);
             stmt.execute(EmployeesBranchesTable);
+            stmt.execute(ShiftsCancellationsTable);
 
         } catch (SQLException exception) {
             exception.printStackTrace();

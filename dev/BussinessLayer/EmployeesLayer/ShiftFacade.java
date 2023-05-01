@@ -60,8 +60,13 @@ public class ShiftFacade {
         getShift(shiftId).removeConstraint(employee);
     }
 
-    public void checkAssignFinalShift(int shiftId, HashMap<Employee, Integer> hrAssign){
-        getShift(shiftId).checkAssignFinalShift(hrAssign);
+    public void checkAssignFinalShift(Shift shift, HashMap<Employee, Integer> hrAssign){
+        shift.checkAssignFinalShift(hrAssign);
+        // if succedded - save the final shift
+        shift.assignFinalShift(hrAssign);
+        // save in Database
+        // ShiftDTO shiftDTO = shift.ToDto();
+        // shiftDAO.insert(shiftDTO);
     }
 
     public String missingStaffToRole(int employeeId, int shiftId){

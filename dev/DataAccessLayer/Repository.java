@@ -81,7 +81,7 @@ public class Repository {
                 "\t\"ShiftID\"\tINTEGER PRIMARY KEY,\n" +
                 "\t\"SuperBranch\"\tINTEGER,\n" +
                 "\t\"Date\"\tDateTime,\n" +
-                "\t\"ShiftTine\"\tTEXT,\n" +
+                "\t\"ShiftTime\"\tTEXT,\n" +
                 "\t\"StartHour\"\tINTEGER,\n" +
                 "\t\"EndHour\"\tINTEGER,\n" +
                 "\t\"Duration\"\tINTEGER,\n" +

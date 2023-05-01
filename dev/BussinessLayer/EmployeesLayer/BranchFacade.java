@@ -6,13 +6,13 @@ import Misc.*;
 
 public class BranchFacade {
     private EmployeeFacade employeeFacade;
-    private ShiftFacade shiftController;
+    private ShiftFacade shiftFacade;
     private LinkedList<Branch> branchs;
     private static int branchIdConuter = 0;
 
-    public BranchFacade(EmployeeFacade employeeFacade, ShiftFacade shiftController){
+    public BranchFacade(EmployeeFacade employeeFacade, ShiftFacade shiftFacade){
         this.employeeFacade = employeeFacade;
-        this.shiftController = shiftController;
+        this.shiftFacade = shiftFacade;
         branchs = new LinkedList<>();
         branchs.add(new Branch(0, "BGU", Location.SOUTH));
     }
@@ -61,14 +61,14 @@ public class BranchFacade {
 
     public void addShift(int managerId, int branchId, LocalDate date, int startHour, int endHour, ShiftTime time, HashMap<Integer, Integer> numEmployeesForRole){
         employeeFacade.checkHrManager(managerId);  // only HR manager
-        int shiftID = shiftController.getShiftIdConuter();
+        int shiftID = shiftFacade.getShiftIdConuter();
         Branch branch = getBranchById(branchId);
         // check there is shift manager  in each shift
         if(!numEmployeesForRole.keySet().contains(Role.getRoleByName("SHIFTMANAGER").getId())
             ||numEmployeesForRole.get(Role.getRoleByName("SHIFTMANAGER").getId()) < 1 )
             throw new Error("You have to role at least one SHIFTMANAGER for each shift.");
         Shift newShift = new Shift(shiftID, branch, date, startHour, endHour, time, numEmployeesForRole);
-        shiftController.addShift(newShift);
+        shiftFacade.addShift(newShift);
         branch.addShift(newShift);
     }
     
@@ -76,7 +76,7 @@ public class BranchFacade {
     public void addConstraint(int idBranch, int idEmployee, int idShift){
         // check list is not finishSettingShift
         Branch branch = getBranchById(idBranch);
-        Shift shift = shiftController.getShift(idShift);
+        Shift shift = shiftFacade.getShift(idShift);
         branch.checkShiftInBranch(shift);
         if(shift.getIsFinishSettingShift()) {
             throw new Error("Cannot add constraints. This shift was approved by the manager.");
@@ -86,14 +86,14 @@ public class BranchFacade {
         branch.checkEmployeeInBranch(employee);
         // check employee and role is not already in the constraints list in this shift
         // if not - add the  constraint to the shift
-        shiftController.addConstraint(idShift, employee, employee.getRoles());
+        shiftFacade.addConstraint(idShift, employee, employee.getRoles());
     }
     
     // remove constaint to shift
     public void removeConstraint(int idBranch, int idEmployee, int idShift){
         // check list is not finishSettingShift
         Branch branch = getBranchById(idBranch);
-        Shift shift = shiftController.getShift(idShift);
+        Shift shift = shiftFacade.getShift(idShift);
         branch.checkShiftInBranch(shift);
         if(shift.getIsFinishSettingShift()) {
             throw new Error("Cannot remove constraints. This shift was approved by the manager.");
@@ -102,14 +102,14 @@ public class BranchFacade {
         Employee employee = employeeFacade.getEmployeeById(idEmployee);
         branch.checkEmployeeInBranch(employee);
         // if not - remove the  constraint to the shift
-        shiftController.removeConstraint(idShift, employee);
+        shiftFacade.removeConstraint(idShift, employee);
     }
 
     // aprove function for the HR manager to a final shift
     public void approveFinalShift(int managerID, int shiftID, int branchID, HashMap<Integer, Integer> hrAssigns){
         employeeFacade.checkHrManager(managerID);
         Branch branch = getBranchById(branchID);
-        Shift shift = shiftController.getShift(shiftID);
+        Shift shift = shiftFacade.getShift(shiftID);
         branch.checkShiftInBranch(shift);
         HashMap<Employee, Integer> hashMapEmployees = new HashMap<>();
         // new HashMap from Integer and roles to Employees and roles
@@ -118,22 +118,16 @@ public class BranchFacade {
         }
         // check: have to be at least one SHIFTMANAGER in the shift
         checkShiftManagerExist(hashMapEmployees);
-        // check: exist branch for all employees
         for (Employee employee : hashMapEmployees.keySet()) {
+            // check: exist branch for all employees
             branch.checkEmployeeInBranch(employee);
-            employee.checkShiftInDate(shift.getDate());
-        }
-        // check: no employee have a shift on the same day
-        for (Employee employee : hashMapEmployees.keySet()) {
+            // check: no employee have a shift on the same day
             employeeFacade.checkShiftInDate(employee.getId(), shift.getDate());
-        }
-        // check: all the role are existing in the employees that needed
-        for(Employee employee : hashMapEmployees.keySet()){
+            // check: all the role are existing in the employees that needed
             employeeFacade.checkRoleInEmployee(employee.getId(), hrAssigns.get(employee.getId()));
         }
-        // check: no over employees then needed
-        shiftController.checkAssignFinalShift(shift.getID(), hashMapEmployees);
-        shift.assignFinalShift(hashMapEmployees);
+        // check: no over employees then needed AND save the final shift
+        shiftFacade.checkAssignFinalShift(shift, hashMapEmployees);
     }
 
     //-------------------------------------Help Functions--------------------------------------------------------

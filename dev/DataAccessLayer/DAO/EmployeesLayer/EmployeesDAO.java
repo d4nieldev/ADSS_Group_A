@@ -44,7 +44,7 @@ public class EmployeesDAO extends DAO<EmployeeDTO> {
         if (Ob == null) return 0;
         for (int index = 0; index < Ob.getNumberOfRoles(); index++) {
             String toInsertEmployeeRole = String.format("INSERT INTO %s \n" +
-                    "VALUES %s;", "EmployeeRole", Ob.getRole(index));
+                    "VALUES %s;", "EmployeesRoles", Ob.getRole(index));
             Statement s;
             try {
                 s = conn.createStatement();

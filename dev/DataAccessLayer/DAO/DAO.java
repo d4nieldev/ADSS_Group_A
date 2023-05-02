@@ -12,12 +12,6 @@ import DataAccessLayer.Repository;
 public abstract class DAO<T> {
     protected String tableName;
 
-    // protected String InsertStatement(String Values) {
-    //     return String.format("INSERT INTO %s \n" +
-    //             "VALUES %s;", tableName, Values);
-    // }
-    
-
     public abstract int insert(T Ob);
 
     public abstract int update(T updatedOb);

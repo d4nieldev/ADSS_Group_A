@@ -5,21 +5,21 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class ReportController {
+public class ReportController1 {
 
-    List<Report> inventoryReport;
-    List<Report> deficiencyReport;
+    List<Report1> inventoryReport1;
+    List<Report1> deficiencyReport1;
     ProductController productController ;
-    CategoryController categoryController;
+    CategoryController1 categoryController1;
 
 
 
-    public ReportController(ProductController productController)
+    public ReportController1(ProductController productController)
     {
         this.productController = productController;
-        this.inventoryReport = new ArrayList<>();
-        this.deficiencyReport = new ArrayList<>();
-        this.categoryController = CategoryController.getInstance();
+        this.inventoryReport1 = new ArrayList<>();
+        this.deficiencyReport1 = new ArrayList<>();
+        this.categoryController1 = CategoryController1.getInstance();
     }
 
 
@@ -103,7 +103,7 @@ public void importFlawReport() {
         System.out.println("===============================================");
 
         System.out.format("%-10s%-20s%-10s%-20s%-20s%-20s%-20s%-20s%n", "NO.", "name", "code", "price", "total_quantity","min_quantity", "manufacturer" ,"category");
-        List<Category> categories = categoryController.getCategoriesByIds(categoriesIds);
+        List<Category1> categories = categoryController1.getCategoriesByIds(categoriesIds);
         List<GeneralProduct> allGeneralProducts = productController.getAllProductByCategories(categories);
         int index = 0;
         for (GeneralProduct gp : allGeneralProducts)
@@ -192,11 +192,11 @@ public void importFlawReport() {
         System.out.println("------------------product discount history Report------------------");
         System.out.format("%-10s%-10s%-10s%-20s%-25s%-20s%-20s%n", "NO.","Name", "Code", "Price","Discount percentage", "Start date","End date");
         int index = 0;
-        List<Discount> lst = productController.getProductDiscountHistory(code);
+        List<Discount1> lst = productController.getProductDiscountHistory(code);
         GeneralProduct gp = productController.getGeneralProductByCode(code);
-        for(Discount discount : lst){
-            double price = gp.getPrice()* (1 - discount.getDiscount_percentage()/100);
-            System.out.format("%-10d%-10s%-10d%-20f%-25f%-20s%-20s%n", index, gp.getName(), code, price, discount.getDiscount_percentage(), discount.getStart_date(), discount.getEnd_date());
+        for(Discount1 discount1 : lst){
+            double price = gp.getPrice()* (1 - discount1.getDiscount_percentage()/100);
+            System.out.format("%-10d%-10s%-10d%-20f%-25f%-20s%-20s%n", index, gp.getName(), code, price, discount1.getDiscount_percentage(), discount1.getStart_date(), discount1.getEnd_date());
             index++;
         }
 

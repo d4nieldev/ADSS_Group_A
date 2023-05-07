@@ -1,7 +1,7 @@
 package Service_Layer;
 
-import Business_Layer.Category;
-import Business_Layer.CategoryController;
+import Business_Layer.Category1;
+import Business_Layer.CategoryController1;
 import Business_Layer.GeneralProduct;
 import Business_Layer.ProductController;
 
@@ -11,12 +11,12 @@ import java.util.List;
 public class ProductService {
 
 ProductController productController;
-CategoryController categoryController;
+CategoryController1 categoryController1;
 int branchId;
 
 public ProductService(int branchId){
     this.productController = new ProductController();
-    this.categoryController = CategoryController.getInstance();
+    this.categoryController1 = CategoryController1.getInstance();
     this.branchId = branchId;
 }
 
@@ -96,8 +96,8 @@ public ProductService(int branchId){
      * @param discountPercentage
      */
     public void setDiscountByCategories(List<Integer> categories, LocalDate startDate,LocalDate endDate, double discountPercentage){
-        List<Category> categoriesList = categoryController.getCategoriesByIds(categories);
-        List<Category> generalProducts = categoryController.getListAllSubCategories(categoriesList);
+        List<Category1> categoriesList = categoryController1.getCategoriesByIds(categories);
+        List<Category1> generalProducts = categoryController1.getListAllSubCategories(categoriesList);
         productController.setDiscountOnCategory(generalProducts,startDate,endDate,discountPercentage);
 
     }

@@ -1,7 +1,7 @@
 package Service_Layer;
 
 import Business_Layer.ProductController;
-import Business_Layer.ReportController;
+import Business_Layer.ReportController1;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -9,12 +9,12 @@ import java.util.List;
 public class ReportService {
 
   ProductController productController;
-  ReportController reportController;
+  ReportController1 reportController1;
   int branchId;
 
   public ReportService(ProductService productService) {
     this.productController = productService.getProductController();
-    this.reportController = new ReportController(productController);
+    this.reportController1 = new ReportController1(productController);
     this.branchId = productService.getBranchId();
   }
 
@@ -25,7 +25,7 @@ public class ReportService {
    */
   public void importSpecificProductReport(int code, int id) {
     try {
-      reportController.importSpecificProductReport(code, id);
+      reportController1.importSpecificProductReport(code, id);
     } catch (Exception ex) {
       System.out.println(
         "please try again - there is an issue with your choice"
@@ -37,26 +37,26 @@ public class ReportService {
    * function for a data report on inventory
    */
   public void importInventoryReport() {
-    reportController.importInventoryReport();
+    reportController1.importInventoryReport();
   }
 
   /**
    * function for a data report on a generalProduct
    */
   public void importGeneralProductReport(int code) {
-    reportController.importGeneralProductReport(code);
+    reportController1.importGeneralProductReport(code);
   }
 
   public void importFlawProductsReport() {
-    reportController.importFlawReport();
+    reportController1.importFlawReport();
   }
 
   public void importExpiredProductReport() {
-    reportController.importExpiredProductReport();
+    reportController1.importExpiredProductReport();
   }
 
   public void importShortageReport() {
-    reportController.importShortageReport();
+    reportController1.importShortageReport();
   }
 
   public int getBranchId() {
@@ -64,17 +64,17 @@ public class ReportService {
   }
 
   public void importProductDiscountHistory(int code) {
-    reportController.getProductDiscountHistoryReport(code);
+    reportController1.getProductDiscountHistoryReport(code);
   }
 
   public void importInventoryReportByCategories(List<Integer> categoriesIds) {
-    reportController.importInventoryReportByCategoryId(categoriesIds);
+    reportController1.importInventoryReportByCategoryId(categoriesIds);
   }
 
   public void importProductSellPriceReport(int code) {
-    reportController.importProductSellPriceReport(code);
+    reportController1.importProductSellPriceReport(code);
   }
   public void importFutureExpiredProduct(LocalDate expiredDate){
-    reportController.importFutureExpiredProducts(expiredDate);
+    reportController1.importFutureExpiredProducts(expiredDate);
   }
 }

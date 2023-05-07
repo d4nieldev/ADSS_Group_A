@@ -2,10 +2,10 @@ package Test;
 
 import static org.junit.Assert.*;
 
-import Business_Layer.Category;
+import Business_Layer.Category1;
 import Business_Layer.GeneralProduct;
 import Business_Layer.ProductController;
-import Business_Layer.Supply;
+
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -25,7 +25,7 @@ public class GeneralProductTest {
   @Test
   public void testRemoveItem() {
     // Create a new Product object for testing
-    Category foodCategory = new Category("Food");
+    Category1 foodCategory1 = new Category1("Food");
     pc.receiveNewSupply(
       3,
       "Bread",
@@ -34,7 +34,7 @@ public class GeneralProductTest {
       LocalDate.now().plusDays(7),
       "Company C",
       3,
-      foodCategory.getId(),
+      foodCategory1.getId(),
       null,
       -1
     );

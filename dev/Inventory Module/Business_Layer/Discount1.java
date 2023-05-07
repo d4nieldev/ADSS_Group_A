@@ -1,15 +1,14 @@
 package Business_Layer;
 
 import java.time.LocalDate;
-import java.util.Date;
 
-public class Discount {
+public  class Discount1 {
 
   private LocalDate start_date;
   private LocalDate end_date;
   private double discount_percentage;
 
-  public Discount(
+  public Discount1(
     LocalDate start_date,
     LocalDate end_date,
     double discount_percentage
@@ -19,7 +18,7 @@ public class Discount {
     this.discount_percentage = discount_percentage;
   }
 
-  public Discount() {
+  public Discount1() {
     this.start_date = null;
     this.end_date = null;
     this.discount_percentage = 0;

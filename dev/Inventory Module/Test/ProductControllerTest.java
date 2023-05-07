@@ -10,7 +10,6 @@ import java.util.Arrays;
 import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.jupiter.api.BeforeEach;
 
 
 public class ProductControllerTest {
@@ -33,14 +32,14 @@ public class ProductControllerTest {
     int minQuanitity = 3;
     int totalQuantity = 10;
 
-    Category category = new Category("Milk");
+    Category1 category1 = new Category1("Milk");
     GeneralProduct gp = new GeneralProduct(
       name,
       code,
       price,
       manufacturer,
       minQuanitity,
-      category
+            category1
     );
     pc.addNewGeneralProduct(gp, totalQuantity);
 
@@ -64,7 +63,7 @@ public class ProductControllerTest {
     GeneralProduct gp = pc.getGeneralProductByCode(code);
     assertNull(gp);
 
-    Category category = new Category("Milk");
+    Category1 category1 = new Category1("Milk");
     gp =
       new GeneralProduct(
         name,
@@ -72,7 +71,7 @@ public class ProductControllerTest {
         price,
         manufacturer,
         minQuanitity,
-        category
+              category1
       );
     pc.addNewGeneralProduct(gp, totalQuantity);
     GeneralProduct newGp = pc.getGeneralProductByCode(code);
@@ -120,20 +119,20 @@ public class ProductControllerTest {
     assertEquals(manufacturer, gp.getManufacturer());
     assertEquals(minQuantity, gp.getMin_quantity());
 
-    Category category = gp.getCategory();
-    assertNotNull(category);
-    assertEquals(categoryName, category.getName());
-    assertNull(category.getMain());
+    Category1 category1 = gp.getCategory();
+    assertNotNull(category1);
+    assertEquals(categoryName, category1.getName());
+    assertNull(category1.getMain());
   }
 
   @Test
   public void testTransferFromStorageToShopWithCategories() {
     // Set up test data
-    CategoryController categoryController = CategoryController.getInstance();
-    Category foodCategory = new Category("Food");
-    Category dairyCategory = new Category("Dairy", foodCategory);
-    categoryController.addNewCategory(foodCategory);
-    categoryController.addNewCategory(dairyCategory);
+    CategoryController1 categoryController1 = CategoryController1.getInstance();
+    Category1 foodCategory1 = new Category1("Food");
+    Category1 dairyCategory1 = new Category1("Dairy", foodCategory1);
+    categoryController1.addNewCategory(foodCategory1);
+    categoryController1.addNewCategory(dairyCategory1);
 
     pc.receiveNewSupply(
       1,
@@ -143,7 +142,7 @@ public class ProductControllerTest {
       LocalDate.now().plusMonths(1),
       "Company A",
       2,
-      dairyCategory.getId(),
+      dairyCategory1.getId(),
       null,
       -1
     );
@@ -155,7 +154,7 @@ public class ProductControllerTest {
       LocalDate.now().plusMonths(2),
       "Company B",
       1,
-      dairyCategory.getId(),
+      dairyCategory1.getId(),
       null,
       -1
     );
@@ -167,7 +166,7 @@ public class ProductControllerTest {
       LocalDate.now().plusDays(7),
       "Company C",
       3,
-      foodCategory.getId(),
+      foodCategory1.getId(),
       null,
       -1
     );
@@ -186,8 +185,8 @@ public class ProductControllerTest {
 
   @Test
   public void testReturnProduct() {
-    Category foodCategory = new Category("Food");
-    Category dairyCategory = new Category("Dairy", foodCategory);
+    Category1 foodCategory1 = new Category1("Food");
+    Category1 dairyCategory1 = new Category1("Dairy", foodCategory1);
     // Add a new general product with code 1
     pc.receiveNewSupply(
       1,
@@ -197,7 +196,7 @@ public class ProductControllerTest {
       LocalDate.now().plusMonths(1),
       "Company A",
       2,
-      dairyCategory.getId(),
+      dairyCategory1.getId(),
       null,
       -1
     );
@@ -211,8 +210,8 @@ public class ProductControllerTest {
 
   @Test
   public void testSellProduct() {
-    Category foodCategory = new Category("Food");
-    Category dairyCategory = new Category("Dairy", foodCategory);
+    Category1 foodCategory1 = new Category1("Food");
+    Category1 dairyCategory1 = new Category1("Dairy", foodCategory1);
     // Add a new general product with code 1
     pc.receiveNewSupply(
       1,
@@ -222,7 +221,7 @@ public class ProductControllerTest {
       LocalDate.now().plusMonths(1),
       "Company A",
       2,
-      dairyCategory.getId(),
+      dairyCategory1.getId(),
       null,
       -1
     );
@@ -236,7 +235,7 @@ public class ProductControllerTest {
 
   @Test
   public void testGetSupplyByCodeId() {
-    Category foodCategory = new Category("Food");
+    Category1 foodCategory1 = new Category1("Food");
     pc.receiveNewSupply(
       3,
       "Bread",
@@ -245,7 +244,7 @@ public class ProductControllerTest {
       LocalDate.now().plusDays(7),
       "Company C",
       3,
-      foodCategory.getId(),
+      foodCategory1.getId(),
       null,
       -1
     );
@@ -265,7 +264,7 @@ public class ProductControllerTest {
 
   @Test
   public void testAlertForMinimumQuantity() {
-    Category foodCategory = new Category("Food");
+    Category1 foodCategory1 = new Category1("Food");
     pc.receiveNewSupply(
       3,
       "Bread",
@@ -274,7 +273,7 @@ public class ProductControllerTest {
       LocalDate.now().plusDays(7),
       "Company C",
       2,
-      foodCategory.getId(),
+      foodCategory1.getId(),
       null,
       -1
     );

@@ -1,10 +1,9 @@
 package Business_Layer;
 
 import java.time.LocalDate;
-import java.util.Date;
 import java.util.List;
 
-public class Report {
+public class Report1 {
 
   private LocalDate creationDate;
   private Type type;
@@ -22,7 +21,7 @@ public class Report {
    * @param type
    * @param generalProductList - can be null
    */
-  public Report(
+  public Report1(
     LocalDate creationDate,
     Type type,
     List<GeneralProduct> generalProductList

@@ -10,8 +10,8 @@ public class ProductController {
     private HashMap<GeneralProduct, Integer> allFlawProducts; // map with a product and the amount
     private List<Supply> allSupply; // store all the supply that we received
     private List<Supply> allRelevantSupply; // store all the supply that relevant
-    private CategoryController categoryController; // controller for categories
-    private HashMap<GeneralProduct, List<Discount>> productDiscountHistory; // map of product and its discount history
+    private CategoryController1 categoryController1; // controller for categories
+    private HashMap<GeneralProduct, List<Discount1>> productDiscountHistory; // map of product and its discount history
 
 
     public ProductController() {
@@ -21,7 +21,7 @@ public class ProductController {
         this.allFlawProducts = new HashMap<>();
         this.allSupply = new ArrayList<>();
         this.allRelevantSupply = new ArrayList<>();
-        this.categoryController = CategoryController.getInstance();
+        this.categoryController1 = CategoryController1.getInstance();
         this.productDiscountHistory = new HashMap<>();
     }
     public List<GeneralProduct> getAllGeneralProducts() {
@@ -40,7 +40,7 @@ public class ProductController {
         return allSupply;
     }
 
-    public HashMap<GeneralProduct, List<Discount>> getProductDiscountHistory() {
+    public HashMap<GeneralProduct, List<Discount1>> getProductDiscountHistory() {
         return productDiscountHistory;
     }
 
@@ -313,12 +313,12 @@ public class ProductController {
     }
 
 
-    public void setDiscountOnCategory(List<Category> categories, LocalDate startDate, LocalDate endDate, double discountPercentage) {
+    public void setDiscountOnCategory(List<Category1> categories, LocalDate startDate, LocalDate endDate, double discountPercentage) {
         // Get a list of all sub-categories from the provided list of categories
-        List<Category> allSubCategories = categoryController.getListAllSubCategories(categories);
+        List<Category1> allSubCategories = categoryController1.getListAllSubCategories(categories);
 
         // Create a new Discount object using the provided start date, end date, and discount percentage
-        Discount discount = new Discount(startDate, endDate, discountPercentage);
+        Discount1 discount1 = new Discount1(startDate, endDate, discountPercentage);
 
         // Loop through all general products
         for (GeneralProduct gp : allGeneralProducts) {
@@ -329,27 +329,27 @@ public class ProductController {
                     gp.setOnDiscount(true);
                 }
                 if(gp.getDiscount() == null){
-                    gp.setDiscount(discount);
+                    gp.setDiscount(discount1);
                 }
                 // If the product already has a discount, and the new discount is greater, update the discount
-                if (gp.getDiscount() != null && gp.getDiscount().getDiscount_percentage() < discount.getDiscount_percentage())
-                    gp.setDiscount(discount);
+                if (gp.getDiscount() != null && gp.getDiscount().getDiscount_percentage() < discount1.getDiscount_percentage())
+                    gp.setDiscount(discount1);
 
                 // Add the product and discount to a list of discounted products
-                addProductDiscount(gp, discount);
+                addProductDiscount(gp, discount1);
             }
         }
     }
 
-    private void addProductDiscount(GeneralProduct gp, Discount discount) {
+    private void addProductDiscount(GeneralProduct gp, Discount1 discount1) {
 
-        List<Discount> lst;
+        List<Discount1> lst;
         if (productDiscountHistory.containsKey(gp)) {
             lst = productDiscountHistory.get(gp);
         } else {
             lst = new ArrayList<>();
         }
-        lst.add(discount);
+        lst.add(discount1);
         productDiscountHistory.put(gp, lst);
     }
 
@@ -362,26 +362,26 @@ public class ProductController {
      * @param discountPercentage
      */
     public void setDiscountOnProducts(List<GeneralProduct> allProducts, LocalDate startDate, LocalDate endDate, double discountPercentage) {       // Get a list of all sub-categories from the provided list of categories
-        Discount discount = new Discount(startDate, endDate, discountPercentage);
+        Discount1 discount1 = new Discount1(startDate, endDate, discountPercentage);
         for (GeneralProduct gp : allProducts) {
             if (allGeneralProducts.contains(gp)) {
                 if (startDate.isBefore(LocalDate.now().plusDays(1))) {
                     gp.setOnDiscount(true);
                 }
                 if(gp.getDiscount() == null){
-                    gp.setDiscount(discount);
+                    gp.setDiscount(discount1);
                 }
                 // If the product already has a discount, and the new discount is greater, update the discount
-                if (gp.getDiscount() != null && gp.getDiscount().getDiscount_percentage() < discount.getDiscount_percentage())
-                    gp.setDiscount(discount);
-                addProductDiscount(gp, discount);
+                if (gp.getDiscount() != null && gp.getDiscount().getDiscount_percentage() < discount1.getDiscount_percentage())
+                    gp.setDiscount(discount1);
+                addProductDiscount(gp, discount1);
             }
         }
     }
 
 
     /**
-     * if the general produce was already exist receive it
+     * if the general product was already exist receive it
      *
      * @param code
      * @param price
@@ -433,17 +433,17 @@ public class ProductController {
      */
     public void receiveNewSupply(int code, String name, double price, int amount, LocalDate expiredDate, String manufacturer, int minQuantity, int categoryId, String categoryName, int categoryParentId) {
 //                Scanner scanner = new Scanner(System.in);
-        Category category;
+        Category1 category1;
         if (categoryId != -1) {
-            category = categoryController.getCategoryById(categoryId);
-            if (category == null)
-                category = new Category(categoryName);
+            category1 = categoryController1.getCategoryById(categoryId);
+            if (category1 == null)
+                category1 = new Category1(categoryName);
         } else {
-            Category parent = categoryController.getCategoryById(categoryParentId);
-            category = new Category(categoryName, parent);
+            Category1 parent = categoryController1.getCategoryById(categoryParentId);
+            category1 = new Category1(categoryName, parent);
         }
-        categoryController.addNewCategory(category);
-        GeneralProduct gp = new GeneralProduct(name, code, price, manufacturer, minQuantity, category);
+        categoryController1.addNewCategory(category1);
+        GeneralProduct gp = new GeneralProduct(name, code, price, manufacturer, minQuantity, category1);
         allGeneralProducts.add(gp);
         receiveExistSupply(code, price, amount, expiredDate);
 
@@ -528,14 +528,14 @@ public class ProductController {
      * @param categories a list of Category objects to search for GeneralProduct objects in
      * @return a list of GeneralProduct objects belonging to the given categories or their subcategories
      */
-    public List<GeneralProduct> getAllProductByCategories(List<Category> categories) {
+    public List<GeneralProduct> getAllProductByCategories(List<Category1> categories) {
         List<GeneralProduct> result = new ArrayList<>();
-        List<Category> allSubCategories = new ArrayList<>();
+        List<Category1> allSubCategories = new ArrayList<>();
         // Loop through each category and add all subcategories to a new list, including the original category
-        for (Category category : categories) {
-            List<Category> subCategory = categoryController.getAllSubCategories(category);
-            subCategory.add(category);
-            allSubCategories.addAll(subCategory);
+        for (Category1 category1 : categories) {
+            List<Category1> subCategory1 = categoryController1.getAllSubCategories(category1);
+            subCategory1.add(category1);
+            allSubCategories.addAll(subCategory1);
         }
         // Loop through each GeneralProduct and add it to the result list if it belongs to any of the specified categories or their subcategories
         for (GeneralProduct gp : allGeneralProducts) {
@@ -615,21 +615,21 @@ public class ProductController {
     public void addNewGeneralProduct(String name, int code, double price, String manufacturer, int min_quantity, int total_quantity, int categoryId, String categoryName, int parentCategory) {
         GeneralProduct gp2 = getGeneralProductByCode(code);
         if (gp2 == null) {
-            boolean check = categoryController.ExistCategory(categoryId);
+            boolean check = categoryController1.ExistCategory(categoryId);
             // if Category already exists
             if (check) {
-                Category category = categoryController.getCategoryById(categoryId);
+                Category1 category1 = categoryController1.getCategoryById(categoryId);
                 // create new GeneralProduct object
-                GeneralProduct gp = new GeneralProduct(name, code, price, manufacturer, min_quantity, category, total_quantity);
+                GeneralProduct gp = new GeneralProduct(name, code, price, manufacturer, min_quantity, category1, total_quantity);
                 allGeneralProducts.add(gp);
                 System.out.println("Product added successfully");
             }
             // it's a new category
             else {
-                Category parent = categoryController.getCategoryById(parentCategory);
-                Category category = new Category(categoryName, parent);
-                categoryController.addNewCategory(category);
-                GeneralProduct gp = new GeneralProduct(name, code, price, manufacturer, min_quantity, category, total_quantity);
+                Category1 parent = categoryController1.getCategoryById(parentCategory);
+                Category1 category1 = new Category1(categoryName, parent);
+                categoryController1.addNewCategory(category1);
+                GeneralProduct gp = new GeneralProduct(name, code, price, manufacturer, min_quantity, category1, total_quantity);
                 allGeneralProducts.add(gp);
                 System.out.println("Product added successfully");
             }
@@ -654,7 +654,7 @@ public class ProductController {
      * @param code the code of the product to retrieve discount history for
      * @return a List of Discount objects representing the discount history for the given product
      */
-    public List<Discount> getProductDiscountHistory(int code) {
+    public List<Discount1> getProductDiscountHistory(int code) {
         GeneralProduct gp = getGeneralProductByCode(code);
         return productDiscountHistory.get(gp);
     }

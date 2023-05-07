@@ -3,29 +3,29 @@ package Business_Layer;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Category {
+public class Category1 {
     private int id;
     private String name;
-    private Category main;
+    private Category1 main;
     private List<Integer> allCategories; // keeps all the categories' id that the general product belongs to.
 
 
 
-    public Category(String name,Category ParentCategory)
+    public Category1(String name, Category1 parentCategory1)
     {
         this.id = Global.getNewCategoryid();
         this.name = name;
-        this.main = ParentCategory;
+        this.main = parentCategory1;
         this.allCategories = new ArrayList<>();
         //insert all the categories to the categories list
-        Category cat1 = ParentCategory;
+        Category1 cat1 = parentCategory1;
         while (cat1 != null)
         {
             allCategories.add(cat1.id);
             cat1 = cat1.main;
         }
     }
-    public Category(String name)
+    public Category1(String name)
     {
         this.id = Global.getNewCategoryid();
         this.name = name;
@@ -41,8 +41,8 @@ public class Category {
     public void setId(int id) {this.id = id;}
     public String getName() {return name;}
     public void setName(String name) {this.name = name;}
-    public Category getMain() {return main;}
-    public void setMain(Category main) {this.main = main;}
+    public Category1 getMain() {return main;}
+    public void setMain(Category1 main) {this.main = main;}
 
     public List<Integer> getAllCategories() {return allCategories;}
 

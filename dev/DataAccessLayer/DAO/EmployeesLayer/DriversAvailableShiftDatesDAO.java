@@ -1,20 +1,19 @@
 package DataAccessLayer.DAO.EmployeesLayer;
-
-import DataAccessLayer.Repository;
 import java.sql.*;
+import java.time.LocalDate;
+import DataAccessLayer.Repository;
 
-public class ShiftsCancellationsDAO {
+public class DriversAvailableShiftDatesDAO {
     
+    public DriversAvailableShiftDatesDAO() {}
     
-    public ShiftsCancellationsDAO() {}
-    
-    public int addCancellation(int empID, Integer ProductCode, Integer ProductID)
+    public int addAvailableShiftDates(int empID, LocalDate dateToAdd)
     {
         Connection conn = Repository.getInstance().connect();
         String updateString;
-        if(empID < 0 || ProductCode == null || ProductID == null) return 0;
+        if(dateToAdd == null) return 0;
         updateString= String.format("INSERT INTO %s \n" +
-                "VALUES (\"%s\",\"%s\",\"%s\");", "ShiftsCancellations", empID, ProductCode, ProductID);
+                "VALUES (\"%s\",\"%s\");", "DriversAvailableShiftDates", empID, dateToAdd);
         Statement s;
         try
         {
@@ -26,14 +25,13 @@ public class ShiftsCancellationsDAO {
         }
     }
     
-    public int removeCancellation(int empID, Integer ProductCode, Integer ProductID)
+    public int removeAvailableShiftDates(int empID, LocalDate dateToRemove)
     {
         Connection conn = Repository.getInstance().connect();
         String updateString;
-        if(empID < 0 || ProductCode == null || ProductID == null) return 0;
+        if(dateToRemove == null) return 0;
         updateString= String.format("DELETE FROM %s \n" +
-                "WHERE %s=\"%s\" AND %s=\"%s\" AND %s=\"%s\";", "ShiftsCancellations", "ShiftID", empID, 
-                "ProductCode" , ProductCode, "ProductID", ProductID);
+                "WHERE %s=\"%s\" AND %s=\"%s\";", "DriversAvailableShiftDates", "DriverID", empID,"Date" ,dateToRemove);
         Statement s;
         try
         {

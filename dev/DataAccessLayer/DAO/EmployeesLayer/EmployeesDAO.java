@@ -3,9 +3,10 @@ package DataAccessLayer.DAO.EmployeesLayer;
 import DataAccessLayer.Repository;
 import DataAccessLayer.DAO.DAO;
 import DataAccessLayer.DTO.EmployeeLayer.*;
+
 import java.sql.*;
-import java.text.SimpleDateFormat;
-import java.util.List;
+import java.time.LocalDate;
+import java.util.LinkedList;
 
 public class EmployeesDAO extends DAO<EmployeeDTO> {
     private EmployeesRolesDAO employeeRoleDAO;
@@ -82,17 +83,17 @@ public class EmployeesDAO extends DAO<EmployeeDTO> {
         Connection conn = Repository.getInstance().connect();
         try {
             String id = RS.getString(1); // the first column is ID
-            List<String> skills = getRolesList(id, conn);
-            if (skills == null) {
+            LinkedList<Integer> roles = getRolesList(id, conn);
+            if (roles == null) {
                 return null;
             }
             output = new EmployeeDTO(/*Id*/RS.getInt(1), /*first name*/RS.getString(2),
                 /*last name*/RS.getString(3), /*password*/RS.getString(4),
                     /*bank number*/RS.getInt(5), /*bank branch number*/RS.getInt(6), 
                     /*bank account number*/RS.getInt(7), /*salary*/RS.getInt(8),
-                    /*bonus*/ RS.getInt(9), /*start date*/ new SimpleDateFormat("dd/MM/yyyy").parse(RS.getString(10)),
-                    /*temps employment*/ RS.getString(11), /*is logged in*/ RS.getBoolean(12),
-                    /*super branch*/ RS.getInt(13));
+                    /*bonus*/ RS.getInt(9), /*start date*/ LocalDate.parse(RS.getString(10)),
+                    /*temps employment*/ RS.getString(11), roles,
+                     /*is logged in*/ RS.getBoolean(13), /*super branch*/ RS.getInt(14));
         } catch (Exception e) {
             output = null;
         } finally {
@@ -101,7 +102,23 @@ public class EmployeesDAO extends DAO<EmployeeDTO> {
         return output;
     }
 
-    // TODO - Implement
-    public List<String> getRolesList(String id,Connection conn){return null;}
-    
+    public LinkedList<Integer> getRolesList(String id,Connection conn){
+        LinkedList<Integer> ans = new LinkedList<>();
+        ResultSet rs = get("EmployeesRoles", "EmployeeID", id, conn);
+        try {
+            while (rs.next()) {
+                ans.add(rs.getInt(2));
+            }
+        } catch (Exception e) {
+            return null;
+        }
+        return ans;
+    }
+    public int addRole(int empID, Integer roleToAdd) {
+        return employeeRoleDAO.addRole(empID, roleToAdd);
+    }
+
+    public int removeRole(int empID, Integer roleToRemove) {
+        return employeeRoleDAO.removeRole(empID, roleToRemove);
+    }
 }

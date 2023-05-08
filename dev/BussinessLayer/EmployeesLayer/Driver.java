@@ -3,6 +3,7 @@ package BussinessLayer.EmployeesLayer;
 import java.time.LocalDate;
 import java.util.LinkedList;
 
+import DataAccessLayer.DTO.EmployeeLayer.DriverDTO;
 import Misc.*;
 
 public class Driver extends Employee {
@@ -53,6 +54,12 @@ public class Driver extends Employee {
      */
     public boolean hasLicenseFor(String model) {
         return this.getDriverLicense().equals(model);
+    }
+    
+    public DriverDTO driverToDTO() {
+        return new DriverDTO(getId(), getFirstName(), getLastName(), getPassword(), getBankNum(), getBankBranch(),
+		getBankAccount(), getSalary(), getBonus(), getStartDate(), getTempsEmployment(), getRoles(), 
+        getIsLoggedIn(), getSuperBranch(), this.driverLicense, this.availableShiftDates, this.workedDates);
     }
 
 //-------------------------------------Getters And Setters--------------------------------------------------------

@@ -2,6 +2,7 @@ package BussinessLayer.EmployeesLayer;
 import java.time.LocalDate;
 import java.util.LinkedList;
 
+import DataAccessLayer.DTO.EmployeeLayer.DriverDTO;
 import DataAccessLayer.DTO.EmployeeLayer.EmployeeDTO;
 import Misc.*;
 
@@ -121,12 +122,18 @@ public class Employee{
 		return countHours * salary;
 	}
 
-	//public void resetBonus(){bonus = 0;}
+	public void resetBonus(){bonus = 0;}
 
 	public String toString(){
 		return "Employee Name: " + firstName + " " + lastName + " [id: " + id + ", bank number: " + bankNum  + ", salary: " + salary 
 		+ ", start date: " + startDate + ", roles: " + roles.toString() + "]";
 	}
+
+    public EmployeeDTO toDTO() {
+        return new EmployeeDTO(this.id, this.firstName, this.lastName, this.password, this.bankNum, this.bankBranch,
+		this.bankAccount, this.salary, this.bonus, this.startDate, this.tempsEmployment,
+		this.roles, this.isLoggedIn, this.superBranch);
+    }
 
 //-------------------------------------Getters And Setters--------------------------------------------------------
 	public int getId(){return id;}

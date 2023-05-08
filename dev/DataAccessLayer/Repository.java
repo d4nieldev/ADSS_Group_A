@@ -60,6 +60,7 @@ public class Repository {
                 "\t\"TempsEmployment\"\tTEXT,\n" +
                 "\t\"IsLoggedIn\"\tBOOLEAN,\n" +
                 "\t\"SuperBranch\"\tINTEGER\n" +
+                "\tFOREIGN KEY(\"SuperBranch\") REFERENCES \"Branches\"(\"BranchID\") ON DELETE CASCADE\n" +
                 ");";
         String DriversTable = "CREATE TABLE IF NOT EXISTS \"Drivers\" (\n" +
                 "\t\"ID\"\tINTEGER PRIMARY KEY,\n" +
@@ -76,6 +77,7 @@ public class Repository {
                 "\t\"IsLoggedIn\"\tBOOLEAN,\n" +
                 "\t\"SuperBranch\"\tINTEGER\n" +
                 "\t\"DriverLicense\"\tTEXT\n" +
+                "\tFOREIGN KEY(\"SuperBranch\") REFERENCES \"Branches\"(\"BranchID\") ON DELETE CASCADE\n" +
                 ");";
         String ShiftsTable = "CREATE TABLE IF NOT EXISTS \"Shifts\" (\n" +
                 "\t\"ShiftID\"\tINTEGER PRIMARY KEY,\n" +

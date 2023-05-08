@@ -2,7 +2,7 @@ package BussinessLayer.EmployeesLayer;
 import java.util.LinkedList;
 import java.util.List;
 
-import DataAccessLayer.DAO.EmployeesLayer.EmployeesDAO;
+import DataAccessLayer.DAO.EmployeesLayer.*;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -13,7 +13,7 @@ public class EmployeeFacade {
     private LinkedList<Driver> drivers;
     
     private EmployeesDAO employeesDAO = new EmployeesDAO();
-    //private DriverDAO driverDAO = new DriverDAO();
+    private DriversDAO driversDAO = new DriversDAO();
 
     public EmployeeFacade(){
         employees = new LinkedList<>();
@@ -51,6 +51,8 @@ public class EmployeeFacade {
 
             if (e.getId() == id && e.getPassword().equals(password)) {
                 e.SetIsLoggedInToTrue();
+                if(isEmployeeDriver(id)) {driversDAO.update(((Driver)e).driverToDTO());}
+                else {employeesDAO.update(e.toDTO());}
                 System.out.println("Hello " + e.getFirstName() + " " + 
                 e.getLastName() + " You have logged in successfully");
             }
@@ -68,6 +70,8 @@ public class EmployeeFacade {
         if (isEmployeeExists(id) && isEmployeeLoggedIn(id)){
             Employee e = getEmployeeById(id);
             e.SetIsLoggedInToFalse();
+            if(isEmployeeDriver(id)) {driversDAO.update(((Driver)e).driverToDTO());}
+            else {employeesDAO.update(e.toDTO());}
             System.out.println("Bye Bye " + e.getFirstName() + " " + 
             e.getLastName() + " You have logged out successfully.");
         }
@@ -82,10 +86,11 @@ public class EmployeeFacade {
     int bankBranch, int bankAccount, int salary, int InitializeBonus, LocalDate startDate, String tempsEmployment, License driverLicense, Integer role, int branch){
         if (isEmployeeExists(managerId) && isEmployeeLoggedIn(managerId) && !isEmployeeExists(id)){
             checkHrManager(managerId);
-            employees.add(new Employee(firstName, lastName, id, password, bankNum, 
-            bankBranch, bankAccount, salary, InitializeBonus, startDate, tempsEmployment, role, branch));
+            Employee employee = new Employee(firstName, lastName, id, password, bankNum, 
+            bankBranch, bankAccount, salary, InitializeBonus, startDate, tempsEmployment, role, branch);
+            employees.add(employee);
             System.out.println("The employee " + firstName + " " + lastName + " has been added successfully");
-            // this.employeeDAO.insert(employee.toDTO());//add to DB
+            this.employeesDAO.insert(employee.toDTO());//add to DB
         }
         else{
            throw new Error("You must be logged in, be an HR manager and enter a non exist employee in order to do that action.");
@@ -99,10 +104,11 @@ public class EmployeeFacade {
      int bankAccount, int salary, int InitializeBonus, LocalDate startDate, String tempsEmployment, License driverLicense){
         if (isEmployeeExists(managerId) && isEmployeeLoggedIn(managerId) && !isEmployeeExists(id)){
             checkHrManager(managerId);
-            drivers.add(new Driver(firstName, lastName, id, password, bankNum, 
-            bankBranch, bankAccount, salary, InitializeBonus, startDate, tempsEmployment, driverLicense));
+            Driver driver = new Driver(firstName, lastName, id, password, bankNum, 
+            bankBranch, bankAccount, salary, InitializeBonus, startDate, tempsEmployment, driverLicense);
+            drivers.add(driver);
             System.out.println("The driver " + firstName + " " + lastName + " has been added successfully");
-            // this.driverDAO.insert(driver.toDTO());//add to DB
+            this.driversDAO.insert(driver.driverToDTO());//add to DB
         }
         else{
            throw new Error("You must be logged in, be an HR manager and enter a non exist employee in order to do that action.");
@@ -113,6 +119,7 @@ public class EmployeeFacade {
     public void deleteEmployee(int id){
         Employee employeeToRemove = getEmployeeById(id);
         employees.remove(employeeToRemove);
+        employeesDAO.delete("ID", "" + id);
     }
 
     // delete/remove driver from the system.
@@ -120,6 +127,7 @@ public class EmployeeFacade {
         checkHrManager(managerId);  // only HR manager
         Driver driverToRemove = getDriverById(id);
         drivers.remove(driverToRemove);
+        driversDAO.delete("ID", "" + id);
     }
 
     // print all employees in the system.
@@ -155,6 +163,7 @@ public class EmployeeFacade {
     public void addRoleToEmployee(int managerId, int idEmployee, Integer role){
         checkHrManager(managerId); checkEmployee(idEmployee);
         getEmployeeById(idEmployee).addRole(role);
+        employeesDAO.addRole(idEmployee, role);
     }
 
     public void removeRoleFromEmployee(int managerId, int idEmployee, Integer role){
@@ -228,47 +237,73 @@ public class EmployeeFacade {
 
     public void changeFirstName(int managerId, int idEmployee, String firstName){
         checkHrManager(managerId); checkEmployee(idEmployee);
-        getEmployeeById(idEmployee).setFirstName(firstName);
+        Employee employee = getEmployeeById(idEmployee);
+        employee.setFirstName(firstName);
+        if(isEmployeeDriver(idEmployee)) {driversDAO.update(((Driver)employee).driverToDTO());}
+        else {employeesDAO.update(employee.toDTO());}
     }
 
     public void changeLastName(int managerId, int idEmployee, String lastName){
         checkHrManager(managerId); checkEmployee(idEmployee);
-        getEmployeeById(idEmployee).setLastName(lastName);
+        Employee employee = getEmployeeById(idEmployee);
+        employee.setLastName(lastName);
+        if(isEmployeeDriver(idEmployee)) {driversDAO.update(((Driver)employee).driverToDTO());}
+        else {employeesDAO.update(employee.toDTO());}
     }
 
     public void changePassword(int managerId, int idEmployee, String password){
         checkHrManager(managerId); checkEmployee(idEmployee);
-        getEmployeeById(idEmployee).setPassword(password);
+        Employee employee = getEmployeeById(idEmployee);
+        employee.setPassword(password);
+        if(isEmployeeDriver(idEmployee)) {driversDAO.update(((Driver)employee).driverToDTO());}
+        else {employeesDAO.update(employee.toDTO());}
     }
 
     public void changeBankNum(int managerId, int idEmployee, int bankNum){
         checkHrManager(managerId); checkEmployee(idEmployee);
-        getEmployeeById(idEmployee).setBankNum(bankNum);
+        Employee employee = getEmployeeById(idEmployee);
+        employee.setBankNum(bankNum);
+        if(isEmployeeDriver(idEmployee)) {driversDAO.update(((Driver)employee).driverToDTO());}
+        else {employeesDAO.update(employee.toDTO());}
     }
     
     public void changeBankBranch(int managerId, int idEmployee, int bankBranch){
         checkHrManager(managerId); checkEmployee(idEmployee);
-        getEmployeeById(idEmployee).setBankBranch(bankBranch);
+        Employee employee = getEmployeeById(idEmployee);
+        employee.setBankBranch(bankBranch);
+        if(isEmployeeDriver(idEmployee)) {driversDAO.update(((Driver)employee).driverToDTO());}
+        else {employeesDAO.update(employee.toDTO());}
     }
     
     public void changeBankAccount(int managerId, int idEmployee, int bankAccount){
         checkHrManager(managerId); checkEmployee(idEmployee);
-        getEmployeeById(idEmployee).setBankAccount(bankAccount);
+        Employee employee = getEmployeeById(idEmployee);
+        employee.setBankAccount(bankAccount);
+        if(isEmployeeDriver(idEmployee)) {driversDAO.update(((Driver)employee).driverToDTO());}
+        else {employeesDAO.update(employee.toDTO());}
     }
     
     public void changeSalary(int managerId, int idEmployee, int salary){
         checkHrManager(managerId); checkEmployee(idEmployee);
-        getEmployeeById(idEmployee).setSalary(salary);
+        Employee employee = getEmployeeById(idEmployee);
+        employee.setSalary(salary);
+        if(isEmployeeDriver(idEmployee)) {driversDAO.update(((Driver)employee).driverToDTO());}
+        else {employeesDAO.update(employee.toDTO());}
     }
     
     public void changeStartDate(int managerId, int idEmployee, LocalDate stastDate){
         checkHrManager(managerId); checkEmployee(idEmployee);
-        getEmployeeById(idEmployee).setStartDate(stastDate);
+        Employee employee = getEmployeeById(idEmployee);
+        employee.setStartDate(stastDate);
+        if(isEmployeeDriver(idEmployee)) {driversDAO.update(((Driver)employee).driverToDTO());}
+        else {employeesDAO.update(employee.toDTO());}
     }
     
     public void changeDriverLicence(int managerId, int idEmployee, License licene){
         checkHrManager(managerId); checkEmployee(idEmployee);
-        getDriverById(idEmployee).setDriverLicense(licene);
+        Driver employee = getDriverById(idEmployee);
+        employee.setDriverLicense(licene);
+        driversDAO.update(((Driver)employee).driverToDTO());
     }
 
     public String getManagerType(int id){
@@ -302,6 +337,15 @@ public class EmployeeFacade {
             if (employee.getId() == id)
                 return true;
         }
+        for (Driver driver : drivers) {
+            if (driver.getId() == id)
+                return true;
+        }
+        return false;
+    }
+
+    // return true if the employee is a driver
+    public boolean isEmployeeDriver(int id){
         for (Driver driver : drivers) {
             if (driver.getId() == id)
                 return true;

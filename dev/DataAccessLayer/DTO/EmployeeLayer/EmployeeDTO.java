@@ -1,7 +1,7 @@
 package DataAccessLayer.DTO.EmployeeLayer;
 
 import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.LinkedList;
 import BussinessLayer.EmployeesLayer.Shift;
 
@@ -15,9 +15,9 @@ public class EmployeeDTO {
 	public int bankAccount;
 	public int salary;
 	public int bonus;
-	public Date startDate;
+	public LocalDate startDate;
 	public String tempsEmployment;
-	public LinkedList<String> roles;
+	public LinkedList<Integer> roles;
 	public boolean isLoggedIn;
 	public LinkedList<Shift> historyShift;
 	public int superBranch;
@@ -25,7 +25,8 @@ public class EmployeeDTO {
 
 	
 	public EmployeeDTO(int id, String firstName, String lastName, String password, int bankNum, int bankBranch, int bankAccount, 
-	int salary, int InitializeBonus, Date startDate, String tempsEmployment, Boolean isLoggedIn, Integer branch){
+						int salary, int InitializeBonus, LocalDate startDate, String tempsEmployment, LinkedList<Integer> roles,
+	 					Boolean isLoggedIn, Integer branch){
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.id = id;
@@ -37,7 +38,7 @@ public class EmployeeDTO {
 		this.bonus = InitializeBonus;
 		this.startDate = startDate;
 		this.tempsEmployment = tempsEmployment;
-		roles = new LinkedList<String>();
+		this.roles = roles;
 		this.isLoggedIn = isLoggedIn;
 		historyShift = new LinkedList<>();
 		superBranch = branch;

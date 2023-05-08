@@ -3,8 +3,10 @@ package DataAccessLayer.DAO.EmployeesLayer;
 import DataAccessLayer.Repository;
 import DataAccessLayer.DAO.DAO;
 import DataAccessLayer.DTO.EmployeeLayer.*;
+import Misc.ShiftTime;
 
 import java.sql.*;
+import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.LinkedList;
 
@@ -31,7 +33,7 @@ public class ShiftsDAO extends DAO<ShiftDTO> {
         try {
             s = conn.createStatement();
             s.executeUpdate(InsertStatement(toInsertEmp));
-            int resES1 = insertToShiftsContraints(Ob);
+            int resES1 = insertToShiftsConstraints(Ob);
             int resES2 = insertToShiftsFinals(Ob);
             int resES3 = insertToShiftsCancellations(Ob);
             if (resES1 + resES2 + resES3 == 3) // If inserts worked
@@ -69,9 +71,9 @@ public class ShiftsDAO extends DAO<ShiftDTO> {
         Connection conn = Repository.getInstance().connect();
         if (Ob == null)
             return 0;
-        for (int index = 0; index < Ob.getNumberOfFinals(); index++) {
+        for (int index = 0; index < Ob.getNumberOfFinalShift(); index++) {
             String toInsertEmployeeRole = String.format("INSERT INTO %s \n" +
-                    "VALUES %s;", "EmployeesShiftsFinals", Ob.getFinal(index));
+                    "VALUES %s;", "EmployeesShiftsFinals", Ob.getFinalShift(index));
             Statement s;
             try {
                 s = conn.createStatement();
@@ -110,10 +112,8 @@ public class ShiftsDAO extends DAO<ShiftDTO> {
                 " SET \"SuperBranch\"= \"%s\", \"Date\"= \"%s\", \"ShiftTime\"= \"%s\", \"StartHour\"= \"%s\" " +
                 ", \"EndHour\"=\"%s\", \"Duration\"=%s,  \"IsFinishSettingShift\"=\"%s\" " +
                 "WHERE \"ShiftID\" = \"%s\";",
-                tableName, updatedOb.firstName, updatedOb.lastName, updatedOb.password, updatedOb.bankNum,
-                updatedOb.bankBranch, updatedOb.bankAccount,
-                updatedOb.salary, updatedOb.bonus, updatedOb.startDate, updatedOb.tempsEmployment, updatedOb.isLoggedIn,
-                updatedOb.superBranch, updatedOb.id);
+                tableName, updatedOb.superBranch, updatedOb.date, updatedOb.time, updatedOb.startHour,
+                updatedOb.duration, updatedOb.finishSettingShift, updatedOb.idShift);
         Statement s;
         try {
             s = conn.createStatement();
@@ -125,27 +125,31 @@ public class ShiftsDAO extends DAO<ShiftDTO> {
 
     @Override
     public ShiftDTO makeDTO(ResultSet RS) {
-        EmployeeDTO output = null;
+        ShiftDTO output = null;
         Connection conn = Repository.getInstance().connect();
         try {
             String id = RS.getString(1); // the first column is ID
+            HashMap<Integer, LinkedList<Integer>> constraints = getConstraintsList(id, conn);
+            if (constraints == null) {
+                return null;
+            }
+            HashMap<Integer, Integer> numEmployeesForRole = getNumEmployeesForRoleList(id, conn);
+            if (numEmployeesForRole == null) {
+                return null;
+            }
+            HashMap<Integer, Integer> finalShift = getFinalShiftList(id, conn);
+            if (finalShift == null) {
+                return null;
+            }
             HashMap<Integer, LinkedList<Integer>> cancellations = getCancellationsList(id, conn);
             if (cancellations == null) {
                 return null;
             }
-            HashMap<Integer, LinkedList<Integer>> constraints = getConstraintsList(id, conn);
-            if (cancellations == null) {
-                return null;
-            }
-            HashMap<Integer, Integer> finalShift = getFinalShiftList(id, conn);
-            if (cancellations == null) {
-                return null;
-            }
-            output = new EmployeeDTO(/* Id */RS.getInt(1), /* super branch */RS.getString(2),
-                    /* date */RS.getString(3), /* shift time */RS.getString(4),
+            output = new ShiftDTO(/* Id */RS.getInt(1), /* super branch */RS.getInt(2),
+                    /* date */LocalDate.parse(RS.getString(3)), /* shift time */ShiftTime.valueOf(RS.getString(4)),
                     /* start hour */RS.getInt(5), /* end hour */RS.getInt(6),
-                    /* duration */RS.getInt(7), /* is finish setting shift */RS.getInt(8),
-                    constraints, finalShift, cancellations);
+                    /* duration */RS.getInt(7), /* is finish setting shift */RS.getBoolean(8),
+                    constraints, numEmployeesForRole, finalShift, cancellations);
         } catch (Exception e) {
             output = null;
         } finally {
@@ -154,21 +158,9 @@ public class ShiftsDAO extends DAO<ShiftDTO> {
         return output;
     }
 
-    public LinkedList<Integer> getCancellationsList(String id, Connection conn) {
-        LinkedList<Integer> ans = new LinkedList<>();
-        ResultSet rs = get("ShiftsCancellations", "ShiftID", id, conn);
-        try {
-            while (rs.next()) {
-                // ans.add(rs.getInt(2));
-            }
-        } catch (Exception e) {
-            return null;
-        }
-        return ans;
-    }
-
-    public LinkedList<Integer> getConstraintsList(String id, Connection conn) {
-        LinkedList<Integer> ans = new LinkedList<>();
+    // TODO - implement
+    public HashMap<Integer, LinkedList<Integer>> getConstraintsList(String id, Connection conn) {
+        HashMap<Integer, LinkedList<Integer>> ans = new HashMap<>();
         ResultSet rs = get("EmployeesShiftsContraints", "ShiftID", id, conn);
         try {
             while (rs.next()) {
@@ -180,8 +172,9 @@ public class ShiftsDAO extends DAO<ShiftDTO> {
         return ans;
     }
 
-    public LinkedList<Integer> getFinalShiftList(String id, Connection conn) {
-        LinkedList<Integer> ans = new LinkedList<>();
+    // TODO - implement
+    public HashMap<Integer, Integer> getFinalShiftList(String id, Connection conn) {
+        HashMap<Integer, Integer> ans = new HashMap<>();
         ResultSet rs = get("EmployeesShiftsFinals", "ShiftID", id, conn);
         try {
             while (rs.next()) {
@@ -193,6 +186,48 @@ public class ShiftsDAO extends DAO<ShiftDTO> {
         return ans;
     }
 
+    // TODO - implement
+    public HashMap<Integer, Integer> getNumEmployeesForRoleList(String id, Connection conn) {
+        HashMap<Integer, Integer> ans = new HashMap<>();
+        ResultSet rs = get("?????", "ShiftID", id, conn);
+        try {
+            while (rs.next()) {
+                // ans.add(rs.getInt(2));
+            }
+        } catch (Exception e) {
+            return null;
+        }
+        return ans;
+    }
+
+    // TODO - implement
+    public HashMap<Integer, LinkedList<Integer>> getCancellationsList(String id, Connection conn) {
+        HashMap<Integer, LinkedList<Integer>> ans = new HashMap<>();
+        ResultSet rs = get("ShiftsCancellations", "ShiftID", id, conn);
+        try {
+            while (rs.next()) {
+                // ans.add(rs.getInt(2));
+            }
+        } catch (Exception e) {
+            return null;
+        }
+        return ans;
+    }
+
+    public int addConstraint(int empID) {
+        return employeeShiftContraintDTO.addConstraint(empID);
+    }
+    public int removeConstraint(int empID) {
+        return employeeShiftContraintDTO.removeConstraint(empID);
+    }
+    
+    public int addShiftFinal(int empID) {
+        return employeeShiftFinalDTO.addShiftFinal(empID);
+    }
+    public int removeShiftFinal(int empID) {
+        return employeeShiftFinalDTO.removeShiftFinal(empID);
+    }
+    
     public int addCancellation(int empID, Integer ProductCode, Integer ProductID) {
         return shiftsCancellationsDAO.addCancellation(empID, ProductCode, ProductID);
     }

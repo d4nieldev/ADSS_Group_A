@@ -8,17 +8,17 @@ import Misc.ShiftTime;
 
 public class ShiftDTO {
     public int idShift;
-    private Integer superBranch;
-    private LocalDate date;
-    private ShiftTime time;
-    private int startHour;
-    private int endHour; 
-    private int duration;
-    private boolean finishSettingShift;
-    private HashMap<Integer, LinkedList<Integer>> constraints;
-    private HashMap<Integer, Integer> numEmployeesForRole;
-    private HashMap<Integer, Integer> finalShift;
-    private HashMap<Integer, LinkedList<Integer>> cancellations;
+    public Integer superBranch;
+    public LocalDate date;
+    public ShiftTime time;
+    public int startHour;
+    public int endHour; 
+    public int duration;
+    public boolean finishSettingShift;
+    public HashMap<Integer, LinkedList<Integer>> constraints;
+    public HashMap<Integer, Integer> numEmployeesForRole;
+    public HashMap<Integer, Integer> finalShift;
+    public HashMap<Integer, LinkedList<Integer>> cancellations;
 
 	
 	public ShiftDTO(int idShift, Integer superBranch, LocalDate date, ShiftTime time, int startHour, int endHour, 

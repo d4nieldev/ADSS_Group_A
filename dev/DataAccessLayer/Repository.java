@@ -7,6 +7,7 @@ public class Repository {
     private static Repository instance = null;
 
     private Repository() {
+        
         createTables();
     }
 
@@ -25,7 +26,8 @@ public class Repository {
             conn = DriverManager.getConnection(url);
 
         } catch (SQLException e) {
-            e.printStackTrace();}
+            e.printStackTrace();
+        }
         return conn;
     }
 

@@ -1,5 +1,6 @@
 package DataAccessLayer.DTO.EmployeeLayer;
 
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.LinkedList;
 
@@ -46,5 +47,16 @@ public class DriverDTO {
         this.availableShiftDates = availableShiftDates;
          this.workedDates = workedDates;
 	}
+	
+    public String fieldsToString() {
+        return String.format("(\"%s\",\"%s\",\"%s\",\"%s\",%s,\"%s\",\"%s\",\"%s\",\"%s\",\"%s\",%s,\"%s\",\"%s\")",
+		 this.firstName, this.lastName, this.id, this.password, this.bankNum, this.bankBranch, this.bankAccount, this.salary,
+		 this.bonus, this.startDate.toString(), this.tempsEmployment, this.isLoggedIn, this.superBranch, 
+		 this.driverLicense.toString(), this.availableShiftDates, this.workedDates);
+    }
+
+    public String getRole() {
+        return String.format("(\"%s\",%s)", this.id, roles.get(0));
+    }
 
 }

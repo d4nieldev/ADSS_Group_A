@@ -137,7 +137,7 @@ public class BranchFacade {
             employeeFacade.checkRoleInEmployee(employee.getId(), hrAssigns.get(employee.getId()));
         }
         // check: no over employees then needed AND save the final shift
-        shiftFacade.checkAssignFinalShift(shift, hashMapEmployees);
+        shiftFacade.checkAssignFinalShift(managerID, shift, hashMapEmployees);
     }
 
     // function for printing all the shift that an employee can apply to work on that day, according to branches

@@ -2,6 +2,8 @@ package BussinessLayer.EmployeesLayer;
 import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.LinkedList;
+
+import DataAccessLayer.DTO.EmployeeLayer.ShiftDTO;
 import Misc.*;
 
 
@@ -148,6 +150,21 @@ public class Shift{
     public String toString(){
 		return "Shift ID: " + idShift + " , Super Branch Id: " + superBranch.getBranchId() + " [date: " + date + ", time: " + time.toString() + 
         ", start hour: " + startHour + ", end hour: " + endHour  + ", duration: " + duration + "]";
+    }
+    
+    public ShiftDTO toDTO() {
+        HashMap<Integer, LinkedList<Integer>> constraintsToDTO = new HashMap<>();
+        for (Employee employeeConstraints : constraints.keySet()) {
+            constraintsToDTO.putIfAbsent(employeeConstraints.getId(), constraints.get(employeeConstraints));
+        }
+        HashMap<Integer, Integer> finalShiftToDTO = new HashMap<>();
+        for (Employee employeeFinalShift : constraints.keySet()) {
+            finalShiftToDTO.putIfAbsent(employeeFinalShift.getId(), finalShift.get(employeeFinalShift));
+        }
+
+        return new ShiftDTO(this.idShift, this.superBranch.getBranchId(), this.date, this.time, this.startHour, this.endHour,
+		this.duration, this.finishSettingShift, constraintsToDTO, this.numEmployeesForRole, finalShiftToDTO,
+		this.cancellations);
     }
     
 //-------------------------------------Getters And Setters--------------------------------------------------------

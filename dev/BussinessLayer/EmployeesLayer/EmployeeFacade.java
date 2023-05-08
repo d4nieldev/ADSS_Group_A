@@ -89,11 +89,12 @@ public class EmployeeFacade {
     // add employee to the system.
     // only if its HR manager and the employee does not exsist already.
     public void addEmployee(int managerId, String firstName, String lastName, int id, String password, int bankNum,
-    int bankBranch, int bankAccount, int salary, int InitializeBonus, LocalDate startDate, String tempsEmployment, Integer role, int branch){
+    int bankBranch, int bankAccount, int salary, int InitializeBonus, LocalDate startDate, String tempsEmployment, String role, int branch){
         if (isEmployeeExists(managerId) && isEmployeeLoggedIn(managerId) && !isEmployeeExists(id)){
             checkHrManager(managerId);
+            Integer roleInt = roleClass.getRoleByName(role).getId();
             Employee employee = new Employee(firstName, lastName, id, password, bankNum, 
-            bankBranch, bankAccount, salary, InitializeBonus, startDate, tempsEmployment, role, branch);
+            bankBranch, bankAccount, salary, InitializeBonus, startDate, tempsEmployment, roleInt, branch);
             employees.add(employee);
             System.out.println("The employee " + firstName + " " + lastName + " has been added successfully");
             this.employeesDAO.insert(employee.toDTO());//add to DB

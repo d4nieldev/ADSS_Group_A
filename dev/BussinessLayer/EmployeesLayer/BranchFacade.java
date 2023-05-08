@@ -24,7 +24,7 @@ public class BranchFacade {
     }
 
     public void addNewEmployee(int managerId, String firstName, String lastName, int id, String password, int bankNum,
-    int bankBranch, int bankAccount, int salary, int InitializeBonus, LocalDate startDate, String tempsEmployment, Integer role, int branchId){
+    int bankBranch, int bankAccount, int salary, int InitializeBonus, LocalDate startDate, String tempsEmployment, String role, int branchId){
         // only HR manager
         employeeFacade.addEmployee(managerId, firstName, lastName, id, password, bankNum, bankBranch, bankAccount, salary,
         InitializeBonus, startDate, tempsEmployment, role, branchId);
@@ -152,6 +152,16 @@ public class BranchFacade {
                 if(shiftOnDate.getSuperBranchId() == branchId && !shiftOnDate.getIsFinishSettingShift()) 
                     {res += shiftOnDate.toString() + "\n";}
             }
+        }
+        return res;
+    }
+
+    public String printAllBranches(int managerId){
+        String res = "";
+        employeeFacade.checkEmployee(managerId);
+        employeeFacade.checkLoggedIn(managerId);
+        for (Branch branch : branchs) {
+            res += branch.toString() + "\n";
         }
         return res;
     }

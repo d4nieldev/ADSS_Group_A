@@ -24,7 +24,7 @@ class HRSystem {
 
     public void run(int loginId) {
         Scanner sc = new Scanner(System.in);
-        System.out.println("0 - Go back\n1 - Add employee (not driver)\n 2 - Add driver\n2 - Print all employees (drivers not included)\n3 - Print all drivers\n4 - Add empty shift\n5 - Submit a shift\n6 - Add constraint for some Employee to Shift\n7 - Edit employee\n8 - Delete an employee\n");
+        System.out.println("0 - Go back\n1 - Add employee (not driver).\n2 - Add driver.\n3 - Print all branches.\n4 - Print all employees (drivers not included)\n5 - Print all drivers\n6 - Add empty shift\n7 - Submit a shift\n8 - Add constraint for some Employee to Shift\n9 - Edit employee\n10 - Delete an employee\n");
         String option = sc.nextLine();
 
         while(!option.equals("0")){
@@ -82,7 +82,7 @@ class HRSystem {
 
                     System.out.print("Role: ");
                     String roleString = sc.nextLine();
-                    Integer role = Role.getRoleByName(roleString.toUpperCase()).getId();  //may throw an error.
+                    //Integer role = Role.getRoleByName(roleString.toUpperCase()).getId();  //may throw an error.
                     //Role.valueOf(roleString.toUpperCase()); //may throw an error.
                     System.out.println("");
 
@@ -91,10 +91,10 @@ class HRSystem {
                     System.out.println("");
 
                     branchService.addNewEmployee(loginId, firstName, lastName, id, password, bankNum,
-                        bankBranch, bankAccount, salary, InitializeBonus, localDate, tempsEmployment, role, superBranch);
+                        bankBranch, bankAccount, salary, InitializeBonus, localDate, tempsEmployment, roleString, superBranch);
                 }
 
-                else if (option.equals("2")){ // 2 print all employees
+                else if (option.equals("2")){ // 2 enter new driver
 
                     System.out.println("You choose to enter a new driver, please enter the information of the employee: \n");
 
@@ -155,15 +155,19 @@ class HRSystem {
                         bankBranch, bankAccount, salary, InitializeBonus, localDate, tempsEmployment, driverLicense);
                 }
 
-                else if (option.equals("2.5")){ // 2 print all employees
+                else if (option.equals("3")){ // 3 print all branches
+                    System.out.println(branchService.printAllBranches(loginId));
+                }
+
+                else if (option.equals("4")){ // 4 print all employees
                     System.out.println(employeeService.printAllEmployees(loginId));
                 }
 
-                else if (option.equals("3")){ // 2 print all employees
-                    System.out.println(employeeService.printAllEmployees(loginId));
+                else if (option.equals("5")){ // 5 print all drivers
+                    System.out.println(employeeService.printAllDrivers(loginId));
                 }
 
-                else if (option.equals("4")){ // 3 add an empty shift
+                else if (option.equals("6")){ // 6 add an empty shift
                     System.out.println("You choose to add empty shift.");
                     System.out.println("please enter the following information:");
                     System.out.println("");
@@ -239,7 +243,7 @@ class HRSystem {
                     branchService.addShift(loginId, branchId, localDate, startHour, endHour, morningEvningShiftTime, numEmployeesForRole);
                 }
 
-                else if (option.equals("5")){ // 4 hr manager submit a shift
+                else if (option.equals("7")){ // 7 hr manager submit a shift
                     System.out.println("You choose to submit a final shift.");
                     System.out.println("please enter the following information:");
                     System.out.println("");
@@ -274,7 +278,7 @@ class HRSystem {
                     branchService.approveFinalShift(loginId,shiftId,branchId,shiftAssign);
                 }
 
-                else if(option.equals("6")){ // 5 add constraint for an employee to a shift
+                else if(option.equals("8")){ // 8 add constraint for an employee to a shift
                     System.out.println("You choose to add constraint for an employee to a shift.");
                     System.out.println("please enter the following information:");
                     System.out.println("");
@@ -294,7 +298,7 @@ class HRSystem {
                     branchService.addConstraint(branch, idEmployee, shift);
                 }
 
-                else if (option.equals("7")){ // 7 edit employee
+                else if (option.equals("9")){ // 9 edit employee
                     System.out.print("Enter the Id of the employee you wish to edit: ");
                     int idToEdit = Integer.parseInt(sc.nextLine());
                     System.out.println("You choose to edit an employee, which detail would you like to edit?\n");
@@ -380,7 +384,7 @@ class HRSystem {
 
                 }
 
-                else if (option.equals("8")){ // 8 delete an employee
+                else if (option.equals("10")){ // 10 delete an employee
                     System.out.print("Enter the Id of the employee you wish to delete: ");
                     int idToDelete = Integer.parseInt(sc.nextLine());
                     branchService.deleteEmployee(loginId, idToDelete);
@@ -388,7 +392,7 @@ class HRSystem {
                 }
 
                 System.out.println("");
-                System.out.println("0 - Go back\n1 - Add employee\n2 - Print all employees (drivers not included)\n3 - Print all drivers\n4 - Add empty shift\n5 - Submit a shift\n6 - Add constraint for some Employee to Shift\n7 - Edit employee\n8 - Delete an employee\n");
+                System.out.println("0 - Go back\n1 - Add employee (not driver).\n2 - Add driver.\n3 - Print all branches.\n4 - Print all employees (drivers not included)\n5 - Print all drivers\n6 - Add empty shift\n7 - Submit a shift\n8 - Add constraint for some Employee to Shift\n9 - Edit employee\n10 - Delete an employee\n");
             }
             catch(Error e) {
                 System.out.println("This error happened: \n");

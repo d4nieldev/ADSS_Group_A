@@ -17,7 +17,7 @@ public class BranchService {
     }
     
     public void addNewEmployee(int managerId, String firstName, String lastName, int id, String password, int bankNum,
-    int bankBranch, int bankAccount, int salary, int InitializeBonus, LocalDate startDate, String tempsEmployment, Integer role, int branch){
+    int bankBranch, int bankAccount, int salary, int InitializeBonus, LocalDate startDate, String tempsEmployment, String role, int branch){
         branchFacade.addNewEmployee(managerId, firstName, lastName, id, password, bankNum,
         bankBranch, bankAccount, salary, InitializeBonus, startDate, tempsEmployment, role, branch);
     }
@@ -58,5 +58,9 @@ public class BranchService {
 
     public String printAvailableShiftForEmployee(int employeeId, LocalDate date){
         return branchFacade.printAvailableShiftForEmployee(employeeId, date);
+    }
+
+    public String printAllBranches(int managerID){
+        return branchFacade.printAllBranches(managerID);
     }
 }

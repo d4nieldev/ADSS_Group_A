@@ -39,6 +39,11 @@ public class ShiftDTO {
         this.cancellations = cancellations;
 	}
 
+    public ShiftDTO(int int1, int int2, LocalDate parse, int int3, int int4, int int5, int int6, boolean boolean1,
+            HashMap<Integer, LinkedList<Integer>> constraints2, HashMap<Integer, Integer> numEmployeesForRole2,
+            HashMap<Integer, Integer> finalShift2, HashMap<Integer, LinkedList<Integer>> cancellations2) {
+    }
+
     public int getId(){return idShift;}
 	
     public String fieldsToString() {

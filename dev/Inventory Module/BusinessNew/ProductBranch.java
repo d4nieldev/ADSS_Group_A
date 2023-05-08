@@ -55,8 +55,12 @@ public class ProductBranch {
         Discount maxDiscount = getCurrentMaxDiscount();
         this.discount = maxDiscount;
     }
-    public int getCode(){
+    public int getCode(int minQuantity){
         return product.getCode();
+    }
+
+    public void setminQuantity(){
+        this.minQuantity = minQuantity;
     }
 
     private Discount getCurrentMaxDiscount() {

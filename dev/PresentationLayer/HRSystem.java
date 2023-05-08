@@ -24,7 +24,7 @@ class HRSystem {
 
     public void run(int loginId) {
         Scanner sc = new Scanner(System.in);
-        System.out.println("0 - Exit system\n1 - Add employee\n2 - Print all employees\n3 - Add empty shift\n4 - Submit a shift\n5 - Add constraint for some Employee to Shift\n6 - Edit employee\n7 - Delete an employee\n8 - Login\n9 - Logout");
+        System.out.println("0 - Go back\n1 - Add employee\n2 - Print all employees (drivers not included)\n3 - Print all drivers\n4 - Add empty shift\n5 - Submit a shift\n6 - Add constraint for some Employee to Shift\n7 - Edit employee\n8 - Delete an employee\n");
         String option = sc.nextLine();
 
         while(!option.equals("0")){
@@ -103,7 +103,11 @@ class HRSystem {
                     System.out.println(employeeService.printAllEmployees(loginId));
                 }
 
-                else if (option.equals("3")){ // 3 add an empty shift
+                else if (option.equals("3")){ // 2 print all employees
+                    System.out.println(employeeService.printAllEmployees(loginId));
+                }
+
+                else if (option.equals("4")){ // 3 add an empty shift
                     System.out.println("You choose to add empty shift.");
                     System.out.println("please enter the following information:");
                     System.out.println("");
@@ -179,7 +183,7 @@ class HRSystem {
                     branchService.addShift(loginId, branchId, localDate, startHour, endHour, morningEvningShiftTime, numEmployeesForRole);
                 }
 
-                else if (option.equals("4")){ // 4 hr manager submit a shift
+                else if (option.equals("5")){ // 4 hr manager submit a shift
                     System.out.println("You choose to submit a final shift.");
                     System.out.println("please enter the following information:");
                     System.out.println("");
@@ -214,7 +218,7 @@ class HRSystem {
                     branchService.approveFinalShift(loginId,shiftId,branchId,shiftAssign);
                 }
 
-                else if(option.equals("5")){ // 5 add constraint for an employee to a shift
+                else if(option.equals("6")){ // 5 add constraint for an employee to a shift
                     System.out.println("You choose to add constraint for an employee to a shift.");
                     System.out.println("please enter the following information:");
                     System.out.println("");
@@ -234,7 +238,7 @@ class HRSystem {
                     branchService.addConstraint(branch, idEmployee, shift);
                 }
 
-                else if (option.equals("6")){ // 6 edit employee
+                else if (option.equals("7")){ // 7 edit employee
                     System.out.print("Enter the Id of the employee you wish to edit: ");
                     int idToEdit = Integer.parseInt(sc.nextLine());
                     System.out.println("You choose to edit an employee, which detail would you like to edit?\n");
@@ -320,7 +324,7 @@ class HRSystem {
 
                 }
 
-                else if (option.equals("7")){ // 7 delete an employee
+                else if (option.equals("8")){ // 8 delete an employee
                     System.out.print("Enter the Id of the employee you wish to delete: ");
                     int idToDelete = Integer.parseInt(sc.nextLine());
                     branchService.deleteEmployee(loginId, idToDelete);
@@ -328,11 +332,14 @@ class HRSystem {
                 }
 
                 System.out.println("");
-                System.out.println("0 - Go back\n1 - Add employee\n2 - Print all employees\n3 - Add empty shift\n4 - Submit a shift\n5 - Add constraint for some Employee to Shift\n6 - Edit employee\n7 - Delete an employee\n");
+                System.out.println("0 - Go back\n1 - Add employee\n2 - Print all employees (drivers not included)\n3 - Print all drivers\n4 - Add empty shift\n5 - Submit a shift\n6 - Add constraint for some Employee to Shift\n7 - Edit employee\n8 - Delete an employee\n");
             }
             catch(Error e) {
+                System.out.println("This error happened: \n");
                 System.out.println(e.toString());
-                System.out.print("Please enter AGAIN your request to the system according to the PDF file: ");
+                System.out.println("Please choode again: \n");
+                System.out.println("0 - Go back\n1 - Add employee\n2 - Print all employees (drivers not included)\n3 - Print all drivers\n4 - Add empty shift\n5 - Submit a shift\n6 - Add constraint for some Employee to Shift\n7 - Edit employee\n8 - Delete an employee\n");
+
                 option = sc.nextLine();
             }
         }

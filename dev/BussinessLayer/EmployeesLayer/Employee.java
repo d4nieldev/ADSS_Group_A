@@ -2,9 +2,7 @@ package BussinessLayer.EmployeesLayer;
 import java.time.LocalDate;
 import java.util.LinkedList;
 
-import DataAccessLayer.DTO.EmployeeLayer.DriverDTO;
 import DataAccessLayer.DTO.EmployeeLayer.EmployeeDTO;
-import Misc.*;
 
 public class Employee{
 	private String firstName;

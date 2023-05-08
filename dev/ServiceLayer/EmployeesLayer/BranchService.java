@@ -49,4 +49,8 @@ public class BranchService {
     public void approveFinalShift(int managerID, int shiftID, int branchID, HashMap<Integer, Integer> hrAssigns){
         branchFacade.approveFinalShift(managerID, shiftID, branchID, hrAssigns);
     }
+
+    public String printAvailableShiftForEmployee(int employeeId, LocalDate date){
+        return branchFacade.printAvailableShiftForEmployee(employeeId, date);
+    }
 }

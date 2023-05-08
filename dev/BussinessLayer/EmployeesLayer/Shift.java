@@ -152,8 +152,8 @@ public class Shift{
     
 //-------------------------------------Getters And Setters--------------------------------------------------------
     public int getID(){return idShift;}
-    public int getSuperBranhId(){return superBranch.getBranchId();}
-    public String getSuperBranhAddress(){return superBranch.getBranchAddress();}
+    public int getSuperBranchId(){return superBranch.getBranchId();}
+    public String getSuperBranchAddress(){return superBranch.getBranchAddress();}
     public String getLocation(){return superBranch.getBranchLocation().toString(); }
     public LocalDate getDate(){return date;}
     public ShiftTime getShiftTime(){return time;}

@@ -130,6 +130,22 @@ public class BranchFacade {
         shiftFacade.checkAssignFinalShift(shift, hashMapEmployees);
     }
 
+    // function for printing all the shift that an employee can apply to work on that day, according to branches
+    public String printAvailableShiftForEmployee(int employeeId, LocalDate date){
+        String res = "";
+        employeeFacade.checkEmployee(employeeId);
+        employeeFacade.checkLoggedIn(employeeId);
+        LinkedList<Integer> branchesEmployee = employeeFacade.getEmployeeById(employeeId).getAllBranches();
+        LinkedList<Shift> shiftsOnDate = shiftFacade.getShiftsByDate(date);
+        for (Integer branchId : branchesEmployee) {
+            for (Shift shiftOnDate : shiftsOnDate) {
+                if(shiftOnDate.getSuperBranchId() == branchId && !shiftOnDate.getIsFinishSettingShift()) 
+                    {res += shiftOnDate.toString() + "\n";}
+            }
+        }
+        return res;
+    }
+
     //-------------------------------------Help Functions--------------------------------------------------------
     private Branch getBranchById(int branchId){
         for (Branch branch : branchs) {

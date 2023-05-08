@@ -42,6 +42,7 @@ public class Employee{
 		historyShift = new LinkedList<>();
 		superBranch = branch;
 		branchs = new LinkedList<>();
+		branchs.add(branch);
 	}
 
 	// constructor from database

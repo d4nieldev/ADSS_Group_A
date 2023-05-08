@@ -2,8 +2,6 @@ package BussinessLayer.EmployeesLayer;
 import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.LinkedList;
-
-import Misc.Role;
 import Misc.ShiftTime;
 
 public class ShiftFacade {
@@ -103,7 +101,7 @@ public class ShiftFacade {
 
     public Shift getShiftByAddressDateMorning(String address, LocalDate date){
         for (Shift shift : shifts) {
-            if(shift.getSuperBranhAddress().equals(address) && shift.getDate().equals(date) && shift.getShiftTime().equals(ShiftTime.MORNING))
+            if(shift.getSuperBranchAddress().equals(address) && shift.getDate().equals(date) && shift.getShiftTime().equals(ShiftTime.MORNING))
                 return shift;
         }
         return null;
@@ -111,10 +109,18 @@ public class ShiftFacade {
 
     public Shift getShiftByAddressDateEvening(String address, LocalDate date){
         for (Shift shift : shifts) {
-            if(shift.getSuperBranhAddress().equals(address) && shift.getDate().equals(date) && shift.getShiftTime().equals(ShiftTime.EVENING))
+            if(shift.getSuperBranchAddress().equals(address) && shift.getDate().equals(date) && shift.getShiftTime().equals(ShiftTime.EVENING))
                 return shift;
         }
         return null;
+    }
+
+    public LinkedList<Shift> getShiftsByDate(LocalDate date){
+        LinkedList<Shift> res = new LinkedList<>();
+        for (Shift shift : shifts) {
+            if(shift.getDate().equals(date)) {res.add(shift);}
+        }
+        return res;
     }
 
 }

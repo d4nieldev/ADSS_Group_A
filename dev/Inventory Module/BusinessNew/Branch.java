@@ -77,15 +77,11 @@ public class Branch {
         }
         return allDiscounts;
     }
-
     public void updateMinQuantityForProductBranch(int code, int newMinQuantity){
         ProductBranch product = allProductBranches.get(code);
         product.setminQuantity(newMinQuantity);
 
     }
-
-
-
 
     private void makeDeficiencyReservation(ProductBranch productBranch) {
         // TODO: make reservation for deficiency

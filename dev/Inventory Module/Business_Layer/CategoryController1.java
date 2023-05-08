@@ -68,16 +68,18 @@ public class CategoryController1 {
    * @param main
    * /// add new sub category to already exist category
    */
-  public void addNewSubCategory(String name, Category1 main) {
+  public void addNewSubCategory(String name, Category1 main) { // + add variable : List<Category> - represent all its children
     boolean flag = false;
     for (Category1 cat : allCategories) {
-      if (cat.getName() == name && cat.getMain().getId() == main.getId()) {
+      if (cat.getName() == name && cat.getMain().getId() == main.getId()) {//so category is already exist
         flag = true;
         System.out.println("this category already exist");
         break;
       }
     }
-    if (!flag) {
+    if (!flag) { //so category is new category
+  //**/
+      // TODO check if it ia a leaf category - if so , just add it and connect its father
       Category1 subCategory1 = new Category1(name, main);
       allCategories.add(subCategory1);
       categoryDic.put(subCategory1.getId(), subCategory1);

@@ -1,9 +1,12 @@
 package BusinessNew;
 
+import java.util.List;
+
 public class Category {
     private int id;
     private String name;
     private Category parent;
+    private List<Category> childCategories;
 
     public Category(String name, Category parentCategory){
         this.id = Global.getNewCategoryid();

@@ -64,29 +64,15 @@ public class EmployeesDAO extends DAO<EmployeeDTO> {
         Connection conn = Repository.getInstance().connect();
         if (updatedOb == null)
             return 0;
-        // String updateString = String.format("UPDATE %s" +
-        // " SET \"FirstName\"= \"%s\", \"LastName\"= \"%s\", \"Password\"= \"%s\",
-        // \"BankNumber\"= \"%s\" " +
-        // ", \"BankBranchNumber\"=\"%s\", \"BankAccountNumber\"=%s, \"Salary\"=\"%s\",
-        // \"Bonus\"=\"%s\" " +
-        // ", \"startDate\"=\"%s\", \"TempsEmployment\"=%s, \"IsLoggedIn\"=\"%s\",
-        // \"SuperBranch\"=\"%s\" " +
-        // "WHERE \"ID\" = \"%s\";",
-        // tableName, updatedOb.firstName, updatedOb.lastName, updatedOb.password,
-        // updatedOb.bankNum, updatedOb.bankBranch, updatedOb.bankAccount,
-        // updatedOb.salary, updatedOb.bonus, updatedOb.startDate,
-        // updatedOb.tempsEmployment, updatedOb.isLoggedIn, updatedOb.superBranch);
-
-        String updateString = String.format(
-                "UPDATE %s SET \"FirstName\" = \"%s\", \"LastName\" = \"%s\", \"Password\" = \"%s\", \"BankNumber\" = \"%s\", "
-                        +
-                        "\"BankBranchNumber\" = \"%s\", \"BankAccountNumber\" = %d, \"Salary\" = %f, \"Bonus\" = %f, \"startDate\" = \"%s\", "
-                        +
-                        "\"TempsEmployment\" = %b, \"IsLoggedIn\" = %b, \"SuperBranch\" = \"%s\" WHERE \"ID\" = \"%s\";",
+        String updateString = String.format("UPDATE %s" +
+                " SET \"FirstName\"= \"%s\", \"LastName\"= \"%s\", \"Password\"= \"%s\", \"BankNumber\"= \"%s\" " +
+                ", \"BankBranchNumber\"=\"%s\", \"BankAccountNumber\"=%s,  \"Salary\"=\"%s\", \"Bonus\"=\"%s\" " +
+                ", \"startDate\"=\"%s\", \"TempsEmployment\"=%s,  \"IsLoggedIn\"=\"%s\", \"SuperBranch\"=\"%s\" " +
+                "WHERE \"ID\" = \"%s\";",
                 tableName, updatedOb.firstName, updatedOb.lastName, updatedOb.password, updatedOb.bankNum,
                 updatedOb.bankBranch, updatedOb.bankAccount,
                 updatedOb.salary, updatedOb.bonus, updatedOb.startDate, updatedOb.tempsEmployment, updatedOb.isLoggedIn,
-                updatedOb.superBranch);
+                updatedOb.superBranch, updatedOb.id);
         Statement s;
         try {
             s = conn.createStatement();

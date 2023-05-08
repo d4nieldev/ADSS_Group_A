@@ -64,8 +64,8 @@ public class BranchFacade {
         int shiftID = shiftFacade.getShiftIdConuter();
         Branch branch = getBranchById(branchId);
         // check there is shift manager  in each shift
-        if(!numEmployeesForRole.keySet().contains(Role.getRoleByName("SHIFTMANAGER").getId())
-            ||numEmployeesForRole.get(Role.getRoleByName("SHIFTMANAGER").getId()) < 1 )
+        if(!numEmployeesForRole.keySet().contains(employeeFacade.getRoleClassInstance().getRoleByName("SHIFTMANAGER").getId())
+            ||numEmployeesForRole.get(employeeFacade.getRoleClassInstance().getRoleByName("SHIFTMANAGER").getId()) < 1 )
             throw new Error("You have to role at least one SHIFTMANAGER for each shift.");
         Shift newShift = new Shift(shiftID, branch, date, startHour, endHour, time, numEmployeesForRole);
         shiftFacade.addShift(newShift);
@@ -158,7 +158,7 @@ public class BranchFacade {
     private void checkShiftManagerExist( HashMap<Employee, Integer> hashMapEmployees){
         boolean foundManager = false;
         for (Employee employee : hashMapEmployees.keySet()) {
-            if(hashMapEmployees.get(employee).equals(Role.getRoleByName("SHIFTMANAGER").getId())){
+            if(hashMapEmployees.get(employee).equals(employeeFacade.getRoleClassInstance().getRoleByName("SHIFTMANAGER").getId())){
                 foundManager = true;
                 break;
             }

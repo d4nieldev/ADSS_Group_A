@@ -7,7 +7,6 @@ import BussinessLayer.EmployeesLayer.Driver;
 import BussinessLayer.EmployeesLayer.Employee;
 import BussinessLayer.EmployeesLayer.EmployeeFacade;
 import BussinessLayer.EmployeesLayer.ShiftFacade;
-import Misc.Role;
 
 public class EmployeeTransportFacade {
     private EmployeeFacade employeeFacade;
@@ -26,10 +25,10 @@ public class EmployeeTransportFacade {
         employeeFacade.checkLoggedIn(idEmployee);
         employeeFacade.checkEmployee(idEmployee);
         Employee employee = employeeFacade.getEmployeeById(idEmployee);
-        employee.checkRoleInEmployee(Role.getRoleByName("TRANSPOERMANAGER").getId());
-        employee.checkRoleInEmployee(Role.getRoleByName("BRANCHMANAGER").getId());
-        employee.checkRoleInEmployee(Role.getRoleByName("SHIFTMANAGER").getId());
-        employee.checkRoleInEmployee(Role.getRoleByName("STOREKEEPER").getId());
+        employee.checkRoleInEmployee(employeeFacade.getRoleClassInstance().getRoleByName("TRANSPOERMANAGER").getId());
+        employee.checkRoleInEmployee(employeeFacade.getRoleClassInstance().getRoleByName("BRANCHMANAGER").getId());
+        employee.checkRoleInEmployee(employeeFacade.getRoleClassInstance().getRoleByName("SHIFTMANAGER").getId());
+        employee.checkRoleInEmployee(employeeFacade.getRoleClassInstance().getRoleByName("STOREKEEPER").getId());
         // TODO - add to str all the transport in the date - transport moudle
         return strTransports;
     }
@@ -38,7 +37,7 @@ public class EmployeeTransportFacade {
         employeeFacade.checkLoggedIn(idEmployee);
         employeeFacade.checkEmployee(idEmployee);
         Employee employee = employeeFacade.getEmployeeById(idEmployee);
-        employee.checkRoleInEmployee(Role.getRoleByName("TRANSPOERMANAGER").getId());
+        employee.checkRoleInEmployee(employeeFacade.getRoleClassInstance().getRoleByName("TRANSPOERMANAGER").getId());
         if(date.compareTo(LocalDate.now()) <= 0) {return employeeFacade.printDayDriversPast(date);}
         else {return employeeFacade.printDayDriversFuture(date);}
     }
@@ -47,7 +46,7 @@ public class EmployeeTransportFacade {
         employeeFacade.checkLoggedIn(idEmployee);
         employeeFacade.checkEmployee(idEmployee);
         Employee employee = employeeFacade.getEmployeeById(idEmployee);
-        employee.checkRoleInEmployee(Role.getRoleByName("TRANSPOERMANAGER").getId());
+        employee.checkRoleInEmployee(employeeFacade.getRoleClassInstance().getRoleByName("TRANSPOERMANAGER").getId());
         if(date.compareTo(LocalDate.now()) <= 0) {return employeeFacade.getDayDriversPast(date);}
         else {return employeeFacade.getDayDriversFuture(date);}
     }

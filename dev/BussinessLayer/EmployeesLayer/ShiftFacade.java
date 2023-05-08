@@ -26,16 +26,16 @@ public class ShiftFacade {
         Shift shift = getShift(shiftId);
         Employee employee = employeeFacade.getEmployeeById(employeeId);
         employeeFacade.checkLoggedIn(employeeId);
-        employeeFacade.getEmployeeById(employeeId).checkRoleInEmployee(Role.getRoleByName("BRANCHMANAGER").getId());
-        employeeFacade.getEmployeeById(employeeId).checkRoleInEmployee(Role.getRoleByName("SHIFTMANAGER").getId());
+        employeeFacade.getEmployeeById(employeeId).checkRoleInEmployee(employeeFacade.getRoleClassInstance().getRoleByName("BRANCHMANAGER").getId());
+        employeeFacade.getEmployeeById(employeeId).checkRoleInEmployee(employeeFacade.getRoleClassInstance().getRoleByName("SHIFTMANAGER").getId());
         shift.addCancelation(employee, itemCode, itemId);
     }
 
     public String printFinalShift(int employeeId, int idShift){
         employeeFacade.checkLoggedIn(employeeId);
-        employeeFacade.getEmployeeById(employeeId).checkRoleInEmployee(Role.getRoleByName("HRMANAGER").getId());
-        employeeFacade.getEmployeeById(employeeId).checkRoleInEmployee(Role.getRoleByName("BRANCHMANAGER").getId());
-        employeeFacade.getEmployeeById(employeeId).checkRoleInEmployee(Role.getRoleByName("SHIFTMANAGER").getId());
+        employeeFacade.getEmployeeById(employeeId).checkRoleInEmployee(employeeFacade.getRoleClassInstance().getRoleByName("HRMANAGER").getId());
+        employeeFacade.getEmployeeById(employeeId).checkRoleInEmployee(employeeFacade.getRoleClassInstance().getRoleByName("BRANCHMANAGER").getId());
+        employeeFacade.getEmployeeById(employeeId).checkRoleInEmployee(employeeFacade.getRoleClassInstance().getRoleByName("SHIFTMANAGER").getId());
         String strPrint = "";
         Shift shift = getShift(idShift);
         if(!shift.getIsFinishSettingShift()){throw new Error("The shift is not finished yet for printing.");}
@@ -46,8 +46,8 @@ public class ShiftFacade {
     
     public String printConstarintsShift(int employeeId, int idShift){
         employeeFacade.checkLoggedIn(employeeId);
-        employeeFacade.getEmployeeById(employeeId).checkRoleInEmployee(Role.getRoleByName("HRMANAGER").getId());
-        employeeFacade.getEmployeeById(employeeId).checkRoleInEmployee(Role.getRoleByName("BRANCHMANAGER").getId());
+        employeeFacade.getEmployeeById(employeeId).checkRoleInEmployee(employeeFacade.getRoleClassInstance().getRoleByName("HRMANAGER").getId());
+        employeeFacade.getEmployeeById(employeeId).checkRoleInEmployee(employeeFacade.getRoleClassInstance().getRoleByName("BRANCHMANAGER").getId());
         String strPrint = "";
         Shift shift = getShift(idShift);
         if(shift.getIsFinishSettingShift()){throw new Error("The shift is finished setting.");}
@@ -75,15 +75,15 @@ public class ShiftFacade {
 
     public String missingStaffToRole(int employeeId, int shiftId){
         employeeFacade.checkLoggedIn(employeeId);
-        employeeFacade.getEmployeeById(employeeId).checkRoleInEmployee(Role.getRoleByName("HRMANAGER").getId());
-        employeeFacade.getEmployeeById(employeeId).checkRoleInEmployee(Role.getRoleByName("BRANCHMANAGER").getId());
+        employeeFacade.getEmployeeById(employeeId).checkRoleInEmployee(employeeFacade.getRoleClassInstance().getRoleByName("HRMANAGER").getId());
+        employeeFacade.getEmployeeById(employeeId).checkRoleInEmployee(employeeFacade.getRoleClassInstance().getRoleByName("BRANCHMANAGER").getId());
         return getShift(shiftId).missingStaffToRole().toString();
     }
 
     public boolean checkstorekeeperInShift(String address, LocalDate date){
         boolean res = false;
-        res = getShiftByAddressDateMorning(address, date).isShiftContainStorekeeper() 
-                && getShiftByAddressDateEvening(address, date).isShiftContainStorekeeper();
+        res = getShiftByAddressDateMorning(address, date).isShiftContainStorekeeper(employeeFacade.getRoleClassInstance().getRoleByName("STOREKEEPER").getId()) 
+                && getShiftByAddressDateEvening(address, date).isShiftContainStorekeeper(employeeFacade.getRoleClassInstance().getRoleByName("STOREKEEPER").getId());
         return res;
     }
     

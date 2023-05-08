@@ -66,7 +66,7 @@ public class Program {
         ReservationSystem.help();
         SupplierSystem.help();
         System.out.println("exit = exit the program");
-        //Bdika
+        // Bdika
     }
 
 }

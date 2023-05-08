@@ -1,10 +1,9 @@
 package DataAccessLayer;
 
-import java.io.File; // Import the File class
-import java.io.FileNotFoundException; // Import this class to handle errors
-import java.util.Scanner; // Import the Scanner class to read text files
-
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.sql.*;
+import java.util.Scanner;
 
 public class Repository {
 
@@ -25,10 +24,13 @@ public class Repository {
     public Connection connect() {
         Connection conn = null;
         try {
+            Class.forName("org.sqlite.JDBC");
             String url = "jdbc:sqlite:database.db";
             conn = DriverManager.getConnection(url);
 
         } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
         return conn;
@@ -49,9 +51,8 @@ public class Repository {
 
     private void createTables() {
 
-        // Employees Layer Tables
         // --------------------------------------------------------------------------------------------
-
+        // Employees Layer Tables
         String EmployeesTable = "CREATE TABLE IF NOT EXISTS \"Employees\" (\n" +
                 "\t\"ID\"\tINTEGER PRIMARY KEY,\n" +
                 "\t\"FirstName\"\tTEXT,\n" +
@@ -65,9 +66,8 @@ public class Repository {
                 "\t\"startDate\"\tDateTime,\n" +
                 "\t\"TempsEmployment\"\tTEXT,\n" +
                 "\t\"IsLoggedIn\"\tBOOLEAN,\n" +
-                "\t\"SuperBranch\"\tINTEGER\n" +
-                "\tFOREIGN KEY(\"SuperBranch\") REFERENCES \"Branches\"(\"BranchID\") ON DELETE CASCADE\n" +
-                ");";
+                "\t\"SuperBranch\"\tINTEGER,\n" +
+                "\tFOREIGN KEY(\"SuperBranch\") REFERENCES \"Branches\"(\"BranchID\") ON DELETE CASCADE\n" + ");";
         String DriversTable = "CREATE TABLE IF NOT EXISTS \"Drivers\" (\n" +
                 "\t\"ID\"\tINTEGER PRIMARY KEY,\n" +
                 "\t\"FirstName\"\tTEXT,\n" +
@@ -81,8 +81,8 @@ public class Repository {
                 "\t\"startDate\"\tDateTime,\n" +
                 "\t\"TempsEmployment\"\tTEXT,\n" +
                 "\t\"IsLoggedIn\"\tBOOLEAN,\n" +
-                "\t\"SuperBranch\"\tINTEGER\n" +
-                "\t\"DriverLicense\"\tTEXT\n" +
+                "\t\"SuperBranch\"\tINTEGER,\n" +
+                "\t\"DriverLicense\"\tTEXT,\n" +
                 "\tFOREIGN KEY(\"SuperBranch\") REFERENCES \"Branches\"(\"BranchID\") ON DELETE CASCADE\n" +
                 ");";
         String ShiftsTable = "CREATE TABLE IF NOT EXISTS \"Shifts\" (\n" +
@@ -99,24 +99,38 @@ public class Repository {
         String BranchesTable = "CREATE TABLE IF NOT EXISTS \"Branches\" (\n" +
                 "\t\"BranchID\"\tINTEGER PRIMARY KEY,\n" +
                 "\t\"Address\"\tTEXT,\n" +
-                "\t\"Location\"\tTEXT,\n" +
+                "\t\"Location\"\tTEXT\n" +
                 ");";
         String RolesTable = "CREATE TABLE IF NOT EXISTS \"Roles\" (\n" +
                 "\t\"RoleID\"\tINTEGER PRIMARY KEY,\n" +
-                "\t\"RoleName\"\tTEXT,\n" +
+                "\t\"RoleName\"\tTEXT\n" +
                 ");";
         String EmployeesRolesTable = "CREATE TABLE IF NOT EXISTS \"EmployeesRoles\" (\n" +
                 "\t\"EmployeeID\"\tINTEGER,\n" +
                 "\t\"RoleID\"\tINTEGER,\n" +
                 "\tPRIMARY KEY(\"EmployeeID\",\"RoleID\"),\n" +
-                "\tFOREIGN KEY(\"EmployeeID\") REFERENCES \"Employees\"(\"ID\") ON DELETE CASCADE\n" +
+                "\tFOREIGN KEY(\"EmployeeID\") REFERENCES \"Employees\"(\"ID\") ON DELETE CASCADE,\n" +
+
                 "\tFOREIGN KEY(\"RoleID\") REFERENCES \"Roles\"(\"RoleID\") ON DELETE CASCADE\n" +
+                ");";
+        String DriversAvailableShiftDatesTable = "CREATE TABLE IF NOT EXISTS \"DriversAvailableShiftDates\" (\n" +
+                "\t\"DriverID\"\tINTEGER,\n" +
+                "\t\"Date\"\tDateTime,\n" +
+                "\tPRIMARY KEY(\"DriverID\",\"Date\"),\n" +
+                "\tFOREIGN KEY(\"DriverID\") REFERENCES \"Drivers\"(\"ID\") ON DELETE CASCADE\n" +
+                ");";
+        String DriversWorkedDatesTable = "CREATE TABLE IF NOT EXISTS \"DriversWorkedDates\" (\n" +
+                "\t\"DriverID\"\tINTEGER,\n" +
+                "\t\"Date\"\tDateTime,\n" +
+                "\tPRIMARY KEY(\"DriverID\",\"Date\"),\n" +
+                "\tFOREIGN KEY(\"DriverID\") REFERENCES \"Drivers\"(\"ID\") ON DELETE CASCADE\n" +
                 ");";
         String EmployeesShiftsConstraintsTable = "CREATE TABLE IF NOT EXISTS \"EmployeesShiftsContraints\" (\n" +
                 "\t\"EmployeeID\"\tINTEGER,\n" +
                 "\t\"ShiftID\"\tINTEGER,\n" +
                 "\tPRIMARY KEY(\"EmployeeID\",\"ShiftID\"),\n" +
-                "\tFOREIGN KEY(\"EmployeeID\") REFERENCES \"Employees\"(\"ID\") ON DELETE CASCADE\n" +
+                "\tFOREIGN KEY(\"EmployeeID\") REFERENCES \"Employees\"(\"ID\") ON DELETE CASCADE,\n" +
+
                 "\tFOREIGN KEY(\"ShiftID\") REFERENCES \"Shifts\"(\"ShiftID\") ON DELETE CASCADE\n" +
                 ");";
         String EmployeesShiftsFinalsTable = "CREATE TABLE IF NOT EXISTS \"EmployeesShiftsFinals\" (\n" +
@@ -138,7 +152,7 @@ public class Repository {
                 "\t\"ShiftID\"\tINTEGER,\n" +
                 "\t\"ProductCode\"\tINTEGER,\n" +
                 "\t\"ProductID\"\tINTEGER,\n" +
-                "\tPRIMARY KEY(\"ShiftID\",\"ProductCode\"),\"ProductID\"),\n" +
+                "\tPRIMARY KEY(\"ShiftID\",\"ProductCode\",\"ProductID\"),\n" +
                 "\tFOREIGN KEY(\"ShiftID\") REFERENCES \"Shifts\"(\"ShiftID\") ON DELETE CASCADE\n" +
                 // "\tFOREIGN KEY(\"ProductCode\") REFERENCES \"???\"(\"???\") ON DELETE
                 // CASCADE\n" +
@@ -146,21 +160,23 @@ public class Repository {
                 // CASCADE\n" +
                 ");";
 
+        // --------------------------------------------------------------------------------------------
+        // Suppliers and Inventory Layer Tables
         StringBuilder suppliersInventoryDDL = new StringBuilder();
         try {
-            File f = new File("superli_ddl.txt");
+            File f = new File("./superli_ddl.txt");
             Scanner scanner = new Scanner(f);
             while (scanner.hasNextLine())
-                suppliersInventoryDDL.append(scanner.nextLine());
+                suppliersInventoryDDL.append(scanner.nextLine()).append("\n");
             scanner.close();
         } catch (FileNotFoundException e) {
             System.out.println("Expected to find a ddl file for suppliers and inventory called 'superli_ddl.txt'.");
             e.printStackTrace();
         }
-
         Connection conn = connect();
         if (conn == null)
             return;
+
         try {
             Statement stmt = conn.createStatement();
 
@@ -170,12 +186,18 @@ public class Repository {
             stmt.execute(ShiftsTable);
             stmt.execute(BranchesTable);
             stmt.execute(RolesTable);
+            stmt.execute(DriversAvailableShiftDatesTable);
+            stmt.execute(DriversWorkedDatesTable);
             stmt.execute(EmployeesRolesTable);
             stmt.execute(EmployeesShiftsConstraintsTable);
             stmt.execute(EmployeesShiftsFinalsTable);
             stmt.execute(EmployeesBranchesTable);
             stmt.execute(ShiftsCancellationsTable);
-            stmt.execute(suppliersInventoryDDL.toString());
+
+            for (String table : suppliersInventoryDDL.toString().split(";"))
+                stmt.execute(table + ";");
+
+            // Transports Layer tables ------------------------------------------
 
         } catch (SQLException exception) {
             exception.printStackTrace();

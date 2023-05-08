@@ -133,7 +133,6 @@ public class Transport {
     public List<Delivery> run() {
         // Set leaving time to now and date to today
         TruckFacade truckFacade = TruckFacade.getInstance();
-        DriverFacade.getInstance().getDriverById(driverId).setAvailable(false);
         truckFacade.setTruckAvailability(truckNumber,false);
         onTheWay(deliveryList);
         Date today = new Date();

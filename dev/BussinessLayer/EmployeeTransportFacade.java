@@ -27,6 +27,9 @@ public class EmployeeTransportFacade {
         employeeFacade.checkEmployee(idEmployee);
         Employee employee = employeeFacade.getEmployeeById(idEmployee);
         employee.checkRoleInEmployee(Role.getRoleByName("TRANSPOERMANAGER").getId());
+        employee.checkRoleInEmployee(Role.getRoleByName("BRANCHMANAGER").getId());
+        employee.checkRoleInEmployee(Role.getRoleByName("SHIFTMANAGER").getId());
+        employee.checkRoleInEmployee(Role.getRoleByName("STOREKEEPER").getId());
         // TODO - add to str all the transport in the date - transport moudle
         return strTransports;
     }

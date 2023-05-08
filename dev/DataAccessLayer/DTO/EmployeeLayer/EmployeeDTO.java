@@ -2,6 +2,7 @@ package DataAccessLayer.DTO.EmployeeLayer;
 
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.LinkedList;
 import BussinessLayer.EmployeesLayer.Shift;
 
@@ -48,10 +49,10 @@ public class EmployeeDTO {
     public int getId(){return id;}
 	
     public String fieldsToString() {
-        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
         return String.format("(\"%s\",\"%s\",\"%s\",\"%s\",%s,\"%s\",\"%s\",\"%s\",\"%s\",\"%s\",%s,\"%s\",\"%s\")",
 		 this.firstName, this.lastName, this.id, this.password, this.bankNum, this.bankBranch, this.bankAccount, this.salary,
-		 this.bonus, formatter.format(this.startDate), this.tempsEmployment, this.isLoggedIn, this.superBranch);
+		 this.bonus, this.startDate.format(formatter), this.tempsEmployment, this.isLoggedIn, this.superBranch);
     }
 
 	public int getNumberOfRoles(){return roles.size();}

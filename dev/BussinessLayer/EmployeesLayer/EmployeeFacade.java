@@ -16,25 +16,6 @@ public class EmployeeFacade {
     private EmployeesDAO employeesDAO = new EmployeesDAO();
     //private DriverDAO driverDAO = new DriverDAO();
 
-    private LinkedList<Integer> printAllEmployeesListAccess;
-    private LinkedList<Integer> addRolesListAccess;
-    private LinkedList<Integer> removeRolesListAccess;
-    private LinkedList<Integer> AddBonusListAccess;
-    private LinkedList<Integer> getAllDriversListAccess;
-    private LinkedList<Integer> changeFirstNameListAccess;
-    private LinkedList<Integer> changeLastNameListAccess;
-    private LinkedList<Integer> changePasswordListAccess;
-    private LinkedList<Integer> changeBankNumListAccess;
-    private LinkedList<Integer> changeBankBranchListAccess;
-    private LinkedList<Integer> changeBankAccountListAccess;
-    private LinkedList<Integer> changeSalaryListAccess;
-    private LinkedList<Integer> changeStartDateListAccess;
-    private LinkedList<Integer> changeDriverLicenceListAccess;
-    private LinkedList<Integer> addCancelationListAccess;
-    private LinkedList<Integer> printFinalShiftListAccess;
-    private LinkedList<Integer> missingStaffToRoleListAccess;
-    private LinkedList<Integer> printTransportsListAccess;
-
     public EmployeeFacade(){
         employees = new LinkedList<>();
         drivers = new LinkedList<>();
@@ -46,28 +27,6 @@ public class EmployeeFacade {
 
         addTransportManagerForStartUpTheSystem("Kfir", "Rotem", 987654321, "abc", 0, 0,
          0, 0, 0, localDate, "free terms of employment", null, Role.getRoleByName("TRANSPORTMANAGER").getId(), 0);
-
-         printAllEmployeesListAccess = new LinkedList<>(); printAllEmployeesListAccess.add(Role.getRoleByName("HRMANAGER").getId());
-         addRolesListAccess = new LinkedList<>(); addRolesListAccess.add(Role.getRoleByName("HRMANAGER").getId());
-         removeRolesListAccess = new LinkedList<>(); removeRolesListAccess.add(Role.getRoleByName("HRMANAGER").getId());
-         AddBonusListAccess = new LinkedList<>(); AddBonusListAccess.add(Role.getRoleByName("HRMANAGER").getId());
-         getAllDriversListAccess = new LinkedList<>(); getAllDriversListAccess.add(Role.getRoleByName("HRMANAGER").getId());
-         changeFirstNameListAccess = new LinkedList<>(); changeFirstNameListAccess.add(Role.getRoleByName("HRMANAGER").getId());
-         changeLastNameListAccess = new LinkedList<>(); changeLastNameListAccess.add(Role.getRoleByName("HRMANAGER").getId());
-         changePasswordListAccess = new LinkedList<>(); changePasswordListAccess.add(Role.getRoleByName("HRMANAGER").getId());
-         changeBankNumListAccess = new LinkedList<>(); changeBankNumListAccess.add(Role.getRoleByName("HRMANAGER").getId());
-         changeBankBranchListAccess = new LinkedList<>(); changeBankBranchListAccess.add(Role.getRoleByName("HRMANAGER").getId());
-         changeBankAccountListAccess = new LinkedList<>(); changeBankAccountListAccess.add(Role.getRoleByName("HRMANAGER").getId());
-         changeSalaryListAccess = new LinkedList<>(); changeSalaryListAccess.add(Role.getRoleByName("HRMANAGER").getId());
-         changeStartDateListAccess = new LinkedList<>(); changeStartDateListAccess.add(Role.getRoleByName("HRMANAGER").getId());
-         changeDriverLicenceListAccess = new LinkedList<>(); changeDriverLicenceListAccess.add(Role.getRoleByName("HRMANAGER").getId());
-         addCancelationListAccess = new LinkedList<>(); addCancelationListAccess.add(Role.getRoleByName("HRMANAGER").getId());
-         addCancelationListAccess.add(Role.getRoleByName("SHIFTMANAGER").getId());
-         printFinalShiftListAccess = new LinkedList<>(); printFinalShiftListAccess.add(Role.getRoleByName("HRMANAGER").getId());
-         missingStaffToRoleListAccess = new LinkedList<>(); missingStaffToRoleListAccess.add(Role.getRoleByName("HRMANAGER").getId());
-         printTransportsListAccess = new LinkedList<>(); printTransportsListAccess.add(Role.getRoleByName("HRMANAGER").getId());
-         printTransportsListAccess.add(Role.getRoleByName("SHIFTMANAGER").getId());
-         printTransportsListAccess.add(Role.getRoleByName("STOREKEEPER").getId());
     }
 
     // commit log in for employee, if exsist
@@ -150,11 +109,9 @@ public class EmployeeFacade {
 
     // print all employees in the system.
     // only if its HR manager.
-    public String printAllEmployees(int id){
+    public String printAllEmployees(int managerId){
         String strPrint = "";
-        checkEmployee(id);
-        checkLoggedIn(id);
-        checkIfEmployeeAllowed(id, printAllEmployeesListAccess);
+        checkHrManager(managerId);
         for (Employee employee : employees) {
             strPrint += employee.toString() + "\n";
         }
@@ -163,11 +120,9 @@ public class EmployeeFacade {
     
     // print all employees in the system.
     // only if its HR manager.
-    public String printAllDrivers(int id){
+    public String printAllDrivers(int managerId){
         String strPrint = "";
-        checkEmployee(id);
-        checkLoggedIn(id);
-        checkIfEmployeeAllowed(id, printAllEmployeesListAccess);
+        checkManager(managerId);
         for (Driver driver : drivers) {
             strPrint += driver.toString() + "\n";
         }
@@ -183,16 +138,12 @@ public class EmployeeFacade {
     }
     
     public void addRoleToEmployee(int managerId, int idEmployee, Integer role){
-        checkEmployee(managerId);
-        checkLoggedIn(managerId);
-        checkIfEmployeeAllowed(managerId, addRolesListAccess);
+        checkHrManager(managerId); checkEmployee(idEmployee);
         getEmployeeById(idEmployee).addRole(role);
     }
 
     public void removeRoleFromEmployee(int managerId, int idEmployee, Integer role){
-        checkEmployee(managerId);
-        checkLoggedIn(managerId);
-        checkIfEmployeeAllowed(managerId, removeRolesListAccess);
+        checkHrManager(managerId); checkEmployee(idEmployee);
         getEmployeeById(idEmployee).removeRole(role);
     }
     
@@ -202,9 +153,7 @@ public class EmployeeFacade {
     }
 
     public void addBonus(int managerId, int idEmployee, int bonus, int year, Month month){
-        checkEmployee(managerId);
-        checkLoggedIn(managerId);
-        checkIfEmployeeAllowed(managerId, AddBonusListAccess);
+        checkHrManager(managerId); checkEmployee(idEmployee);
         getEmployeeById(idEmployee).setBonus(year, month, getEmployeeById(idEmployee).getBonus(year, month) + bonus);
     }
 
@@ -257,234 +206,55 @@ public class EmployeeFacade {
         return returnDrivers;
     }
 
-    public void addPremissionRole(int managerId, String function, int role){
-        checkHrManager(managerId);
-        switch (function){
-            case("PRINTALLEMPLOYEES") : {
-                if(printAllEmployeesListAccess.contains(role)){throw new Error("This role can already do this function in the system.");}
-                printAllEmployeesListAccess.add(role);
-            }
-            case("ADDROLETOEMPLOYEE") : {
-                if(addRolesListAccess.contains(role)){throw new Error("This role can already do this function in the system.");}
-                addRolesListAccess.add(role);
-            }
-            case("REMOVEROLEFROMEMPLOYEE") : {
-                if(removeRolesListAccess.contains(role)){throw new Error("This role can already do this function in the system.");}
-                removeRolesListAccess.add(role);
-            }
-            case("ADDBONUS") : {
-                if(AddBonusListAccess.contains(role)){throw new Error("This role can already do this function in the system.");}
-                AddBonusListAccess.add(role);
-            }
-            case("GETALLDRIVERS") : {
-                if(getAllDriversListAccess.contains(role)){throw new Error("This role can already do this function in the system.");}
-                getAllDriversListAccess.add(role);
-            }
-            case("CHANGEFIRSTNAME") : {
-                if(changeFirstNameListAccess.contains(role)){throw new Error("This role can already do this function in the system.");}
-                changeFirstNameListAccess.add(role);
-            }
-            case("CHANGELASTNAME") : {
-                if(changeLastNameListAccess.contains(role)){throw new Error("This role can already do this function in the system.");}
-                changeLastNameListAccess.add(role);
-            }
-            case("CHANGEPASSWORD") : {
-                if(changePasswordListAccess.contains(role)){throw new Error("This role can already do this function in the system.");}
-                changePasswordListAccess.add(role);
-            }
-            case("CHANGEBANKNUMBER") : {
-                if(changeBankNumListAccess.contains(role)){throw new Error("This role can already do this function in the system.");}
-                changeBankNumListAccess.add(role);
-            }
-            case("CHANGEBANKBRANCH") : {
-                if(changeBankBranchListAccess.contains(role)){throw new Error("This role can already do this function in the system.");}
-                changeBankBranchListAccess.add(role);
-            }
-            case("CHANGEBANKACCOUNT") : {
-                if(changeBankAccountListAccess.contains(role)){throw new Error("This role can already do this function in the system.");}
-                changeBankAccountListAccess.add(role);
-            }
-            case("CHANGRSALARY") : {
-                if(changeSalaryListAccess.contains(role)){throw new Error("This role can already do this function in the system.");}
-                changeSalaryListAccess.add(role);
-            }
-            case("CHANGESTARTDATE") : {
-                if(changeStartDateListAccess.contains(role)){throw new Error("This role can already do this function in the system.");}
-                changeStartDateListAccess.add(role);
-            }
-            case("CHANGEDRIVERLIVENCE") : {
-                if(changeDriverLicenceListAccess.contains(role)){throw new Error("This role can already do this function in the system.");}
-                changeDriverLicenceListAccess.add(role);
-            }
-            case("ADDCANCELATION") : {
-                if(addCancelationListAccess.contains(role)){throw new Error("This role can already do this function in the system.");}
-                addCancelationListAccess.add(role);
-            }
-            case("PRINTFINALSHIFT") : {
-                if(printFinalShiftListAccess.contains(role)){throw new Error("This role can already do this function in the system.");}
-                printFinalShiftListAccess.add(role);
-            }
-            case("MISSINGSTAFFTOROLE") : {
-                if(missingStaffToRoleListAccess.contains(role)){throw new Error("This role can already do this function in the system.");}
-                missingStaffToRoleListAccess.add(role);
-            }
-            case("PRINTTRANSPORTS") : {
-                if(printTransportsListAccess.contains(role)){throw new Error("This role can already do this function in the system.");}
-                printTransportsListAccess.add(role);
-            }
-        }
-    }
-        
-    public void RemovePremissionRole(int managerId, String function, Integer role){
-        checkHrManager(managerId);
-        switch (function){
-            case("PRINTALLEMPLOYEES") : {
-                if(!printAllEmployeesListAccess.contains(role)){throw new Error("This role can not do this function according to the system.");}
-                printAllEmployeesListAccess.remove(role);
-            }
-            case("ADDROLETOEMPLOYEE") : {
-                if(!addRolesListAccess.contains(role)){throw new Error("This role can not do this function according to the system.");}
-                addRolesListAccess.remove(role);
-            }
-            case("REMOVEROLEFROMEMPLOYEE") : {
-                if(!removeRolesListAccess.contains(role)){throw new Error("This role can not do this function according to the system.");}
-                removeRolesListAccess.remove(role);
-            }
-            case("ADDBONUS") : {
-                if(!AddBonusListAccess.contains(role)){throw new Error("This role can not do this function according to the system.");}
-                AddBonusListAccess.remove(role);
-            }
-            case("GETALLDRIVERS") : {
-                if(!getAllDriversListAccess.contains(role)){throw new Error("This role can not do this function according to the system.");}
-                getAllDriversListAccess.remove(role);
-            }
-            case("CHANGEFIRSTNAME") : {
-                if(!changeFirstNameListAccess.contains(role)){throw new Error("This role can not do this function according to the system.");}
-                changeFirstNameListAccess.remove(role);
-            }
-            case("CHANGELASTNAME") : {
-                if(!changeLastNameListAccess.contains(role)){throw new Error("This role can not do this function according to the system.");}
-                changeLastNameListAccess.remove(role);
-            }
-            case("CHANGEPASSWORD") : {
-                if(!changePasswordListAccess.contains(role)){throw new Error("This role can not do this function according to the system.");}
-                changePasswordListAccess.remove(role);
-            }
-            case("CHANGEBANKNUMBER") : {
-                if(!changeBankNumListAccess.contains(role)){throw new Error("This role can not do this function according to the system.");}
-                changeBankNumListAccess.remove(role);
-            }
-            case("CHANGEBANKBRANCH") : {
-                if(!changeBankBranchListAccess.contains(role)){throw new Error("This role can not do this function according to the system.");}
-                changeBankBranchListAccess.remove(role);
-            }
-            case("CHANGEBANKACCOUNT") : {
-                if(!changeBankAccountListAccess.contains(role)){throw new Error("This role can not do this function according to the system.");}
-                changeBankAccountListAccess.remove(role);
-            }
-            case("CHANGRSALARY") : {
-                if(!changeSalaryListAccess.contains(role)){throw new Error("This role can not do this function according to the system.");}
-                changeSalaryListAccess.remove(role);
-            }
-            case("CHANGESTARTDATE") : {
-                if(!changeStartDateListAccess.contains(role)){throw new Error("This role can not do this function according to the system.");}
-                changeStartDateListAccess.remove(role);
-            }
-            case("CHANGEDRIVERLIVENCE") : {
-                if(!changeDriverLicenceListAccess.contains(role)){throw new Error("This role can not do this function according to the system.");}
-                changeDriverLicenceListAccess.remove(role);
-            }
-            case("ADDCANCELATION") : {
-                if(!addCancelationListAccess.contains(role)){throw new Error("This role can not do this function according to the system.");}
-                addCancelationListAccess.remove(role);
-            }
-            case("PRINTFINALSHIFT") : {
-                if(!printFinalShiftListAccess.contains(role)){throw new Error("This role can not do this function according to the system.");}
-                printFinalShiftListAccess.remove(role);
-            }
-            case("MISSINGSTAFFTOROLE") : {
-                if(!missingStaffToRoleListAccess.contains(role)){throw new Error("This role can not do this function according to the system.");}
-                missingStaffToRoleListAccess.remove(role);
-            }
-            case("PRINTTRANSPORTS") : {
-                if(!printTransportsListAccess.contains(role)){throw new Error("This role can not do this function according to the system.");}
-                printTransportsListAccess.remove(role);
-            }
-        }
-    }
 
 //-------------------------------------Getters And Setters--------------------------------------------------------
 
     public LinkedList<Driver> getAllDrivers(){ return drivers; }
 
     public void changeFirstName(int managerId, int idEmployee, String firstName){
-        checkEmployee(managerId);
-        checkLoggedIn(managerId);
-        checkIfEmployeeAllowed(managerId, changeFirstNameListAccess);
+        checkHrManager(managerId); checkEmployee(idEmployee);
         getEmployeeById(idEmployee).setFirstName(firstName);
     }
 
     public void changeLastName(int managerId, int idEmployee, String lastName){
-        checkEmployee(managerId);
-        checkLoggedIn(managerId);
-        checkIfEmployeeAllowed(managerId, changeLastNameListAccess);
+        checkHrManager(managerId); checkEmployee(idEmployee);
         getEmployeeById(idEmployee).setLastName(lastName);
     }
 
     public void changePassword(int managerId, int idEmployee, String password){
-        checkEmployee(managerId);
-        checkLoggedIn(managerId);
-        checkIfEmployeeAllowed(managerId, changePasswordListAccess);
+        checkHrManager(managerId); checkEmployee(idEmployee);
         getEmployeeById(idEmployee).setPassword(password);
     }
 
     public void changeBankNum(int managerId, int idEmployee, int bankNum){
-        checkEmployee(managerId);
-        checkLoggedIn(managerId);
-        checkIfEmployeeAllowed(managerId, changeBankNumListAccess);
+        checkHrManager(managerId); checkEmployee(idEmployee);
         getEmployeeById(idEmployee).setBankNum(bankNum);
     }
     
     public void changeBankBranch(int managerId, int idEmployee, int bankBranch){
-        checkEmployee(managerId);
-        checkLoggedIn(managerId);
-        checkIfEmployeeAllowed(managerId, changeBankBranchListAccess);
+        checkHrManager(managerId); checkEmployee(idEmployee);
         getEmployeeById(idEmployee).setBankBranch(bankBranch);
     }
     
     public void changeBankAccount(int managerId, int idEmployee, int bankAccount){
-        checkEmployee(managerId);
-        checkLoggedIn(managerId);
-        checkIfEmployeeAllowed(managerId, changeBankAccountListAccess);
+        checkHrManager(managerId); checkEmployee(idEmployee);
         getEmployeeById(idEmployee).setBankAccount(bankAccount);
     }
     
     public void changeSalary(int managerId, int idEmployee, int salary){
-        checkEmployee(managerId);
-        checkLoggedIn(managerId);
-        checkIfEmployeeAllowed(managerId, changeSalaryListAccess);
+        checkHrManager(managerId); checkEmployee(idEmployee);
         getEmployeeById(idEmployee).setSalary(salary);
     }
     
     public void changeStartDate(int managerId, int idEmployee, LocalDate stastDate){
-        checkEmployee(managerId);
-        checkLoggedIn(managerId);
-        checkIfEmployeeAllowed(managerId, changeStartDateListAccess);
+        checkHrManager(managerId); checkEmployee(idEmployee);
         getEmployeeById(idEmployee).setStartDate(stastDate);
     }
     
     public void changeDriverLicence(int managerId, int idEmployee, License licene){
-        checkEmployee(managerId);
-        checkLoggedIn(managerId);
-        checkIfEmployeeAllowed(managerId, changeDriverLicenceListAccess);
+        checkHrManager(managerId); checkEmployee(idEmployee);
         getDriverById(idEmployee).setDriverLicense(licene);
     }
-
-    public LinkedList<Integer> getPrintAllEmployeesListAccess(){return printAllEmployeesListAccess;}
-    public LinkedList<Integer> getAddCancelationListAccess(){return addCancelationListAccess;}
-    public LinkedList<Integer> getPrintFinalShiftListAccess(){return printFinalShiftListAccess;}
-    public LinkedList<Integer> getMissingStaffToRoleListAccess(){return missingStaffToRoleListAccess;}
-    public LinkedList<Integer> getPrintTransportsListAccess(){return printTransportsListAccess;}
 
     public String getManagerType(int id){
         Employee manager = getEmployeeById(id);
@@ -544,11 +314,26 @@ public class EmployeeFacade {
         List<Integer> managerRoles = employee.getRoles();
         return managerRoles.contains(Role.getRoleByName("HRMANAGER").getId());
     }
+    
+    // return true if the employee is transport manager
+    private boolean isEmployeeTranpostManager(int id){
+        Employee employee = getEmployeeById(id);
+        List<Integer> managerRoles = employee.getRoles();
+        return managerRoles.contains(Role.getRoleByName("TRANSPORTMANAGER").getId());
+    }
 
     // check if the employee is a HRmanager and is sign in to the system
     // throw an error if something went wrong
     public void checkHrManager(int managerId){
         if (!isEmployeeHRManager(managerId) || !isEmployeeLoggedIn(managerId)){
+            throw new Error("You must be logged in, and be an HR manager in order to do that action.");
+        }
+    }
+
+    // check if the employee is a manager and is sign in to the system
+    // throw an error if something went wrong
+    public void checkManager(int managerId){
+        if (!isEmployeeLoggedIn(managerId) || !(isEmployeeHRManager(managerId) || isEmployeeTranpostManager(managerId))){
             throw new Error("You must be logged in, and be an HR manager in order to do that action.");
         }
     }
@@ -561,20 +346,6 @@ public class EmployeeFacade {
         }
     }
 
-    public void checkIfEmployeeAllowed(int idEmployee, List<Integer> allowed){
-        checkEmployee(idEmployee);
-        Employee employee = getEmployeeById(idEmployee);
-        for (Integer role : employee.getRoles()) {
-            if (allowed.contains(role)){
-                return;
-            }
-        }
-        //Driver driver = getDriverById(idEmployee);
-        if (allowed.contains(Role.getRoleByName("DRIVER").getId())){
-                return;
-        }
-        throw new Error("The id " + idEmployee + " is not allowed to do that function.");
-    }
 
     // help function that create HR manager to start up the system
     private void addHRManagerForStartUpTheSystem(String firstName, String lastName, int id, String password, int bankNum,

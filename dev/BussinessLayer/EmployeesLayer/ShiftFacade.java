@@ -3,16 +3,17 @@ import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.LinkedList;
 
+import Misc.Role;
 import Misc.ShiftTime;
 
 public class ShiftFacade {
-    private EmployeeFacade employeeController;
+    private EmployeeFacade employeeFacade;
     private LinkedList<Shift> shifts;
     private static int shiftIdConuter = 0;
 
     // constructor
     public ShiftFacade(EmployeeFacade employeeController){
-        this.employeeController = employeeController;
+        this.employeeFacade = employeeController;
         shifts = new LinkedList<Shift>();
     }
 
@@ -24,15 +25,17 @@ public class ShiftFacade {
     // add cancelation to shift
     public void addCancelation(int shiftId, int employeeId ,int itemId, int itemCode){
         Shift shift = getShift(shiftId);
-        Employee employee = employeeController.getEmployeeById(employeeId);
-        employeeController.checkLoggedIn(employeeId);
-        employeeController.checkIfEmployeeAllowed(employeeId, employeeController.getAddCancelationListAccess());
+        Employee employee = employeeFacade.getEmployeeById(employeeId);
+        employeeFacade.checkLoggedIn(employeeId);
+        //employeeController.getEmployeeById(employeeId).checkRoleInEmployee(Role.getRoleByName("SHIFTMANAGER").getId());
+        //employeeController.getEmployeeById(employeeId).checkRoleInEmployee(Role.getRoleByName("BRANCHMANAGER").getId());
         shift.addCancelation(employee, itemCode, itemId);
     }
 
     public String printFinalShift(int employeeId, int idShift){
-        employeeController.checkLoggedIn(employeeId);
-        employeeController.checkIfEmployeeAllowed(employeeId, employeeController.getPrintFinalShiftListAccess());
+        employeeFacade.checkLoggedIn(employeeId);
+        //employeeController.getEmployeeById(employeeId).checkRoleInEmployee(Role.getRoleByName("SHIFTMANAGER").getId());
+        //employeeController.getEmployeeById(employeeId).checkRoleInEmployee(Role.getRoleByName("BRANCHMANAGER").getId());
         String strPrint = "";
         Shift shift = getShift(idShift);
         if(!shift.getIsFinishSettingShift()){throw new Error("The shift is not finished yet for printing.");}
@@ -42,8 +45,9 @@ public class ShiftFacade {
     }
     
     public String printConstarintsShift(int employeeId, int idShift){
-        employeeController.checkLoggedIn(employeeId);
-        employeeController.checkIfEmployeeAllowed(employeeId, employeeController.getPrintFinalShiftListAccess());
+        employeeFacade.checkLoggedIn(employeeId);
+        //employeeController.getEmployeeById(employeeId).checkRoleInEmployee(Role.getRoleByName("SHIFTMANAGER").getId());
+        //employeeController.getEmployeeById(employeeId).checkRoleInEmployee(Role.getRoleByName("BRANCHMANAGER").getId());
         String strPrint = "";
         Shift shift = getShift(idShift);
         if(shift.getIsFinishSettingShift()){throw new Error("The shift is finished setting.");}
@@ -70,8 +74,9 @@ public class ShiftFacade {
     }
 
     public String missingStaffToRole(int employeeId, int shiftId){
-        employeeController.checkLoggedIn(employeeId);
-        employeeController.checkIfEmployeeAllowed(employeeId, employeeController.getMissingStaffToRoleListAccess());
+        employeeFacade.checkLoggedIn(employeeId);
+        //employeeController.getEmployeeById(employeeId).checkRoleInEmployee(Role.getRoleByName("SHIFTMANAGER").getId());
+        //employeeController.getEmployeeById(employeeId).checkRoleInEmployee(Role.getRoleByName("BRANCHMANAGER").getId());
         return getShift(shiftId).missingStaffToRole().toString();
     }
 

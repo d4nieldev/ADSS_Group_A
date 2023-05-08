@@ -16,7 +16,7 @@ public class Driver extends Employee {
 	int salary, int InitializeBonus, LocalDate startDate, String tempsEmployment, License licence) {
         super(firstName, lastName, id, password, bankNum, bankBranch, bankAccount, salary, InitializeBonus, startDate, tempsEmployment,
         Role.getRoleByName("DRIVER").getId(), null);
-        this.driverLicense = driverLicense;
+        this.driverLicense = licence;
         availableShiftDates = new LinkedList<>();
         workedDates = new LinkedList<>();
     }

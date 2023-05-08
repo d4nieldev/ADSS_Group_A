@@ -64,14 +64,6 @@ public class EmployeeService {
     public void addRoleToSystem(int managerHR, String role){
         employeeFacade.addRoleToSystem(managerHR, role);
     }
-
-    public void addPremissionRole(int managerID, String function, String role){
-        employeeFacade.addPremissionRole(managerID, function.toUpperCase(), Role.getRoleByName(role).getId());
-    }
-    
-    public void RemovePremissionRole(int managerID, String function, Integer role){
-        employeeFacade.RemovePremissionRole(managerID, function.toUpperCase(), role);
-    }
     
 
     //-------------------------------------Getters And Setters--------------------------------------------------------

@@ -116,8 +116,10 @@ public class UnitTest {
     @Test
     void testDeliveryPrintWithEmptyItems() {
         List<String> items = new ArrayList<>();
-        Destination source = new Destination("123 Main St", "555-1234", "John Smith", Location.SOUTH, DestinationType.SOURCE);
-        Destination dest = new Destination("456 Market St", "555-5678", "Jane Doe", Location.SOUTH, DestinationType.DESTINATION);
+        Destination source = new Destination("123 Main St", "555-1234", "John Smith", Location.SOUTH,
+                DestinationType.SOURCE);
+        Destination dest = new Destination("456 Market St", "555-5678", "Jane Doe", Location.SOUTH,
+                DestinationType.DESTINATION);
         Delivery delivery = new Delivery(1, source, dest, Status.PENDING, items);
         ByteArrayOutputStream outContent = new ByteArrayOutputStream();
         System.setOut(new PrintStream(outContent));
@@ -125,13 +127,14 @@ public class UnitTest {
         String expectedOutput = "Delivery from 123 Main St to 456 Market St\nStatus: PENDING\nItems: []\n------------------------------\n";
         assertEquals(expectedOutput, outContent.toString());
     }
+
     @Test
     public void testRemoveTransport() {
         // Create a new transport and add it to the facade
         TransportFacade transportFacade = TransportFacade.getInstance();
         Transport transport = new Transport(1, "2023-04-01", "12:00", "TR-123", "John Doe", 1, "Factory A",
                 new ArrayList<Destination>(), new ArrayList<Delivery>(), 5000, 10000);
-        transportFacade.addTransport(transport.getId(),transport);
+        transportFacade.addTransport(transport.getId(), transport);
 
         // Ensure the transport was added
         assertTrue(transportFacade.getTransportMap().containsKey(1));
@@ -148,10 +151,12 @@ public class UnitTest {
         // Create a transport object with destinations
         Transport transport = new Transport(1, "2023-04-01", "10:00", "TRUCK001", "John Doe", 1, "Los Angeles",
                 Arrays.asList(
-                        new Destination("San Francisco", "123-456-7890", "Jane Smith", Location.CENTER, DestinationType.SOURCE),
-                        new Destination("Sacramento", "123-456-7890", "Jane Smith", Location.CENTER, DestinationType.SOURCE),
-                        new Destination("San Diego", "123-456-7890", "Jane Smith", Location.CENTER, DestinationType.SOURCE)
-                ),
+                        new Destination("San Francisco", "123-456-7890", "Jane Smith", Location.CENTER,
+                                DestinationType.SOURCE),
+                        new Destination("Sacramento", "123-456-7890", "Jane Smith", Location.CENTER,
+                                DestinationType.SOURCE),
+                        new Destination("San Diego", "123-456-7890", "Jane Smith", Location.CENTER,
+                                DestinationType.SOURCE)),
                 new ArrayList<Delivery>(), 5000, 10000);
 
         // Redirect system input stream to provide input to the scanner
@@ -166,8 +171,7 @@ public class UnitTest {
         List<Destination> expected = Arrays.asList(
                 new Destination("San Francisco", "123-456-7890", "Jane Smith", Location.CENTER, DestinationType.SOURCE),
                 new Destination("Sacramento", "123-456-7890", "Jane Smith", Location.CENTER, DestinationType.SOURCE),
-                new Destination("San Diego", "123-456-7890", "Jane Smith", Location.CENTER, DestinationType.SOURCE)
-        );
+                new Destination("San Diego", "123-456-7890", "Jane Smith", Location.CENTER, DestinationType.SOURCE));
         List<Destination> actual = transport.getDestinationList();
         assertEquals(expected, actual);
     }
@@ -176,9 +180,12 @@ public class UnitTest {
     public void testChangingOrderWithInvalidInput() {
         // Create a transport with a list of destinations
         List<Destination> destinationList = new ArrayList<>();
-        destinationList.add(new Destination("123 Main St.", "555-1234", "John Smith", Location.CENTER, DestinationType.SOURCE));
-        destinationList.add(new Destination("456 Elm St.", "555-5678", "Jane Doe", Location.CENTER, DestinationType.SOURCE));
-        Transport transport = new Transport(1, "2023-04-01", "10:00", "ABC123", "John Doe", 1, "789 Oak St.", destinationList, new ArrayList<Delivery>(), 1000, 5000);
+        destinationList.add(
+                new Destination("123 Main St.", "555-1234", "John Smith", Location.CENTER, DestinationType.SOURCE));
+        destinationList
+                .add(new Destination("456 Elm St.", "555-5678", "Jane Doe", Location.CENTER, DestinationType.SOURCE));
+        Transport transport = new Transport(1, "2023-04-01", "10:00", "ABC123", "John Doe", 1, "789 Oak St.",
+                destinationList, new ArrayList<Delivery>(), 1000, 5000);
 
         // Create a mock Scanner object with invalid input
         Scanner scanner = new Scanner("1, 3, 5, abc\n");
@@ -194,13 +201,5 @@ public class UnitTest {
         // Check that the transport's list of destinations has not been changed
         assertEquals(destinationList, transport.getDestinationList());
     }
-
-
-
-
-
-
-
-
 
 }

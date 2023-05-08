@@ -17,9 +17,15 @@ public class BranchService {
     }
     
     public void addNewEmployee(int managerId, String firstName, String lastName, int id, String password, int bankNum,
-    int bankBranch, int bankAccount, int salary, int InitializeBonus, LocalDate startDate, String tempsEmployment, License driverLicense, Integer role, int branch){
+    int bankBranch, int bankAccount, int salary, int InitializeBonus, LocalDate startDate, String tempsEmployment, Integer role, int branch){
         branchFacade.addNewEmployee(managerId, firstName, lastName, id, password, bankNum,
-        bankBranch, bankAccount, salary, InitializeBonus, startDate, tempsEmployment, driverLicense, role, branch);
+        bankBranch, bankAccount, salary, InitializeBonus, startDate, tempsEmployment, role, branch);
+    }
+
+    public void addNewDriver(int managerId, String firstName, String lastName, int id, String password, int bankNum,
+    int bankBranch, int bankAccount, int salary, int InitializeBonus, LocalDate startDate, String tempsEmployment, License driverLicense){
+        branchFacade.addNewDriver(managerId, firstName, lastName, id, password, bankNum,
+        bankBranch, bankAccount, salary, InitializeBonus, startDate, tempsEmployment, driverLicense);
     }
 
     public void addForeignEmployee(int managerId, int idEmployee, int branch){

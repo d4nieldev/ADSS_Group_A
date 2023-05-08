@@ -24,13 +24,79 @@ class HRSystem {
 
     public void run(int loginId) {
         Scanner sc = new Scanner(System.in);
-        System.out.println("0 - Go back\n1 - Add employee\n2 - Print all employees (drivers not included)\n3 - Print all drivers\n4 - Add empty shift\n5 - Submit a shift\n6 - Add constraint for some Employee to Shift\n7 - Edit employee\n8 - Delete an employee\n");
+        System.out.println("0 - Go back\n1 - Add employee (not driver)\n 2 - Add driver\n2 - Print all employees (drivers not included)\n3 - Print all drivers\n4 - Add empty shift\n5 - Submit a shift\n6 - Add constraint for some Employee to Shift\n7 - Edit employee\n8 - Delete an employee\n");
         String option = sc.nextLine();
 
         while(!option.equals("0")){
             try{
                 if (option.equals("1")){ // 1 enter new employee
-                    System.out.println("You choose to enter a new employee, please enter the information of the employee: ");
+                    System.out.println("You choose to enter a new employee, please enter the information of the employee: \n");
+
+                    System.out.print("First name: ");
+                    String firstName = sc.nextLine();
+                    System.out.println("");
+
+                    System.out.print("Last name: ");
+                    String lastName = sc.nextLine();
+                    System.out.println("");
+
+                    System.out.print("Id: ");
+                    int id = Integer.parseInt(sc.nextLine());
+                    System.out.println("");
+
+                    System.out.print("Password: ");
+                    String password = sc.nextLine();
+                    System.out.println("");
+
+                    System.out.print("Bank number: ");
+                    int bankNum = Integer.parseInt(sc.nextLine());
+                    System.out.println("");
+
+                    System.out.print("Bank branch number: ");
+                    int bankBranch = Integer.parseInt(sc.nextLine());
+                    System.out.println("");
+
+                    System.out.print("Bank account number: ");
+                    int bankAccount = Integer.parseInt(sc.nextLine());
+                    System.out.println("");
+
+                    System.out.print("Salary: ");
+                    int salary = Integer.parseInt(sc.nextLine());
+                    System.out.println("");
+
+                    System.out.println("please enster the date in that format Date: 05-06-2003");
+                    System.out.print("Start Date: ");
+                    String startDate = sc.nextLine();
+                    System.out.println("");
+
+                    System.out.print("Initialize Bouns: ");
+                    int InitializeBonus = Integer.parseInt(sc.nextLine());
+                    System.out.println("");
+                    
+                    System.out.print("Terms of Employment: ");
+                    String tempsEmployment = sc.nextLine();
+                    System.out.println("");
+
+                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+                    LocalDate localDate = LocalDate.parse(startDate, formatter);
+
+                    System.out.print("Role: ");
+                    String roleString = sc.nextLine();
+                    Integer role = Role.getRoleByName(roleString.toUpperCase()).getId();  //may throw an error.
+                    //Role.valueOf(roleString.toUpperCase()); //may throw an error.
+                    System.out.println("");
+
+                    System.out.print("Super Branch: ");
+                    int superBranch = Integer.parseInt(sc.nextLine());
+                    System.out.println("");
+
+                    branchService.addNewEmployee(loginId, firstName, lastName, id, password, bankNum,
+                        bankBranch, bankAccount, salary, InitializeBonus, localDate, tempsEmployment, role, superBranch);
+                }
+
+                else if (option.equals("2")){ // 2 print all employees
+
+                    System.out.println("You choose to enter a new driver, please enter the information of the employee: \n");
 
                     System.out.print("First name: ");
                     String firstName = sc.nextLine();
@@ -85,21 +151,11 @@ class HRSystem {
                     License driverLicense = License.valueOf(driverLicenseString.toUpperCase()); //may throw an error.
                     System.out.println("");
 
-                    System.out.print("Role: ");
-                    String roleString = sc.nextLine();
-                    Integer role = Role.getRoleByName(roleString.toUpperCase()).getId();  //may throw an error.
-                    //Role.valueOf(roleString.toUpperCase()); //may throw an error.
-                    System.out.println("");
-
-                    System.out.print("Super Branch: ");
-                    int superBranch = Integer.parseInt(sc.nextLine());
-                    System.out.println("");
-
-                    branchService.addNewEmployee(loginId, firstName, lastName, id, password, bankNum,
-                        bankBranch, bankAccount, salary, InitializeBonus, localDate, tempsEmployment, driverLicense, role, superBranch);
+                    branchService.addNewDriver(loginId, firstName, lastName, id, password, bankNum,
+                        bankBranch, bankAccount, salary, InitializeBonus, localDate, tempsEmployment, driverLicense);
                 }
 
-                else if (option.equals("2")){ // 2 print all employees
+                else if (option.equals("2.5")){ // 2 print all employees
                     System.out.println(employeeService.printAllEmployees(loginId));
                 }
 

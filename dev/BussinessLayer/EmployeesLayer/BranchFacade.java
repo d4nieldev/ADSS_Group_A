@@ -24,11 +24,21 @@ public class BranchFacade {
     }
 
     public void addNewEmployee(int managerId, String firstName, String lastName, int id, String password, int bankNum,
-    int bankBranch, int bankAccount, int salary, int InitializeBonus, LocalDate startDate, String tempsEmployment, License driverLicense, Integer role, int branchId){
+    int bankBranch, int bankAccount, int salary, int InitializeBonus, LocalDate startDate, String tempsEmployment, Integer role, int branchId){
         // only HR manager
         employeeFacade.addEmployee(managerId, firstName, lastName, id, password, bankNum, bankBranch, bankAccount, salary,
-        InitializeBonus, startDate, tempsEmployment, driverLicense, role, branchId);
+        InitializeBonus, startDate, tempsEmployment, role, branchId);
         Branch branch = getBranchById(branchId);
+        Employee employee = employeeFacade.getEmployeeById(id);
+        branch.addNewEmployee(employee);
+    }
+
+    public void addNewDriver(int managerId, String firstName, String lastName, int id, String password, int bankNum,
+    int bankBranch, int bankAccount, int salary, int InitializeBonus, LocalDate startDate, String tempsEmployment, License driverLicense){
+        // only HR manager
+        employeeFacade.addDriver(managerId, firstName, lastName, id, password, bankNum, bankBranch, bankAccount, salary,
+        InitializeBonus, startDate, tempsEmployment, driverLicense);
+        Branch branch = getBranchById(0);
         Employee employee = employeeFacade.getEmployeeById(id);
         branch.addNewEmployee(employee);
     }

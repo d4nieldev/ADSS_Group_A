@@ -22,10 +22,14 @@ public class Repository {
     public Connection connect() {
         Connection conn = null;
         try {
+            Class.forName("org.sqlite.JDBC");
             String url = "jdbc:sqlite:database.db";
             conn = DriverManager.getConnection(url);
 
         } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            // TODO Auto-generated catch block
             e.printStackTrace();
         }
         return conn;

@@ -50,7 +50,7 @@ public class EmployeeDTO {
 	
     public String fieldsToString() {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
-        return String.format("(\"%s\",\"%s\",\"%s\",\"%s\",%s,\"%s\",\"%s\",\"%s\",\"%s\",\"%s\",%s,\"%s\",\"%s\")",
+        return String.format("(\"%s\",\"%s\",\"%s\",\"%s\",\"%s\",\"%s\",\"%s\",\"%s\",\"%s\",\"%s\",\"%s\",\"%s\",\"%s\")",
 		 this.firstName, this.lastName, this.id, this.password, this.bankNum, this.bankBranch, this.bankAccount, this.salary,
 		 this.bonus, this.startDate.format(formatter), this.tempsEmployment, this.isLoggedIn, this.superBranch);
     }

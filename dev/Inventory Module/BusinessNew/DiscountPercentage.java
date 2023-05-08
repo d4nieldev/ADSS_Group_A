@@ -10,4 +10,13 @@ public class DiscountPercentage extends Discount{
         super(start_date, end_date, discount_percentage);
         this.discountPercentage = discountPercentage;
     }
+
+    public double getDiscountPercentage() {
+        return discountPercentage;
+    }
+
+    @Override
+    public double getPriceWithDiscount(double price) {
+        return price * (1 - discountPercentage);
+    }
 }

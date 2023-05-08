@@ -4,7 +4,7 @@ import static org.junit.Assert.*;
 
 import Business_Layer.Category1;
 import Business_Layer.CategoryController1;
-import Business_Layer.ProductController;
+import Business_Layer.ProductController1;
 import java.util.ArrayList;
 import java.util.List;
 import org.junit.Before;
@@ -12,12 +12,12 @@ import org.junit.Test;
 
 public class Category1ControllerTest {
 
-  ProductController pc;
+  ProductController1 pc;
   CategoryController1 cc;
 
   @Before
   public void setUp() {
-    this.pc = new ProductController();
+    this.pc = new ProductController1();
     this.cc = CategoryController1.getInstance();
     // create sample categories and add them to the dictionary
     Category1 category1 = new Category1("category1", null);

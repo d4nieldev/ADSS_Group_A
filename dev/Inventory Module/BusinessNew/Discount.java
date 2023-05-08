@@ -28,4 +28,5 @@ public abstract class Discount {
     public LocalDate getEnd_date() {
         return end_date;
     }
+    public abstract double getPriceWithDiscount(double price);
 }

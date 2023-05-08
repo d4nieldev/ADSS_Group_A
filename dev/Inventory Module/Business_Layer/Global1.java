@@ -1,6 +1,6 @@
 package Business_Layer;
 
-public class Global {
+public class Global1 {
 
   public static int Productid = 0;
   public static int Categoryid = 0;

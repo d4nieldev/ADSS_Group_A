@@ -9,12 +9,12 @@ public class ReportController1 {
 
     List<Report1> inventoryReport1;
     List<Report1> deficiencyReport1;
-    ProductController productController ;
+    ProductController1 productController ;
     CategoryController1 categoryController1;
 
 
 
-    public ReportController1(ProductController productController)
+    public ReportController1(ProductController1 productController)
     {
         this.productController = productController;
         this.inventoryReport1 = new ArrayList<>();

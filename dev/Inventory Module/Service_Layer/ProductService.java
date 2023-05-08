@@ -3,19 +3,19 @@ package Service_Layer;
 import Business_Layer.Category1;
 import Business_Layer.CategoryController1;
 import Business_Layer.GeneralProduct;
-import Business_Layer.ProductController;
+import Business_Layer.ProductController1;
 
 import java.time.LocalDate;
 import java.util.List;
 
 public class ProductService {
 
-ProductController productController;
+ProductController1 productController;
 CategoryController1 categoryController1;
 int branchId;
 
 public ProductService(int branchId){
-    this.productController = new ProductController();
+    this.productController = new ProductController1();
     this.categoryController1 = CategoryController1.getInstance();
     this.branchId = branchId;
 }
@@ -70,7 +70,7 @@ public ProductService(int branchId){
         return storageAmount;
     }
 
-    public ProductController getProductController() {return this.productController;}
+    public ProductController1 getProductController() {return this.productController;}
     public int getBranchId() {
         return branchId;
     }

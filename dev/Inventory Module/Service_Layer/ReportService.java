@@ -1,6 +1,6 @@
 package Service_Layer;
 
-import Business_Layer.ProductController;
+import Business_Layer.ProductController1;
 import Business_Layer.ReportController1;
 
 import java.time.LocalDate;
@@ -8,7 +8,7 @@ import java.util.List;
 
 public class ReportService {
 
-  ProductController productController;
+  ProductController1 productController;
   ReportController1 reportController1;
   int branchId;
 

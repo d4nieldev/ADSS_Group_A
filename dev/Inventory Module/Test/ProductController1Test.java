@@ -12,14 +12,14 @@ import org.junit.Before;
 import org.junit.Test;
 
 
-public class ProductControllerTest {
+public class ProductController1Test {
 
-  ProductController pc;
+  ProductController1 pc;
   private ByteArrayOutputStream outContent;
 
   @Before
   public void setUp() {
-    this.pc = new ProductController();
+    this.pc = new ProductController1();
     this.outContent = new ByteArrayOutputStream();
   }
 

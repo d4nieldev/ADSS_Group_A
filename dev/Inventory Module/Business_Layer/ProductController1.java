@@ -3,7 +3,7 @@ import java.util.*;
 import java.time.LocalDate;
 
 
-public class ProductController {
+public class ProductController1 {
 
     private List<GeneralProduct> allGeneralProducts; // list of all general products
     private HashMap<GeneralProduct, Integer> allExpiredProducts; // map with a product and the amount of expired
@@ -14,7 +14,7 @@ public class ProductController {
     private HashMap<GeneralProduct, List<Discount1>> productDiscountHistory; // map of product and its discount history
 
 
-    public ProductController() {
+    public ProductController1() {
 
         this.allGeneralProducts = new ArrayList<>();
         this.allExpiredProducts = new HashMap<>();

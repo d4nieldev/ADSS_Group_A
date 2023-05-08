@@ -10,4 +10,12 @@ public class DiscountFixed extends Discount {
         this.discountValue = discountValue;
     }
 
+    public double getDiscountValue() {
+        return discountValue;
+    }
+
+    @Override
+    public double getPriceWithDiscount(double price) {
+        return Math.max(0, price -discountValue);
+    }
 }

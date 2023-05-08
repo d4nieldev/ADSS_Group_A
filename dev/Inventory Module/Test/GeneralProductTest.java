@@ -4,7 +4,7 @@ import static org.junit.Assert.*;
 
 import Business_Layer.Category1;
 import Business_Layer.GeneralProduct;
-import Business_Layer.ProductController;
+import Business_Layer.ProductController1;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -15,11 +15,11 @@ import org.junit.Test;
 
 public class GeneralProductTest {
 
-  ProductController pc;
+  ProductController1 pc;
 
   @Before
   public void setUp() {
-    this.pc = new ProductController();
+    this.pc = new ProductController1();
   }
 
   @Test

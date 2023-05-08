@@ -27,7 +27,7 @@ public class BranchController1 {
     return result;
   }
 
-  public ProductController getBranchProductController(int branchId) {
+  public ProductController1 getBranchProductController(int branchId) {
     Branch1 branch1 = getBranch(branchId);
     return branch1.getProductController();
   }

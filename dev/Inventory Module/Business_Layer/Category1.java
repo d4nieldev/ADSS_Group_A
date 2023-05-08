@@ -13,7 +13,7 @@ public class Category1 {
 
     public Category1(String name, Category1 parentCategory1)
     {
-        this.id = Global.getNewCategoryid();
+        this.id = Global1.getNewCategoryid();
         this.name = name;
         this.main = parentCategory1;
         this.allCategories = new ArrayList<>();
@@ -27,7 +27,7 @@ public class Category1 {
     }
     public Category1(String name)
     {
-        this.id = Global.getNewCategoryid();
+        this.id = Global1.getNewCategoryid();
         this.name = name;
         this.main = null;
         this.allCategories = new ArrayList<>();

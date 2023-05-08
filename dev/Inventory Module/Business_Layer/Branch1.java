@@ -3,12 +3,12 @@ package Business_Layer;
 public class Branch1 {
 
   private int branchId;
-  private ProductController productController;
+  private ProductController1 productController;
   private ReportController1 reportController1;
 
   public Branch1(int branchId) {
     this.branchId = branchId;
-    this.productController = new ProductController();
+    this.productController = new ProductController1();
     this.reportController1 = new ReportController1(productController);
   }
 
@@ -16,7 +16,7 @@ public class Branch1 {
     return this.branchId;
   }
 
-  public ProductController getProductController() {
+  public ProductController1 getProductController() {
     return productController;
   }
 

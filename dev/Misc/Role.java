@@ -1,6 +1,5 @@
 package Misc;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 //import javax.management.relation.RoleList;
@@ -9,8 +8,6 @@ public class Role {
 
     static private int counterRoles = 0;
     static private List<instanceRole> roles;
-
-// "HRMANAGER", "BRANCHMANAGER", "SHIFTMANAGER", "CASHIER", "STOREKEEPER", "DRIVER", "GENERRAL", "CLEANER", "SECURITY", "TRANSPORTMANAGER"
 
     public Role(){
         roles = new ArrayList<instanceRole>();

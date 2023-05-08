@@ -19,12 +19,28 @@ public class EmployeeFacade {
     public EmployeeFacade(){
         employees = new LinkedList<>();
         drivers = new LinkedList<>();
+        
+        // add roles instaces to the class Role in Misc
+        Role.addRole("HRMANAGER");
+        Role.addRole("TRANSPORTMANAGER");
+        Role.addRole("SUPPLIERMANAGER");
+        Role.addRole("INVENTORYMANAGER");
+        Role.addRole("BRANCHMANAGER");
+        Role.addRole("SHIFTMANAGER");
+        Role.addRole("CASHIER");
+        Role.addRole("STOREKEEPER");
+        Role.addRole("DRIVER");
+        Role.addRole("GENERRAL");
+        Role.addRole("CLEANER");
+        Role.addRole("SECURITY");
+
         //Adding Hr manager manualy to the system.
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
         LocalDate localDate = LocalDate.parse("01-02-1980", formatter);
         addHRManagerForStartUpTheSystem("Rami", "Arnon", 123456789, "abc", 0, 0,
          0, 50000, 30000, localDate, "free terms of employment", null, Role.getRoleByName("HRMANAGER").getId(), 0);
 
+        //Adding Transport manager manualy to the system.
         addTransportManagerForStartUpTheSystem("Kfir", "Rotem", 987654321, "abc", 0, 0,
          0, 0, 0, localDate, "free terms of employment", null, Role.getRoleByName("TRANSPORTMANAGER").getId(), 0);
     }

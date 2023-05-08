@@ -1,5 +1,6 @@
 package BussinessLayer.TransPortLayer;
 
+import java.time.LocalDate;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -549,4 +550,30 @@ public class TransportFacade {
     public void setEmployeeFacade(EmployeeTransportFacade employeeTransportFacade) {
         this.employeeTransportFacade=employeeTransportFacade;
     }
+
+    public String getTransportsByDate(LocalDate date) {
+        StringBuilder sb = new StringBuilder();
+        sb.append("Transport ID, Date, Driver Name, Truck Number, Source, # of Deliveries, # of Destinations\n");
+        sb.append("--------------------------------------------------------------------------\n");
+
+        for (Transport transport : transportMap.values()) {
+            if (transport.getDate().equals(date.toString())) {
+                int numDeliveries = transport.getDeliveryList().size();
+                int numDestinations = transport.getDestinationList().size();
+
+                sb.append(String.format("%-12d %-12s %-15s %-12s %-10s %-16d %-16d\n",
+                        transport.getId(),
+                        transport.getDate(),
+                        transport.getDriverName(),
+                        transport.getTruckNumber(),
+                        transport.getSource(),
+                        numDeliveries,
+                        numDestinations));
+                sb.append("--------------------------------------------------------------------------\n");
+            }
+        }
+
+        return sb.toString();
+    }
+
 }

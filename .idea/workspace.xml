@@ -5,46 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="a2472df3-0b1c-47fc-bcd6-f26fc4f0a51c" name="Changes" comment="Changes">
-      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/dev/BussinessLayer/EmployeeTransportFacade.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/BussinessLayer/EmployeeTransportFacade.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dev/BussinessLayer/TransPortLayer/DriverFacade.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/dev/BussinessLayer/TransPortLayer/Transport.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/BussinessLayer/TransPortLayer/Transport.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/dev/BussinessLayer/TransPortLayer/TransportFacade.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/BussinessLayer/TransPortLayer/TransportFacade.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dev/PresentationLayer/MainV2.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/PresentationLayer/MainV2.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dev/PresentationLayer/TransportSystem.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/PresentationLayer/TransportSystem.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dev/ServiceLayer/EmployeesLayer/serviceFactory.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/ServiceLayer/EmployeesLayer/serviceFactory.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dev/ServiceLayer/TransportLayer/DriverService.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/dev/ServiceLayer/TransportLayer/TransportService.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/ServiceLayer/TransportLayer/TransportService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dev/TestEmployee/UnitTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/TestEmployee/UnitTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ADSS_Group_A/.idea/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ADSS_Group_A/.idea/.name" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ADSS_Group_A/.idea/artifacts/dev_jar.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ADSS_Group_A/.idea/dev.iml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ADSS_Group_A/.idea/misc.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ADSS_Group_A/.idea/modules.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ADSS_Group_A/.idea/vcs.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ADSS_Group_A/BussinessLayer/Delivery.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ADSS_Group_A/BussinessLayer/Destination.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ADSS_Group_A/BussinessLayer/DestinationType.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ADSS_Group_A/BussinessLayer/Driver.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ADSS_Group_A/BussinessLayer/DriverFacade.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ADSS_Group_A/BussinessLayer/Location.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ADSS_Group_A/BussinessLayer/Status.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ADSS_Group_A/BussinessLayer/Transport.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ADSS_Group_A/BussinessLayer/TransportFacade.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ADSS_Group_A/BussinessLayer/Truck.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ADSS_Group_A/BussinessLayer/TruckFacade.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ADSS_Group_A/PresentationLayer/TransportSystem.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ADSS_Group_A/ServiceLayer/DriverService.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ADSS_Group_A/ServiceLayer/TransportService.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ADSS_Group_A/ServiceLayer/TruckService.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ADSS_Group_A/Test/UnitTest.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ADSS_Group_A/out/production/dev/.idea/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ADSS_Group_A/out/production/dev/.idea/dev.iml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ADSS_Group_A/out/production/dev/.idea/misc.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ADSS_Group_A/out/production/dev/.idea/modules.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ADSS_Group_A/out/production/dev/.idea/vcs.xml" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

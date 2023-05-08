@@ -1,5 +1,7 @@
 package PresentationLayer;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Scanner;
 
 import ServiceLayer.EmployeesLayer.BranchService;
@@ -26,8 +28,16 @@ public class MemberSystem {
 
         while(!option.equals("0")){
             try{
-                if (option.equals("1")){ // 1 enter new employee
+                if (option.equals("1")){ // 1 Show all shifts
+                    System.out.println("Please enter the date that you would like to work in.\n");
+                    System.out.println("Please enster the date in that format Date: 05-06-2003\n");
+                    String date = sc.nextLine();
+                    System.out.println("");
+
+                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+                    LocalDate localDate = LocalDate.parse(date, formatter);
                     
+                    branchService.printAvailableShiftForEmployee(loginId, localDate);
                 }
 
                 else if(option.equals("2")){ // 2 Add constraint for a shift

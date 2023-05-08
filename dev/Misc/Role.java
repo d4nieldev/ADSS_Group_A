@@ -15,6 +15,7 @@ public class Role {
 
     public Role(){
         roles = new ArrayList<instanceRole>();
+        rolesDAO = new RolesDAO();
     }
     
     public void addRole(String nameRole){

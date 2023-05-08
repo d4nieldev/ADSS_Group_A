@@ -65,7 +65,7 @@ public class EmployeesDAO extends DAO<EmployeeDTO> {
                             " SET \"FirstName\"= \"%s\", \"LastName\"= \"%s\", \"Password\"= \"%s\", \"BankNumber\"= \"%s\" " +
                             ", \"BankBranchNumber\"=\"%s\", \"BankAccountNumber\"=%s,  \"Salary\"=\"%s\", \"Bonus\"=\"%s\" " +
                             ", \"startDate\"=\"%s\", \"TempsEmployment\"=%s,  \"IsLoggedIn\"=\"%s\", \"SuperBranch\"=\"%s\" " +
-                            "WHERE \"ID\" == \"%s\";",
+                            "WHERE \"ID\" = \"%s\";",
                 tableName, updatedOb.firstName, updatedOb.lastName, updatedOb.password, updatedOb.bankNum, updatedOb.bankBranch, updatedOb.bankAccount, 
                 updatedOb.salary, updatedOb.bonus, updatedOb.startDate, updatedOb.tempsEmployment, updatedOb.isLoggedIn, updatedOb.superBranch);
             Statement s;

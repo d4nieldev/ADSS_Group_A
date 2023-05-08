@@ -4,6 +4,7 @@ import BussinessLayer.TransPortLayer.Delivery;
 import BussinessLayer.TransPortLayer.Destination;
 import BussinessLayer.TransPortLayer.DestinationType;
 import BussinessLayer.TransPortLayer.Location;
+import ServiceLayer.EmployeesLayer.serviceFactory;
 import ServiceLayer.TransportLayer.DriverService;
 import ServiceLayer.TransportLayer.TransportService;
 import ServiceLayer.TransportLayer.TruckService;
@@ -19,52 +20,59 @@ public class TransportSystem
     private static TruckService truckService = new TruckService();
 
 
-        public static void main(String[] args)
-        {
+    public TransportSystem(serviceFactory serviceFactory) {
+        transportServices = serviceFactory.getTransportService();
+        driverService = serviceFactory.getDriverService();
+        truckService = serviceFactory.getTruckService();
+    }
 
-            System.out.println("Welcome to the Transport System!");
+    public void run(int loginId)
+    {
 
-            makeSomeDrivers();
-            makeSomeTrucks();
-            List<Destination> dests = makeSomeDestinations();
-            List<Destination> sources = makeSomeSources();
-            List<Delivery> deliveries = transportServices.createDeliveries(sources, dests);
+        System.out.println("Welcome to the Transport System!");
 
-            transportServices.letTheUserMatch(deliveries);
-            transportServices.runTheTransports();
+        makeSomeDrivers();
+        makeSomeTrucks();
+        List<Destination> dests = makeSomeDestinations();
+        List<Destination> sources = makeSomeSources();
+        List<Delivery> deliveries = transportServices.createDeliveries(sources, dests);
 
-            Scanner scanner = new Scanner(System.in);
-            boolean continueChoosing = true;
-            while (continueChoosing) {
-                System.out.println("\nWhat would you like to change?");
-                System.out.println("1. Drivers");
-                System.out.println("2. Trucks");
-                System.out.println("3. Transports");
-                System.out.println("4. Exit");
+        transportServices.letTheUserMatch(deliveries);
+        transportServices.runTheTransports();
 
-                int choice = scanner.nextInt();
-                scanner.nextLine(); // consume the newline character
+        Scanner scanner = new Scanner(System.in);
+        boolean continueChoosing = true;
+        while (continueChoosing) {
+            System.out.println("\nWhat would you like to change?");
+            System.out.println("1. Drivers");
+            System.out.println("2. Trucks");
+            System.out.println("3. Transports");
+            System.out.println("4. Exit");
 
-                switch (choice) {
-                    case 1:
-                        changeDriverService();
-                        break;
-                    case 2:
-                        changeTruckService();
-                        break;
-                    case 3:
-                        changeTransportService();
-                        break;
-                    case 4:
-                        continueChoosing = false;
-                        break;
-                    default:
-                        System.out.println("Invalid choice. Please try again.");
-                }
+            int choice = scanner.nextInt();
+            scanner.nextLine(); // consume the newline character
+
+            switch (choice) {
+                case 1:
+                    changeDriverService();
+                    break;
+                case 2:
+                    changeTruckService();
+                    break;
+                case 3:
+                    changeTransportService();
+                    break;
+                case 4:
+                    continueChoosing = false;
+                    break;
+                default:
+                    System.out.println("Invalid choice. Please try again.");
             }
-
-            System.out.println("Thank you for using the Transport System!");
         }
+
+        System.out.println("Thank you for using the Transport System!");
+        scanner.close();
+    }
 
     private static void changeDriverService() {
         Scanner scanner = new Scanner(System.in);
@@ -134,6 +142,7 @@ public class TransportSystem
                     System.out.println("Invalid choice. Please choose again.");
                     break;
             }
+            scanner.close();
         }
     }
 
@@ -221,6 +230,7 @@ public class TransportSystem
             default:
                 System.out.println("Invalid choice");
         }
+        scanner.close();
     }
 
     private static void changeTransportService() {
@@ -337,6 +347,7 @@ public class TransportSystem
             dests.add(new Destination("ashkelon", "555-9012", "Bob Johnson", Location.CENTER, DestinationType.DESTINATION));
         }
 
+        scanner.close();
         return dests;
     }
 
@@ -377,6 +388,7 @@ public class TransportSystem
             sources.add(transportServices.addDestination("tnuva", "555-9012", "Bob Johnson", Location.CENTER, DestinationType.SOURCE));
         }
 
+        scanner.close();
         return sources;
     }
 
@@ -424,6 +436,7 @@ public class TransportSystem
             System.out.println(truckService.addTruck("dddd", "d", 200, 1000));
             System.out.println(truckService.addTruck("eeee", "a", 200, 1000));
         }
+        scanner.close();
     }
 
 
@@ -467,6 +480,7 @@ public class TransportSystem
             System.out.println(driverService.addDriver(4,"messi","d"));
             System.out.println(driverService.addDriver(5,"ronaldo","e"));
         }
+        scanner.close();
     }
 
 }

@@ -78,7 +78,11 @@ public class Branch {
         return allDiscounts;
     }
 
+    public void updateMinQuantityForProductBranch(int code, int newMinQuantity){
+        ProductBranch product = allProductBranches.get(code);
+        product.setminQuantity(newMinQuantity);
 
+    }
 
 
 

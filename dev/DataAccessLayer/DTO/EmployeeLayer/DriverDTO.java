@@ -1,6 +1,4 @@
 package DataAccessLayer.DTO.EmployeeLayer;
-
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.LinkedList;
 
@@ -21,10 +19,11 @@ public class DriverDTO {
 	public LinkedList<Integer> roles;
 	public boolean isLoggedIn;
 	public int superBranch;
-    private License driverLicense;
-    private LinkedList<LocalDate> availableShiftDates;
-    private LinkedList<LocalDate> workedDates;
+    public License driverLicense;
+    public LinkedList<LocalDate> availableShiftDates;
+    public LinkedList<LocalDate> workedDates;
 	
+
 	public DriverDTO(int id, String firstName, String lastName, String password, int bankNum, int bankBranch, int bankAccount, 
 						int salary, int InitializeBonus, LocalDate startDate, String tempsEmployment, LinkedList<Integer> roles,
 	 					Boolean isLoggedIn, Integer branch, License driverLicense, LinkedList<LocalDate> availableShiftDates,
@@ -48,7 +47,8 @@ public class DriverDTO {
          this.workedDates = workedDates;
 	}
 	
-    public String fieldsToString() {
+
+	public String fieldsToString() {
         return String.format("(\"%s\",\"%s\",\"%s\",\"%s\",%s,\"%s\",\"%s\",\"%s\",\"%s\",\"%s\",%s,\"%s\",\"%s\")",
 		 this.firstName, this.lastName, this.id, this.password, this.bankNum, this.bankBranch, this.bankAccount, this.salary,
 		 this.bonus, this.startDate.toString(), this.tempsEmployment, this.isLoggedIn, this.superBranch, 
@@ -59,4 +59,13 @@ public class DriverDTO {
         return String.format("(\"%s\",%s)", this.id, roles.get(0));
     }
 
+	public int getNumberOfAvailableShiftDates(){return availableShiftDates.size();}
+    public String getAvailableShiftDates(int index) {
+        return String.format("(\"%s\",%s)", this.id, availableShiftDates.get(index));
+    }
+	public int getNumberOfWorkedDates(){return workedDates.size();}
+    public String getWorkedDates(int index) {
+        return String.format("(\"%s\",%s)", this.id, workedDates.get(index));
+    }
+	
 }

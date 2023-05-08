@@ -125,10 +125,10 @@ public class Shift{
         return missingStaff;
     }
 
-    public boolean isShiftContainStorekeeper(){
+    public boolean isShiftContainStorekeeper(int roleId){
         if(!finishSettingShift) {return false;}
         for (Employee employeeInShift : finalShift.keySet()) {
-            if(finalShift.get(employeeInShift).equals(Role.getRoleByName("STOREKEEPER").getId())) {return true;}
+            if(finalShift.get(employeeInShift) == (roleId)) {return true;}
         }
         return false;
     }

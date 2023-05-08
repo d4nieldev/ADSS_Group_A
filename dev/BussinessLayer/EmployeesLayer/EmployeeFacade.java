@@ -11,37 +11,43 @@ import Misc.*;
 public class EmployeeFacade {
     private LinkedList<Employee> employees;
     private LinkedList<Driver> drivers;
+    private EmployeesDAO employeesDAO;
+    private DriversDAO driversDAO;
+    private Role roleClass;
     
-    private EmployeesDAO employeesDAO = new EmployeesDAO();
-    private DriversDAO driversDAO = new DriversDAO();
 
     public EmployeeFacade(){
         employees = new LinkedList<>();
         drivers = new LinkedList<>();
+        employeesDAO = new EmployeesDAO();
+        driversDAO = new DriversDAO();
+        roleClass = new Role();
         
         // add roles instaces to the class Role in Misc
-        Role.addRole("HRMANAGER");
-        Role.addRole("TRANSPORTMANAGER");
-        Role.addRole("SUPPLIERMANAGER");
-        Role.addRole("INVENTORYMANAGER");
-        Role.addRole("BRANCHMANAGER");
-        Role.addRole("SHIFTMANAGER");
-        Role.addRole("CASHIER");
-        Role.addRole("STOREKEEPER");
-        Role.addRole("DRIVER");
-        Role.addRole("GENERRAL");
-        Role.addRole("CLEANER");
-        Role.addRole("SECURITY");
+        roleClass.addRole("HRMANAGER");
+        roleClass.addRole("TRANSPORTMANAGER");
+        roleClass.addRole("SUPPLIERMANAGER");
+        roleClass.addRole("INVENTORYMANAGER");
+        roleClass.addRole("BRANCHMANAGER");
+        roleClass.addRole("SHIFTMANAGER");
+        roleClass.addRole("CASHIER");
+        roleClass.addRole("STOREKEEPER");
+        roleClass.addRole("DRIVER");
+        roleClass.addRole("GENERRAL");
+        roleClass.addRole("CLEANER");
+        roleClass.addRole("SECURITY");
 
         //Adding Hr manager manualy to the system.
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
         LocalDate localDate = LocalDate.parse("01-02-1980", formatter);
         addHRManagerForStartUpTheSystem("Rami", "Arnon", 123456789, "abc", 0, 0,
-         0, 50000, 30000, localDate, "free terms of employment", null, Role.getRoleByName("HRMANAGER").getId(), 0);
+         0, 50000, 30000, localDate, "free terms of employment", null,
+         roleClass.getRoleByName("HRMANAGER").getId(), 0);
 
         //Adding Transport manager manualy to the system.
         addTransportManagerForStartUpTheSystem("Kfir", "Rotem", 987654321, "abc", 0, 0,
-         0, 0, 0, localDate, "free terms of employment", null, Role.getRoleByName("TRANSPORTMANAGER").getId(), 0);
+         0, 0, 0, localDate, "free terms of employment", null,
+         roleClass.getRoleByName("TRANSPORTMANAGER").getId(), 0);
     }
 
     // commit log in for employee, if exsist
@@ -104,8 +110,8 @@ public class EmployeeFacade {
      int bankAccount, int salary, int InitializeBonus, LocalDate startDate, String tempsEmployment, License driverLicense){
         if (isEmployeeExists(managerId) && isEmployeeLoggedIn(managerId) && !isEmployeeExists(id)){
             checkHrManager(managerId);
-            Driver driver = new Driver(firstName, lastName, id, password, bankNum, 
-            bankBranch, bankAccount, salary, InitializeBonus, startDate, tempsEmployment, driverLicense);
+            Driver driver = new Driver(firstName, lastName, id, password, bankNum, bankBranch, bankAccount, salary,
+             InitializeBonus, startDate, tempsEmployment, roleClass.getRoleByName("DRIVER").getId(), driverLicense);
             drivers.add(driver);
             System.out.println("The driver " + firstName + " " + lastName + " has been added successfully");
             this.driversDAO.insert(driver.driverToDTO());//add to DB
@@ -169,6 +175,7 @@ public class EmployeeFacade {
     public void removeRoleFromEmployee(int managerId, int idEmployee, Integer role){
         checkHrManager(managerId); checkEmployee(idEmployee);
         getEmployeeById(idEmployee).removeRole(role);
+        employeesDAO.removeRole(idEmployee, role);
     }
     
     public void checkRoleInEmployee(int idEmployee, Integer role){
@@ -183,19 +190,21 @@ public class EmployeeFacade {
 
     public void addRoleToSystem(int managerHR, String role){
         checkHrManager(managerHR);
-        Role.addRole(role.toUpperCase());
+        roleClass.addRole(role.toUpperCase());
     }
     
     public void AddConstraintDriver(int driverId, LocalDate date){
         checkEmployee(driverId);
         checkLoggedIn(driverId);
         getDriverById(driverId).AddConstraintDriver(date);
+        driversDAO.addConstraint(driverId, date);
     }
 
     public void RemoveConstraintDriver(int driverId, LocalDate date){
         checkEmployee(driverId);
         checkLoggedIn(driverId);
         getDriverById(driverId).RemoveConstraintDriver(date);
+        driversDAO.RemoveConstraint(driverId, date);
     }
 
     public String printDayDriversPast(LocalDate date){
@@ -308,8 +317,10 @@ public class EmployeeFacade {
 
     public String getManagerType(int id){
         Employee manager = getEmployeeById(id);
-        return Role.getRoleById(manager.getRoles().getFirst()).getName();
+        return roleClass.getRoleById(manager.getRoles().getFirst()).getName();
     }
+
+    public Role getRoleClassInstance() {return roleClass;}
 
     //-------------------------------------------------------Help Functions------------------------------------------------------------
 
@@ -371,14 +382,14 @@ public class EmployeeFacade {
     private boolean isEmployeeHRManager(int id){
         Employee employee = getEmployeeById(id);
         List<Integer> managerRoles = employee.getRoles();
-        return managerRoles.contains(Role.getRoleByName("HRMANAGER").getId());
+        return managerRoles.contains(roleClass.getRoleByName("HRMANAGER").getId());
     }
     
     // return true if the employee is transport manager
     private boolean isEmployeeTranpostManager(int id){
         Employee employee = getEmployeeById(id);
         List<Integer> managerRoles = employee.getRoles();
-        return managerRoles.contains(Role.getRoleByName("TRANSPORTMANAGER").getId());
+        return managerRoles.contains(roleClass.getRoleByName("TRANSPORTMANAGER").getId());
     }
 
     // check if the employee is a HRmanager and is sign in to the system

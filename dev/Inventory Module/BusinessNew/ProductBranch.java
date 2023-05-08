@@ -34,6 +34,17 @@ public class ProductBranch {
         else
             return price;
     }
+    public String getName(){
+        return product.getName();
+    }
+
+    public int getIdealQuantity() {
+        return idealQuantity;
+    }
+
+    public int getTotalAmount() {
+        return totalAmount;
+    }
 
     public List<Discount> getDiscountsHistory() {
         return discountsHistory;
@@ -55,15 +66,15 @@ public class ProductBranch {
         Discount maxDiscount = getCurrentMaxDiscount();
         this.discount = maxDiscount;
     }
-    public int getCode(int minQuantity){
+    public int getCode(){
         return product.getCode();
     }
 
-    public int getminQuantity(){
+    public int getMinQuantity(){
         return this.minQuantity;
     }
 
-    public void setminQuantity(int newMinQuantity){
+    public void setMinQuantity(int newMinQuantity){
         this.minQuantity = newMinQuantity;
     }
 
@@ -94,9 +105,13 @@ public class ProductBranch {
         List<SpecificProduct> allExpired = new ArrayList<>();
         for(SpecificProduct sp : allSpecificProducts.values()){
             if(sp.getIsExpired()) {
-                allExpired.add(sp);
-                sp.setStatus(ProductStatus.status.EXPIRED);
-                totalAmount--;
+                if (sp.getStatus() != ProductStatus.status.SOLD) {
+                    allExpired.add(sp);
+                    if (sp.getStatus() == ProductStatus.status.ON_STORAGE || sp.getStatus() == ProductStatus.status.ON_SHELF) {
+                        sp.setStatus(ProductStatus.status.EXPIRED);
+                        totalAmount--;
+                    }
+                }
             }
         }
         return allExpired;
@@ -179,4 +194,34 @@ public class ProductBranch {
     }
 
 
+    public void reportFlawProduct(int specificId, String description) throws Exception {
+        SpecificProduct specificProduct = allSpecificProducts.get(specificId);
+        if(specificProduct == null)
+            throw new Exception("this specific product doesn't exist");
+        ProductStatus.status status = specificProduct.getStatus();
+        if(specificProduct.getStatus() != ProductStatus.status.SOLD)
+        specificProduct.setStatus(ProductStatus.status.IS_FLAW);
+        //change total amount only if the product was for sale
+        if(status == ProductStatus.status.ON_SHELF || status == ProductStatus.status.ON_STORAGE) {
+            totalAmount--;
+        }
+    }
+
+    public List<SpecificProduct> getOnShelfProduct(){
+        List<SpecificProduct> result = new ArrayList<>();
+        for(SpecificProduct specificProduct : allSpecificProducts.values()){
+            if (specificProduct.getStatus() == ProductStatus.status.ON_SHELF){
+                result.add(specificProduct);
+            }
+        }
+        return result;
+    }
+
+    public int getExpiredAmount() {
+        int result = 0 ;
+        for(SpecificProduct specificProduct : allSpecificProducts.values()){
+            if(specificProduct.getIsExpired())
+                result++;
+        }
+    }
 }

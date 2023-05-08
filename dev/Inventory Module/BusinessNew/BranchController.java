@@ -3,6 +3,7 @@ package BusinessNew;
 import Business_Layer.Branch1;
 
 import java.util.HashMap;
+import java.util.List;
 
 public class BranchController {
     private HashMap<Integer,Branch> allBranches;//maps between brnachId and branchObject
@@ -17,6 +18,19 @@ public class BranchController {
             instance = new BranchController();
         }
         return instance;
+    }
+
+    public HashMap<Integer,List<SpecificProduct>> getBranchFlaws(int branchId) {
+        HashMap<Integer,List<SpecificProduct>> allFlaws  = new HashMap<>();
+        Branch branch = allBranches.get(branchId);
+        allFlaws = branch.getBranchFlaws();
+        return allFlaws;
+    }
+    public HashMap<Integer, List<SpecificProduct>> getBranchExpired(int branchId) {
+        HashMap<Integer, List<SpecificProduct>> result = new HashMap<>();
+        Branch branch = allBranches.get(branchId);
+        result = branch.getExpiredProducts();
+        return result;
     }
     public void addBranch(int branchId,String branchName) {
         Branch newBranch = new Branch(branchId,branchName);
@@ -39,6 +53,7 @@ public class BranchController {
         else
             branch.receiveReservation(reservation);
     }
+
 
 }
 

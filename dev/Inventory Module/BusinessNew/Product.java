@@ -2,6 +2,8 @@ package BusinessNew;
 
 import Business_Layer.Category1;
 
+import java.util.List;
+
 public class Product {
     private String name; // The name of the product
     private int code; // The unique code of the product
@@ -30,4 +32,5 @@ public class Product {
     public Category getCategory() {
         return category;
     }
+
 }

@@ -1,7 +1,5 @@
 package BussinessLayer.EmployeesLayer;
 import java.time.LocalDate;
-import java.time.Month;
-import java.util.HashMap;
 import java.util.LinkedList;
 
 import DataAccessLayer.DTO.EmployeeLayer.EmployeeDTO;
@@ -16,7 +14,7 @@ public class Employee{
 	private int bankBranch;
 	private int bankAccount;
 	private int salary;
-	private HashMap<Pair<Integer, Month>, Integer> bonus; // HashMap for pairs<year,month> and the bonus for this month
+	private int bonus;
 	private LocalDate startDate;
 	private String tempsEmployment;
 	private LinkedList<Integer> roles;
@@ -35,9 +33,7 @@ public class Employee{
 		this.bankBranch = bankBranch;
 		this.bankAccount = bankAccount;
 		this.salary = salary;
-		Pair<Integer, Month> helpPair1 = new Pair<Integer,Month>(startDate.getYear(), startDate.getMonth());
-		this.bonus = new HashMap<>();
-		bonus.put(helpPair1, InitializeBonus);
+		this.bonus = InitializeBonus;
 		this.startDate = startDate;
 		this.tempsEmployment = tempsEmployment;
 		roles = new LinkedList<>();
@@ -147,16 +143,12 @@ public class Employee{
 	public void setBankAccount(int bankAccount){this.bankAccount = bankAccount;}
 	public int getSalary(){return salary;}
 	public void setSalary(int salary){this.salary = salary;}
-	public int getBonus(int year, Month month){
-		Pair<Integer, Month> getPair = new Pair<>(year, month);
-		return bonus.get(getPair);
-	}
-	public void setBonus(int year, Month month, int newBonus){
-		Pair<Integer, Month> checkPair = new Pair<>(year, month);
-		bonus.put(checkPair, newBonus);
-	}
+	public int getBonus(){return bonus;}
+	public void setBonus(int newBonus){this.bonus = newBonus;}
 	public LocalDate getStartDate(){return startDate;}
 	public void setStartDate(LocalDate date){this.startDate = date;}
+	public String getTempsEmployment(){return tempsEmployment;}
+	public void setTempsEmployment(String tempsEmployment){this.tempsEmployment = tempsEmployment;}
 	public LinkedList<Integer> getRoles(){return roles;}
 	public boolean getIsLoggedIn(){return isLoggedIn;}
 	public void SetIsLoggedInToTrue(){isLoggedIn = true;}

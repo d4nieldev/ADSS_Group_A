@@ -57,8 +57,8 @@ public class EmployeeService {
         employeeFacade.removeRoleFromEmployee(managerId, idEmployee, role);
     }
 
-    public void addBonus(int managerId, int idEmployee, int bonus, int year, Month month){
-        employeeFacade.addBonus(managerId, idEmployee, bonus, year, month);
+    public void addBonus(int managerId, int idEmployee, int bonus){
+        employeeFacade.addBonus(managerId, idEmployee, bonus);
     }
 
     public void addRoleToSystem(int managerHR, String role){

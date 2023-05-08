@@ -5,7 +5,6 @@ import java.util.List;
 import DataAccessLayer.DAO.EmployeesLayer.EmployeesDAO;
 
 import java.time.LocalDate;
-import java.time.Month;
 import java.time.format.DateTimeFormatter;
 import Misc.*;
 
@@ -168,9 +167,9 @@ public class EmployeeFacade {
         getEmployeeById(idEmployee).checkRoleInEmployee(role);
     }
 
-    public void addBonus(int managerId, int idEmployee, int bonus, int year, Month month){
+    public void addBonus(int managerId, int idEmployee, int bonus){
         checkHrManager(managerId); checkEmployee(idEmployee);
-        getEmployeeById(idEmployee).setBonus(year, month, getEmployeeById(idEmployee).getBonus(year, month) + bonus);
+        getEmployeeById(idEmployee).setBonus(bonus);
     }
 
     public void addRoleToSystem(int managerHR, String role){

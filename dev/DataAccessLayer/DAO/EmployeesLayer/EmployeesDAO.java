@@ -4,15 +4,17 @@ import DataAccessLayer.Repository;
 import DataAccessLayer.DAO.DAO;
 import DataAccessLayer.DTO.EmployeeLayer.*;
 
+import java.io.PrintStream;
 import java.sql.*;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map;
 
 public class EmployeesDAO extends DAO<EmployeeDTO> {
     private EmployeesRolesDAO employeeRoleDAO;
-    private static Map<Integer, EmployeeDTO> TRANSPORT_MANAGER_IDENTITY_MAP = new HashMap<>();
+    private static Map<Integer, EmployeeDTO> EMPLOYEE_IDENTITY_MAP = new HashMap<>();
 
     public EmployeesDAO() {
         this.tableName = "Employees";
@@ -95,13 +97,14 @@ public class EmployeesDAO extends DAO<EmployeeDTO> {
             if (roles == null) {
                 return null;
             }
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
             output = new EmployeeDTO(/* Id */RS.getInt(1), /* first name */RS.getString(2),
                     /* last name */RS.getString(3), /* password */RS.getString(4),
                     /* bank number */RS.getInt(5), /* bank branch number */RS.getInt(6),
                     /* bank account number */RS.getInt(7), /* salary */RS.getInt(8),
-                    /* bonus */ RS.getInt(9), /* start date */ LocalDate.parse(RS.getString(10)),
+                    /* bonus */ RS.getInt(9), /* start date */ LocalDate.parse(RS.getString(10), formatter),
                     /* temps employment */ RS.getString(11), roles,
-                    /* is logged in */ RS.getBoolean(13), /* super branch */ RS.getInt(14));
+                    /* is logged in */ RS.getBoolean(12), /* super branch */ RS.getInt(13));
         } catch (Exception e) {
             output = null;
         } finally {
@@ -131,5 +134,22 @@ public class EmployeesDAO extends DAO<EmployeeDTO> {
         return employeeRoleDAO.removeRole(empID, roleToRemove);
     }
 
-    public EmployeeDTO
+    public EmployeeDTO getEmployeeById(int id) {
+
+        EmployeeDTO emp = EMPLOYEE_IDENTITY_MAP.get(id);
+        if (emp != null)
+            return emp;
+
+        Connection conn = Repository.getInstance().connect();
+        ResultSet res = get(tableName, "ID", id, conn);
+
+        try {
+            if (!res.next())
+                return null;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return makeDTO(res);
+    }
 }

@@ -2,6 +2,8 @@ package PresentationLayer;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 import BussinessLayer.TransPortLayer.Delivery;
 import BussinessLayer.TransPortLayer.Destination;
@@ -17,19 +19,16 @@ class MainV2 {
     private static serviceFactory serviceFactory = new serviceFactory();
     private static HRSystem hrSystem;
     private static MemberSystem memberSystem;
-    private static TransportSystem transportSystem;
+    //private static TransportSystem transportSystem;
 
     private static TruckService truckService = new TruckService();
-    private static serviceFactory serviceFactory = new serviceFactory();
-    private static HRSystem hrSystem;
-    private static MemberSystem memberSystem;
     private static TransportService transportService = serviceFactory.getTransportService();
 
     public static void main(String[] args) {
 
          hrSystem = new HRSystem(serviceFactory);
          memberSystem = new MemberSystem(serviceFactory);
-         transportSystem = new TransportSystem(serviceFactory);
+         //transportSystem = new TransportSystem(serviceFactory);
 
         // Scanner sc = new Scanner(System.in);
 
@@ -75,61 +74,61 @@ class MainV2 {
         //     case("TRANSPORTMANAGER") : {
         //         transportSystem.run(loginId);
         //     }
-                break;
-            }                
+            //     break;
+            // }                
 
-            case("TRANSPORTMANAGER") : {
+            // case("TRANSPORTMANAGER") : {
 
 
 
-                //makeSomeDrivers();
-                makeSomeTrucks();
-                List<Destination> dests = makeSomeDestinations();
-                List<Destination> sources = makeSomeSources();
-                List<Delivery> deliveries = transportService.createDeliveries(sources, dests);
+            //     //makeSomeDrivers();
+            //     makeSomeTrucks();
+            //     List<Destination> dests = makeSomeDestinations();
+            //     List<Destination> sources = makeSomeSources();
+            //     List<Delivery> deliveries = transportService.createDeliveries(sources, dests);
 
-                transportService.createTransports(deliveries);
-                transportService.runTheTransports();
+            //     transportService.createTransports(deliveries);
+            //     transportService.runTheTransports();
 
-                boolean continueChoosing = true;
-                while (continueChoosing) {
-                    System.out.println("\nWhat would you like to change?");
-                    System.out.println("1. none");
-                    System.out.println("2. Trucks");
-                    System.out.println("3. Transports");
-                    System.out.println("4. Exit");
+            //     boolean continueChoosing = true;
+            //     while (continueChoosing) {
+            //         System.out.println("\nWhat would you like to change?");
+            //         System.out.println("1. none");
+            //         System.out.println("2. Trucks");
+            //         System.out.println("3. Transports");
+            //         System.out.println("4. Exit");
 
-                    int choice = sc.nextInt();
-                    sc.nextLine(); // consume the newline character
+            //         int choice = sc.nextInt();
+            //         sc.nextLine(); // consume the newline character
 
-                    switch (choice) {
-                        case 1:
-                            break;
-                        case 2:
-                            changeTruckService();
-                            break;
-                        case 3:
-                            changeTransportService();
-                            break;
-                        case 4:
-                            continueChoosing = false;
-                            break;
-                        default:
-                            System.out.println("Invalid choice. Please try again.");
-                    }
-                }
+            //         switch (choice) {
+            //             case 1:
+            //                 break;
+            //             case 2:
+            //                 changeTruckService();
+            //                 break;
+            //             case 3:
+            //                 changeTransportService();
+            //                 break;
+            //             case 4:
+            //                 continueChoosing = false;
+            //                 break;
+            //             default:
+            //                 System.out.println("Invalid choice. Please try again.");
+            //         }
+            //     }
 
-                System.out.println("Thank you for using the Transport System!");
+            //     System.out.println("Thank you for using the Transport System!");
 
-                break;
-            }
+            //     break;
+            // }
 
-            default: {
+            // default: {
 
-                memberSystem.run(loginId);
+            //     memberSystem.run(loginId);
                 
-                break;
-            }
+            //     break;
+            // }
             
         //     default : {
         //         memberSystem.run(loginId);

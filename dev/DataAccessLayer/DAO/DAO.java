@@ -35,7 +35,7 @@ public abstract class DAO<T> {
 
     // get by Int
     public ResultSet get(String nameOfTable, String colName, Integer value, Connection con) {
-        String SELECT_SQL = String.format("SELECT * FROM %s WHERE \"%d\"=\"%d\"", nameOfTable, colName, value);
+        String SELECT_SQL = String.format("SELECT * FROM %s WHERE \"%s\"=\"%d\"", nameOfTable, colName, value);
         ResultSet rs = null;
         try {
             Statement stmt = con.createStatement();

@@ -50,13 +50,16 @@ public class ShiftDTO {
     }
 
 	public int getNumberOfConstraints(){return constraints.size();}
-    public String getConstraint(int index) {
-        return String.format("(\"%d\",%s)", this.idShift, constraints.get(index));
+	public int getNumberOfEmployeeRolesConstraint(int employeeID){return constraints.get(employeeID).size();}
+    public Set<Integer> getListConstraintsKeys(){return constraints.keySet();}
+    public String getConstraint(int employeeID, int index) {
+        return String.format("(\"%d\",\"%d\",\"%d\")", this.idShift, employeeID, constraints.get(employeeID).get(index));
     }
     
 	public int getNumEmployeesForRole(){return numEmployeesForRole.size();}
-    public String getNumEmployeesForRole(int index) {
-        return String.format("(\"%d\",\"%d\")", this.idShift, numEmployeesForRole.get(index));
+    public Set<Integer> getListNumEmployeesForRoleKeys(){return numEmployeesForRole.keySet();}
+    public String getNumEmployeesForRole(int roleID) {
+        return String.format("(\"%d\",\"%d\",\"%d\")", this.idShift, roleID, numEmployeesForRole.get(roleID));
     }
     
 	public int getNumberOfFinalShift(){return finalShift.size();}
@@ -66,8 +69,10 @@ public class ShiftDTO {
     }
     
 	public int getNumberOfCancellations(){return cancellations.size();}
-    public String getCancellation(int index) {
-        return String.format("(\"%d\",%s)", this.idShift, cancellations.get(index));
+	public int getNumberOfProductCodeCancellations(int productCode){return cancellations.get(productCode).size();}
+    public Set<Integer> getListCancellationsKeys(){return cancellations.keySet();}
+    public String getCancellation(int productCode, int index) {
+        return String.format("(\"%d\",\"%d\",\"%d\")", this.idShift, productCode, cancellations.get(productCode).get(index));
     }
     
 	public int getNumberOfDriversInShift(){return driversInShift.size();}

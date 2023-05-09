@@ -53,33 +53,33 @@ public class ShiftsDAO extends DAO<ShiftDTO> {
         return ans;
     }
 
-    // TODO - implement
     private int insertToShiftsConstraints(ShiftDTO Ob) {
         Connection conn = Repository.getInstance().connect();
         if (Ob == null)
             return 0;
-        for (int index = 0; index < Ob.getNumberOfConstraints(); index++) {
-            String toInsertConstraint = String.format("INSERT INTO %s \n" +
-                    "VALUES %s;", "EmployeesShiftsContraints", Ob.getConstraint(index));
-            Statement s;
-            try {
-                s = conn.createStatement();
-                s.executeUpdate(toInsertConstraint);
-            } catch (Exception e) {
-                return 0;
+        for (Integer employeeID : Ob.getListConstraintsKeys()) {
+            for (int index = 0; index < Ob.getNumberOfEmployeeRolesConstraint(employeeID); index++) {
+                String toInsertConstraint = String.format("INSERT INTO %s \n" +
+                        "VALUES %s;", "EmployeesShiftsContraints", Ob.getConstraint(employeeID, index));
+                Statement s;
+                try {
+                    s = conn.createStatement();
+                    s.executeUpdate(toInsertConstraint);
+                } catch (Exception e) {
+                    return 0;
+                }
             }
         }
         return 1;
     }
 
-    // TODO - implement
     private int insertToNumEmployeesForRole(ShiftDTO Ob) {
         Connection conn = Repository.getInstance().connect();
         if (Ob == null)
             return 0;
-        for (int index = 0; index < Ob.getNumEmployeesForRole(); index++) {
+        for (Integer roleID : Ob.getListNumEmployeesForRoleKeys()) {
             String toInsertEmployeeRole = String.format("INSERT INTO %s \n" +
-                    "VALUES %s;", "NumEmployeesForRoles", Ob.getNumEmployeesForRole(index));
+                    "VALUES %s;", "NumEmployeesForRoles", Ob.getNumEmployeesForRole(roleID));
             Statement s;
             try {
                 s = conn.createStatement();
@@ -109,20 +109,21 @@ public class ShiftsDAO extends DAO<ShiftDTO> {
         return 1;
     }
 
-    // TODO - implement
     private int insertToShiftsCancellations(ShiftDTO Ob) {
         Connection conn = Repository.getInstance().connect();
         if (Ob == null)
             return 0;
-        for (int index = 0; index < Ob.getNumberOfCancellations(); index++) {
-            String toInsertCancellation = String.format("INSERT INTO %s \n" +
-                    "VALUES %s;", "ShiftsCancellations", Ob.getCancellation(index));
-            Statement s;
-            try {
-                s = conn.createStatement();
-                s.executeUpdate(toInsertCancellation);
-            } catch (Exception e) {
-                return 0;
+        for (Integer productCode : Ob.getListCancellationsKeys()) {
+            for (int index = 0; index < Ob.getNumberOfProductCodeCancellations(productCode); index++) {
+                String toInsertCancellation = String.format("INSERT INTO %s \n" +
+                        "VALUES %s;", "ShiftsCancellations", Ob.getCancellation(productCode, index));
+                Statement s;
+                try {
+                    s = conn.createStatement();
+                    s.executeUpdate(toInsertCancellation);
+                } catch (Exception e) {
+                    return 0;
+                }
             }
         }
         return 1;
@@ -187,13 +188,25 @@ public class ShiftsDAO extends DAO<ShiftDTO> {
         return output;
     }
 
-    // TODO - implement
     public HashMap<Integer, LinkedList<Integer>> getConstraintsList(Integer id, Connection conn) {
         HashMap<Integer, LinkedList<Integer>> ans = new HashMap<>();
         ResultSet rs = get("EmployeesShiftsContraints", "ShiftID", id, conn);
         try {
             while (rs.next()) {
-                // ans.add(rs.getInt(2));
+                ans.putIfAbsent(rs.getInt(2), getRolesList(rs.getInt(2), conn));
+            }
+        } catch (Exception e) {
+            return null;
+        }
+        return ans;
+    }
+    
+    public LinkedList<Integer> getRolesList(Integer id, Connection conn) {
+        LinkedList<Integer> ans = new LinkedList<>();
+        ResultSet rs = get("EmployeesRoles", "EmployeeID", id, conn);
+        try {
+            while (rs.next()) {
+                ans.add(rs.getInt(2));
             }
         } catch (Exception e) {
             return null;
@@ -201,13 +214,12 @@ public class ShiftsDAO extends DAO<ShiftDTO> {
         return ans;
     }
 
-    // TODO - implement
     public HashMap<Integer, Integer> getNumEmployeesForRoleList(Integer id, Connection conn) {
         HashMap<Integer, Integer> ans = new HashMap<>();
         ResultSet rs = get("NumEmployeesForRoles", "ShiftID", id, conn);
         try {
             while (rs.next()) {
-                // ans.add(rs.getInt(2));
+                ans.putIfAbsent(rs.getInt(2), rs.getInt(3));
             }
         } catch (Exception e) {
             return null;
@@ -215,13 +227,12 @@ public class ShiftsDAO extends DAO<ShiftDTO> {
         return ans;
     }
 
-    // TODO - implement
     public HashMap<Integer, Integer> getFinalShiftList(Integer id, Connection conn) {
         HashMap<Integer, Integer> ans = new HashMap<>();
         ResultSet rs = get("EmployeesShiftsFinals", "ShiftID", id, conn);
         try {
             while (rs.next()) {
-                // ans.add(rs.getInt(2));
+                ans.putIfAbsent(rs.getInt(2), rs.getInt(3));
             }
         } catch (Exception e) {
             return null;

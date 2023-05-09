@@ -6,8 +6,10 @@
   <component name="ChangeListManager">
     <list default="true" id="a2472df3-0b1c-47fc-bcd6-f26fc4f0a51c" name="Changes" comment="Changes">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dev/DataAccessLayer/DAO/TransportLayer/TransportDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/DataAccessLayer/DAO/TransportLayer/TransportDAO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dev/DataAccessLayer/DTO/TransportLayer/TransportDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/DataAccessLayer/DTO/TransportLayer/TransportDTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dev/DataAccessLayer/DAO/TransportLayer/DeliveryDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/DataAccessLayer/DAO/TransportLayer/DeliveryDAO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dev/DataAccessLayer/DAO/TransportLayer/DestinationDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/DataAccessLayer/DAO/TransportLayer/DestinationDAO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dev/DataAccessLayer/DTO/TransportLayer/DestinationDAO.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dev/DataAccessLayer/DTO/TransportLayer/DestinationDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/DataAccessLayer/DTO/TransportLayer/DestinationDTO.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

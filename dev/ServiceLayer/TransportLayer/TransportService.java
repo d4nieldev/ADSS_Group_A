@@ -8,6 +8,7 @@ import BussinessLayer.TransPortLayer.Location;
 import BussinessLayer.TransPortLayer.TransportFacade;
 import BussinessLayer.TransPortLayer.TruckFacade;
 
+import java.time.LocalDate;
 import java.util.List;
 
 public class TransportService {
@@ -52,7 +53,7 @@ public class TransportService {
      *
      * @return
      */
-    public String changeDate(int id, String date){
+    public String changeDate(int id, LocalDate date){
         transportFacade.getTransport(id).setDate(date);
         return "The date of" + id + "change to" + date;
     }

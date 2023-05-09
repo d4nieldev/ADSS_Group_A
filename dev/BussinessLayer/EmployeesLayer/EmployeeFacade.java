@@ -53,7 +53,7 @@ public class EmployeeFacade {
 
     // commit log in for employee, if exsist
     public void logIn(int id, String password) {
-        if (isEmployeeExists(id) && !isEmployeeLoggedIn(id)) {
+        if (isEmployeeExistsAndLoadEmployee(id) && !isEmployeeLoggedIn(id)) {
             Employee e = getEmployeeById(id);
 
             if (e.getId() == id && e.getPassword().equals(password)) {
@@ -75,7 +75,7 @@ public class EmployeeFacade {
 
     // commit log out for employee, if exsist
     public void logOut(int id) {
-        if (isEmployeeExists(id) && isEmployeeLoggedIn(id)) {
+        if (isEmployeeExistsAndLoadEmployee(id) && isEmployeeLoggedIn(id)) {
             Employee e = getEmployeeById(id);
             e.SetIsLoggedInToFalse();
             if (isEmployeeDriver(id)) {
@@ -95,7 +95,7 @@ public class EmployeeFacade {
     public void addEmployee(int managerId, String firstName, String lastName, int id, String password, int bankNum,
             int bankBranch, int bankAccount, int salary, int InitializeBonus, LocalDate startDate,
             String tempsEmployment, String role, int branch) {
-        if (isEmployeeExists(managerId) && isEmployeeLoggedIn(managerId) && !isEmployeeExists(id)) {
+        if (isEmployeeExistsAndLoadEmployee(managerId) && isEmployeeLoggedIn(managerId) && !isEmployeeExistsAndLoadEmployee(id)) {
             checkHrManager(managerId);
             Integer roleInt = roleClass.getRoleByName(role.toUpperCase()).getId();
             Employee employee = new Employee(firstName, lastName, id, password, bankNum,
@@ -115,7 +115,7 @@ public class EmployeeFacade {
             int bankBranch,
             int bankAccount, int salary, int InitializeBonus, LocalDate startDate, String tempsEmployment,
             License driverLicense) {
-        if (isEmployeeExists(managerId) && isEmployeeLoggedIn(managerId) && !isEmployeeExists(id)) {
+        if (isEmployeeExistsAndLoadEmployee(managerId) && isEmployeeLoggedIn(managerId) && !isEmployeeExistsAndLoadEmployee(id)) {
             checkHrManager(managerId);
             Driver driver = new Driver(firstName, lastName, id, password, bankNum, bankBranch, bankAccount, salary,
                     InitializeBonus, startDate, tempsEmployment, roleClass.getRoleByName("DRIVER").getId(),
@@ -131,17 +131,17 @@ public class EmployeeFacade {
 
     // delete/remove employee from the system.
     public void deleteEmployee(int id) {
+        employeesDAO.delete("ID", id);
         Employee employeeToRemove = getEmployeeById(id);
         employees.remove(employeeToRemove);
-        employeesDAO.delete("ID", id);
     }
 
     // delete/remove driver from the system.
     public void deleteDriver(int managerId, int id) {
+        driversDAO.delete("ID", id);
         checkHrManager(managerId); // only HR manager
         Driver driverToRemove = getDriverById(id);
         drivers.remove(driverToRemove);
-        driversDAO.delete("ID", id);
     }
 
     // print all employees in the system.
@@ -149,6 +149,11 @@ public class EmployeeFacade {
     public String printAllEmployees(int managerId) {
         String strPrint = "";
         checkHrManager(managerId);
+        List<EmployeeDTO> employeesDTO = employeesDAO.getAll();
+        employees = new LinkedList<>();
+        for (EmployeeDTO employeeDTO : employeesDTO) {
+            employees.add(new Employee(employeeDTO));
+        }
         for (Employee employee : employees) {
             strPrint += employee.toString() + "\n";
         }
@@ -398,8 +403,8 @@ public class EmployeeFacade {
         throw new Error("The id " + id + "is not in the system. Please try again");
     }
 
-    // return true if the employee exsist already in the system
-    public boolean isEmployeeExists(int id) {
+    // return true if the employee exsist already in the system and load it if its in the data base
+    public boolean isEmployeeExistsAndLoadEmployee(int id) {
         for (Employee employee : employees) {
             if (employee.getId() == id)
                 return true;
@@ -410,6 +415,7 @@ public class EmployeeFacade {
         }
         EmployeeDTO emp = employeesDAO.getEmployeeById(id);
         if (emp != null) {
+            employees.add(new Employee(emp));
             return true;
         }
 
@@ -473,7 +479,7 @@ public class EmployeeFacade {
     // check for exsisting employee with current id
     // throw an error if something went wrong
     public void checkEmployee(int idEmployee) {
-        if (!isEmployeeExists(idEmployee)) {
+        if (!isEmployeeExistsAndLoadEmployee(idEmployee)) {
             throw new Error("The id " + idEmployee + " is not in the system. Please try again");
         }
     }
@@ -483,8 +489,10 @@ public class EmployeeFacade {
             int bankNum,
             int bankBranch, int bankAccount, int salary, int bonus, LocalDate startDate, String tempsEmployment,
             License driverLicense, Integer role, int branch) {
-        employees.add(new Employee(firstName, lastName, id, password, bankNum,
-                bankBranch, bankAccount, salary, bonus, startDate, tempsEmployment, role, branch));
+        Employee e = new Employee(firstName, lastName, id, password, bankNum,
+                bankBranch, bankAccount, salary, bonus, startDate, tempsEmployment, role, branch);
+        employees.add(e);
+        this.employeesDAO.insert(e.toDTO());
     }
 
     // help function that create HR manager to start up the system
@@ -492,7 +500,9 @@ public class EmployeeFacade {
             int bankNum,
             int bankBranch, int bankAccount, int salary, int bonus, LocalDate startDate, String tempsEmployment,
             License driverLicense, Integer role, int branch) {
-        employees.add(new Employee(firstName, lastName, id, password, bankNum,
-                bankBranch, bankAccount, salary, bonus, startDate, tempsEmployment, role, branch));
+        Employee e = new Employee(firstName, lastName, id, password, bankNum,
+                bankBranch, bankAccount, salary, bonus, startDate, tempsEmployment, role, branch);
+        employees.add(e);
+        this.employeesDAO.insert(e.toDTO());
     }
 }

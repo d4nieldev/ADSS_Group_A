@@ -4,7 +4,6 @@ import DataAccessLayer.Repository;
 import DataAccessLayer.DAO.DAO;
 import DataAccessLayer.DTO.EmployeeLayer.*;
 
-import java.io.PrintStream;
 import java.sql.*;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -19,6 +18,7 @@ public class EmployeesDAO extends DAO<EmployeeDTO> {
     public EmployeesDAO() {
         this.tableName = "Employees";
         employeeRoleDAO = new EmployeesRolesDAO();
+
     }
 
     @Override
@@ -94,6 +94,7 @@ public class EmployeesDAO extends DAO<EmployeeDTO> {
         try {
             Integer id = RS.getInt(1); // the first column is ID
             LinkedList<Integer> roles = getRolesList(id, conn);
+            LinkedList<Integer> branches = getBranchesList(id, conn);
             if (roles == null) {
                 return null;
             }
@@ -104,7 +105,7 @@ public class EmployeesDAO extends DAO<EmployeeDTO> {
                     /* bank account number */RS.getInt(7), /* salary */RS.getInt(8),
                     /* bonus */ RS.getInt(9), /* start date */ LocalDate.parse(RS.getString(10), formatter),
                     /* temps employment */ RS.getString(11), roles,
-                    /* is logged in */ RS.getBoolean(12), /* super branch */ RS.getInt(13));
+                    /* is logged in */ RS.getBoolean(12), /* super branch */ RS.getInt(13), branches);
         } catch (Exception e) {
             output = null;
         } finally {
@@ -150,6 +151,43 @@ public class EmployeesDAO extends DAO<EmployeeDTO> {
             e.printStackTrace();
         }
 
-        return makeDTO(res);
+        EmployeeDTO newEmp = makeDTO(res);
+        EMPLOYEE_IDENTITY_MAP.put(id, newEmp);
+        return newEmp;
     }
+
+    public void getShiftList(Integer id, Connection conn) {
+
+    }
+
+    public LinkedList<Integer> getBranchesList(Integer id, Connection conn) {
+        LinkedList<Integer> ans = new LinkedList<>();
+        ResultSet rs = get("EmployeesBranches", "EmployeeID", id, conn);
+        try {
+            while (rs.next()) {
+                ans.add(rs.getInt(2));
+            }
+        } catch (Exception e) {
+            return null;
+        }
+        return ans;
+    }
+
+    // private List<Integer> getAllRolesForEmployee(int id, Connection conn) {
+    //     String statement = "SELECT * FROM " + "EmployeesRoles" + " WHERE EmployeeID = " + id + ";";
+    //     ResultSet RS = null;
+    //     List<Integer> output = new LinkedList<>();
+    //     try {
+    //         Statement S = conn.createStatement();
+    //         RS = S.executeQuery(statement);
+    //         while (RS.next()){
+    //             output.add(RS.getInt(2));
+    //         }    
+    //     } catch (Exception e) {
+    //         System.out.println(e.getMessage());
+    //     } finally {
+    //         Repository.getInstance().closeConnection(conn);
+    //     }
+    //     return output;
+    // }
 }

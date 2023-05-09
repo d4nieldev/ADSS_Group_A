@@ -49,7 +49,19 @@ public class Employee{
         this.firstName = DTO.firstName;
         this.lastName = DTO.lastName;
         this.id = DTO.id;
-		// need to continue
+		this.password = DTO.password;
+		this.bankNum = DTO.bankNum;
+		this.bankBranch = DTO.bankBranch;
+		this.bankAccount = DTO.bankAccount;
+		this.salary = DTO.salary;
+		this.bonus = DTO.bonus;
+		this.startDate = DTO.startDate;
+		this.tempsEmployment = DTO.tempsEmployment;
+		this.roles = DTO.roles;
+		this.isLoggedIn = DTO.isLoggedIn;
+		this.historyShift = DTO.historyShift;
+		this.superBranch = DTO.superBranch;
+		this.branchs = DTO.branchs;
 	}
 
 	// add role if not exsist to employee
@@ -130,7 +142,7 @@ public class Employee{
     public EmployeeDTO toDTO() {
         return new EmployeeDTO(this.id, this.firstName, this.lastName, this.password, this.bankNum, this.bankBranch,
 		this.bankAccount, this.salary, this.bonus, this.startDate, this.tempsEmployment,
-		this.roles, this.isLoggedIn, this.superBranch);
+		this.roles, this.isLoggedIn, this.superBranch, this.branchs);
     }
 
 //-------------------------------------Getters And Setters--------------------------------------------------------

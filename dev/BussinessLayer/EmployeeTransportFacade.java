@@ -74,8 +74,10 @@ public class EmployeeTransportFacade {
         String input = scanner.nextLine();
         LocalDate transportDate = LocalDate.parse(input, formatter);
 
-        transportFacade.letTheUserMatch(deliveries,getDayDrivers(2,transportDate),truckFacade.getAvailableTrucks());
-        // TODO - insert driver to shift - AddDriverToShift(int driverID, int shiftID)
+        transportFacade.letTheUserMatch(deliveries,getDayDrivers(
+            employeeFacade.getRoleClassInstance().getRoleByName("TRANSPORTMANAGER").getId(),transportDate),
+            truckFacade.getAvailableTrucks());
+        // TODO - insert driver to shift - AddDriverToShift(LocalDate transportDate, HashMap<Integer driverID, list<Integer> address>)
     }
 
     public void AddDriverToShift(int driverID, int shiftID){

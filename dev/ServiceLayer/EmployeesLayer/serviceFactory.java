@@ -4,10 +4,8 @@ import BussinessLayer.EmployeeTransportFacade;
 import BussinessLayer.EmployeesLayer.BranchFacade;
 import BussinessLayer.EmployeesLayer.EmployeeFacade;
 import BussinessLayer.EmployeesLayer.ShiftFacade;
-import ServiceLayer.TransportLayer.DriverService;
 import ServiceLayer.TransportLayer.TransportService;
 import ServiceLayer.TransportLayer.TruckService;
-import ServiceLayer.TransportLayer.TransportService;
 
 public class serviceFactory {
     ////////// HR/////////////////
@@ -19,8 +17,6 @@ public class serviceFactory {
     private ShiftService shiftService;
     private BranchService branchService;
     ///////// Transport/////////////
-    private TransportService transportServices;
-    private DriverService driverService;
     private TruckService truckService;
     private TransportService transportService;
 
@@ -34,8 +30,7 @@ public class serviceFactory {
         shiftService = new ShiftService(shiftFacade);
         branchService = new BranchService(branchFacade);
         ///////// Transport/////////////
-        transportServices = new TransportService();
-        driverService = new DriverService();
+        transportService = new TransportService(employeeTransportFacade);
         truckService = new TruckService();
     }
 
@@ -66,27 +61,10 @@ public class serviceFactory {
 
     ///////// Transport/////////////
     public TransportService getTransportService() {
-        return transportServices;
-    };
-
-    public DriverService getDriverService() {
-        return driverService;
-    };
+        return transportService;
+    }
 
     public TruckService getTruckService() {
         return truckService;
-    };
-        transportService = new TransportService(employeeTransportFacade);
-    }
-
-    public EmployeeFacade getemployeeFacade(){return employeeFacade;}
-    public ShiftFacade getshiftFacade(){return shiftFacade;}
-    public BranchFacade getbranchFacade(){return branchFacade;}
-    public EmployeeService getEmployeeService(){return employeeService;}
-    public ShiftService getShiftService(){return shiftService;}
-    public BranchService getBranchService(){return branchService;}
-
-    public TransportService getTransportService() {
-        return transportService;
     }
 }

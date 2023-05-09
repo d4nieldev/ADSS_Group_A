@@ -167,81 +167,81 @@ class HRSystem {
                     System.out.println(employeeService.printAllDrivers(loginId));
                 }
 
-                else if (option.equals("6")){ // 6 add an empty shift
-                    System.out.println("You choose to add empty shift.");
-                    System.out.println("please enter the following information:");
-                    System.out.println("");
+                // else if (option.equals("6")){ // 6 add an empty shift
+                //     System.out.println("You choose to add empty shift.");
+                //     System.out.println("please enter the following information:");
+                //     System.out.println("");
 
-                    System.out.print("Branch Id: ");
-                    int branchId = Integer.parseInt(sc.nextLine());
-                    System.out.println("");
+                //     System.out.print("Branch Id: ");
+                //     int branchId = Integer.parseInt(sc.nextLine());
+                //     System.out.println("");
 
-                    System.out.println("please enster the date in that format Date: 05-06-2003");
-                    System.out.print("Shift Date: ");
-                    String shiftDate = sc.nextLine();
-                    System.out.println("");;
+                //     System.out.println("please enster the date in that format Date: 05-06-2003");
+                //     System.out.print("Shift Date: ");
+                //     String shiftDate = sc.nextLine();
+                //     System.out.println("");;
 
-                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
-                    LocalDate localDate = LocalDate.parse(shiftDate, formatter);
+                //     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+                //     LocalDate localDate = LocalDate.parse(shiftDate, formatter);
 
-                    System.out.print("Start hour: ");
-                    int startHour = Integer.parseInt(sc.nextLine());
-                    System.out.println("");
+                //     System.out.print("Start hour: ");
+                //     int startHour = Integer.parseInt(sc.nextLine());
+                //     System.out.println("");
 
-                    System.out.print("End hour: ");
-                    int endHour = Integer.parseInt(sc.nextLine());
-                    System.out.println("");
+                //     System.out.print("End hour: ");
+                //     int endHour = Integer.parseInt(sc.nextLine());
+                //     System.out.println("");
 
-                    System.out.print("Morning Or Eveing: ");
-                    String morningEvningString = sc.nextLine();
-                    ShiftTime morningEvningShiftTime = ShiftTime.valueOf(morningEvningString.toUpperCase());
-                    System.out.println("");
+                //     System.out.print("Morning Or Eveing: ");
+                //     String morningEvningString = sc.nextLine();
+                //     ShiftTime morningEvningShiftTime = ShiftTime.valueOf(morningEvningString.toUpperCase());
+                //     System.out.println("");
 
-                    HashMap<Integer, Integer> numEmployeesForRole = new HashMap<>();
+                //     HashMap<Integer, Integer> numEmployeesForRole = new HashMap<>();
 
-                    System.out.print("Now enter the number of employees for each role. ");
-                    System.out.print("Branch Manager: ");
-                    int branchManagerNum = Integer.parseInt(sc.nextLine());
-                    numEmployeesForRole.put(Role.getRoleByName("BRANCHMANAGER").getId(), branchManagerNum);
-                    System.out.println("");
+                //     System.out.print("Now enter the number of employees for each role. ");
+                //     System.out.print("Branch Manager: ");
+                //     int branchManagerNum = Integer.parseInt(sc.nextLine());
+                //     numEmployeesForRole.put(Role.getRoleByName("BRANCHMANAGER").getId(), branchManagerNum);
+                //     System.out.println("");
 
-                    System.out.print("Shift Manager: ");
-                    int shiftManagerNum = Integer.parseInt(sc.nextLine());
-                    numEmployeesForRole.put(Role.getRoleByName("SHIFTMANAGER").getId(), shiftManagerNum);
-                    System.out.println("");
+                //     System.out.print("Shift Manager: ");
+                //     int shiftManagerNum = Integer.parseInt(sc.nextLine());
+                //     numEmployeesForRole.put(Role.getRoleByName("SHIFTMANAGER").getId(), shiftManagerNum);
+                //     System.out.println("");
 
-                    System.out.print("Cashier: ");
-                    int chahierNum = Integer.parseInt(sc.nextLine());
-                    numEmployeesForRole.put(Role.getRoleByName("CHASHIER").getId(), chahierNum);
-                    System.out.println("");
+                //     System.out.print("Cashier: ");
+                //     int chahierNum = Integer.parseInt(sc.nextLine());
+                //     numEmployeesForRole.put(Role.getRoleByName("CHASHIER").getId(), chahierNum);
+                //     System.out.println("");
 
-                    System.out.print("Storekeeper: ");
-                    int storeeeperNum = Integer.parseInt(sc.nextLine());
-                    numEmployeesForRole.put(Role.getRoleByName("STOREKEEPER").getId(), storeeeperNum);
-                    System.out.println("");
+                //     System.out.print("Storekeeper: ");
+                //     int storeeeperNum = Integer.parseInt(sc.nextLine());
+                //     numEmployeesForRole.put(Role.getRoleByName("STOREKEEPER").getId(), storeeeperNum);
+                //     System.out.println("");
 
-                    System.out.print("Driver: ");
-                    int driverNum = Integer.parseInt(sc.nextLine());
-                    numEmployeesForRole.put(Role.getRoleByName("DRIVER").getId(), driverNum);
-                    System.out.println("");
+                //     System.out.print("Driver: ");
+                //     int driverNum = Integer.parseInt(sc.nextLine());
+                //     numEmployeesForRole.put(Role.getRoleByName("DRIVER").getId(), driverNum);
+                //     System.out.println("");
 
-                    System.out.println("Generral");
-                    int generralNum = Integer.parseInt(sc.nextLine());
-                    numEmployeesForRole.put(Role.getRoleByName("GENERRAL").getId(), generralNum);
-                    System.out.println("");
+                //     System.out.println("Generral");
+                //     int generralNum = Integer.parseInt(sc.nextLine());
+                //     numEmployeesForRole.put(Role.getRoleByName("GENERRAL").getId(), generralNum);
+                //     System.out.println("");
 
-                    System.out.println("Cleaner");
-                    int cleanerNum = Integer.parseInt(sc.nextLine());
-                    numEmployeesForRole.put(Role.getRoleByName("CLEANER").getId(), cleanerNum);
-                    System.out.println("");
+                //     System.out.println("Cleaner");
+                //     int cleanerNum = Integer.parseInt(sc.nextLine());
+                //     numEmployeesForRole.put(Role.getRoleByName("CLEANER").getId(), cleanerNum);
+                //     System.out.println("");
 
-                    System.out.println("Security");
-                    int securityNum = Integer.parseInt(sc.nextLine());
-                    numEmployeesForRole.put(Role.getRoleByName("SECURITY").getId(), securityNum);
-                    System.out.println("");
+                //     System.out.println("Security");
+                //     int securityNum = Integer.parseInt(sc.nextLine());
+                //     numEmployeesForRole.put(Role.getRoleByName("SECURITY").getId(), securityNum);
+                //     System.out.println("");
 
-                    branchService.addShift(loginId, branchId, localDate, startHour, endHour, morningEvningShiftTime, numEmployeesForRole);
-                }
+                //     branchService.addShift(loginId, branchId, localDate, startHour, endHour, morningEvningShiftTime, numEmployeesForRole);
+                // }
 
                 else if (option.equals("7")){ // 7 hr manager submit a shift
                     System.out.println("You choose to submit a final shift.");
@@ -397,11 +397,14 @@ class HRSystem {
             catch(Error e) {
                 System.out.println("This error happened: \n");
                 System.out.println(e.toString());
-                System.out.println("Please choode again: \n");
+                System.out.println("Please choose again: \n");
                 System.out.println("0 - Go back\n1 - Add employee\n2 - Print all employees (drivers not included)\n3 - Print all drivers\n4 - Add empty shift\n5 - Submit a shift\n6 - Add constraint for some Employee to Shift\n7 - Edit employee\n8 - Delete an employee\n");
 
                 option = sc.nextLine();
             }
+
+            System.out.println("0 - Go back\n1 - Add employee (not driver).\n2 - Add driver.\n3 - Print all branches.\n4 - Print all employees (drivers not included)\n5 - Print all drivers\n6 - Add empty shift\n7 - Submit a shift\n8 - Add constraint for some Employee to Shift\n9 - Edit employee\n10 - Delete an employee\n");
+            option = sc.nextLine();
         }
 
         employeeService.logOut(loginId);

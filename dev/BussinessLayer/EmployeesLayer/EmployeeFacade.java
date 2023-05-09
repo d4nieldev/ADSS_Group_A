@@ -92,7 +92,7 @@ public class EmployeeFacade {
     int bankBranch, int bankAccount, int salary, int InitializeBonus, LocalDate startDate, String tempsEmployment, String role, int branch){
         if (isEmployeeExists(managerId) && isEmployeeLoggedIn(managerId) && !isEmployeeExists(id)){
             checkHrManager(managerId);
-            Integer roleInt = roleClass.getRoleByName(role).getId();
+            Integer roleInt = roleClass.getRoleByName(role.toUpperCase()).getId();
             Employee employee = new Employee(firstName, lastName, id, password, bankNum, 
             bankBranch, bankAccount, salary, InitializeBonus, startDate, tempsEmployment, roleInt, branch);
             employees.add(employee);

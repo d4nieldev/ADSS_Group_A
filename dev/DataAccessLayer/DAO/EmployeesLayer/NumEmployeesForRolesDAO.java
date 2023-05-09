@@ -3,17 +3,17 @@ package DataAccessLayer.DAO.EmployeesLayer;
 import DataAccessLayer.Repository;
 import java.sql.*;
 
-public class EmployeesShiftsFinalsDAO {
+public class NumEmployeesForRolesDAO {
     
-    public EmployeesShiftsFinalsDAO() {}
+    public NumEmployeesForRolesDAO() {}
     
-    public int addShiftFinal(int empID, int shiftID)
+    public int addNumEmployeeForRole(int shiftID, int roleID, int numberNedded)
     {
         Connection conn = Repository.getInstance().connect();
         String updateString;
-        if(empID < 0 || shiftID < 0) return 0;
+        if(shiftID < 0 || roleID < 0 || numberNedded < 0) return 0;
         updateString= String.format("INSERT INTO %s \n" +
-                "VALUES (\"%d\",\"%d\");", "EmployeesShiftsFinals", empID, shiftID);
+                "VALUES (\"%d\",\"%d\",\"%d\");", "NumEmployeesForRoles", shiftID, roleID, numberNedded);
         Statement s;
         try
         {
@@ -25,13 +25,13 @@ public class EmployeesShiftsFinalsDAO {
         }
     }
     
-    public int removeShiftFinal(int empID, int shiftID)
+    public int removeNumEmployeeForRole(int shiftID, int roleID)
     {
         Connection conn = Repository.getInstance().connect();
         String updateString;
-        if(empID < 0 || shiftID < 0) return 0;
+        if(shiftID < 0 || roleID < 0) return 0;
         updateString= String.format("DELETE FROM %s \n" +
-                "WHERE %d=\"%d\" AND %d=\"%d\";", "EmployeesShiftsFinals", "EmployeeID", empID, "ShiftID", shiftID);
+                "WHERE %d=\"%d\" AND %d=\"%d\";", "EmployeesRoles", "ShiftID", shiftID, "RoleID", roleID);
         Statement s;
         try
         {

@@ -130,6 +130,14 @@ public class Repository {
                                                                                                         
                 "\tFOREIGN KEY(\"ShiftID\") REFERENCES \"Shifts\"(\"ShiftID\") ON DELETE CASCADE\n" +
                 ");";
+        String NumEmployeesForRolesTable = "CREATE TABLE IF NOT EXISTS \"NumEmployeesForRoles\" (\n" +
+                "\t\"ShiftID\"\tINTEGER,\n" +
+                "\t\"RoleID\"\tINTEGER,\n" +
+                "\t\"NumberNeeded\"\tINTEGER,\n" +
+                "\tPRIMARY KEY(\"ShiftID\",\"RoleID\"),\n" +
+                "\tFOREIGN KEY(\"ShiftID\") REFERENCES \"Shifts\"(\"ShiftID\") ON DELETE CASCADE,\n" +
+                "\tFOREIGN KEY(\"RoleID\") REFERENCES \"Roles\"(\"RoleID\") ON DELETE CASCADE\n" + 
+                ");";
         String EmployeesShiftsFinalsTable = "CREATE TABLE IF NOT EXISTS \"EmployeesShiftsFinals\" (\n" +
                 "\t\"EmployeeID\"\tINTEGER,\n" +
                 "\t\"ShiftID\"\tINTEGER,\n" +
@@ -197,6 +205,7 @@ public class Repository {
             stmt.execute(DriversWorkedDatesTable);
             stmt.execute(EmployeesRolesTable);
             stmt.execute(EmployeesShiftsConstraintsTable);
+            stmt.execute(NumEmployeesForRolesTable);
             stmt.execute(EmployeesShiftsFinalsTable);
             stmt.execute(EmployeesBranchesTable);
             stmt.execute(ShiftsCancellationsTable);

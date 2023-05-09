@@ -12,12 +12,14 @@ import java.util.LinkedList;
 
 public class ShiftsDAO extends DAO<ShiftDTO> {
     private EmployeesShiftsContraintsDAO employeeShiftContraintDAO;
+    private NumEmployeesForRolesDAO numEmployeesForRolesDAO;
     private EmployeesShiftsFinalsDAO employeeShiftFinalDAO;
     private ShiftsCancellationsDAO shiftsCancellationsDAO;
 
     public ShiftsDAO() {
         this.tableName = "Shifts";
         employeeShiftContraintDAO = new EmployeesShiftsContraintsDAO();
+        numEmployeesForRolesDAO = new NumEmployeesForRolesDAO();
         employeeShiftFinalDAO = new EmployeesShiftsFinalsDAO();
         shiftsCancellationsDAO = new ShiftsCancellationsDAO();
     }
@@ -34,9 +36,10 @@ public class ShiftsDAO extends DAO<ShiftDTO> {
             s = conn.createStatement();
             s.executeUpdate(InsertStatement(toInsertEmp));
             int resES1 = insertToShiftsConstraints(Ob);
-            int resES2 = insertToShiftsFinals(Ob);
-            int resES3 = insertToShiftsCancellations(Ob);
-            if (resES1 + resES2 + resES3 == 3) // If inserts worked
+            int resES2 = insertToNumEmployeesForRole(Ob);
+            int resES3 = insertToShiftsFinals(Ob);
+            int resES4 = insertToShiftsCancellations(Ob);
+            if (resES1 + resES2 + resES3 + resES4 == 4) // If inserts worked
                 ans = 1;
             else {
                 ans = 0;
@@ -54,8 +57,26 @@ public class ShiftsDAO extends DAO<ShiftDTO> {
         if (Ob == null)
             return 0;
         for (int index = 0; index < Ob.getNumberOfConstraints(); index++) {
-            String toInsertEmployeeRole = String.format("INSERT INTO %s \n" +
+            String toInsertConstraint = String.format("INSERT INTO %s \n" +
                     "VALUES %s;", "EmployeesShiftsContraints", Ob.getConstraint(index));
+            Statement s;
+            try {
+                s = conn.createStatement();
+                s.executeUpdate(toInsertConstraint);
+            } catch (Exception e) {
+                return 0;
+            }
+        }
+        return 1;
+    }
+
+    private int insertToNumEmployeesForRole(ShiftDTO Ob) {
+        Connection conn = Repository.getInstance().connect();
+        if (Ob == null)
+            return 0;
+        for (int index = 0; index < Ob.getNumEmployeesForRole(); index++) {
+            String toInsertEmployeeRole = String.format("INSERT INTO %s \n" +
+                    "VALUES %s;", "NumEmployeesForRoles", Ob.getNumEmployeesForRole(index));
             Statement s;
             try {
                 s = conn.createStatement();
@@ -72,12 +93,12 @@ public class ShiftsDAO extends DAO<ShiftDTO> {
         if (Ob == null)
             return 0;
         for (int index = 0; index < Ob.getNumberOfFinalShift(); index++) {
-            String toInsertEmployeeRole = String.format("INSERT INTO %s \n" +
+            String toInsertShiftsFinal = String.format("INSERT INTO %s \n" +
                     "VALUES %s;", "EmployeesShiftsFinals", Ob.getFinalShift(index));
             Statement s;
             try {
                 s = conn.createStatement();
-                s.executeUpdate(toInsertEmployeeRole);
+                s.executeUpdate(toInsertShiftsFinal);
             } catch (Exception e) {
                 return 0;
             }
@@ -90,12 +111,12 @@ public class ShiftsDAO extends DAO<ShiftDTO> {
         if (Ob == null)
             return 0;
         for (int index = 0; index < Ob.getNumberOfCancellations(); index++) {
-            String toInsertEmployeeRole = String.format("INSERT INTO %s \n" +
+            String toInsertCancellation = String.format("INSERT INTO %s \n" +
                     "VALUES %s;", "ShiftsCancellations", Ob.getCancellation(index));
             Statement s;
             try {
                 s = conn.createStatement();
-                s.executeUpdate(toInsertEmployeeRole);
+                s.executeUpdate(toInsertCancellation);
             } catch (Exception e) {
                 return 0;
             }
@@ -173,9 +194,9 @@ public class ShiftsDAO extends DAO<ShiftDTO> {
     }
 
     // TODO - implement
-    public HashMap<Integer, Integer> getFinalShiftList(Integer id, Connection conn) {
+    public HashMap<Integer, Integer> getNumEmployeesForRoleList(Integer id, Connection conn) {
         HashMap<Integer, Integer> ans = new HashMap<>();
-        ResultSet rs = get("EmployeesShiftsFinals", "ShiftID", id, conn);
+        ResultSet rs = get("NumEmployeesForRoles", "ShiftID", id, conn);
         try {
             while (rs.next()) {
                 // ans.add(rs.getInt(2));
@@ -187,9 +208,9 @@ public class ShiftsDAO extends DAO<ShiftDTO> {
     }
 
     // TODO - implement
-    public HashMap<Integer, Integer> getNumEmployeesForRoleList(Integer id, Connection conn) {
+    public HashMap<Integer, Integer> getFinalShiftList(Integer id, Connection conn) {
         HashMap<Integer, Integer> ans = new HashMap<>();
-        ResultSet rs = get("?????", "ShiftID", id, conn);
+        ResultSet rs = get("EmployeesShiftsFinals", "ShiftID", id, conn);
         try {
             while (rs.next()) {
                 // ans.add(rs.getInt(2));
@@ -214,18 +235,25 @@ public class ShiftsDAO extends DAO<ShiftDTO> {
         return ans;
     }
 
-    public int addConstraint(int empID) {
-        return employeeShiftContraintDAO.addConstraint(empID);
+    public int addConstraint(int empID, int shiftID) {
+        return employeeShiftContraintDAO.addConstraint(empID, shiftID);
     }
-    public int removeConstraint(int empID) {
-        return employeeShiftContraintDAO.removeConstraint(empID);
+    public int removeConstraint(int empID, int shiftID) {
+        return employeeShiftContraintDAO.removeConstraint(empID, shiftID);
     }
     
-    public int addShiftFinal(int empID) {
-        return employeeShiftFinalDAO.addShiftFinal(empID);
+    public int addNumEmployeeForRole(int shiftID, int roleID, int numberNedded) {
+        return numEmployeesForRolesDAO.addNumEmployeeForRole(shiftID, roleID, numberNedded);
     }
-    public int removeShiftFinal(int empID) {
-        return employeeShiftFinalDAO.removeShiftFinal(empID);
+    public int removeNumEmployeeForRole(int shiftID, int roleID) {
+        return numEmployeesForRolesDAO.removeNumEmployeeForRole(shiftID, roleID);
+    }
+    
+    public int addShiftFinal(int empID, int shiftID) {
+        return employeeShiftFinalDAO.addShiftFinal(empID, shiftID);
+    }
+    public int removeShiftFinal(int empID, int shiftID) {
+        return employeeShiftFinalDAO.removeShiftFinal(empID, shiftID);
     }
     
     public int addCancellation(int empID, Integer ProductCode, Integer ProductID) {

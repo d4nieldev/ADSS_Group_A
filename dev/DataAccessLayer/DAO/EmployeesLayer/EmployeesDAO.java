@@ -6,10 +6,13 @@ import DataAccessLayer.DTO.EmployeeLayer.*;
 
 import java.sql.*;
 import java.time.LocalDate;
+import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.Map;
 
 public class EmployeesDAO extends DAO<EmployeeDTO> {
     private EmployeesRolesDAO employeeRoleDAO;
+    private static Map<Integer, EmployeeDTO> TRANSPORT_MANAGER_IDENTITY_MAP = new HashMap<>();
 
     public EmployeesDAO() {
         this.tableName = "Employees";
@@ -127,4 +130,6 @@ public class EmployeesDAO extends DAO<EmployeeDTO> {
     public int removeRole(int empID, Integer roleToRemove) {
         return employeeRoleDAO.removeRole(empID, roleToRemove);
     }
+
+    public EmployeeDTO
 }

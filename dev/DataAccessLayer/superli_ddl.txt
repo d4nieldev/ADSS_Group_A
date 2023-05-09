@@ -34,18 +34,11 @@ CREATE TABLE IF NOT EXISTS Contacts (
 	PRIMARY KEY (supplierId, phone)
 );
 
-CREATE TABLE IF NOT EXISTS Fields (
-	name TEXT NOT NULL,
-	
-	PRIMARY KEY (name)
-);
-
 CREATE TABLE IF NOT EXISTS SuppliersFields (
 	supplierId INTEGER NOT NULL,
 	fieldName  INTEGER NOT NULL,
 	
 	FOREIGN KEY (supplierId) REFERENCES Suppliers(id) ON DELETE CASCADE,
-	FOREIGN KEY (fieldName)  REFERENCES Fields(name)  ON DELETE CASCADE,
 	PRIMARY KEY (supplierId, fieldName)
 );
 

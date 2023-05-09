@@ -1,7 +1,7 @@
 package DataAccessLayer.DTOs;
 
-import java.util.List;
+import java.util.Map;
 
 public interface DTO {
-    List<String> getColumnValues();
+    Map<String, String> getNameToVal();
 }

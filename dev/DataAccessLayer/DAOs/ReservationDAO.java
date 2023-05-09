@@ -18,25 +18,6 @@ public class ReservationDAO extends DAO<ReservationDTO> {
         this.columnNames = new ArrayList<String>(List.of("id", "supplierId", "rDate", "status", "destinationBranch"));
     }
 
-    public boolean insert(ReservationDTO dataObject) throws SQLException {
-        Connection con = Repository.getInstance().connect();
-        PreparedStatement statement = con.prepareStatement(
-                "INSERT INTO " + this.tableName + "(" + columnsString(columnNames) + ") Values (?, ?, ?, ?, ?)");
-        statement.setInt(1, dataObject.getId());
-        statement.setInt(2, dataObject.getId());
-        statement.setDate(3, dataObject.getDate());
-        statement.setString(4, dataObject.getStatus().toString());
-        statement.setString(5, dataObject.getDestinationBranch());
-        statement.executeUpdate();
-        statement.close();
-        return true;
-    }
-
-    public boolean update(ReservationDTO newDataObject) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'update'");
-    }
-
     public ReservationDTO makeDTO(ResultSet RS) throws SQLException {
         ReservationDTO res = null;
         res = new ReservationDTO(RS.getInt(1), RS.getInt(2), RS.getDate(3), enumHandler(RS.getString(4)),

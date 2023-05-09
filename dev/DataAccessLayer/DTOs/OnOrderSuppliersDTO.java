@@ -3,13 +3,13 @@ package DataAccessLayer.DTOs;
 import java.util.HashMap;
 import java.util.Map;
 
-public class FixedDaysSupplierDTO implements DTO {
+public class OnOrderSuppliersDTO implements DTO {
     SupplierDTO supplierDTO;
-    int dayOfSupply;
+    int maxSupplyDays;
 
-    public FixedDaysSupplierDTO(SupplierDTO supplierDto, int dayOfSupply) {
-        this.supplierDTO = supplierDto;
-        this.dayOfSupply = dayOfSupply;
+    public OnOrderSuppliersDTO(SupplierDTO supplierDTO, int maxSupplyDays) {
+        this.supplierDTO = supplierDTO;
+        this.maxSupplyDays = maxSupplyDays;
     }
 
     public SupplierDTO getSuper() {
@@ -20,7 +20,7 @@ public class FixedDaysSupplierDTO implements DTO {
     public Map<String, String> getNameToVal() {
         Map<String, String> nameToVal = new HashMap<>();
         nameToVal.put("supplierId", "" + supplierDTO.getSupplierId());
-        nameToVal.put("dayOfSupply", "" + dayOfSupply);
+        nameToVal.put("maxSupplyDays", "" + maxSupplyDays);
         return nameToVal;
     }
 

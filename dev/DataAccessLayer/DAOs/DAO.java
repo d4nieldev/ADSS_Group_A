@@ -1,6 +1,7 @@
 package DataAccessLayer.DAOs;
 
 import java.sql.Connection;
+import java.sql.DatabaseMetaData;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
@@ -12,14 +13,24 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import BusinessLayer.Suppliers.exceptions.SuppliersException;
 import DataAccessLayer.Repository;
 import DataAccessLayer.DTOs.DTO;
 
-public abstract class DAO {
-
+public abstract class DAO<T extends DTO> {
     protected String tableName;
-    protected Map<Integer, DTO> identityMap;
-    protected List<String> columnNames;
+
+    protected DAO(String tableName) {
+        this.tableName = tableName;
+    }
+
+    /**
+     * Makes a DTO object from a result set.
+     * 
+     * @param rs Result set that points to a specific row in the table.
+     * @return A DTO object.
+     */
+    public abstract T makeDTO(ResultSet rs) throws SQLException;
 
     private Map<String, String> getColumnNameToType() throws SQLException {
         Connection conn = Repository.getInstance().connect();
@@ -40,46 +51,105 @@ public abstract class DAO {
 
         rs.close();
         stmt.close();
-        conn.close();
+        Repository.getInstance().closeConnection(conn);
 
         return nameToType;
     }
 
-    public boolean insert(DTO dataObject) throws SQLException {
-        Connection con = null;
-        PreparedStatement statement = null;
-        con = Repository.getInstance().connect();
+    private List<String> getPKColumns() throws SQLException {
+        Connection conn = Repository.getInstance().connect();
+
+        DatabaseMetaData meta = conn.getMetaData();
+
+        ResultSet pk = meta.getPrimaryKeys(null, null, "People");
+
+        List<String> pks = new ArrayList<>();
+        while (pk.next()) {
+            String columnName = pk.getString("COLUMN_NAME");
+            pks.add(columnName);
+        }
+
+        pk.close();
+        Repository.getInstance().closeConnection(conn);
+
+        return pks;
+    }
+
+    private void setValInStatement(PreparedStatement statement, String val, String type, int idx) throws SQLException {
+        switch (type) {
+            case "INTEGER":
+                statement.setInt(idx, Integer.parseInt(val));
+            case "REAL":
+                statement.setDouble(idx, Double.parseDouble(val));
+            case "TEXT":
+                statement.setString(idx, val);
+        }
+    }
+
+    public void insert(T dataObject) throws SQLException {
+        Connection con = Repository.getInstance().connect();
 
         Map<String, String> nameToType = getColumnNameToType();
         StringBuilder query = new StringBuilder("INSERT INTO " + this.tableName);
-        query.append("(" + String.join(", ", nameToType.keySet()) + ")");
+        query.append("(" + String.join(", ", nameToType.keySet()) + ")\n");
         query.append(
-                "VALUES (" + String.join(", ", Collections.nCopies(nameToType.size(), "?")) + ")");
-        statement = con.prepareStatement(query.toString());
+                "VALUES (" + String.join(", ", Collections.nCopies(nameToType.size(), "?")) + ");");
+        PreparedStatement statement = con.prepareStatement(query.toString());
 
-        List<String> values = dataObject.getColumnValues();
-        int i = 0;
+        Map<String, String> nameToVal = dataObject.getNameToVal();
+        int i = 1;
         for (String colName : nameToType.keySet()) {
-            String genericVal = values.get(i);
-            switch (nameToType.get(colName)) {
-                case "INTEGER":
-                    statement.setInt(++i, Integer.parseInt(genericVal));
-                case "REAL":
-                    statement.setDouble(++i, Double.parseDouble(genericVal));
-                case "TEXT":
-                    statement.setString(++i, genericVal);
-
-            }
+            String val = nameToVal.get(colName);
+            String type = nameToType.get(colName);
+            setValInStatement(statement, val, type, i);
         }
 
         statement.executeUpdate();
         statement.close();
-        con.close();
-
-        return true;
+        Repository.getInstance().closeConnection(con);
     }
 
-    public abstract boolean update(DTO newDataObject) throws SQLException;
+    public void update(T newDataObject) throws SQLException {
+        Connection con = Repository.getInstance().connect();
+        Map<String, String> nameToVal = newDataObject.getNameToVal();
+
+        StringBuilder query = new StringBuilder("UPDATE " + this.tableName + " SET (");
+
+        List<String> pks = getPKColumns();
+        List<String> assignments = new ArrayList<>();
+        for (String colName : nameToVal.keySet())
+            if (!pks.contains(colName))
+                assignments.add(colName + " = ?");
+        query.append(String.join(", ", assignments));
+
+        query.append(") WHERE ");
+        List<String> searchConditions = new ArrayList<>();
+        for (String colName : pks)
+            searchConditions.add(colName + " = ?");
+        query.append(String.join(" AND ", searchConditions) + ";");
+
+        PreparedStatement statement = con.prepareStatement(query.toString());
+
+        // fill fields parameters
+        Map<String, String> nameToType = getColumnNameToType();
+        int i = 1;
+        for (String colName : nameToVal.keySet()) {
+            String val = nameToVal.get(colName);
+            String type = nameToType.get(colName);
+            if (!pks.contains(colName))
+                setValInStatement(statement, val, type, i++);
+        }
+        // fill primary key parameters
+        for (String colName : pks) {
+            String val = nameToVal.get(colName);
+            String type = nameToType.get(colName);
+            setValInStatement(statement, val, type, i++);
+        }
+
+        statement.executeUpdate();
+        statement.close();
+        Repository.getInstance().closeConnection(con);
+    }
 
     /**
      * Generic deletion method for the the rows that meet the criteria
@@ -88,18 +158,31 @@ public abstract class DAO {
      * @param value   the value that the row should meet to be deleted
      * @return the number of the deleted rows.
      */
-    public int delete(String colName, String value) throws SQLException {
-        String statement = String.format("Delete From %s WHERE %s=\"%s\"", tableName, colName, value);
-        int rowsAffected = -1;
+    public void delete(T dataObject) throws SQLException {
         Connection con = Repository.getInstance().connect();
-        try {
-            Statement stmt = con.createStatement();
-            rowsAffected = stmt.executeUpdate(statement);
-        } catch (SQLException e) {
-        } finally {
-            Repository.getInstance().closeConnection(con);
+
+        StringBuilder query = new StringBuilder("DELETE FROM " + tableName + " WHERE ");
+
+        Map<String, String> nameToVal = dataObject.getNameToVal();
+        List<String> pks = getPKColumns();
+        List<String> searchConditions = new ArrayList<>();
+        for (String colName : pks)
+            searchConditions.add(colName + " = ?");
+        query.append(String.join(" AND ", searchConditions) + ";");
+
+        Map<String, String> nameToType = getColumnNameToType();
+        PreparedStatement statement = con.prepareStatement(query.toString());
+        int i = 1;
+        for (String colName : pks) {
+            String val = nameToVal.get(colName);
+            String type = nameToType.get(colName);
+            setValInStatement(statement, val, type, i++);
         }
-        return rowsAffected;
+
+        statement.executeUpdate();
+
+        statement.close();
+        Repository.getInstance().closeConnection(con);
     }
 
     /**
@@ -109,64 +192,19 @@ public abstract class DAO {
      *         of a table.
      */
     public List<T> selectAll() throws SQLException {
-        String statement = "SELECT * FROM " + tableName + ";";
         Connection conn = Repository.getInstance().connect();
-        ResultSet RS = null;
-        List<T> output = new ArrayList<T>();
-        try {
-            Statement S = conn.createStatement();
-            RS = S.executeQuery(statement);
-            while (RS.next())
-                output.add(makeDTO(RS));
-        } catch (Exception e) {
-        } finally {
-            Repository.getInstance().closeConnection(conn);
-        }
+
+        String query = "SELECT * FROM " + tableName + ";";
+
+        Statement statement = conn.createStatement();
+        ResultSet rs = statement.executeQuery(query);
+
+        List<T> output = new ArrayList<>();
+        while (rs.next())
+            output.add(makeDTO(rs));
+
+        Repository.getInstance().closeConnection(conn);
         return output;
-    }
-
-    /**
-     * Selects one row from the table.
-     * 
-     * @return a DTO object representing the row.
-     */
-    public T selectRow(int id) throws SQLException {
-        String statement = "SELECT * FROM " + tableName + " Where id= " + id + ";";
-        Connection conn = Repository.getInstance().connect();
-        ResultSet RS = null;
-        T output = null;
-        try {
-            Statement S = conn.createStatement();
-            RS = S.executeQuery(statement);
-            RS.next();
-            output = makeDTO(RS);
-        } catch (Exception e) {
-        } finally {
-            Repository.getInstance().closeConnection(conn);
-        }
-        return output;
-    }
-
-    /**
-     * Makes a DTO object from a result set.
-     * 
-     * @param RS Result set that points to a specific row in the table.
-     * @return A DTO object.
-     */
-    public abstract T makeDTO(ResultSet RS) throws SQLException;
-
-    // TODO: Do we need this??
-    public String InsertStatement(String Values) throws SQLException {
-        return String.format("INSERT INTO %s \n" +
-                "VALUES %s;", tableName, Values);
-    }
-
-    public T getIfExists(){
-        if(identityMap.containsKey(identityMap))
-    }
-
-    public String columnsString(List<String> columnNames) {
-        return String.join(", ", columnNames);
     }
 
 }

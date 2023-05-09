@@ -2,6 +2,8 @@ package BussinessLayer.EmployeesLayer;
 import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.LinkedList;
+
+import DataAccessLayer.DAO.EmployeesLayer.BranchesDAO;
 import Misc.*;
 
 public class BranchFacade {
@@ -9,28 +11,34 @@ public class BranchFacade {
     private ShiftFacade shiftFacade;
     private LinkedList<Branch> branchs;
     private static int branchIdConuter = 0;
+    private BranchesDAO branchesDAO;
 
     public BranchFacade(EmployeeFacade employeeFacade, ShiftFacade shiftFacade){
         this.employeeFacade = employeeFacade;
         this.shiftFacade = shiftFacade;
         branchs = new LinkedList<>();
         branchs.add(new Branch(0, "BGU", Location.SOUTH));
+        branchesDAO = new BranchesDAO();
     }
     
     public void addBranch(int managerId, String address, Location location) {
         employeeFacade.checkHrManager(managerId);
-        branchs.add(new Branch(branchIdConuter, address, location));
+        Branch newBranch = new Branch(branchIdConuter, address, location);
+        branchs.add(newBranch);
         branchIdConuter++;
+        branchesDAO.insert(newBranch.toDTO());
     }
 
     public void addNewEmployee(int managerId, String firstName, String lastName, int id, String password, int bankNum,
-    int bankBranch, int bankAccount, int salary, int InitializeBonus, LocalDate startDate, String tempsEmployment, String role, int branchId){
+    int bankBranch, int bankAccount, int salary, int InitializeBonus, LocalDate startDate, String tempsEmployment, String role, 
+    int branchId){
         // only HR manager
         employeeFacade.addEmployee(managerId, firstName, lastName, id, password, bankNum, bankBranch, bankAccount, salary,
         InitializeBonus, startDate, tempsEmployment, role, branchId);
         Branch branch = getBranchById(branchId);
         Employee employee = employeeFacade.getEmployeeById(id);
         branch.addNewEmployee(employee);
+        branchesDAO.addOriginEmployee(id, branchId);
     }
 
     public void addNewDriver(int managerId, String firstName, String lastName, int id, String password, int bankNum,
@@ -49,6 +57,7 @@ public class BranchFacade {
         Branch branch = getBranchById(branchId);
         employee.addBranch(branchId); // check not exists already here
         branch.addForeignEmployee(employee);
+        branchesDAO.addForeignEmployee(idEmployee, branchId);
     }
 
     public void addNotAllowEmployees(int managerId, int idEmployee, int branchId){
@@ -57,6 +66,7 @@ public class BranchFacade {
         Branch branch = getBranchById(branchId);
         employee.removeBranch(branchId); // check not removed already here
         branch.addNotAllowEmployees(employee);
+        branchesDAO.addNotAllowEmployee(idEmployee, branchId);
     }
 
     // delete/remove employee from the system.
@@ -64,7 +74,7 @@ public class BranchFacade {
         employeeFacade.checkHrManager(managerId);  // only HR manager
         Employee employeeToRemove = employeeFacade.getEmployeeById(id);
         for (int branchId : employeeToRemove.getAllBranches()) {
-            getBranchById(branchId).removeEmployeeFromSystem(employeeToRemove);
+            getBranchById(branchId).removeEmployeeFromSystem(employeeToRemove, branchesDAO);
         }
         employeeFacade.deleteEmployee(id);
     }
@@ -79,7 +89,6 @@ public class BranchFacade {
             throw new Error("You have to role at least one SHIFTMANAGER for each shift.");
         Shift newShift = new Shift(shiftID, branch, date, startHour, endHour, time, numEmployeesForRole);
         shiftFacade.addShift(newShift);
-        branch.addShift(newShift);
     }
     
     // add constaint to shift
@@ -87,7 +96,9 @@ public class BranchFacade {
         // check list is not finishSettingShift
         Branch branch = getBranchById(idBranch);
         Shift shift = shiftFacade.getShift(idShift);
-        branch.checkShiftInBranch(shift);
+        if(shift.getSuperBranchId() != idBranch) {
+            throw new Error("Cannot add constraints. This shift is not found in the branch.");
+        }
         if(shift.getIsFinishSettingShift()) {
             throw new Error("Cannot add constraints. This shift was approved by the manager.");
         }
@@ -104,7 +115,9 @@ public class BranchFacade {
         // check list is not finishSettingShift
         Branch branch = getBranchById(idBranch);
         Shift shift = shiftFacade.getShift(idShift);
-        branch.checkShiftInBranch(shift);
+        if(shift.getSuperBranchId() != idBranch) {
+            throw new Error("Cannot add constraints. This shift is not found in the branch.");
+        }
         if(shift.getIsFinishSettingShift()) {
             throw new Error("Cannot remove constraints. This shift was approved by the manager.");
         }
@@ -120,7 +133,9 @@ public class BranchFacade {
         employeeFacade.checkHrManager(managerID);
         Branch branch = getBranchById(branchID);
         Shift shift = shiftFacade.getShift(shiftID);
-        branch.checkShiftInBranch(shift);
+        if(shift.getSuperBranchId() != branchID) {
+            throw new Error("Cannot add constraints. This shift is not found in the branch.");
+        }
         HashMap<Employee, Integer> hashMapEmployees = new HashMap<>();
         // new HashMap from Integer and roles to Employees and roles
         for (Integer employeeId : hrAssigns.keySet()) {
@@ -137,7 +152,7 @@ public class BranchFacade {
             employeeFacade.checkRoleInEmployee(employee.getId(), hrAssigns.get(employee.getId()));
         }
         // check: no over employees then needed AND save the final shift
-        shiftFacade.checkAssignFinalShift(shift, hashMapEmployees);
+        shiftFacade.checkAssignFinalShift(managerID, shift, hashMapEmployees);
     }
 
     // function for printing all the shift that an employee can apply to work on that day, according to branches

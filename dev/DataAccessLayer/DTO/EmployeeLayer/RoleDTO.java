@@ -15,6 +15,6 @@ public class RoleDTO {
     public String getRoleName(){return roleName;}
     
     public String fieldsToString() {
-        return String.format("(\"%s\",\"%s\")", this.roleId, this.roleName);
+        return String.format("(\"%d\",\"%s\")", this.roleId, this.roleName);
     }
 }

@@ -33,8 +33,24 @@ public abstract class DAO<T> {
         return output;
     }
 
-    public ResultSet get(String nameOfTable, String colName, String value, Connection con) {
-        String SELECT_SQL = String.format("SELECT * FROM %s WHERE \"%s\"=\"%s\"", nameOfTable, colName, value);
+    // get by Int
+    public ResultSet get(String nameOfTable, String colName, Integer value, Connection con) {
+        String SELECT_SQL = String.format("SELECT * FROM %s WHERE \"%d\"=\"%d\"", nameOfTable, colName, value);
+        ResultSet rs = null;
+        try {
+            Statement stmt = con.createStatement();
+            rs = stmt.executeQuery(SELECT_SQL);
+        } catch (SQLException e) {
+        }
+
+        return rs;
+    }
+
+    // get by String and 3 WHERE
+    public ResultSet get(String nameOfTable, String colName1, Integer value1, String colName2, Integer value2,
+                         String colName3, String value3, Connection con) {
+        String SELECT_SQL = String.format("SELECT * FROM %s WHERE \"%s\"=\"%s\" AND \"%d\"=\"%d\" AND \"%s\"=\"%s\"",
+         nameOfTable, colName1, value1, colName2, value2, colName3, value3);
         ResultSet rs = null;
         try {
             Statement stmt = con.createStatement();
@@ -47,9 +63,9 @@ public abstract class DAO<T> {
 
     public abstract T makeDTO(ResultSet RS);
 
-    public int delete(String colName,String value)
+    public int delete(String colName,Integer value)
     {
-        String DELETE_SQL=String.format("Delete From %s WHERE %s=\"%s\"",tableName,colName,value);
+        String DELETE_SQL=String.format("Delete From %s WHERE %d=\"%d\"",tableName,colName,value);
         int rowsAffected=-1;
         Connection con=Repository.getInstance().connect();
         try {

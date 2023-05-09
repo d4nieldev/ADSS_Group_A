@@ -2,6 +2,8 @@ package BussinessLayer.EmployeesLayer;
 import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.LinkedList;
+
+import DataAccessLayer.DTO.EmployeeLayer.ShiftDTO;
 import Misc.*;
 
 
@@ -19,6 +21,7 @@ public class Shift{
     private HashMap<Integer, Integer> helpMapForAssign;
     private HashMap<Employee, Integer> finalShift;
     private HashMap<Integer, LinkedList<Integer>> cancellations;
+    private LinkedList<Driver> driversInShift;
 
     public Shift(int idShift, Branch superBranch, LocalDate date, int startHour, int endHour, ShiftTime time, HashMap<Integer, Integer> numEmployeesForRole){
         this.idShift = idShift;
@@ -34,6 +37,7 @@ public class Shift{
         this.helpMapForAssign = new HashMap<Integer, Integer>();
         this.finalShift = new HashMap<Employee, Integer>();
         cancellations = new HashMap<Integer, LinkedList<Integer>>();
+        driversInShift = new LinkedList<>();
     }
 
     public void addCancelation(Employee employee, int itemCode, int itemID){
@@ -58,6 +62,8 @@ public class Shift{
         }
         constraints.remove(employee);
     }
+
+    public void addDriver(Driver driver){driversInShift.add(driver);}
 
     public void addRole(Integer newRole, int numEmployees){
         if(numEmployeesForRole.containsKey(newRole)){
@@ -145,9 +151,32 @@ public class Shift{
         return "Cancelations: " + cancellations.toString();
     }
     
+    public String printDriversInShift(){
+        return "Drivers In Shift: " + driversInShift.toString();
+    }
+    
     public String toString(){
 		return "Shift ID: " + idShift + " , Super Branch Id: " + superBranch.getBranchId() + " [date: " + date + ", time: " + time.toString() + 
         ", start hour: " + startHour + ", end hour: " + endHour  + ", duration: " + duration + "]";
+    }
+    
+    public ShiftDTO toDTO() {
+        HashMap<Integer, LinkedList<Integer>> constraintsToDTO = new HashMap<>();
+        for (Employee employeeConstraints : constraints.keySet()) {
+            constraintsToDTO.putIfAbsent(employeeConstraints.getId(), constraints.get(employeeConstraints));
+        }
+        HashMap<Integer, Integer> finalShiftToDTO = new HashMap<>();
+        for (Employee employeeFinalShift : constraints.keySet()) {
+            finalShiftToDTO.putIfAbsent(employeeFinalShift.getId(), finalShift.get(employeeFinalShift));
+        }
+        LinkedList<Integer> driversInShiftToDTO = new LinkedList<>();
+        for (Driver driver : driversInShift) {
+            driversInShiftToDTO.add(driver.getId());
+        }
+
+        return new ShiftDTO(this.idShift, this.superBranch.getBranchId(), this.date, this.time, this.startHour, this.endHour,
+		this.duration, this.finishSettingShift, constraintsToDTO, this.numEmployeesForRole, finalShiftToDTO,
+		this.cancellations, driversInShiftToDTO);
     }
     
 //-------------------------------------Getters And Setters--------------------------------------------------------
@@ -168,4 +197,5 @@ public class Shift{
     public HashMap<Employee, LinkedList<Integer>> getConstraints(){return constraints;}
     public HashMap<Employee, Integer> getFinalShift(){return finalShift;}
     public HashMap<Integer, LinkedList<Integer>> getCancellations(){return cancellations;}
+    public LinkedList<Driver> getDriversInShift(){return driversInShift;}
 }

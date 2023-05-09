@@ -37,7 +37,7 @@ public class RolesDAO extends DAO<RoleDTO> {
             if (updatedOb == null) return 0;
             String updateString = String.format("UPDATE %s" +
                             " SET \"RoleName\"= \"%s\" " +
-                            "WHERE \"RoleID\" == \"%s\";",
+                            "WHERE \"RoleID\" == \"%d\";",
                 tableName, updatedOb.roleName, updatedOb.roleId);
             Statement s;
             try {

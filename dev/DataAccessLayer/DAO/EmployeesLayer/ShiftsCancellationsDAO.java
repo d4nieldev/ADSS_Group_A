@@ -14,7 +14,7 @@ public class ShiftsCancellationsDAO {
         String updateString;
         if(empID < 0 || ProductCode == null || ProductID == null) return 0;
         updateString= String.format("INSERT INTO %s \n" +
-                "VALUES (\"%s\",\"%s\",\"%s\");", "ShiftsCancellations", empID, ProductCode, ProductID);
+                "VALUES (\"%d\",\"%d\",\"%d\");", "ShiftsCancellations", empID, ProductCode, ProductID);
         Statement s;
         try
         {
@@ -32,7 +32,7 @@ public class ShiftsCancellationsDAO {
         String updateString;
         if(empID < 0 || ProductCode == null || ProductID == null) return 0;
         updateString= String.format("DELETE FROM %s \n" +
-                "WHERE %s=\"%s\" AND %s=\"%s\" AND %s=\"%s\";", "ShiftsCancellations", "ShiftID", empID, 
+                "WHERE %d=\"%d\" AND %d=\"%d\" AND %d=\"%d\";", "ShiftsCancellations", "ShiftID", empID, 
                 "ProductCode" , ProductCode, "ProductID", ProductID);
         Statement s;
         try

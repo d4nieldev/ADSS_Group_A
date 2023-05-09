@@ -3,17 +3,17 @@ package DataAccessLayer.DAO.EmployeesLayer;
 import DataAccessLayer.Repository;
 import java.sql.*;
 
-public class EmployeesShiftsFinalsDAO {
+public class DriversInShiftsDAO {
     
-    public EmployeesShiftsFinalsDAO() {}
+    public DriversInShiftsDAO() {}
     
-    public int addShiftFinal(int empID, int shiftID)
+    public int addDriverInShift(int shiftID, Integer driverID)
     {
         Connection conn = Repository.getInstance().connect();
         String updateString;
-        if(empID < 0 || shiftID < 0) return 0;
+        if(shiftID < 0 || driverID < 0) return 0;
         updateString= String.format("INSERT INTO %s \n" +
-                "VALUES (\"%d\",\"%d\");", "EmployeesShiftsFinals", empID, shiftID);
+                "VALUES (\"%d\",\"%d\");", "DriversInShifts", shiftID, driverID);
         Statement s;
         try
         {
@@ -25,13 +25,13 @@ public class EmployeesShiftsFinalsDAO {
         }
     }
     
-    public int removeShiftFinal(int empID, int shiftID)
+    public int removeDriverInShift(int shiftID, Integer driverID)
     {
         Connection conn = Repository.getInstance().connect();
         String updateString;
-        if(empID < 0 || shiftID < 0) return 0;
+        if(shiftID < 0 || driverID < 0) return 0;
         updateString= String.format("DELETE FROM %s \n" +
-                "WHERE %d=\"%d\" AND %d=\"%d\";", "EmployeesShiftsFinals", "EmployeeID", empID, "ShiftID", shiftID);
+                "WHERE %d=\"%d\" AND %d=\"%d\";", "DriversInShifts", "ShiftID", shiftID, "DriverID", driverID);
         Statement s;
         try
         {
@@ -42,4 +42,5 @@ public class EmployeesShiftsFinalsDAO {
             return 0;
         }
     }
+    
 }

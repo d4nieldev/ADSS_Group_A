@@ -126,7 +126,7 @@ public class EmployeeFacade {
     public void deleteEmployee(int id){
         Employee employeeToRemove = getEmployeeById(id);
         employees.remove(employeeToRemove);
-        employeesDAO.delete("ID", "" + id);
+        employeesDAO.delete("ID", id);
     }
 
     // delete/remove driver from the system.
@@ -134,7 +134,7 @@ public class EmployeeFacade {
         checkHrManager(managerId);  // only HR manager
         Driver driverToRemove = getDriverById(id);
         drivers.remove(driverToRemove);
-        driversDAO.delete("ID", "" + id);
+        driversDAO.delete("ID", id);
     }
 
     // print all employees in the system.

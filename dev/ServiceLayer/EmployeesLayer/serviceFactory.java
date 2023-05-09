@@ -4,7 +4,6 @@ import BussinessLayer.EmployeeTransportFacade;
 import BussinessLayer.EmployeesLayer.BranchFacade;
 import BussinessLayer.EmployeesLayer.EmployeeFacade;
 import BussinessLayer.EmployeesLayer.ShiftFacade;
-import ServiceLayer.TransportLayer.DriverService;
 import ServiceLayer.TransportLayer.TransportService;
 import ServiceLayer.TransportLayer.TruckService;
 
@@ -18,9 +17,8 @@ public class serviceFactory {
     private ShiftService shiftService;
     private BranchService branchService;
     ///////// Transport/////////////
-    private TransportService transportServices;
-    private DriverService driverService;
     private TruckService truckService;
+    private TransportService transportService;
 
     public serviceFactory() {
         ////////// HR/////////////////
@@ -32,8 +30,7 @@ public class serviceFactory {
         shiftService = new ShiftService(shiftFacade);
         branchService = new BranchService(branchFacade);
         ///////// Transport/////////////
-        transportServices = new TransportService();
-        driverService = new DriverService();
+        transportService = new TransportService(employeeTransportFacade);
         truckService = new TruckService();
     }
 
@@ -64,14 +61,10 @@ public class serviceFactory {
 
     ///////// Transport/////////////
     public TransportService getTransportService() {
-        return transportServices;
-    };
-
-    public DriverService getDriverService() {
-        return driverService;
-    };
+        return transportService;
+    }
 
     public TruckService getTruckService() {
         return truckService;
-    };
+    }
 }

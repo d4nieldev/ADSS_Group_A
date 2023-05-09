@@ -131,7 +131,7 @@ public class ProductBranch {
 
     public void receiveSupply(int amount,double buyPrice,LocalDate expiredDate) {
         for (int i = 0; i < amount; i++) {
-            SpecificProduct newSpecific = new SpecificProduct(product.getCode(),buyPrice, ProductStatus.status.ON_STORAGE,expiredDate);
+            SpecificProduct newSpecific = new SpecificProduct(product.getCode(),buyPrice, ProductStatus.status.ON_STORAGE,expiredDate,LocalDate.now());
             allSpecificProducts.put(newSpecific.getSpecificId(),newSpecific);
             totalAmount++;
         }
@@ -233,5 +233,17 @@ public class ProductBranch {
 
     public Category getCategory() {
         return product.getCategory();
+    }
+
+    public boolean existInCategories(List<Category> allSubCategories) {
+        boolean result = false;
+        for(Category category : allSubCategories){
+            if(product.getCategory() == category) {
+                result =  true;
+                break;
+            }
+        }
+
+            return result;
     }
 }

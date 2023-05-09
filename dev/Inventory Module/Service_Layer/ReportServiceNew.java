@@ -5,9 +5,11 @@ import Business_Layer.GeneralProduct;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Set;
 
 public class ReportServiceNew {
     ReportController reportController;
+    ProductController productController;
 
     public ReportServiceNew() {
         this.reportController = ReportController.getInstance();
@@ -19,12 +21,15 @@ public class ReportServiceNew {
         System.out.println("===============================================");
         System.out.println("          Inventory Report");
         System.out.println("===============================================");
-        System.out.printf("%-5s%-20s%-10s%-15s%-15s%-15s%-20s%-15s%n", "NO.", "Product Name", "Code", "Price", "Total Qty", "Min Qty", "Manufacturer", "Category", "Storage Amount" ,"Shop Amount");
+        System.out.printf("%-5s%-20s%-20s%-20s%-20s%n", "NO.", "Product Name", "Code", "Shop Amount" ,"Storage Amount");
 
-        HashMap<Integer,ProductBranch> codeToProduct = inventoryReport.importFullInventory();
+        Set<Integer> productsCode = inventoryReport.getIdToName().keySet();
+        HashMap<Integer,String> codeToName = inventoryReport.getIdToName();
+        HashMap<Integer,Integer> shelfAmount = inventoryReport.getIdToShelfAmount();
+        HashMap<Integer,Integer> storageAmount = inventoryReport.getIdToStorageAmount();
         int index = 1;
-        for (ProductBranch pb : codeToProduct.values()) {
-            System.out.printf("%-5d%-20s%-10d%-15.2f%-15d%-15d%-20s%-20s%-20d%-15s%d", index, pb.getName(), pb.getCode(), pb.getPrice(), pb.getTotalAmount(), pb.getMinQuantity(), pb.getManufacturer(), pb.getCategory().getName().toString(),pb.getStorageAmount(),pb.getShopAmont());
+        for (Integer productCode : productsCode) {
+            System.out.printf("%-5d%-20s%-10d%-20d%-20d%n", index, codeToName.get(productCode), productCode, shelfAmount.get(productCode), storageAmount.get(productCode));
 
             index++;
         }
@@ -32,9 +37,28 @@ public class ReportServiceNew {
         System.out.println("===============================================");
 
     }
-    public void importProductBranchReport(int branchId, int productCode){
-        InventoryReport inventoryReport = reportController.importInventoryReport(branchId);
+    public void importInventoryReportByReportId(int reportId) throws Exception {
 
+        InventoryReport inventoryReport = reportController.getReport(reportId);
+
+        System.out.println("===============================================");
+        System.out.println("          Inventory Report");
+        System.out.println("===============================================");
+        System.out.printf("%-5s%-20s%-20s%-20s%-20s%n", "NO.", "Product Name", "Code", "Shop Amount" ,"Storage Amount");
+
+        Set<Integer> productsCode = inventoryReport.getIdToName().keySet();
+        HashMap<Integer,String> codeToName = inventoryReport.getIdToName();
+        HashMap<Integer,Integer> shelfAmount = inventoryReport.getIdToShelfAmount();
+        HashMap<Integer,Integer> storageAmount = inventoryReport.getIdToStorageAmount();
+        int index = 1;
+        for (Integer productCode : productsCode) {
+            System.out.printf("%-5d%-20s%-10d%-20d%-20d%n", index, codeToName.get(productCode), productCode, shelfAmount.get(productCode), storageAmount.get(productCode));
+
+            index++;
+        }
+
+        System.out.println("===============================================");
     }
+
 
 }

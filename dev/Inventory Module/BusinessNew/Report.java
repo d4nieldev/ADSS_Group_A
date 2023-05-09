@@ -13,5 +13,15 @@ public abstract class Report {
         this.creationDate = creationDate;
     }
 
-    public abstract void importReport();
+    public int getId() {
+        return id;
+    }
+
+    public int getBranchId() {
+        return branchId;
+    }
+
+    public LocalDate getCreationDate() {
+        return creationDate;
+    }
 }

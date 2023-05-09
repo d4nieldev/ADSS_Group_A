@@ -19,4 +19,18 @@ public  class ReportController {
         }
         return instance;
     }
+    public InventoryReport importInventoryReport(int branchId){
+        InventoryReport report = new InventoryReport(branchId);
+        allReports.put(report.getId(),report);
+        return report;
+    }
+
+
+    public InventoryReport getReport(int reportId) throws Exception {
+        Report report = allReports.get(reportId);
+        if(report == null || !(report instanceof InventoryReport))
+            throw new Exception("this is not Inventory Report");
+
+        return (InventoryReport) report;
+    }
 }

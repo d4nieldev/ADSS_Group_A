@@ -1,7 +1,9 @@
 package BusinessNew;
 
+import javax.swing.event.ListDataEvent;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -229,8 +231,19 @@ public class Branch {
         }
     }
     public void setDiscountOnCategories(List<Category> categoriesToDiscount , Discount discount) throws Exception {
-        List<ProductBranch> productsFromCategory = categoryController.getProductsByCategories(categoriesToDiscount,this.branchId);
+        List<Category> allSubCategories = categoryController.getListAllSubCategories(categoriesToDiscount);
+        List<ProductBranch> productsFromCategory = getProductsByCategories(allSubCategories);
         setDiscountOnProducts(productsFromCategory,discount);
+    }
+
+    private List<ProductBranch> getProductsByCategories(List<Category> allSubCategories) {
+        List<ProductBranch> result = new ArrayList<>();
+        for(ProductBranch productBranch : allProductBranches.values()){
+            boolean check = productBranch.existInCategories(allSubCategories);
+            if (check)
+                result.add(productBranch);
+        }
+        return result;
     }
 
     public List<SpecificProduct> getShelfProductsByProductCode(int productCode) throws Exception {

@@ -49,23 +49,23 @@ public class DriverDTO {
 	
 
 	public String fieldsToString() {
-        return String.format("(\"%s\",\"%s\",\"%s\",\"%s\",%s,\"%s\",\"%s\",\"%s\",\"%s\",\"%s\",%s,\"%s\",\"%s\")",
-		 this.firstName, this.lastName, this.id, this.password, this.bankNum, this.bankBranch, this.bankAccount, this.salary,
+        return String.format("(\"%d\",\"%s\",\"%s\",\"%s\",\"%d\",\"%d\",\"%d\",\"%d\",\"%d\",\"%s\",\"%s\",\"%b\",\"%d\",\"%s\")",
+		this.id, this.firstName, this.lastName, this.password, this.bankNum, this.bankBranch, this.bankAccount, this.salary,
 		 this.bonus, this.startDate.toString(), this.tempsEmployment, this.isLoggedIn, this.superBranch, 
-		 this.driverLicense.toString(), this.availableShiftDates, this.workedDates);
+		 this.driverLicense.toString());
     }
 
     public String getRole() {
-        return String.format("(\"%s\",%s)", this.id, roles.get(0));
+        return String.format("(\"%d\",%d)", this.id, roles.get(0));
     }
 
 	public int getNumberOfAvailableShiftDates(){return availableShiftDates.size();}
     public String getAvailableShiftDates(int index) {
-        return String.format("(\"%s\",%s)", this.id, availableShiftDates.get(index));
+        return String.format("(\"%d\",%s)", this.id, availableShiftDates.get(index).toString());
     }
 	public int getNumberOfWorkedDates(){return workedDates.size();}
     public String getWorkedDates(int index) {
-        return String.format("(\"%s\",%s)", this.id, workedDates.get(index));
+        return String.format("(\"%d\",%s)", this.id, workedDates.get(index).toString());
     }
 	
 }

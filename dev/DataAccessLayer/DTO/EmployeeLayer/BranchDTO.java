@@ -25,9 +25,8 @@ public class BranchDTO {
     }
     
     public String fieldsToString() {
-        return String.format("(\"%s\",\"%s\",\"%s\",\"%s\",%s,\"%s\",\"%s\",\"%s\",\"%s\",\"%s\",%s,\"%s\",\"%s\")",
-		 this.branchId, this.address, this.location, this.originEmployees, this.foreignEmployees, this.notAllowEmployees,
-		 this.shifts);
+        return String.format("(\"%d\",\"%s\",\"%s\")",
+		 this.branchId, this.address, this.location);
     }
 
 }

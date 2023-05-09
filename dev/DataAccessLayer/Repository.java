@@ -60,7 +60,7 @@ public class Repository {
                 "\t\"BankAccountNumber\"\tINTEGER,\n" +
                 "\t\"Salary\"\tINTEGER,\n" +
                 "\t\"Bonus\"\tINTEGER,\n" +
-                "\t\"startDate\"\tDateTime,\n" +
+                "\t\"startDate\"\tTEXT,\n" +
                 "\t\"TempsEmployment\"\tTEXT,\n" +
                 "\t\"IsLoggedIn\"\tBOOLEAN,\n" +
                 "\t\"SuperBranch\"\tINTEGER,\n" +
@@ -75,7 +75,7 @@ public class Repository {
                 "\t\"BankAccountNumber\"\tINTEGER,\n" +
                 "\t\"Salary\"\tINTEGER,\n" +
                 "\t\"Bonus\"\tINTEGER,\n" +
-                "\t\"startDate\"\tDateTime,\n" +
+                "\t\"startDate\"\tTEXT,\n" +
                 "\t\"TempsEmployment\"\tTEXT,\n" +
                 "\t\"IsLoggedIn\"\tBOOLEAN,\n" +
                 "\t\"SuperBranch\"\tINTEGER,\n" +
@@ -85,7 +85,7 @@ public class Repository {
         String ShiftsTable = "CREATE TABLE IF NOT EXISTS \"Shifts\" (\n" +
                 "\t\"ShiftID\"\tINTEGER PRIMARY KEY,\n" +
                 "\t\"SuperBranch\"\tINTEGER,\n" +
-                "\t\"Date\"\tDateTime,\n" +
+                "\t\"Date\"\tTEXT,\n" +
                 "\t\"ShiftTime\"\tTEXT,\n" +
                 "\t\"StartHour\"\tINTEGER,\n" +
                 "\t\"EndHour\"\tINTEGER,\n" +
@@ -112,13 +112,13 @@ public class Repository {
                 ");";
         String DriversAvailableShiftDatesTable = "CREATE TABLE IF NOT EXISTS \"DriversAvailableShiftDates\" (\n" +
                 "\t\"DriverID\"\tINTEGER,\n" +
-                "\t\"Date\"\tDateTime,\n" +
+                "\t\"Date\"\tTEXT,\n" +
                 "\tPRIMARY KEY(\"DriverID\",\"Date\"),\n" +
                 "\tFOREIGN KEY(\"DriverID\") REFERENCES \"Drivers\"(\"ID\") ON DELETE CASCADE\n" + 
                 ");";
         String DriversWorkedDatesTable = "CREATE TABLE IF NOT EXISTS \"DriversWorkedDates\" (\n" +
                 "\t\"DriverID\"\tINTEGER,\n" +
-                "\t\"Date\"\tDateTime,\n" +
+                "\t\"Date\"\tTEXT,\n" +
                 "\tPRIMARY KEY(\"DriverID\",\"Date\"),\n" +
                 "\tFOREIGN KEY(\"DriverID\") REFERENCES \"Drivers\"(\"ID\") ON DELETE CASCADE\n" + 
                 ");";

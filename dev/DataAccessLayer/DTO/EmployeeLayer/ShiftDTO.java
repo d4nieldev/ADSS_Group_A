@@ -39,36 +39,30 @@ public class ShiftDTO {
         this.cancellations = cancellations;
 	}
 
-    public ShiftDTO(int int1, int int2, LocalDate parse, int int3, int int4, int int5, int int6, boolean boolean1,
-            HashMap<Integer, LinkedList<Integer>> constraints2, HashMap<Integer, Integer> numEmployeesForRole2,
-            HashMap<Integer, Integer> finalShift2, HashMap<Integer, LinkedList<Integer>> cancellations2) {
-    }
-
     public int getId(){return idShift;}
 	
     public String fieldsToString() {
-        return String.format("(\"%s\",\"%s\",\"%s\",\"%s\",%s,\"%s\",\"%s\",\"%s\",\"%s\",\"%s\",%s,\"%s\",\"%s\")",
-		 this.idShift, this.superBranch, this.date, this.time, this.startHour, this.endHour, this.duration, this.finishSettingShift,
-		 this.constraints, this.numEmployeesForRole, this.finalShift, this.cancellations);
+        return String.format("(\"%d\",\"%d\",\"%s\",\"%s\",\"%d\",\"%d\",\"%d\",\"%b\")",
+		 this.idShift, this.superBranch, this.date, this.time, this.startHour, this.endHour, this.duration, this.finishSettingShift);
     }
 
 	public int getNumberOfConstraints(){return constraints.size();}
     public String getConstraint(int index) {
-        return String.format("(\"%s\",%s)", this.idShift, constraints.get(index));
+        return String.format("(\"%d\",%s)", this.idShift, constraints.get(index));
     }
     
 	public int getNumEmployeesForRole(){return numEmployeesForRole.size();}
     public String getNumEmployeesForRole(int index) {
-        return String.format("(\"%s\",%s)", this.idShift, numEmployeesForRole.get(index));
+        return String.format("(\"%d\",%s)", this.idShift, numEmployeesForRole.get(index));
     }
     
 	public int getNumberOfFinalShift(){return finalShift.size();}
     public String getFinalShift(int index) {
-        return String.format("(\"%s\",%s)", this.idShift, finalShift.get(index));
+        return String.format("(\"%d\",%s)", this.idShift, finalShift.get(index));
     }
     
 	public int getNumberOfCancellations(){return cancellations.size();}
     public String getCancellation(int index) {
-        return String.format("(\"%s\",%s)", this.idShift, cancellations.get(index));
+        return String.format("(\"%d\",%s)", this.idShift, cancellations.get(index));
     }
 }

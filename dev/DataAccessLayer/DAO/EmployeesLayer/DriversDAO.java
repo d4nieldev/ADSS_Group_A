@@ -103,10 +103,10 @@ public class DriversDAO extends DAO<DriverDTO> {
         if (updatedOb == null)
             return 0;
         String updateString = String.format("UPDATE %s" +
-                " SET \"FirstName\"= \"%s\", \"LastName\"= \"%s\", \"Password\"= \"%s\", \"BankNumber\"= \"%s\" " +
-                ", \"BankBranchNumber\"=\"%s\", \"BankAccountNumber\"=%s,  \"Salary\"=\"%s\", \"Bonus\"=\"%s\" " +
-                ", \"startDate\"=\"%s\", \"TempsEmployment\"=%s,  \"IsLoggedIn\"=\"%s\", \"SuperBranch\"=\"%s\" " +
-                ", \"DriverLicense\"=\"%s\" WHERE \"ID\" = \"%s\";",
+                " SET \"FirstName\"= \"%s\", \"LastName\"= \"%s\", \"Password\"= \"%s\", \"BankNumber\"= \"%d\" " +
+                ", \"BankBranchNumber\"=\"%d\", \"BankAccountNumber\"=%d,  \"Salary\"=\"%d\", \"Bonus\"=\"%d\" " +
+                ", \"startDate\"=\"%s\", \"TempsEmployment\"=%s,  \"IsLoggedIn\"=\"%b\", \"SuperBranch\"=\"%d\" " +
+                ", \"DriverLicense\"=\"%s\" WHERE \"ID\" = \"%d\";",
                 tableName, updatedOb.firstName, updatedOb.lastName, updatedOb.password, updatedOb.bankNum,
                 updatedOb.bankBranch, updatedOb.bankAccount,
                 updatedOb.salary, updatedOb.bonus, updatedOb.startDate, updatedOb.tempsEmployment, updatedOb.isLoggedIn,
@@ -125,7 +125,7 @@ public class DriversDAO extends DAO<DriverDTO> {
         DriverDTO output = null;
         Connection conn = Repository.getInstance().connect();
         try {
-            String id = RS.getString(1); // the first column is ID
+            Integer id = RS.getInt(1); // the first column is ID
             LinkedList<Integer> roles = getRolesList(id, conn);
             if (roles == null) {
                 return null;
@@ -154,7 +154,7 @@ public class DriversDAO extends DAO<DriverDTO> {
         return output;
     }
     
-    public LinkedList<Integer> getRolesList(String id, Connection conn) {
+    public LinkedList<Integer> getRolesList(Integer id, Connection conn) {
         LinkedList<Integer> ans = new LinkedList<>();
         ResultSet rs = get("EmployeesRoles", "EmployeeID", id, conn);
         try {
@@ -167,7 +167,7 @@ public class DriversDAO extends DAO<DriverDTO> {
         return ans;
     }
     
-    public LinkedList<LocalDate> getAvailableShiftDatesList(String id, Connection conn) {
+    public LinkedList<LocalDate> getAvailableShiftDatesList(Integer id, Connection conn) {
         LinkedList<LocalDate> ans = new LinkedList<>();
         ResultSet rs = get("DriversAvailableShiftDates", "DriverID", id, conn);
         try {
@@ -180,7 +180,7 @@ public class DriversDAO extends DAO<DriverDTO> {
         return ans;
     }
     
-    public LinkedList<LocalDate> getWorkedDatesList(String id, Connection conn) {
+    public LinkedList<LocalDate> getWorkedDatesList(Integer id, Connection conn) {
         LinkedList<LocalDate> ans = new LinkedList<>();
         ResultSet rs = get("DriversWorkedDates", "DriverID", id, conn);
         try {

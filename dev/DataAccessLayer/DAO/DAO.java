@@ -33,8 +33,8 @@ public abstract class DAO<T> {
         return output;
     }
 
-    public ResultSet get(String nameOfTable, String colName, String value, Connection con) {
-        String SELECT_SQL = String.format("SELECT * FROM %s WHERE \"%s\"=\"%s\"", nameOfTable, colName, value);
+    public ResultSet get(String nameOfTable, String colName, Integer value, Connection con) {
+        String SELECT_SQL = String.format("SELECT * FROM %s WHERE \"%d\"=\"%d\"", nameOfTable, colName, value);
         ResultSet rs = null;
         try {
             Statement stmt = con.createStatement();
@@ -47,9 +47,9 @@ public abstract class DAO<T> {
 
     public abstract T makeDTO(ResultSet RS);
 
-    public int delete(String colName,String value)
+    public int delete(String colName,Integer value)
     {
-        String DELETE_SQL=String.format("Delete From %s WHERE %s=\"%s\"",tableName,colName,value);
+        String DELETE_SQL=String.format("Delete From %s WHERE %d=\"%d\"",tableName,colName,value);
         int rowsAffected=-1;
         Connection con=Repository.getInstance().connect();
         try {

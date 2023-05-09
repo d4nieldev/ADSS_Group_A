@@ -13,7 +13,7 @@ public class DriversWorkedDatesDAO {
         String updateString;
         if(dateToAdd == null) return 0;
         updateString= String.format("INSERT INTO %s \n" +
-                "VALUES (\"%s\",\"%s\");", "DriversWorkedDates", empID, dateToAdd);
+                "VALUES (\"%d\",\"%s\");", "DriversWorkedDates", empID, dateToAdd);
         Statement s;
         try
         {
@@ -31,7 +31,7 @@ public class DriversWorkedDatesDAO {
         String updateString;
         if(dateToRemove == null) return 0;
         updateString= String.format("DELETE FROM %s \n" +
-                "WHERE %s=\"%s\" AND %s=\"%s\";", "DriversWorkedDates", "DriverID", empID,"Date" ,dateToRemove);
+                "WHERE %d=\"%d\" AND %s=\"%s\";", "DriversWorkedDates", "DriverID", empID,"Date" ,dateToRemove);
         Statement s;
         try
         {

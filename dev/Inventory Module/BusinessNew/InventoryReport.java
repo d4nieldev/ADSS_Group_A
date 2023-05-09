@@ -9,15 +9,33 @@ public class InventoryReport extends Report {
 
     private HashMap<Integer, Integer> idToStorageAmount;
     private HashMap<Integer, Integer> idToShelfAmount;
-    private HashMap<Integer,String> idToName;
+    private HashMap<Integer,String> idsToName;
+    private BranchController branchController;
 
     public InventoryReport(int branchId) {
         super(Global.getNewReportId(), branchId, LocalDate.now());
         //TODO: set all variables
+        branchController = BranchController.getInstance();
+        Branch branch = branchController.getBranchById(branchId);
+        this.idsToName = branch.getIdsToName();
+        this.idToShelfAmount = branch.getIdsTOShelfAmount();
+        this.idToStorageAmount = branch.getIdsTOStorageAmount();
+
+    }
+    public InventoryReport(int branchId,List<Category> categoryList) {
+        super(Global.getNewReportId(), branchId, LocalDate.now());
+        //TODO: set all variables
+        branchController = BranchController.getInstance();
+        Branch branch = branchController.getBranchById(branchId);
+        this.idsToName = branch.getIdsToNameByCategories(categoryList);
+        this.idToShelfAmount = branch.getIdsTOShelfAmountByCategories(categoryList);
+        this.idToStorageAmount = branch.getIdsTOStorageAmountByCategories(categoryList);
+
     }
 
+
     public HashMap<Integer, String> getIdToName() {
-        return idToName;
+        return idsToName;
     }
 
     public HashMap<Integer, Integer> getIdToStorageAmount() {

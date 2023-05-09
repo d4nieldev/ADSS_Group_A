@@ -159,9 +159,6 @@ public class Repository {
                 
         // --------------------------------------------------------------------------------------------
         // Transports Layer Tables
-
-        //Transport Layer Tables --------------------------------------------------------------------------------------------
-
         String TruckTable = "CREATE TABLE IF NOT EXISTS \"Trucks\" (\n" +
                 "\t\"PlateNumber\"\tTEXT PRIMARY KEY,\n" +
                 "\t\"Model\"\tTEXT,\n" +
@@ -180,7 +177,7 @@ public class Repository {
                 "\t\"TruckWeightNeto\"\tINTEGER,\n" +
                 "\t\"TruckWeightMax\"\tINTEGER,\n" +
                 "\t\"LoadedItems\"\tTEXT,\n" +
-                "\t\"CurrentWeight\"\tINTEGER,\n" +
+                "\t\"CurrentWeight\"\tINTEGER\n" +
                 ");";
 
 

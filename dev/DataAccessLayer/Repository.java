@@ -106,9 +106,16 @@ public class Repository {
                 "\t\"EmployeeID\"\tINTEGER,\n" +
                 "\t\"RoleID\"\tINTEGER,\n" +
                 "\tPRIMARY KEY(\"EmployeeID\",\"RoleID\"),\n" +
-                "\tFOREIGN KEY(\"EmployeeID\") REFERENCES \"Employees\"(\"ID\") ON DELETE CASCADE,\n" + 
-                                                                                                        
+                "\tFOREIGN KEY(\"EmployeeID\") REFERENCES \"Employees\"(\"ID\") ON DELETE CASCADE,\n" +                                                               
                 "\tFOREIGN KEY(\"RoleID\") REFERENCES \"Roles\"(\"RoleID\") ON DELETE CASCADE\n" +
+                ");";
+        String EmployeesBranchesTable = "CREATE TABLE IF NOT EXISTS \"EmployeesBranches\" (\n" +
+                "\t\"EmployeeID\"\tINTEGER,\n" +
+                "\t\"BranchID\"\tINTEGER,\n" +
+                "\t\"Status\"\tTEXT,\n" +
+                "\tPRIMARY KEY(\"EmployeeID\",\"BranchID\"),\n" +
+                "\tFOREIGN KEY(\"EmployeeID\") REFERENCES \"Employees\"(\"ID\") ON DELETE CASCADE\n" +
+                "\tFOREIGN KEY(\"BranchID\") REFERENCES \"Branches\"(\"BranchID\") ON DELETE CASCADE\n" +
                 ");";
         String DriversAvailableShiftDatesTable = "CREATE TABLE IF NOT EXISTS \"DriversAvailableShiftDates\" (\n" +
                 "\t\"DriverID\"\tINTEGER,\n" +
@@ -145,14 +152,6 @@ public class Repository {
                 "\tFOREIGN KEY(\"EmployeeID\") REFERENCES \"Employees\"(\"ID\") ON DELETE CASCADE\n" +
                 "\tFOREIGN KEY(\"ShiftID\") REFERENCES \"Shifts\"(\"ShiftID\") ON DELETE CASCADE\n" +
                 ");";
-        String EmployeesBranchesTable = "CREATE TABLE IF NOT EXISTS \"EmployeesBranches\" (\n" +
-                "\t\"EmployeeID\"\tINTEGER,\n" +
-                "\t\"BranchID\"\tINTEGER,\n" +
-                "\t\"Status\"\tTEXT,\n" +
-                "\tPRIMARY KEY(\"EmployeeID\",\"BranchID\"),\n" +
-                "\tFOREIGN KEY(\"EmployeeID\") REFERENCES \"Employees\"(\"ID\") ON DELETE CASCADE\n" +
-                "\tFOREIGN KEY(\"BranchID\") REFERENCES \"Branches\"(\"BranchID\") ON DELETE CASCADE\n" +
-                ");";
         String ShiftsCancellationsTable = "CREATE TABLE IF NOT EXISTS \"ShiftsCancellations\" (\n" +
                 "\t\"ShiftID\"\tINTEGER,\n" +
                 "\t\"ProductCode\"\tINTEGER,\n" +
@@ -163,6 +162,13 @@ public class Repository {
                 // CASCADE\n" +
                 // "\tFOREIGN KEY(\"ProductID\") REFERENCES \"???\"(\"???\") ON DELETE
                 // CASCADE\n" +
+                ");";
+        String DriversInShiftsTable = "CREATE TABLE IF NOT EXISTS \"DriversInShifts\" (\n" +
+                "\t\"ShiftID\"\tINTEGER,\n" +
+                "\t\"DriverID\"\tINTEGER,\n" +
+                "\tPRIMARY KEY(\"ShiftID\",\"DriverID\"),\n" +
+                "\tFOREIGN KEY(\"ShiftID\") REFERENCES \"Shifts\"(\"ShiftID\") ON DELETE CASCADE,\n" +                                                               
+                "\tFOREIGN KEY(\"DriverID\") REFERENCES \"Drivers\"(\"ID\") ON DELETE CASCADE\n" +
                 ");";
                 
         // --------------------------------------------------------------------------------------------
@@ -209,10 +215,11 @@ public class Repository {
             stmt.execute(EmployeesShiftsFinalsTable);
             stmt.execute(EmployeesBranchesTable);
             stmt.execute(ShiftsCancellationsTable);
-            stmt.execute(TransportTable);
-            stmt.execute(TruckTable);
+            stmt.execute(DriversInShiftsTable);
 
             // Transports Layer tables ------------------------------------------
+            stmt.execute(TransportTable);
+            stmt.execute(TruckTable);
 
         } catch (SQLException exception) {
             exception.printStackTrace();

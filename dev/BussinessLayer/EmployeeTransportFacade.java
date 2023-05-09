@@ -9,6 +9,7 @@ import java.util.Scanner;
 import BussinessLayer.EmployeesLayer.Driver;
 import BussinessLayer.EmployeesLayer.Employee;
 import BussinessLayer.EmployeesLayer.EmployeeFacade;
+import BussinessLayer.EmployeesLayer.Shift;
 import BussinessLayer.EmployeesLayer.ShiftFacade;
 import BussinessLayer.TransPortLayer.Delivery;
 import BussinessLayer.TransPortLayer.TransportFacade;
@@ -74,6 +75,11 @@ public class EmployeeTransportFacade {
         LocalDate transportDate = LocalDate.parse(input, formatter);
 
         transportFacade.letTheUserMatch(deliveries,getDayDrivers(2,transportDate),truckFacade.getAvailableTrucks());
+        // TODO - insert driver to shift - AddDriverToShift(int driverID, int shiftID)
+    }
+
+    public void AddDriverToShift(int driverID, int shiftID){
+        shiftFacade.AddDriverToShift(employeeFacade.getDriverById(driverID), shiftID);
     }
 
     public Driver getDriverById(int driverId)

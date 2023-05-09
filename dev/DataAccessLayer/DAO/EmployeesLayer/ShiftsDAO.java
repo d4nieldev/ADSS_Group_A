@@ -15,6 +15,7 @@ public class ShiftsDAO extends DAO<ShiftDTO> {
     private NumEmployeesForRolesDAO numEmployeesForRolesDAO;
     private EmployeesShiftsFinalsDAO employeeShiftFinalDAO;
     private ShiftsCancellationsDAO shiftsCancellationsDAO;
+    private DriversInShiftsDAO driversInShiftsDAO;
 
     public ShiftsDAO() {
         this.tableName = "Shifts";
@@ -166,11 +167,15 @@ public class ShiftsDAO extends DAO<ShiftDTO> {
             if (cancellations == null) {
                 return null;
             }
+            LinkedList<Integer> driversInShift = getDriversInShiftList(id, conn);
+            if (driversInShift == null) {
+                return null;
+            }
             output = new ShiftDTO(/* Id */RS.getInt(1), /* super branch */RS.getInt(2),
                     /* date */LocalDate.parse(RS.getString(3)), /* shift time */ShiftTime.valueOf(RS.getString(4)),
                     /* start hour */RS.getInt(5), /* end hour */RS.getInt(6),
                     /* duration */RS.getInt(7), /* is finish setting shift */RS.getBoolean(8),
-                    constraints, numEmployeesForRole, finalShift, cancellations);
+                    constraints, numEmployeesForRole, finalShift, cancellations, driversInShift);
         } catch (Exception e) {
             output = null;
         } finally {
@@ -235,6 +240,20 @@ public class ShiftsDAO extends DAO<ShiftDTO> {
         return ans;
     }
 
+    // TODO - implement
+    public LinkedList<Integer> getDriversInShiftList(Integer id, Connection conn) {
+        LinkedList<Integer> ans = new LinkedList<>();
+        ResultSet rs = get("DriversInShift", "ShiftID", id, conn);
+        try {
+            while (rs.next()) {
+                // ans.add(rs.getInt(2));
+            }
+        } catch (Exception e) {
+            return null;
+        }
+        return ans;
+    }
+
     public int addConstraint(int empID, int shiftID) {
         return employeeShiftContraintDAO.addConstraint(empID, shiftID);
     }
@@ -261,6 +280,13 @@ public class ShiftsDAO extends DAO<ShiftDTO> {
     }
     public int removeCancellation(int empID, Integer ProductCode, Integer ProductID) {
         return shiftsCancellationsDAO.removeCancellation(empID, ProductCode, ProductID);
+    }
+    
+    public int addDriverInShift(int shiftID, int driverID) {
+        return driversInShiftsDAO.addDriverInShift(shiftID, driverID);
+    }
+    public int removeDriverInShift(int shiftID, int driverID) {
+        return driversInShiftsDAO.removeDriverInShift(shiftID, driverID);
     }
     
 }

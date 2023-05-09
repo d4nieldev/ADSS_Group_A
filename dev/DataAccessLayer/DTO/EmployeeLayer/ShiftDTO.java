@@ -19,12 +19,13 @@ public class ShiftDTO {
     public HashMap<Integer, Integer> numEmployeesForRole;
     public HashMap<Integer, Integer> finalShift;
     public HashMap<Integer, LinkedList<Integer>> cancellations;
+    public LinkedList<Integer> driversInShift;
 
 	
 	public ShiftDTO(int idShift, Integer superBranch, LocalDate date, ShiftTime time, int startHour, int endHour, 
                     int duration, boolean finishSettingShift, HashMap<Integer, LinkedList<Integer>> constraints,
                     HashMap<Integer, Integer> numEmployeesForRole, HashMap<Integer, Integer> finalShift, 
-                    HashMap<Integer, LinkedList<Integer>> cancellations){
+                    HashMap<Integer, LinkedList<Integer>> cancellations, LinkedList<Integer> driversInShift){
 		this.idShift = idShift;
 		this.superBranch = superBranch;
         this.date = date;
@@ -37,6 +38,7 @@ public class ShiftDTO {
         this.numEmployeesForRole = numEmployeesForRole;
         this.finalShift = finalShift;
         this.cancellations = cancellations;
+        this.driversInShift = driversInShift;
 	}
 
     public int getId(){return idShift;}
@@ -64,5 +66,10 @@ public class ShiftDTO {
 	public int getNumberOfCancellations(){return cancellations.size();}
     public String getCancellation(int index) {
         return String.format("(\"%d\",%s)", this.idShift, cancellations.get(index));
+    }
+    
+	public int getNumberOfDriversInShift(){return driversInShift.size();}
+    public String getDriverInShift(int index) {
+        return String.format("(\"%d\",%s)", this.idShift, driversInShift.get(index));
     }
 }

@@ -63,12 +63,12 @@ public class ShiftFacade {
     
     public void addConstraint(int shiftId, Employee employee, LinkedList<Integer> role) {
         getShift(shiftId).addConstraint(employee, role);
-        shiftsDAO.addConstraint(employee.getId());
+        shiftsDAO.addConstraint(employee.getId(), shiftId);
     }
 
     public void removeConstraint(int shiftId, Employee employee) {
         getShift(shiftId).removeConstraint(employee);
-        shiftsDAO.removeConstraint(employee.getId());
+        shiftsDAO.removeConstraint(employee.getId(), shiftId);
     }
 
     public void checkAssignFinalShift(int managerID, Shift shift, HashMap<Employee, Integer> hrAssign){
@@ -76,7 +76,7 @@ public class ShiftFacade {
         // if succedded - save the final shift
         shift.assignFinalShift(hrAssign);
         // save in Database
-        shiftsDAO.addShiftFinal(managerID);
+        shiftsDAO.addShiftFinal(managerID, shift.getID());
     }
 
     public String missingStaffToRole(int employeeId, int shiftId){
@@ -91,6 +91,11 @@ public class ShiftFacade {
         res = getShiftByAddressDateMorning(address, date).isShiftContainStorekeeper(employeeFacade.getRoleClassInstance().getRoleByName("STOREKEEPER").getId()) 
                 && getShiftByAddressDateEvening(address, date).isShiftContainStorekeeper(employeeFacade.getRoleClassInstance().getRoleByName("STOREKEEPER").getId());
         return res;
+    }
+    
+    public void AddDriverToShift(Driver driver, int shiftID){
+        getShift(shiftID).addDriver(driver);
+        shiftsDAO.addDriverInShift(driver.getId(), shiftID);
     }
     
 //-------------------------------------Getters And Setters--------------------------------------------------------

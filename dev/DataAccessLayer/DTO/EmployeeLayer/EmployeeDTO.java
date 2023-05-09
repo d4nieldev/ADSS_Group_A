@@ -1,7 +1,7 @@
 package DataAccessLayer.DTO.EmployeeLayer;
 
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.LinkedList;
 import BussinessLayer.EmployeesLayer.Shift;
 
@@ -48,15 +48,15 @@ public class EmployeeDTO {
     public int getId(){return id;}
 	
     public String fieldsToString() {
-        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
-        return String.format("(\"%s\",\"%s\",\"%s\",\"%s\",%s,\"%s\",\"%s\",\"%s\",\"%s\",\"%s\",%s,\"%s\",\"%s\")",
-		 this.firstName, this.lastName, this.id, this.password, this.bankNum, this.bankBranch, this.bankAccount, this.salary,
-		 this.bonus, formatter.format(this.startDate), this.tempsEmployment, this.isLoggedIn, this.superBranch);
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+        return String.format("(\"%d\",\"%s\",\"%s\",\"%s\",\"%d\",\"%d\",\"%d\",\"%d\",\"%d\",\"%s\",\"%s\",\"%b\",\"%d\")",
+		this.id, this.firstName, this.lastName, this.password, this.bankNum, this.bankBranch, this.bankAccount, this.salary,
+		 this.bonus, this.startDate.format(formatter), this.tempsEmployment, this.isLoggedIn, this.superBranch);
     }
 
 	public int getNumberOfRoles(){return roles.size();}
 	
     public String getRole(int index) {
-        return String.format("(\"%s\",%s)", this.id, roles.get(index));
+        return String.format("(\"%d\",%d)", this.id, roles.get(index));
     }
 }

@@ -3,7 +3,7 @@ package DataAccessLayer;
 import java.sql.*;
 
 public class Repository {
-    
+
     private static Repository instance = null;
 
     private Repository() {
@@ -21,11 +21,15 @@ public class Repository {
     public Connection connect() {
         Connection conn = null;
         try {
+            Class.forName("org.sqlite.JDBC");
             String url = "jdbc:sqlite:database.db";
             conn = DriverManager.getConnection(url);
 
         } catch (SQLException e) {
-            e.printStackTrace();}
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
         return conn;
     }
 
@@ -40,12 +44,12 @@ public class Repository {
         }
     }
 
-    //     public List<Integer> getIds(String query){}
+    // public List<Integer> getIds(String query){}
 
     private void createTables() {
 
-        //Employees Layer Tables --------------------------------------------------------------------------------------------
-
+        // --------------------------------------------------------------------------------------------
+        // Employees Layer Tables
         String EmployeesTable = "CREATE TABLE IF NOT EXISTS \"Employees\" (\n" +
                 "\t\"ID\"\tINTEGER PRIMARY KEY,\n" +
                 "\t\"FirstName\"\tTEXT,\n" +
@@ -56,12 +60,11 @@ public class Repository {
                 "\t\"BankAccountNumber\"\tINTEGER,\n" +
                 "\t\"Salary\"\tINTEGER,\n" +
                 "\t\"Bonus\"\tINTEGER,\n" +
-                "\t\"startDate\"\tDateTime,\n" +
+                "\t\"startDate\"\tTEXT,\n" +
                 "\t\"TempsEmployment\"\tTEXT,\n" +
                 "\t\"IsLoggedIn\"\tBOOLEAN,\n" +
-                "\t\"SuperBranch\"\tINTEGER\n" +
-                "\tFOREIGN KEY(\"SuperBranch\") REFERENCES \"Branches\"(\"BranchID\") ON DELETE CASCADE\n" +
-                ");";
+                "\t\"SuperBranch\"\tINTEGER,\n" +
+                "\tFOREIGN KEY(\"SuperBranch\") REFERENCES \"Branches\"(\"BranchID\") ON DELETE CASCADE\n" + ");";
         String DriversTable = "CREATE TABLE IF NOT EXISTS \"Drivers\" (\n" +
                 "\t\"ID\"\tINTEGER PRIMARY KEY,\n" +
                 "\t\"FirstName\"\tTEXT,\n" +
@@ -72,17 +75,17 @@ public class Repository {
                 "\t\"BankAccountNumber\"\tINTEGER,\n" +
                 "\t\"Salary\"\tINTEGER,\n" +
                 "\t\"Bonus\"\tINTEGER,\n" +
-                "\t\"startDate\"\tDateTime,\n" +
+                "\t\"startDate\"\tTEXT,\n" +
                 "\t\"TempsEmployment\"\tTEXT,\n" +
                 "\t\"IsLoggedIn\"\tBOOLEAN,\n" +
-                "\t\"SuperBranch\"\tINTEGER\n" +
-                "\t\"DriverLicense\"\tTEXT\n" +
+                "\t\"SuperBranch\"\tINTEGER,\n" +
+                "\t\"DriverLicense\"\tTEXT,\n" + 
                 "\tFOREIGN KEY(\"SuperBranch\") REFERENCES \"Branches\"(\"BranchID\") ON DELETE CASCADE\n" +
                 ");";
         String ShiftsTable = "CREATE TABLE IF NOT EXISTS \"Shifts\" (\n" +
                 "\t\"ShiftID\"\tINTEGER PRIMARY KEY,\n" +
                 "\t\"SuperBranch\"\tINTEGER,\n" +
-                "\t\"Date\"\tDateTime,\n" +
+                "\t\"Date\"\tTEXT,\n" +
                 "\t\"ShiftTime\"\tTEXT,\n" +
                 "\t\"StartHour\"\tINTEGER,\n" +
                 "\t\"EndHour\"\tINTEGER,\n" +
@@ -93,24 +96,38 @@ public class Repository {
         String BranchesTable = "CREATE TABLE IF NOT EXISTS \"Branches\" (\n" +
                 "\t\"BranchID\"\tINTEGER PRIMARY KEY,\n" +
                 "\t\"Address\"\tTEXT,\n" +
-                "\t\"Location\"\tTEXT,\n" +
+                "\t\"Location\"\tTEXT\n" +
                 ");";
         String RolesTable = "CREATE TABLE IF NOT EXISTS \"Roles\" (\n" +
                 "\t\"RoleID\"\tINTEGER PRIMARY KEY,\n" +
-                "\t\"RoleName\"\tTEXT,\n" +
+                "\t\"RoleName\"\tTEXT\n" + 
                 ");";
         String EmployeesRolesTable = "CREATE TABLE IF NOT EXISTS \"EmployeesRoles\" (\n" +
                 "\t\"EmployeeID\"\tINTEGER,\n" +
                 "\t\"RoleID\"\tINTEGER,\n" +
                 "\tPRIMARY KEY(\"EmployeeID\",\"RoleID\"),\n" +
-                "\tFOREIGN KEY(\"EmployeeID\") REFERENCES \"Employees\"(\"ID\") ON DELETE CASCADE\n" +
+                "\tFOREIGN KEY(\"EmployeeID\") REFERENCES \"Employees\"(\"ID\") ON DELETE CASCADE,\n" + 
+                                                                                                        
                 "\tFOREIGN KEY(\"RoleID\") REFERENCES \"Roles\"(\"RoleID\") ON DELETE CASCADE\n" +
+                ");";
+        String DriversAvailableShiftDatesTable = "CREATE TABLE IF NOT EXISTS \"DriversAvailableShiftDates\" (\n" +
+                "\t\"DriverID\"\tINTEGER,\n" +
+                "\t\"Date\"\tTEXT,\n" +
+                "\tPRIMARY KEY(\"DriverID\",\"Date\"),\n" +
+                "\tFOREIGN KEY(\"DriverID\") REFERENCES \"Drivers\"(\"ID\") ON DELETE CASCADE\n" + 
+                ");";
+        String DriversWorkedDatesTable = "CREATE TABLE IF NOT EXISTS \"DriversWorkedDates\" (\n" +
+                "\t\"DriverID\"\tINTEGER,\n" +
+                "\t\"Date\"\tTEXT,\n" +
+                "\tPRIMARY KEY(\"DriverID\",\"Date\"),\n" +
+                "\tFOREIGN KEY(\"DriverID\") REFERENCES \"Drivers\"(\"ID\") ON DELETE CASCADE\n" + 
                 ");";
         String EmployeesShiftsConstraintsTable = "CREATE TABLE IF NOT EXISTS \"EmployeesShiftsContraints\" (\n" +
                 "\t\"EmployeeID\"\tINTEGER,\n" +
                 "\t\"ShiftID\"\tINTEGER,\n" +
                 "\tPRIMARY KEY(\"EmployeeID\",\"ShiftID\"),\n" +
-                "\tFOREIGN KEY(\"EmployeeID\") REFERENCES \"Employees\"(\"ID\") ON DELETE CASCADE\n" +
+                "\tFOREIGN KEY(\"EmployeeID\") REFERENCES \"Employees\"(\"ID\") ON DELETE CASCADE,\n" + 
+                                                                                                        
                 "\tFOREIGN KEY(\"ShiftID\") REFERENCES \"Shifts\"(\"ShiftID\") ON DELETE CASCADE\n" +
                 ");";
         String EmployeesShiftsFinalsTable = "CREATE TABLE IF NOT EXISTS \"EmployeesShiftsFinals\" (\n" +
@@ -132,11 +149,16 @@ public class Repository {
                 "\t\"ShiftID\"\tINTEGER,\n" +
                 "\t\"ProductCode\"\tINTEGER,\n" +
                 "\t\"ProductID\"\tINTEGER,\n" +
-                "\tPRIMARY KEY(\"ShiftID\",\"ProductCode\"),\"ProductID\"),\n" +
+                "\tPRIMARY KEY(\"ShiftID\",\"ProductCode\",\"ProductID\"),\n" +
                 "\tFOREIGN KEY(\"ShiftID\") REFERENCES \"Shifts\"(\"ShiftID\") ON DELETE CASCADE\n" +
-                // "\tFOREIGN KEY(\"ProductCode\") REFERENCES \"???\"(\"???\") ON DELETE CASCADE\n" +
-                // "\tFOREIGN KEY(\"ProductID\") REFERENCES \"???\"(\"???\") ON DELETE CASCADE\n" +
+                // "\tFOREIGN KEY(\"ProductCode\") REFERENCES \"???\"(\"???\") ON DELETE
+                // CASCADE\n" +
+                // "\tFOREIGN KEY(\"ProductID\") REFERENCES \"???\"(\"???\") ON DELETE
+                // CASCADE\n" +
                 ");";
+                
+        // --------------------------------------------------------------------------------------------
+        // Transports Layer Tables
 
         //Transport Layer Tables --------------------------------------------------------------------------------------------
 
@@ -163,16 +185,19 @@ public class Repository {
 
 
         Connection conn = connect();
-        if (conn == null) return;
+        if (conn == null)
+            return;
         try {
             Statement stmt = conn.createStatement();
 
-            //Employees Layer tables ------------------------------------------
+            // Employees Layer tables ------------------------------------------
             stmt.execute(EmployeesTable);
             stmt.execute(DriversTable);
             stmt.execute(ShiftsTable);
             stmt.execute(BranchesTable);
             stmt.execute(RolesTable);
+            stmt.execute(DriversAvailableShiftDatesTable);
+            stmt.execute(DriversWorkedDatesTable);
             stmt.execute(EmployeesRolesTable);
             stmt.execute(EmployeesShiftsConstraintsTable);
             stmt.execute(EmployeesShiftsFinalsTable);
@@ -180,6 +205,8 @@ public class Repository {
             stmt.execute(ShiftsCancellationsTable);
             stmt.execute(TransportTable);
             stmt.execute(TruckTable);
+
+            // Transports Layer tables ------------------------------------------
 
         } catch (SQLException exception) {
             exception.printStackTrace();

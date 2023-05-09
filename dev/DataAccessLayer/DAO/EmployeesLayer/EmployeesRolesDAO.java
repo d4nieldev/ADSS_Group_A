@@ -13,7 +13,7 @@ public class EmployeesRolesDAO {
         String updateString;
         if(empID < 0 || roleToAdd < 0 || roleToAdd == null) return 0;
         updateString= String.format("INSERT INTO %s \n" +
-                "VALUES (\"%s\",\"%s\");", "EmployeesRoles", empID, roleToAdd);
+                "VALUES (\"%d\",\"%d\");", "EmployeesRoles", empID, roleToAdd);
         Statement s;
         try
         {
@@ -31,7 +31,7 @@ public class EmployeesRolesDAO {
         String updateString;
         if(empID < 0 || roleToRemove < 0 || roleToRemove == null) return 0;
         updateString= String.format("DELETE FROM %s \n" +
-                "WHERE %s=\"%s\" AND %s=\"%s\";", "EmployeesRoles", "EmployeeID", empID,"Role" ,roleToRemove);
+                "WHERE %d=\"%d\" AND %d=\"%d\";", "EmployeesRoles", "EmployeeID", empID,"Role" ,roleToRemove);
         Statement s;
         try
         {
@@ -41,6 +41,5 @@ public class EmployeesRolesDAO {
         catch (Exception e ){
             return 0;
         }
-
     }
 }

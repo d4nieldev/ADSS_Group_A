@@ -89,11 +89,12 @@ public class EmployeeFacade {
     // add employee to the system.
     // only if its HR manager and the employee does not exsist already.
     public void addEmployee(int managerId, String firstName, String lastName, int id, String password, int bankNum,
-    int bankBranch, int bankAccount, int salary, int InitializeBonus, LocalDate startDate, String tempsEmployment, License driverLicense, Integer role, int branch){
+    int bankBranch, int bankAccount, int salary, int InitializeBonus, LocalDate startDate, String tempsEmployment, String role, int branch){
         if (isEmployeeExists(managerId) && isEmployeeLoggedIn(managerId) && !isEmployeeExists(id)){
             checkHrManager(managerId);
+            Integer roleInt = roleClass.getRoleByName(role.toUpperCase()).getId();
             Employee employee = new Employee(firstName, lastName, id, password, bankNum, 
-            bankBranch, bankAccount, salary, InitializeBonus, startDate, tempsEmployment, role, branch);
+            bankBranch, bankAccount, salary, InitializeBonus, startDate, tempsEmployment, roleInt, branch);
             employees.add(employee);
             System.out.println("The employee " + firstName + " " + lastName + " has been added successfully");
             this.employeesDAO.insert(employee.toDTO());//add to DB
@@ -183,10 +184,10 @@ public class EmployeeFacade {
         getEmployeeById(idEmployee).checkRoleInEmployee(role);
     }
 
-    public void addBonus(int managerId, int idEmployee, int bonus){
-        checkHrManager(managerId); checkEmployee(idEmployee);
-        getEmployeeById(idEmployee).setBonus(bonus);
-    }
+    // public void addBonus(int managerId, int idEmployee, int bonus){
+    //     checkHrManager(managerId); checkEmployee(idEmployee);
+    //     getEmployeeById(idEmployee).setBonus(bonus);
+    // }
 
     public void addRoleToSystem(int managerHR, String role){
         checkHrManager(managerHR);
@@ -197,14 +198,14 @@ public class EmployeeFacade {
         checkEmployee(driverId);
         checkLoggedIn(driverId);
         getDriverById(driverId).AddConstraintDriver(date);
-        driversDAO.addConstraint(driverId, date);
+        driversDAO.addAvailableShiftDates(driverId, date);
     }
 
     public void RemoveConstraintDriver(int driverId, LocalDate date){
         checkEmployee(driverId);
         checkLoggedIn(driverId);
         getDriverById(driverId).RemoveConstraintDriver(date);
-        driversDAO.RemoveConstraint(driverId, date);
+        driversDAO.removeAvailableShiftDates(driverId, date);
     }
 
     public String printDayDriversPast(LocalDate date){

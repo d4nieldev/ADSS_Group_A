@@ -130,11 +130,10 @@ public class Repository {
                 "\tFOREIGN KEY(\"DriverID\") REFERENCES \"Drivers\"(\"ID\") ON DELETE CASCADE\n" + 
                 ");";
         String EmployeesShiftsConstraintsTable = "CREATE TABLE IF NOT EXISTS \"EmployeesShiftsContraints\" (\n" +
-                "\t\"EmployeeID\"\tINTEGER,\n" +
                 "\t\"ShiftID\"\tINTEGER,\n" +
+                "\t\"EmployeeID\"\tINTEGER,\n" +
                 "\tPRIMARY KEY(\"EmployeeID\",\"ShiftID\"),\n" +
-                "\tFOREIGN KEY(\"EmployeeID\") REFERENCES \"Employees\"(\"ID\") ON DELETE CASCADE,\n" + 
-                                                                                                        
+                "\tFOREIGN KEY(\"EmployeeID\") REFERENCES \"Employees\"(\"ID\") ON DELETE CASCADE,\n" +                           
                 "\tFOREIGN KEY(\"ShiftID\") REFERENCES \"Shifts\"(\"ShiftID\") ON DELETE CASCADE\n" +
                 ");";
         String NumEmployeesForRolesTable = "CREATE TABLE IF NOT EXISTS \"NumEmployeesForRoles\" (\n" +
@@ -146,8 +145,9 @@ public class Repository {
                 "\tFOREIGN KEY(\"RoleID\") REFERENCES \"Roles\"(\"RoleID\") ON DELETE CASCADE\n" + 
                 ");";
         String EmployeesShiftsFinalsTable = "CREATE TABLE IF NOT EXISTS \"EmployeesShiftsFinals\" (\n" +
-                "\t\"EmployeeID\"\tINTEGER,\n" +
                 "\t\"ShiftID\"\tINTEGER,\n" +
+                "\t\"EmployeeID\"\tINTEGER,\n" +
+                "\t\"EmployeeRole\"\tINTEGER,\n" +
                 "\tPRIMARY KEY(\"EmployeeID\",\"ShiftID\"),\n" +
                 "\tFOREIGN KEY(\"EmployeeID\") REFERENCES \"Employees\"(\"ID\") ON DELETE CASCADE\n" +
                 "\tFOREIGN KEY(\"ShiftID\") REFERENCES \"Shifts\"(\"ShiftID\") ON DELETE CASCADE\n" +

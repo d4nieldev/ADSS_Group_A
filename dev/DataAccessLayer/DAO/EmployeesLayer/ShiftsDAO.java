@@ -53,6 +53,7 @@ public class ShiftsDAO extends DAO<ShiftDTO> {
         return ans;
     }
 
+    // TODO - implement
     private int insertToShiftsConstraints(ShiftDTO Ob) {
         Connection conn = Repository.getInstance().connect();
         if (Ob == null)
@@ -71,6 +72,7 @@ public class ShiftsDAO extends DAO<ShiftDTO> {
         return 1;
     }
 
+    // TODO - implement
     private int insertToNumEmployeesForRole(ShiftDTO Ob) {
         Connection conn = Repository.getInstance().connect();
         if (Ob == null)
@@ -93,9 +95,9 @@ public class ShiftsDAO extends DAO<ShiftDTO> {
         Connection conn = Repository.getInstance().connect();
         if (Ob == null)
             return 0;
-        for (int index = 0; index < Ob.getNumberOfFinalShift(); index++) {
+        for (Integer employeeID : Ob.getListFinalShiftKeys()) {
             String toInsertShiftsFinal = String.format("INSERT INTO %s \n" +
-                    "VALUES %s;", "EmployeesShiftsFinals", Ob.getFinalShift(index));
+                    "VALUES %s;", "EmployeesShiftsFinals", Ob.getFinalShift(employeeID));
             Statement s;
             try {
                 s = conn.createStatement();
@@ -107,6 +109,7 @@ public class ShiftsDAO extends DAO<ShiftDTO> {
         return 1;
     }
 
+    // TODO - implement
     private int insertToShiftsCancellations(ShiftDTO Ob) {
         Connection conn = Repository.getInstance().connect();
         if (Ob == null)
@@ -226,13 +229,13 @@ public class ShiftsDAO extends DAO<ShiftDTO> {
         return ans;
     }
 
-    // TODO - implement
     public HashMap<Integer, LinkedList<Integer>> getCancellationsList(Integer id, Connection conn) {
         HashMap<Integer, LinkedList<Integer>> ans = new HashMap<>();
         ResultSet rs = get("ShiftsCancellations", "ShiftID", id, conn);
         try {
             while (rs.next()) {
-                // ans.add(rs.getInt(2));
+                ans.putIfAbsent(rs.getInt(2), new LinkedList<>());
+                ans.get(rs.getInt(2)).add(rs.getInt(3));
             }
         } catch (Exception e) {
             return null;
@@ -240,13 +243,12 @@ public class ShiftsDAO extends DAO<ShiftDTO> {
         return ans;
     }
 
-    // TODO - implement
     public LinkedList<Integer> getDriversInShiftList(Integer id, Connection conn) {
         LinkedList<Integer> ans = new LinkedList<>();
-        ResultSet rs = get("DriversInShift", "ShiftID", id, conn);
+        ResultSet rs = get("DriversInShifts", "ShiftID", id, conn);
         try {
             while (rs.next()) {
-                // ans.add(rs.getInt(2));
+                ans.add(rs.getInt(2));
             }
         } catch (Exception e) {
             return null;

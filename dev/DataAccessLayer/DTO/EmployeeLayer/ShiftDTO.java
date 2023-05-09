@@ -3,6 +3,7 @@ package DataAccessLayer.DTO.EmployeeLayer;
 import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.Set;
 
 import Misc.ShiftTime;
 
@@ -55,12 +56,13 @@ public class ShiftDTO {
     
 	public int getNumEmployeesForRole(){return numEmployeesForRole.size();}
     public String getNumEmployeesForRole(int index) {
-        return String.format("(\"%d\",%s)", this.idShift, numEmployeesForRole.get(index));
+        return String.format("(\"%d\",\"%d\")", this.idShift, numEmployeesForRole.get(index));
     }
     
 	public int getNumberOfFinalShift(){return finalShift.size();}
-    public String getFinalShift(int index) {
-        return String.format("(\"%d\",%s)", this.idShift, finalShift.get(index));
+    public Set<Integer> getListFinalShiftKeys(){return finalShift.keySet();}
+    public String getFinalShift(int employeeID) {
+        return String.format("(\"%d\",\"%d\",\"%d\")", this.idShift, employeeID, finalShift.get(employeeID));
     }
     
 	public int getNumberOfCancellations(){return cancellations.size();}
@@ -70,6 +72,6 @@ public class ShiftDTO {
     
 	public int getNumberOfDriversInShift(){return driversInShift.size();}
     public String getDriverInShift(int index) {
-        return String.format("(\"%d\",%s)", this.idShift, driversInShift.get(index));
+        return String.format("(\"%d\",\"%d\")", this.idShift, driversInShift.get(index));
     }
 }

@@ -54,23 +54,40 @@ public class BranchesDAO extends DAO<BranchDTO> {
                 return 0;
             }
         }
+        for (int index = 0; index < Ob.getNumberOfForeignEmployees(); index++) {
+            String toInsertEmployeeRole = String.format("INSERT INTO %s \n" +
+                    "VALUES %s;", "EmployeesBranches", Ob.getForeignEmployee(index));
+            Statement s;
+            try {
+                s = conn.createStatement();
+                s.executeUpdate(toInsertEmployeeRole);
+            } catch (Exception e) {
+                return 0;
+            }
+        }
+        for (int index = 0; index < Ob.getNumberOfnotAllowEmployees(); index++) {
+            String toInsertEmployeeRole = String.format("INSERT INTO %s \n" +
+                    "VALUES %s;", "EmployeesBranches", Ob.getnotAllowEmployee(index));
+            Statement s;
+            try {
+                s = conn.createStatement();
+                s.executeUpdate(toInsertEmployeeRole);
+            } catch (Exception e) {
+                return 0;
+            }
+        }
         return 1;
     }
 
     @Override
-    public int update(EmployeeDTO updatedOb) { // not allowed to change ID
+    public int update(BranchDTO updatedOb) { // not allowed to change ID
         Connection conn = Repository.getInstance().connect();
         if (updatedOb == null)
             return 0;
         String updateString = String.format("UPDATE %s" +
-                " SET \"FirstName\"= \"%s\", \"LastName\"= \"%s\", \"Password\"= \"%s\", \"BankNumber\"= \"%d\" " +
-                ", \"BankBranchNumber\"=\"%d\", \"BankAccountNumber\"=%d,  \"Salary\"=\"%d\", \"Bonus\"=\"%d\" " +
-                ", \"startDate\"=\"%s\", \"TempsEmployment\"=%s,  \"IsLoggedIn\"=\"%b\", \"SuperBranch\"=\"%d\" " +
-                "WHERE \"ID\" = \"%d\";",
-                tableName, updatedOb.firstName, updatedOb.lastName, updatedOb.password, updatedOb.bankNum,
-                updatedOb.bankBranch, updatedOb.bankAccount,
-                updatedOb.salary, updatedOb.bonus, updatedOb.startDate, updatedOb.tempsEmployment, updatedOb.isLoggedIn,
-                updatedOb.superBranch, updatedOb.id);
+                " SET \"Address\"= \"%s\", \"Location\"= \"%s\" " +
+                "WHERE \"BranchID\" = \"%d\";",
+                tableName, updatedOb.address, updatedOb.location, updatedOb.branchId);
         Statement s;
         try {
             s = conn.createStatement();
@@ -81,22 +98,26 @@ public class BranchesDAO extends DAO<BranchDTO> {
     }
 
     @Override
-    public EmployeeDTO makeDTO(ResultSet RS) {
-        EmployeeDTO output = null;
+    public BranchDTO makeDTO(ResultSet RS) {
+        BranchDTO output = null;
         Connection conn = Repository.getInstance().connect();
         try {
-            Integer id = RS.getInt(1); // the first column is ID
-            LinkedList<Integer> roles = getRolesList(id, conn);
-            if (roles == null) {
+            Integer idEmployee = RS.getInt(1); // the first column is ID employee
+            Integer idBranch = RS.getInt(2); // the second column is ID branch
+            LinkedList<Integer> originEmployees = getOriginEmployeesList(idEmployee, idBranch, conn);
+            if (originEmployees == null) {
                 return null;
             }
-            output = new EmployeeDTO(/* Id */RS.getInt(1), /* first name */RS.getString(2),
-                    /* last name */RS.getString(3), /* password */RS.getString(4),
-                    /* bank number */RS.getInt(5), /* bank branch number */RS.getInt(6),
-                    /* bank account number */RS.getInt(7), /* salary */RS.getInt(8),
-                    /* bonus */ RS.getInt(9), /* start date */ LocalDate.parse(RS.getString(10)),
-                    /* temps employment */ RS.getString(11), roles,
-                    /* is logged in */ RS.getBoolean(13), /* super branch */ RS.getInt(14));
+            LinkedList<Integer> foreignEmployees = getForeignEmployeesList(idEmployee, idBranch, conn);
+            if (foreignEmployees == null) {
+                return null;
+            }
+            LinkedList<Integer> notAllowEmployees = getNotAllowEmployeesList(idEmployee, idBranch, conn);
+            if (notAllowEmployees == null) {
+                return null;
+            }
+            output = new BranchDTO(/* branch Id */RS.getInt(1), /* address */RS.getString(2),
+                    /* location */RS.getString(3), originEmployees, foreignEmployees, notAllowEmployees);
         } catch (Exception e) {
             output = null;
         } finally {
@@ -105,9 +126,10 @@ public class BranchesDAO extends DAO<BranchDTO> {
         return output;
     }
 
-    public LinkedList<Integer> getRolesList(Integer id, Connection conn) {
+    public LinkedList<Integer> getOriginEmployeesList(Integer idEmployee, Integer idBranch, Connection conn) {
         LinkedList<Integer> ans = new LinkedList<>();
-        ResultSet rs = get("EmployeesRoles", "EmployeeID", id, conn);
+        ResultSet rs = get("EmployeesBranches", "EmployeeID", idEmployee, "BranchID", idBranch,
+                             "Status", "ORIGIN", conn);
         try {
             while (rs.next()) {
                 ans.add(rs.getInt(2));
@@ -118,11 +140,52 @@ public class BranchesDAO extends DAO<BranchDTO> {
         return ans;
     }
 
-    public int addRole(int empID, Integer roleToAdd) {
-        return employeeRoleDAO.addRole(empID, roleToAdd);
+    public LinkedList<Integer> getForeignEmployeesList(Integer idEmployee, Integer idBranch, Connection conn) {
+        LinkedList<Integer> ans = new LinkedList<>();
+        ResultSet rs = get("EmployeesBranches", "EmployeeID", idEmployee, "BranchID", idBranch,
+                             "Status", "FOREIGN", conn);
+        try {
+            while (rs.next()) {
+                ans.add(rs.getInt(2));
+            }
+        } catch (Exception e) {
+            return null;
+        }
+        return ans;
+    }
+    
+    public LinkedList<Integer> getNotAllowEmployeesList(Integer idEmployee, Integer idBranch, Connection conn) {
+        LinkedList<Integer> ans = new LinkedList<>();
+        ResultSet rs = get("EmployeesBranches", "EmployeeID", idEmployee, "BranchID", idBranch,
+                             "Status", "NOTALLOW", conn);
+        try {
+            while (rs.next()) {
+                ans.add(rs.getInt(2));
+            }
+        } catch (Exception e) {
+            return null;
+        }
+        return ans;
     }
 
-    public int removeRole(int empID, Integer roleToRemove) {
-        return employeeRoleDAO.removeRole(empID, roleToRemove);
+    public int addOriginEmployee(int empID, int branchID) {
+        return employeesBranchesDAO.addOriginEmployee(empID, branchID);
+    }
+    public int removeOriginEmployee(int empID, int roleToRemove) {
+        return employeesBranchesDAO.removeOriginEmployee(empID, roleToRemove);
+    }
+    
+    public int addForeignEmployee(int empID, int branchID) {
+        return employeesBranchesDAO.addForeignEmployee(empID, branchID);
+    }
+    public int removeForeignEmployee(int empID, int roleToRemove) {
+        return employeesBranchesDAO.removeForeignEmployee(empID, roleToRemove);
+    }
+    
+    public int addNotAllowEmployee(int empID, int branchID) {
+        return employeesBranchesDAO.addNotAllowEmployee(empID, branchID);
+    }
+    public int removeNotAllowEmployee(int empID, int roleToRemove) {
+        return employeesBranchesDAO.removeNotAllowEmployee(empID, roleToRemove);
     }
 }

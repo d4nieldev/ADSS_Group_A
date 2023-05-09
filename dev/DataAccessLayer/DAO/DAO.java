@@ -33,8 +33,24 @@ public abstract class DAO<T> {
         return output;
     }
 
+    // get by Int
     public ResultSet get(String nameOfTable, String colName, Integer value, Connection con) {
         String SELECT_SQL = String.format("SELECT * FROM %s WHERE \"%d\"=\"%d\"", nameOfTable, colName, value);
+        ResultSet rs = null;
+        try {
+            Statement stmt = con.createStatement();
+            rs = stmt.executeQuery(SELECT_SQL);
+        } catch (SQLException e) {
+        }
+
+        return rs;
+    }
+
+    // get by String and 3 WHERE
+    public ResultSet get(String nameOfTable, String colName1, Integer value1, String colName2, Integer value2,
+                         String colName3, String value3, Connection con) {
+        String SELECT_SQL = String.format("SELECT * FROM %s WHERE \"%s\"=\"%s\" AND \"%d\"=\"%d\" AND \"%s\"=\"%s\"",
+         nameOfTable, colName1, value1, colName2, value2, colName3, value3);
         ResultSet rs = null;
         try {
             Statement stmt = con.createStatement();

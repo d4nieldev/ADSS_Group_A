@@ -1,6 +1,8 @@
 package BussinessLayer.EmployeesLayer;
 import java.util.LinkedList;
 
+import DataAccessLayer.DAO.EmployeesLayer.BranchesDAO;
+import DataAccessLayer.DTO.EmployeeLayer.BranchDTO;
 import Misc.*;
 
 public class Branch {
@@ -34,10 +36,13 @@ public class Branch {
         notAllowEmployees.add(employee);
     }
 
-    public void removeEmployeeFromSystem(Employee employee){
-        if(originEmployees.contains(employee)){originEmployees.remove(employee);}
-        if(foreignEmployees.contains(employee)){foreignEmployees.remove(employee);}
-        if(notAllowEmployees.contains(employee)){notAllowEmployees.remove(employee);}
+    public void removeEmployeeFromSystem(Employee employee, BranchesDAO branchesDAO){
+        if(originEmployees.contains(employee))
+        {originEmployees.remove(employee); branchesDAO.removeOriginEmployee(employee.getId(), branchId);}
+        if(foreignEmployees.contains(employee))
+        {foreignEmployees.remove(employee); branchesDAO.removeForeignEmployee(employee.getId(), branchId);}
+        if(notAllowEmployees.contains(employee))
+        {notAllowEmployees.remove(employee); branchesDAO.removeNotAllowEmployee(employee.getId(), branchId);}
     }
 
     public void addShift(Shift shift){
@@ -55,6 +60,24 @@ public class Branch {
         if(notAllowEmployees.contains(employee)) {
             throw new Error("Found error: This employee is not allowed to work in this branch.");
         }
+    }
+
+    public BranchDTO toDTO() {
+        LinkedList<Integer> originEmployeesToDTO = new LinkedList<>();
+        for (Employee employee : originEmployees) {
+            originEmployeesToDTO.add(employee.getId());
+        }
+        LinkedList<Integer> foreignEmployeesToDTO = new LinkedList<>();
+        for (Employee employee : foreignEmployees) {
+            foreignEmployeesToDTO.add(employee.getId());
+        }
+        LinkedList<Integer> notAllowEmployeesToDTO = new LinkedList<>();
+        for (Employee employee : notAllowEmployees) {
+            notAllowEmployeesToDTO.add(employee.getId());
+        }
+
+        return new BranchDTO(this.branchId, this.address, this.location.toString(), originEmployeesToDTO,
+         foreignEmployeesToDTO, notAllowEmployeesToDTO);
     }
 
     //-------------------------------------Getters And Setters--------------------------------------------------------

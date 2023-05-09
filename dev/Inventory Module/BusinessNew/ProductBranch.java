@@ -26,6 +26,7 @@ public class ProductBranch {
         this.allSpecificProducts = new HashMap<>();
         this.discount = null;
         this.totalAmount = 0;
+        this.discountsHistory = new ArrayList<>();
     }
 
     public double getPrice() {
@@ -131,7 +132,7 @@ public class ProductBranch {
 
     public void receiveSupply(int amount,double buyPrice,LocalDate expiredDate) {
         for (int i = 0; i < amount; i++) {
-            SpecificProduct newSpecific = new SpecificProduct(product.getCode(),buyPrice, ProductStatus.status.ON_STORAGE,expiredDate,LocalDate.now());
+            SpecificProduct newSpecific = new SpecificProduct(product.getCode(),buyPrice,expiredDate);
             allSpecificProducts.put(newSpecific.getSpecificId(),newSpecific);
             totalAmount++;
         }
@@ -173,11 +174,12 @@ public class ProductBranch {
     public void sellProduct(int specificId) throws Exception {
         SpecificProduct sp = getSpecificProduct(specificId);
         if (sp != null ) {
-            if(sp.getStatus() == ProductStatus.status.ON_SHELF) {
+            if(sp.getStatus() == ProductStatus.status.ON_SHELF || sp.getStatus() == ProductStatus.status.ON_STORAGE) {
                 sp.setStatus(ProductStatus.status.SOLD);
                 totalAmount--;
                 //updating sellPrice
                 UpdateSellPrice(sp);
+                System.out.println(getPrice());
             }
             else
                 throw new Exception("cannot sell products not from shelf");
@@ -203,6 +205,7 @@ public class ProductBranch {
         ProductStatus.status status = specificProduct.getStatus();
         if(specificProduct.getStatus() != ProductStatus.status.SOLD)
         specificProduct.setStatus(ProductStatus.status.IS_FLAW);
+        specificProduct.setFlawDescription(description);
         //change total amount only if the product was for sale
         if(status == ProductStatus.status.ON_SHELF || status == ProductStatus.status.ON_STORAGE) {
             totalAmount--;
@@ -225,6 +228,7 @@ public class ProductBranch {
             if(specificProduct.getIsExpired())
                 result++;
         }
+        return result;
     }
 
     public String getManufacturer() {

@@ -9,7 +9,7 @@ public abstract class Discount {
     private LocalDate end_date;
 
 
-    public Discount(LocalDate start_date, LocalDate end_date, double discount_percentage) {
+    public Discount(LocalDate start_date, LocalDate end_date) {
         //add GlobalId
         this.start_date = start_date;
         this.end_date = end_date;

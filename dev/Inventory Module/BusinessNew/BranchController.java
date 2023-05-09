@@ -47,14 +47,14 @@ public class BranchController {
     }
 
 
-    public void receiveReservation(Reservation reservation) throws Exception {
-        Branch branch = getBranchByName(reservation.getDestinationBranch);
-        if(branch == null){
-            throw new Exception("Branch not exist");
-        }
-        else
-            branch.receiveReservation(reservation);
-    }
+//    public void receiveReservation(Reservation reservation) throws Exception {
+//        Branch branch = getBranchByName(reservation.getDestinationBranch);
+//        if(branch == null){
+//            throw new Exception("Branch not exist");
+//        }
+//        else
+//            branch.receiveReservation(reservation);
+//    }
 
 
 }

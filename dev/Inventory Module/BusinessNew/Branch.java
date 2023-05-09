@@ -31,24 +31,36 @@ public class Branch {
         ProductBranch newProduct = new ProductBranch( product , price,  idealQuantity, minQuantity)  ;
         allProductBranches.put(product.getCode(), newProduct);
     }
-    public void receiveReservation(Reservation reservation){
-        List<ReceiptItem> allItems = reservation.getReceipt();
-        for(ReceiptItem ri: allItems){
-            int amount = ri.getAmount();
-            double buyPrice = ri.getPricePerUnitAfterDiscount();
-            Product product = ri.getProduct();
-            LocalDate expiredDate = ri.getExpiredDate();
-            int code = product.getCode();
-            if(!allProductBranches.containsKey(code))
-            {
-                int idealQuantity = 100;
-                int minQuantity = 50;
-                addNewProductBranch(product,buyPrice,idealQuantity,minQuantity);
-            }
-            ProductBranch productBranch = allProductBranches.get(code);
-            productBranch.receiveSupply(amount,buyPrice,expiredDate);
-            }
+    public void receiveSupply(int generalId){
+        LocalDate tommorow = LocalDate.now().plusDays(1);
+        LocalDate yesterday = LocalDate.now().minusDays(1);
+//        SpecificProduct sp1 = new SpecificProduct(generalId,20,tommorow);
+//        SpecificProduct sp2 = new SpecificProduct(generalId,20,tommorow);
+//        SpecificProduct sp3 = new SpecificProduct(generalId,20,yesterday);
+//        SpecificProduct sp4 = new SpecificProduct(generalId,20,yesterday);
+        ProductBranch productBranch = allProductBranches.get(generalId);
+        productBranch.receiveSupply(2,15,tommorow);
+        productBranch.receiveSupply(2,15,yesterday);
+
     }
+//    public void receiveReservation(Reservation reservation){
+//        List<ReceiptItem> allItems = reservation.getReceipt();
+//        for(ReceiptItem ri: allItems){
+//            int amount = ri.getAmount();
+//            double buyPrice = ri.getPricePerUnitAfterDiscount();
+//            Product product = ri.getProduct();
+//            LocalDate expiredDate = ri.getExpiredDate();
+//            int code = product.getCode();
+//            if(!allProductBranches.containsKey(code))
+//            {
+//                int idealQuantity = 100;
+//                int minQuantity = 50;
+//                addNewProductBranch(product,buyPrice,idealQuantity,minQuantity);
+//            }
+//            ProductBranch productBranch = allProductBranches.get(code);
+//            productBranch.receiveSupply(amount,buyPrice,expiredDate);
+//            }
+//    }
     public void sellProduct(int code, int specificId) throws Exception {
         ProductBranch productBranch = allProductBranches.get(code);
         if (productBranch == null)
@@ -57,7 +69,7 @@ public class Branch {
         boolean check = productBranch.checkForDeficiency();
         if (check) {
             alertForDeficiency(productBranch);
-            makeDeficiencyReservation(productBranch);
+//            makeDeficiencyReservation(productBranch);
         }
     }
 
@@ -93,7 +105,7 @@ public class Branch {
         boolean check = productBranch.checkForDeficiency();
         if (check) {
             alertForDeficiency(productBranch);
-            makeDeficiencyReservation(productBranch);
+//            makeDeficiencyReservation(productBranch);
         }
     }
 
@@ -120,12 +132,12 @@ public class Branch {
 
     }
 
-    private void makeDeficiencyReservation(ProductBranch productBranch) {
-        // TODO: make reservation for deficiency
-        //find the difference to the ideal quantity
-        int amount = productBranch.getIdealQuantity()  - productBranch.getTotalAmount() ;
-        SupplierController.makeDifiecincyReservstion(productBranch.getCode(),amount);
-    }
+//    private void makeDeficiencyReservation(ProductBranch productBranch) {
+//        // TODO: make reservation for deficiency
+//        //find the difference to the ideal quantity
+//        int amount = productBranch.getIdealQuantity()  - productBranch.getTotalAmount() ;
+//        SupplierController.makeDifiecincyReservstion(productBranch.getCode(),amount);
+//    }
 
     // Dealing with periodic Reservation
     //=============================================================================================
@@ -277,5 +289,164 @@ public class Branch {
         return result;
     }
 
-    // test test test
+    public HashMap<Integer,String> getAllDeficiencyProducts(){
+        HashMap<Integer,String> allDeficiencyProducts = new HashMap<>();
+        for (ProductBranch productBranch : allProductBranches.values()){
+            boolean check = productBranch.checkForDeficiency();
+            if (check) {
+                allDeficiencyProducts.put(productBranch.getCode(),productBranch.getName());
+            }
+        }
+        return allDeficiencyProducts;
+    }
+
+    public HashMap<Integer,Integer> getAllTotalAmountForDeficiencyProducts(){
+        HashMap<Integer,Integer> allTotalAmountForDeficiencyProducts = new HashMap<>();
+        for (ProductBranch productBranch : allProductBranches.values()) {
+            boolean check = productBranch.checkForDeficiency();
+            if (check) {
+                allTotalAmountForDeficiencyProducts.put(productBranch.getCode(), productBranch.getTotalAmount());
+            }
+        }
+        return allTotalAmountForDeficiencyProducts;
+    }
+
+    public HashMap<Integer,Integer> getAllMinQuantityForDeficiencyProducts(){
+        HashMap<Integer,Integer> allMinQuantityForDeficiencyProducts = new HashMap<>();
+        for (ProductBranch productBranch : allProductBranches.values()) {
+            boolean check = productBranch.checkForDeficiency();
+            if (check) {
+                allMinQuantityForDeficiencyProducts.put(productBranch.getCode(), productBranch.getMinQuantity());
+            }
+        }
+        return allMinQuantityForDeficiencyProducts;
+    }
+
+    public HashMap<Integer,Integer> getAllIdealQuantityForDeficiencyProducts(){
+        HashMap<Integer,Integer> allIdealQuantityForDeficiencyProducts = new HashMap<>();
+        for (ProductBranch productBranch : allProductBranches.values()) {
+            boolean check = productBranch.checkForDeficiency();
+            if (check) {
+                allIdealQuantityForDeficiencyProducts.put(productBranch.getCode(), productBranch.getIdealQuantity());
+            }
+        }
+        return allIdealQuantityForDeficiencyProducts;
+    }
+
+    public HashMap<Integer, String> getIdsToName() {
+        HashMap<Integer, String> idsToName = new HashMap<>();
+        for (ProductBranch productBranch : allProductBranches.values()) {
+            int code = productBranch.getCode();
+            String name = productBranch.getName();
+            idsToName.put(code, name);
+        }
+        return idsToName;
+    }
+
+    public HashMap<Integer, Integer> getIdsTOShelfAmount() {
+        HashMap<Integer, Integer> idsToShelfAmount = new HashMap<>();
+        for (ProductBranch productBranch : allProductBranches.values()) {
+            int code = productBranch.getCode();
+            int shelfAmount = productBranch.getOnShelfProduct().size();
+            idsToShelfAmount.put(code, shelfAmount);
+        }
+        return idsToShelfAmount;
+    }
+
+    public HashMap<Integer, Integer> getIdsTOStorageAmount() {
+        HashMap<Integer, Integer> idsToStorageAmount = new HashMap<>();
+        for (ProductBranch productBranch : allProductBranches.values()) {
+            int code = productBranch.getCode();
+            int storageAmount = productBranch.getTotalAmount() - productBranch.getOnShelfProduct().size();
+            idsToStorageAmount.put(code, storageAmount);
+        }
+        return idsToStorageAmount;
+    }
+
+    public HashMap<Integer, HashMap<Integer, LocalDate>> getBranchesExpired() {
+        HashMap<Integer, HashMap<Integer, LocalDate>> result = new HashMap<>();
+        HashMap<Integer, List<SpecificProduct>> productSpecificsExpired = getExpiredProducts();
+        for(Integer productCode : productSpecificsExpired.keySet()){
+            HashMap<Integer,LocalDate> expired = new HashMap<>();
+            for(SpecificProduct specificProduct: productSpecificsExpired.get(productCode)){
+                int specificId = specificProduct.getSpecificId();
+                LocalDate expiredDate = specificProduct.getExpiredDate();
+                expired.put(specificId,expiredDate);
+            }
+            result.put(productCode,expired);
+        }
+
+        return result;
+    }
+
+    public HashMap<Integer, HashMap<Integer, String>> getBranchFlawsIdsToDescription() {
+        HashMap<Integer, HashMap<Integer, String>> result = new HashMap<>();
+        HashMap<Integer, List<SpecificProduct>> branchFlows = getBranchFlaws();
+        for (Integer productCode : branchFlows.keySet()) {
+            HashMap<Integer, String> flaws = new HashMap<>();
+            for (SpecificProduct specificProduct : branchFlows.get(productCode)) {
+                int specificId = specificProduct.getSpecificId();
+                String description = specificProduct.getFlawDescription();
+                flaws.put(specificId, description);
+            }
+            result.put(productCode, flaws);
+        }
+        return result;
+    }
+
+
+
+    public HashMap<Integer, String> getCodeToCategory() {
+        HashMap<Integer, String> result = new HashMap<>();
+        for(ProductBranch productBranch : allProductBranches.values()){
+            int code = productBranch.getCode();
+            String CategoryName = productBranch.getCategory().getName();
+            result.put(code,CategoryName);
+        }
+        return result;
+    }
+
+    public HashMap<Integer, String> getIdsToNameByCategories(List<Category> categoryList) {
+        HashMap<Integer,String> idsToName = new HashMap<>();
+        List<ProductBranch> productsByCategories = getProductsByCategories(categoryList);
+        for (ProductBranch productBranch : productsByCategories) {
+            int code = productBranch.getCode();
+            String name = productBranch.getName();
+            idsToName.put(code, name);
+        }
+        return idsToName;
+    }
+
+    public HashMap<Integer, Integer> getIdsTOShelfAmountByCategories(List<Category> categoryList) {
+        List<ProductBranch> productsByCategories = getProductsByCategories(categoryList);
+        HashMap<Integer, Integer> idsToShelfAmount = new HashMap<>();
+        for (ProductBranch productBranch : productsByCategories) {
+            int code = productBranch.getCode();
+            int shelfAmount = productBranch.getOnShelfProduct().size();
+            idsToShelfAmount.put(code, shelfAmount);
+        }
+        return idsToShelfAmount;
+    }
+
+    public HashMap<Integer, Integer> getIdsTOStorageAmountByCategories(List<Category> categoryList) {
+        List<ProductBranch> productsByCategories = getProductsByCategories(categoryList);
+        HashMap<Integer, Integer> idsToStorageAmount = new HashMap<>();
+        for (ProductBranch productBranch : productsByCategories) {
+            int code = productBranch.getCode();
+            int storageAmount = productBranch.getTotalAmount() - productBranch.getOnShelfProduct().size();
+            idsToStorageAmount.put(code, storageAmount);
+        }
+        return idsToStorageAmount;
+
+    }
+
+
+    public List<ProductBranch> getProductsByCode(List<Integer> lst) {
+        List<ProductBranch> result = new ArrayList<>();
+        for (ProductBranch productBranch : allProductBranches.values()){
+            if(lst.contains(productBranch.getCode()))
+                result.add(productBranch);
+        }
+        return result;
+    }
 }

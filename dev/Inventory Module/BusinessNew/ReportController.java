@@ -17,16 +17,19 @@ public  class ReportController {
         }
         return instance;
     }
+
     public InventoryReport importInventoryReport(int branchId){
         InventoryReport report = new InventoryReport(branchId);
         allReports.put(report.getId(),report);
         return report;
     }
+
     public InventoryReport importInventoryReport(int branchId, List<Category> categoryList){
         InventoryReport report = new InventoryReport(branchId,categoryList);
         allReports.put(report.getId(),report);
         return report;
     }
+
     public ExpiredAndFlawReport importExpiredAndFlawReport(int branchId){
         ExpiredAndFlawReport report = new ExpiredAndFlawReport(branchId);
         allReports.put(report.getId(),report);
@@ -38,7 +41,6 @@ public  class ReportController {
         allReports.put(report.getId(),report);
         return report;
     }
-
 
     public InventoryReport getInventoryReport(int reportId) throws Exception {
 

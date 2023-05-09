@@ -15,15 +15,15 @@ public class SpecificProduct {
     private LocalDate arrivedDate;
 
 
-    public SpecificProduct(int generalId, double buyPrice, ProductStatus.status status, LocalDate expiredDate ,LocalDate arrivedDate) {
+    public SpecificProduct(int generalId, double buyPrice, LocalDate expiredDate ) {
         this.generalId = generalId;
         this.specificId = Global.getNewSpecificId();
         this.buyPrice = buyPrice;
         this.sellPrice = -1;
-        this.status = status;
+        this.status = ProductStatus.status.ON_STORAGE;
         this.expiredDate = expiredDate;
         this.flawDescription = "";
-        this.arrivedDate = arrivedDate;
+        this.arrivedDate = LocalDate.now();
     }
 
     //getters and setters

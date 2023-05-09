@@ -5,11 +5,12 @@ import Business_Layer.Category1;
 import java.util.*;
 
 public class CategoryController {
-    private static List<Category> allCategories;
-    private static Hashtable<Integer, Category> categoryDic;
+    private  List<Category> allCategories;
+    private  Hashtable<Integer, Category> categoryDic;
     private static CategoryController instance = null;
 
     private CategoryController() {
+        this.allCategories = new ArrayList<>();
         this.categoryDic = new Hashtable<>();
     }
 
@@ -41,10 +42,10 @@ public class CategoryController {
         }
     }
 
-    public void addNewCategory(String name, Category parentCategorie) { // + add variable : List<Category> - represent all its children
+    public void addNewCategory(String name, Category parentCategory) { // + add variable : List<Category> - represent all its children
         boolean flag = false;
         for (Category cat : allCategories) {
-            if (cat.getName() == name && cat.getParentCategorie().getId() == parentCategorie.getId()) {//so category is already exist
+            if (cat.getName() == name && cat.getParentCategorie().getId() == parentCategory.getId()) {//so category is already exist
                 flag = true;
                 System.out.println("this category already exist");
                 break;
@@ -53,7 +54,7 @@ public class CategoryController {
         if (!flag) { //so category is new category
             //**/
             // TODO check if it ia a leaf category - if so , just add it and connect its father
-            Category subCategory = new Category(name, parentCategorie);
+            Category subCategory = new Category(name, parentCategory);
             allCategories.add(subCategory);
             categoryDic.put(subCategory.getId(), subCategory);
         }
@@ -87,6 +88,10 @@ public class CategoryController {
         }
         return result;
     }
+    public List<Category> getListAllSubCategoriesByIds(List<Integer> categoriesIds){
+        List<Category> categoryList = getCategoriesByIds(categoriesIds);
+        return getListAllSubCategories(categoryList);
+    }
 
     public List<Category> getListAllSubCategories(List<Category> categories) {
         List<Category> result = new ArrayList<>();
@@ -95,23 +100,9 @@ public class CategoryController {
             List<Category> temp = getAllSubCategories(category);
             set.addAll(temp);
         }
-
         result.addAll(set);
         return result;
     }
 
-    /***
-     * return a list of productsBranch that belong to the given categories
-     * @param categoriesToDiscount
-     * @param branchId
-     * @return
-     */
-    public static List<ProductBranch> getProductsByCategories(List<Category> categoriesToDiscount, int branchId) {
-        List<ProductBranch> result = new ArrayList<>();
-        //TODO: return a list of all products from the branch that belongs to the categories given - need to check for not duplicate products.
-        //TODO : need only the products from the given branch id -> means to enter the specific branch and find ther the products - not from the product controller
 
-
-        return result;
-    }
 }

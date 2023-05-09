@@ -12,7 +12,6 @@ public class Branch {
     private LinkedList<Employee> originEmployees;
     private LinkedList<Employee> foreignEmployees;
     private LinkedList<Employee> notAllowEmployees;
-    private LinkedList<Shift> shifts;
 
     public Branch(int branchId, String address, Location location){
         this.branchId = branchId;
@@ -21,7 +20,6 @@ public class Branch {
         this.originEmployees = new LinkedList<>();
         this.foreignEmployees = new LinkedList<>();
         this.notAllowEmployees = new LinkedList<>();
-        this.shifts = new LinkedList<>();
     }
 
     public void addNewEmployee(Employee employee){
@@ -43,14 +41,6 @@ public class Branch {
         {foreignEmployees.remove(employee); branchesDAO.removeForeignEmployee(employee.getId(), branchId);}
         if(notAllowEmployees.contains(employee))
         {notAllowEmployees.remove(employee); branchesDAO.removeNotAllowEmployee(employee.getId(), branchId);}
-    }
-
-    public void addShift(Shift shift){
-        shifts.add(shift);
-    }
-
-    public void checkShiftInBranch(Shift shift){
-        if(!shifts.contains(shift)) {throw new Error("Found error: This shift is not in this branch.");}
     }
     
     public void checkEmployeeInBranch(Employee employee){
@@ -85,5 +75,4 @@ public class Branch {
     public int getBranchId(){ return this.branchId; }
     public String getBranchAddress(){ return this.address; }
     public Location getBranchLocation(){ return this.location; }
-    public LinkedList<Shift> getAllShifts(){return shifts; }
 }

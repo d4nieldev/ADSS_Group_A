@@ -89,7 +89,6 @@ public class BranchFacade {
             throw new Error("You have to role at least one SHIFTMANAGER for each shift.");
         Shift newShift = new Shift(shiftID, branch, date, startHour, endHour, time, numEmployeesForRole);
         shiftFacade.addShift(newShift);
-        branch.addShift(newShift);
     }
     
     // add constaint to shift
@@ -97,7 +96,9 @@ public class BranchFacade {
         // check list is not finishSettingShift
         Branch branch = getBranchById(idBranch);
         Shift shift = shiftFacade.getShift(idShift);
-        branch.checkShiftInBranch(shift);
+        if(shift.getSuperBranchId() != idBranch) {
+            throw new Error("Cannot add constraints. This shift is not found in the branch.");
+        }
         if(shift.getIsFinishSettingShift()) {
             throw new Error("Cannot add constraints. This shift was approved by the manager.");
         }
@@ -114,7 +115,9 @@ public class BranchFacade {
         // check list is not finishSettingShift
         Branch branch = getBranchById(idBranch);
         Shift shift = shiftFacade.getShift(idShift);
-        branch.checkShiftInBranch(shift);
+        if(shift.getSuperBranchId() != idBranch) {
+            throw new Error("Cannot add constraints. This shift is not found in the branch.");
+        }
         if(shift.getIsFinishSettingShift()) {
             throw new Error("Cannot remove constraints. This shift was approved by the manager.");
         }
@@ -130,7 +133,9 @@ public class BranchFacade {
         employeeFacade.checkHrManager(managerID);
         Branch branch = getBranchById(branchID);
         Shift shift = shiftFacade.getShift(shiftID);
-        branch.checkShiftInBranch(shift);
+        if(shift.getSuperBranchId() != branchID) {
+            throw new Error("Cannot add constraints. This shift is not found in the branch.");
+        }
         HashMap<Employee, Integer> hashMapEmployees = new HashMap<>();
         // new HashMap from Integer and roles to Employees and roles
         for (Integer employeeId : hrAssigns.keySet()) {

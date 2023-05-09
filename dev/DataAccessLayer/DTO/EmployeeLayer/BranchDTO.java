@@ -11,7 +11,6 @@ public class BranchDTO {
     public LinkedList<Integer> originEmployees;
     public LinkedList<Integer> foreignEmployees;
     public LinkedList<Integer> notAllowEmployees;
-    // public LinkedList<Integer> shifts;
 
     public BranchDTO(int branchId, String address, String location, LinkedList<Integer> originEmployees,
     LinkedList<Integer> foreignEmployees, LinkedList<Integer> notAllowEmployees){
@@ -21,7 +20,6 @@ public class BranchDTO {
         this.originEmployees = originEmployees;
         this.foreignEmployees = foreignEmployees;
         this. notAllowEmployees = notAllowEmployees;
-        // this.shifts = shifts;
     }
     
     public String fieldsToString() {
@@ -43,10 +41,5 @@ public class BranchDTO {
     public String getnotAllowEmployee(int index) {
         return String.format("(\"%d\",\"%d\",\"%s\")", this.branchId, notAllowEmployees.get(index), "NOTALLOW");
     }
-
-	// public int getNumberOfShifts(){return shifts.size();}
-    // public String getShift(int index) {
-    //     return String.format("(\"%d\",\"%d\")", this.branchId, shifts.get(index));
-    // }
 
 }

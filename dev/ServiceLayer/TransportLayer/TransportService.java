@@ -1,10 +1,9 @@
 package ServiceLayer.TransportLayer;
 
-import BussinessLayer.*;
+import BussinessLayer.EmployeeTransportFacade;
 import BussinessLayer.TransPortLayer.Delivery;
 import BussinessLayer.TransPortLayer.Destination;
 import BussinessLayer.TransPortLayer.DestinationType;
-import BussinessLayer.TransPortLayer.DriverFacade;
 import BussinessLayer.TransPortLayer.Location;
 import BussinessLayer.TransPortLayer.TransportFacade;
 import BussinessLayer.TransPortLayer.TruckFacade;
@@ -13,8 +12,14 @@ import java.util.List;
 
 public class TransportService {
     private TransportFacade transportFacade = TransportFacade.getInstance();
-    private DriverFacade driverFacade  = DriverFacade.getInstance();
     private TruckFacade truckFacade = TruckFacade.getInstance();
+    private EmployeeTransportFacade employeeTransportFacade;
+
+    public TransportService(EmployeeTransportFacade employeeTransportFacade) {
+        this.employeeTransportFacade=employeeTransportFacade;
+        transportFacade.setEmployeeFacade(employeeTransportFacade);
+    }
+
 
 
     /*
@@ -154,9 +159,7 @@ public class TransportService {
         return transportFacade.addDestination(address, phoneNumber, contactName, location, destinationType);
     }
 
-    public void letTheUserMatch(List<Delivery> deliveries){
-        transportFacade.letTheUserMatch(deliveries, driverFacade.getAvailableDrivers(), truckFacade.getAvailableTrucks());
-    }
+
 
 
     public void runTheTransports(){
@@ -176,7 +179,8 @@ public class TransportService {
     }
 
 
-
-
+    public void createTransports(List<Delivery> deliveries) {
+        employeeTransportFacade.createTransports(deliveries);
+    }
 }
 

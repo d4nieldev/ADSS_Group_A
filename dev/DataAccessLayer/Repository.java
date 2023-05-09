@@ -138,6 +138,30 @@ public class Repository {
                 // "\tFOREIGN KEY(\"ProductID\") REFERENCES \"???\"(\"???\") ON DELETE CASCADE\n" +
                 ");";
 
+        //Transport Layer Tables --------------------------------------------------------------------------------------------
+
+        String TruckTable = "CREATE TABLE IF NOT EXISTS \"Trucks\" (\n" +
+                "\t\"PlateNumber\"\tTEXT PRIMARY KEY,\n" +
+                "\t\"Model\"\tTEXT,\n" +
+                "\t\"WeightNeto\"\tINTEGER,\n" +
+                "\t\"WeightMax\"\tINTEGER,\n" +
+                "\t\"IsAvailable\"\tBOOLEAN\n" +
+                ");";
+        String TransportTable = "CREATE TABLE IF NOT EXISTS \"Transport\" (\n" +
+                "\t\"ID\"\tINTEGER PRIMARY KEY,\n" +
+                "\t\"Date\"\tTEXT,\n" +
+                "\t\"LeavingTime\"\tTEXT,\n" +
+                "\t\"TruckNumber\"\tTEXT,\n" +
+                "\t\"DriverName\"\tTEXT,\n" +
+                "\t\"DriverID\"\tINTEGER,\n" +
+                "\t\"Source\"\tTEXT,\n" +
+                "\t\"TruckWeightNeto\"\tINTEGER,\n" +
+                "\t\"TruckWeightMax\"\tINTEGER,\n" +
+                "\t\"LoadedItems\"\tTEXT,\n" +
+                "\t\"CurrentWeight\"\tINTEGER,\n" +
+                ");";
+
+
         Connection conn = connect();
         if (conn == null) return;
         try {
@@ -154,6 +178,8 @@ public class Repository {
             stmt.execute(EmployeesShiftsFinalsTable);
             stmt.execute(EmployeesBranchesTable);
             stmt.execute(ShiftsCancellationsTable);
+            stmt.execute(TransportTable);
+            stmt.execute(TruckTable);
 
         } catch (SQLException exception) {
             exception.printStackTrace();

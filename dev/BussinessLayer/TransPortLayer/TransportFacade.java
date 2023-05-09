@@ -1,13 +1,16 @@
 package BussinessLayer.TransPortLayer;
 
+import java.time.LocalDate;
 import java.util.*;
 import java.util.stream.Collectors;
 
+import BussinessLayer.EmployeeTransportFacade;
 import BussinessLayer.EmployeesLayer.Driver;
 
 public class TransportFacade {
 
     private Map<Integer, Transport> transportMap;
+    private EmployeeTransportFacade employeeTransportFacade=null;
 
     int id=0;
     private static TransportFacade instance = null;
@@ -312,17 +315,8 @@ public class TransportFacade {
     private void changeTruck(Transport transport) {
         Scanner scanner = new Scanner(System.in);
 
-        // Print current driver's details
-        DriverFacade driverFacade = DriverFacade.getInstance();
-        if(!driverFacade.driverExist(transport.getDriverId())) {
-            System.out.println("this driver not exist");
-        }
-
-        else {
-            Driver driver = driverFacade.getDriverById(transport.getDriverId());
-
-
-            System.out.println("Current driver: " + driver.getName() + ", License: " + driver.getLicense());
+            Driver driver = employeeTransportFacade.getDriverById(transport.getDriverId());
+            System.out.println("Current driver: " + driver.getFirstName() +" "+ driver.getLastName()+ ", License: " + driver.getDriverLicense());
 
             // Print available trucks
             System.out.println("Available trucks: ");
@@ -343,7 +337,7 @@ public class TransportFacade {
 
             // Verify that the selected truck has the same driver as the current transport
             Truck newTruck = trucks.get(truckIndex - 1);
-            if (!newTruck.getModel().equals(driver.getLicense())) {
+            if (!newTruck.getModel().equals(driver.getDriverLicense())) {
                 System.out.println("The selected truck doesn't match the current driver. Please try again.");
                 return;
             }
@@ -356,7 +350,7 @@ public class TransportFacade {
             truckFacade.setTruckAvailability(newTruck.getPlateNumber(), false);
 
             // Rerun the transport
-        }
+
 
 
     }
@@ -500,14 +494,14 @@ public class TransportFacade {
             availableTrucks.remove(truck);
 
             // Print matched driver, truck, and deliveries
-            System.out.println("\nMatched driver: " + driver.getName() + " (" + driver.getLicense() + ")");
+            System.out.println("\nMatched driver: " + driver.getFirstName()+" "+driver.getLastName() + " (" + driver.getDriverLicense() + ")");
             System.out.println("Matched truck: " + truck.getPlateNumber() + " (" + truck.getModel() + ")");
             System.out.println("Matched deliveries:");
             printDeliveries(matchedDeliveries);
             Date d = new Date();
             List<Destination> destinationList = letTheUserChooseTheOrder(matchedDeliveries);
 
-            createTransport("11/1/22","0000",truck.getPlateNumber(),driver.getName(),driver.getId(),"source",
+            createTransport("11/1/22","0000",truck.getPlateNumber(),driver.getFirstName(),driver.getId(),"source",
                     destinationList,matchedDeliveries,truck.getWeightNeto(),truck.getWeightMax());
         }
 
@@ -528,7 +522,7 @@ public class TransportFacade {
     private void printDrivers(List<Driver> drivers) {
         for (int i = 0; i < drivers.size(); i++) {
             Driver driver = drivers.get(i);
-            System.out.println(i + ": " + driver.getName() + " (" + driver.getLicense() + ")");
+            System.out.println(i + ": " + driver.getFirstName() + " (" + driver.getDriverLicense() + ")");
         }
     }
 
@@ -552,4 +546,34 @@ public class TransportFacade {
     public Map<Integer, Transport> getTransportMap() {
         return transportMap;
     }
+
+    public void setEmployeeFacade(EmployeeTransportFacade employeeTransportFacade) {
+        this.employeeTransportFacade=employeeTransportFacade;
+    }
+
+    public String getTransportsByDate(LocalDate date) {
+        StringBuilder sb = new StringBuilder();
+        sb.append("Transport ID, Date, Driver Name, Truck Number, Source, # of Deliveries, # of Destinations\n");
+        sb.append("--------------------------------------------------------------------------\n");
+
+        for (Transport transport : transportMap.values()) {
+            if (transport.getDate().equals(date.toString())) {
+                int numDeliveries = transport.getDeliveryList().size();
+                int numDestinations = transport.getDestinationList().size();
+
+                sb.append(String.format("%-12d %-12s %-15s %-12s %-10s %-16d %-16d\n",
+                        transport.getId(),
+                        transport.getDate(),
+                        transport.getDriverName(),
+                        transport.getTruckNumber(),
+                        transport.getSource(),
+                        numDeliveries,
+                        numDestinations));
+                sb.append("--------------------------------------------------------------------------\n");
+            }
+        }
+
+        return sb.toString();
+    }
+
 }

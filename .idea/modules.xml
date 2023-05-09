@@ -1,12 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="ProjectModuleManager">
-    <modules>
-<<<<<<<< HEAD:.idea/modules.xml
-      <module fileurl="file://$PROJECT_DIR$/ADSS_Group_A.iml" filepath="$PROJECT_DIR$/ADSS_Group_A.iml" />
-========
-      <module fileurl="file://$PROJECT_DIR$/.idea/dev.iml" filepath="$PROJECT_DIR$/.idea/dev.iml" />
->>>>>>>> 318818481_208549782:out/production/ADSS_Group_A/.idea/modules.xml
-    </modules>
-  </component>
+    <component name="ProjectModuleManager">
+        <modules>
+            <module fileurl="file://$PROJECT_DIR$/ADSS_Group_A.iml" filepath="$PROJECT_DIR$/ADSS_Group_A.iml" />
+        </modules>
+    </component>
 </project>

@@ -25,6 +25,12 @@ public  class ReportController {
         return report;
     }
 
+    public DeficientReport importDeficientReport(int branchId){
+        DeficientReport report = new DeficientReport(branchId);
+        allReports.put(report.getId(),report);
+        return report;
+    }
+
 
     public InventoryReport getReport(int reportId) throws Exception {
         Report report = allReports.get(reportId);
@@ -32,5 +38,12 @@ public  class ReportController {
             throw new Exception("this is not Inventory Report");
 
         return (InventoryReport) report;
+    }
+
+    public DeficientReport getDeficientReport(int reportId) throws Exception {
+        if (allReports.get(reportId) == null || !(allReports.get(reportId) instanceof DeficientReport))
+            throw new Exception("this is not Expired and flaws Report");
+
+        return (DeficientReport) allReports.get(reportId);
     }
 }

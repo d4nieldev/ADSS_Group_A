@@ -61,4 +61,53 @@ public class ReportServiceNew {
     }
 
 
+    public void importDeficientReport(int branchId) {
+
+        DeficientReport deficientReport = reportController.importDeficientReport(branchId);
+
+        System.out.println("===============================================");
+        System.out.println("          Deficiency Report");
+        System.out.println("===============================================");
+        System.out.printf("%-5s%-20s%-20s%-20s%-20s%n", "NO.", "Product Name", "Code", "TotalAmount" ,"MinQuantity", "IdealQuantity");
+        Set<Integer> productsCode = deficientReport.getIdToName().keySet();
+        HashMap<Integer,String> codeToName = deficientReport.getIdToName();
+        HashMap<Integer,Integer> totalAmount = deficientReport.getIdToTotalAmount();
+        HashMap<Integer,Integer> minQuantity = deficientReport.getIdToMinQuantity();
+        HashMap<Integer,Integer> idealQuantity = deficientReport.getIdToIdealQuantity();
+
+        int index = 1;
+        for (Integer productCode : productsCode) {
+            System.out.printf("%-5d%-20s%-10d%-20d%-20d%n", index, codeToName.get(productCode), productCode, totalAmount.get(productCode), minQuantity.get(productCode), idealQuantity.get(productCode));
+
+            index++;
+        }
+
+        System.out.println("===============================================");
+
+    }
+    public void importDeficientReportByReportId(int reportId) throws Exception {
+
+        DeficientReport deficientReport = reportController.getDeficientReport(reportId);
+
+        System.out.println("===============================================");
+        System.out.println("          Deficiency Report");
+        System.out.println("===============================================");
+        System.out.printf("%-5s%-20s%-20s%-20s%-20s%n", "NO.", "Product Name", "Code", "TotalAmount" ,"MinQuantity", "IdealQuantity");
+
+        Set<Integer> productsCode = deficientReport.getIdToName().keySet();
+        HashMap<Integer,String> codeToName = deficientReport.getIdToName();
+        HashMap<Integer,Integer> totalAmount = deficientReport.getIdToTotalAmount();
+        HashMap<Integer,Integer> minQuantity = deficientReport.getIdToMinQuantity();
+        HashMap<Integer,Integer> idealQuantity = deficientReport.getIdToIdealQuantity();
+        int index = 1;
+        for (Integer productCode : productsCode) {
+            System.out.printf("%-5d%-20s%-10d%-20d%-20d%n", index, codeToName.get(productCode), productCode, totalAmount.get(productCode), minQuantity.get(productCode), idealQuantity.get(productCode));
+
+            index++;
+        }
+
+        System.out.println("===============================================");
+    }
+
+
 }

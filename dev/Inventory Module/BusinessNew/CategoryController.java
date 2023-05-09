@@ -1,7 +1,5 @@
 package BusinessNew;
 
-import Business_Layer.Category1;
-
 import java.util.*;
 
 public class CategoryController {

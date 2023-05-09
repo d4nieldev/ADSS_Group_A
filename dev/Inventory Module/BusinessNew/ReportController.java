@@ -1,7 +1,5 @@
 package BusinessNew;
 
-import Business_Layer.CategoryController1;
-
 import java.util.HashMap;
 import java.util.List;
 
@@ -24,6 +22,16 @@ public  class ReportController {
         allReports.put(report.getId(),report);
         return report;
     }
+    public InventoryReport importInventoryReport(int branchId, List<Category> categoryList){
+        InventoryReport report = new InventoryReport(branchId,categoryList);
+        allReports.put(report.getId(),report);
+        return report;
+    }
+    public ExpiredAndFlawReport importExpiredAndFlawReport(int branchId){
+        ExpiredAndFlawReport report = new ExpiredAndFlawReport(branchId);
+        allReports.put(report.getId(),report);
+        return report;
+    }
 
     public DeficientReport importDeficientReport(int branchId){
         DeficientReport report = new DeficientReport(branchId);
@@ -32,12 +40,18 @@ public  class ReportController {
     }
 
 
-    public InventoryReport getReport(int reportId) throws Exception {
-        Report report = allReports.get(reportId);
-        if(report == null || !(report instanceof InventoryReport))
+    public InventoryReport getInventoryReport(int reportId) throws Exception {
+
+        if(allReports.get(reportId) == null || !(allReports.get(reportId) instanceof InventoryReport))
             throw new Exception("this is not Inventory Report");
 
-        return (InventoryReport) report;
+        return (InventoryReport) allReports.get(reportId);
+    }
+    public ExpiredAndFlawReport getExpiredAndFlawReport(int reportId) throws Exception {
+        if(allReports.get(reportId) == null || !(allReports.get(reportId) instanceof ExpiredAndFlawReport))
+            throw new Exception("this is not Expired and flaws Report");
+
+        return (ExpiredAndFlawReport) allReports.get(reportId);
     }
 
     public DeficientReport getDeficientReport(int reportId) throws Exception {

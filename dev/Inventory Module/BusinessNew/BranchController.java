@@ -1,7 +1,5 @@
 package BusinessNew;
 
-import Business_Layer.Branch1;
-
 import java.util.HashMap;
 import java.util.List;
 
@@ -36,7 +34,10 @@ public class BranchController {
         Branch newBranch = new Branch(branchId,branchName);
         allBranches.put(branchId,newBranch) ;
     }
-    private Branch getBranch(String name){
+    public Branch getBranchById(int branchId){
+        return allBranches.get(branchId);
+    }
+    public Branch getBranchByName(String name){
         Branch result = null;
         for(Branch branch : allBranches.values()){
             if(branch.getName() == name)
@@ -45,8 +46,9 @@ public class BranchController {
         return result;
     }
 
+
     public void receiveReservation(Reservation reservation) throws Exception {
-        Branch branch = getBranch(reservation.getDestinationBranch);
+        Branch branch = getBranchByName(reservation.getDestinationBranch);
         if(branch == null){
             throw new Exception("Branch not exist");
         }

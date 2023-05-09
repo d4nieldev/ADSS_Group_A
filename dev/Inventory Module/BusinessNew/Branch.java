@@ -97,51 +97,6 @@ public class Branch {
         }
     }
 
-    public HashMap<Integer,String> getAllDeficiencyProducts(){
-        HashMap<Integer,String> allDeficiencyProducts = new HashMap<>();
-        for (ProductBranch productBranch : allProductBranches.values()){
-            boolean check = productBranch.checkForDeficiency();
-            if (check) {
-                allDeficiencyProducts.put(productBranch.getCode(),productBranch.getName());
-            }
-        }
-        return allDeficiencyProducts;
-    }
-
-    public HashMap<Integer,Integer> getAllTotalAmountForDeficiencyProducts(){
-        HashMap<Integer,Integer> allTotalAmountForDeficiencyProducts = new HashMap<>();
-        for (ProductBranch productBranch : allProductBranches.values()) {
-            boolean check = productBranch.checkForDeficiency();
-            if (check) {
-                allTotalAmountForDeficiencyProducts.put(productBranch.getCode(), productBranch.getTotalAmount());
-            }
-        }
-            return allTotalAmountForDeficiencyProducts;
-    }
-
-    public HashMap<Integer,Integer> getAllMinQuantityForDeficiencyProducts(){
-        HashMap<Integer,Integer> allMinQuantityForDeficiencyProducts = new HashMap<>();
-        for (ProductBranch productBranch : allProductBranches.values()) {
-            boolean check = productBranch.checkForDeficiency();
-            if (check) {
-                allMinQuantityForDeficiencyProducts.put(productBranch.getCode(), productBranch.getMinQuantity());
-            }
-        }
-        return allMinQuantityForDeficiencyProducts;
-    }
-
-    public HashMap<Integer,Integer> getAllIdealQuantityForDeficiencyProducts(){
-        HashMap<Integer,Integer> allIdealQuantityForDeficiencyProducts = new HashMap<>();
-        for (ProductBranch productBranch : allProductBranches.values()) {
-            boolean check = productBranch.checkForDeficiency();
-            if (check) {
-                allIdealQuantityForDeficiencyProducts.put(productBranch.getCode(), productBranch.getIdealQuantity());
-            }
-        }
-        return allIdealQuantityForDeficiencyProducts;
-    }
-
-
     public HashMap<Integer, List<SpecificProduct>> getFlawsProducts(){
         HashMap<Integer,List<SpecificProduct>> allFlawsProducts = new HashMap<>();
         for (ProductBranch productBranch : allProductBranches.values()){

@@ -1,5 +1,7 @@
 package BusinessNew;
 
+import Business_Layer.GeneralProduct;
+
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -129,7 +131,7 @@ public class ProductBranch {
 
     public void receiveSupply(int amount,double buyPrice,LocalDate expiredDate) {
         for (int i = 0; i < amount; i++) {
-            SpecificProduct newSpecific = new SpecificProduct(product.getCode(),buyPrice, ProductStatus.status.ON_STORAGE,expiredDate);
+            SpecificProduct newSpecific = new SpecificProduct(product.getCode(),buyPrice, ProductStatus.status.ON_STORAGE,expiredDate,LocalDate.now());
             allSpecificProducts.put(newSpecific.getSpecificId(),newSpecific);
             totalAmount++;
         }
@@ -223,5 +225,25 @@ public class ProductBranch {
             if(specificProduct.getIsExpired())
                 result++;
         }
+    }
+
+    public String getManufacturer() {
+        return product.getManufacturer();
+    }
+
+    public Category getCategory() {
+        return product.getCategory();
+    }
+
+    public boolean existInCategories(List<Category> allSubCategories) {
+        boolean result = false;
+        for(Category category : allSubCategories){
+            if(product.getCategory() == category) {
+                result =  true;
+                break;
+            }
+        }
+
+            return result;
     }
 }

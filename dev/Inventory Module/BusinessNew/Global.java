@@ -4,6 +4,8 @@ public class Global {
     public static int Productid = 0;
     public static int Categoryid = 0;
     public static int SpecificId = 0;
+    public static int reportId = 0;
+
 
     public static int getNewProductid() {
         Productid++;
@@ -15,11 +17,15 @@ public class Global {
     }
 
     /**
-     * harta barrta
+     * s
      * @return
      */
     public static int getNewSpecificId() {
 
         return SpecificId++;
+    }
+    public static int getNewReportId() {
+
+        return reportId++;
     }
 }

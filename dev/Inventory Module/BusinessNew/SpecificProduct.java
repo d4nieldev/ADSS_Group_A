@@ -12,9 +12,10 @@ public class SpecificProduct {
     private ProductStatus.status status;
     private String flawDescription;
     private LocalDate expiredDate;
+    private LocalDate arrivedDate;
 
 
-    public SpecificProduct(int generalId, double buyPrice, ProductStatus.status status, LocalDate expiredDate) {
+    public SpecificProduct(int generalId, double buyPrice, ProductStatus.status status, LocalDate expiredDate ,LocalDate arrivedDate) {
         this.generalId = generalId;
         this.specificId = Global.getNewSpecificId();
         this.buyPrice = buyPrice;
@@ -22,7 +23,7 @@ public class SpecificProduct {
         this.status = status;
         this.expiredDate = expiredDate;
         this.flawDescription = "";
-        this.isExpired = false;
+        this.arrivedDate = arrivedDate;
     }
 
     //getters and setters

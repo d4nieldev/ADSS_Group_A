@@ -1,7 +1,9 @@
 package BusinessNew;
 
+import javax.swing.event.ListDataEvent;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -10,11 +12,13 @@ public class Branch {
     private String branchName;
     HashMap<Integer,ProductBranch> allProductBranches;// maps between productBranch generalId to its object
     private PeriodicReservation periodicReservation;
+    private CategoryController categoryController;
     public Branch(int branchId, String branchName) {
         this.branchId = branchId;
         this.branchName = branchName;
         this.allProductBranches = new HashMap<>();
         this.periodicReservation = new PeriodicReservation();
+        this.categoryController = CategoryController.getInstance();
     }
 
     public int getId() {
@@ -227,8 +231,19 @@ public class Branch {
         }
     }
     public void setDiscountOnCategories(List<Category> categoriesToDiscount , Discount discount) throws Exception {
-        List<ProductBranch> productsFromCategory = CategoryController.getProductsByCategories(categoriesToDiscount,this.branchId);
+        List<Category> allSubCategories = categoryController.getListAllSubCategories(categoriesToDiscount);
+        List<ProductBranch> productsFromCategory = getProductsByCategories(allSubCategories);
         setDiscountOnProducts(productsFromCategory,discount);
+    }
+
+    private List<ProductBranch> getProductsByCategories(List<Category> allSubCategories) {
+        List<ProductBranch> result = new ArrayList<>();
+        for(ProductBranch productBranch : allProductBranches.values()){
+            boolean check = productBranch.existInCategories(allSubCategories);
+            if (check)
+                result.add(productBranch);
+        }
+        return result;
     }
 
     public List<SpecificProduct> getShelfProductsByProductCode(int productCode) throws Exception {

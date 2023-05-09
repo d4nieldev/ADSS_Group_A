@@ -7,9 +7,4 @@ public class DeficientReport extends Report{
     public DeficientReport(int id, int branchId, LocalDate creationDate) {
         super(id, branchId, creationDate);
     }
-
-    @Override
-    public void importReport() {
-
-    }
 }

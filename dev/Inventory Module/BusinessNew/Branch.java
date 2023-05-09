@@ -10,11 +10,13 @@ public class Branch {
     private String branchName;
     HashMap<Integer,ProductBranch> allProductBranches;// maps between productBranch generalId to its object
     private PeriodicReservation periodicReservation;
+    private CategoryController categoryController;
     public Branch(int branchId, String branchName) {
         this.branchId = branchId;
         this.branchName = branchName;
         this.allProductBranches = new HashMap<>();
         this.periodicReservation = new PeriodicReservation();
+        this.categoryController = CategoryController.getInstance();
     }
 
     public int getId() {
@@ -227,7 +229,7 @@ public class Branch {
         }
     }
     public void setDiscountOnCategories(List<Category> categoriesToDiscount , Discount discount) throws Exception {
-        List<ProductBranch> productsFromCategory = CategoryController.getProductsByCategories(categoriesToDiscount,this.branchId);
+        List<ProductBranch> productsFromCategory = categoryController.getProductsByCategories(categoriesToDiscount,this.branchId);
         setDiscountOnProducts(productsFromCategory,discount);
     }
 

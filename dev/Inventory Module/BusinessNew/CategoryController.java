@@ -25,7 +25,7 @@ public class CategoryController {
      * @param branchId
      * @return
      */
-    public static List<ProductBranch> getProductsByCategories(List<Category> categoriesToDiscount, int branchId) {
+    public  List<ProductBranch> getProductsByCategories(List<Category> categoriesToDiscount, int branchId) {
         List<ProductBranch> result = new ArrayList<>();
         //TODO: return a list of all products from the branch that belongs to the categories given - need to check for not duplicate products.
         //TODO : need only the products from the given branch id -> means to enter the specific branch and find ther the products - not from the product controller

@@ -1,5 +1,7 @@
 package BusinessNew;
 
+import Business_Layer.GeneralProduct;
+
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -223,5 +225,13 @@ public class ProductBranch {
             if(specificProduct.getIsExpired())
                 result++;
         }
+    }
+
+    public String getManufacturer() {
+        return product.getManufacturer();
+    }
+
+    public Category getCategory() {
+        return product.getCategory();
     }
 }

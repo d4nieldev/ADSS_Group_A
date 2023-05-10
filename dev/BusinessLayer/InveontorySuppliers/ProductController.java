@@ -1,4 +1,4 @@
-package BusinessLayer.Suppliers;
+package BusinessLayer.InveontorySuppliers;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
+import BusinessLayer.Suppliers.ProductAgreement;
 import BusinessLayer.Suppliers.exceptions.SuppliersException;
 
 public class ProductController {
@@ -100,5 +101,13 @@ public class ProductController {
         productIdToSupplierProducts.clear();
         supplierIdToProductAgreements.clear();
         products.clear();
+    }
+
+    public Map<Integer, Product> getProducts() {
+        return products;
+    }
+
+    public boolean exist(int id) {
+        return products.containsKey(id);
     }
 }

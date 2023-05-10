@@ -3,7 +3,7 @@ package ServiceLayer.Suppliers;
 import java.util.List;
 import java.util.TreeMap;
 
-import BusinessLayer.Suppliers.ProductController;
+import BusinessLayer.InveontorySuppliers.ProductController;
 import BusinessLayer.Suppliers.SupplierController;
 import BusinessLayer.Suppliers.exceptions.SuppliersException;
 

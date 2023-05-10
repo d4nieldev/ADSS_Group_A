@@ -13,8 +13,8 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import BusinessLayer.Suppliers.Product;
-import BusinessLayer.Suppliers.ProductController;
+import BusinessLayer.InveontorySuppliers.Product;
+import BusinessLayer.InveontorySuppliers.ProductController;
 import BusinessLayer.Suppliers.ReservationController;
 import BusinessLayer.Suppliers.SupplierController;
 import BusinessLayer.Suppliers.exceptions.SuppliersException;

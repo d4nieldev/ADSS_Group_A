@@ -2,8 +2,8 @@ package ServiceLayer.Suppliers;
 
 import java.util.Map;
 
-import BusinessLayer.Suppliers.Product;
-import BusinessLayer.Suppliers.ProductController;
+import BusinessLayer.InveontorySuppliers.Product;
+import BusinessLayer.InveontorySuppliers.ProductController;
 import BusinessLayer.Suppliers.Reservation;
 import BusinessLayer.Suppliers.ReservationController;
 import BusinessLayer.Suppliers.exceptions.SuppliersException;

@@ -1,5 +1,7 @@
 package BusinessLayer.Suppliers;
 
+import BusinessLayer.InveontorySuppliers.Product;
+
 public class ReceiptItem {
     private int amount;
     private double pricePerUnitBeforeDiscount;

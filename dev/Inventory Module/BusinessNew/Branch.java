@@ -449,4 +449,11 @@ public class Branch {
         }
         return result;
     }
+
+    public ProductBranch getProductByCode(int productCode) throws Exception {
+        ProductBranch productBranch = allProductBranches.get(productCode);
+        if (productBranch == null)
+            throw new Exception("this product doesn't exist in the branch");
+        return productBranch;
+    }
 }

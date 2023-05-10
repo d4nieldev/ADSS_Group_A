@@ -62,7 +62,7 @@ public class Program1 {
 //          ReportSystem.importProductSellPriceReport(reportService);
 //          break;
         case 14:
-          reportService.importDeficientReport(1);
+          ReportSystem.importDeficientReport(reportService);
           break;
 //        case 15:
 //          ReportSystem.importFutureExpiredProductds(reportService);
@@ -74,7 +74,10 @@ public class Program1 {
 //          ReportSystem.importInventoryReportByCategories(reportService);
 //          break;
         case 18:
-          ReportSystem.importInventoryReportByCategories(reportService);
+          ReportSystem.importReportByReportId(reportService);
+          break;
+        case 19:
+          ReportSystem.importProductReport(reportService);
           break;
         case 0:
           ProductSystem.getMenu();

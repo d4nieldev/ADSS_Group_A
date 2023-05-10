@@ -41,17 +41,17 @@ public class ReportSystem {
     }
     public static void importExpiredAndFlawsReport(ReportServiceNew reportService) {
         try {
-        System.out.println("please branchId");
-        int branchId = Integer.parseInt(reader.readLine());
-        reportService.importExpiredAndFlawsReport(branchId);
-    }
-        catch (Exception e){
-        System.out.println("Error occurred - please try again ");
+            System.out.println("please enter branchId");
+            int branchId = Integer.parseInt(reader.readLine());
+            reportService.importExpiredAndFlawsReport(branchId);
+        } catch (Exception e) {
+            System.out.println("Error occurred - please try again ");
+        }
     }
 
-        public static void importReportByReportId() {
+        public static void importReportByReportId(ReportServiceNew reportService) {
             try {
-                System.out.println("please ReportId");
+                System.out.println("please enter ReportId");
                 int ReportId = Integer.parseInt(reader.readLine());
                 reportService.importReportByReportId(ReportId);
             }
@@ -60,6 +60,27 @@ public class ReportSystem {
             }
 }
 
+    public static void importDeficientReport(ReportServiceNew reportService) {
+        try {
+            System.out.println("please enter branchId");
+            int branchId = Integer.parseInt(reader.readLine());
+            reportService.importDeficientReport(branchId);
+        } catch (Exception e) {
+            System.out.println("Error occurred - please try again ");
+        }
+    }
+
+    public static void importProductReport(ReportServiceNew reportService) {
+        try {
+            System.out.println("please enter branchId");
+            int branchId = Integer.parseInt(reader.readLine());
+            System.out.println("please enter product code");
+            int productCode = Integer.parseInt(reader.readLine());
+            reportService.importProductReport(branchId,productCode);
+        } catch (Exception e) {
+            System.out.println("Error occurred - please try again ");
+        }
+    }
 
 
 //    public static void importExpiredProductReport(ReportServiceNew reportService){

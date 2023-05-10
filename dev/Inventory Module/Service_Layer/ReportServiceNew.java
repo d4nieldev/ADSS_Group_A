@@ -11,11 +11,13 @@ public class ReportServiceNew {
     ReportController reportController;
     ProductController productController;
     CategoryController categoryController;
+    BranchController branchController;
 
     public ReportServiceNew() {
         this.productController = ProductController.getInstance();
         this.reportController = ReportController.getInstance();
         this.categoryController = CategoryController.getInstance();
+        this.branchController = BranchController.getInstance();
     }
     public void importInventoryReport(int branchId) {
 
@@ -230,4 +232,20 @@ public class ReportServiceNew {
     }
 
 
+    public void importProductReport(int branchId,int productCode) throws Exception {
+        ProductBranch productBranch = branchController.getBranchById(branchId).getProductByCode(productCode);
+
+        System.out.println("===============================================");
+        System.out.println("          ProductBranch Report"                 );
+        System.out.println("===============================================");
+        System.out.printf("%-5s%-20s%-20s%-20s%-20s%-20s%n", "NO.", "Product Name", "Code", "Manufacturer","Shop Amount" ,"Storage Amount");
+
+
+
+            System.out.printf("%-5d%-20s%-20d%-20s%-20d%-20d%n", 1, productBranch.getName(), productCode, productBranch.getManufacturer(),productBranch.getOnShelfProduct().size(), productBranch.getTotalAmount() - productBranch.getOnShelfProduct().size());
+
+
+
+        System.out.println("===============================================");
+    }
 }

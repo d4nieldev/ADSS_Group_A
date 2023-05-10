@@ -11,6 +11,7 @@ import BusinessLayer.Inventory.CategoryController;
 import BusinessLayer.Inventory.PeriodicReservation;
 import BusinessLayer.Inventory.ProductBranch;
 import BusinessLayer.Inventory.SpecificProduct;
+import BusinessLayer.Suppliers.ReservationController;
 import BusinessLayer.Suppliers.SupplierController;
 import BusinessLayer.enums.Day;
 
@@ -20,13 +21,16 @@ public class Branch {
     private HashMap<Integer, ProductBranch> allProductBranches;// maps between productBranch generalId to its object
     private PeriodicReservation periodicReservation;
     private CategoryController categoryController;
+    private HashMap<Integer,Integer> productToAmount; // maps between product to amount for deficiency quantity
+    private int minAmountForDeficiencyReservation;
 
-    public Branch(int branchId, String branchName) {
+    public Branch(int branchId, String branchName,int minAmount) {
         this.branchId = branchId;
         this.branchName = branchName;
         this.allProductBranches = new HashMap<>();
         this.periodicReservation = new PeriodicReservation();
         this.categoryController = CategoryController.getInstance();
+        this.minAmountForDeficiencyReservation = minAmount;
     }
 
     public int getId() {
@@ -78,11 +82,25 @@ public class Branch {
         if (productBranch == null)
             throw new Exception("this product doesn't exist");
         productBranch.sellProduct(specificId);
-        boolean check = productBranch.checkForDeficiency();
-        if (check) {
-            alertForDeficiency(productBranch);
-            // makeDeficiencyReservation(productBranch);
+        checkDeficiencyAfterUpdate(productBranch);    
+        CheckForDeficiencyReservation();
+    }
+
+    public void CheckForDeficiencyReservation(){
+        boolean overCapacity = getTotalDeficiencyAmount() > minAmountForDeficiencyReservation;
+        if ( overCapacity) {
+        
+            makeDeficiencyReservation();
         }
+    }
+
+    private int getTotalDeficiencyAmount(){
+
+        int result = 0;
+        for(Integer amount :productToAmount.values()){
+            result += amount;
+        }
+        return result;
     }
 
     private void alertForDeficiency(ProductBranch productBranch) {
@@ -96,7 +114,7 @@ public class Branch {
             allExpiredProducts.put(productBranch.getCode(), expiredProducts);
             checkDeficiencyAfterUpdate(productBranch);
         }
-
+        CheckForDeficiencyReservation();
         return allExpiredProducts;
     }
 
@@ -106,6 +124,7 @@ public class Branch {
             throw new Exception("this product doesn't exist in the branch");
         productBranch.reportFlawProduct(specificId, description);
         checkDeficiencyAfterUpdate(productBranch);
+        CheckForDeficiencyReservation();
 
     }
 
@@ -116,10 +135,13 @@ public class Branch {
      */
     private void checkDeficiencyAfterUpdate(ProductBranch productBranch) {
         boolean check = productBranch.checkForDeficiency();
-        if (check) {
+        if(check){
             alertForDeficiency(productBranch);
-            makeDeficiencyReservation(productBranch);
+            int amount = productBranch.getIdealQuantity() -
+            productBranch.getTotalAmount();
+        productToAmount.put(productBranch.getCode(),amount);
         }
+        
     }
 
     public HashMap<Integer, List<SpecificProduct>> getFlawsProducts() {
@@ -146,12 +168,12 @@ public class Branch {
 
     }
 
-    private void makeDeficiencyReservation(ProductBranch productBranch) {
+    private void makeDeficiencyReservation() {
         // TODO: make reservation for deficiency
         // find the difference to the ideal quantity
-        int amount = productBranch.getIdealQuantity() -
-                productBranch.getTotalAmount();
-        SupplierController.makeDifiecincyReservstion(productBranch.getCode(), amount);
+       
+                ReservationController reservationController = ReservationController.getInstance();
+        reservationController.makeDeficiencyReservation(productToAmount,this.branchId);
     }
 
     // Dealing with periodic Reservation

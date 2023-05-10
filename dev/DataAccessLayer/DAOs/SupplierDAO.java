@@ -5,14 +5,17 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.TreeMap;
 
 import DataAccessLayer.Repository;
 import DataAccessLayer.DTOs.ContactDTO;
+import DataAccessLayer.DTOs.DiscountDTO;
 import DataAccessLayer.DTOs.SupplierDTO;
 
 public class SupplierDAO extends DAO<SupplierDTO> {
     private SuppliersFieldsDAO suppliersFieldsDAO;
     private ContactDAO contactDAO;
+    private SupplierAmountToDiscountDAO supplierAmountToDiscountDAO;
     private static SupplierDAO instance = null;
 
     // public abstract List<FieldDTO> getFieldsBySupplierId(int supplierId);
@@ -22,6 +25,7 @@ public class SupplierDAO extends DAO<SupplierDTO> {
         super("Suppliers");
         suppliersFieldsDAO = new SuppliersFieldsDAO();
         contactDAO = ContactDAO.getInstance();
+        supplierAmountToDiscountDAO = SupplierAmountToDiscountDAO.getInstance();
     }
 
     public static SupplierDAO getInstance() {
@@ -41,8 +45,9 @@ public class SupplierDAO extends DAO<SupplierDTO> {
         String paymentCondition = rs.getString("paymentCondition");
         List<String> fields = suppliersFieldsDAO.getFieldsOfSupplier(id);
         List<ContactDTO> contacts = contactDAO.getSupplierContacts(id);
+        TreeMap<Integer, DiscountDTO> amountToDiscount = supplierAmountToDiscountDAO.getSupplierAmountToDiscount(id);
 
-        return new SupplierDTO(id, name, bankAccount, paymentCondition, fields, contacts);
+        return new SupplierDTO(id, name, bankAccount, paymentCondition, fields, contacts, amountToDiscount);
     }
 
     public SupplierDTO getById(int supplierId) throws SQLException {
@@ -52,6 +57,8 @@ public class SupplierDAO extends DAO<SupplierDTO> {
         PreparedStatement statement = con.prepareStatement(query);
         statement.setInt(1, supplierId);
         ResultSet supRS = statement.executeQuery();
+        statement.close();
+        con.close();
         return makeDTO(supRS);
     }
 

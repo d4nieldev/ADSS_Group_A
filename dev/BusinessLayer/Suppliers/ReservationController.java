@@ -228,8 +228,8 @@ public class ReservationController {
         return supplierIdToReservations.get(supplierId);
     }
 
-    public Map<Integer, List<Branch>> getReadySupplierToBranches() {
-        Map<Integer, List<Branch>> output = new HashMap<>();
+    public Map<Integer, List<Integer>> getReadySupplierToBranches() {
+        Map<Integer, List<Integer>> output = new HashMap<>();
         for (Integer reservationId : readyReservations) {
             List<Reservation> subReservations = idToSupplierReservations.get(reservationId);
             for (Reservation r : subReservations)

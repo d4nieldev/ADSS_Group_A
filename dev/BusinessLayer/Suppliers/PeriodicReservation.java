@@ -29,4 +29,12 @@ public class PeriodicReservation {
     public void setDayOfOrder(DayOfWeek dayOfOrder) {
         this.dayOfOrder = dayOfOrder;
     }
+
+    public int getBranchId() {
+        return branchId;
+    }
+
+    public void setBranchId(int branchId) {
+        this.branchId = branchId;
+    }
 }

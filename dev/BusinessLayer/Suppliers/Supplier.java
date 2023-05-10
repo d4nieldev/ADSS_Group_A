@@ -1,6 +1,7 @@
 package BusinessLayer.Suppliers;
 
 import java.util.TreeMap;
+import java.time.LocalDate;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -53,6 +54,8 @@ public abstract class Supplier {
         Contact office = new Contact(phone, "Office");
         contacts.add(office);
     }
+
+    public abstract LocalDate getClosestDeliveryDate();
 
     // Getter and setter for id
     public int getId() {
@@ -174,6 +177,7 @@ public abstract class Supplier {
         }
         return newContacts;
     }
+
     public double getDiscount(int amount) {
         double discount = 0.0;
         Integer key = amountToDiscount.floorKey(amount);

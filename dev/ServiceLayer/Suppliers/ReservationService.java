@@ -17,7 +17,7 @@ public class ReservationService {
 
     public String makeAutoReservation(Map<Integer, Integer> productToAmount, String destinationBranch) {
         try {
-            reservationController.makeAutoReservation(productToAmount, destinationBranch);
+            reservationController.makeDeficiencyReservation(productToAmount, destinationBranch);
             return "Success";
         } catch (SuppliersException e) {
             return e.getMessage();

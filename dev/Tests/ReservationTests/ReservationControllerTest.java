@@ -153,7 +153,7 @@ public class ReservationControllerTest {
         productToAmount.put(0, 1000);
 
         // check that the reservation is not possible
-        assertThrows(SuppliersException.class, () -> rc.makeAutoReservation(productToAmount, "Ness Ziona"));
+        assertThrows(SuppliersException.class, () -> rc.makeDeficiencyReservation(productToAmount, "Ness Ziona"));
 
         // check that no reservation is made
         assertThrows(SuppliersException.class, () -> rc.getReservationReceipt(0));
@@ -165,7 +165,7 @@ public class ReservationControllerTest {
         productToAmount.put(7, 1);
 
         // check that the reservation is not possible
-        assertThrows(SuppliersException.class, () -> rc.makeAutoReservation(productToAmount, "Ashkelon"));
+        assertThrows(SuppliersException.class, () -> rc.makeDeficiencyReservation(productToAmount, "Ashkelon"));
 
         // check that no reservation is made
         assertThrows(SuppliersException.class, () -> rc.getReservationReceipt(0));
@@ -177,7 +177,7 @@ public class ReservationControllerTest {
         productToAmount.put(0, 1); // should order from supplier 1
 
         try {
-            rc.makeAutoReservation(productToAmount, "Haifa");
+            rc.makeDeficiencyReservation(productToAmount, "Haifa");
             assertEquals(0, rc.getSupplierReservations(0).size());
             assertEquals(1, rc.getSupplierReservations(1).size());
         } catch (SuppliersException e) {
@@ -192,7 +192,7 @@ public class ReservationControllerTest {
         productToAmount.put(0, 150); // should order 150 from supplier 1
         productToAmount.put(1, 80); // should order 50 from supplier 0 and 30 from supplier 1
         try {
-            rc.makeAutoReservation(productToAmount, "Tel Aviv");
+            rc.makeDeficiencyReservation(productToAmount, "Tel Aviv");
             assertEquals(1, rc.getSupplierReservations(0).size());
             assertEquals(1, rc.getSupplierReservations(1).size());
         } catch (SuppliersException e) {

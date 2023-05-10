@@ -1,13 +1,13 @@
 package BusinessLayer.Suppliers;
 
+import java.time.DayOfWeek;
+import java.time.LocalDate;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.TreeMap;
 
-import BusinessLayer.enums.Day;
-
 class FixedDaysSupplier extends Supplier {
-    private List<Day> days;
+    private List<DayOfWeek> days;
 
     // Copy constructor
     public FixedDaysSupplier(int id, String name, String phone, String bankAcc, List<String> fields,
@@ -34,8 +34,8 @@ class FixedDaysSupplier extends Supplier {
     }
 
     // Creates an enum Day list from a list of integers which represents weekdays
-    private List<Day> makeDaysList(List<Integer> days) {
-        List<Day> daysList = new LinkedList<Day>();
+    private List<DayOfWeek> makeDaysList(List<Integer> days) {
+        List<DayOfWeek> daysList = new LinkedList<>();
         for (Integer day : days) {
             daysList.add(getDay(day));
         }
@@ -43,22 +43,22 @@ class FixedDaysSupplier extends Supplier {
     }
 
     // Converts an integer to a Day enum
-    private Day getDay(Integer dayNum) {
+    private DayOfWeek getDay(Integer dayNum) {
         switch (dayNum) {
             case 1:
-                return Day.SUNDAY;
+                return DayOfWeek.SUNDAY;
             case 2:
-                return Day.MONDAY;
+                return DayOfWeek.MONDAY;
             case 3:
-                return Day.TUESDAY;
+                return DayOfWeek.TUESDAY;
             case 4:
-                return Day.WEDNESDAY;
+                return DayOfWeek.WEDNESDAY;
             case 5:
-                return Day.THURSDAY;
+                return DayOfWeek.THURSDAY;
             case 6:
-                return Day.FRIDAY;
+                return DayOfWeek.FRIDAY;
             case 7:
-                return Day.SATURDAY;
+                return DayOfWeek.SATURDAY;
             default:
                 return null;
 
@@ -69,4 +69,12 @@ class FixedDaysSupplier extends Supplier {
     public String toString() {
         return super.toString() + "\nSupplier Type: Fixed Days Supplier\nDays: " + this.days;
     }
+
+    @Override
+    public LocalDate getClosestDeliveryDate() {
+        // LocalDate.now().getDayOfWeek().
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'getClosestDeliveryDate'");
+    }
+
 }

@@ -17,7 +17,7 @@ import BusinessLayer.enums.Day;
 public class Branch {
     private int branchId;
     private String branchName;
-    HashMap<Integer, ProductBranch> allProductBranches;// maps between productBranch generalId to its object
+    private HashMap<Integer, ProductBranch> allProductBranches;// maps between productBranch generalId to its object
     private PeriodicReservation periodicReservation;
     private CategoryController categoryController;
 
@@ -62,13 +62,13 @@ public class Branch {
             double buyPrice = ri.getPricePerUnitAfterDiscount();
             Product product = ri.getProduct();
             LocalDate expiredDate = ri.getExpiredDate();
-            int code = product.getCode();
-            if (!allProductBranches.containsKey(code)) {
+            int id = product.getId();
+            if (!allProductBranches.containsKey(id)) {
                 int idealQuantity = 100;
                 int minQuantity = 50;
                 addNewProductBranch(product, buyPrice, idealQuantity, minQuantity);
             }
-            ProductBranch productBranch = allProductBranches.get(code);
+            ProductBranch productBranch = allProductBranches.get(id);
             productBranch.receiveSupply(amount, buyPrice, expiredDate);
         }
     }

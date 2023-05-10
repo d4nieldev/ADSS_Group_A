@@ -84,7 +84,7 @@ public class ReservationController {
         supplierIdToReservations.computeIfAbsent(reservation.getSupplierId(), k -> new ArrayList<>()).add(reservation);
     }
 
-    public void makeAutoReservation(Map<Integer, Integer> productToAmount, Branch destinationBranch)
+    public void makeDeficiencyReservation(Map<Integer, Integer> productToAmount, Branch destinationBranch)
             throws SuppliersException {
         int reservationId = getNextIdAndIncrement();
         Map<Integer, Reservation> supToReservation = maxReservationPerSupplier(productToAmount, destinationBranch,

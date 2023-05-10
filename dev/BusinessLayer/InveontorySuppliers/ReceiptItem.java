@@ -1,5 +1,7 @@
 package BusinessLayer.InveontorySuppliers;
 
+import java.time.LocalDate;
+
 import BusinessLayer.Suppliers.ProductAgreement;
 
 public class ReceiptItem {
@@ -7,7 +9,7 @@ public class ReceiptItem {
     private double pricePerUnitBeforeDiscount;
     private double pricePerUnitAfterDiscount;
     private Product product;
-    // TODO: expiration date
+    private LocalDate expiredDate;
 
     public ReceiptItem(int amount, ProductAgreement agreement) {
         this.amount = amount;
@@ -42,6 +44,10 @@ public class ReceiptItem {
 
     public Product getProduct() {
         return this.product;
+    }
+
+    public LocalDate getExpiredDate() {
+        return this.expiredDate;
     }
 
     @Override

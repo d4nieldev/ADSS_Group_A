@@ -1,5 +1,6 @@
 package BusinessLayer.Suppliers;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.TreeMap;
 
@@ -18,7 +19,7 @@ class OnOrderSupplier extends Supplier {
 
     // Constructor without contacts, reservation history and fields
     public OnOrderSupplier(int id, String name, String phone, String bankAcc, String paymentCondition,
-        TreeMap<Integer, Double> amountToDiscount, int maxSupplyDays) {
+            TreeMap<Integer, Double> amountToDiscount, int maxSupplyDays) {
         super(id, name, phone, bankAcc, paymentCondition, amountToDiscount);
         this.maxSupplyDays = maxSupplyDays;
     }
@@ -47,5 +48,10 @@ class OnOrderSupplier extends Supplier {
     @Override
     public String toString() {
         return super.toString() + "\nSupplier Type: On Order Supplier\nMax Supply Days: " + maxSupplyDays;
+    }
+
+    @Override
+    public LocalDate getClosestDeliveryDate() {
+        return LocalDate.now().plusDays(maxSupplyDays);
     }
 }

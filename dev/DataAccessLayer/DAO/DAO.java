@@ -27,6 +27,7 @@ public abstract class DAO<T> {
             while (RS.next())
                 output.add(makeDTO(RS));
         } catch (Exception e) {
+            System.out.println(e.getMessage());
         } finally {
             Repository.getInstance().closeConnection(conn);
         }

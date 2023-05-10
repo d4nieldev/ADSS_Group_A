@@ -468,7 +468,7 @@ public class EmployeeFacade {
     // check if the employee is a HRmanager and is sign in to the system
     // throw an error if something went wrong
     public void checkHrManager(int managerId) {
-        if (!isEmployeeHRManager(managerId) || !isEmployeeLoggedIn(managerId)) {
+        if (!isEmployeeExistsAndLoadEmployee(managerId) || !isEmployeeHRManager(managerId) || !isEmployeeLoggedIn(managerId)) {
             throw new Error("You must be logged in, and be an HR manager in order to do that action.");
         }
     }
@@ -476,7 +476,7 @@ public class EmployeeFacade {
     // check if the employee is a manager and is sign in to the system
     // throw an error if something went wrong
     public void checkManager(int managerId) {
-        if (!isEmployeeLoggedIn(managerId)
+        if (!isEmployeeExistsAndLoadEmployee(managerId) || !isEmployeeLoggedIn(managerId)
                 || !(isEmployeeHRManager(managerId) || isEmployeeTranpostManager(managerId))) {
             throw new Error("You must be logged in, and be an HR or Transport manager in order to do that action.");
         }

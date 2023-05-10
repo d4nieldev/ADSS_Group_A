@@ -16,15 +16,15 @@ public class Driver extends Employee {
     public Driver(String firstName, String lastName, int id, String password, int bankNum, int bankBranch, int bankAccount, 
 	int salary, int InitializeBonus, LocalDate startDate, String tempsEmployment, int roleId, License licence) {
         super(firstName, lastName, id, password, bankNum, bankBranch, bankAccount, salary, InitializeBonus, startDate,
-         tempsEmployment, roleId, null);
+         tempsEmployment, roleId, 0);
         this.driverLicense = licence;
         availableShiftDates = new LinkedList<>();
         workedDates = new LinkedList<>();
     }
     
     public Driver(DriverDTO driverDTO) {
-        super(driverDTO.firstName, driverDTO.lastName, driverDTO.id, driverDTO.password, driverDTO.bankNum, driverDTO.bankBranch, driverDTO.bankAccount, driverDTO.salary, driverDTO.bonus, driverDTO.startDate,
-        driverDTO.tempsEmployment, driverDTO., driverDTO.superBranch);
+        super(driverDTO.firstName, driverDTO.lastName, driverDTO.id, driverDTO.password, driverDTO.bankNum, driverDTO.bankBranch, driverDTO.bankAccount, driverDTO.salary, 0, driverDTO.startDate,
+        driverDTO.tempsEmployment, driverDTO.roles.get(0), 0);
     }
 
     public void AddConstraintDriver(LocalDate date){

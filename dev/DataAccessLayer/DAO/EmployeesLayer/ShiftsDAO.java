@@ -46,6 +46,7 @@ public class ShiftsDAO extends DAO<ShiftDTO> {
                 ans = 0;
             }
         } catch (Exception e) {
+            System.out.println(e.getMessage());
             ans = 0;
         } finally {
             Repository.getInstance().closeConnection(conn);

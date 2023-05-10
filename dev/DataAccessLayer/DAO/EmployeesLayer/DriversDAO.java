@@ -144,8 +144,8 @@ public class DriversDAO extends DAO<DriverDTO> {
                     /* bank account number */RS.getInt(7), /* salary */RS.getInt(8),
                     /* bonus */ RS.getInt(9), /* start date */ LocalDate.parse(RS.getString(10)),
                     /* temps employment */ RS.getString(11), roles,
-                    /* is logged in */ RS.getBoolean(13), /* super branch */ RS.getInt(14),
-                    /* driver license */  License.valueOf(RS.getString(15)), availableShiftDates, workedDates);
+                    /* is logged in */ RS.getBoolean(12), /* super branch */ RS.getInt(13),
+                    /* driver license */  License.valueOf(RS.getString(14)), availableShiftDates, workedDates);
         } catch (Exception e) {
             output = null;
         } finally {

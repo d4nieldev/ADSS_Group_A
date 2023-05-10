@@ -1,7 +1,10 @@
 package DataAccessLayer.DTOs;
 
+import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.Map;
+
+import BusinessLayer.Inventory.ProductStatus;
 
 
 
@@ -11,12 +14,13 @@ private int generalId;
 private int branchId;
 private double buyPrice;
 private double sellPrice;
-private String status;
+private  ProductStatus.status status;
 private String flaw;
-private String expDate;
+private LocalDate expDate;
 
 
-public SpecificProductDTO(int specificId, int generalId, int branchId, double buyPrice, double sellPrice, String status, String flaw, String expDate) {
+public SpecificProductDTO(int specificId, int generalId, int branchId, double buyPrice, double sellPrice,  ProductStatus.status status, String flaw, LocalDate expDate) {
+   
     this.specificId = specificId;
     this.generalId = generalId;
     this.branchId = branchId;
@@ -35,9 +39,45 @@ public Map<String, String> getNameToVal() {
     nameToVal.put("branchDTO", "" + branchId);
     nameToVal.put("buyPrice", "" + buyPrice);
     nameToVal.put("sellPrice", "" + sellPrice);
-    nameToVal.put("status", status);
+    nameToVal.put("status", status.toString());
     nameToVal.put("flaw", flaw);
-    nameToVal.put("expDate", expDate);
+    nameToVal.put("expDate", expDate.toString());
     return nameToVal;
 }
+
+public int getSpecificId() {
+    return specificId;
+}
+
+public int getGeneralId() {
+    return generalId;
+}
+
+public int getBranchId() {
+    return branchId;
+}
+
+public double getBuyPrice() {
+    return buyPrice;
+}
+
+public double getSellPrice() {
+    return sellPrice;
+}
+
+public ProductStatus.status getStatus() {
+    return status;
+}
+
+public String getFlaw() {
+    return flaw;
+}
+
+public LocalDate getExpDate() {
+    return expDate;
+}
+
+
+
+
 }

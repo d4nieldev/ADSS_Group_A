@@ -6,10 +6,8 @@
   <component name="ChangeListManager">
     <list default="true" id="a2472df3-0b1c-47fc-bcd6-f26fc4f0a51c" name="Changes" comment="Changes">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dev/BussinessLayer/TransPortLayer/Transport.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/BussinessLayer/TransPortLayer/Transport.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dev/BussinessLayer/TransPortLayer/TransportFacade.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/BussinessLayer/TransPortLayer/TransportFacade.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dev/BussinessLayer/TransPortLayer/Truck.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/BussinessLayer/TransPortLayer/Truck.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dev/BussinessLayer/TransPortLayer/TruckFacade.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/BussinessLayer/TransPortLayer/TruckFacade.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dev/DataAccessLayer/DAO/TransportLayer/TransportDriverDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/DataAccessLayer/DAO/TransportLayer/TransportDriverDAO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dev/DataAccessLayer/Repository.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/DataAccessLayer/Repository.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

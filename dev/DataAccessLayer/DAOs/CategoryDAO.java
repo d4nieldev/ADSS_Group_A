@@ -9,9 +9,16 @@ import DataAccessLayer.Repository;
 import DataAccessLayer.DTOs.CategoryDTO;
 
 public class CategoryDAO extends DAO<CategoryDTO> {
+    private static CategoryDAO instance = null;
 
-    public CategoryDAO(){
+    protected CategoryDAO() {
         super("Categories");
+    }
+
+    public static CategoryDAO getInstance() {
+        if (instance == null)
+            instance = new CategoryDAO();
+        return instance;
     }
 
     @Override
@@ -23,9 +30,9 @@ public class CategoryDAO extends DAO<CategoryDTO> {
         String name = rs.getString("name");
         String categoryParentId = rs.getString("parent");
         CategoryDTO parenCategoryDTO;
-        if(categoryParentId == null){
+        if (categoryParentId == null) {
             parenCategoryDTO = null;
-        }else{
+        } else {
             parenCategoryDTO = getById(Integer.parseInt(categoryParentId));
         }
         return new CategoryDTO(id, name, parenCategoryDTO);
@@ -41,5 +48,5 @@ public class CategoryDAO extends DAO<CategoryDTO> {
 
         return makeDTO(catId);
     }
-    
+
 }

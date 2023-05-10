@@ -1,6 +1,9 @@
 package DataAccessLayer.DAOs;
 
 import BusinessLayer.Inventory.ProductBranch;
+import BusinessLayer.Inventory.ProductStatus;
+import BusinessLayer.Inventory.ProductStatus.status;
+import BusinessLayer.enums.Status;
 import DataAccessLayer.DTOs.BranchDTO;
 import DataAccessLayer.DTOs.ProductBranchDTO;
 import DataAccessLayer.DTOs.SpecificProductDTO;
@@ -8,6 +11,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -37,9 +41,11 @@ public class SpecificProductDAO extends DAO<SpecificProductDTO> {
         int branchId = rs.getInt("branchId");
         double buyPrice = rs.getDouble("buyPrice");
         double sellPrice = rs.getDouble("sellPrice");
-        String status = rs.getString("status");
+        ProductStatus.status status = stringToStatus(rs.getString("status"));
+
         String flaw = rs.getString("flaw");
-        String expDate = rs.getString("expDate");
+        LocalDate expDate = LocalDate.parse(rs.getString("expDate"));
+
 
         return new SpecificProductDTO(specificId, generalId, branchId, buyPrice, sellPrice, status,flaw,expDate);
     }
@@ -53,6 +59,20 @@ public class SpecificProductDAO extends DAO<SpecificProductDTO> {
         ResultSet catId = statement.executeQuery();
 
         return makeDTO(catId);
+    }
+
+    private ProductStatus.status stringToStatus(String status){
+        switch(status){
+            case "SOLD":
+                return ProductStatus.status.SOLD;
+            case "IS_FLAW":
+                return ProductStatus.status.IS_FLAW;
+            case "EXPIRED":
+                return ProductStatus.status.EXPIRED;
+            case "ABORTED":
+                return ProductStatus.status.ON_STORAGE;
+        }
+        return null;
     }
 
 }

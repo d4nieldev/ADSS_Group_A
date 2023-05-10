@@ -286,6 +286,24 @@ public class ShiftsDAO extends DAO<ShiftDTO> {
         return ans;
     }
 
+    public ShiftDTO getShiftById(int id) {
+        Connection conn = Repository.getInstance().connect();
+        ResultSet res = get(tableName, "ShiftID", id, conn);
+
+        try {
+            if (!res.next())
+                return null;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        finally {
+            Repository.getInstance().closeConnection(conn);
+        }
+
+        ShiftDTO shift = makeDTO(res);
+        return shift;
+    }
+
     public int addConstraint(int empID, int shiftID) {
         return employeeShiftContraintDAO.addConstraint(empID, shiftID);
     }

@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.LinkedList;
 
 import DataAccessLayer.DAO.EmployeesLayer.ShiftsDAO;
+import DataAccessLayer.DTO.EmployeeLayer.ShiftDTO;
 import Misc.*;
 
 public class ShiftFacade {
@@ -106,12 +107,59 @@ public class ShiftFacade {
         for (Shift shift : shifts) {
             if(shift.getID() == id){return shift;}
         }
+        ShiftDTO shift = shiftsDAO.getShiftById(id);
+        if (shift != null) {
+            return createNewShiftFromShiftDTO(shift);
+        }
         throw new Error("No such a shift in this system by the id " + id);
     }
 
     public int getShiftIdConuter(){return shiftIdConuter;}
 
 //-------------------------------------Help Functions--------------------------------------------------------
+
+    public HashMap<Employee, LinkedList<Integer>> convertIdsMapAndLinkedListToObjectMap(HashMap<Integer, LinkedList<Integer>> idMap) {
+        HashMap<Employee, LinkedList<Integer>> res = new HashMap<Employee, LinkedList<Integer>>();
+        for (Integer id : idMap.keySet()) {
+            if(employeeFacade.isEmployeeExistsAndLoadEmployee(id)){
+                Employee emp = employeeFacade.getEmployeeById(id);
+                res.put(emp, idMap.get(id));
+            }           
+        } 
+        return res;
+    }
+
+    public HashMap<Employee, Integer> convertIdsMapToObjectMap(HashMap<Integer, Integer> idMap) {
+        HashMap<Employee, Integer> res = new HashMap<Employee, Integer>();
+        for (Integer id : idMap.keySet()) {
+            if(employeeFacade.isEmployeeExistsAndLoadEmployee(id)){
+                Employee emp = employeeFacade.getEmployeeById(id);
+                res.put(emp, idMap.get(id));
+            }           
+        } 
+        return res;
+    }
+
+    public LinkedList<Driver> convertIdsListToDrivers(LinkedList<Integer> lstId) {
+        LinkedList<Driver> res = new LinkedList<>();
+        for (Integer id : lstId) {
+            if(employeeFacade.isEmployeeExistsAndLoadEmployee(id)){
+                Driver emp = (Driver) employeeFacade.getEmployeeById(id);
+                res.add(emp);
+            }           
+        } 
+        return res;
+    }
+
+    private Shift createNewShiftFromShiftDTO(ShiftDTO shiftDTO) {
+        HashMap<Employee, LinkedList<Integer>> constraints = convertIdsMapAndLinkedListToObjectMap(shiftDTO.constraints);
+        HashMap<Employee, Integer> finalShift = convertIdsMapToObjectMap(shiftDTO.finalShift);
+        LinkedList<Driver> driversInShift = convertIdsListToDrivers(shiftDTO.driversInShift);
+        Branch branch = employeeFacade.ge
+        Shift s = new Shift(shiftDTO, constraints, finalShift, driversInShift);
+        shifts.add(s);
+        return s;
+    }
 
     public Shift getShiftByAddressDateMorning(String address, LocalDate date){
         for (Shift shift : shifts) {

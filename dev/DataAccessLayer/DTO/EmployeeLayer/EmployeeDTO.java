@@ -20,7 +20,7 @@ public class EmployeeDTO {
 	public String tempsEmployment;
 	public LinkedList<Integer> roles;
 	public boolean isLoggedIn;
-	public LinkedList<Shift> historyShift;
+	public LinkedList<Integer> historyShift;
 	public int superBranch;
 	public LinkedList<Integer> branchs;
 

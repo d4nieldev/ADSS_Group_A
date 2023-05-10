@@ -45,7 +45,7 @@ public class Employee{
 	}
 
 	// constructor from database
-    public Employee(EmployeeDTO DTO) {
+    public Employee(EmployeeDTO DTO, LinkedList<Shift> historyShift) {
         this.firstName = DTO.firstName;
         this.lastName = DTO.lastName;
         this.id = DTO.id;
@@ -59,7 +59,7 @@ public class Employee{
 		this.tempsEmployment = DTO.tempsEmployment;
 		this.roles = DTO.roles;
 		this.isLoggedIn = DTO.isLoggedIn;
-		this.historyShift = DTO.historyShift;
+		this.historyShift = historyShift;
 		this.superBranch = DTO.superBranch;
 		this.branchs = DTO.branchs;
 	}
@@ -105,7 +105,7 @@ public class Employee{
 	}
 
 	// check if the employee have a shift in some date
-	// return dalse if the employee is avalible in this date = does not have a shift on that day
+	// return false if the employee is avalible in this date = does not have a shift on that day
 	public boolean checkShiftInDate(LocalDate date){
 		for (Shift shift : historyShift) {
 			if(shift.getDate().equals(date)){

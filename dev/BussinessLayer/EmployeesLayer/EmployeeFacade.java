@@ -393,10 +393,12 @@ public class EmployeeFacade {
 
     // called only if the employee exist, else will return error.
     public Employee getEmployeeById(int id) {
-        for (Employee employee : employees) {
-            if (employee.getId() == id)
-                return employee;
-        }
+        if (isEmployeeExistsAndLoadEmployee(id)) {
+            for (Employee employee : employees) {
+                if (employee.getId() == id)
+                    return employee;
+            }
+        }   
         throw new Error("The id " + id + "is not in the system. Please try again");
     }
 
@@ -421,6 +423,10 @@ public class EmployeeFacade {
         }
         EmployeeDTO emp = employeesDAO.getEmployeeById(id);
         if (emp != null) {
+            LinkedList<Shift> histoyShifts = new LinkedList<Shift>();
+            for (Integer shiftId : emp.historyShift) {
+                histoyShifts.add(shiftFacade.getShiftById(shiftId)
+            }
             employees.add(new Employee(emp));
             return true;
         }

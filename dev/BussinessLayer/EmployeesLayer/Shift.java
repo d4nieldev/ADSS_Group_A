@@ -40,6 +40,23 @@ public class Shift{
         driversInShift = new LinkedList<>();
     }
 
+    public Shift(ShiftDTO shiftDTO,  HashMap<Employee, LinkedList<Integer>> constraints, HashMap<Employee, Integer> finalShift, LinkedList<Driver> driversInShift) {
+        this.idShift = shiftDTO.idShift;
+        this.superBranch = new Branch(shiftDTO.superBranch);
+        this.date = shiftDTO.date;
+        this.time = shiftDTO.time;
+        this.startHour = shiftDTO.startHour;
+        this.endHour = shiftDTO.endHour;
+        this.duration = shiftDTO.duration;
+        this.finishSettingShift = shiftDTO.finishSettingShift;
+        this.constraints = constraints;
+        this.numEmployeesForRole = shiftDTO.numEmployeesForRole;
+        this.helpMapForAssign = shiftDTO.helpMapForAssign;
+        this.finalShift = finalShift;
+        this.cancellations = shiftDTO.cancellations;
+        this.driversInShift = driversInShift;
+    }
+
     public void addCancelation(Employee employee, int itemCode, int itemID){
         if(cancellations.containsKey(itemCode)){(cancellations.get(itemCode)).add(itemID);}
         else{

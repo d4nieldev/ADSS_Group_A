@@ -189,6 +189,24 @@ public class ShiftsDAO extends DAO<ShiftDTO> {
         return output;
     }
 
+    public int getMaxShiftId() {
+        int output = 0;
+
+        Connection conn = Repository.getInstance().connect();
+        String SELECT_SQL = String.format("SELECT MAX(\"%s\") FROM %s WHERE \"%s\"=\"%d\"","ShiftID", tableName);
+        ResultSet res = null;
+        try {
+            Statement stmt = conn.createStatement();
+            res = stmt.executeQuery(SELECT_SQL);
+            output = res.getInt(1);
+        } catch (Exception e) {
+            output = -1;
+        } finally {
+            Repository.getInstance().closeConnection(conn);
+        }
+        return output;
+    }
+
     public HashMap<Integer, LinkedList<Integer>> getConstraintsList(Integer id, Connection conn) {
         HashMap<Integer, LinkedList<Integer>> ans = new HashMap<>();
         ResultSet rs = get("EmployeesShiftsContraints", "ShiftID", id, conn);

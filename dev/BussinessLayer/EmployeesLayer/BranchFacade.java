@@ -209,7 +209,7 @@ public class BranchFacade {
         if (bra != null) {
             return createNewBranchFromBranchDTO(bra);
         }
-        throw new Error("The branch id " + branchId + "is not in the system. Please try again");
+        throw new Error("The branch id " + branchId + " is not in the system. Please try again");
     }
 
     private void checkShiftManagerExist( HashMap<Employee, Integer> hashMapEmployees){

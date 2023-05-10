@@ -182,14 +182,20 @@ public class BranchesDAO extends DAO<BranchDTO> {
         Connection conn = Repository.getInstance().connect();
         ResultSet res = get(tableName, "BranchID", id, conn);
 
+        BranchDTO newBra = null;
+
         try {
-            if (!res.next())
+            if (!res.next()){
                 return null;
+            }
+            newBra = makeDTO(res);
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
-        BranchDTO newBra = makeDTO(res);
+        finally {
+            Repository.getInstance().closeConnection(conn);
+        }
+    
         BRANCH_IDENTITY_MAP.put(id, newBra);
         return newBra;
     }

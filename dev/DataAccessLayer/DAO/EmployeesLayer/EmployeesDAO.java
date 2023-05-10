@@ -150,6 +150,9 @@ public class EmployeesDAO extends DAO<EmployeeDTO> {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        finally {
+            Repository.getInstance().closeConnection(conn);
+        }
 
         EmployeeDTO newEmp = makeDTO(res);
         EMPLOYEE_IDENTITY_MAP.put(id, newEmp);

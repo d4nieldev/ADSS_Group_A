@@ -17,6 +17,7 @@ public class ShiftFacade {
         this.employeeFacade = employeeFacade;
         shifts = new LinkedList<Shift>();
         shiftsDAO = new ShiftsDAO();
+        shiftIdConuter = shiftsDAO.getMaxShiftId();
     }
 
     public void addShift(Shift newShift){

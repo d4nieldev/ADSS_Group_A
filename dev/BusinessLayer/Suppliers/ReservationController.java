@@ -1,5 +1,6 @@
 package BusinessLayer.Suppliers;
 
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Comparator;
@@ -155,22 +156,37 @@ public class ReservationController {
         return supplierToReservation;
     }
 
-    private Reservation getMostAttractiveReservationAndRemove(Map<Integer, Reservation> supToReservation) {
-        // compare first by amount (desc) then by price (asc)
+    private Reservation getMostAttractiveReservationAndRemove(Map<Integer, Reservation> supToReservation)
+            throws SuppliersException {
+        // min time
+        // min num of suppliers
+        // min total price
+
+        // compare first by mimimal time, then by minimum num of reservations, then by
+        // minimum price
         Comparator<Integer> supComp = (sup1, sup2) -> {
+            Supplier s1 = SupplierController.getInstance().getSupplierById(sup1);
+            Supplier s2 = SupplierController.getInstance().getSupplierById(sup2);
+            // s1 before s2 <=> s1 supplies before sw <=> s1.time - s2.time < 0
+            int output = (int) ChronoUnit.DAYS.between(s1.getClosestDeliveryDate(), s2.getClosestDeliveryDate());
+
             Reservation r1 = supToReservation.get(sup1);
             Reservation r2 = supToReservation.get(sup2);
 
-            int amount1 = r1.getTotalAmount();
-            int amount2 = r2.getTotalAmount();
+            if (output == 0) {
 
-            int output = amount1 - amount2;
+                int amount1 = r1.getTotalAmount();
+                int amount2 = r2.getTotalAmount();
+                // s1 before s2 <=> s1 offers more that s2 <=> s2.amount - s1.amount < 0
+                output = amount2 - amount1;
+            }
 
             if (output == 0) {
-                // same amount
-                double diff = r2.getPriceAfterDiscount() - r1.getPriceAfterDiscount();
+                // s1 before s2 <=> s1 is cheaper than s2 <=> s1.price - s2.price < 0
+                double diff = r1.getPriceAfterDiscount() - r2.getPriceAfterDiscount();
                 output = diff > 0 ? 1 : (diff < 0 ? -1 : 0);
             }
+
             return output;
         };
 

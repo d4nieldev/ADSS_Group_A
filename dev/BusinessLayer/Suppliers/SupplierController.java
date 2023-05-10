@@ -83,12 +83,11 @@ public class SupplierController {
     public void addSelfPickupSupplierBaseAgreement(String supplierName, String supplierPhone,
             String supplierBankAccount,
             List<String> supplierFields, String paymentCondition, TreeMap<Integer, Double> amountToDiscount,
-            List<String> contactNames, List<String> contactPhones, String address) {
+            List<String> contactNames, List<String> contactPhones, String address, int maxSupplyDays) {
         try {
             SelfPickupSupplier spus = new SelfPickupSupplier(nextSupplierIdInSystem, supplierName, supplierPhone,
-                    supplierBankAccount,
-                    supplierFields, paymentCondition, amountToDiscount,
-                    makeContactList(contactPhones, contactNames, nextSupplierIdInSystem), address);
+                    supplierBankAccount, supplierFields, paymentCondition, amountToDiscount,
+                    makeContactList(contactPhones, contactNames, nextSupplierIdInSystem), address, maxSupplyDays);
             idToSupplier.put(nextSupplierIdInSystem, spus);
             nextSupplierIdInSystem++;
         } catch (Exception e) {

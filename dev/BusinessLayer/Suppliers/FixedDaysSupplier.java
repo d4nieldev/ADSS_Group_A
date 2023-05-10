@@ -72,9 +72,12 @@ class FixedDaysSupplier extends Supplier {
 
     @Override
     public LocalDate getClosestDeliveryDate() {
-        // LocalDate.now().getDayOfWeek().
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getClosestDeliveryDate'");
+        LocalDate closestDay = LocalDate.now().plusDays(1);
+
+        while (!days.contains(closestDay.getDayOfWeek()))
+            closestDay = closestDay.plusDays(1);
+
+        return closestDay;
     }
 
 }

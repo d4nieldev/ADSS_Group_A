@@ -417,10 +417,6 @@ public class EmployeeFacade {
         }
         EmployeeDTO emp = employeesDAO.getEmployeeById(id);
         if (emp != null) {
-            LinkedList<Shift> histoyShifts = new LinkedList<Shift>();
-            for (Integer shiftId : emp.historyShift) {
-                histoyShifts.add(shiftFacade.getShiftById(shiftId)
-            }
             employees.add(new Employee(emp));
             return true;
         }

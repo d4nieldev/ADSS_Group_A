@@ -112,17 +112,6 @@ public class Employee{
 		}
 	}
 
-	// calculate the salary for month
-	public int sumSalaryToMonth(int month, int year){
-		int countHours = 0;
-		for (Shift shift : historyShift) {
-			if(shift.getDate().getDayOfMonth() == month && shift.getDate().getYear() == year){
-				countHours += shift.getDuration();
-			}
-		}
-		return countHours * salary;
-	}
-
 	public void resetBonus(){bonus = 0;}
 
 	public String toString(){

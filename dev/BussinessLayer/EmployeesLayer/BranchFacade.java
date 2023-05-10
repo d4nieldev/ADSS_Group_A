@@ -211,6 +211,19 @@ public class BranchFacade {
         }
     }
 
+    // calculate the salary for month
+	public int sumSalaryToMonth(int employeeId, int month, int year){
+		int countHours = 0;
+        Employee employee = employeeFacade.getEmployeeById(employeeId);
+		for (int shiftId : employee.getHistoryShift()) {
+            Shift shift = shiftFacade.getShift(shiftId);
+			if(shift.getDate().getDayOfMonth() == month && shift.getDate().getYear() == year){
+				countHours += shift.getDuration();
+			}
+		}
+		return countHours * employee.getSalary();
+	}
+
     //-------------------------------------Help Functions--------------------------------------------------------
     private Branch getBranchById(int branchId){
         for (Branch branch : branchs) {

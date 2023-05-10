@@ -1,8 +1,7 @@
 package Presentation_Layer;
-import Service_Layer.ReportServiceNew;
+import Service_Layer.ReportService;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -11,7 +10,7 @@ public class ReportSystem {
     public  static Scanner scanner = new Scanner(System.in);
     public  static BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
 
-    public static void importInventoryReport(ReportServiceNew reportService){
+    public static void importInventoryReport(ReportService reportService){
         try {
             System.out.println("please enter branchId");
             int branchId = Integer.parseInt(reader.readLine());
@@ -21,7 +20,7 @@ public class ReportSystem {
             System.out.println("Error occurred - please try again ");
         }
     }
-    public static void importInventoryReportByCategories(ReportServiceNew reportService){
+    public static void importInventoryReportByCategories(ReportService reportService){
         try {
             System.out.println("please enter branchId");
             int branchId = Integer.parseInt(reader.readLine());
@@ -39,7 +38,7 @@ public class ReportSystem {
             System.out.println("Error occurred - please try again ");
         }
     }
-    public static void importExpiredAndFlawsReport(ReportServiceNew reportService) {
+    public static void importExpiredAndFlawsReport(ReportService reportService) {
         try {
             System.out.println("please enter branchId");
             int branchId = Integer.parseInt(reader.readLine());
@@ -49,7 +48,7 @@ public class ReportSystem {
         }
     }
 
-        public static void importReportByReportId(ReportServiceNew reportService) {
+        public static void importReportByReportId(ReportService reportService) {
             try {
                 System.out.println("please enter ReportId");
                 int ReportId = Integer.parseInt(reader.readLine());
@@ -60,7 +59,7 @@ public class ReportSystem {
             }
 }
 
-    public static void importDeficientReport(ReportServiceNew reportService) {
+    public static void importDeficientReport(ReportService reportService) {
         try {
             System.out.println("please enter branchId");
             int branchId = Integer.parseInt(reader.readLine());
@@ -70,7 +69,7 @@ public class ReportSystem {
         }
     }
 
-    public static void importProductReport(ReportServiceNew reportService) {
+    public static void importProductDetails(ReportService reportService) {
         try {
             System.out.println("please enter branchId");
             int branchId = Integer.parseInt(reader.readLine());

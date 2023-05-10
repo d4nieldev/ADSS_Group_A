@@ -1,9 +1,8 @@
 package Service_Layer;
 
-import BusinessNew.*;
+import Business_Layer.*;
 
 
-import java.time.LocalDate;
 import java.util.List;
 
 public class ProductService {

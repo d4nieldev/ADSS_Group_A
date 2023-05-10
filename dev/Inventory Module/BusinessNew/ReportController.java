@@ -18,6 +18,10 @@ public  class ReportController {
         return instance;
     }
 
+    public HashMap<Integer,Report> getAllReports(){
+        return this.allReports;
+    }
+
     public InventoryReport importInventoryReport(int branchId){
         InventoryReport report = new InventoryReport(branchId);
         allReports.put(report.getId(),report);

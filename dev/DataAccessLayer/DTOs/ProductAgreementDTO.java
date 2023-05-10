@@ -23,6 +23,7 @@ public class ProductAgreementDTO implements DTO {
         this.amountToDiscount = amountToDiscount;
     }
 
+
     @Override
     public Map<String, String> getNameToVal() {
         Map<String, String> nameToVal = new HashMap<>();
@@ -32,6 +33,36 @@ public class ProductAgreementDTO implements DTO {
         nameToVal.put("basePrice", "" + basePrice);
         nameToVal.put("productSupplierId", "" + productSupplierId);
         return nameToVal;
+    }
+
+
+    public int getSupplierId() {
+        return supplierId;
+    }
+
+
+    public ProductDTO getProductDTO() {
+        return productDTO;
+    }
+
+
+    public int getStockAmount() {
+        return stockAmount;
+    }
+
+
+    public double getBasePrice() {
+        return basePrice;
+    }
+
+
+    public int getProductSupplierId() {
+        return productSupplierId;
+    }
+
+
+    public TreeMap<Integer, DiscountDTO> getAmountToDiscount() {
+        return amountToDiscount;
     }
 
 }

@@ -2,8 +2,10 @@ package BussinessLayer.EmployeesLayer;
 import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.List;
 
 import DataAccessLayer.DAO.EmployeesLayer.BranchesDAO;
+import DataAccessLayer.DTO.EmployeeLayer.BranchDTO;
 import Misc.*;
 
 public class BranchFacade {
@@ -17,8 +19,8 @@ public class BranchFacade {
         this.employeeFacade = employeeFacade;
         this.shiftFacade = shiftFacade;
         branchs = new LinkedList<>();
-        branchs.add(new Branch(0, "BGU", Location.SOUTH));
         branchesDAO = new BranchesDAO();
+        addBranchForStartUpTheSystem(0, "BGU", Location.SOUTH);
     }
     
     public void addBranch(int managerId, String address, Location location) {
@@ -175,9 +177,28 @@ public class BranchFacade {
         String res = "";
         employeeFacade.checkEmployee(managerId);
         employeeFacade.checkLoggedIn(managerId);
+        List<BranchDTO> branchsDTO = branchesDAO.getAll();
+        branchs = new LinkedList<>();
+        for (BranchDTO branchDTO : branchsDTO) {
+            LinkedList<Employee> originEmployees = convertIdsListToObject(branchDTO.originEmployees);
+            LinkedList<Employee> foreignEmployees = convertIdsListToObject(branchDTO.foreignEmployees);
+            LinkedList<Employee> notAllowEmployees = convertIdsListToObject(branchDTO.notAllowEmployees);
+            branchs.add(new Branch(branchDTO, originEmployees, foreignEmployees, notAllowEmployees));
+        }
         for (Branch branch : branchs) {
             res += branch.toString() + "\n";
         }
+        return res;
+    }
+
+    public LinkedList<Employee> convertIdsListToObject(LinkedList<Integer> lstId) {
+        LinkedList<Employee> res = new LinkedList<>();
+        for (Integer id : lstId) {
+            if(employeeFacade.isEmployeeExistsAndLoadEmployee(id)){
+                Employee emp = employeeFacade.getEmployeeById(id);
+                res.add(emp);
+            }           
+        } 
         return res;
     }
 
@@ -199,5 +220,11 @@ public class BranchFacade {
             }
         }
         if(!foundManager){throw new Error("A shift have to contain at least one Shift Manager");}
+    }
+
+    private void addBranchForStartUpTheSystem(int id, String address, Location location) {
+        Branch b = new Branch(0, "BGU", Location.SOUTH);
+        branchs.add(b);
+        branchesDAO.insert(b.toDTO());
     }
 }

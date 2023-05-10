@@ -22,6 +22,15 @@ public class Branch {
         this.notAllowEmployees = new LinkedList<>();
     }
 
+    public Branch(BranchDTO branchDTO, LinkedList<Employee> originEmployees, LinkedList<Employee> foreignEmployees, LinkedList<Employee> notAlloEmployees) {
+        this.branchId = branchDTO.branchId;
+        this.address = branchDTO.address;
+        this.location = branchDTO.location;
+        this.originEmployees = originEmployees;
+        this.foreignEmployees = foreignEmployees;
+        this.notAllowEmployees = notAlloEmployees;
+    }
+
     public void addNewEmployee(Employee employee){
         originEmployees.add(employee);
     }

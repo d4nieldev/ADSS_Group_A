@@ -73,6 +73,9 @@ public class Program1 {
 //        case 17:
 //          ReportSystem.importInventoryReportByCategories(reportService);
 //          break;
+        case 18:
+          ReportSystem.importInventoryReportByCategories(reportService);
+          break;
         case 0:
           ProductSystem.getMenu();
           break;

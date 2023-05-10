@@ -40,6 +40,22 @@ public class ReportServiceNew {
         System.out.println("===============================================");
 
     }
+
+    public void importReportByReportId(int ReportId) throws Exception {
+        if(!(reportController.getAllReports().containsKey(ReportId))){
+
+        }
+        else if(reportController.getAllReports().get(ReportId) instanceof InventoryReport){
+            importInventoryReportByReportId(ReportId);
+        }
+        else if(reportController.getAllReports().get(ReportId) instanceof ExpiredAndFlawReport){
+            importExpiredAndFlawsReportByReportId(ReportId);
+        }
+        else if(reportController.getAllReports().get(ReportId) instanceof DeficientReport){
+            importDeficientReportByReportId(ReportId);
+        }
+    }
+
     public void importInventoryReportByCategories(int branchId, List<Integer> categoriesId) {
 
         List<Category> allCategories = categoryController.getListAllSubCategoriesByIds(categoriesId);

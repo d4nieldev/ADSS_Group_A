@@ -48,6 +48,16 @@ public class ReportSystem {
         catch (Exception e){
         System.out.println("Error occurred - please try again ");
     }
+
+        public static void importReportByReportId() {
+            try {
+                System.out.println("please ReportId");
+                int ReportId = Integer.parseInt(reader.readLine());
+                reportService.importReportByReportId(ReportId);
+            }
+            catch (Exception e){
+                System.out.println("Error occurred - please try again ");
+            }
 }
 
 
@@ -91,6 +101,18 @@ public class ReportSystem {
 //            System.out.println("Error occurred - please try again ");
 //        }
 //    }
+
+//    public static void importGeneralProductReport(ReportServiceNew reportService){
+//        try {
+//        System.out.println("Enter general product code");
+//        int code = Integer.parseInt(reader.readLine());
+//        reportService.importGeneralProductReport(code);
+//        }
+//        catch (Exception e){
+//            System.out.println("Error occurred - please try again ");
+//        }
+//    }
+
 //    public static void importInventoryReportByCategories(ReportServiceNew reportService){
 //        try {
 //

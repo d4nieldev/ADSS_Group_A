@@ -25,9 +25,9 @@ public class Program1 {
 //        case 1:
 //          ProductsSystem.addProduct(productService);
 //          break;
-//        case 2:
-//          reportService.importInventoryReport(1);
-//          break;
+        case 2:
+          ProductSystem.addNewCategory(productService );
+          break;
 //        case 3:
 //            ProductsSystem.reciveSupply(productService);
 //          break;
@@ -47,10 +47,10 @@ public class Program1 {
           ReportSystem.importInventoryReport(reportService);
           break;
 //        case 9:
-//          ReportSystem.importProductDiscountHistory(reportService);
+////          ReportSystem.importProductDiscountHistory(reportService);
 //          break;
         case 10:
-          ReportSystem.importExpiredAndFlawsReport(1);
+          ReportSystem.importExpiredAndFlawsReport(reportService);
           break;
 //        case 11:
 //          ReportSystem.importFlawProductsReport(reportService);

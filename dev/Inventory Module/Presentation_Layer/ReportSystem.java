@@ -13,7 +13,7 @@ public class ReportSystem {
 
     public static void importInventoryReport(ReportServiceNew reportService){
         try {
-            System.out.println("please branchId");
+            System.out.println("please enter branchId");
             int branchId = Integer.parseInt(reader.readLine());
         reportService.importInventoryReport(branchId);
         }
@@ -23,7 +23,7 @@ public class ReportSystem {
     }
     public static void importInventoryReportByCategories(ReportServiceNew reportService){
         try {
-            System.out.println("please branchId");
+            System.out.println("please enter branchId");
             int branchId = Integer.parseInt(reader.readLine());
             int chose = 0;
             List<Integer>lst = new ArrayList<>();
@@ -50,6 +50,8 @@ public class ReportSystem {
     }
 }
 
+
+
 //    public static void importExpiredProductReport(ReportServiceNew reportService){
 //        try{
 //        reportService.importExpiredProductReport();
@@ -69,24 +71,26 @@ public class ReportSystem {
 
 //    public static void importProductDiscountHistory(ReportServiceNew reportService){
 //        try{
-//        System.out.println("Enter general product code");
-//        int code = Integer.parseInt(reader.readLine());
-//        reportService.importProductDiscountHistory(code);
+//            System.out.println("please enter branchId");
+//            int branchId = Integer.parseInt(reader.readLine());
+//            System.out.println("Enter product code");
+//            int code = Integer.parseInt(reader.readLine());
+//            reportService.importProductDiscountHistory(branchId,code);
 //        }
 //        catch (Exception e){
 //            System.out.println("Error occurred - please try again ");
 //        }
 //    }
-    public static void importGeneralProductReport(ReportServiceNew reportService){
-        try {
-        System.out.println("Enter general product code");
-        int code = Integer.parseInt(reader.readLine());
-        reportService.importGeneralProductReport(code);
-        }
-        catch (Exception e){
-            System.out.println("Error occurred - please try again ");
-        }
-    }
+//    public static void importGeneralProductReport(ReportServiceNew reportService){
+//        try {
+//        System.out.println("Enter general product code");
+//        int code = Integer.parseInt(reader.readLine());
+//        reportService.importGeneralProductReport(code);
+//        }
+//        catch (Exception e){
+//            System.out.println("Error occurred - please try again ");
+//        }
+//    }
 //    public static void importInventoryReportByCategories(ReportServiceNew reportService){
 //        try {
 //
@@ -106,37 +110,37 @@ public class ReportSystem {
 //        }
 //    }
 
-    public static void  importFlawProductsReport(ReportServiceNew reportService){
-        try{
-        reportService.importFlawProductsReport();
-        }
-        catch (Exception e){
-            System.out.println("Error occurred - please try again ");
-        }
-    }
+//    public static void  importFlawProductsReport(ReportServiceNew reportService){
+//        try{
+//        reportService.importFlawProductsReport();
+//        }
+//        catch (Exception e){
+//            System.out.println("Error occurred - please try again ");
+//        }
+//    }
+//
+//    public static void importProductSellPriceReport(ReportServiceNew reportService){
+//        try{
+//        System.out.println("Enter general product code");
+//        int code = Integer.parseInt(reader.readLine());
+//        reportService.importProductSellPriceReport(code);
+//        }
+//        catch (Exception e){
+//            System.out.println("Error occurred - please try again ");
+//        }
+//    }
 
-    public static void importProductSellPriceReport(ReportServiceNew reportService){
-        try{
-        System.out.println("Enter general product code");
-        int code = Integer.parseInt(reader.readLine());
-        reportService.importProductSellPriceReport(code);
-        }
-        catch (Exception e){
-            System.out.println("Error occurred - please try again ");
-        }
-    }
 
-
-    public static void importFutureExpiredProductds(ReportServiceNew reportService) {
-        try{
-            System.out.println("please enter the last date you want to check in format - YYYY-MM-DD ");
-            String date = reader.readLine();
-            reportService.importFutureExpiredProduct(LocalDate.parse(date));
-        }
-        catch (Exception e){
-            System.out.println("Error occurred - please try again ");
-        }
-    }
+//    public static void importFutureExpiredProductds(ReportServiceNew reportService) {
+//        try{
+//            System.out.println("please enter the last date you want to check in format - YYYY-MM-DD ");
+//            String date = reader.readLine();
+//            reportService.importFutureExpiredProduct(LocalDate.parse(date));
+//        }
+//        catch (Exception e){
+//            System.out.println("Error occurred - please try again ");
+//        }
+//    }
 
 }
 

@@ -63,7 +63,20 @@ public class ProductService {
 //        System.out.println("Supply added successfully");
 //    }
 
-
+    public void addNewCategory(String categoryName, int parentId) throws Exception {
+        if(parentId != -1){
+            Category parentCategory = categoryController.getCategoryById(parentId);
+            if(parentCategory == null)
+                throw new Exception("This Parent id doesn't exist");
+            categoryController.addNewCategory(categoryName,parentCategory);
+        }
+        else {
+            categoryController.addNewCategory(categoryName);
+        }
+        for(Category category : categoryController.getAllCategories()){
+            System.out.println(category.getName());
+        }
+    }
     public void sellProduct(int code, int id,int branchId) throws Exception {
         Branch branch = branchController.getBranchById(branchId);
         branch.sellProduct(code,id);

@@ -9,6 +9,7 @@ import java.io.InputStreamReader;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Scanner;
 
 public class ProductSystem {
@@ -160,6 +161,23 @@ public class ProductSystem {
 //            System.out.println("Error occurred - please try again ");
 //        }
 //    }
+    public static void addNewCategory(ProductService productService) {
+        try {
+            System.out.println("enter new categoryName");
+            String categoryName = reader.readLine();
+            System.out.println("is it subCategory? Y/N");
+            String answer = reader.readLine().toLowerCase(Locale.ROOT);
+            int parentId = -1;
+            if (answer == "y") {
+                System.out.println("enter category parent id");
+                parentId = Integer.parseInt(reader.readLine());
+            }
+            productService.addNewCategory(categoryName, parentId);
+
+        } catch (Exception e) {
+            System.out.println("Error occurred - please try again ");
+        }
+    }
     public static void sellProduct(ProductService productService){
         try{
             System.out.println("enter product code");
@@ -289,7 +307,7 @@ public class ProductSystem {
         System.out.println("--------------------------------------------------------");
         System.out.println("Please choose an action (press 0 for menu):");
         System.out.println("1.  Add new product");
-        System.out.println("2.  Import inventory report");
+        System.out.println("2.  Add Category");
         System.out.println("3.  Receive supply");
         System.out.println("4.  Sell product");
         System.out.println("5.  Set discount - categories");
@@ -307,5 +325,6 @@ public class ProductSystem {
         System.out.println("--------------------------------------------------------");
 
     }
+
 
 }

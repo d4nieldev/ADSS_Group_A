@@ -14,6 +14,10 @@ public class CategoryController {
         this.categoryDic = new Hashtable<>();
     }
 
+    public List<Category> getAllCategories() {
+        return allCategories;
+    }
+
     public static CategoryController getInstance() {
         if (instance == null) {
             instance = new CategoryController();

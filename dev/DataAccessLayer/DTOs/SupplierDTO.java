@@ -3,7 +3,7 @@ package DataAccessLayer.DTOs;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
+import java.util.TreeMap;
 
 public class SupplierDTO implements DTO {
     protected int id;
@@ -12,14 +12,17 @@ public class SupplierDTO implements DTO {
     protected String paymentCondition;
     protected List<String> fields;
     protected List<ContactDTO> contacts;
+    protected TreeMap<Integer, DiscountDTO> amountToDiscount;
 
-    public SupplierDTO(int id, String name, String bankAccount, String paymentCondition, List<String> fields, List<ContactDTO> contacts) {
+    public SupplierDTO(int id, String name, String bankAccount, String paymentCondition, List<String> fields,
+            List<ContactDTO> contacts, TreeMap<Integer, DiscountDTO> amountToDiscount) {
         this.id = id;
         this.name = name;
         this.bankAccount = bankAccount;
         this.paymentCondition = paymentCondition;
         this.fields = fields;
-        this.contacts=contacts;
+        this.contacts = contacts;
+        this.amountToDiscount = amountToDiscount;
     }
 
     @Override

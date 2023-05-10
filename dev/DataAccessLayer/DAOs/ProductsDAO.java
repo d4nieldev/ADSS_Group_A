@@ -11,9 +11,17 @@ import DataAccessLayer.DTOs.CategoryDTO;
 import DataAccessLayer.DTOs.ProductDTO;
 
 public class ProductsDAO extends DAO<ProductDTO> {
+    private static ProductsDAO instance = null;
 
     protected ProductsDAO() {
         super("Products");
+    }
+
+    public static ProductsDAO getInstance() {
+        if (instance == null) {
+            instance = new ProductsDAO();
+        }
+        return instance;
     }
 
     @Override

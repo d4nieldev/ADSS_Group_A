@@ -1,4 +1,4 @@
-package DataAccessLayer.DTOs;
+spackage DataAccessLayer.DTOs;
 
 public class ProductAgreementDTO {
     

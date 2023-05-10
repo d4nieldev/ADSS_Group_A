@@ -11,6 +11,7 @@ import DataAccessLayer.DTOs.SupplierDTO;
 
 public class SupplierDAO extends DAO<SupplierDTO> {
     private SuppliersFieldsDAO suppliersFieldsDAO;
+    private ContactDAO contactDAO;
     private static SupplierDAO instance = null;
 
     // public abstract List<FieldDTO> getFieldsBySupplierId(int supplierId);
@@ -19,6 +20,7 @@ public class SupplierDAO extends DAO<SupplierDTO> {
     private SupplierDAO() {
         super("Suppliers");
         suppliersFieldsDAO = new SuppliersFieldsDAO();
+        contactDAO = ContactDAO.getInstance();
     }
 
     public static SupplierDAO getInstance() {

@@ -14,18 +14,18 @@ public class Reservation {
     private int supplierId;
     private Date date;
     private Status status;
-    private Branch destinationBranch;
+    private int destinationBranchId;
     private Contact contact;
     private List<ReceiptItem> receipt;
 
-    public Reservation(int id, int supplier_id, List<ReceiptItem> receipt, Contact contact, Branch destinationBranch) {
+    public Reservation(int id, int supplier_id, List<ReceiptItem> receipt, Contact contact, Integer destinationBranchId) {
         this.id = id;
         this.supplierId = supplier_id;
         this.date = new Date();
         this.status = Status.NOTREADY;
         this.receipt = receipt;
         this.contact = contact;
-        this.destinationBranch = destinationBranch;
+        this.destinationBranchId = destinationBranchId;
     }
 
     public void cancel() throws SuppliersException {
@@ -68,8 +68,8 @@ public class Reservation {
         return this.receipt;
     }
 
-    public Branch getDestination() {
-        return this.destinationBranch;
+    public Integer getDestination() {
+        return this.destinationBranchId;
     }
 
     public double getPriceBeforeDiscount() {
@@ -141,7 +141,7 @@ public class Reservation {
         output += "======================================================================";
         output += "id: " + r.id + "\n";
         output += "supplier id: " + r.supplierId + "\n";
-        output += "address: " + r.destinationBranch + "\n";
+        output += "destinationBranchId: " + r.destinationBranchId + "\n";
         output += "date: " + r.date + "\n";
         output += "status: " + r.status + "\n";
         output += "contact phone: " + r.contact.getPhone() + "\n";

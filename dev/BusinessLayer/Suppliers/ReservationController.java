@@ -42,7 +42,7 @@ public class ReservationController {
     }
 
     public void makeManualReservation(Map<Integer, Map<Integer, Integer>> supplierToproductToAmount,
-            Branch destinationBranch) throws SuppliersException {
+            Integer destinationBranch) throws SuppliersException {
         int reservationId = getNextIdAndIncrement();
         List<Reservation> finalOrder = new ArrayList<>();
 
@@ -84,7 +84,7 @@ public class ReservationController {
         supplierIdToReservations.computeIfAbsent(reservation.getSupplierId(), k -> new ArrayList<>()).add(reservation);
     }
 
-    public void makeDeficiencyReservation(Map<Integer, Integer> productToAmount, Branch destinationBranch)
+    public void makeDeficiencyReservation(Map<Integer, Integer> productToAmount, Integer destinationBranch)
             throws SuppliersException {
         int reservationId = getNextIdAndIncrement();
         Map<Integer, Reservation> supToReservation = maxReservationPerSupplier(productToAmount, destinationBranch,
@@ -123,7 +123,7 @@ public class ReservationController {
     }
 
     private Map<Integer, Reservation> maxReservationPerSupplier(Map<Integer, Integer> productToAmount,
-            Branch destinationBranch, int reservationId) throws SuppliersException {
+            Integer destinationBranch, int reservationId) throws SuppliersException {
         Map<Integer, Reservation> supplierToReservation = new HashMap<>();
 
         for (int productId : productToAmount.keySet()) {

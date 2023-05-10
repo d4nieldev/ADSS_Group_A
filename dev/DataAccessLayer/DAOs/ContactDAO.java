@@ -4,14 +4,19 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import DataAccessLayer.DTOs.ContactDTO;
-import DataAccessLayer.DTOs.SupplierDTO;
 
 public class ContactDAO extends DAO<ContactDTO> {
-    SupplierDAO supplierDAO;
 
-    protected ContactDAO() {
+    private static ContactDAO instance = null;
+
+    public static ContactDAO getInstance(){
+        if(instance == null)
+            instance = new ContactDAO();
+        return instance;
+    }
+
+    private ContactDAO() {
         super("Contacts");
-        supplierDAO = SupplierDAO.getInstance();
     }
 
     @Override
@@ -23,9 +28,7 @@ public class ContactDAO extends DAO<ContactDTO> {
         String phone = rs.getString("phone");
         String name = rs.getString("name");
 
-        SupplierDTO supplierDTO = supplierDAO.getById(supplierId);
-
-        return new ContactDTO(supplierDTO, phone, name);
+        return new ContactDTO(supplierId, phone, name);
     }
 
 }

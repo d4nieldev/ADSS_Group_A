@@ -4,12 +4,12 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class ContactDTO implements DTO {
-    private SupplierDTO supplierDTO;
+    private int supplierId;
     private String phone;
     private String name;
 
-    public ContactDTO(SupplierDTO supplierDTO, String phone, String name) {
-        this.supplierDTO = supplierDTO;
+    public ContactDTO(int supplierId, String phone, String name) {
+        this.supplierId = supplierId;
         this.phone = phone;
         this.name = name;
     }
@@ -17,7 +17,7 @@ public class ContactDTO implements DTO {
     @Override
     public Map<String, String> getNameToVal() {
         Map<String, String> nameToVal = new HashMap<>();
-        nameToVal.put("supplierId", "" + supplierDTO.getSupplierId());
+        nameToVal.put("supplierId", "" + supplierId);
         nameToVal.put("phone", phone);
         nameToVal.put("name", name);
         return nameToVal;

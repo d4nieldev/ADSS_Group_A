@@ -1,33 +1,36 @@
 package DataAccessLayer.DTOs;
 
-import java.sql.Date;
 
+import java.time.LocalDate;
+import java.util.HashMap;
+import java.util.Map;
 import BusinessLayer.enums.Status;
 
-public class ReservationDTO {
+public class ReservationDTO implements DTO{
     private int id;
-    private int supplierId;
-    private Date date;
+    private SupplierDTO supplierDTO;
+    private LocalDate date;
     private Status status;
-    private String destinationBranch;
+    private BranchDTO branchDTO;
+    
 
-    public ReservationDTO(int id, int supplierId, Date date, Status status, String destinationBranch){
+    public ReservationDTO(int id, SupplierDTO supplierDTO, LocalDate date,  Status status, BranchDTO branchDTO){
         this.id = id;
-        this.supplierId = supplierId;
+        this.supplierDTO = supplierDTO;
         this.date = date;
         this.status = status;
-        this.destinationBranch = destinationBranch;
+        this.branchDTO = branchDTO;
     }
 
     public int getId(){
         return id;
     }
 
-    public int getSupplierId(){
-        return supplierId;
+    public SupplierDTO getSupplierDTO(){
+        return supplierDTO;
     }
 
-    public Date getDate(){
+    public LocalDate getDate(){
         return date;
     }
 
@@ -35,8 +38,19 @@ public class ReservationDTO {
         return status;
     }
 
-    public String getDestinationBranch(){
-        return destinationBranch;
+    public BranchDTO getBranchDTO(){
+        return branchDTO;
+    }
+
+    @Override
+    public Map<String, String> getNameToVal() {
+        Map<String, String> nameToVal = new HashMap<>();
+        nameToVal.put("id", "" + id);
+        nameToVal.put("supplierId", ""+ getSupplierDTO().getSupplierId());
+        nameToVal.put("rDate", ""+ date.toString());
+        nameToVal.put("status", ""+ status.toString());
+        nameToVal.put("destinationBranch", ""+ getBranchDTO().getBranchId());
+        return nameToVal;
     }
     
 }

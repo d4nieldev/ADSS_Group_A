@@ -9,6 +9,7 @@ import java.util.TreeMap;
 import org.junit.Before;
 import org.junit.Test;
 
+import BusinessLayer.Inventory.Category;
 import BusinessLayer.InveontorySuppliers.Product;
 import BusinessLayer.InveontorySuppliers.ProductController;
 import BusinessLayer.Suppliers.SupplierController;
@@ -55,9 +56,9 @@ public class ProductControllerTest {
     }
 
     private void createTwoProducts() throws SuppliersException {
-        Product p1 = new Product(17, "Gumi Gum", "Statboy");
+        Product p1 = new Product(17, "Gumi Gum", "Statboy", new Category("IceCream"));
         ProductController.getInstance().addProduct(p1);
-        Product p2 = new Product(52, "Shokobo", "Jordi");
+        Product p2 = new Product(52, "Shokobo", "Jordi", new Category("IceCream"));
         ProductController.getInstance().addProduct(p2);
     }
 

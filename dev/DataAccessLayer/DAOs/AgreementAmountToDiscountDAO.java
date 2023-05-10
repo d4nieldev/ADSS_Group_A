@@ -12,6 +12,13 @@ import DataAccessLayer.DTOs.DiscountDTO;
 
 public class AgreementAmountToDiscountDAO extends DAO<AgreementAmountToDiscountDTO> {
     private DiscountDAO discountDAO = null;
+    private static AgreementAmountToDiscountDAO instance = null;
+
+    public static AgreementAmountToDiscountDAO getInstance() {
+        if (instance == null)
+            instance = new AgreementAmountToDiscountDAO();
+        return instance;
+    }
 
     protected AgreementAmountToDiscountDAO() {
         super("AgreementAmountToDiscount");

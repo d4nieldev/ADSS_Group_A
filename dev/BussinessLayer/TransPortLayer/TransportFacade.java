@@ -6,10 +6,14 @@ import java.util.stream.Collectors;
 
 import BussinessLayer.EmployeeTransportFacade;
 import BussinessLayer.EmployeesLayer.Driver;
+import DataAccessLayer.DAO.TransportLayer.TransportDAO;
+import DataAccessLayer.DAO.TransportLayer.TruckDAO;
 
 public class TransportFacade {
 
     private Map<Integer, Transport> transportMap;
+    private TransportDAO transportDAO;
+    private TruckDAO truckDAO;
     private EmployeeTransportFacade employeeTransportFacade=null;
 
     int id=0;
@@ -17,6 +21,9 @@ public class TransportFacade {
 
     private TransportFacade() {
         transportMap = new HashMap<Integer, Transport>();
+        transportDAO = new TransportDAO();
+        truckDAO = new TruckDAO();
+
     }
 
     public static TransportFacade getInstance()
@@ -35,6 +42,7 @@ public class TransportFacade {
         System.out.println("The id of transport is:"+ id);
         addTransport(id , shipment);
         id++;
+
     }
 
     /**

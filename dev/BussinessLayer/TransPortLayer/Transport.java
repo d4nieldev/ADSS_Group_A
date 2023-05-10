@@ -1,5 +1,7 @@
 package BussinessLayer.TransPortLayer;
 
+import DataAccessLayer.DTO.TransportLayer.TransportDTO;
+
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.*;
@@ -39,6 +41,21 @@ public class Transport {
         this.currentWeight= truckWeightNeto;
     }
 
+    /*public TransportDTO toDTO(){
+        return new TransportDTO(this.id = id,
+        this.date = date,
+        this.leavingTime = leavingTime,
+        this.truckNumber = truckNumber,
+        this.driverName = driverName,
+        this.driverId = driverId,
+        this.source = source,
+        this.destinationList=destinationList,
+        this.deliveryList=deliveryList,
+        this.truckWeightNeto=truckWeightNeto,
+        this.truckWeightMax=truckWeightMax,
+        this.loadedItems= new ArrayList<String>(),
+        this.currentWeight= truckWeightNeto);
+    }*/
     public void addDestination(Destination destination) {
         destinationList.add(destination);
     }

@@ -6,10 +6,10 @@
   <component name="ChangeListManager">
     <list default="true" id="a2472df3-0b1c-47fc-bcd6-f26fc4f0a51c" name="Changes" comment="Changes">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dev/DataAccessLayer/DAO/TransportLayer/DeliveryDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/DataAccessLayer/DAO/TransportLayer/DeliveryDAO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dev/DataAccessLayer/DAO/TransportLayer/DestinationDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/DataAccessLayer/DAO/TransportLayer/DestinationDAO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dev/DataAccessLayer/DTO/TransportLayer/DestinationDAO.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/dev/DataAccessLayer/DTO/TransportLayer/DestinationDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/DataAccessLayer/DTO/TransportLayer/DestinationDTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dev/BussinessLayer/TransPortLayer/Transport.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/BussinessLayer/TransPortLayer/Transport.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dev/BussinessLayer/TransPortLayer/TransportFacade.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/BussinessLayer/TransPortLayer/TransportFacade.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dev/BussinessLayer/TransPortLayer/Truck.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/BussinessLayer/TransPortLayer/Truck.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dev/BussinessLayer/TransPortLayer/TruckFacade.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/BussinessLayer/TransPortLayer/TruckFacade.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -39,12 +39,11 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">
-    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
-    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
-    <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/dev/PresentationLayer" />
-  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;
+  }
+}</component>
   <component name="RunManager">
     <configuration name="java" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="ALTERNATIVE_JRE_PATH" value="17" />
@@ -87,6 +86,5 @@
         </entry>
       </map>
     </option>
-    <option name="oldMeFiltersMigrated" value="true" />
   </component>
 </project>

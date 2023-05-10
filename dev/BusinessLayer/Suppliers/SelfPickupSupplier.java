@@ -4,6 +4,8 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.TreeMap;
 
+import BusinessLayer.InveontorySuppliers.Discount;
+
 class SelfPickupSupplier extends Supplier {
 
     private String address;
@@ -11,7 +13,7 @@ class SelfPickupSupplier extends Supplier {
 
     // Copy constructor
     public SelfPickupSupplier(int id, String name, String phone, String bankAcc, List<String> fields,
-            String paymentCondition, TreeMap<Integer, Double> amountToDiscount, List<Contact> contacts,
+            String paymentCondition, TreeMap<Integer, Discount> amountToDiscount, List<Contact> contacts,
             String address, int maxPreperationDays) {
         super(id, name, phone, bankAcc, fields, paymentCondition, amountToDiscount, contacts);
         this.address = address;
@@ -20,7 +22,7 @@ class SelfPickupSupplier extends Supplier {
 
     // Constructor without contacts, reservation history and fields
     public SelfPickupSupplier(int id, String name, String phone, String bankAcc, String paymentCondition,
-            TreeMap<Integer, Double> amountToDiscount, String address) {
+            TreeMap<Integer, Discount> amountToDiscount, String address) {
         super(id, name, phone, bankAcc, paymentCondition, amountToDiscount);
         this.address = address;
     }
@@ -28,7 +30,7 @@ class SelfPickupSupplier extends Supplier {
     // Constructor without reservation history and contacts
     public SelfPickupSupplier(int id, String name, String phone, String bankAcc, List<String> fields,
             String paymentCondition,
-            TreeMap<Integer, Double> amountToDiscount, String address) {
+            TreeMap<Integer, Discount> amountToDiscount, String address) {
         super(id, name, phone, bankAcc, fields, paymentCondition, amountToDiscount);
         this.address = address;
     }

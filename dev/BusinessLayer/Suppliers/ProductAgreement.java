@@ -3,6 +3,7 @@ package BusinessLayer.Suppliers;
 import java.util.Map;
 import java.util.TreeMap;
 
+import BusinessLayer.InveontorySuppliers.Discount;
 import BusinessLayer.InveontorySuppliers.Product;
 
 public class ProductAgreement {
@@ -11,11 +12,10 @@ public class ProductAgreement {
     private double basePrice;
     private int stockAmount;
     private Product product;
-    // discount is in percentage (max 100%)
-    private TreeMap<Integer, Double> amountToDiscount;
+    private TreeMap<Integer, Discount> amountToDiscount;
 
     public ProductAgreement(int supplierId, Product product, int productSupplierId, double basePrice, int stockAmount,
-            TreeMap<Integer, Double> amountToDiscount) {
+            TreeMap<Integer, Discount> amountToDiscount) {
         this.supplierId = supplierId;
         this.productSupplierId = productSupplierId;
         this.stockAmount = stockAmount;
@@ -31,11 +31,13 @@ public class ProductAgreement {
      * @return
      */
     public double getPrice(int amount) {
-        double discount = 0.0;
+        Discount discount;
         Integer key = amountToDiscount.floorKey(amount);
-        if (key != null)
+        if (key != null) {
             discount = amountToDiscount.get(key);
-        return (basePrice * (1 - discount)) * amount;
+            return discount.getPriceWithDiscount(basePrice);
+        }
+        return basePrice;
     }
 
     // Getter for supplier id
@@ -59,12 +61,12 @@ public class ProductAgreement {
     }
 
     // Getter for amount to price map
-    public Map<Integer, Double> getAmountToDiscount() {
+    public Map<Integer, Discount> getAmountToDiscount() {
         return amountToDiscount;
     }
 
     // Setter for amount to price map
-    public void setAmountToDiscount(TreeMap<Integer, Double> amountToDiscount) {
+    public void setAmountToDiscount(TreeMap<Integer, Discount> amountToDiscount) {
         this.amountToDiscount = amountToDiscount;
 
     }

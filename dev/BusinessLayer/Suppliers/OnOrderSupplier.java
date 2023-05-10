@@ -4,6 +4,8 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.TreeMap;
 
+import BusinessLayer.InveontorySuppliers.Discount;
+
 class OnOrderSupplier extends Supplier {
     // private LocalDate lastOrderDate;
     private int maxSupplyDays;
@@ -11,7 +13,7 @@ class OnOrderSupplier extends Supplier {
     // Copy constructor
     public OnOrderSupplier(int id, String name, String phone, String bankAcc, List<String> fields,
             String paymentCondition,
-            TreeMap<Integer, Double> amountToDiscount, List<Contact> contacts,
+            TreeMap<Integer, Discount> amountToDiscount, List<Contact> contacts,
             int maxSupplyDays) {
         super(id, name, phone, bankAcc, fields, paymentCondition, amountToDiscount, contacts);
         this.maxSupplyDays = maxSupplyDays;
@@ -19,7 +21,7 @@ class OnOrderSupplier extends Supplier {
 
     // Constructor without contacts, reservation history and fields
     public OnOrderSupplier(int id, String name, String phone, String bankAcc, String paymentCondition,
-            TreeMap<Integer, Double> amountToDiscount, int maxSupplyDays) {
+            TreeMap<Integer, Discount> amountToDiscount, int maxSupplyDays) {
         super(id, name, phone, bankAcc, paymentCondition, amountToDiscount);
         this.maxSupplyDays = maxSupplyDays;
     }
@@ -27,7 +29,7 @@ class OnOrderSupplier extends Supplier {
     // Constructor without reservation history and contacts
     public OnOrderSupplier(int id, String name, String phone, String bankAcc, List<String> fields,
             String paymentCondition,
-            TreeMap<Integer, Double> amountToDiscount, int maxSupplyDays) {
+            TreeMap<Integer, Discount> amountToDiscount, int maxSupplyDays) {
         super(id, name, phone, bankAcc, fields, paymentCondition, amountToDiscount);
         this.maxSupplyDays = maxSupplyDays;
     }

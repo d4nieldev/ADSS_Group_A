@@ -1,6 +1,9 @@
 package BusinessLayer.Suppliers;
 
 import java.util.TreeMap;
+
+import BusinessLayer.InveontorySuppliers.Discount;
+
 import java.time.LocalDate;
 import java.util.LinkedList;
 import java.util.List;
@@ -12,12 +15,12 @@ public abstract class Supplier {
     private String bankAcc;
     private List<String> fields;
     private String paymentCondition;
-    private TreeMap<Integer, Double> amountToDiscount;
+    private TreeMap<Integer, Discount> amountToDiscount;
     private List<Contact> contacts;
 
     // Copy Constructor
     public Supplier(int id, String name, String phone, String bankAcc, List<String> fields, String paymentCondition,
-            TreeMap<Integer, Double> amountToDiscount, List<Contact> contacts) {
+            TreeMap<Integer, Discount> amountToDiscount, List<Contact> contacts) {
         this.id = id;
         this.name = name;
         this.bankAcc = bankAcc;
@@ -29,7 +32,7 @@ public abstract class Supplier {
 
     // Constructor without contacts and fields
     public Supplier(int id, String name, String phone, String bankAcc, String paymentCondition,
-            TreeMap<Integer, Double> amountToDiscount) {
+            TreeMap<Integer, Discount> amountToDiscount) {
         this.id = id;
         this.name = name;
         this.bankAcc = bankAcc;
@@ -43,7 +46,7 @@ public abstract class Supplier {
 
     // Constructor without contacts
     public Supplier(int id, String name, String phone, String bankAcc, List<String> fields, String paymentCondition,
-            TreeMap<Integer, Double> amountToDiscount) {
+            TreeMap<Integer, Discount> amountToDiscount) {
         this.id = id;
         this.name = name;
         this.bankAcc = bankAcc;
@@ -112,11 +115,11 @@ public abstract class Supplier {
     }
 
     // Getter and setter for amountToDiscount
-    public TreeMap<Integer, Double> getAmountToDiscount() {
+    public TreeMap<Integer, Discount> getAmountToDiscount() {
         return amountToDiscount;
     }
 
-    public void setAmountToDiscount(TreeMap<Integer, Double> amountToDiscount) {
+    public void setAmountToDiscount(TreeMap<Integer, Discount> amountToDiscount) {
         this.amountToDiscount = amountToDiscount;
     }
 
@@ -178,13 +181,13 @@ public abstract class Supplier {
         return newContacts;
     }
 
-    public double getDiscount(int amount) {
-        double discount = 0.0;
+    public Discount getDiscount(int amount) {
+        Discount discount = null;
         Integer key = amountToDiscount.floorKey(amount);
-        if (key != null)
+        if (key != null) {
             discount = amountToDiscount.get(key);
+        }
         return discount;
-
     }
 
     @Override

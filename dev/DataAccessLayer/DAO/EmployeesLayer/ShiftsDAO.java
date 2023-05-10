@@ -189,11 +189,11 @@ public class ShiftsDAO extends DAO<ShiftDTO> {
         return output;
     }
 
-    public int getMaxShiftId() {
+    public int getMaxShiftIdPlusOne() {
         int output = 0;
 
         Connection conn = Repository.getInstance().connect();
-        String SELECT_SQL = String.format("SELECT MAX(\"%s\") FROM %s WHERE \"%s\"=\"%d\"","ShiftID", tableName);
+        String SELECT_SQL = String.format("SELECT MAX(\"%s\") FROM \"%s\"","ShiftID", tableName);
         ResultSet res = null;
         try {
             Statement stmt = conn.createStatement();
@@ -204,7 +204,7 @@ public class ShiftsDAO extends DAO<ShiftDTO> {
         } finally {
             Repository.getInstance().closeConnection(conn);
         }
-        return output;
+        return output + 1;
     }
 
     public HashMap<Integer, LinkedList<Integer>> getConstraintsList(Integer id, Connection conn) {

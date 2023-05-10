@@ -14,7 +14,10 @@ public class ProductBranch {
     private int totalAmount;
     private HashMap<Integer,SpecificProduct> allSpecificProducts;//maps between specificId and its object
     private List<Discount> discountsHistory;
-    Discount discount;
+    private Discount discount;
+
+    //TODO : check if product exist on suppliers
+    private Boolean ExistOnSuppliers;
 
     public ProductBranch(Product product ,double price, int idealQuantity, int minQuantity) {
         this.product = product;

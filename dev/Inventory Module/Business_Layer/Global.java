@@ -15,7 +15,6 @@ public class Global {
         Categoryid++;
         return Categoryid - 1;
     }
-
     /**
      * s
      * @return

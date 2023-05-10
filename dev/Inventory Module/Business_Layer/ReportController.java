@@ -18,18 +18,22 @@ public  class ReportController {
         return instance;
     }
 
+    //TODO : change brnachId to Branch object;
     public HashMap<Integer,Report> getAllReports(){
         return this.allReports;
     }
 
     public InventoryReport importInventoryReport(int branchId){
-        InventoryReport report = new InventoryReport(branchId);
+
+        Branch branch = BranchController.getInstance().getBranchById(branchId);
+        InventoryReport report = new InventoryReport(branch);
         allReports.put(report.getId(),report);
         return report;
     }
 
     public InventoryReport importInventoryReport(int branchId, List<Category> categoryList){
-        InventoryReport report = new InventoryReport(branchId,categoryList);
+        Branch branch = BranchController.getInstance().getBranchById(branchId);
+        InventoryReport report = new InventoryReport(branch,categoryList);
         allReports.put(report.getId(),report);
         return report;
     }

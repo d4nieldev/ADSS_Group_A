@@ -27,7 +27,7 @@ public class Category {
     public String getName() {return name;}
     public void setName(String name) {this.name = name;}
 
-    public Category getParentCategorie() {return parentCategory;}
+    public Category getParentCategory() {return parentCategory;}
     public void setParentCategorie(Category parentCategorie) {this.parentCategory = parentCategory;}
 
     public String getParentparentCategoryId() {

@@ -47,7 +47,7 @@ public class CategoryController {
     public void addNewCategory(String name, Category parentCategory) { // + add variable : List<Category> - represent all its children
         boolean flag = false;
         for (Category cat : allCategories) {
-            if (cat.getName() == name && cat.getParentCategorie().getId() == parentCategory.getId()) {//so category is already exist
+            if (cat.getName() == name && cat.getParentCategory().getId() == parentCategory.getId()) {//so category is already exist
                 flag = true;
                 System.out.println("this category already exist");
                 break;

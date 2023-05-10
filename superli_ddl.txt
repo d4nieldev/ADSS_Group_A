@@ -34,12 +34,6 @@ CREATE TABLE IF NOT EXISTS Contacts (
 	PRIMARY KEY (supplierId, phone)
 );
 
-CREATE TABLE IF NOT EXISTS Fields (
-	name TEXT NOT NULL,
-	
-	PRIMARY KEY (name)
-);
-
 CREATE TABLE IF NOT EXISTS SuppliersFields (
 	supplierId INTEGER NOT NULL,
 	fieldName  INTEGER NOT NULL,

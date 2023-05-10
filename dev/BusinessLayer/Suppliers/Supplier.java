@@ -36,6 +36,14 @@ public abstract class Supplier {
 
     public abstract LocalDate getClosestDeliveryDate();
 
+    public Map<Integer, PeriodicReservation> getBranchToPeriodicReservations() {
+        return branchToPeriodicReservations;
+    }
+
+    public void setBranchToPeriodicReservations(Map<Integer, PeriodicReservation> branchToPeriodicReservations) {
+        this.branchToPeriodicReservations = branchToPeriodicReservations;
+    }
+
     // Getter and setter for id
     public int getId() {
         return id;

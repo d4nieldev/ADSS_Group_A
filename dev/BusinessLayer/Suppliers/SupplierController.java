@@ -1,5 +1,6 @@
 package BusinessLayer.Suppliers;
 
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.TreeMap;
 
@@ -7,19 +8,34 @@ import BusinessLayer.InveontorySuppliers.Discount;
 import BusinessLayer.InveontorySuppliers.Product;
 import BusinessLayer.InveontorySuppliers.ProductController;
 import BusinessLayer.InveontorySuppliers.ReceiptItem;
+import BusinessLayer.InveontorySuppliers.Reservation;
 import BusinessLayer.Suppliers.exceptions.SuppliersException;
 
 import java.util.List;
+import java.util.Map;
 
 public class SupplierController {
     private int nextSupplierIdInSystem;
     private TreeMap<Integer, Supplier> idToSupplier;
     private static SupplierController instance = null;
+    private ReservationController rc;
+    Thread periodicReservationsCareTaker;
 
     // Constructor for SupplierController
     private SupplierController() {
         this.idToSupplier = new TreeMap<Integer, Supplier>();
         this.nextSupplierIdInSystem = 0;
+        this.rc = ReservationController.getInstance();
+        periodicReservationsCareTaker = new Thread(() -> {
+            try {
+                while (!Thread.interrupted()) {
+                    makePeriodicalReservations();
+                    Thread.sleep(86400000); // sleep for a day
+                }
+            } catch (InterruptedException ignored) {
+            }
+        });
+        periodicReservationsCareTaker.start();
     }
 
     public static SupplierController getInstance() {
@@ -340,6 +356,18 @@ public class SupplierController {
 
     public Contact getRandomContactOf(int supplierID) throws SuppliersException {
         return getSupplierById(supplierID).getRandomContact();
+    }
+
+    private void makePeriodicalReservations() {
+        for (Supplier s : idToSupplier.values()) {
+            Map<Integer, PeriodicReservation> branchToPeriodicReservations = s.getBranchToPeriodicReservations();
+            for (int branchId : branchToPeriodicReservations.keySet()) {
+                PeriodicReservation pr = branchToPeriodicReservations.get(branchId);
+                Map<Integer, Map<Integer, Integer>> supplierToProductToAmount = new HashMap<>();
+                supplierToProductToAmount.put(s.getId(), pr.getProductsToAmounts());
+                rc.makeManualReservation(supplierToProductToAmount, pr.getBranchId());
+            }
+        }
     }
 
     public void clearData() {

@@ -5,8 +5,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
-import java.util.HashMap;
-import java.util.Map;
 
 import DataAccessLayer.Repository;
 import DataAccessLayer.DTOs.DiscountDTO;

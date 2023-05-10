@@ -7,11 +7,11 @@ import DataAccessLayer.DTOs.ProductBranchDTO;
 
 public class ProductBranchDAO extends DAO<ProductBranchDTO> {
 
-    private ProductDAO productDAO;
+    private ProductsDAO productDAO;
 
-    public ProductBranchDAO(){
+    public ProductBranchDAO() {
         super("ProductBranch");
-        productDAO = ProductDAO.getInstance();
+        productDAO = ProductsDAO.getInstance();
     }
 
     @Override
@@ -23,8 +23,8 @@ public class ProductBranchDAO extends DAO<ProductBranchDTO> {
         int branchId = rs.getInt("branchId");
         double price = rs.getDouble("price");
         int minQuantity = rs.getInt("minQuantity");
-        
-        return new ProductBranchDTO(ProductDAO.getById(productId), branchId , price, minQuantity);
+
+        return new ProductBranchDTO(productDAO.getById(productId), branchId, price, minQuantity);
     }
-    
+
 }

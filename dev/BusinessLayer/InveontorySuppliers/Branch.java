@@ -8,7 +8,6 @@ import java.util.List;
 
 import BusinessLayer.Inventory.Category;
 import BusinessLayer.Inventory.CategoryController;
-import BusinessLayer.Inventory.Discount;
 import BusinessLayer.Inventory.PeriodicReservation;
 import BusinessLayer.Inventory.ProductBranch;
 import BusinessLayer.Inventory.SpecificProduct;

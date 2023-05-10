@@ -3,6 +3,7 @@ package BusinessLayer.Suppliers;
 import java.util.LinkedList;
 import java.util.TreeMap;
 
+import BusinessLayer.InveontorySuppliers.Discount;
 import BusinessLayer.InveontorySuppliers.Product;
 import BusinessLayer.InveontorySuppliers.ProductController;
 import BusinessLayer.InveontorySuppliers.ReceiptItem;
@@ -51,11 +52,10 @@ public class SupplierController {
 
     // Add 'Fixed days' supplier to the system
     public void addFixedDaysSupplierBaseAgreement(String supplierName, String supplierPhone, String supplierBankAccount,
-            List<String> supplierFields, String paymentCondition, TreeMap<Integer, Double> amountToDiscount,
+            List<String> supplierFields, String paymentCondition, TreeMap<Integer, Discount> amountToDiscount,
             List<String> contactNames, List<String> contactPhones, List<Integer> days) throws SuppliersException {
         FixedDaysSupplier fds = new FixedDaysSupplier(nextSupplierIdInSystem, supplierName, supplierPhone,
-                supplierBankAccount,
-                supplierFields, paymentCondition, amountToDiscount,
+                supplierBankAccount, supplierFields, paymentCondition, amountToDiscount,
                 makeContactList(contactPhones, contactNames, nextSupplierIdInSystem), days);
         idToSupplier.put(nextSupplierIdInSystem, fds);
         nextSupplierIdInSystem++;
@@ -65,7 +65,7 @@ public class SupplierController {
     // Add 'On Order' supplier to the system
     public void addOnOrderSupplierBaseAgreement(String supplierName, String supplierPhone,
             String supplierBankAccount,
-            List<String> supplierFields, String paymentCondition, TreeMap<Integer, Double> amountToDiscount,
+            List<String> supplierFields, String paymentCondition, TreeMap<Integer, Discount> amountToDiscount,
             List<String> contactNames, List<String> contactPhones, int maxSupplyDays) {
         try {
             OnOrderSupplier oos = new OnOrderSupplier(nextSupplierIdInSystem, supplierName, supplierPhone,
@@ -82,13 +82,12 @@ public class SupplierController {
     // Add 'Self Pickup' supplier to the system
     public void addSelfPickupSupplierBaseAgreement(String supplierName, String supplierPhone,
             String supplierBankAccount,
-            List<String> supplierFields, String paymentCondition, TreeMap<Integer, Double> amountToDiscount,
-            List<String> contactNames, List<String> contactPhones, String address) {
+            List<String> supplierFields, String paymentCondition, TreeMap<Integer, Discount> amountToDiscount,
+            List<String> contactNames, List<String> contactPhones, String address, int maxSupplyDays) {
         try {
             SelfPickupSupplier spus = new SelfPickupSupplier(nextSupplierIdInSystem, supplierName, supplierPhone,
-                    supplierBankAccount,
-                    supplierFields, paymentCondition, amountToDiscount,
-                    makeContactList(contactPhones, contactNames, nextSupplierIdInSystem), address);
+                    supplierBankAccount, supplierFields, paymentCondition, amountToDiscount,
+                    makeContactList(contactPhones, contactNames, nextSupplierIdInSystem), address, maxSupplyDays);
             idToSupplier.put(nextSupplierIdInSystem, spus);
             nextSupplierIdInSystem++;
         } catch (Exception e) {
@@ -152,11 +151,10 @@ public class SupplierController {
     }
 
     // Update supplier discount
-    public void setSupplierAmountToDiscount(int supplierId, TreeMap<Integer, Double> amountToDiscount)
+    public void setSupplierAmountToDiscount(int supplierId, TreeMap<Integer, Discount> amountToDiscount)
             throws SuppliersException {
         try {
             getSupplierById(supplierId).setAmountToDiscount(amountToDiscount);
-            ;
         } catch (Exception e) {
             throw e;
         }
@@ -228,7 +226,7 @@ public class SupplierController {
      * 
      **/
     public void addSupplierProductAgreement(int supplierId, int productShopId, int productSupplierId, int stockAmount,
-            double basePrice, TreeMap<Integer, Double> amountToDiscount) throws SuppliersException {
+            double basePrice, TreeMap<Integer, Discount> amountToDiscount) throws SuppliersException {
         try {
             if (supplierId < 0) {
                 throw new SuppliersException("Supplier id cannot be negative.");
@@ -271,7 +269,7 @@ public class SupplierController {
      * 
      **/
     public void updateSupplierProductAgreement(int supplierId, int productShopId, int stockAmount,
-            TreeMap<Integer, Double> amountToDiscount) throws Exception {
+            TreeMap<Integer, Discount> amountToDiscount) throws Exception {
         ProductController.getInstance().updateProductAgreement(supplierId, productShopId, stockAmount,
                 amountToDiscount);
     }
@@ -307,12 +305,17 @@ public class SupplierController {
             amount += item.getAmount();
 
         Integer keyAmount = idToSupplier.get(supplierId).getAmountToDiscount().floorKey(amount);
-        double discount = 0.0;
+        Discount discount = null;
         if (keyAmount != null)
             discount = idToSupplier.get(supplierId).getAmountToDiscount().get(keyAmount);
 
-        for (ReceiptItem item : items)
-            item.setPricePerUnitAfterDiscount((1 - discount) * item.getPricePerUnitAfterDiscount());
+        for (ReceiptItem item : items) {
+            double priceAfterDiscount = item.getPricePerUnitAfterDiscount();
+            if (discount != null)
+                priceAfterDiscount = discount.getPriceWithDiscount(priceAfterDiscount);
+
+            item.setPricePerUnitAfterDiscount(priceAfterDiscount);
+        }
     }
 
     /**

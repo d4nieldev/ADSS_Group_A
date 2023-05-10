@@ -5,6 +5,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import BusinessLayer.InveontorySuppliers.Discount;
+import BusinessLayer.InveontorySuppliers.DiscountFixed;
+import BusinessLayer.InveontorySuppliers.DiscountPercentage;
 import BusinessLayer.InveontorySuppliers.Product;
 
 public class ProductBranch {

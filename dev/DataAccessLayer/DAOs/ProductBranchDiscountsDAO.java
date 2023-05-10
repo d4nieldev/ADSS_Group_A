@@ -3,19 +3,29 @@ package DataAccessLayer.DAOs;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import DataAccessLayer.DTOs.DiscountDTO;
 import DataAccessLayer.DTOs.ProductBranchDiscountDTO;
 
 public class ProductBranchDiscountsDAO extends DAO<ProductBranchDiscountDTO> {
+    private DiscountDAO discountDAO;
 
-    protected ProductBranchDiscountsDAO(String tableName) {
-        super(tableName);
-        // TODO Auto-generated constructor stub
+    protected ProductBranchDiscountsDAO() {
+        super("ProductBranchDiscounts");
+        this.discountDAO = DiscountDAO.getInstance();
     }
 
     @Override
     public ProductBranchDiscountDTO makeDTO(ResultSet rs) throws SQLException {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'makeDTO'");
+        if (!rs.next())
+            throw new SQLException("Can't make DTO from nothing!");
+
+        int productId = rs.getInt("productId");
+        int branchId = rs.getInt("branchId");
+        int discountId = rs.getInt("discountId");
+
+        DiscountDTO discount = discountDAO.getById(discountId);
+
+        return new ProductBranchDiscountDTO(productId, branchId, discount);
     }
 
 }

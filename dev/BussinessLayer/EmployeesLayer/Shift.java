@@ -9,7 +9,7 @@ import Misc.*;
 
 public class Shift{
     public int idShift;
-    private Branch superBranch;
+    private int superBranch;
     private LocalDate date;
     private ShiftTime time;
     private int startHour;
@@ -23,7 +23,7 @@ public class Shift{
     private HashMap<Integer, LinkedList<Integer>> cancellations;
     private LinkedList<Driver> driversInShift;
 
-    public Shift(int idShift, Branch superBranch, LocalDate date, int startHour, int endHour, ShiftTime time, HashMap<Integer, Integer> numEmployeesForRole){
+    public Shift(int idShift, int superBranch, LocalDate date, int startHour, int endHour, ShiftTime time, HashMap<Integer, Integer> numEmployeesForRole){
         this.idShift = idShift;
         this.superBranch = superBranch;
         this.date = date;
@@ -42,7 +42,7 @@ public class Shift{
 
     public Shift(ShiftDTO shiftDTO,  HashMap<Employee, LinkedList<Integer>> constraints, HashMap<Employee, Integer> finalShift, LinkedList<Driver> driversInShift) {
         this.idShift = shiftDTO.idShift;
-        this.superBranch = new Branch(shiftDTO.superBranch);
+        this.superBranch = shiftDTO.superBranch;
         this.date = shiftDTO.date;
         this.time = shiftDTO.time;
         this.startHour = shiftDTO.startHour;
@@ -173,7 +173,7 @@ public class Shift{
     }
     
     public String toString(){
-		return "Shift ID: " + idShift + " , Super Branch Id: " + superBranch.getBranchId() + " [date: " + date + ", time: " + time.toString() + 
+		return "Shift ID: " + idShift + " , Super Branch Id: " + superBranch + " [date: " + date + ", time: " + time.toString() + 
         ", start hour: " + startHour + ", end hour: " + endHour  + ", duration: " + duration + "]";
     }
     
@@ -191,14 +191,14 @@ public class Shift{
             driversInShiftToDTO.add(driver.getId());
         }
 
-        return new ShiftDTO(this.idShift, this.superBranch.getBranchId(), this.date, this.time, this.startHour, this.endHour,
+        return new ShiftDTO(this.idShift, this.superBranch, this.date, this.time, this.startHour, this.endHour,
 		this.duration, this.finishSettingShift, constraintsToDTO, this.numEmployeesForRole, finalShiftToDTO,
 		this.cancellations, driversInShiftToDTO);
     }
     
 //-------------------------------------Getters And Setters--------------------------------------------------------
     public int getID(){return idShift;}
-    public int getSuperBranchId(){return superBranch.getBranchId();}
+    public int getSuperBranchId(){return superBranch;}
     public String getSuperBranchAddress(){return superBranch.getBranchAddress();}
     public String getLocation(){return superBranch.getBranchLocation().toString(); }
     public LocalDate getDate(){return date;}

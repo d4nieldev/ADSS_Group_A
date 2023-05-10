@@ -18,7 +18,7 @@ public class Employee{
 	private String tempsEmployment;
 	private LinkedList<Integer> roles;
 	private boolean isLoggedIn;
-	private LinkedList<Shift> historyShift;
+	private LinkedList<Integer> historyShift;
 	private int superBranch;
 	private LinkedList<Integer> branchs;
 
@@ -45,7 +45,7 @@ public class Employee{
 	}
 
 	// constructor from database
-    public Employee(EmployeeDTO DTO, LinkedList<Shift> historyShift) {
+    public Employee(EmployeeDTO DTO) {
         this.firstName = DTO.firstName;
         this.lastName = DTO.lastName;
         this.id = DTO.id;
@@ -59,7 +59,7 @@ public class Employee{
 		this.tempsEmployment = DTO.tempsEmployment;
 		this.roles = DTO.roles;
 		this.isLoggedIn = DTO.isLoggedIn;
-		this.historyShift = historyShift;
+		this.historyShift = DTO.historyShift;
 		this.superBranch = DTO.superBranch;
 		this.branchs = DTO.branchs;
 	}
@@ -82,7 +82,7 @@ public class Employee{
 
 	// add shift to history shift in employee
 	public void addShift(Shift shift){
-		historyShift.push(shift);
+		historyShift.push(shift.getID());
 	}
 	
 	public void addBranch(int branchId){
@@ -104,16 +104,7 @@ public class Employee{
 		return false;
 	}
 
-	// check if the employee have a shift in some date
-	// return false if the employee is avalible in this date = does not have a shift on that day
-	public boolean checkShiftInDate(LocalDate date){
-		for (Shift shift : historyShift) {
-			if(shift.getDate().equals(date)){
-				return true;
-			}
-		}
-		return false;
-	}
+	
 
 	public void checkRoleInEmployee(Integer role) {
 		if(!roles.contains(role)){
@@ -171,7 +162,7 @@ public class Employee{
 	public boolean getIsLoggedIn(){return isLoggedIn;}
 	public void SetIsLoggedInToTrue(){isLoggedIn = true;}
 	public void SetIsLoggedInToFalse(){isLoggedIn = false;}
-	public LinkedList<Shift> getHistoryShift(){return historyShift;}
+	public LinkedList<Integer> getHistoryShift(){return historyShift;}
 	public int getSuperBranch(){return superBranch;}
 	public LinkedList<Integer> getAllBranches(){return branchs;}
 

@@ -177,13 +177,7 @@ public class EmployeeFacade {
         return strPrint;
     }
 
-    public void checkShiftInDate(int idEmployee, LocalDate date) {
-        checkEmployee(idEmployee);
-        Employee employee = getEmployeeById(idEmployee);
-        if (employee.checkShiftInDate(date)) {
-            throw new Error("The employee " + toString() + " already have ha shift on the date " + date.toString());
-        }
-    }
+    
 
     public void addRoleToEmployee(int managerId, int idEmployee, Integer role) {
         checkHrManager(managerId);

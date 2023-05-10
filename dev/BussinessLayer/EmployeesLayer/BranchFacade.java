@@ -89,7 +89,7 @@ public class BranchFacade {
         if(!numEmployeesForRole.keySet().contains(employeeFacade.getRoleClassInstance().getRoleByName("SHIFTMANAGER").getId())
             ||numEmployeesForRole.get(employeeFacade.getRoleClassInstance().getRoleByName("SHIFTMANAGER").getId()) < 1 )
             throw new Error("You have to role at least one SHIFTMANAGER for each shift.");
-        Shift newShift = new Shift(shiftID, branch, date, startHour, endHour, time, numEmployeesForRole);
+        Shift newShift = new Shift(shiftID, branch.getBranchId(), date, startHour, endHour, time, numEmployeesForRole);
         shiftFacade.addShift(newShift);
     }
     
@@ -149,7 +149,7 @@ public class BranchFacade {
             // check: exist branch for all employees
             branch.checkEmployeeInBranch(employee);
             // check: no employee have a shift on the same day
-            employeeFacade.checkShiftInDate(employee.getId(), shift.getDate());
+            checkShiftInDate(employee.getId(), shift.getDate());
             // check: all the role are existing in the employees that needed
             employeeFacade.checkRoleInEmployee(employee.getId(), hrAssigns.get(employee.getId()));
         }
@@ -197,6 +197,18 @@ public class BranchFacade {
             }           
         } 
         return res;
+    }
+
+    // check if the employee have a shift in some date
+	// do not throw an error if the employee is avalible in this date = does not have a shift on that day
+    public void checkShiftInDate(int idEmployee, LocalDate date) {
+        employeeFacade.checkEmployee(idEmployee);
+        Employee employee = employeeFacade.getEmployeeById(idEmployee);
+        for (int shiftId : employee.getHistoryShift()) {
+            if(shiftFacade.getShift(shiftId).getDate().equals(date)){
+				throw new Error("The employee " + toString() + " already has a shift on the date " + date.toString());
+			}
+        }
     }
 
     //-------------------------------------Help Functions--------------------------------------------------------

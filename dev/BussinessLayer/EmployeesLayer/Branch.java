@@ -79,6 +79,15 @@ public class Branch {
          foreignEmployeesToDTO, notAllowEmployeesToDTO);
     }
 
+    public String ToString(){
+        return "Branch ID: " + branchId + "\n" +
+        "Branch Address: " + address + "\n" +
+        "Branch Location: " + location.toString() + "\n" +
+        "Origin Employees: " + originEmployees.toString() + "\n" +
+        "Foreign Employees: " + foreignEmployees.toString() + "\n" +
+        "Not Allow Employees: " + notAllowEmployees.toString() + "\n";
+    }
+
     //-------------------------------------Getters And Setters--------------------------------------------------------
 
     public int getBranchId(){ return this.branchId; }

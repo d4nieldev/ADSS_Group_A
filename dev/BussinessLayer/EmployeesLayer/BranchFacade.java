@@ -180,13 +180,10 @@ public class BranchFacade {
         List<BranchDTO> branchsDTO = branchesDAO.getAll();
         branchs = new LinkedList<>();
         for (BranchDTO branchDTO : branchsDTO) {
-            LinkedList<Employee> originEmployees = convertIdsListToObject(branchDTO.originEmployees);
-            LinkedList<Employee> foreignEmployees = convertIdsListToObject(branchDTO.foreignEmployees);
-            LinkedList<Employee> notAllowEmployees = convertIdsListToObject(branchDTO.notAllowEmployees);
-            branchs.add(new Branch(branchDTO, originEmployees, foreignEmployees, notAllowEmployees));
+            createNewBranchFromBranchDTO(branchDTO);
         }
         for (Branch branch : branchs) {
-            res += branch.toString() + "\n";
+            res += branch.ToString() + "\n";
         }
         return res;
     }
@@ -208,6 +205,10 @@ public class BranchFacade {
             if (branch.getBranchId() == branchId)
                 return branch;
         }
+        BranchDTO bra = branchesDAO.getBranchById(branchId);
+        if (bra != null) {
+            return createNewBranchFromBranchDTO(bra);
+        }
         throw new Error("The branch id " + branchId + "is not in the system. Please try again");
     }
 
@@ -226,5 +227,14 @@ public class BranchFacade {
         Branch b = new Branch(0, "BGU", Location.SOUTH);
         branchs.add(b);
         branchesDAO.insert(b.toDTO());
+    }
+
+    private Branch createNewBranchFromBranchDTO(BranchDTO branchDTO) {
+        LinkedList<Employee> originEmployees = convertIdsListToObject(branchDTO.originEmployees);
+        LinkedList<Employee> foreignEmployees = convertIdsListToObject(branchDTO.foreignEmployees);
+        LinkedList<Employee> notAllowEmployees = convertIdsListToObject(branchDTO.notAllowEmployees);
+        Branch b = new Branch(branchDTO, originEmployees, foreignEmployees, notAllowEmployees);
+        branchs.add(b);
+        return b;
     }
 }

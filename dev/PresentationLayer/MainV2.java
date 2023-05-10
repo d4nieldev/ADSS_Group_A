@@ -28,11 +28,12 @@ class MainV2 {
         transportSystem = new TransportSystem(serviceFactory);
 
         ////////////////My Beautifual Test Area/////////////////////
-        //hrSystem.employeeService.logIn(123456789, "abc");
+        hrSystem.employeeService.logIn(123456789, "abc");
         // DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
         // LocalDate localDate = LocalDate.parse("05-06-2003", formatter);
         // hrSystem.branchService.addNewEmployee(123456789, "Tuli", "Hatuli", 1111, "123", 0, 0, 0, 0, 0, localDate, "dsf", "cashier", 0);
-        // System.out.println(hrSystem.employeeService.printAllEmployees(123456789));       
+        // System.out.println(hrSystem.employeeService.printAllEmployees(123456789));
+        //System.out.println(hrSystem.branchService.printAllBranches(123456789));       
         System.out.println("check");
         ////////////////My Beautifual Test Area/////////////////////
 

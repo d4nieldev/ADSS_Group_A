@@ -20,21 +20,6 @@ class SelfPickupSupplier extends Supplier {
         this.maxPreperationDays = maxPreperationDays;
     }
 
-    // Constructor without contacts, reservation history and fields
-    public SelfPickupSupplier(int id, String name, String phone, String bankAcc, String paymentCondition,
-            TreeMap<Integer, Discount> amountToDiscount, String address) {
-        super(id, name, phone, bankAcc, paymentCondition, amountToDiscount);
-        this.address = address;
-    }
-
-    // Constructor without reservation history and contacts
-    public SelfPickupSupplier(int id, String name, String phone, String bankAcc, List<String> fields,
-            String paymentCondition,
-            TreeMap<Integer, Discount> amountToDiscount, String address) {
-        super(id, name, phone, bankAcc, fields, paymentCondition, amountToDiscount);
-        this.address = address;
-    }
-
     @Override
     public String toString() {
         return super.toString() + "\nSupplier Type: Self Pickup Supplier\nAddress: " + address;

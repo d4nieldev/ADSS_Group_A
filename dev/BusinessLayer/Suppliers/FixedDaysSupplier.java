@@ -19,22 +19,6 @@ class FixedDaysSupplier extends Supplier {
         this.days = makeDaysList(days);
     }
 
-    // Constructor without contacts, reservation history and fields
-    public FixedDaysSupplier(int id, String name, String phone, String bankAcc, String paymentCondition,
-            TreeMap<Integer, Discount> amountToDiscount, List<Integer> days) {
-        super(id, name, phone, bankAcc, paymentCondition, amountToDiscount);
-        this.days = makeDaysList(days);
-    }
-
-    // Constructor without reservation history and contacts
-    public FixedDaysSupplier(int id, String name, String phone, String bankAcc, List<String> fields,
-            String paymentCondition,
-            TreeMap<Integer, Discount> amountToDiscount, List<Integer> days) {
-        super(id, name, phone, bankAcc, fields, paymentCondition, amountToDiscount);
-        this.days = makeDaysList(days);
-
-    }
-
     // Creates an enum Day list from a list of integers which represents weekdays
     private List<DayOfWeek> makeDaysList(List<Integer> days) {
         List<DayOfWeek> daysList = new LinkedList<>();

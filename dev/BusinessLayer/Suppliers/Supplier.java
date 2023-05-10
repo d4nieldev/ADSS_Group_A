@@ -3,10 +3,13 @@ package BusinessLayer.Suppliers;
 import java.util.TreeMap;
 
 import BusinessLayer.InveontorySuppliers.Discount;
+import BusinessLayer.Suppliers.exceptions.SuppliersException;
 
 import java.time.LocalDate;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 public abstract class Supplier {
 
@@ -17,8 +20,8 @@ public abstract class Supplier {
     private String paymentCondition;
     private TreeMap<Integer, Discount> amountToDiscount;
     private List<Contact> contacts;
+    private Map<Integer, PeriodicReservation> branchToPeriodicReservations;
 
-    // Copy Constructor
     public Supplier(int id, String name, String phone, String bankAcc, List<String> fields, String paymentCondition,
             TreeMap<Integer, Discount> amountToDiscount, List<Contact> contacts) {
         this.id = id;
@@ -28,34 +31,7 @@ public abstract class Supplier {
         this.paymentCondition = paymentCondition;
         this.amountToDiscount = amountToDiscount;
         this.contacts = addOfficeContact(contacts, phone);
-    }
-
-    // Constructor without contacts and fields
-    public Supplier(int id, String name, String phone, String bankAcc, String paymentCondition,
-            TreeMap<Integer, Discount> amountToDiscount) {
-        this.id = id;
-        this.name = name;
-        this.bankAcc = bankAcc;
-        this.fields = new LinkedList<>();
-        this.paymentCondition = paymentCondition;
-        this.amountToDiscount = amountToDiscount;
-        this.contacts = new LinkedList<>();
-        Contact office = new Contact(phone, "Office");
-        contacts.add(office);
-    }
-
-    // Constructor without contacts
-    public Supplier(int id, String name, String phone, String bankAcc, List<String> fields, String paymentCondition,
-            TreeMap<Integer, Discount> amountToDiscount) {
-        this.id = id;
-        this.name = name;
-        this.bankAcc = bankAcc;
-        this.fields = fields;
-        this.paymentCondition = paymentCondition;
-        this.amountToDiscount = amountToDiscount;
-        this.contacts = new LinkedList<>();
-        Contact office = new Contact(phone, "Office");
-        contacts.add(office);
+        this.branchToPeriodicReservations = new HashMap<>();
     }
 
     public abstract LocalDate getClosestDeliveryDate();
@@ -138,6 +114,17 @@ public abstract class Supplier {
 
     public void setContacts(LinkedList<Contact> contacts) {
         this.contacts = contacts;
+    }
+
+    public PeriodicReservation getPeriodicReservationOfBranch(int branchId) {
+        if (!branchToPeriodicReservations.containsKey(branchId))
+            throw new SuppliersException(
+                    "This supplier does not have a periodic reservation to the branch " + branchId);
+        return branchToPeriodicReservations.get(branchId);
+    }
+
+    public void putPeriodicReservation(int branchId, PeriodicReservation reservation) {
+        branchToPeriodicReservations.put(branchId, reservation);
     }
 
     // Add a new contact

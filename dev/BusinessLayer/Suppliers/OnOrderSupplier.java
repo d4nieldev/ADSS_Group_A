@@ -19,21 +19,6 @@ class OnOrderSupplier extends Supplier {
         this.maxSupplyDays = maxSupplyDays;
     }
 
-    // Constructor without contacts, reservation history and fields
-    public OnOrderSupplier(int id, String name, String phone, String bankAcc, String paymentCondition,
-            TreeMap<Integer, Discount> amountToDiscount, int maxSupplyDays) {
-        super(id, name, phone, bankAcc, paymentCondition, amountToDiscount);
-        this.maxSupplyDays = maxSupplyDays;
-    }
-
-    // Constructor without reservation history and contacts
-    public OnOrderSupplier(int id, String name, String phone, String bankAcc, List<String> fields,
-            String paymentCondition,
-            TreeMap<Integer, Discount> amountToDiscount, int maxSupplyDays) {
-        super(id, name, phone, bankAcc, fields, paymentCondition, amountToDiscount);
-        this.maxSupplyDays = maxSupplyDays;
-    }
-
     // // Update last order date
     // public void updateLastOrderDate(LocalDate newLastOrderDate) {
     // this.lastOrderDate = newLastOrderDate;

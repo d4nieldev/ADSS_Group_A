@@ -269,7 +269,7 @@ public class SupplierController {
      * 
      **/
     public void updateSupplierProductAgreement(int supplierId, int productShopId, int stockAmount,
-            TreeMap<Integer, Double> amountToDiscount) throws Exception {
+            TreeMap<Integer, Discount> amountToDiscount) throws Exception {
         ProductController.getInstance().updateProductAgreement(supplierId, productShopId, stockAmount,
                 amountToDiscount);
     }

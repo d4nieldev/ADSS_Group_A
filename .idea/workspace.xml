@@ -4,7 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a2472df3-0b1c-47fc-bcd6-f26fc4f0a51c" name="Changes" comment="">
+    <list default="true" id="a2472df3-0b1c-47fc-bcd6-f26fc4f0a51c" name="Changes" comment="minor changes">
       <change beforePath="$PROJECT_DIR$/dev/BussinessLayer/Transport.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/BussinessLayer/Transport.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/dev/BussinessLayer/TransportDocument.java" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/dev/BussinessLayer/TransportFacade.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/BussinessLayer/TransportFacade.java" afterDir="false" />
@@ -33,6 +33,9 @@
     <option name="stateVersion" value="1" />
   </component>
   <component name="ProjectId" id="2NdsbCzWK4fsTY9AuiarcADHq23" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />

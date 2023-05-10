@@ -44,7 +44,8 @@ public class ContactDAO extends DAO<ContactDTO> {
         List<ContactDTO> contacts = new ArrayList<>();
         while (rs.next())
             contacts.add(makeDTO(rs));
-        
+        statement.close();
+        con.close();
         return contacts;
     }
 

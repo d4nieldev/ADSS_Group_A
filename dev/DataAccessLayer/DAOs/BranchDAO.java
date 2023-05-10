@@ -34,12 +34,12 @@ public class BranchDAO extends DAO<BranchDTO>  {
 
     public BranchDTO getById(int branchId) throws SQLException {
         Connection con = Repository.getInstance().connect();
-
         String query = "SELECT * FROM Branches WHERE id= ?;";
         PreparedStatement statement = con.prepareStatement(query);
         statement.setInt(1, branchId);
         ResultSet branchRS = statement.executeQuery();
-
+        statement.close();
+        con.close();
         return makeDTO(branchRS);
     }
         

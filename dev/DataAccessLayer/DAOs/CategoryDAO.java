@@ -38,7 +38,8 @@ public class CategoryDAO extends DAO<CategoryDTO> {
         PreparedStatement statement = con.prepareStatement(query);
         statement.setInt(1, categoryId);
         ResultSet catId = statement.executeQuery();
-
+        statement.close();
+        con.close();
         return makeDTO(catId);
     }
     

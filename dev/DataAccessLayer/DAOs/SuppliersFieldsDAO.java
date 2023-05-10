@@ -39,7 +39,8 @@ public class SuppliersFieldsDAO extends DAO<SuppliersFieldsDTO> {
         List<String> fields = new ArrayList<>();
         while (rs.next())
             fields.add(rs.getString("fieldName"));
-
+        statement.close();
+        con.close();
         return fields;
     }
 

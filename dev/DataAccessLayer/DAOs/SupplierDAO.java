@@ -52,7 +52,6 @@ public class SupplierDAO extends DAO<SupplierDTO> {
         PreparedStatement statement = con.prepareStatement(query);
         statement.setInt(1, supplierId);
         ResultSet supRS = statement.executeQuery();
-
         return makeDTO(supRS);
     }
 

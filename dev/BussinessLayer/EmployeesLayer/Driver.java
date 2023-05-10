@@ -22,6 +22,11 @@ public class Driver extends Employee {
         workedDates = new LinkedList<>();
     }
     
+    public Driver(DriverDTO driverDTO) {
+        super(driverDTO.firstName, driverDTO.lastName, driverDTO.id, driverDTO.password, driverDTO.bankNum, driverDTO.bankBranch, driverDTO.bankAccount, driverDTO.salary, driverDTO.bonus, driverDTO.startDate,
+        driverDTO.tempsEmployment, driverDTO., driverDTO.superBranch);
+    }
+
     public void AddConstraintDriver(LocalDate date){
         if(availableShiftDates.contains(date)){
             throw new Error("This driver is allready asked to work on this day.");

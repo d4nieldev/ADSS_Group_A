@@ -4,6 +4,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import DataAccessLayer.DAO.EmployeesLayer.*;
+import DataAccessLayer.DTO.EmployeeLayer.DriverDTO;
 import DataAccessLayer.DTO.EmployeeLayer.EmployeeDTO;
 
 import java.time.LocalDate;
@@ -165,6 +166,11 @@ public class EmployeeFacade {
     public String printAllDrivers(int managerId) {
         String strPrint = "";
         checkManager(managerId);
+        List<DriverDTO> driversDTO = driversDAO.getAll();
+        drivers = new LinkedList<>();
+        for (DriverDTO driverDTO : driversDTO) {
+            drivers.add(new Driver(driverDTO));
+        }
         for (Driver driver : drivers) {
             strPrint += driver.toString() + "\n";
         }
@@ -472,7 +478,7 @@ public class EmployeeFacade {
     public void checkManager(int managerId) {
         if (!isEmployeeLoggedIn(managerId)
                 || !(isEmployeeHRManager(managerId) || isEmployeeTranpostManager(managerId))) {
-            throw new Error("You must be logged in, and be an HR manager in order to do that action.");
+            throw new Error("You must be logged in, and be an HR or Transport manager in order to do that action.");
         }
     }
 

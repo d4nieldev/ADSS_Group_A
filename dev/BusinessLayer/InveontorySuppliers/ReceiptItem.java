@@ -1,6 +1,6 @@
-package BusinessLayer.Suppliers;
+package BusinessLayer.InveontorySuppliers;
 
-import BusinessLayer.InveontorySuppliers.Product;
+import BusinessLayer.Suppliers.ProductAgreement;
 
 public class ReceiptItem {
     private int amount;

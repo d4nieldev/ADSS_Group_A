@@ -3,6 +3,8 @@ package BusinessLayer.Inventory;
 import java.util.HashMap;
 import java.util.List;
 
+import BusinessLayer.InveontorySuppliers.Branch;
+
 public class BranchController {
     private HashMap<Integer,Branch> allBranches;//maps between brnachId and branchObject
     private static BranchController instance = null;

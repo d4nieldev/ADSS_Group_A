@@ -3,6 +3,8 @@ package BusinessLayer.Inventory;
 import java.util.HashMap;
 import java.util.List;
 
+import BusinessLayer.InveontorySuppliers.Branch;
+
 public class ReportController {
     private HashMap<Integer, Report> allReports;
     private static ReportController instance = null;

@@ -4,7 +4,7 @@ import java.util.Map;
 
 import BusinessLayer.InveontorySuppliers.Product;
 import BusinessLayer.InveontorySuppliers.ProductController;
-import BusinessLayer.Suppliers.Reservation;
+import BusinessLayer.InveontorySuppliers.Reservation;
 import BusinessLayer.Suppliers.ReservationController;
 import BusinessLayer.Suppliers.exceptions.SuppliersException;
 
@@ -77,7 +77,7 @@ public class ReservationService {
 
     public String getReadySupplierToAddresses() {
         // TODO: convert to json or something
-        return reservationController.getReadySupplierToAddresses().toString();
+        return reservationController.getReadySupplierToBranches().toString();
     }
 
     public String addProduct(int id, String name, String manufacturer) {

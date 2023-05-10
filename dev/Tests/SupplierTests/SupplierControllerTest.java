@@ -12,10 +12,10 @@ import org.junit.*;
 
 import BusinessLayer.InveontorySuppliers.Product;
 import BusinessLayer.InveontorySuppliers.ProductController;
+import BusinessLayer.InveontorySuppliers.ReceiptItem;
 import BusinessLayer.Suppliers.Contact;
 import BusinessLayer.Suppliers.Supplier;
 import BusinessLayer.Suppliers.ProductAgreement;
-import BusinessLayer.Suppliers.ReceiptItem;
 import BusinessLayer.Suppliers.SupplierController;
 import BusinessLayer.Suppliers.exceptions.SuppliersException;
 

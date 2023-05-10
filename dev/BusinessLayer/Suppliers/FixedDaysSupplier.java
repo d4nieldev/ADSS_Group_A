@@ -4,7 +4,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.TreeMap;
 
-import BusinessLayer.Suppliers.enums.Day;
+import BusinessLayer.enums.Day;
 
 class FixedDaysSupplier extends Supplier {
     private List<Day> days;

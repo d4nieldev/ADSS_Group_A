@@ -7,7 +7,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import BusinessLayer.InveontorySuppliers.Branch;
 import BusinessLayer.InveontorySuppliers.ProductController;
+import BusinessLayer.InveontorySuppliers.ReceiptItem;
+import BusinessLayer.InveontorySuppliers.Reservation;
 import BusinessLayer.Suppliers.exceptions.SuppliersException;
 
 public class ReservationController {
@@ -39,8 +42,7 @@ public class ReservationController {
     }
 
     public void makeManualReservation(Map<Integer, Map<Integer, Integer>> supplierToproductToAmount,
-            String destinationBranch)
-            throws SuppliersException {
+            Branch destinationBranch) throws SuppliersException {
         int reservationId = getNextIdAndIncrement();
         List<Reservation> finalOrder = new ArrayList<>();
 
@@ -82,7 +84,7 @@ public class ReservationController {
         supplierIdToReservations.computeIfAbsent(reservation.getSupplierId(), k -> new ArrayList<>()).add(reservation);
     }
 
-    public void makeAutoReservation(Map<Integer, Integer> productToAmount, String destinationBranch)
+    public void makeAutoReservation(Map<Integer, Integer> productToAmount, Branch destinationBranch)
             throws SuppliersException {
         int reservationId = getNextIdAndIncrement();
         Map<Integer, Reservation> supToReservation = maxReservationPerSupplier(productToAmount, destinationBranch,
@@ -121,7 +123,7 @@ public class ReservationController {
     }
 
     private Map<Integer, Reservation> maxReservationPerSupplier(Map<Integer, Integer> productToAmount,
-            String destinationBranch, int reservationId) throws SuppliersException {
+            Branch destinationBranch, int reservationId) throws SuppliersException {
         Map<Integer, Reservation> supplierToReservation = new HashMap<>();
 
         for (int productId : productToAmount.keySet()) {
@@ -210,8 +212,8 @@ public class ReservationController {
         return supplierIdToReservations.get(supplierId);
     }
 
-    public Map<Integer, List<String>> getReadySupplierToAddresses() {
-        Map<Integer, List<String>> output = new HashMap<>();
+    public Map<Integer, List<Branch>> getReadySupplierToBranches() {
+        Map<Integer, List<Branch>> output = new HashMap<>();
         for (Integer reservationId : readyReservations) {
             List<Reservation> subReservations = idToSupplierReservations.get(reservationId);
             for (Reservation r : subReservations)

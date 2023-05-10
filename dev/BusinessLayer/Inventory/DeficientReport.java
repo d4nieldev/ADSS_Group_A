@@ -3,6 +3,8 @@ package BusinessLayer.Inventory;
 import java.time.LocalDate;
 import java.util.HashMap;
 
+import BusinessLayer.InveontorySuppliers.Branch;
+
 public class DeficientReport extends Report {
     private HashMap<Integer, String> idToName;
     private HashMap<Integer, Integer> idToTotalAmount;

@@ -3,28 +3,29 @@ package BusinessLayer.Inventory;
 import java.util.HashMap;
 
 import BusinessLayer.InveontorySuppliers.ProductController;
+import BusinessLayer.enums.Day;
 
 public class PeriodicReservation {
     private HashMap<Integer, Integer> productsToAmounts; // maps between product's code to amount to order
-    private ProductStatus.Day day; // day for delivery;
+    private Day day; // day for delivery;
     ProductController productController;
 
-    public PeriodicReservation(ProductStatus.Day day) {
+    public PeriodicReservation(Day day) {
         this.day = day;
         this.productsToAmounts = new HashMap<>();
         productController = ProductController.getInstance();
     }
 
     public PeriodicReservation() {
-        this.day = ProductStatus.Day.Sunday;
+        this.day = Day.SUNDAY;
         this.productsToAmounts = new HashMap<>();
     }
 
-    public void setDay(ProductStatus.Day day) {
+    public void setDay(Day day) {
         this.day = day;
     }
 
-    public ProductStatus.Day getDay() {
+    public Day getDay() {
         return day;
     }
 

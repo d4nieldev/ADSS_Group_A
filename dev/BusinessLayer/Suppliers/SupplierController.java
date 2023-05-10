@@ -5,6 +5,7 @@ import java.util.TreeMap;
 
 import BusinessLayer.InveontorySuppliers.Product;
 import BusinessLayer.InveontorySuppliers.ProductController;
+import BusinessLayer.InveontorySuppliers.ReceiptItem;
 import BusinessLayer.Suppliers.exceptions.SuppliersException;
 
 import java.util.List;

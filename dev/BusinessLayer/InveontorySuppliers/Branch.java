@@ -1,4 +1,4 @@
-package BusinessLayer.Inventory;
+package BusinessLayer.InveontorySuppliers;
 
 import java.time.DayOfWeek;
 import java.time.LocalDate;
@@ -6,7 +6,13 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import BusinessLayer.InveontorySuppliers.Product;
+import BusinessLayer.Inventory.Category;
+import BusinessLayer.Inventory.CategoryController;
+import BusinessLayer.Inventory.Discount;
+import BusinessLayer.Inventory.PeriodicReservation;
+import BusinessLayer.Inventory.ProductBranch;
+import BusinessLayer.Inventory.SpecificProduct;
+import BusinessLayer.enums.Day;
 
 public class Branch {
     private int branchId;
@@ -49,24 +55,24 @@ public class Branch {
 
     }
 
-    // public void receiveReservation(Reservation reservation){
-    // List<ReceiptItem> allItems = reservation.getReceipt();
-    // for(ReceiptItem ri: allItems){
-    // int amount = ri.getAmount();
-    // double buyPrice = ri.getPricePerUnitAfterDiscount();
-    // Product product = ri.getProduct();
-    // LocalDate expiredDate = ri.getExpiredDate();
-    // int code = product.getCode();
-    // if(!allProductBranches.containsKey(code))
-    // {
-    // int idealQuantity = 100;
-    // int minQuantity = 50;
-    // addNewProductBranch(product,buyPrice,idealQuantity,minQuantity);
-    // }
-    // ProductBranch productBranch = allProductBranches.get(code);
-    // productBranch.receiveSupply(amount,buyPrice,expiredDate);
-    // }
-    // }
+    public void receiveReservation(Reservation reservation) {
+        List<ReceiptItem> allItems = reservation.getReceipt();
+        for (ReceiptItem ri : allItems) {
+            int amount = ri.getAmount();
+            double buyPrice = ri.getPricePerUnitAfterDiscount();
+            Product product = ri.getProduct();
+            LocalDate expiredDate = ri.getExpiredDate();
+            int code = product.getCode();
+            if (!allProductBranches.containsKey(code)) {
+                int idealQuantity = 100;
+                int minQuantity = 50;
+                addNewProductBranch(product, buyPrice, idealQuantity, minQuantity);
+            }
+            ProductBranch productBranch = allProductBranches.get(code);
+            productBranch.receiveSupply(amount, buyPrice, expiredDate);
+        }
+    }
+
     public void sellProduct(int code, int specificId) throws Exception {
         ProductBranch productBranch = allProductBranches.get(code);
         if (productBranch == null)
@@ -112,7 +118,7 @@ public class Branch {
         boolean check = productBranch.checkForDeficiency();
         if (check) {
             alertForDeficiency(productBranch);
-            // makeDeficiencyReservation(productBranch);
+            makeDeficiencyReservation(productBranch);
         }
     }
 
@@ -140,13 +146,13 @@ public class Branch {
 
     }
 
-    // private void makeDeficiencyReservation(ProductBranch productBranch) {
-    // // TODO: make reservation for deficiency
-    // //find the difference to the ideal quantity
-    // int amount = productBranch.getIdealQuantity() -
-    // productBranch.getTotalAmount() ;
-    // SupplierController.makeDifiecincyReservstion(productBranch.getCode(),amount);
-    // }
+    private void makeDeficiencyReservation(ProductBranch productBranch) {
+        // TODO: make reservation for deficiency
+        // find the difference to the ideal quantity
+        int amount = productBranch.getIdealQuantity() -
+                productBranch.getTotalAmount();
+        SupplierController.makeDifiecincyReservstion(productBranch.getCode(), amount);
+    }
 
     // Dealing with periodic Reservation
     // =============================================================================================
@@ -160,23 +166,24 @@ public class Branch {
      * @return
      */
     private boolean checkTime() {
-        ProductStatus.Day day = periodicReservation.getDay();
+        Day day = periodicReservation.getDay();
         LocalDate currentDate = LocalDate.now();
         int deliveryDay = 0;
-        if (day == ProductStatus.Day.Sunday)
+        if (day == Day.SUNDAY)
             deliveryDay = 1;
-        else if (day == ProductStatus.Day.Monday)
+        else if (day == Day.MONDAY)
             deliveryDay = 2;
-        else if (day == ProductStatus.Day.Tuesday)
+        else if (day == Day.TUESDAY)
             deliveryDay = 3;
-        else if (day == ProductStatus.Day.Wednesday)
+        else if (day == Day.WEDNESDAY)
             deliveryDay = 4;
-        else if (day == ProductStatus.Day.Thursday)
+        else if (day == Day.THURSDAY)
             deliveryDay = 5;
-        else if (day == ProductStatus.Day.Friday)
+        else if (day == Day.FRIDAY)
             deliveryDay = 6;
-        else if (day == ProductStatus.Day.Saturday)
+        else if (day == Day.SATURDAY)
             deliveryDay = 7;
+
         int currentDay = 0;
         if (currentDate.getDayOfWeek() == DayOfWeek.SUNDAY)
             currentDay = 1;

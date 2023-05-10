@@ -1,4 +1,4 @@
-package BusinessLayer.Suppliers.enums;
+package BusinessLayer.enums;
 
 public enum Status {
     NOTREADY,

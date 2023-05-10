@@ -1,23 +1,24 @@
-package BusinessLayer.Suppliers;
+package BusinessLayer.InveontorySuppliers;
 
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import BusinessLayer.Suppliers.enums.Status;
+import BusinessLayer.Suppliers.Contact;
 import BusinessLayer.Suppliers.exceptions.SuppliersException;
+import BusinessLayer.enums.Status;
 
 public class Reservation {
     private int id;
     private int supplierId;
     private Date date;
     private Status status;
-    private String destinationBranch;
+    private Branch destinationBranch;
     private Contact contact;
     private List<ReceiptItem> receipt;
 
-    public Reservation(int id, int supplier_id, List<ReceiptItem> receipt, Contact contact, String destinationBranch) {
+    public Reservation(int id, int supplier_id, List<ReceiptItem> receipt, Contact contact, Branch destinationBranch) {
         this.id = id;
         this.supplierId = supplier_id;
         this.date = new Date();
@@ -67,7 +68,7 @@ public class Reservation {
         return this.receipt;
     }
 
-    public String getDestination() {
+    public Branch getDestination() {
         return this.destinationBranch;
     }
 

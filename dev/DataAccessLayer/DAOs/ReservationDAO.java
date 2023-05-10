@@ -7,7 +7,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import BusinessLayer.Suppliers.enums.Status;
+import BusinessLayer.enums.Status;
 import DataAccessLayer.Repository;
 import DataAccessLayer.DTOs.ReservationDTO;
 

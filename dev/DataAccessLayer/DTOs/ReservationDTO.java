@@ -2,7 +2,7 @@ package DataAccessLayer.DTOs;
 
 import java.sql.Date;
 
-import BusinessLayer.Suppliers.enums.Status;
+import BusinessLayer.enums.Status;
 
 public class ReservationDTO {
     private int id;

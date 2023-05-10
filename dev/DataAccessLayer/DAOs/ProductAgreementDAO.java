@@ -8,10 +8,12 @@ import DataAccessLayer.DTOs.ProductAgreementDTO;
 public class ProductAgreementDAO extends DAO<ProductAgreementDTO> {
 
     private ProductsDAO productDAO;
+    private AgreementAmountToDiscountDAO agreementAmountToDiscountDAO;
 
     public ProductAgreementDAO() {
         super("ProductAgreement");
         productDAO = ProductsDAO.getInstance();
+        agreementAmountToDiscountDAO = AgreementAmountToDiscountDAO.getInstance();
     }
 
     @Override
@@ -26,7 +28,8 @@ public class ProductAgreementDAO extends DAO<ProductAgreementDTO> {
         int productSupplierId = rs.getInt("productSupplierId");
 
         return new ProductAgreementDTO(supplierId, productDAO.getById(productId), stockAmount, minQuantity,
-                productSupplierId, );
+                productSupplierId,
+                agreementAmountToDiscountDAO.getAgreementAmountToDiscount(productSupplierId, productId));
     }
 
 }

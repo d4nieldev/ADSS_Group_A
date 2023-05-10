@@ -63,8 +63,8 @@ public class EmployeeTransportFacade {
         else {return employeeFacade.getDayDriversFuture(date);}
     }
 
-    public boolean checkstorekeeperInShift(String address, LocalDate date){
-        return shiftFacade.checkstorekeeperInShift(address, date);
+    public boolean checkstorekeeperInShift(int shiftId, String address, LocalDate date){
+        return shiftFacade.checkstorekeeperInShift(shiftId, address, date);
     }
     public void createTransports(List<Delivery> deliveries)
     {

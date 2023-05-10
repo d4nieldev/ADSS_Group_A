@@ -88,10 +88,11 @@ public class ShiftFacade {
         return getShift(shiftId).missingStaffToRole().toString();
     }
 
-    public boolean checkstorekeeperInShift(String address, LocalDate date){
+    public boolean checkstorekeeperInShift(int shiftId, String address, LocalDate date){
         boolean res = false;
-        res = getShiftByAddressDateMorning(address, date).isShiftContainStorekeeper(employeeFacade.getRoleClassInstance().getRoleByName("STOREKEEPER").getId()) 
-                && getShiftByAddressDateEvening(address, date).isShiftContainStorekeeper(employeeFacade.getRoleClassInstance().getRoleByName("STOREKEEPER").getId());
+        Shift shift = getShift(shiftId);
+        res = shift.isShiftContainStorekeeper(employeeFacade.getRoleClassInstance().getRoleByName("STOREKEEPER").getId()) 
+                && shift.isShiftContainStorekeeper(employeeFacade.getRoleClassInstance().getRoleByName("STOREKEEPER").getId());
         return res;
     }
     
@@ -155,27 +156,26 @@ public class ShiftFacade {
         HashMap<Employee, LinkedList<Integer>> constraints = convertIdsMapAndLinkedListToObjectMap(shiftDTO.constraints);
         HashMap<Employee, Integer> finalShift = convertIdsMapToObjectMap(shiftDTO.finalShift);
         LinkedList<Driver> driversInShift = convertIdsListToDrivers(shiftDTO.driversInShift);
-        Branch branch = employeeFacade.ge
         Shift s = new Shift(shiftDTO, constraints, finalShift, driversInShift);
         shifts.add(s);
         return s;
     }
 
-    public Shift getShiftByAddressDateMorning(String address, LocalDate date){
-        for (Shift shift : shifts) {
-            if(shift.getSuperBranchAddress().equals(address) && shift.getDate().equals(date) && shift.getShiftTime().equals(ShiftTime.MORNING))
-                return shift;
-        }
-        return null;
-    }
+    // public Shift getShiftByAddressDateMorning(String address, LocalDate date){
+    //     for (Shift shift : shifts) {
+    //         if(shift.getSuperBranchAddress().equals(address) && shift.getDate().equals(date) && shift.getShiftTime().equals(ShiftTime.MORNING))
+    //             return shift;
+    //     }
+    //     return null;
+    // }
 
-    public Shift getShiftByAddressDateEvening(String address, LocalDate date){
-        for (Shift shift : shifts) {
-            if(shift.getSuperBranchAddress().equals(address) && shift.getDate().equals(date) && shift.getShiftTime().equals(ShiftTime.EVENING))
-                return shift;
-        }
-        return null;
-    }
+    // public Shift getShiftByAddressDateEvening(String address, LocalDate date){
+    //     for (Shift shift : shifts) {
+    //         if(shift.getSuperBranchAddress().equals(address) && shift.getDate().equals(date) && shift.getShiftTime().equals(ShiftTime.EVENING))
+    //             return shift;
+    //     }
+    //     return null;
+    // }
 
     public LinkedList<Shift> getShiftsByDate(LocalDate date){
         LinkedList<Shift> res = new LinkedList<>();

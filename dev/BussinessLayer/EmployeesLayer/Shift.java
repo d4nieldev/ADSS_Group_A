@@ -199,8 +199,8 @@ public class Shift{
 //-------------------------------------Getters And Setters--------------------------------------------------------
     public int getID(){return idShift;}
     public int getSuperBranchId(){return superBranch;}
-    public String getSuperBranchAddress(){return superBranch.getBranchAddress();}
-    public String getLocation(){return superBranch.getBranchLocation().toString(); }
+    //public String getSuperBranchAddress(){return superBranch.getBranchAddress();}
+    //public String getLocation(){return superBranch.getBranchLocation().toString(); }
     public LocalDate getDate(){return date;}
     public ShiftTime getShiftTime(){return time;}
     public void setStartHour(int newStartHour){

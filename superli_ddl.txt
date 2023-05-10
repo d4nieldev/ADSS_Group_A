@@ -159,7 +159,7 @@ CREATE TABLE IF NOT EXISTS ProductAgreement (
 	supplierId        INTEGER NOT NULL,
 	productId         INTEGER NOT NULL,
 	stockAmount       INTEGER NOT NULL,
-	basePrice         INTEGER NOT NULL,
+	basePrice         REAL NOT NULL,
 	productSupplierId INTEGER NOT NULL, -- the catalogical number of the product in the supplier system
 	
 	CHECK(stockAmount >= 0 AND basePrice >= 0),

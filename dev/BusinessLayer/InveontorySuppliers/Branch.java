@@ -169,10 +169,7 @@ public class Branch {
     }
 
     private void makeDeficiencyReservation() {
-        // TODO: make reservation for deficiency
-        // find the difference to the ideal quantity
-       
-                ReservationController reservationController = ReservationController.getInstance();
+        ReservationController reservationController = ReservationController.getInstance();
         reservationController.makeDeficiencyReservation(productToAmount,this.branchId);
     }
 

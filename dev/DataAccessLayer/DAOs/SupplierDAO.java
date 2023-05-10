@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.util.List;
 
 import DataAccessLayer.Repository;
+import DataAccessLayer.DTOs.ContactDTO;
 import DataAccessLayer.DTOs.SupplierDTO;
 
 public class SupplierDAO extends DAO<SupplierDTO> {
@@ -39,8 +40,9 @@ public class SupplierDAO extends DAO<SupplierDTO> {
         String bankAccount = rs.getString("bankAccount");
         String paymentCondition = rs.getString("paymentCondition");
         List<String> fields = suppliersFieldsDAO.getFieldsOfSupplier(id);
+        List<ContactDTO> contacts = contactDAO.getSupplierContacts(id);
 
-        return new SupplierDTO(id, name, bankAccount, paymentCondition, fields);
+        return new SupplierDTO(id, name, bankAccount, paymentCondition, fields, contacts);
     }
 
     public SupplierDTO getById(int supplierId) throws SQLException {

@@ -4,19 +4,22 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+
 public class SupplierDTO implements DTO {
     protected int id;
     protected String name;
     protected String bankAccount;
     protected String paymentCondition;
     protected List<String> fields;
+    protected List<ContactDTO> contacts;
 
-    public SupplierDTO(int id, String name, String bankAccount, String paymentCondition, List<String> fields) {
+    public SupplierDTO(int id, String name, String bankAccount, String paymentCondition, List<String> fields, List<ContactDTO> contacts) {
         this.id = id;
         this.name = name;
         this.bankAccount = bankAccount;
         this.paymentCondition = paymentCondition;
         this.fields = fields;
+        this.contacts=contacts;
     }
 
     @Override

@@ -3,8 +3,10 @@ package DataAccessLayer.DAOs;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.util.HashMap;
 
 import BusinessLayer.Inventory.ProductStatus;
+import BusinessLayer.Inventory.SpecificProduct;
 import DataAccessLayer.Repository;
 import DataAccessLayer.DTOs.SpecificProductDTO;
 
@@ -34,19 +36,32 @@ public class SpecificProductDAO extends DAO<SpecificProductDTO> {
         double buyPrice = rs.getDouble("buyPrice");
         double sellPrice = rs.getDouble("sellPrice");
         ProductStatus.status status = stringToStatus(rs.getString("status"));
-
         String flaw = rs.getString("flaw");
         LocalDate expDate = LocalDate.parse(rs.getString("expDate"));
+        LocalDate arrivedDate = LocalDate.parse(rs.getString("arrivedDate"));
 
-        return new SpecificProductDTO(specificId, generalId, branchId, buyPrice, sellPrice, status, flaw, expDate);
+        return new SpecificProductDTO(specificId, generalId, branchId, buyPrice, sellPrice, status, flaw, expDate,arrivedDate);
     }
 
     public SpecificProductDTO getById(int specificId) throws SQLException {
-        String query = "SELECT * FROM SpecificProducts WHERE id= ?;";
+        String query = "SELECT * FROM SpecificProducts WHERE specificId= ?;";
         ResultSet rs = repo.executeQuery(query, specificId);
         SpecificProductDTO dto = makeDTO(rs);
         rs.close();
         return dto;
+    }
+    public HashMap<Integer, SpecificProductDTO> getByGeneralId(int productId, int branchId) throws SQLException {
+        String query = "SELECT * FROM SpecificProducts WHERE specificId= ? AND generalId= ?;";
+        ResultSet rs = repo.executeQuery(query, productId,branchId);
+        HashMap<Integer, SpecificProductDTO> resultMap = new HashMap<>();
+
+        while (rs.next()) {
+            SpecificProductDTO dto = makeDTO(rs);
+            resultMap.put(dto.getSpecificId(), dto);
+        }
+
+        rs.close();
+        return resultMap;
     }
 
     private ProductStatus.status stringToStatus(String status) {
@@ -62,5 +77,6 @@ public class SpecificProductDAO extends DAO<SpecificProductDTO> {
         }
         return null;
     }
+
 
 }

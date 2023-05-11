@@ -4,24 +4,39 @@ import java.util.Map;
 import java.util.TreeMap;
 
 import BusinessLayer.InveontorySuppliers.Discount;
-import BusinessLayer.InveontorySuppliers.Product;
+import BusinessLayer.InveontorySuppliers.DiscountFixed;
+import BusinessLayer.InveontorySuppliers.DiscountPercentage;
+import DataAccessLayer.DTOs.DiscountDTO;
+import DataAccessLayer.DTOs.ProductAgreementDTO;
 
 public class ProductAgreement {
     private int supplierId;
     private int productSupplierId;
     private double basePrice;
     private int stockAmount;
-    private Product product;
+    private int productId;
     private TreeMap<Integer, Discount> amountToDiscount;
+    private ProductAgreementDTO dto;
 
-    public ProductAgreement(int supplierId, Product product, int productSupplierId, double basePrice, int stockAmount,
-            TreeMap<Integer, Discount> amountToDiscount) {
-        this.supplierId = supplierId;
-        this.productSupplierId = productSupplierId;
-        this.stockAmount = stockAmount;
-        this.amountToDiscount = amountToDiscount;
-        this.product = product;
-        this.basePrice = basePrice;
+    public ProductAgreement(ProductAgreementDTO dto) {
+        this.dto = dto;
+        this.supplierId = dto.getSupplierId();
+        this.productSupplierId = dto.getProductSupplierId();
+        this.basePrice = dto.getBasePrice();
+        this.stockAmount = dto.getStockAmount();
+        this.productId = dto.getProductDTO().getId();
+        this.amountToDiscount = new TreeMap<>();
+        for (Integer amount : dto.getAmountToDiscount().keySet()) {
+            DiscountDTO discountDTO = dto.getAmountToDiscount().get(amount);
+            if (discountDTO.getdType() == "Fixed")
+                amountToDiscount.put(amount, new DiscountFixed(discountDTO));
+            else if (discountDTO.getdType() == "Precentage")
+                amountToDiscount.put(amount, new DiscountPercentage(discountDTO));
+        }
+    }
+
+    public ProductAgreementDTO getDto() {
+        return dto;
     }
 
     /**
@@ -72,8 +87,8 @@ public class ProductAgreement {
     }
 
     // Getter for product
-    public Product getProduct() {
-        return product;
+    public int getProductId() {
+        return productId;
     }
 
     // Setter for product base price

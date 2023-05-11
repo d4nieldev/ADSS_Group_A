@@ -1,6 +1,9 @@
 package BusinessLayer.Inventory;
 
+import DataAccessLayer.DTOs.SpecificProductDTO;
+
 import java.time.LocalDate;
+import java.util.HashMap;
 
 public class SpecificProduct {
     private int generalId;
@@ -21,6 +24,17 @@ public class SpecificProduct {
         this.expiredDate = expiredDate;
         this.flawDescription = "";
         this.arrivedDate = LocalDate.now();
+    }
+    public SpecificProduct(SpecificProductDTO specificProductDTO){
+        this.generalId = specificProductDTO.getGeneralId();
+        this.specificId = specificProductDTO.getSpecificId();
+        this.buyPrice = specificProductDTO.getBuyPrice();
+        this.sellPrice = specificProductDTO.getSellPrice();
+        this.status = specificProductDTO.getStatus();
+        this.expiredDate = specificProductDTO.getExpDate();
+        this.flawDescription = specificProductDTO.getFlaw();
+        this.arrivedDate = specificProductDTO.getArrivedDate();
+        int branchId =specificProductDTO.getBranchId();
     }
 
     // getters and setters

@@ -17,9 +17,10 @@ private double sellPrice;
 private  ProductStatus.status status;
 private String flaw;
 private LocalDate expDate;
+private LocalDate arrivedDate;
 
 
-public SpecificProductDTO(int specificId, int generalId, int branchId, double buyPrice, double sellPrice,  ProductStatus.status status, String flaw, LocalDate expDate) {
+public SpecificProductDTO(int specificId, int generalId, int branchId, double buyPrice, double sellPrice,  ProductStatus.status status, String flaw, LocalDate expDate,LocalDate arrivedDate) {
    
     this.specificId = specificId;
     this.generalId = generalId;
@@ -29,6 +30,7 @@ public SpecificProductDTO(int specificId, int generalId, int branchId, double bu
     this.status = status;
     this.flaw = flaw;
     this.expDate = expDate;
+    this.arrivedDate = arrivedDate;
 }
 
 @Override
@@ -42,6 +44,7 @@ public Map<String, String> getNameToVal() {
     nameToVal.put("status", status.toString());
     nameToVal.put("flaw", flaw);
     nameToVal.put("expDate", expDate.toString());
+    nameToVal.put("arrivedDate", arrivedDate.toString());
     return nameToVal;
 }
 
@@ -77,7 +80,7 @@ public LocalDate getExpDate() {
     return expDate;
 }
 
-
-
-
+    public LocalDate getArrivedDate() {
+        return arrivedDate;
+    }
 }

@@ -7,7 +7,8 @@ import java.util.HashMap;
 
 public class DeficientReport extends Report {
     private HashMap<Integer, String> idToName;
-    private HashMap<Integer, Integer> idToTotalAmount;
+    //TODO: change amount to hou much the deficiency
+    private HashMap<Integer, Integer> idToMissingAmount;
     private HashMap<Integer, Integer> idToMinQuantity;
     private HashMap<Integer, Integer> idToIdealQuantity;
 

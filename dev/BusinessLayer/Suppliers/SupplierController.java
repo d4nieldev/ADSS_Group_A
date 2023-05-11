@@ -22,6 +22,8 @@ import DataAccessLayer.DTOs.OnOrderSuppliersDTO;
 import DataAccessLayer.DTOs.PeriodicReservationDTO;
 import DataAccessLayer.DTOs.SelfPickUpSupplierDTO;
 import DataAccessLayer.DTOs.SupplierDTO;
+import DataAccessLayer.DAOs.ProductAgreementDAO;
+import DataAccessLayer.DTOs.ProductAgreementDTO;
 
 import java.util.List;
 import java.util.Map;
@@ -32,6 +34,7 @@ public class SupplierController {
     private TreeMap<Integer, Supplier> idToSupplier;
     private static SupplierController instance = null;
     private ReservationController rc;
+    ProductAgreementDAO productAgreementDAO;
     Thread periodicReservationsCareTaker;
     private ContactDAO contactDAO;
     private FixedDaysSupplierDAO fixedDaysSupplierDAO;
@@ -42,6 +45,7 @@ public class SupplierController {
     private SupplierController() {
         this.idToSupplier = new TreeMap<Integer, Supplier>();
         this.rc = ReservationController.getInstance();
+        this.productAgreementDAO = ProductAgreementDAO.getInstance();
         periodicReservationsCareTaker = new Thread(() -> {
             try {
                 while (!Thread.interrupted()) {
@@ -49,6 +53,8 @@ public class SupplierController {
                     Thread.sleep(86400000); // sleep for a day
                 }
             } catch (InterruptedException ignored) {
+            } catch (SQLException e) {
+                e.printStackTrace();
             }
         });
         periodicReservationsCareTaker.start();
@@ -329,7 +335,7 @@ public class SupplierController {
      * 
      **/
     public void addSupplierProductAgreement(int supplierId, int productShopId, int productSupplierId, int stockAmount,
-            double basePrice, TreeMap<Integer, Discount> amountToDiscount) throws SuppliersException {
+            double basePrice, TreeMap<Integer, DiscountDTO> amountToDiscount) throws SuppliersException, SQLException {
         try {
             if (supplierId < 0) {
                 throw new SuppliersException("Supplier id cannot be negative.");
@@ -345,8 +351,10 @@ public class SupplierController {
             }
 
             Product product = ProductController.getInstance().getProductById(productShopId);
-            ProductAgreement pa = new ProductAgreement(supplierId, product, productSupplierId, basePrice, stockAmount,
-                    amountToDiscount);
+            ProductAgreementDTO dto = new ProductAgreementDTO(supplierId, product.getDTO(), stockAmount, basePrice,
+                    productSupplierId, amountToDiscount);
+            productAgreementDAO.insert(dto);
+            ProductAgreement pa = new ProductAgreement(dto);
             ProductController.getInstance().addProductAgreement(supplierId, productShopId, pa);
         } catch (SuppliersException e) {
             throw e;
@@ -468,7 +476,7 @@ public class SupplierController {
         return getSupplierById(supplierID).getRandomContact();
     }
 
-    private void makePeriodicalReservations() {
+    private void makePeriodicalReservations() throws SQLException {
         for (Supplier s : idToSupplier.values()) {
             Map<Integer, PeriodicReservation> branchToPeriodicReservations = s.getBranchToPeriodicReservations();
             for (int branchId : branchToPeriodicReservations.keySet()) {

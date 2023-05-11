@@ -5,10 +5,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import BusinessLayer.InveontorySuppliers.Discount;
-import BusinessLayer.InveontorySuppliers.DiscountFixed;
-import BusinessLayer.InveontorySuppliers.DiscountPercentage;
-import BusinessLayer.InveontorySuppliers.Product;
+import BusinessLayer.InveontorySuppliers.*;
+import DataAccessLayer.DTOs.ProductBranchDTO;
+import DataAccessLayer.DTOs.SpecificProductDTO;
 
 public class ProductBranch {
 
@@ -17,7 +16,7 @@ public class ProductBranch {
     private int idealQuantity;
     private int minQuantity;
     private int totalAmount;
-    private HashMap<Integer, SpecificProduct> allSpecificProducts;// maps between specificId and its object
+    private HashMap<Integer, SpecificProduct> allSpecificProducts; // maps between specificId and its object
     private List<Discount> discountsHistory;
     private Discount discount;
 
@@ -32,6 +31,27 @@ public class ProductBranch {
         this.allSpecificProducts = new HashMap<>();
         this.discount = null;
         this.totalAmount = 0;
+        this.discountsHistory = new ArrayList<>();
+    }
+    public ProductBranch (ProductBranchDTO productBranchDTO){
+        ProductController productController = ProductController.getInstance();
+        this.product = productController.getProductById(productBranchDTO.getProductDTO().getId());
+        this.price = productBranchDTO.getPrice();
+        this.idealQuantity = productBranchDTO.getIdealQuantity();
+        this.minQuantity = productBranchDTO.getMinQuantity();
+
+        HashMap<Integer, SpecificProduct> specificProductMap = new HashMap<>();
+        HashMap<Integer,SpecificProductDTO> dtos = productBranchDTO.getAllSpecificProducts();
+        for (Integer index : dtos.keySet()) {
+            SpecificProductDTO dto = dtos.get(index);
+            SpecificProduct specificProduct = new SpecificProduct(dto);
+            specificProductMap.put(index, specificProduct);
+        }
+
+        this.allSpecificProducts = specificProductMap;
+        DiscountController discountController = DiscountController.getInstance();
+        this.discount = discountController.getDiscountById(productBranchDTO.getDiscountDTO().getId())   ;
+        this.totalAmount = productBranchDTO.getAllSpecificProducts().size();
         this.discountsHistory = new ArrayList<>();
     }
 
@@ -139,12 +159,16 @@ public class ProductBranch {
         return allFlaws;
     }
 
-    public void receiveSupply(int amount, double buyPrice, LocalDate expiredDate) {
+    public List<SpecificProduct> receiveSupply(int amount, double buyPrice, LocalDate expiredDate,int branchId) {
+      List<SpecificProduct> addedSpecific = new ArrayList<>();
         for (int i = 0; i < amount; i++) {
-            SpecificProduct newSpecific = new SpecificProduct(product.getId(), buyPrice, expiredDate);
+            SpecificProductDTO  specificProductDTO = new SpecificProductDTO(Global.getNewSpecificId(),getCode(),branchId,buyPrice,-1, ProductStatus.status.ON_STORAGE,"",expiredDate,LocalDate.now());
+            SpecificProduct newSpecific = new SpecificProduct(specificProductDTO);
+            addedSpecific.add(newSpecific);
             allSpecificProducts.put(newSpecific.getSpecificId(), newSpecific);
             totalAmount++;
         }
+        return addedSpecific;
     }
 
     public void transferToShop(int amount) {

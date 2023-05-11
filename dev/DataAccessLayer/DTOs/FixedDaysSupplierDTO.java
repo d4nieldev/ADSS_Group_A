@@ -24,4 +24,20 @@ public class FixedDaysSupplierDTO implements DTO {
         return nameToVal;
     }
 
+    public SupplierDTO getSupplierDTO() {
+        return supplierDTO;
+    }
+
+    public void setSupplierDTO(SupplierDTO supplierDTO) {
+        this.supplierDTO = supplierDTO;
+    }
+
+    public int getDayOfSupply() {
+        return dayOfSupply;
+    }
+
+    public void setDayOfSupply(int dayOfSupply) {
+        this.dayOfSupply = dayOfSupply;
+    }
+
 }

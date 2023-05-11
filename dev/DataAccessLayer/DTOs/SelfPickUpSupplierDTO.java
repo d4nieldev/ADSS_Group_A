@@ -26,4 +26,12 @@ public class SelfPickUpSupplierDTO implements DTO {
     public SupplierDTO getSuper() {
         return this.supDTO;
     }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public int getMaxPreperationDays() {
+        return maxPreperationDays;
+    }
 }

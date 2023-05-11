@@ -28,7 +28,7 @@ public class ReportDAO extends DAO<ReportDTO> {
     @Override
     public ReportDTO makeDTO(ResultSet rs) throws SQLException {
         if (!rs.next())
-            throw new SQLException("Can't make DTO from nothing!");
+            return null;
 
         int id = rs.getInt("id");
         int branchId = rs.getInt("branchId");

@@ -11,7 +11,6 @@ public abstract class Discount {
     double val;
     protected DiscountDTO dto;
 
-
     public Discount(DiscountDTO dto) {
         this.dto = dto;
         this.discountId = dto.getId();
@@ -43,5 +42,10 @@ public abstract class Discount {
     }
 
     public abstract double getPriceWithDiscount(double price);
-    public abstract double getDiscountValue();
+
+
+    public double getVal() {
+        return val;
+    }
 }
+

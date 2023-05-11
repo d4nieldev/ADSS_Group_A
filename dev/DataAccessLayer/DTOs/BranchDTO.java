@@ -8,6 +8,7 @@ public class BranchDTO implements DTO {
     private int id;
     private String name;
 
+
     public BranchDTO(int id, String name){
         this.id = id;
         this.name = name;

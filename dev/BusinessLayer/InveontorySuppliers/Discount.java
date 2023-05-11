@@ -19,6 +19,10 @@ public abstract class Discount {
 
     }
 
+    public int getDiscountId() {
+        return discountId;
+    }
+
     public LocalDate getStart_date() {
         return this.start_date;
     }

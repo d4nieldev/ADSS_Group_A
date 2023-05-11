@@ -3,7 +3,13 @@ package BusinessLayer.InveontorySuppliers;
 import BusinessLayer.Inventory.*;
 import BusinessLayer.Suppliers.ReservationController;
 import BusinessLayer.enums.Day;
+import DataAccessLayer.DAOs.DiscountDAO;
+import DataAccessLayer.DAOs.ProductsDAO;
+import DataAccessLayer.DTOs.BranchDTO;
+import DataAccessLayer.DTOs.ProductBranchDTO;
+import DataAccessLayer.DTOs.SpecificProductDTO;
 
+import java.sql.SQLException;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -18,6 +24,8 @@ public class Branch {
     private CategoryController categoryController;
     private HashMap<Integer,Integer> productToAmount; // maps between product to amount for deficiency quantity
     private int minAmountForDeficiencyReservation;
+    private BranchDTO branchDTO;
+
 
     public Branch(int branchId, String branchName,int minAmount) {
         this.branchId = branchId;
@@ -27,6 +35,15 @@ public class Branch {
         this.categoryController = CategoryController.getInstance();
         this.minAmountForDeficiencyReservation = minAmount;
     }
+    public Branch(BranchDTO branchDTO,int minAmount) {
+        this.branchId = branchDTO.getBranchId();
+        this.branchName = branchDTO.getName();
+        this.allProductBranches = new HashMap<>();
+        this.periodicReservation = new PeriodicReservation();
+        this.categoryController = CategoryController.getInstance();
+        this.minAmountForDeficiencyReservation = minAmount;
+    }
+
     public int getId() {
         return this.branchId;
     }
@@ -38,24 +55,29 @@ public class Branch {
         return allProductBranches;
     }
 
-    public void addNewProductBranch(Product product , double price, int idealQuantity, int minQuantity){
-        ProductBranch newProduct = new ProductBranch( product , price,  idealQuantity, minQuantity)  ;
-        allProductBranches.put(product.getId(), newProduct);
-    }
+//    public void addNewProductBranch(ProductBranchDTO productBranchDTO){
+//        ProductBranch newProduct = new ProductBranch( product , price,  idealQuantity, minQuantity)  ;
+//        allProductBranches.put(product.getId(), newProduct);
+//    }
+public void addNewProductBranch(ProductBranchDTO productBranchDTO){
+    ProductBranch newProduct = new ProductBranch(productBranchDTO)  ;
+    allProductBranches.put(newProduct.getCode(), newProduct);
+}
     public void receiveSupply(int generalId) {
-        LocalDate tommorow = LocalDate.now().plusDays(1);
+        LocalDate tomorrow = LocalDate.now().plusDays(1);
         LocalDate yesterday = LocalDate.now().minusDays(1);
-        // SpecificProduct sp1 = new SpecificProduct(generalId,20,tommorow);
-        // SpecificProduct sp2 = new SpecificProduct(generalId,20,tommorow);
+        // SpecificProduct sp1 = new SpecificProduct(generalId,20,tomorrow);
+        // SpecificProduct sp2 = new SpecificProduct(generalId,20,tomorrow);
         // SpecificProduct sp3 = new SpecificProduct(generalId,20,yesterday);
         // SpecificProduct sp4 = new SpecificProduct(generalId,20,yesterday);
-        ProductBranch productBranch = allProductBranches.get(generalId);
-        productBranch.receiveSupply(2, 15, tommorow);
-        productBranch.receiveSupply(2, 15, yesterday);
+//        ProductBranch productBranch = allProductBranches.get(generalId);
+//        productBranch.receiveSupply(2, 15, tomorrow);
+//        productBranch.receiveSupply(2, 15, yesterday);
 
     }
 
-    public void receiveReservation(Reservation reservation) {
+    public HashMap<ProductBranch,List<SpecificProduct>> receiveReservation(Reservation reservation) throws SQLException {
+        HashMap<ProductBranch,List<SpecificProduct>> toDao = new HashMap<>();
         List<ReceiptItem> allItems = reservation.getReceipt();
         for (ReceiptItem ri : allItems) {
             int amount = ri.getAmount();
@@ -66,11 +88,17 @@ public class Branch {
             if (!allProductBranches.containsKey(id)) {
                 int idealQuantity = 100;
                 int minQuantity = 50;
-                addNewProductBranch(product, buyPrice, idealQuantity, minQuantity);
+                ProductsDAO productsDAO = ProductsDAO.getInstance();
+                DiscountDAO discountDAO = DiscountDAO.getInstance();
+                ProductBranchDTO productBranchDTO = new ProductBranchDTO(productsDAO.getById(id),discountDAO.getById(-1),reservation.getDestination(),buyPrice,minQuantity,idealQuantity,new HashMap<Integer, SpecificProductDTO>() );
+                ProductBranch newProductBranch = new ProductBranch(productBranchDTO);
+                addNewProductBranch(productBranchDTO);
             }
             ProductBranch productBranch = allProductBranches.get(id);
-            productBranch.receiveSupply(amount, buyPrice, expiredDate);
+            List<SpecificProduct> addedSpecifics = productBranch.receiveSupply(amount, buyPrice, expiredDate,reservation.getDestination());
+           toDao.put(productBranch,addedSpecifics);
         }
+        return toDao;
     }
 
     public void sellProduct(int code, int specificId) throws Exception {

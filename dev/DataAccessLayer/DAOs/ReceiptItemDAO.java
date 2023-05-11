@@ -12,9 +12,11 @@ import DataAccessLayer.DTOs.ReceiptItemDTO;
 
 public class ReceiptItemDAO extends DAO<ReceiptItemDTO> {
     private static ReceiptItemDAO instance = null;
+    private Repository repo;
 
     private ReceiptItemDAO() {
         super("ReceiptItem");
+        repo = Repository.getInstance();
     }
 
     public static ReceiptItemDAO getInstance() {
@@ -40,18 +42,13 @@ public class ReceiptItemDAO extends DAO<ReceiptItemDTO> {
     }
 
     public List<ReceiptItemDTO> getReceiptOfReservation(int reservationId) throws SQLException {
-        Connection con = Repository.getInstance().connect();
-        PreparedStatement statement = con
-                .prepareStatement("SELECT * FROM " + tableName + " WHERE reservationId = ?;");
-        statement.setInt(1, reservationId);
-        ResultSet rs = statement.executeQuery();
+        ResultSet rs = repo.executeQuery("SELECT * FROM " + tableName + " WHERE reservationId = ?;", reservationId);
 
         List<ReceiptItemDTO> receipt = new ArrayList<>();
         while (rs.next())
             receipt.add(makeDTO(rs));
 
-        statement.close();
-        con.close();
+        rs.close();
 
         return receipt;
     }

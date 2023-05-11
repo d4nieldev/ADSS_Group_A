@@ -13,16 +13,18 @@ import DataAccessLayer.DTOs.DiscountDTO;
 public class AgreementAmountToDiscountDAO extends DAO<AgreementAmountToDiscountDTO> {
     private DiscountDAO discountDAO = null;
     private static AgreementAmountToDiscountDAO instance = null;
+    private Repository repo;
+
+    protected AgreementAmountToDiscountDAO() {
+        super("AgreementAmountToDiscount");
+        discountDAO = DiscountDAO.getInstance();
+        repo = Repository.getInstance();
+    }
 
     public static AgreementAmountToDiscountDAO getInstance() {
         if (instance == null)
             instance = new AgreementAmountToDiscountDAO();
         return instance;
-    }
-
-    protected AgreementAmountToDiscountDAO() {
-        super("AgreementAmountToDiscount");
-        discountDAO = DiscountDAO.getInstance();
     }
 
     @Override
@@ -42,25 +44,18 @@ public class AgreementAmountToDiscountDAO extends DAO<AgreementAmountToDiscountD
 
     public TreeMap<Integer, DiscountDTO> getAgreementAmountToDiscount(int supplierId, int productId)
             throws SQLException {
-        TreeMap<Integer, DiscountDTO> amountToDiscount = new TreeMap<>();
-
-        Connection con = Repository.getInstance().connect();
-
         String query = "SELECT * FROM " + tableName + " WHERE supplierId = ? AND productId = ?;";
-        PreparedStatement statement = con.prepareStatement(query);
-        statement.setInt(1, supplierId);
-        statement.setInt(2, productId);
-        ResultSet rs = statement.executeQuery();
+        ResultSet rs = repo.executeQuery(query, supplierId, productId);
 
-        statement.close();
-        con.close();
-
+        TreeMap<Integer, DiscountDTO> amountToDiscount = new TreeMap<>();
         while (rs.next()) {
             int amount = rs.getInt("amount");
             int discountId = rs.getInt("discount");
             DiscountDTO discount = discountDAO.getById(discountId);
             amountToDiscount.put(amount, discount);
         }
+
+        rs.close();
 
         return amountToDiscount;
 

@@ -11,17 +11,18 @@ import java.time.LocalDate;
 import DataAccessLayer.Repository;
 
 public class SpecificProductDAO extends DAO<SpecificProductDTO> {
-
     private static SpecificProductDAO instance = null;
+    private Repository repo;
+
+    private SpecificProductDAO() {
+        super("SpecificProducts");
+        this.repo = Repository.getInstance();
+    }
 
     public static SpecificProductDAO getInstance() {
         if (instance == null)
             instance = new SpecificProductDAO();
         return instance;
-    }
-
-    private SpecificProductDAO() {
-        super("SpecificProducts");
     }
 
     @Override
@@ -43,14 +44,11 @@ public class SpecificProductDAO extends DAO<SpecificProductDTO> {
     }
 
     public SpecificProductDTO getById(int specificId) throws SQLException {
-
-        Connection con = Repository.getInstance().connect();
         String query = "SELECT * FROM SpecificProducts WHERE id= ?;";
-        PreparedStatement statement = con.prepareStatement(query);
-        statement.setInt(1, specificId);
-        ResultSet catId = statement.executeQuery();
-
-        return makeDTO(catId);
+        ResultSet rs = repo.executeQuery(query, specificId);
+        SpecificProductDTO dto = makeDTO(rs);
+        rs.close();
+        return dto;
     }
 
     private ProductStatus.status stringToStatus(String status) {

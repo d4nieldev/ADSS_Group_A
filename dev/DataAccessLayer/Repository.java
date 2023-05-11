@@ -36,6 +36,33 @@ public class Repository {
         return conn;
     }
 
+    public ResultSet executeQuery(String query, Object... params) throws SQLException {
+        Connection conn = connect();
+        PreparedStatement stmt = conn.prepareStatement(query);
+        int i = 1;
+        for (Object param : params) {
+            if (param instanceof String) {
+                stmt.setString(i, (String) param);
+            } else if (param instanceof Integer) {
+                stmt.setInt(i, (Integer) param);
+            } else if (param instanceof Double) {
+                stmt.setDouble(i, (Double) param);
+            } else if (param instanceof Date) {
+                stmt.setDate(i, (Date) param);
+            } else {
+                throw new IllegalArgumentException("Unsupported parameter type: " + param.getClass().getName());
+            }
+            i++;
+        }
+
+        ResultSet rs = stmt.executeQuery();
+
+        stmt.close();
+        conn.close();
+
+        return rs;
+    }
+
     // disconnect from the DATABASE
     public void closeConnection(Connection conn) {
         try {

@@ -8,18 +8,20 @@ import java.sql.SQLException;
 import DataAccessLayer.Repository;
 import DataAccessLayer.DTOs.BranchDTO;
 
-public class BranchDAO extends DAO<BranchDTO>  {
+public class BranchDAO extends DAO<BranchDTO> {
 
     private static BranchDAO instance = null;
+    private Repository repo;
 
-    public static BranchDAO getInstance(){
-        if(instance == null)
-            instance = new BranchDAO();
-        return instance;
+    private BranchDAO() {
+        super("Branches");
+        Repository.getInstance();
     }
 
-    private BranchDAO(){
-        super("Branches");
+    public static BranchDAO getInstance() {
+        if (instance == null)
+            instance = new BranchDAO();
+        return instance;
     }
 
     @Override
@@ -33,14 +35,10 @@ public class BranchDAO extends DAO<BranchDTO>  {
     }
 
     public BranchDTO getById(int branchId) throws SQLException {
-        Connection con = Repository.getInstance().connect();
-        String query = "SELECT * FROM Branches WHERE id= ?;";
-        PreparedStatement statement = con.prepareStatement(query);
-        statement.setInt(1, branchId);
-        ResultSet branchRS = statement.executeQuery();
-        statement.close();
-        con.close();
-        return makeDTO(branchRS);
+        ResultSet rs = repo.executeQuery("SELECT * FROM Branches WHERE id= ?;", branchId);
+        BranchDTO dto = makeDTO(rs);
+        rs.close();
+        return dto;
     }
-        
+
 }

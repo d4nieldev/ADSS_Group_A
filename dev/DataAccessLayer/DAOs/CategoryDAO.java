@@ -10,9 +10,11 @@ import DataAccessLayer.DTOs.CategoryDTO;
 
 public class CategoryDAO extends DAO<CategoryDTO> {
     private static CategoryDAO instance = null;
+    private Repository repo;
 
     protected CategoryDAO() {
         super("Categories");
+        repo = Repository.getInstance();
     }
 
     public static CategoryDAO getInstance() {
@@ -39,15 +41,12 @@ public class CategoryDAO extends DAO<CategoryDTO> {
     }
 
     public CategoryDTO getById(int categoryId) throws SQLException {
-        Connection con = Repository.getInstance().connect();
+        ResultSet rs = repo.executeQuery("SELECT * FROM Categories WHERE id= ?;", categoryId);
+        CategoryDTO categoryDTO = makeDTO(rs);
 
-        String query = "SELECT * FROM Categories WHERE id= ?;";
-        PreparedStatement statement = con.prepareStatement(query);
-        statement.setInt(1, categoryId);
-        ResultSet catId = statement.executeQuery();
-        statement.close();
-        con.close();
-        return makeDTO(catId);
+        rs.close();
+
+        return categoryDTO;
     }
 
 }

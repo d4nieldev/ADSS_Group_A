@@ -1,28 +1,21 @@
 package DataAccessLayer.DAOs;
 
-import BusinessLayer.Inventory.ProductBranch;
 import BusinessLayer.Inventory.ProductStatus;
-import BusinessLayer.Inventory.ProductStatus.status;
-import BusinessLayer.enums.Status;
-import DataAccessLayer.DTOs.BranchDTO;
-import DataAccessLayer.DTOs.ProductBranchDTO;
 import DataAccessLayer.DTOs.SpecificProductDTO;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
 
 import DataAccessLayer.Repository;
 
 public class SpecificProductDAO extends DAO<SpecificProductDTO> {
-    
+
     private static SpecificProductDAO instance = null;
 
-    public static SpecificProductDAO getInstance(){
-        if(instance == null)
+    public static SpecificProductDAO getInstance() {
+        if (instance == null)
             instance = new SpecificProductDAO();
         return instance;
     }
@@ -46,12 +39,11 @@ public class SpecificProductDAO extends DAO<SpecificProductDTO> {
         String flaw = rs.getString("flaw");
         LocalDate expDate = LocalDate.parse(rs.getString("expDate"));
 
-
-        return new SpecificProductDTO(specificId, generalId, branchId, buyPrice, sellPrice, status,flaw,expDate);
+        return new SpecificProductDTO(specificId, generalId, branchId, buyPrice, sellPrice, status, flaw, expDate);
     }
 
-     public SpecificProductDTO getById(int specificId) throws SQLException {
-       
+    public SpecificProductDTO getById(int specificId) throws SQLException {
+
         Connection con = Repository.getInstance().connect();
         String query = "SELECT * FROM SpecificProducts WHERE id= ?;";
         PreparedStatement statement = con.prepareStatement(query);
@@ -61,8 +53,8 @@ public class SpecificProductDAO extends DAO<SpecificProductDTO> {
         return makeDTO(catId);
     }
 
-    private ProductStatus.status stringToStatus(String status){
-        switch(status){
+    private ProductStatus.status stringToStatus(String status) {
+        switch (status) {
             case "SOLD":
                 return ProductStatus.status.SOLD;
             case "IS_FLAW":
@@ -76,4 +68,3 @@ public class SpecificProductDAO extends DAO<SpecificProductDTO> {
     }
 
 }
-

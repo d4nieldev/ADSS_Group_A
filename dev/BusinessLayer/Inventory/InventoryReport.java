@@ -1,10 +1,10 @@
 package BusinessLayer.Inventory;
 
+import BusinessLayer.InveontorySuppliers.Branch;
+
 import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.List;
-
-import BusinessLayer.InveontorySuppliers.Branch;
 
 public class InventoryReport extends Report {
 

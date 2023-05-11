@@ -4,8 +4,6 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.TreeMap;
 
-import BusinessLayer.InveontorySuppliers.Discount;
-
 class SelfPickupSupplier extends Supplier {
 
     private String address;

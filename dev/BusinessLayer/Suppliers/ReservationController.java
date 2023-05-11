@@ -8,7 +8,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import BusinessLayer.InveontorySuppliers.Branch;
 import BusinessLayer.InveontorySuppliers.ProductController;
 import BusinessLayer.InveontorySuppliers.ReceiptItem;
 import BusinessLayer.InveontorySuppliers.Reservation;

@@ -6,8 +6,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.TreeMap;
 
-import BusinessLayer.InveontorySuppliers.Discount;
-
 class FixedDaysSupplier extends Supplier {
     private List<DayOfWeek> days;
 

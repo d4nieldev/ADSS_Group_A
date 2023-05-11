@@ -3,7 +3,6 @@ package BusinessLayer.InveontorySuppliers;
 import java.time.LocalDate;
 
 public abstract class Discount {
-
     private int discountId;
     private LocalDate start_date;
     private LocalDate end_date;

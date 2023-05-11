@@ -1,19 +1,14 @@
 package BusinessLayer.InveontorySuppliers;
 
+import BusinessLayer.Inventory.*;
+import BusinessLayer.Suppliers.ReservationController;
+import BusinessLayer.enums.Day;
+
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-
-import BusinessLayer.Inventory.Category;
-import BusinessLayer.Inventory.CategoryController;
-import BusinessLayer.Inventory.PeriodicReservation;
-import BusinessLayer.Inventory.ProductBranch;
-import BusinessLayer.Inventory.SpecificProduct;
-import BusinessLayer.Suppliers.ReservationController;
-import BusinessLayer.Suppliers.SupplierController;
-import BusinessLayer.enums.Day;
 
 public class Branch {
     private int branchId;
@@ -32,20 +27,17 @@ public class Branch {
         this.categoryController = CategoryController.getInstance();
         this.minAmountForDeficiencyReservation = minAmount;
     }
-
     public int getId() {
         return this.branchId;
     }
-
     public String getName() {
         return this.branchName;
     }
 
-    public void addNewProductBranch(Product product, double price, int idealQuantity, int minQuantity) {
-        ProductBranch newProduct = new ProductBranch(product, price, idealQuantity, minQuantity);
+    public void addNewProductBranch( Product product , double price, int idealQuantity, int minQuantity){
+        ProductBranch newProduct = new ProductBranch( product , price,  idealQuantity, minQuantity)  ;
         allProductBranches.put(product.getId(), newProduct);
     }
-
     public void receiveSupply(int generalId) {
         LocalDate tommorow = LocalDate.now().plusDays(1);
         LocalDate yesterday = LocalDate.now().minusDays(1);
@@ -82,14 +74,14 @@ public class Branch {
         if (productBranch == null)
             throw new Exception("this product doesn't exist");
         productBranch.sellProduct(specificId);
-        checkDeficiencyAfterUpdate(productBranch);    
+        checkDeficiencyAfterUpdate(productBranch);
         CheckForDeficiencyReservation();
     }
 
     public void CheckForDeficiencyReservation(){
         boolean overCapacity = getTotalDeficiencyAmount() > minAmountForDeficiencyReservation;
         if ( overCapacity) {
-        
+
             makeDeficiencyReservation();
         }
     }
@@ -130,7 +122,7 @@ public class Branch {
 
     /***
      * checks for deficiency after updae - if exist make deficiency reservations
-     * 
+     *
      * @param productBranch
      */
     private void checkDeficiencyAfterUpdate(ProductBranch productBranch) {
@@ -138,10 +130,10 @@ public class Branch {
         if(check){
             alertForDeficiency(productBranch);
             int amount = productBranch.getIdealQuantity() -
-            productBranch.getTotalAmount();
-        productToAmount.put(productBranch.getCode(),amount);
+                    productBranch.getTotalAmount();
+            productToAmount.put(productBranch.getCode(),amount);
         }
-        
+
     }
 
     public HashMap<Integer, List<SpecificProduct>> getFlawsProducts() {
@@ -181,7 +173,7 @@ public class Branch {
      * delivery day.
      * return true if so
      * else return false
-     * 
+     *
      * @return
      */
     private boolean checkTime() {
@@ -306,7 +298,7 @@ public class Branch {
     /***
      * iterate on all productBranch and gets for each product branch a list of it
      * flaws specific product
-     * 
+     *
      * @return
      */
     public HashMap<Integer, List<SpecificProduct>> getBranchFlaws() {
@@ -493,4 +485,5 @@ public class Branch {
             throw new Exception("this product doesn't exist in the branch");
         return productBranch;
     }
+
 }

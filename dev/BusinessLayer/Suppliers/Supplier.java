@@ -2,7 +2,6 @@ package BusinessLayer.Suppliers;
 
 import java.util.TreeMap;
 
-import BusinessLayer.InveontorySuppliers.Discount;
 import BusinessLayer.Suppliers.exceptions.SuppliersException;
 
 import java.time.LocalDate;

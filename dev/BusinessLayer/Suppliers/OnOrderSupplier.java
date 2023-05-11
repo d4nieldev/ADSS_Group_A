@@ -4,8 +4,6 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.TreeMap;
 
-import BusinessLayer.InveontorySuppliers.Discount;
-
 class OnOrderSupplier extends Supplier {
     // private LocalDate lastOrderDate;
     private int maxSupplyDays;

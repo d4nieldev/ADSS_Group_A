@@ -16,8 +16,10 @@ public class ProductAgreement {
     private int stockAmount;
     private int productId;
     private TreeMap<Integer, Discount> amountToDiscount;
+    private ProductAgreementDTO dto;
 
     public ProductAgreement(ProductAgreementDTO dto) {
+        this.dto = dto;
         this.supplierId = dto.getSupplierId();
         this.productSupplierId = dto.getProductSupplierId();
         this.basePrice = dto.getBasePrice();
@@ -31,6 +33,10 @@ public class ProductAgreement {
             else if (discountDTO.getdType() == "Precentage")
                 amountToDiscount.put(amount, new DiscountPercentage(discountDTO));
         }
+    }
+
+    public ProductAgreementDTO getDto() {
+        return dto;
     }
 
     /**

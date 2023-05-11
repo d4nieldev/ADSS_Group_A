@@ -25,6 +25,10 @@ public abstract class Discount {
 
     }
 
+    public DiscountDTO getDto() {
+        return dto;
+    }
+
     public LocalDate getStart_date() {
         return this.start_date;
     }

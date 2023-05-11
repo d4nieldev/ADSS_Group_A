@@ -8,14 +8,20 @@ import DataAccessLayer.DTOs.DiscountDTO;
 import DataAccessLayer.DTOs.ProductAgreementDTO;
 
 public class ProductAgreementDAO extends DAO<ProductAgreementDTO> {
-
+    private static ProductAgreementDAO instance = null;
     private ProductsDAO productDAO;
     private AgreementAmountToDiscountDAO agreementAmountToDiscountDAO;
 
-    public ProductAgreementDAO() {
+    private ProductAgreementDAO() {
         super("ProductAgreement");
         productDAO = ProductsDAO.getInstance();
         agreementAmountToDiscountDAO = AgreementAmountToDiscountDAO.getInstance();
+    }
+
+    public static ProductAgreementDAO getInstance() {
+        if (instance == null)
+            instance = new ProductAgreementDAO();
+        return instance;
     }
 
     @Override

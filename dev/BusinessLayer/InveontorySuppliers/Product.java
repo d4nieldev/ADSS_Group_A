@@ -7,8 +7,10 @@ public class Product {
     private String name;
     private String manufacturer;
     private int categoryId; // The category that the product belongs to
+    private ProductDTO dto;
 
     public Product(ProductDTO dto) {
+        this.dto = dto;
         this.id = dto.getId();
         this.name = dto.getName();
         this.manufacturer = dto.getManufacturer();
@@ -37,5 +39,9 @@ public class Product {
 
     public int geCategoryId() {
         return categoryId;
+    }
+
+    public ProductDTO getDTO() {
+        return this.dto;
     }
 }

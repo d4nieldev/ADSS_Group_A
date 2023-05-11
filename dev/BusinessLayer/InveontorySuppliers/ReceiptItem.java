@@ -2,7 +2,7 @@ package BusinessLayer.InveontorySuppliers;
 
 import java.time.LocalDate;
 
-import BusinessLayer.Suppliers.ProductAgreement;
+import DataAccessLayer.DTOs.ReceiptItemDTO;
 
 public class ReceiptItem {
     private int amount;
@@ -11,11 +11,11 @@ public class ReceiptItem {
     private Product product;
     private LocalDate expiredDate;
 
-    public ReceiptItem(int amount, ProductAgreement agreement) {
-        this.amount = amount;
-        this.pricePerUnitBeforeDiscount = agreement.getBasePrice();
-        this.pricePerUnitAfterDiscount = agreement.getPrice(amount) / amount;
-        this.product = agreement.getProduct();
+    public ReceiptItem(ReceiptItemDTO dto) {
+        this.amount = dto.getAmount();
+        this.pricePerUnitBeforeDiscount = dto.getPricePerUnitBeforeDiscount();
+        this.pricePerUnitAfterDiscount = dto.getPricePerUnitAfterDiscount();
+        this.product = ProductController.getInstance().getProductById(dto.getProductId());
     }
 
     public int getAmount() {

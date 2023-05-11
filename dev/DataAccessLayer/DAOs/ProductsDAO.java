@@ -1,7 +1,5 @@
 package DataAccessLayer.DAOs;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
@@ -11,9 +9,11 @@ import DataAccessLayer.DTOs.ProductDTO;
 
 public class ProductsDAO extends DAO<ProductDTO> {
     private static ProductsDAO instance = null;
+    private Repository repo;
 
     protected ProductsDAO() {
         super("Products");
+        repo = Repository.getInstance();
     }
 
     public static ProductsDAO getInstance() {
@@ -39,14 +39,11 @@ public class ProductsDAO extends DAO<ProductDTO> {
     }
 
     public ProductDTO getById(int id) throws SQLException {
-        Connection con = Repository.getInstance().connect();
-
         String query = "SELECT * FROM Products WHERE id= ?;";
-        PreparedStatement statement = con.prepareStatement(query);
-        statement.setInt(1, id);
-        ResultSet rs = statement.executeQuery();
-
-        return makeDTO(rs);
+        ResultSet rs = repo.executeQuery(query, id);
+        ProductDTO dto = makeDTO(rs);
+        rs.close();
+        return dto;
     }
 
 }

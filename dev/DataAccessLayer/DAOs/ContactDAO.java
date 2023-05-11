@@ -1,7 +1,5 @@
 package DataAccessLayer.DAOs;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -11,17 +9,18 @@ import DataAccessLayer.Repository;
 import DataAccessLayer.DTOs.ContactDTO;
 
 public class ContactDAO extends DAO<ContactDTO> {
-
     private static ContactDAO instance = null;
-
-    public static ContactDAO getInstance(){
-        if(instance == null)
-            instance = new ContactDAO();
-        return instance;
-    }
+    private Repository repo;
 
     private ContactDAO() {
         super("Contacts");
+        repo = Repository.getInstance();
+    }
+
+    public static ContactDAO getInstance() {
+        if (instance == null)
+            instance = new ContactDAO();
+        return instance;
     }
 
     @Override
@@ -37,16 +36,28 @@ public class ContactDAO extends DAO<ContactDTO> {
     }
 
     public List<ContactDTO> getSupplierContacts(int supplierId) throws SQLException {
-        Connection con = Repository.getInstance().connect();
-        PreparedStatement statement = con.prepareStatement("SELECT * FROM " + tableName + " WHERE supplierId = ?;");
-        statement.setInt(1, supplierId);
-        ResultSet rs = statement.executeQuery();
+        ResultSet rs = repo.executeQuery("SELECT * FROM " + tableName + " WHERE supplierId = ?;", supplierId);
+
         List<ContactDTO> contacts = new ArrayList<>();
         while (rs.next())
             contacts.add(makeDTO(rs));
-        statement.close();
-        con.close();
+
+        rs.close();
+
         return contacts;
+    }
+
+    public ContactDTO getBySupplierAndPhone(int supplierId, String phone) throws SQLException {
+        ResultSet rs = repo.executeQuery("SELECT * FROM " + tableName + " WHERE supplierId = ? AND phone = ?;",
+                supplierId, phone);
+
+        if (!rs.next())
+            throw new SQLException("No such contact found with id " + supplierId + " and phone " + phone);
+        ContactDTO dto = makeDTO(rs);
+
+        rs.close();
+
+        return dto;
     }
 
 }

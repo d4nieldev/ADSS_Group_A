@@ -11,6 +11,7 @@ import DataAccessLayer.DTOs.ContactDTO;
 import DataAccessLayer.DTOs.DiscountDTO;
 import DataAccessLayer.DTOs.SupplierDTO;
 
+
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -31,7 +32,7 @@ public abstract class Supplier {
     private SupplierDTO supplierDTO;
 
     public Supplier(int id, String name, String phone, String bankAcc, List<String> fields, String paymentCondition,
-            TreeMap<Integer, Discount> amountToDiscount, List<Contact> contacts) {
+                    TreeMap<Integer, Discount> amountToDiscount, List<Contact> contacts) {
         this.id = id;
         this.name = name;
         this.bankAcc = bankAcc;
@@ -40,8 +41,7 @@ public abstract class Supplier {
         this.amountToDiscount = amountToDiscount;
         this.contacts = addOfficeContact(contacts, phone);
         this.branchToPeriodicReservations = new HashMap<>();
-        this.supplierDTO = new SupplierDTO(id, name, bankAcc, paymentCondition, fields, makeContactDTOList(contacts),
-                );
+        this.supplierDTO = new SupplierDTO(id, name, bankAcc, paymentCondition, fields, makeContactDTOList(contacts), );
     }
 
     public Supplier(SupplierDTO supplierDTO) {
@@ -51,6 +51,7 @@ public abstract class Supplier {
         this.fields = supplierDTO.getFields();
         this.paymentCondition = supplierDTO.getPaymentCondition();
         TreeMap<Integer, DiscountDTO> amountToDiscountDTO = supplierDTO.getAmountToDiscount();
+        this.amountToDiscount = makeDiscountMap(amountToDiscountDTO);
 
     }
 

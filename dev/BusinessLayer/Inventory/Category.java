@@ -1,5 +1,7 @@
 package BusinessLayer.Inventory;
 
+import DataAccessLayer.DTOs.CategoryDTO;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -7,18 +9,19 @@ public class Category {
     private int id;
     private String name;
     private Category parentCategory;
+    private CategoryDTO CategoryDTO;
 
-    public Category(String name, Category parentCategory) {
-        this.id = Global.getNewCategoryid();
+    public Category(int id, String name, Category parentCategory, CategoryDTO CategoryDTO) {
+        this.id = id;
         this.name = name;
         this.parentCategory = parentCategory;
-
+        this.CategoryDTO = CategoryDTO;
     }
 
-    public Category(String name) {
-        this.id = Global.getNewCategoryid();
+    public Category(int id, String name, CategoryDTO CategoryDTO) {
+        this.id = id;
         this.name = name;
-        this.parentCategory = null;
+        this.CategoryDTO = CategoryDTO;
     }
 
     public int getId() {
@@ -60,5 +63,7 @@ public class Category {
         }
         return result;
     }
+
+    public CategoryDTO getCategoryDTO() { return CategoryDTO; }
 
 }

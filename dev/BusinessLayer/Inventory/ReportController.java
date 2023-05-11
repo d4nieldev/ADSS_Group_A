@@ -1,9 +1,9 @@
 package BusinessLayer.Inventory;
 
+import BusinessLayer.InveontorySuppliers.Branch;
+
 import java.util.HashMap;
 import java.util.List;
-
-import BusinessLayer.InveontorySuppliers.Branch;
 
 public class ReportController {
     private HashMap<Integer, Report> allReports;

@@ -9,13 +9,14 @@ import BusinessLayer.InveontorySuppliers.Discount;
 import BusinessLayer.InveontorySuppliers.Product;
 import BusinessLayer.InveontorySuppliers.ProductController;
 import BusinessLayer.InveontorySuppliers.ReceiptItem;
-import BusinessLayer.Suppliers.exceptions.SuppliersException;
+
 import DataAccessLayer.DAOs.ContactDAO;
 import DataAccessLayer.DAOs.FixedDaysSupplierDAO;
 import DataAccessLayer.DAOs.OnOrderSuppliersDAO;
 import DataAccessLayer.DAOs.SelfPickUpSupplierDAO;
 import DataAccessLayer.DTOs.ContactDTO;
 import DataAccessLayer.DTOs.FixedDaysSupplierDTO;
+
 
 import java.util.List;
 import java.util.Map;

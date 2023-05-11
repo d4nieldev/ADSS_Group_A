@@ -1,5 +1,7 @@
 package BusinessLayer.Suppliers;
 
+import BusinessLayer.InveontorySuppliers.Discount;
+
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.util.LinkedList;
@@ -15,8 +17,8 @@ class FixedDaysSupplier extends Supplier {
 
     // Copy constructor
     public FixedDaysSupplier(int id, String name, String phone, String bankAcc, List<String> fields,
-            String paymentCondition,
-            TreeMap<Integer, Discount> amountToDiscount, List<Contact> contacts, List<Integer> days) {
+                             String paymentCondition,
+                             TreeMap<Integer, Discount> amountToDiscount, List<Contact> contacts, List<Integer> days) {
         super(id, name, phone, bankAcc, fields, paymentCondition, amountToDiscount, contacts);
         this.days = makeDaysList(days);
     }

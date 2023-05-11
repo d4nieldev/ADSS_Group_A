@@ -1,10 +1,10 @@
 package BusinessLayer.Suppliers;
 
+import BusinessLayer.InveontorySuppliers.Discount;
+
 import java.time.LocalDate;
 import java.util.List;
 import java.util.TreeMap;
-
-import BusinessLayer.InveontorySuppliers.Discount;
 
 class OnOrderSupplier extends Supplier {
     // private LocalDate lastOrderDate;
@@ -12,9 +12,9 @@ class OnOrderSupplier extends Supplier {
 
     // Copy constructor
     public OnOrderSupplier(int id, String name, String phone, String bankAcc, List<String> fields,
-            String paymentCondition,
-            TreeMap<Integer, Discount> amountToDiscount, List<Contact> contacts,
-            int maxSupplyDays) {
+                           String paymentCondition,
+                           TreeMap<Integer, Discount> amountToDiscount, List<Contact> contacts,
+                           int maxSupplyDays) {
         super(id, name, phone, bankAcc, fields, paymentCondition, amountToDiscount, contacts);
         this.maxSupplyDays = maxSupplyDays;
     }

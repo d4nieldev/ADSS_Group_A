@@ -17,7 +17,7 @@ import BusinessLayer.Suppliers.Contact;
 import BusinessLayer.Suppliers.Supplier;
 import BusinessLayer.Suppliers.ProductAgreement;
 import BusinessLayer.Suppliers.SupplierController;
-import BusinessLayer.Suppliers.exceptions.SuppliersException;
+import BusinessLayer.exceptions.SuppliersException;
 
 public class SupplierControllerTest {
 

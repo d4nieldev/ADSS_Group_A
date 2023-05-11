@@ -2,7 +2,9 @@ package DataAccessLayer.DAOs;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.TreeMap;
 
+import DataAccessLayer.DTOs.DiscountDTO;
 import DataAccessLayer.DTOs.ProductAgreementDTO;
 
 public class ProductAgreementDAO extends DAO<ProductAgreementDTO> {
@@ -26,10 +28,11 @@ public class ProductAgreementDAO extends DAO<ProductAgreementDTO> {
         int stockAmount = rs.getInt("stockAmount");
         double minQuantity = rs.getDouble("basePrice");
         int productSupplierId = rs.getInt("productSupplierId");
+        TreeMap<Integer, DiscountDTO> amountToDiscount = agreementAmountToDiscountDAO
+                .getAgreementAmountToDiscount(productSupplierId, productId);
 
         return new ProductAgreementDTO(supplierId, productDAO.getById(productId), stockAmount, minQuantity,
-                productSupplierId,
-                agreementAmountToDiscountDAO.getAgreementAmountToDiscount(productSupplierId, productId));
+                productSupplierId, amountToDiscount);
     }
 
 }

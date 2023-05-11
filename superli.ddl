@@ -2,8 +2,8 @@
 
 CREATE TABLE IF NOT EXISTS Discounts (
 	id        INTEGER NOT NULL,
-	startDate TEXT    NOT NULL,
-	endDate   TEXT    NOT NULL,
+	startDate TEXT,
+	endDate   TEXT,
 	val       REAL    NOT NULL,
 	dType     TEXT    NOT NULL,
 	
@@ -191,11 +191,13 @@ CREATE TABLE IF NOT EXISTS Reservations (
 	rDate             TEXT    NOT NULL,
 	status            TEXT    NOT NULL,
 	destinationBranch INTEGER,
+	contactPhone      INTEGER,
 	
 	CHECK(status IN ('NotReady', 'Ready', 'Closed', 'Aborted')),
 	
-	FOREIGN KEY (supplierId)        REFERENCES Suppliers(id) ON DELETE SET NULL,
-	FOREIGN KEY (destinationBranch) REFERENCES Branch(id)    ON DELETE SET NULL,
+	FOREIGN KEY (supplierId)               REFERENCES Suppliers(id)               ON DELETE SET NULL,
+	FOREIGN KEY (destinationBranch)        REFERENCES Branch(id)                  ON DELETE SET NULL,
+	FOREIGN KEY (supplierId, contactPhone) REFERENCES Contacts(supplierId, phone) ON DELETE SET NULL,
 	PRIMARY KEY (id)
 );
 
@@ -249,44 +251,38 @@ CREATE TABLE IF NOT EXISTS Reports (
 	PRIMARY KEY (id)
 );
 
-CREATE TABLE IF NOT EXISTS ReportEntries (
-	id       INTEGER NOT NULL,
-	reportId INTEGER NOT NULL,
-	
-	FOREIGN KEY (reportId) REFERENCES Reports(reportId) ON DELETE CASCADE,
-	PRIMARY KEY (id)
-);
-
 
 CREATE TABLE IF NOT EXISTS InventoryReportEntries (
-	entryId       INTEGER NOT NULL,
+	reportId      INTEGER NOT NULL,
 	productId     INTEGER NOT NULL,
 	shelfAmount   INTEGER NOT NULL,
 	storageAmount INTEGER NOT NULL,
 	
 	CHECK (shelfAmount >= 0 AND storageAmount >= 0),
 	
-	FOREIGN KEY (entryId)   REFERENCES ReportEntries(id) ON DELETE CASCADE,
-	FOREIGN KEY (productId) REFERENCES Products(id)      ON DELETE SET NULL,
-	PRIMARY KEY (entryId)
+	FOREIGN KEY (reportId)  REFERENCES Reports(id)  ON DELETE CASCADE,
+	FOREIGN KEY (productId) REFERENCES Products(id) ON DELETE SET NULL,
+	PRIMARY KEY (reportId, productId)
 );
 
 CREATE TABLE IF NOT EXISTS DeficiencyReportEntries (
-	entryId       INTEGER NOT NULL,
+	reportId      INTEGER NOT NULL,
 	productId     INTEGER NOT NULL,
 	missingAmount INTEGER NOT NULL,
 	
 	CHECK (missingAmount >=0),
 	
-	FOREIGN KEY (entryId)   REFERENCES ReportEntries(id) ON DELETE CASCADE,
-	FOREIGN KEY (productId) REFERENCES Products(id)      ON DELETE SET NULL
+	FOREIGN KEY (reportId)  REFERENCES Reports(id)  ON DELETE CASCADE,
+	FOREIGN KEY (productId) REFERENCES Products(id) ON DELETE SET NULL,
+	PRIMARY KEY (reportId, productId)
 );
 
 
 CREATE TABLE IF NOT EXISTS ExpiredAndFlawReportEntries (
-	entryId    INTEGER NOT NULL,
+	reportId   INTEGER NOT NULL,
 	specificId INTEGER NOT NULL,
 	
-	FOREIGN KEY (entryId)    REFERENCES ReportEntries(id)           ON DELETE CASCADE,
-	FOREIGN KEY (specificId) REFERENCES SpecificProduct(specificId) ON DELETE SET NULL
+	FOREIGN KEY (reportId)   REFERENCES Reports(id)                 ON DELETE CASCADE,
+	FOREIGN KEY (specificId) REFERENCES SpecificProduct(specificId) ON DELETE SET NULL,
+	PRIMARY KEY (reportId, productId)
 )

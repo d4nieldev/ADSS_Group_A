@@ -1,15 +1,17 @@
 package BusinessLayer.Inventory;
 
+import BusinessLayer.InveontorySuppliers.Branch;
+
 import java.time.LocalDate;
 import java.util.HashMap;
-
-import BusinessLayer.InveontorySuppliers.Branch;
 
 public class DeficientReport extends Report {
     private HashMap<Integer, String> idToName;
     private HashMap<Integer, Integer> idToTotalAmount;
     private HashMap<Integer, Integer> idToMinQuantity;
     private HashMap<Integer, Integer> idToIdealQuantity;
+
+    private HashMap<Integer,ProductBranch> products;
 
     private BranchController branchController;
 
@@ -19,6 +21,7 @@ public class DeficientReport extends Report {
         Branch branch = branchController.getBranchById(branchId);
         this.idToName = branch.getAllDeficiencyProducts();
         this.idToTotalAmount = branch.getAllTotalAmountForDeficiencyProducts();
+        this.products = branch.getAllProductBranches();
         this.idToMinQuantity = branch.getAllMinQuantityForDeficiencyProducts();
         this.idToIdealQuantity = branch.getAllIdealQuantityForDeficiencyProducts();
     }

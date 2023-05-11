@@ -1,7 +1,5 @@
 package DataAccessLayer.DAOs;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
@@ -11,9 +9,11 @@ import DataAccessLayer.DTOs.DiscountDTO;
 
 public class DiscountDAO extends DAO<DiscountDTO> {
     private static DiscountDAO instance = null;
+    private Repository repo;
 
     protected DiscountDAO() {
         super("Discounts");
+        repo = Repository.getInstance();
     }
 
     public static DiscountDAO getInstance() {
@@ -38,16 +38,9 @@ public class DiscountDAO extends DAO<DiscountDTO> {
     }
 
     public DiscountDTO getById(int id) throws SQLException {
-        Connection conn = Repository.getInstance().connect();
-
-        PreparedStatement stmt = conn.prepareStatement("SELECT * FROM Discounts WHERE id = ?;");
-        stmt.setInt(1, id);
-        ResultSet rs = stmt.executeQuery();
+        ResultSet rs = repo.executeQuery("SELECT * FROM Discounts WHERE id = ?;", id);
         DiscountDTO discount = makeDTO(rs);
-
-        stmt.close();
-        conn.close();
-
+        rs.close();
         return discount;
     }
 

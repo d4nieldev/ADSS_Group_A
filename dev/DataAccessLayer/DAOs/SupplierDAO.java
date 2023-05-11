@@ -1,7 +1,5 @@
 package DataAccessLayer.DAOs;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
@@ -16,6 +14,7 @@ public class SupplierDAO extends DAO<SupplierDTO> {
     private SuppliersFieldsDAO suppliersFieldsDAO;
     private ContactDAO contactDAO;
     private SupplierAmountToDiscountDAO supplierAmountToDiscountDAO;
+    private Repository repo;
     private static SupplierDAO instance = null;
 
     // public abstract List<FieldDTO> getFieldsBySupplierId(int supplierId);
@@ -26,6 +25,7 @@ public class SupplierDAO extends DAO<SupplierDTO> {
         suppliersFieldsDAO = new SuppliersFieldsDAO();
         contactDAO = ContactDAO.getInstance();
         supplierAmountToDiscountDAO = SupplierAmountToDiscountDAO.getInstance();
+        repo = Repository.getInstance();
     }
 
     public static SupplierDAO getInstance() {
@@ -51,15 +51,11 @@ public class SupplierDAO extends DAO<SupplierDTO> {
     }
 
     public SupplierDTO getById(int supplierId) throws SQLException {
-        Connection con = Repository.getInstance().connect();
-
         String query = "SELECT * FROM Suppliers WHERE supplierId= ?;";
-        PreparedStatement statement = con.prepareStatement(query);
-        statement.setInt(1, supplierId);
-        ResultSet supRS = statement.executeQuery();
-        statement.close();
-        con.close();
-        return makeDTO(supRS);
+        ResultSet rs = repo.executeQuery(query, supplierId);
+        SupplierDTO dto = makeDTO(rs);
+        rs.close();
+        return dto;
     }
 
 }

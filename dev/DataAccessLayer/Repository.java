@@ -3,6 +3,7 @@ package DataAccessLayer;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.sql.*;
+import java.time.LocalDate;
 import java.util.Scanner;
 
 public class Repository {
@@ -34,6 +35,33 @@ public class Repository {
             e.printStackTrace();
         }
         return conn;
+    }
+
+    public ResultSet executeQuery(String query, Object... params) throws SQLException {
+        Connection conn = connect();
+        PreparedStatement stmt = conn.prepareStatement(query);
+        int i = 1;
+        for (Object param : params) {
+            if (param instanceof String) {
+                stmt.setString(i, (String) param);
+            } else if (param instanceof Integer) {
+                stmt.setInt(i, (Integer) param);
+            } else if (param instanceof Double) {
+                stmt.setDouble(i, (Double) param);
+            } else if (param instanceof LocalDate) {
+                stmt.setString(i, param.toString());
+            } else {
+                throw new IllegalArgumentException("Unsupported parameter type: " + param.getClass().getName());
+            }
+            i++;
+        }
+
+        ResultSet rs = stmt.executeQuery();
+
+        stmt.close();
+        conn.close();
+
+        return rs;
     }
 
     // disconnect from the DATABASE

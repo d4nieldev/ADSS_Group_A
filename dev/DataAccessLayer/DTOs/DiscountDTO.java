@@ -6,7 +6,6 @@ import java.util.Map;
 
 public class DiscountDTO implements DTO {
     int id;
-
     LocalDate startDate;
     LocalDate endDate;
     double val;

@@ -1,19 +1,19 @@
 package BusinessLayer.Inventory;
 
+import BusinessLayer.InveontorySuppliers.Branch;
+
 import java.util.HashMap;
 import java.util.List;
 
-import BusinessLayer.InveontorySuppliers.Branch;
-
 public class BranchController {
-    private HashMap<Integer,Branch> allBranches;//maps between brnachId and branchObject
+    private HashMap<Integer, Branch> allBranches;//maps between brnachId and branchObject
     private static BranchController instance = null;
 
     private BranchController() {
         this.allBranches = new HashMap<>();
     }
 
-    public static BranchController getInstance() {
+    public static BranchController getInstance() {//
         if (instance == null) {
             instance = new BranchController();
         }
@@ -26,14 +26,15 @@ public class BranchController {
         allFlaws = branch.getBranchFlaws();
         return allFlaws;
     }
+
     public HashMap<Integer, List<SpecificProduct>> getBranchExpired(int branchId) {
         HashMap<Integer, List<SpecificProduct>> result = new HashMap<>();
         Branch branch = allBranches.get(branchId);
         result = branch.getExpiredProducts();
         return result;
     }
-    public void addBranch(int branchId,String branchName) {
-        Branch newBranch = new Branch(branchId,branchName);
+    public void addBranch(int branchId,String branchName, int minAmount) {
+        Branch newBranch = new Branch(branchId,branchName,minAmount);
         allBranches.put(branchId,newBranch) ;
     }
     public Branch getBranchById(int branchId){

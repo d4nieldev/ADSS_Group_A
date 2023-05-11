@@ -1,21 +1,18 @@
 package BusinessLayer.InveontorySuppliers;
 
-import java.time.LocalDate;
+import DataAccessLayer.DTOs.DiscountDTO;
 
 public class DiscountPercentage extends Discount {
-    private double discountPercentage;
-
-    public DiscountPercentage(LocalDate start_date, LocalDate end_date, double discountPercentage) {
-        super(start_date, end_date);
-        this.discountPercentage = discountPercentage;
+    public DiscountPercentage(DiscountDTO dto) {
+        super(dto);
     }
 
     public double getDiscountPercentage() {
-        return discountPercentage;
+        return val;
     }
 
     @Override
     public double getPriceWithDiscount(double price) {
-        return price * (1 - discountPercentage);
+        return price * (1 - val);
     }
 }

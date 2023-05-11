@@ -8,7 +8,7 @@ import java.util.Map;
 import java.util.TreeMap;
 
 import BusinessLayer.Suppliers.ProductAgreement;
-import BusinessLayer.Suppliers.exceptions.SuppliersException;
+import BusinessLayer.exceptions.SuppliersException;
 
 public class ProductController {
     private static ProductController instance = null;

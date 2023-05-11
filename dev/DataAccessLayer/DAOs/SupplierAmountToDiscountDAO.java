@@ -1,7 +1,5 @@
 package DataAccessLayer.DAOs;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.TreeMap;
@@ -13,10 +11,12 @@ import DataAccessLayer.DTOs.SupplierAmountToDiscountDTO;
 public class SupplierAmountToDiscountDAO extends DAO<SupplierAmountToDiscountDTO> {
     private static SupplierAmountToDiscountDAO instance = null;
     private DiscountDAO discountDAO;
+    private Repository repo;
 
     protected SupplierAmountToDiscountDAO() {
         super("SupplierAmountToDiscount");
         discountDAO = DiscountDAO.getInstance();
+        repo = Repository.getInstance();
     }
 
     public static SupplierAmountToDiscountDAO getInstance() {
@@ -41,24 +41,18 @@ public class SupplierAmountToDiscountDAO extends DAO<SupplierAmountToDiscountDTO
     }
 
     public TreeMap<Integer, DiscountDTO> getSupplierAmountToDiscount(int supplierId) throws SQLException {
-        TreeMap<Integer, DiscountDTO> amountToDiscount = new TreeMap<>();
-
-        Connection con = Repository.getInstance().connect();
-
         String query = "SELECT * FROM " + tableName + " WHERE supplierId = ?;";
-        PreparedStatement statement = con.prepareStatement(query);
-        statement.setInt(1, supplierId);
-        ResultSet rs = statement.executeQuery();
+        ResultSet rs = repo.executeQuery(query, supplierId);
 
-        statement.close();
-        con.close();
-
+        TreeMap<Integer, DiscountDTO> amountToDiscount = new TreeMap<>();
         while (rs.next()) {
             int amount = rs.getInt("amount");
             int discountId = rs.getInt("discount");
             DiscountDTO discount = discountDAO.getById(discountId);
             amountToDiscount.put(amount, discount);
         }
+
+        rs.close();
 
         return amountToDiscount;
     }

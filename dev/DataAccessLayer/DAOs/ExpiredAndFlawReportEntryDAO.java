@@ -6,7 +6,6 @@ import java.sql.SQLException;
 import DataAccessLayer.DTOs.ExpiredAndFlawReportEntryDTO;
 
 public class ExpiredAndFlawReportEntryDAO extends DAO<ExpiredAndFlawReportEntryDTO> {
-
     protected ExpiredAndFlawReportEntryDAO() {
         super("ExpiredAndFlawReportEntries");
     }

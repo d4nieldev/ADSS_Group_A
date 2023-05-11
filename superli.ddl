@@ -2,8 +2,8 @@
 
 CREATE TABLE IF NOT EXISTS Discounts (
 	id        INTEGER NOT NULL,
-	startDate TEXT    NOT NULL,
-	endDate   TEXT    NOT NULL,
+	startDate TEXT,
+	endDate   TEXT,
 	val       REAL    NOT NULL,
 	dType     TEXT    NOT NULL,
 	

@@ -2,15 +2,21 @@ package BusinessLayer.InveontorySuppliers;
 
 import java.time.LocalDate;
 
+import DataAccessLayer.DTOs.DiscountDTO;
+
 public abstract class Discount {
     private int discountId;
     private LocalDate start_date;
     private LocalDate end_date;
+    double val;
+    protected DiscountDTO dto;
 
-    public Discount(LocalDate start_date, LocalDate end_date) {
-        // add GlobalId
-        this.start_date = start_date;
-        this.end_date = end_date;
+    public Discount(DiscountDTO dto) {
+        this.dto = dto;
+        this.discountId = dto.getId();
+        this.start_date = dto.getStartDate();
+        this.end_date = dto.getEndDate();
+        this.val = dto.getVal();
     }
 
     public Discount() {

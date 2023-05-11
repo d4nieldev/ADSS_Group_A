@@ -1,18 +1,18 @@
 package BusinessLayer.InveontorySuppliers;
 
-import BusinessLayer.Inventory.Category;
+import DataAccessLayer.DTOs.ProductDTO;
 
 public class Product {
     private int id;
     private String name;
     private String manufacturer;
-    private Category category; // The category that the product belongs to
+    private int categoryId; // The category that the product belongs to
 
-    public Product(int id, String name, String manufacturer, Category category) {
-        this.id = id;
-        this.name = name;
-        this.manufacturer = manufacturer;
-        this.category = category;
+    public Product(ProductDTO dto) {
+        this.id = dto.getId();
+        this.name = dto.getName();
+        this.manufacturer = dto.getManufacturer();
+        this.categoryId = dto.getCategory().getId();
     }
 
     public int getId() {
@@ -35,7 +35,7 @@ public class Product {
         this.manufacturer = manufacturer;
     }
 
-    public Category getCategory() {
-        return category;
+    public int geCategoryId() {
+        return categoryId;
     }
 }

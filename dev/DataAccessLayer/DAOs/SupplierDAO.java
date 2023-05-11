@@ -37,7 +37,7 @@ public class SupplierDAO extends DAO<SupplierDTO> {
     @Override
     public SupplierDTO makeDTO(ResultSet rs) throws SQLException {
         if (!rs.next())
-            throw new SQLException("Can't make DTO from nothing!");
+            return null;
 
         int id = rs.getInt("id");
         String name = rs.getString("name");

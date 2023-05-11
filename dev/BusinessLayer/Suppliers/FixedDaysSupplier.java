@@ -7,9 +7,11 @@ import java.util.List;
 import java.util.TreeMap;
 
 import BusinessLayer.InveontorySuppliers.Discount;
+import DataAccessLayer.DTOs.FixedDaysSupplierDTO;
 
 class FixedDaysSupplier extends Supplier {
     private List<DayOfWeek> days;
+    private List<FixedDaysSupplierDTO> fixedDaysSupplierDTOs;
 
     // Copy constructor
     public FixedDaysSupplier(int id, String name, String phone, String bankAcc, List<String> fields,
@@ -17,6 +19,15 @@ class FixedDaysSupplier extends Supplier {
             TreeMap<Integer, Discount> amountToDiscount, List<Contact> contacts, List<Integer> days) {
         super(id, name, phone, bankAcc, fields, paymentCondition, amountToDiscount, contacts);
         this.days = makeDaysList(days);
+    }
+
+    public FixedDaysSupplier(List<FixedDaysSupplierDTO> fixedDaysSupplierDTOs){
+        this.fixedDaysSupplierDTOs = fixedDaysSupplierDTOs;
+        for(FixedDaysSupplierDTO fixedDaysSupplierDTO: fixedDaysSupplierDTOs){
+            days.add(getDay(fixedDaysSupplierDTO.getDayOfSupply()));
+        }
+        super(fixedDaysSupplierDTOs[0].getSupplierDTO());
+        
     }
 
     // Creates an enum Day list from a list of integers which represents weekdays

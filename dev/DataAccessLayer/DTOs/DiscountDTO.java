@@ -35,4 +35,20 @@ public class DiscountDTO implements DTO {
         return id;
     }
 
+    public LocalDate getStartDate() {
+        return startDate;
+    }
+
+    public LocalDate getEndDate() {
+        return endDate;
+    }
+
+    public double getVal() {
+        return val;
+    }
+
+    public String getdType() {
+        return dType;
+    }
+
 }

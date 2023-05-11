@@ -3,9 +3,16 @@ package BusinessLayer.Suppliers;
 import java.util.TreeMap;
 
 import BusinessLayer.InveontorySuppliers.Discount;
+import BusinessLayer.InveontorySuppliers.DiscountFixed;
+import BusinessLayer.InveontorySuppliers.DiscountPercentage;
 import BusinessLayer.Suppliers.exceptions.SuppliersException;
+import DataAccessLayer.DAOs.ContactDAO;
+import DataAccessLayer.DTOs.ContactDTO;
+import DataAccessLayer.DTOs.DiscountDTO;
+import DataAccessLayer.DTOs.SupplierDTO;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -21,6 +28,7 @@ public abstract class Supplier {
     private TreeMap<Integer, Discount> amountToDiscount;
     private List<Contact> contacts;
     private Map<Integer, PeriodicReservation> branchToPeriodicReservations;
+    private SupplierDTO supplierDTO;
 
     public Supplier(int id, String name, String phone, String bankAcc, List<String> fields, String paymentCondition,
             TreeMap<Integer, Discount> amountToDiscount, List<Contact> contacts) {
@@ -32,6 +40,42 @@ public abstract class Supplier {
         this.amountToDiscount = amountToDiscount;
         this.contacts = addOfficeContact(contacts, phone);
         this.branchToPeriodicReservations = new HashMap<>();
+        this.supplierDTO = new SupplierDTO(id, name, bankAcc, paymentCondition, fields, makeContactDTOList(contacts),
+                );
+    }
+
+    public Supplier(SupplierDTO supplierDTO) {
+        this.id = supplierDTO.getId();
+        this.name = supplierDTO.getName();
+        this.bankAcc = supplierDTO.getBankAccount();
+        this.fields = supplierDTO.getFields();
+        this.paymentCondition = supplierDTO.getPaymentCondition();
+        TreeMap<Integer, DiscountDTO> amountToDiscountDTO = supplierDTO.getAmountToDiscount();
+
+    }
+
+    private List<ContactDTO> makeContactDTOList(List<Contact> contacts) {
+        List<ContactDTO> contactDTOs = new ArrayList<ContactDTO>();
+        for (Contact c : contacts) {
+            contactDTOs.add(c.getContactDTO());
+        }
+        return contactDTOs;
+    }
+
+    private TreeMap<Integer, Discount> makeDiscountMap(TreeMap<Integer, DiscountDTO> amountToDiscountDTO) {
+        TreeMap<Integer, Discount> res = new TreeMap<>();
+        for (Integer key : amountToDiscountDTO.keySet()) {
+            // we need to add
+            DiscountDTO dto = amountToDiscountDTO.get(key);
+            if (dto.getdType().equals("Fixed")) {
+                DiscountFixed df = new DiscountFixed(dto);
+                res.put(key, df);
+            } else {
+                DiscountPercentage dp = new DiscountPercentage(dto);
+                res.put(key, dp);
+            }
+        }
+        return res;
     }
 
     public abstract LocalDate getClosestDeliveryDate();

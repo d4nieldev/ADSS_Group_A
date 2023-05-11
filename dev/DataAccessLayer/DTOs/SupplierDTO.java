@@ -38,4 +38,32 @@ public class SupplierDTO implements DTO {
     public int getSupplierId() {
         return this.id;
     }
+
+    public int getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getBankAccount() {
+        return bankAccount;
+    }
+
+    public String getPaymentCondition() {
+        return paymentCondition;
+    }
+
+    public List<String> getFields() {
+        return fields;
+    }
+
+    public List<ContactDTO> getContacts() {
+        return contacts;
+    }
+
+    public TreeMap<Integer, DiscountDTO> getAmountToDiscount() {
+        return amountToDiscount;
+    }
 }

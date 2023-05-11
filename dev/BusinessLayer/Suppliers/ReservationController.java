@@ -11,7 +11,7 @@ import java.util.Map;
 import BusinessLayer.InveontorySuppliers.ProductController;
 import BusinessLayer.InveontorySuppliers.ReceiptItem;
 import BusinessLayer.InveontorySuppliers.Reservation;
-import BusinessLayer.Suppliers.exceptions.SuppliersException;
+import BusinessLayer.exceptions.SuppliersException;
 
 public class ReservationController {
     private static ReservationController instance = null;

@@ -46,6 +46,14 @@ public class ReservationDTO implements DTO {
         return destinationBranchId;
     }
 
+    public ContactDTO getContact() {
+        return contact;
+    }
+
+    public List<ReceiptItemDTO> getReceipt() {
+        return receipt;
+    }
+
     @Override
     public Map<String, String> getNameToVal() {
         Map<String, String> nameToVal = new HashMap<>();

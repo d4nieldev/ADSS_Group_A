@@ -1,15 +1,21 @@
 package BusinessLayer.Inventory;
 
+import DataAccessLayer.DAOs.CategoryDAO;
+import DataAccessLayer.DTOs.CategoryDTO;
+
+import java.sql.SQLException;
 import java.util.*;
 
 public class CategoryController {
     private List<Category> allCategories;
     private Hashtable<Integer, Category> categoryDic;
     private static CategoryController instance = null;
+    private CategoryDAO CategoryDAO;
 
     private CategoryController() {
         this.allCategories = new ArrayList<>();
         this.categoryDic = new Hashtable<>();
+        this.CategoryDAO = DataAccessLayer.DAOs.CategoryDAO.getInstance();
     }
 
     public List<Category> getAllCategories() {
@@ -44,26 +50,48 @@ public class CategoryController {
         }
     }
 
-    public void addNewCategory(String name, Category parentCategory) { // + add variable : List<Category> - represent
-                                                                       // all its children
-        boolean flag = false;
-        for (Category cat : allCategories) {
-            if (cat.getName() == name && cat.getParentCategory().getId() == parentCategory.getId()) {// so category is
-                                                                                                     // already exist
-                flag = true;
-                System.out.println("this category already exist");
-                break;
-            }
-        }
-        if (!flag) { // so category is new category
-            // **/
-            // TODO check if it ia a leaf category - if so , just add it and connect its
-            // father
-            Category subCategory = new Category(name, parentCategory);
-            allCategories.add(subCategory);
-            categoryDic.put(subCategory.getId(), subCategory);
-        }
+    public void addNewCategory(String name, Category parentCategory) throws SQLException {
+        int newId = Global.getNewCategoryid();
+        CategoryDTO CatDTO = new CategoryDTO(newId, name, parentCategory.getCategoryDTO());
+        CategoryDAO.insert(CatDTO);
+
+        Category category = new Category(newId, name, parentCategory, CatDTO);
+        allCategories.add(category);
+        categoryDic.put(category.getId(), category);
+
     }
+
+    public void addNewMainCategory(String name) throws SQLException {
+        int newId = Global.getNewCategoryid();
+        CategoryDTO CatDTO = new CategoryDTO(newId, name);
+        CategoryDAO.insert(CatDTO);
+
+        Category category = new Category(newId, name, CatDTO);
+        allCategories.add(category);
+        categoryDic.put(category.getId(), category);
+
+    }
+
+//    public void addNewCategory(String name, Category parentCategory) { // + add variable : List<Category> - represent
+//                                                                       // all its children
+//        boolean flag = false;
+//        for (Category cat : allCategories) {
+//            if (cat.getName() == name && cat.getParentCategory().getId() == parentCategory.getId()) {// so category is
+//                                                                                                     // already exist
+//                flag = true;
+//                System.out.println("this category already exist");
+//                break;
+//            }
+//        }
+//        if (!flag) { // so category is new category
+//            // **/
+//            // TODO check if it ia a leaf category - if so , just add it and connect its
+//            // father
+//            Category subCategory = new Category(name, parentCategory);
+//            allCategories.add(subCategory);
+//            categoryDic.put(subCategory.getId(), subCategory);
+//        }
+//    }
 
     public List<Category> getAllParentCategories(Category category) {
         List<Category> result = new ArrayList<>();

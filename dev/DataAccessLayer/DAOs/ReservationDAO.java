@@ -29,11 +29,12 @@ public class ReservationDAO extends DAO<ReservationDTO> {
         Status status = stringToStatus(rs.getString("status"));
         int destinationBranch = rs.getInt("destinationBranch");
 
-        return new ReservationDTO(id, supplierDAO.getById(supplierId), date, status, branchDAO.getById(destinationBranch));
+        return new ReservationDTO(id, supplierDAO.getById(supplierId), date, status,
+                branchDAO.getById(destinationBranch));
     }
 
-    private Status stringToStatus(String status){
-        switch(status){
+    private Status stringToStatus(String status) {
+        switch (status) {
             case "NOTREADY":
                 return Status.NOTREADY;
             case "READY":
@@ -45,8 +46,5 @@ public class ReservationDAO extends DAO<ReservationDTO> {
         }
         return null;
     }
-   
 
-
-    
 }

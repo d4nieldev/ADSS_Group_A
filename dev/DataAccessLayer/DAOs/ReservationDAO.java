@@ -3,19 +3,21 @@ package DataAccessLayer.DAOs;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.util.List;
 
 import BusinessLayer.enums.Status;
+import DataAccessLayer.DTOs.ContactDTO;
+import DataAccessLayer.DTOs.ReceiptItemDTO;
 import DataAccessLayer.DTOs.ReservationDTO;
 
 public class ReservationDAO extends DAO<ReservationDTO> {
-
-    private SupplierDAO supplierDAO;
-    private BranchDAO branchDAO;
+    ReceiptItemDAO receiptItemDAO;
+    ContactDAO contactDAO;
 
     protected ReservationDAO() {
         super("Reservations");
-        this.supplierDAO = SupplierDAO.getInstance();
-        this.branchDAO = BranchDAO.getInstance();
+        receiptItemDAO = ReceiptItemDAO.getInstance();
+        contactDAO = ContactDAO.getInstance();
     }
 
     @Override
@@ -27,13 +29,17 @@ public class ReservationDAO extends DAO<ReservationDTO> {
         int supplierId = rs.getInt("supplierId");
         LocalDate date = LocalDate.parse(rs.getString("rDate"));
         Status status = stringToStatus(rs.getString("status"));
-        int destinationBranch = rs.getInt("destinationBranch");
+        int destinationBranchId = rs.getInt("destinationBranch");
+        String contactPhone = rs.getString("contactPhone");
 
-        return new ReservationDTO(id, supplierDAO.getById(supplierId), date, status, branchDAO.getById(destinationBranch));
+        ContactDTO contact = contactDAO.getBySupplierAndPhone(supplierId, contactPhone);
+        List<ReceiptItemDTO> receipt = receiptItemDAO.getReceiptOfReservation(id);
+
+        return new ReservationDTO(id, supplierId, date, status, destinationBranchId, contact, receipt);
     }
 
-    private Status stringToStatus(String status){
-        switch(status){
+    private Status stringToStatus(String status) {
+        switch (status) {
             case "NOTREADY":
                 return Status.NOTREADY;
             case "READY":
@@ -45,8 +51,5 @@ public class ReservationDAO extends DAO<ReservationDTO> {
         }
         return null;
     }
-   
 
-
-    
 }

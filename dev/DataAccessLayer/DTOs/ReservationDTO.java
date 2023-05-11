@@ -1,56 +1,60 @@
 package DataAccessLayer.DTOs;
 
-
 import java.time.LocalDate;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import BusinessLayer.enums.Status;
 
-public class ReservationDTO implements DTO{
+public class ReservationDTO implements DTO {
     private int id;
-    private SupplierDTO supplierDTO;
+    private int supplierId;
     private LocalDate date;
     private Status status;
-    private BranchDTO branchDTO;
-    
+    private int destinationBranchId;
+    private ContactDTO contact;
+    private List<ReceiptItemDTO> receipt;
 
-    public ReservationDTO(int id, SupplierDTO supplierDTO, LocalDate date,  Status status, BranchDTO branchDTO){
+    public ReservationDTO(int id, int supplierId, LocalDate date, Status status, int destinationBranch,
+            ContactDTO contact, List<ReceiptItemDTO> receipt) {
         this.id = id;
-        this.supplierDTO = supplierDTO;
+        this.supplierId = supplierId;
         this.date = date;
         this.status = status;
-        this.branchDTO = branchDTO;
+        this.destinationBranchId = destinationBranch;
+        this.contact = contact;
+        this.receipt = receipt;
     }
 
-    public int getId(){
+    public int getSupplierId() {
+        return supplierId;
+    }
+
+    public int getId() {
         return id;
     }
 
-    public SupplierDTO getSupplierDTO(){
-        return supplierDTO;
-    }
-
-    public LocalDate getDate(){
+    public LocalDate getDate() {
         return date;
     }
 
-    public Status getStatus(){
+    public Status getStatus() {
         return status;
     }
 
-    public BranchDTO getBranchDTO(){
-        return branchDTO;
+    public int getDestinationBranchId() {
+        return destinationBranchId;
     }
 
     @Override
     public Map<String, String> getNameToVal() {
         Map<String, String> nameToVal = new HashMap<>();
         nameToVal.put("id", "" + id);
-        nameToVal.put("supplierId", ""+ getSupplierDTO().getSupplierId());
-        nameToVal.put("rDate", ""+ date.toString());
-        nameToVal.put("status", ""+ status.toString());
-        nameToVal.put("destinationBranch", ""+ getBranchDTO().getBranchId());
+        nameToVal.put("supplierId", "" + supplierId);
+        nameToVal.put("rDate", "" + date.toString());
+        nameToVal.put("status", "" + status.toString());
+        nameToVal.put("destinationBranch", "" + destinationBranchId);
         return nameToVal;
     }
-    
+
 }

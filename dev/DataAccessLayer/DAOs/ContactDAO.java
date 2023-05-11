@@ -14,8 +14,8 @@ public class ContactDAO extends DAO<ContactDTO> {
 
     private static ContactDAO instance = null;
 
-    public static ContactDAO getInstance(){
-        if(instance == null)
+    public static ContactDAO getInstance() {
+        if (instance == null)
             instance = new ContactDAO();
         return instance;
     }
@@ -47,6 +47,23 @@ public class ContactDAO extends DAO<ContactDTO> {
         statement.close();
         con.close();
         return contacts;
+    }
+
+    public ContactDTO getBySupplierAndPhone(int supplierId, String phone) throws SQLException {
+        Connection con = Repository.getInstance().connect();
+        PreparedStatement statement = con
+                .prepareStatement("SELECT * FROM " + tableName + " WHERE supplierId = ? AND phone = ?;");
+        statement.setInt(1, supplierId);
+        statement.setString(2, phone);
+        ResultSet rs = statement.executeQuery();
+
+        if (!rs.next())
+            throw new SQLException("No such contact found with id " + supplierId + " and phone " + phone);
+        ContactDTO dto = makeDTO(rs);
+
+        statement.close();
+        con.close();
+        return dto;
     }
 
 }

@@ -191,11 +191,13 @@ CREATE TABLE IF NOT EXISTS Reservations (
 	rDate             TEXT    NOT NULL,
 	status            TEXT    NOT NULL,
 	destinationBranch INTEGER,
+	contactPhone      INTEGER,
 	
 	CHECK(status IN ('NotReady', 'Ready', 'Closed', 'Aborted')),
 	
-	FOREIGN KEY (supplierId)        REFERENCES Suppliers(id) ON DELETE SET NULL,
-	FOREIGN KEY (destinationBranch) REFERENCES Branch(id)    ON DELETE SET NULL,
+	FOREIGN KEY (supplierId)               REFERENCES Suppliers(id)               ON DELETE SET NULL,
+	FOREIGN KEY (destinationBranch)        REFERENCES Branch(id)                  ON DELETE SET NULL,
+	FOREIGN KEY (supplierId, contactPhone) REFERENCES Contacts(supplierId, phone) ON DELETE SET NULL,
 	PRIMARY KEY (id)
 );
 

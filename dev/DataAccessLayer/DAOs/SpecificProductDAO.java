@@ -1,14 +1,12 @@
 package DataAccessLayer.DAOs;
 
-import BusinessLayer.Inventory.ProductStatus;
-import DataAccessLayer.DTOs.SpecificProductDTO;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
 
+import BusinessLayer.Inventory.ProductStatus;
 import DataAccessLayer.Repository;
+import DataAccessLayer.DTOs.SpecificProductDTO;
 
 public class SpecificProductDAO extends DAO<SpecificProductDTO> {
     private static SpecificProductDAO instance = null;

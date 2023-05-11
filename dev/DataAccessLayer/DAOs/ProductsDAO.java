@@ -1,11 +1,8 @@
 package DataAccessLayer.DAOs;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import BusinessLayer.InveontorySuppliers.Product;
 import DataAccessLayer.Repository;
 import DataAccessLayer.DTOs.CategoryDTO;
 import DataAccessLayer.DTOs.ProductDTO;

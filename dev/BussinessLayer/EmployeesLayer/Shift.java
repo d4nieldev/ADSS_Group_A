@@ -51,7 +51,7 @@ public class Shift{
         this.finishSettingShift = shiftDTO.finishSettingShift;
         this.constraints = constraints;
         this.numEmployeesForRole = shiftDTO.numEmployeesForRole;
-        this.helpMapForAssign = shiftDTO.helpMapForAssign;
+        this.helpMapForAssign = new HashMap<Integer, Integer>();
         this.finalShift = finalShift;
         this.cancellations = shiftDTO.cancellations;
         this.driversInShift = driversInShift;
@@ -122,8 +122,8 @@ public class Shift{
                 }
                 helpMapForAssign.put(currRole, 1);
             }
-            if(helpMapForAssign.get(currRole) == numEmployeesForRole.get(currRole)){
-                throw new Error("The role " + currRole.toString() + " is full (" + numEmployeesForRole.get(currRole) + " employees already) for this shift. Change the number of employees needed or remove some srom this shift.");
+            else if(helpMapForAssign.get(currRole) == numEmployeesForRole.get(currRole)){
+                throw new Error("The role " + currRole.toString() + " is full (" + numEmployeesForRole.get(currRole) + " employees already) for this shift. Change the number of employees needed or remove some from this shift.");
             }
             helpMapForAssign.replace(currRole, helpMapForAssign.get(currRole), helpMapForAssign.get(currRole).intValue() + 1);
         }

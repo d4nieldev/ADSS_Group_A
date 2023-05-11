@@ -393,7 +393,7 @@ public class EmployeeFacade {
                     return employee;
             }
         }   
-        throw new Error("The id " + id + "is not in the system. Please try again");
+        throw new Error("The id " + id + " is not in the system. Please try again");
     }
 
     // called only if the employee exist, else will return error.

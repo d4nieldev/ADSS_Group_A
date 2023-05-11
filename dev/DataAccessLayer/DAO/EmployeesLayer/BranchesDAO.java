@@ -137,7 +137,7 @@ public class BranchesDAO extends DAO<BranchDTO> {
                              "Status", "ORIGIN", conn);
         try {
             while (rs.next()) {
-                ans.add(rs.getInt(2));
+                ans.add(rs.getInt(1));
             }
         } catch (Exception e) {
             return null;
@@ -151,7 +151,7 @@ public class BranchesDAO extends DAO<BranchDTO> {
                              "Status", "FOREIGN", conn);
         try {
             while (rs.next()) {
-                ans.add(rs.getInt(2));
+                ans.add(rs.getInt(1));
             }
         } catch (Exception e) {
             return null;
@@ -165,7 +165,7 @@ public class BranchesDAO extends DAO<BranchDTO> {
                              "Status", "NOTALLOW", conn);
         try {
             while (rs.next()) {
-                ans.add(rs.getInt(2));
+                ans.add(rs.getInt(1));
             }
         } catch (Exception e) {
             return null;

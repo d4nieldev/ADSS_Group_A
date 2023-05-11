@@ -31,9 +31,9 @@ class MainV2 {
 
         ////////////////My Beautifual Test Area/////////////////////
         hrSystem.employeeService.logIn(123456789, "abc");
-        // DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
-        // LocalDate localDate = LocalDate.parse("05-06-2003", formatter);
-        // hrSystem.branchService.addNewEmployee(123456789, "Tuli", "Hatuli", 1111, "123", 0, 0, 0, 0, 0, localDate, "dsf", "cashier", 0);
+        //  DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+        //  LocalDate localDate = LocalDate.parse("05-06-2003", formatter);
+        //  hrSystem.branchService.addNewEmployee(123456789, "TALLLLL", "Hatuli", 999, "123", 0, 0, 0, 0, 0, localDate, "dsf", "shiftmanager", 1);
         // System.out.println(hrSystem.employeeService.printAllEmployees(123456789));
         // System.out.println(hrSystem.branchService.printAllBranches(123456789));
         // System.out.println(hrSystem.employeeService.printAllDrivers(123456789));       
@@ -46,27 +46,9 @@ class MainV2 {
         // numEmployeesForRole.put(6, 1);
         // hrSystem.branchService.addShift(123456789, 1, localDate, 9, 17, ShiftTime.MORNING, numEmployeesForRole);
         //-----------------submit final shift-----------------
-        System.out.println("You choose to submit a final shift.");
-                    HashMap<Integer, Integer> shiftAssign = new HashMap<>();
-
-                    System.out.println("please enter the Id for every employee and then his role, when you are done enter in the Id 000.");
-                    System.out.println("Employee Id: ");
-                    int employeeId = Integer.parseInt(sc.nextLine());
-                    System.out.println("");
-
-                    while (employeeId != 000){
-                        System.out.println("Employee role: ");
-                        int employeeRole = Integer.parseInt(sc.nextLine());
-                        System.out.println("");
-
-                        shiftAssign.put(employeeId, employeeRole);
-
-                        System.out.println("Next employee Id: ");
-                        employeeId = Integer.parseInt(sc.nextLine());
-                        System.out.println("");
-                    }
-
-        hrSystem.branchService.approveFinalShift(123456789, 1, 1,shiftAssign);
+        HashMap<Integer, Integer> shiftAssign = new HashMap<>();
+        shiftAssign.put(999, 5);
+        hrSystem.branchService.approveFinalShift(123456789, 5, 1, shiftAssign);
         ////////////////My Beautifual Test Area/////////////////////
 
         // Scanner sc = new Scanner(System.in);

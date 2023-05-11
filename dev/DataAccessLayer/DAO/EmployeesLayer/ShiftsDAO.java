@@ -182,6 +182,7 @@ public class ShiftsDAO extends DAO<ShiftDTO> {
                     /* duration */RS.getInt(7), /* is finish setting shift */RS.getBoolean(8),
                     constraints, numEmployeesForRole, finalShift, cancellations, driversInShift);
         } catch (Exception e) {
+            System.out.println(e.getMessage());
             output = null;
         } finally {
             Repository.getInstance().closeConnection(conn);
@@ -289,10 +290,12 @@ public class ShiftsDAO extends DAO<ShiftDTO> {
     public ShiftDTO getShiftById(int id) {
         Connection conn = Repository.getInstance().connect();
         ResultSet res = get(tableName, "ShiftID", id, conn);
-
+        ShiftDTO shift = null;
         try {
-            if (!res.next())
+            if (!res.next()){
                 return null;
+            }
+            shift = makeDTO(res);
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -300,7 +303,6 @@ public class ShiftsDAO extends DAO<ShiftDTO> {
             Repository.getInstance().closeConnection(conn);
         }
 
-        ShiftDTO shift = makeDTO(res);
         return shift;
     }
 

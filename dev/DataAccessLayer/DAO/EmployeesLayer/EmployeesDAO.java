@@ -136,17 +136,15 @@ public class EmployeesDAO extends DAO<EmployeeDTO> {
     }
 
     public EmployeeDTO getEmployeeById(int id) {
-
-        EmployeeDTO emp = EMPLOYEE_IDENTITY_MAP.get(id);
-        if (emp != null)
-            return emp;
-
         Connection conn = Repository.getInstance().connect();
         ResultSet res = get(tableName, "ID", id, conn);
+        EmployeeDTO emp = null;
 
         try {
-            if (!res.next())
+            if (!res.next()){
                 return null;
+            }
+            emp = makeDTO(res);
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -154,9 +152,7 @@ public class EmployeesDAO extends DAO<EmployeeDTO> {
             Repository.getInstance().closeConnection(conn);
         }
 
-        EmployeeDTO newEmp = makeDTO(res);
-        EMPLOYEE_IDENTITY_MAP.put(id, newEmp);
-        return newEmp;
+        return emp;
     }
 
     public void getShiftList(Integer id, Connection conn) {

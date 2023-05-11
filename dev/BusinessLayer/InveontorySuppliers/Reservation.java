@@ -6,8 +6,8 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import BusinessLayer.Suppliers.Contact;
-import BusinessLayer.Suppliers.exceptions.SuppliersException;
 import BusinessLayer.enums.Status;
+import BusinessLayer.exceptions.SuppliersException;
 
 public class Reservation {
     private int id;

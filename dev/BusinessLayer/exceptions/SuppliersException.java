@@ -1,4 +1,4 @@
-package BusinessLayer.Suppliers.exceptions;
+package BusinessLayer.exceptions;
 
 public class SuppliersException extends RuntimeException {
     public SuppliersException(String message) {

@@ -15,6 +15,12 @@ public class ReportDTO implements DTO {
         this.createdDate = createdDate;
     }
 
+    public ReportDTO(ReportDTO reportDto) {
+        this.id = reportDto.id;
+        this.branchId = reportDto.branchId;
+        this.createdDate = reportDto.createdDate;
+    }
+
     @Override
     public Map<String, String> getNameToVal() {
         Map<String, String> nameToVal = new HashMap<>();

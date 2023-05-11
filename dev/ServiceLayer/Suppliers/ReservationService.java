@@ -6,7 +6,7 @@ import BusinessLayer.InveontorySuppliers.Product;
 import BusinessLayer.InveontorySuppliers.ProductController;
 import BusinessLayer.InveontorySuppliers.Reservation;
 import BusinessLayer.Suppliers.ReservationController;
-import BusinessLayer.Suppliers.exceptions.SuppliersException;
+import BusinessLayer.exceptions.SuppliersException;
 
 public class ReservationService {
     private ReservationController reservationController;

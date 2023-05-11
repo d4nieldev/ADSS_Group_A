@@ -8,6 +8,7 @@ import BusinessLayer.Inventory.ProductBranch;
 import BusinessLayer.Inventory.SpecificProduct;
 import DataAccessLayer.DTOs.BranchDTO;
 import DataAccessLayer.DTOs.DiscountDTO;
+import DataAccessLayer.Repository;
 import DataAccessLayer.DTOs.ProductBranchDTO;
 import DataAccessLayer.DTOs.SpecificProductDTO;
 import DataAccessLayer.Repository;
@@ -15,10 +16,10 @@ import DataAccessLayer.Repository;
 import static DataAccessLayer.DAOs.ReportDAO.repo;
 
 public class ProductBranchDAO extends DAO<ProductBranchDTO> {
-
+    private static ProductBranchDAO instance = null;
     private ProductsDAO productDAO;
     private Repository repo;
-    private static ProductBranchDAO instance = null;
+    
 
     private ProductBranchDAO() {
         super("ProductBranch");
@@ -61,5 +62,13 @@ public class ProductBranchDAO extends DAO<ProductBranchDTO> {
     }
 
 
+
+    public ProductBranchDTO getByProductAndBranch(int productId, int branchId) throws SQLException {
+        ResultSet rs = repo.executeQuery("SELECT * FROM " + tableName + " WHERE productId = ? AND branchId = ?;",
+                productId, branchId);
+        ProductBranchDTO dto = makeDTO(rs);
+        rs.close();
+        return dto;
+    }
 
 }

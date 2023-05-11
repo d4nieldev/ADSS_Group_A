@@ -14,6 +14,12 @@ public class CategoryDTO implements DTO {
         this.parentCategoryDTO = parentCategoryDTO;
     }
 
+    public CategoryDTO(int id, String name){
+        this.id = id;
+        this.name = name;
+        this.parentCategoryDTO = null;
+    }
+
     @Override
     public Map<String, String> getNameToVal() {
         Map<String, String> nameToVal = new HashMap<>();

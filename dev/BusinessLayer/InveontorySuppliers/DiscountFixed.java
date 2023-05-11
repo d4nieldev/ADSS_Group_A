@@ -2,20 +2,20 @@ package BusinessLayer.InveontorySuppliers;
 
 import java.time.LocalDate;
 
-public class DiscountFixed extends Discount {
-    private double discountValue;
+import DataAccessLayer.DTOs.DiscountDTO;
 
-    public DiscountFixed(LocalDate start_date, LocalDate end_date, double discountValue) {
-        super(start_date, end_date);
-        this.discountValue = discountValue;
+public class DiscountFixed extends Discount {
+
+    public DiscountFixed(DiscountDTO dto) {
+        super(dto);
     }
 
     public double getDiscountValue() {
-        return discountValue;
+        return val;
     }
 
     @Override
     public double getPriceWithDiscount(double price) {
-        return Math.max(0, price - discountValue);
+        return Math.max(0, price - val);
     }
 }

@@ -4,7 +4,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class ProductBranchDTO implements DTO {
-
     private ProductDTO productDTO;
     private DiscountDTO discountDTO;
     private int branchId;

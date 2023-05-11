@@ -17,7 +17,7 @@ import BusinessLayer.InveontorySuppliers.Product;
 import BusinessLayer.InveontorySuppliers.ProductController;
 import BusinessLayer.Suppliers.ReservationController;
 import BusinessLayer.Suppliers.SupplierController;
-import BusinessLayer.Suppliers.exceptions.SuppliersException;
+import BusinessLayer.exceptions.SuppliersException;
 
 public class ReservationControllerTest {
     ReservationController rc = ReservationController.getInstance();

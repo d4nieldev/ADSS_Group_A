@@ -398,9 +398,11 @@ public class EmployeeFacade {
 
     // called only if the employee exist, else will return error.
     public Driver getDriverById(int id) {
-        for (Driver driver : drivers) {
-            if (driver.getId() == id)
-                return driver;
+        if (isEmployeeExistsAndLoadEmployee(id)) {      
+            for (Driver driver : drivers) {
+                if (driver.getId() == id)
+                    return driver;
+            }
         }
         throw new Error("The id " + id + "is not in the system. Please try again");
     }
@@ -420,12 +422,19 @@ public class EmployeeFacade {
             employees.add(new Employee(emp));
             return true;
         }
+        DriverDTO driver = driversDAO.getDriverById(id);
+        if (driver != null) {
+            drivers.add(new Driver(driver));
+            return true;
+        }
 
         return false;
     }
 
+
     // return true if the employee is a driver
     public boolean isEmployeeDriver(int id) {
+        isEmployeeExistsAndLoadEmployee(id);
         for (Driver driver : drivers) {
             if (driver.getId() == id)
                 return true;

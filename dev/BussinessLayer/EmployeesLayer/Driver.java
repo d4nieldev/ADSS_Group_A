@@ -25,6 +25,8 @@ public class Driver extends Employee {
     public Driver(DriverDTO driverDTO) {
         super(driverDTO.firstName, driverDTO.lastName, driverDTO.id, driverDTO.password, driverDTO.bankNum, driverDTO.bankBranch, driverDTO.bankAccount, driverDTO.salary, 0, driverDTO.startDate,
         driverDTO.tempsEmployment, driverDTO.roles.get(0), 0);
+        this.availableShiftDates = driverDTO.availableShiftDates;
+        this.workedDates = driverDTO.workedDates;
     }
 
     public void AddConstraintDriver(LocalDate date){

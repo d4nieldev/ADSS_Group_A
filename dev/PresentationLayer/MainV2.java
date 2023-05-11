@@ -46,9 +46,11 @@ class MainV2 {
         // numEmployeesForRole.put(6, 1);
         // hrSystem.branchService.addShift(123456789, 1, localDate, 9, 17, ShiftTime.MORNING, numEmployeesForRole);
         //-----------------submit final shift-----------------
-        HashMap<Integer, Integer> shiftAssign = new HashMap<>();
-        shiftAssign.put(999, 5);
-        hrSystem.branchService.approveFinalShift(123456789, 5, 1, shiftAssign);
+        // HashMap<Integer, Integer> shiftAssign = new HashMap<>();
+        // shiftAssign.put(999, 5);
+        // hrSystem.branchService.approveFinalShift(123456789, 5, 1, shiftAssign);
+        //-----------------add constraint-----------------      
+        memberSystem.branchService.addConstraint(1, 999, 4);
         ////////////////My Beautifual Test Area/////////////////////
 
         // Scanner sc = new Scanner(System.in);

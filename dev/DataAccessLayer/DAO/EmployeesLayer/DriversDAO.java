@@ -192,6 +192,26 @@ public class DriversDAO extends DAO<DriverDTO> {
         }
         return ans;
     }
+
+    public DriverDTO getDriverById(int id) {
+        Connection conn = Repository.getInstance().connect();
+        ResultSet res = get(tableName, "ID", id, conn);
+        DriverDTO driver = null;
+
+        try {
+            if (!res.next()){
+                return null;
+            }
+            driver = makeDTO(res);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        finally {
+            Repository.getInstance().closeConnection(conn);
+        }
+
+        return driver;
+    }
     
     public int addAvailableShiftDates(int empID, LocalDate dateToAdd) {
         return driversAvailableShiftDatesDAO.addAvailableShiftDates(empID, dateToAdd);

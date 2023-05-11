@@ -1,5 +1,7 @@
 package BusinessLayer.Inventory;
 
+import BusinessLayer.InveontorySuppliers.Branch;
+
 import java.time.LocalDate;
 import java.util.HashMap;
 

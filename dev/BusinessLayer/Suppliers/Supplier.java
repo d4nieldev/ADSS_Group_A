@@ -2,6 +2,7 @@ package BusinessLayer.Suppliers;
 
 import java.util.TreeMap;
 
+import BusinessLayer.InveontorySuppliers.Discount;
 import BusinessLayer.Suppliers.exceptions.SuppliersException;
 
 import java.time.LocalDate;
@@ -22,7 +23,7 @@ public abstract class Supplier {
     private Map<Integer, PeriodicReservation> branchToPeriodicReservations;
 
     public Supplier(int id, String name, String phone, String bankAcc, List<String> fields, String paymentCondition,
-            TreeMap<Integer, Discount> amountToDiscount, List<Contact> contacts) {
+                    TreeMap<Integer, Discount> amountToDiscount, List<Contact> contacts) {
         this.id = id;
         this.name = name;
         this.bankAcc = bankAcc;

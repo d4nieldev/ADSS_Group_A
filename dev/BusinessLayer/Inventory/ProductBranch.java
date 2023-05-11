@@ -1,11 +1,13 @@
 package BusinessLayer.Inventory;
 
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
 import BusinessLayer.InveontorySuppliers.*;
+import DataAccessLayer.DTOs.DiscountDTO;
 import DataAccessLayer.DTOs.ProductBranchDTO;
 import DataAccessLayer.DTOs.SpecificProductDTO;
 
@@ -19,6 +21,7 @@ public class ProductBranch {
     private HashMap<Integer, SpecificProduct> allSpecificProducts; // maps between specificId and its object
     private List<Discount> discountsHistory;
     private Discount discount;
+    private ProductBranchDTO productBranchDTO;
 
     // TODO : check if product exist on suppliers
     private Boolean ExistOnSuppliers;
@@ -33,7 +36,7 @@ public class ProductBranch {
         this.totalAmount = 0;
         this.discountsHistory = new ArrayList<>();
     }
-    public ProductBranch (ProductBranchDTO productBranchDTO){
+    public ProductBranch (ProductBranchDTO productBranchDTO) throws SQLException {
         ProductController productController = ProductController.getInstance();
         this.product = productController.getProductById(productBranchDTO.getProductDTO().getId());
         this.price = productBranchDTO.getPrice();
@@ -53,6 +56,15 @@ public class ProductBranch {
         this.discount = discountController.getDiscountById(productBranchDTO.getDiscountDTO().getId())   ;
         this.totalAmount = productBranchDTO.getAllSpecificProducts().size();
         this.discountsHistory = new ArrayList<>();
+        this.productBranchDTO = productBranchDTO;
+    }
+
+    public Discount getDiscount() {
+        return discount;
+    }
+
+    public HashMap<Integer, SpecificProduct> getAllSpecificProducts() {
+        return allSpecificProducts;
     }
 
     public double getPrice() {
@@ -84,8 +96,7 @@ public class ProductBranch {
         if (sp != null)
             sp.setStatus(status);
     }
-
-    public void changeProductStatus(int specificProduct, String description) {
+    public void setFlowDescription(int specificProduct, String description) {
         SpecificProduct sp = allSpecificProducts.get(specificProduct);
         if (sp != null)
             sp.setFlawDescription(description);
@@ -95,7 +106,17 @@ public class ProductBranch {
         discountsHistory.add(discount);
         Discount maxDiscount = getCurrentMaxDiscount();
         this.discount = maxDiscount;
-    }
+        DiscountDTO discountDTO = null;
+        if(discount != maxDiscount) {
+            if (discount instanceof DiscountFixed) {
+                 discountDTO = new DiscountDTO(maxDiscount.getDiscountId(), maxDiscount.getStart_date(), maxDiscount.getEnd_date(), maxDiscount.getDiscountValue(), "fixed Discount");
+            }
+            else {
+                 discountDTO = new DiscountDTO(maxDiscount.getDiscountId(), maxDiscount.getStart_date(), maxDiscount.getEnd_date(), maxDiscount.getDiscountValue(), "Percentage discount");
+            }
+            productBranchDTO.updateDiscount(discountDTO);
+        }
+}
 
     public int getCode() {
         return product.getId();
@@ -115,7 +136,7 @@ public class ProductBranch {
         for (Discount dis : discountsHistory) {
             if (dis.getStart_date().isBefore(LocalDate.now()) && dis.getEnd_date().isAfter(LocalDate.now())) {
                 if (dis instanceof DiscountPercentage) {
-                    double p = price * (1 - ((DiscountPercentage) dis).getDiscountPercentage());
+                    double p = price * (1 - ((DiscountPercentage) dis).getDiscountValue());
                     if (currentPrice > p) {
                         maxDiscount = dis;
                         currentPrice = p;

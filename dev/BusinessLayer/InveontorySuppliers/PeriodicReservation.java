@@ -1,23 +1,34 @@
-package BusinessLayer.Inventory;
+package BusinessLayer.InveontorySuppliers;
 
 import java.util.HashMap;
 
+import BusinessLayer.Inventory.Global;
+import BusinessLayer.Inventory.ProductStatus;
 import BusinessLayer.InveontorySuppliers.ProductController;
 import BusinessLayer.enums.Day;
+import DataAccessLayer.DTOs.PeriodicReservationDTO;
 
 public class PeriodicReservation {
+    private int id;
     private HashMap<Integer, Integer> productsToAmounts; // maps between product's code to amount to order
-    private Day day; // day for delivery;
+    private ProductStatus.Day day; // day for delivery;
     ProductController productController;
 
-    public PeriodicReservation(Day day) {
-        this.day = day;
-        this.productsToAmounts = new HashMap<>();
-        productController = ProductController.getInstance();
+//    public PeriodicReservation(int supplierId,Day day) {
+//        this.id = Global.getNewPeriodicId();
+//        this.day = day;
+//        this.productsToAmounts = new HashMap<>();
+//        productController = ProductController.getInstance();
+//    }
+    public PeriodicReservation(PeriodicReservationDTO periodicReservationDTO){
+        this.id = Global.getNewPeriodicId();
+        this.day = periodicReservationDTO.getDayOfOrder();
+//        this.productsToAmounts = //TODO:implement;
+
     }
 
     public PeriodicReservation() {
-        this.day = Day.SUNDAY;
+        this.day = ProductStatus.Day.Sunday;
         this.productsToAmounts = new HashMap<>();
     }
 
@@ -31,6 +42,10 @@ public class PeriodicReservation {
 
     public HashMap<Integer, Integer> getProductsToAmounts() {
         return productsToAmounts;
+    }
+
+    public int getBranchId() {
+        return id;
     }
 
     public boolean addNewProduct(int productCode, int amount, int minQuantity, int totalQuantity) throws Exception {

@@ -5,6 +5,7 @@ public class Global {
     public static int Categoryid = 0;
     public static int SpecificId = 0;
     public static int reportId = 0;
+    public static int periodicId = 0;
 
     public static int getNewProductid() {
         Productid++;
@@ -29,5 +30,8 @@ public class Global {
     public static int getNewReportId() {
 
         return reportId++;
+    }
+    public static int getNewPeriodicId() {
+        return periodicId++;
     }
 }

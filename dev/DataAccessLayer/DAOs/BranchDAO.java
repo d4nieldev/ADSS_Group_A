@@ -29,7 +29,9 @@ public class BranchDAO extends DAO<BranchDTO> {
 
         int id = rs.getInt("id");
         String name = rs.getString("name");
-        return new BranchDTO(id, name);
+        int minAmount = rs.getInt("minAmount");
+
+        return new BranchDTO(id, name,minAmount);
     }
 
     public BranchDTO getById(int branchId) throws SQLException {

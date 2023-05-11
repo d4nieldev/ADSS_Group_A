@@ -36,6 +36,9 @@ public class ProductBranchDTO implements DTO {
     public ProductDTO getProductDTO() {
         return productDTO;
     }
+    public DiscountDTO getDiscountDTO() {
+        return discountDTO;
+    }
 
     public int getBranchId() {
         return branchId;
@@ -57,7 +60,8 @@ public class ProductBranchDTO implements DTO {
         return allSpecificProducts;
     }
 
-    public DiscountDTO getDiscountDTO() {
-        return discountDTO;
+
+    public void updateDiscount(DiscountDTO discountDTO) {
+        this.discountDTO = discountDTO;
     }
 }

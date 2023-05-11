@@ -2,10 +2,8 @@ package BusinessLayer.Inventory;
 
 import BusinessLayer.InveontorySuppliers.Branch;
 import BusinessLayer.InveontorySuppliers.Reservation;
-import DataAccessLayer.DAOs.BranchDAO;
-import DataAccessLayer.DAOs.ProductBranchDAO;
-import DataAccessLayer.DAOs.SpecificProductDAO;
-import DataAccessLayer.DTOs.BranchDTO;
+import DataAccessLayer.DAOs.*;
+import DataAccessLayer.DTOs.*;
 
 import java.sql.SQLException;
 import java.util.HashMap;
@@ -48,9 +46,9 @@ public class BranchController {
         return result;
     }
     public void addBranch(int branchId,String branchName, int minAmount) throws SQLException {
-        BranchDTO branchDTO = new BranchDTO(branchId,branchName);
+        BranchDTO branchDTO = new BranchDTO(branchId,branchName,minAmount);
         branchDAO.insert(branchDTO);
-        Branch newBranch = new Branch(branchId,branchName,minAmount);
+        Branch newBranch = new Branch(branchDTO);
         allBranches.put(branchId,newBranch) ;
     }
     public Branch getBranchById(int branchId){
@@ -72,7 +70,42 @@ public class BranchController {
         }
         else {
             HashMap<ProductBranch,List<SpecificProduct>> toDao = branch.receiveReservation(reservation);
+            for (ProductBranch productBranch : toDao.keySet()){
+                ProductBranchDTO productBranchDTO = checkExistProductDTO(productBranch,reservation.getDestination());
+                productBranchDAO.insert(productBranchDTO);
+                for(SpecificProduct specificProduct : toDao.get(productBranch)){
+                    //create new SpecificProductDto object and insert it to DAO
+                    SpecificProductDTO specificProductDTO = new SpecificProductDTO(specificProduct.getSpecificId(),specificProduct.getGeneralId(), branch.getId(),
+                            specificProduct.getBuyPrice(),specificProduct.getSellPrice(),specificProduct.getStatus(),specificProduct.getFlawDescription(),specificProduct.getExpiredDate(),
+                            specificProduct.getArrivedDate());
+                    specificProductDAO.insert(specificProductDTO);
+                }
+
+            }
+
         }
+    }
+
+    /***
+     * check if the DTO is exist - return if so - else create new one
+     * @param productBranch
+     * @param branchId
+     * @return
+     * @throws SQLException
+     */
+    private ProductBranchDTO checkExistProductDTO(ProductBranch productBranch, int branchId) throws SQLException {
+        ProductBranchDTO productBranchDTO = productBranchDAO.getByProductAndBranchId(productBranch.getCode(),branchId);
+        if (productBranchDTO != null)
+            return productBranchDTO;
+        else
+        {
+            ProductDTO productDTO = ProductsDAO.getInstance().getById(productBranch.getCode());
+            DiscountDTO discountDTO = DiscountDAO.getInstance().getById(productBranch.getDiscount().getDiscountId());
+            ProductBranchDTO result = new ProductBranchDTO(productDTO,discountDTO,branchId,productBranch.getPrice(),productBranch.getMinQuantity(),productBranch.getIdealQuantity(),null);
+            return result;
+        }
+
+
     }
 
 

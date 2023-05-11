@@ -14,6 +14,8 @@ public class SpecificProduct {
     private String flawDescription;
     private LocalDate expiredDate;
     private LocalDate arrivedDate;
+    private SpecificProductDTO specificProductDTO;
+
 
     public SpecificProduct(int generalId, double buyPrice, LocalDate expiredDate) {
         this.generalId = generalId;
@@ -34,7 +36,8 @@ public class SpecificProduct {
         this.expiredDate = specificProductDTO.getExpDate();
         this.flawDescription = specificProductDTO.getFlaw();
         this.arrivedDate = specificProductDTO.getArrivedDate();
-        int branchId =specificProductDTO.getBranchId();
+        int branchId = specificProductDTO.getBranchId();
+        this.specificProductDTO = specificProductDTO;
     }
 
     // getters and setters
@@ -75,8 +78,13 @@ public class SpecificProduct {
         return status;
     }
 
+    public LocalDate getArrivedDate() {
+        return arrivedDate;
+    }
+
     public void setStatus(ProductStatus.status status) {
         this.status = status;
+        this.specificProductDTO.UpdateStatus(status);
     }
 
     public String getFlawDescription() {
@@ -85,6 +93,7 @@ public class SpecificProduct {
 
     public void setFlawDescription(String flawDescription) {
         this.flawDescription = flawDescription;
+        this.specificProductDTO.updateDescription(flawDescription);
     }
 
     public LocalDate getExpiredDate() {

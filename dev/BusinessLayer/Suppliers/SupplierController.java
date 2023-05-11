@@ -5,13 +5,12 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.TreeMap;
 
-import BusinessLayer.InveontorySuppliers.Discount;
-import BusinessLayer.InveontorySuppliers.Product;
-import BusinessLayer.InveontorySuppliers.ProductController;
-import BusinessLayer.InveontorySuppliers.ReceiptItem;
+import BusinessLayer.Inventory.ProductStatus;
+import BusinessLayer.InveontorySuppliers.*;
 import BusinessLayer.exceptions.SuppliersException;
 import DataAccessLayer.DAOs.ProductAgreementDAO;
 import DataAccessLayer.DTOs.DiscountDTO;
+import DataAccessLayer.DTOs.PeriodicReservationDTO;
 import DataAccessLayer.DTOs.ProductAgreementDTO;
 
 import java.util.List;
@@ -383,4 +382,11 @@ public class SupplierController {
         nextSupplierIdInSystem = 0;
     }
 
+    public PeriodicReservation addPeriodicReservation(int supplierId, int branchId, ProductStatus.Day day) {
+        //TODO : create new PeriodicReservation and return the object.
+        PeriodicReservationDTO periodicReservationDTO = new PeriodicReservationDTO(supplierId,branchId,day);
+        PeriodicReservation periodicReservation = new PeriodicReservation(periodicReservationDTO);
+        // add it to the needed Hashmaps.
+        return null;
+    }
 }

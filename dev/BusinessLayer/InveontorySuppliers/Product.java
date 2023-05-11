@@ -1,5 +1,7 @@
 package BusinessLayer.InveontorySuppliers;
 
+import BusinessLayer.Inventory.Category;
+import BusinessLayer.Inventory.CategoryController;
 import DataAccessLayer.DTOs.ProductDTO;
 
 public class Product {
@@ -40,8 +42,14 @@ public class Product {
     public int geCategoryId() {
         return categoryId;
     }
+    public Category getCategory(){
+        CategoryController categoryController = CategoryController.getInstance();
+        return categoryController.getCategoryById(categoryId);
+
+    }
 
     public ProductDTO getDTO() {
         return this.dto;
     }
+
 }

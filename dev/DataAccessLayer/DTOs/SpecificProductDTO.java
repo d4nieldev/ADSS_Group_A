@@ -83,4 +83,12 @@ public LocalDate getExpDate() {
     public LocalDate getArrivedDate() {
         return arrivedDate;
     }
+
+    public void UpdateStatus(ProductStatus.status status) {
+    this.status = status;
+    }
+
+    public void updateDescription(String flawDescription) {
+    this.flaw = flawDescription;
+    }
 }

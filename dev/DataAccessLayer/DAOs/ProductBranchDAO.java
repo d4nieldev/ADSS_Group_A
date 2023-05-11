@@ -4,16 +4,12 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashMap;
 
-import BusinessLayer.Inventory.ProductBranch;
-import BusinessLayer.Inventory.SpecificProduct;
-import DataAccessLayer.DTOs.BranchDTO;
+
 import DataAccessLayer.DTOs.DiscountDTO;
 import DataAccessLayer.Repository;
 import DataAccessLayer.DTOs.ProductBranchDTO;
 import DataAccessLayer.DTOs.SpecificProductDTO;
-import DataAccessLayer.Repository;
 
-import static DataAccessLayer.DAOs.ReportDAO.repo;
 
 public class ProductBranchDAO extends DAO<ProductBranchDTO> {
     private static ProductBranchDAO instance = null;

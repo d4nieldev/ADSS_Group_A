@@ -30,17 +30,17 @@ class MainV2 {
         transportSystem = new TransportSystem(serviceFactory);
 
         ////////////////My Beautifual Test Area/////////////////////
-        hrSystem.employeeService.logIn(123456789, "abc");
-        //  DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
-        //  LocalDate localDate = LocalDate.parse("05-06-2003", formatter);
-        //  hrSystem.branchService.addNewEmployee(123456789, "TALLLLL", "Hatuli", 999, "123", 0, 0, 0, 0, 0, localDate, "dsf", "shiftmanager", 1);
+        // hrSystem.employeeService.logIn(123456789, "abc");
+        // DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+        // LocalDate localDate = LocalDate.parse("05-06-2003", formatter);
+        // hrSystem.branchService.addNewEmployee(123456789, "printAvailableShiftForEmployeeCheck", "Hatuli", 666, "123", 0, 0, 0, 0, 0, localDate, "dsf", "cashier", 1);
         // System.out.println(hrSystem.employeeService.printAllEmployees(123456789));
         // System.out.println(hrSystem.branchService.printAllBranches(123456789));
         // System.out.println(hrSystem.employeeService.printAllDrivers(123456789));       
         // System.out.println("check");
-        //-----------------add new branch-----------------
+        //-----------------add new shift-----------------
         // DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
-        // LocalDate localDate = LocalDate.parse("30-05-2023", formatter);
+        // LocalDate localDate = LocalDate.parse("31-05-2023", formatter);
         // HashMap<Integer, Integer> numEmployeesForRole = new HashMap<>();
         // numEmployeesForRole.put(5, 1);
         // numEmployeesForRole.put(6, 1);
@@ -50,7 +50,12 @@ class MainV2 {
         // shiftAssign.put(999, 5);
         // hrSystem.branchService.approveFinalShift(123456789, 5, 1, shiftAssign);
         //-----------------add constraint-----------------      
-        memberSystem.branchService.addConstraint(1, 999, 4);
+        // memberSystem.branchService.addConstraint(1, 999, 4);
+        //-----------------show all available shift for employee-----------------
+        hrSystem.employeeService.logIn(666, "123");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+        LocalDate localDate = LocalDate.parse("31-05-2023", formatter);
+        System.out.println(memberSystem.branchService.printAvailableShiftForEmployee(666, localDate));
         ////////////////My Beautifual Test Area/////////////////////
 
         // Scanner sc = new Scanner(System.in);

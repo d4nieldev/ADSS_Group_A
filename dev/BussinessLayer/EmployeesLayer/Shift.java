@@ -210,6 +210,7 @@ public class Shift{
         if(this.startHour >= newEndHour){throw new Error("The end hour have to be after the start hour.");}
     this.endHour = newEndHour;}
     public int getDuration(){return duration;}
+    public HashMap<Integer, Integer> getNumEmployeesForRole(){return numEmployeesForRole;}    
     public boolean getIsFinishSettingShift(){return finishSettingShift;}
     public HashMap<Employee, LinkedList<Integer>> getConstraints(){return constraints;}
     public HashMap<Employee, Integer> getFinalShift(){return finalShift;}

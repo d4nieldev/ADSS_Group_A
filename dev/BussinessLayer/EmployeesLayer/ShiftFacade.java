@@ -2,6 +2,7 @@ package BussinessLayer.EmployeesLayer;
 import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.List;
 
 import DataAccessLayer.DAO.EmployeesLayer.ShiftsDAO;
 import DataAccessLayer.DTO.EmployeeLayer.ShiftDTO;
@@ -180,8 +181,15 @@ public class ShiftFacade {
     public LinkedList<Shift> getShiftsByDate(LocalDate date){
         LinkedList<Shift> res = new LinkedList<>();
         for (Shift shift : shifts) {
-            if(shift.getDate().equals(date)) {res.add(shift);}
+            if(shift.getDate().equals(date)) {shifts.remove(shift);}
         }
+        List<ShiftDTO> shiftsDTO = shiftsDAO.getShiftsByDate(date);
+        for (ShiftDTO shiftDTO : shiftsDTO) {
+            Shift s = createNewShiftFromShiftDTO(shiftDTO);
+            shifts.add(s);
+            res.add(s);
+        }
+        
         return res;
     }
 

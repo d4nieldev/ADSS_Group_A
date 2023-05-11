@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,9 +35,41 @@ public abstract class DAO<T> {
         return output;
     }
 
+    // get all by localDate
+    public List<T> getAll(String colName,LocalDate date) {
+        String SELECT_SQL = String.format("SELECT * FROM %s WHERE \"%s\"=\"%s\"", tableName, colName, date);
+        Connection conn = Repository.getInstance().connect();
+        ResultSet RS = null;
+        List<T> output = new ArrayList<T>();
+        try {
+            Statement S = conn.createStatement();
+            RS = S.executeQuery(SELECT_SQL);
+            while (RS.next())
+                output.add(makeDTO(RS));
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        } finally {
+            Repository.getInstance().closeConnection(conn);
+        }
+        return output;
+    }
+
     // get by Int
     public ResultSet get(String nameOfTable, String colName, Integer value, Connection con) {
         String SELECT_SQL = String.format("SELECT * FROM %s WHERE \"%s\"=\"%d\"", nameOfTable, colName, value);
+        ResultSet rs = null;
+        try {
+            Statement stmt = con.createStatement();
+            rs = stmt.executeQuery(SELECT_SQL);
+        } catch (SQLException e) {
+        }
+
+        return rs;
+    }
+
+    // get by LocalDate
+    public ResultSet get(String nameOfTable, String colName, LocalDate value, Connection con) {
+        String SELECT_SQL = String.format("SELECT * FROM %s WHERE \"%s\"=\"%s\"", nameOfTable, colName, value);
         ResultSet rs = null;
         try {
             Statement stmt = con.createStatement();

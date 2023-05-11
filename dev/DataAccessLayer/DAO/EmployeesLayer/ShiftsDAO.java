@@ -9,6 +9,7 @@ import java.sql.*;
 import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.List;
 
 public class ShiftsDAO extends DAO<ShiftDTO> {
     private EmployeesShiftsContraintsDAO employeeShiftContraintDAO;
@@ -304,6 +305,11 @@ public class ShiftsDAO extends DAO<ShiftDTO> {
         }
 
         return shift;
+    }
+
+    public List<ShiftDTO> getShiftsByDate(LocalDate date) {
+        List<ShiftDTO> shifts = getAll("Date", date);
+        return shifts;
     }
 
     public int addConstraint(int empID, int shiftID) {

@@ -162,15 +162,28 @@ public class BranchFacade {
         String res = "";
         employeeFacade.checkEmployee(employeeId);
         employeeFacade.checkLoggedIn(employeeId);
-        LinkedList<Integer> branchesEmployee = employeeFacade.getEmployeeById(employeeId).getAllBranches();
+        Employee emp = employeeFacade.getEmployeeById(employeeId);
+        LinkedList<Integer> branchesEmployee = emp.getAllBranches();
         LinkedList<Shift> shiftsOnDate = shiftFacade.getShiftsByDate(date);
         for (Integer branchId : branchesEmployee) {
             for (Shift shiftOnDate : shiftsOnDate) {
-                if(shiftOnDate.getSuperBranchId() == branchId && !shiftOnDate.getIsFinishSettingShift()) 
-                    {res += shiftOnDate.toString() + "\n";}
+                if(shiftOnDate.getSuperBranchId() == branchId && !shiftOnDate.getIsFinishSettingShift() && needEmployee(emp, shiftOnDate)) 
+                    {
+                        
+                        res += shiftOnDate.toString() + "\n";
+                    }
             }
         }
         return res;
+    }
+
+    private Boolean needEmployee(Employee employee, Shift shift) {
+        for (Integer roleId : employee.getRoles()) {
+            if(shift.getNumEmployeesForRole().keySet().contains(roleId)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public String printAllBranches(int managerId){

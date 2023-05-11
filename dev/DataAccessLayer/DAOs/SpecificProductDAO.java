@@ -26,7 +26,7 @@ public class SpecificProductDAO extends DAO<SpecificProductDTO> {
     @Override
     public SpecificProductDTO makeDTO(ResultSet rs) throws SQLException {
         if (!rs.next())
-            throw new SQLException("Can't make DTO from nothing!");
+            return null;
 
         int specificId = rs.getInt("specificId");
         int generalId = rs.getInt("generalId");

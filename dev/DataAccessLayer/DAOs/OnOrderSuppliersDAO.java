@@ -43,6 +43,11 @@ public class OnOrderSuppliersDAO extends DAO<OnOrderSuppliersDTO> {
         super.delete(dataObject);
     }
 
+    public void deleteById(int supplierId) throws SQLException {
+        OnOrderSuppliersDTO dto = getById(supplierId);
+        delete(dto);
+    }
+
     @Override
     public OnOrderSuppliersDTO makeDTO(ResultSet rs) throws SQLException {
         if (!rs.next())

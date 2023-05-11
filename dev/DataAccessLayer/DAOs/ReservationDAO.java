@@ -23,7 +23,7 @@ public class ReservationDAO extends DAO<ReservationDTO> {
     @Override
     public ReservationDTO makeDTO(ResultSet rs) throws SQLException {
         if (!rs.next())
-            throw new SQLException("Can't make DTO from nothing!");
+            return null;
 
         int id = rs.getInt("id");
         int supplierId = rs.getInt("supplierId");
@@ -35,9 +35,7 @@ public class ReservationDAO extends DAO<ReservationDTO> {
         ContactDTO contact = contactDAO.getBySupplierAndPhone(supplierId, contactPhone);
         List<ReceiptItemDTO> receipt = receiptItemDAO.getReceiptOfReservation(id);
 
-
-        return new ReservationDTO(id, supplierDAO.getById(supplierId), date, status,
-                branchDAO.getById(destinationBranch));
+        return new ReservationDTO(id, supplierId, date, status, destinationBranchId, contact, receipt);
     }
 
     private Status stringToStatus(String status) {

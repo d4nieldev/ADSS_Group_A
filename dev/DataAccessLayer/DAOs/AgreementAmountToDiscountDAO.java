@@ -28,7 +28,7 @@ public class AgreementAmountToDiscountDAO extends DAO<AgreementAmountToDiscountD
     @Override
     public AgreementAmountToDiscountDTO makeDTO(ResultSet rs) throws SQLException {
         if (!rs.next())
-            throw new SQLException("Can't make DTO from nothing!");
+            return null;
 
         int supplierId = rs.getInt("supplyId");
         int productId = rs.getInt("productId");

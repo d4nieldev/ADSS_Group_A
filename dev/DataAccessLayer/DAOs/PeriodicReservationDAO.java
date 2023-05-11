@@ -7,14 +7,16 @@ import DataAccessLayer.Repository;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.HashMap;
+import java.util.Map;
 
 public class PeriodicReservationDAO extends DAO<PeriodicReservationDTO> {
 
     private static PeriodicReservationDAO instance = null;
     private Repository repo;
 
-    public static PeriodicReservationDAO getInstance(){
-        if(instance == null)
+    public static PeriodicReservationDAO getInstance() {
+        if (instance == null)
             instance = new PeriodicReservationDAO();
         return instance;
     }
@@ -23,7 +25,7 @@ public class PeriodicReservationDAO extends DAO<PeriodicReservationDTO> {
         super("PeriodicReservation");
         this.repo = Repository.getInstance();
     }
-    
+
     @Override
     public PeriodicReservationDTO makeDTO(ResultSet rs) throws SQLException {
         if (!rs.next())
@@ -33,13 +35,12 @@ public class PeriodicReservationDAO extends DAO<PeriodicReservationDTO> {
         int branchId = rs.getInt("branchId");
         ProductStatus.Day dayOfOrder = stringToStatus(rs.getString("dayOfOrder"));
 
-
-        return new PeriodicReservationDTO(supplierId,branchId,dayOfOrder);
+        return new PeriodicReservationDTO(supplierId, branchId, dayOfOrder);
     }
 
     public PeriodicReservationDTO getById(int supplierId, int branchID) throws SQLException {
         String query = "SELECT * FROM PeriodicReservation WHERE supplierId= ? AND branchId= ?;";
-        ResultSet rs = repo.executeQuery(query, supplierId,branchID);
+        ResultSet rs = repo.executeQuery(query, supplierId, branchID);
         PeriodicReservationDTO dto = makeDTO(rs);
         rs.close();
         return dto;
@@ -63,6 +64,22 @@ public class PeriodicReservationDAO extends DAO<PeriodicReservationDTO> {
                 return ProductStatus.Day.Saturday;
         }
         return null;
+    }
+
+    public Map<Integer, PeriodicReservationDTO> getSupplierPeriodicReservations(int supplierId) throws SQLException {
+
+        String query = "SELECT * FROM " + tableName + " WHERE supplierId = ?;";
+        ResultSet rs = repo.executeQuery(query, supplierId);
+
+        Map<Integer, PeriodicReservationDTO> supplierPeriodicReservations = new HashMap<>();
+        while (rs.next()) {
+            PeriodicReservationDTO PRDTO = makeDTO(rs);
+            supplierPeriodicReservations.put(PRDTO.getBranchId(), PRDTO);
+        }
+
+        rs.close();
+
+        return supplierPeriodicReservations;
     }
 
 }

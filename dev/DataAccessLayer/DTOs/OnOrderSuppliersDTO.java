@@ -24,4 +24,12 @@ public class OnOrderSuppliersDTO implements DTO {
         return nameToVal;
     }
 
+    public SupplierDTO getSupplierDTO() {
+        return supplierDTO;
+    }
+
+    public int getMaxSupplyDays() {
+        return maxSupplyDays;
+    }
+
 }

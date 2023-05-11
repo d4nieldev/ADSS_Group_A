@@ -5,10 +5,12 @@ import java.util.TreeMap;
 import BusinessLayer.InveontorySuppliers.Discount;
 import BusinessLayer.InveontorySuppliers.DiscountFixed;
 import BusinessLayer.InveontorySuppliers.DiscountPercentage;
-import BusinessLayer.Suppliers.exceptions.SuppliersException;
+import BusinessLayer.exceptions.SuppliersException;
 import DataAccessLayer.DAOs.ContactDAO;
 import DataAccessLayer.DTOs.ContactDTO;
+import DataAccessLayer.DTOs.DTO;
 import DataAccessLayer.DTOs.DiscountDTO;
+import DataAccessLayer.DTOs.PeriodicReservationDTO;
 import DataAccessLayer.DTOs.SupplierDTO;
 
 
@@ -31,20 +33,22 @@ public abstract class Supplier {
     private Map<Integer, PeriodicReservation> branchToPeriodicReservations;
     private SupplierDTO supplierDTO;
 
-    public Supplier(int id, String name, String phone, String bankAcc, List<String> fields, String paymentCondition,
-                    TreeMap<Integer, Discount> amountToDiscount, List<Contact> contacts) {
-        this.id = id;
-        this.name = name;
-        this.bankAcc = bankAcc;
-        this.fields = fields;
-        this.paymentCondition = paymentCondition;
-        this.amountToDiscount = amountToDiscount;
-        this.contacts = addOfficeContact(contacts, phone);
-        this.branchToPeriodicReservations = new HashMap<>();
-        this.supplierDTO = new SupplierDTO(id, name, bankAcc, paymentCondition, fields, makeContactDTOList(contacts), );
-    }
+    // public Supplier(int id, String name, String phone, String bankAcc, List<String> fields, String paymentCondition,
+    //                 TreeMap<Integer, Discount> amountToDiscount, List<Contact> contacts) {
+    //     this.id = id;
+    //     this.name = name;
+    //     this.bankAcc = bankAcc;
+    //     this.fields = fields;
+    //     this.paymentCondition = paymentCondition;
+    //     this.amountToDiscount = amountToDiscount;
+    //     this.contacts = addOfficeContact(contacts, phone);
+    //     this.branchToPeriodicReservations = new HashMap<>();
+    //     //this.supplierDTO = new SupplierDTO(id, name, bankAcc, paymentCondition, fields, makeContactDTOList(contacts), );
+    // }
 
     public Supplier(SupplierDTO supplierDTO) {
+        //TODO: make sure that we add the office phone as a contact.
+        this.supplierDTO = supplierDTO;
         this.id = supplierDTO.getId();
         this.name = supplierDTO.getName();
         this.bankAcc = supplierDTO.getBankAccount();
@@ -52,15 +56,26 @@ public abstract class Supplier {
         this.paymentCondition = supplierDTO.getPaymentCondition();
         TreeMap<Integer, DiscountDTO> amountToDiscountDTO = supplierDTO.getAmountToDiscount();
         this.amountToDiscount = makeDiscountMap(amountToDiscountDTO);
-
+        this.contacts = makeContactList(supplierDTO.getContacts());
+        Map<Integer, PeriodicReservationDTO> periodicReservationDTO = supplierDTO.getBranchToPeriodicReservations();
+        this.branchToPeriodicReservations = makePeriodicalReservations(periodicReservationDTO);
     }
 
-    private List<ContactDTO> makeContactDTOList(List<Contact> contacts) {
-        List<ContactDTO> contactDTOs = new ArrayList<ContactDTO>();
-        for (Contact c : contacts) {
-            contactDTOs.add(c.getContactDTO());
+    private Map<Integer, PeriodicReservation> makePeriodicalReservations(Map<Integer, PeriodicReservationDTO> periodicReservationDTO) {
+        Map<Integer, PeriodicReservation> res = new HashMap<>();
+        for (Integer key : periodicReservationDTO.keySet()) {
+            PeriodicReservationDTO dto = periodicReservationDTO.get(key);
+            PeriodicReservation pr = new PeriodicReservation(dto);
         }
-        return contactDTOs;
+        return res;
+    }
+
+    private List<Contact> makeContactList(List<ContactDTO> contactDTOs) {
+        List<Contact> contacts = new ArrayList<Contact>();
+        for (ContactDTO c : contactDTOs) {
+            contacts.add(new Contact(c));
+        }
+        return contacts;
     }
 
     private TreeMap<Integer, Discount> makeDiscountMap(TreeMap<Integer, DiscountDTO> amountToDiscountDTO) {
@@ -88,14 +103,10 @@ public abstract class Supplier {
     public void setBranchToPeriodicReservations(Map<Integer, PeriodicReservation> branchToPeriodicReservations) {
         this.branchToPeriodicReservations = branchToPeriodicReservations;
     }
-
+    
     // Getter and setter for id
     public int getId() {
         return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 
     // Getter and setter for name
@@ -103,17 +114,9 @@ public abstract class Supplier {
         return name;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
     // Getter and setter for phone
     public String getPhone() {
         return getOffice().getPhone();
-    }
-
-    public void setPhone(String phone) {
-        getOffice().setPhone(phone);
     }
 
     // Getter and setter for bankAcc
@@ -121,17 +124,10 @@ public abstract class Supplier {
         return bankAcc;
     }
 
-    public void setBankAcc(String bankAcc) {
-        this.bankAcc = bankAcc;
-    }
 
     // Getter and setter for fields
     public List<String> getFields() {
         return fields;
-    }
-
-    public void setFields(List<String> fields) {
-        this.fields = fields;
     }
 
     // Getter and setter for paymentCondition
@@ -139,17 +135,10 @@ public abstract class Supplier {
         return paymentCondition;
     }
 
-    public void setPaymentCondition(String paymentCondition) {
-        this.paymentCondition = paymentCondition;
-    }
 
     // Getter and setter for amountToDiscount
     public TreeMap<Integer, Discount> getAmountToDiscount() {
         return amountToDiscount;
-    }
-
-    public void setAmountToDiscount(TreeMap<Integer, Discount> amountToDiscount) {
-        this.amountToDiscount = amountToDiscount;
     }
 
     // Getter and setter for contacts
@@ -163,10 +152,6 @@ public abstract class Supplier {
 
     public Contact getOffice() {
         return contacts.get(0);
-    }
-
-    public void setContacts(LinkedList<Contact> contacts) {
-        this.contacts = contacts;
     }
 
     public PeriodicReservation getPeriodicReservationOfBranch(int branchId) {
@@ -201,24 +186,6 @@ public abstract class Supplier {
         }
 
         this.contacts.remove(contact);
-    }
-
-    // Delete all contacts (office number is still existing)
-    public void deleteAllContacts() {
-        Contact office = new Contact(getOffice().getPhone(), "Office");
-        this.contacts.clear();
-        this.contacts.add(office);
-    }
-
-    // Add office contact for the begining of the list of contacts
-    private List<Contact> addOfficeContact(List<Contact> contacts, String officePhone) {
-        List<Contact> newContacts = new LinkedList<>();
-        Contact office = new Contact(officePhone, "Office");
-        newContacts.add(office);
-        for (Contact c : contacts) {
-            newContacts.add(c);
-        }
-        return newContacts;
     }
 
     public Discount getDiscount(int amount) {

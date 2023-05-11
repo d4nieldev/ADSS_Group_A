@@ -3,17 +3,20 @@ package DataAccessLayer.DAOs;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Map;
 import java.util.TreeMap;
 
 import DataAccessLayer.Repository;
 import DataAccessLayer.DTOs.ContactDTO;
 import DataAccessLayer.DTOs.DiscountDTO;
+import DataAccessLayer.DTOs.PeriodicReservationDTO;
 import DataAccessLayer.DTOs.SupplierDTO;
 
 public class SupplierDAO extends DAO<SupplierDTO> {
     private SuppliersFieldsDAO suppliersFieldsDAO;
     private ContactDAO contactDAO;
     private SupplierAmountToDiscountDAO supplierAmountToDiscountDAO;
+    private PeriodicReservationDAO periodicReservationDAO;
     private Repository repo;
     private static SupplierDAO instance = null;
 
@@ -25,6 +28,7 @@ public class SupplierDAO extends DAO<SupplierDTO> {
         suppliersFieldsDAO = new SuppliersFieldsDAO();
         contactDAO = ContactDAO.getInstance();
         supplierAmountToDiscountDAO = SupplierAmountToDiscountDAO.getInstance();
+        periodicReservationDAO = PeriodicReservationDAO.getInstance();
         repo = Repository.getInstance();
     }
 
@@ -46,8 +50,9 @@ public class SupplierDAO extends DAO<SupplierDTO> {
         List<String> fields = suppliersFieldsDAO.getFieldsOfSupplier(id);
         List<ContactDTO> contacts = contactDAO.getSupplierContacts(id);
         TreeMap<Integer, DiscountDTO> amountToDiscount = supplierAmountToDiscountDAO.getSupplierAmountToDiscount(id);
+        Map<Integer, PeriodicReservationDTO> periodToReservation = periodicReservationDAO.getSupplierPeriodicReservations(id);
 
-        return new SupplierDTO(id, name, bankAccount, paymentCondition, fields, contacts, amountToDiscount);
+        return new SupplierDTO(id, name, bankAccount, paymentCondition, fields, contacts, amountToDiscount, periodToReservation);
     }
 
     public SupplierDTO getById(int supplierId) throws SQLException {
@@ -57,5 +62,7 @@ public class SupplierDAO extends DAO<SupplierDTO> {
         rs.close();
         return dto;
     }
+
+    
 
 }

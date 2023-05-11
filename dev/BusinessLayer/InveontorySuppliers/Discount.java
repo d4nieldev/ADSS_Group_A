@@ -34,4 +34,16 @@ public abstract class Discount {
     }
 
     public abstract double getPriceWithDiscount(double price);
+
+    public int getDiscountId() {
+        return discountId;
+    }
+
+    public double getVal() {
+        return val;
+    }
+
+    public DiscountDTO getDto() {
+        return dto;
+    }
 }

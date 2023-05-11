@@ -43,10 +43,15 @@ public class SelfPickUpSupplierDAO extends DAO<SelfPickUpSupplierDTO> {
         super.delete(dataObject);
     }
 
+    public void deleteById(int supplierId) throws SQLException {
+        SelfPickUpSupplierDTO dto = getById(supplierId);
+        delete(dto);
+    }
+
     @Override
     public SelfPickUpSupplierDTO makeDTO(ResultSet rs) throws SQLException {
         if (!rs.next())
-            throw new SQLException("Cannot make DTO from nothing!");
+            return null;
 
         int id = rs.getInt("supplierId");
         String address = rs.getString("address");

@@ -11,6 +11,8 @@ public class DeficientReport extends Report {
     private HashMap<Integer, Integer> idToMinQuantity;
     private HashMap<Integer, Integer> idToIdealQuantity;
 
+    private HashMap<Integer,ProductBranch> products;
+
     private BranchController branchController;
 
     public DeficientReport(int branchId) {
@@ -19,6 +21,7 @@ public class DeficientReport extends Report {
         Branch branch = branchController.getBranchById(branchId);
         this.idToName = branch.getAllDeficiencyProducts();
         this.idToTotalAmount = branch.getAllTotalAmountForDeficiencyProducts();
+        this.products = branch.getAllProductBranches();
         this.idToMinQuantity = branch.getAllMinQuantityForDeficiencyProducts();
         this.idToIdealQuantity = branch.getAllIdealQuantityForDeficiencyProducts();
     }

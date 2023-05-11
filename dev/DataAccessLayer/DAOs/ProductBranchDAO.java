@@ -3,15 +3,25 @@ package DataAccessLayer.DAOs;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import DataAccessLayer.Repository;
 import DataAccessLayer.DTOs.ProductBranchDTO;
 
 public class ProductBranchDAO extends DAO<ProductBranchDTO> {
-
+    private static ProductBranchDAO instance = null;
     private ProductsDAO productDAO;
+    private Repository repo;
 
-    public ProductBranchDAO() {
+    private ProductBranchDAO() {
         super("ProductBranch");
         productDAO = ProductsDAO.getInstance();
+        repo = Repository.getInstance();
+    }
+
+    public static ProductBranchDAO getInstance() {
+        if (instance == null) {
+            instance = new ProductBranchDAO();
+        }
+        return instance;
     }
 
     @Override
@@ -25,6 +35,14 @@ public class ProductBranchDAO extends DAO<ProductBranchDTO> {
         int minQuantity = rs.getInt("minQuantity");
 
         return new ProductBranchDTO(productDAO.getById(productId), branchId, price, minQuantity);
+    }
+
+    public ProductBranchDTO getByProductAndBranch(int productId, int branchId) throws SQLException {
+        ResultSet rs = repo.executeQuery("SELECT * FROM " + tableName + " WHERE productId = ? AND branchId = ?;",
+                productId, branchId);
+        ProductBranchDTO dto = makeDTO(rs);
+        rs.close();
+        return dto;
     }
 
 }

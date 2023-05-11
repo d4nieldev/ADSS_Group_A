@@ -8,7 +8,12 @@ import BusinessLayer.InveontorySuppliers.Discount;
 import BusinessLayer.InveontorySuppliers.Product;
 import BusinessLayer.InveontorySuppliers.ProductController;
 import BusinessLayer.InveontorySuppliers.ReceiptItem;
+<<<<<<< Updated upstream
 import BusinessLayer.Suppliers.exceptions.SuppliersException;
+=======
+import BusinessLayer.InveontorySuppliers.Reservation;
+import BusinessLayer.exceptions.SuppliersException;
+>>>>>>> Stashed changes
 
 import java.util.List;
 import java.util.Map;

@@ -34,7 +34,11 @@ public class Branch {
         return this.branchName;
     }
 
-    public void addNewProductBranch( Product product , double price, int idealQuantity, int minQuantity){
+    public HashMap<Integer, ProductBranch> getAllProductBranches() {
+        return allProductBranches;
+    }
+
+    public void addNewProductBranch(Product product , double price, int idealQuantity, int minQuantity){
         ProductBranch newProduct = new ProductBranch( product , price,  idealQuantity, minQuantity)  ;
         allProductBranches.put(product.getId(), newProduct);
     }
@@ -485,5 +489,4 @@ public class Branch {
             throw new Exception("this product doesn't exist in the branch");
         return productBranch;
     }
-
 }

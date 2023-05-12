@@ -308,13 +308,35 @@ public void addNewProductBranch(ProductBranchDTO productBranchDTO) throws SQLExc
 
     // Dealing with discount - both on products and categories
     // ==========================================================================================================
-    public void setDiscountOnProducts(List<ProductBranch> productsToDiscount, Discount discount) throws Exception {
+
+    /***
+     * set discount on products and return a list of all products that the discount is applying on them
+     * @param productsToDiscount
+     * @param discount
+     * @return
+     * @throws Exception
+     */
+    public List<ProductBranch> setDiscountOnProducts(List<ProductBranch> productsToDiscount, Discount discount) throws Exception {
+      HashMap<ProductBranch,DiscountDTO> changeDiscount = new HashMap<>();
+      List<ProductBranch> productToDiscount = new ArrayList<>();
+//        DiscountDTO discountDTO = null;
+//        if (discount instanceof DiscountFixed) {
+//                 discountDTO = new DiscountDTO(discount.getDiscountId(), discount.getStart_date(), discount.getEnd_date(), discount.getDiscountValue(), "fixed Discount");
+//            }
+//            else {
+//                 discountDTO = new DiscountDTO(discount.getDiscountId(), discount.getStart_date(), discount.getEnd_date(), discount.getDiscountValue(), "Percentage discount");
+//            }
         for (ProductBranch productBranch : productsToDiscount) {
             if (!allProductBranches.containsKey(productBranch.getCode())) {
                 throw new Exception("this product not fount on this branch");
             }
-            productBranch.applyDiscount(discount);
+            boolean ans = productBranch.applyDiscount(discount);
+            if(ans){
+//                changeDiscount.put(productBranch,discountDTO);
+                productToDiscount.add(productBranch);
+            }
         }
+        return productToDiscount;
     }
 
     public void setDiscountOnCategories(List<Category> categoriesToDiscount, Discount discount) throws Exception {
@@ -323,7 +345,7 @@ public void addNewProductBranch(ProductBranchDTO productBranchDTO) throws SQLExc
         setDiscountOnProducts(productsFromCategory, discount);
     }
 
-    private List<ProductBranch> getProductsByCategories(List<Category> allSubCategories) {
+    public List<ProductBranch> getProductsByCategories(List<Category> allSubCategories) {
         List<ProductBranch> result = new ArrayList<>();
         for (ProductBranch productBranch : allProductBranches.values()) {
             boolean check = productBranch.existInCategories(allSubCategories);

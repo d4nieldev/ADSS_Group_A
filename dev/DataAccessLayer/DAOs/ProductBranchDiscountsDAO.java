@@ -5,13 +5,22 @@ import java.sql.SQLException;
 
 import DataAccessLayer.DTOs.DiscountDTO;
 import DataAccessLayer.DTOs.ProductBranchDiscountDTO;
+import DataAccessLayer.Repository;
 
 public class ProductBranchDiscountsDAO extends DAO<ProductBranchDiscountDTO> {
     private DiscountDAO discountDAO;
+    private Repository repo;
+    private static ProductBranchDiscountsDAO instance = null;
 
-    protected ProductBranchDiscountsDAO() {
+    private ProductBranchDiscountsDAO() {
         super("ProductBranchDiscounts");
         this.discountDAO = DiscountDAO.getInstance();
+        Repository.getInstance();
+    }
+    public static ProductBranchDiscountsDAO getInstance() {
+        if (instance == null)
+            instance = new ProductBranchDiscountsDAO();
+        return instance;
     }
 
     @Override
@@ -28,4 +37,7 @@ public class ProductBranchDiscountsDAO extends DAO<ProductBranchDiscountDTO> {
         return new ProductBranchDiscountDTO(productId, branchId, discount);
     }
 
+    public DiscountDTO getById(int discountId) throws SQLException {
+        return  DiscountDAO.getInstance().getById(discountId);
+    }
 }

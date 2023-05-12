@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import BusinessLayer.InveontorySuppliers.*;
+import DataAccessLayer.DAOs.ProductBranchDiscountsDAO;
 import DataAccessLayer.DTOs.DiscountDTO;
 import DataAccessLayer.DTOs.ProductBranchDTO;
 import DataAccessLayer.DTOs.SpecificProductDTO;
@@ -102,20 +103,26 @@ public class ProductBranch {
             sp.setFlawDescription(description);
     }
 
-    public void applyDiscount(Discount discount) {
+    public boolean applyDiscount(Discount discount) throws SQLException {
+//        DiscountDTO discountDTO = null;
         discountsHistory.add(discount);
         Discount maxDiscount = getCurrentMaxDiscount();
         this.discount = maxDiscount;
-        DiscountDTO discountDTO = null;
         if(discount != maxDiscount) {
-            if (discount instanceof DiscountFixed) {
-                 discountDTO = new DiscountDTO(maxDiscount.getDiscountId(), maxDiscount.getStart_date(), maxDiscount.getEnd_date(), maxDiscount.getDiscountValue(), "fixed Discount");
-            }
-            else {
-                 discountDTO = new DiscountDTO(maxDiscount.getDiscountId(), maxDiscount.getStart_date(), maxDiscount.getEnd_date(), maxDiscount.getDiscountValue(), "Percentage discount");
-            }
+//            if (discount instanceof DiscountFixed) {
+//                 discountDTO = new DiscountDTO(maxDiscount.getDiscountId(), maxDiscount.getStart_date(), maxDiscount.getEnd_date(), maxDiscount.getDiscountValue(), "fixed Discount");
+//            }
+//            else {
+//                 discountDTO = new DiscountDTO(maxDiscount.getDiscountId(), maxDiscount.getStart_date(), maxDiscount.getEnd_date(), maxDiscount.getDiscountValue(), "Percentage discount");
+//            }
+////            ProductBranchDiscountsDAO.getInstance().insert(discountDTO);
+            return true;
+
+//            DiscountDTO discountDTO = ProductBranchDiscountsDAO.getInstance().getById(discount.getDiscountId());
+
             productBranchDTO.updateDiscount(discountDTO);
         }
+        return false;
 }
 
     public int getCode() {

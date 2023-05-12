@@ -11,7 +11,10 @@ public class ReceiptItem {
     private Product product;
     private LocalDate expiredDate;
 
+    private ReceiptItemDTO dto;
+
     public ReceiptItem(ReceiptItemDTO dto, Product product) {
+        this.dto = dto;
         this.amount = dto.getAmount();
         this.pricePerUnitBeforeDiscount = dto.getPricePerUnitBeforeDiscount();
         this.pricePerUnitAfterDiscount = dto.getPricePerUnitAfterDiscount();
@@ -44,6 +47,10 @@ public class ReceiptItem {
 
     public Product getProduct() {
         return this.product;
+    }
+
+    public ReceiptItemDTO getDTO() {
+        return this.dto;
     }
 
     public LocalDate getExpiredDate() {

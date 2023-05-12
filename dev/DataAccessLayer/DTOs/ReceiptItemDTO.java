@@ -42,6 +42,10 @@ public class ReceiptItemDTO implements DTO {
         return amount;
     }
 
+    public void setAmount(int amount) {
+        this.amount = amount;
+    }
+
     public double getPricePerUnitBeforeDiscount() {
         return pricePerUnitBeforeDiscount;
     }

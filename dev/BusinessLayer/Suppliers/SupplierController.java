@@ -504,4 +504,9 @@ public class SupplierController {
         return null;
     }
 
+    public Contact getContactOfSupplier(int supplierId, String phone) {
+        // TODO: implement this method
+        throw new IllegalStateException("Not implemented");
+    }
+
 }

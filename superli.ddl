@@ -198,7 +198,7 @@ CREATE TABLE IF NOT EXISTS Reservations (
 	FOREIGN KEY (supplierId)               REFERENCES Suppliers(id)               ON DELETE SET NULL,
 	FOREIGN KEY (destinationBranch)        REFERENCES Branch(id)                  ON DELETE SET NULL,
 	FOREIGN KEY (supplierId, contactPhone) REFERENCES Contacts(supplierId, phone) ON DELETE SET NULL,
-	PRIMARY KEY (id)
+	PRIMARY KEY (id, supplierId)
 );
 
 CREATE TABLE IF NOT EXISTS ReceiptItem (

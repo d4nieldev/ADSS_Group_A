@@ -15,7 +15,7 @@ public class CategoryController {
     private CategoryController() {
         this.allCategories = new ArrayList<>();
         this.categoryDic = new Hashtable<>();
-        this.CategoryDAO = DataAccessLayer.DAOs.CategoryDAO.getInstance();
+        this.CategoryDAO = CategoryDAO.getInstance();
     }
 
     public List<Category> getAllCategories() {
@@ -33,35 +33,17 @@ public class CategoryController {
         return categoryDic.get(id);
     }
 
-    public void addNewCategory(String name) {
-        boolean flag = false;
-        for (Category cat : allCategories) {
-            if (cat.getName() == name) {
-                flag = true;
-                System.out.println("this category already exist");
-                break;
-            }
-        }
-
-        if (!flag) {
-            Category category = new Category(name);
-            allCategories.add(category);
-            categoryDic.put(category.getId(), category);
-        }
-    }
-
     public void addNewCategory(String name, Category parentCategory) throws SQLException {
         int newId = Global.getNewCategoryid();
         CategoryDTO CatDTO = new CategoryDTO(newId, name, parentCategory.getCategoryDTO());
         CategoryDAO.insert(CatDTO);
 
-        Category category = new Category(newId, name, parentCategory, CatDTO);
+        Category category = new Category(CatDTO);
         allCategories.add(category);
         categoryDic.put(category.getId(), category);
-
     }
 
-    public void addNewMainCategory(String name) throws SQLException {
+    public void addNewCategory(String name) throws SQLException {
         int newId = Global.getNewCategoryid();
         CategoryDTO CatDTO = new CategoryDTO(newId, name);
         CategoryDAO.insert(CatDTO);
@@ -69,8 +51,26 @@ public class CategoryController {
         Category category = new Category(newId, name, CatDTO);
         allCategories.add(category);
         categoryDic.put(category.getId(), category);
-
     }
+
+
+//    public void addNewCategory(String name) {
+//        boolean flag = false;
+//        for (Category cat : allCategories) {
+//            if (cat.getName() == name) {
+//                flag = true;
+//                System.out.println("this category already exist");
+//                break;
+//            }
+//        }
+//
+//        if (!flag) {
+//            Category category = new Category(name);
+//            allCategories.add(category);
+//            categoryDic.put(category.getId(), category);
+//        }
+//    }
+
 
 //    public void addNewCategory(String name, Category parentCategory) { // + add variable : List<Category> - represent
 //                                                                       // all its children

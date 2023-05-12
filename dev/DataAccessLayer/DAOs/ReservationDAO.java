@@ -3,21 +3,32 @@ package DataAccessLayer.DAOs;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 import BusinessLayer.enums.Status;
+import DataAccessLayer.Repository;
 import DataAccessLayer.DTOs.ContactDTO;
 import DataAccessLayer.DTOs.ReceiptItemDTO;
 import DataAccessLayer.DTOs.ReservationDTO;
 
 public class ReservationDAO extends DAO<ReservationDTO> {
-    ReceiptItemDAO receiptItemDAO;
-    ContactDAO contactDAO;
+    private static ReservationDAO instance = null;
+    private ReceiptItemDAO receiptItemDAO;
+    private ContactDAO contactDAO;
+    private Repository repo;
 
     protected ReservationDAO() {
         super("Reservations");
         receiptItemDAO = ReceiptItemDAO.getInstance();
         contactDAO = ContactDAO.getInstance();
+        repo = Repository.getInstance();
+    }
+
+    public static ReservationDAO getInstance() {
+        if (instance == null)
+            instance = new ReservationDAO();
+        return instance;
     }
 
     @Override
@@ -36,6 +47,24 @@ public class ReservationDAO extends DAO<ReservationDTO> {
         List<ReceiptItemDTO> receipt = receiptItemDAO.getReceiptOfReservation(id);
 
         return new ReservationDTO(id, supplierId, date, status, destinationBranchId, contact, receipt);
+    }
+
+    public List<ReservationDTO> getFullReservation(int reservationId) throws SQLException {
+        ResultSet rs = repo.executeQuery("SELECT * FROM " + tableName + " WHERE id = ?;", reservationId);
+        List<ReservationDTO> res = new ArrayList<>();
+        while (rs.next())
+            res.add(makeDTO(rs));
+        rs.close();
+        return res;
+    }
+
+    public List<ReservationDTO> getSupplierReservations(int supplierId) throws SQLException {
+        ResultSet rs = repo.executeQuery("SELECT * FROM " + tableName + " WHERE supplierId = ?;", supplierId);
+        List<ReservationDTO> res = new ArrayList<>();
+        while (rs.next())
+            res.add(makeDTO(rs));
+        rs.close();
+        return res;
     }
 
     private Status stringToStatus(String status) {

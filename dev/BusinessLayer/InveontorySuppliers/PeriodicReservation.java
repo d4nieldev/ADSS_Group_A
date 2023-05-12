@@ -14,16 +14,16 @@ public class PeriodicReservation {
     private ProductStatus.Day day; // day for delivery;
     ProductController productController;
 
-//    public PeriodicReservation(int supplierId,Day day) {
-//        this.id = Global.getNewPeriodicId();
-//        this.day = day;
-//        this.productsToAmounts = new HashMap<>();
-//        productController = ProductController.getInstance();
-//    }
-    public PeriodicReservation(PeriodicReservationDTO periodicReservationDTO){
+    // public PeriodicReservation(int supplierId,Day day) {
+    // this.id = Global.getNewPeriodicId();
+    // this.day = day;
+    // this.productsToAmounts = new HashMap<>();
+    // productController = ProductController.getInstance();
+    // }
+    public PeriodicReservation(PeriodicReservationDTO periodicReservationDTO) {
         this.id = Global.getNewPeriodicId();
         this.day = periodicReservationDTO.getDayOfOrder();
-//        this.productsToAmounts = //TODO:implement;
+        // this.productsToAmounts = //TODO:implement;
 
     }
 
@@ -51,7 +51,7 @@ public class PeriodicReservation {
     public boolean addNewProduct(int productCode, int amount, int minQuantity, int totalQuantity) throws Exception {
         if (productsToAmounts.containsKey(productCode))
             throw new Exception("this product already defined- for update it choose updateProductPeriodReservation");
-        if (!productController.exist(productCode))
+        if (!productController.productExists(productCode))
             throw new Exception("this product doesn't exist on suppliers");
         if (amount + totalQuantity < minQuantity)
             return false;
@@ -62,7 +62,7 @@ public class PeriodicReservation {
     public boolean changeAmount(int productCode, int amount, int minQuantity, int totalQuantity) throws Exception {
         if (!productsToAmounts.containsKey(productCode))
             throw new Exception("this product not exist");
-        if (!productController.exist(productCode))
+        if (!productController.productExists(productCode))
             throw new Exception("this product doesn't exist on suppliers");
         if (amount + totalQuantity < minQuantity)
             return false;
@@ -73,7 +73,7 @@ public class PeriodicReservation {
     public boolean addAmount(int productCode, int amount, int minQuantity, int totalQuantity) throws Exception {
         if (!productsToAmounts.containsKey(productCode))
             throw new Exception("this product not exist");
-        if (!productController.exist(productCode))
+        if (!productController.productExists(productCode))
             throw new Exception("this product doesn't exist on suppliers");
         int currentAmount = productsToAmounts.get(productCode);
         if (amount + currentAmount + totalQuantity < minQuantity)
@@ -85,7 +85,7 @@ public class PeriodicReservation {
     public boolean reduceAmount(int productCode, int amount, int minQuantity, int totalQuantity) throws Exception {
         if (!productsToAmounts.containsKey(productCode))
             throw new Exception("this product not exist");
-        if (!productController.exist(productCode))
+        if (!productController.productExists(productCode))
             throw new Exception("this product doesn't exist on suppliers");
         int currentAmount = productsToAmounts.get(productCode);
         if (amount - currentAmount + totalQuantity < minQuantity)

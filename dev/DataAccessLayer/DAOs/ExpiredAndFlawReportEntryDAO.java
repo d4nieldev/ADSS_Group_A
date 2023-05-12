@@ -16,6 +16,7 @@ import DataAccessLayer.DTOs.SpecificProductDTO;
 import BusinessLayer.Inventory.ProductStatus;
 
 public class ExpiredAndFlawReportEntryDAO extends DAO<ExpiredAndFlawReportEntryDTO> {
+    private static ExpiredAndFlawReportEntryDAO instance = null;
     private Repository repo;
     private ReportDAO reportDAO;
     private SpecificProductDAO specificProductDAO;
@@ -27,10 +28,16 @@ public class ExpiredAndFlawReportEntryDAO extends DAO<ExpiredAndFlawReportEntryD
         specificProductDAO = SpecificProductDAO.getInstance();
     }
 
+    public static ExpiredAndFlawReportEntryDAO getInstance() {
+        if (instance == null)
+            instance = new ExpiredAndFlawReportEntryDAO();
+        return instance;
+    }
+
     @Override
     public ExpiredAndFlawReportEntryDTO makeDTO(ResultSet rs) throws SQLException {
         if (!rs.next())
-            throw new SQLException("Can't make DTO from nothing!");
+            return null;
 
         int reportId = rs.getInt("reportId");
         int specificId = rs.getInt("specificId");

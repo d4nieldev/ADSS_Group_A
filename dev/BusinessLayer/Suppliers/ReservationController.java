@@ -1,6 +1,8 @@
 package BusinessLayer.Suppliers;
 
 import java.sql.SQLException;
+import java.sql.Savepoint;
+import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -9,12 +11,16 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import BusinessLayer.InveontorySuppliers.Product;
 import BusinessLayer.InveontorySuppliers.ProductController;
 import BusinessLayer.InveontorySuppliers.ReceiptItem;
 import BusinessLayer.InveontorySuppliers.Reservation;
+import BusinessLayer.enums.Status;
 import BusinessLayer.exceptions.SuppliersException;
 import DataAccessLayer.DAOs.ReceiptItemDAO;
+import DataAccessLayer.DAOs.ReservationDAO;
 import DataAccessLayer.DTOs.ReceiptItemDTO;
+import DataAccessLayer.DTOs.ReservationDTO;
 
 public class ReservationController {
     private static ReservationController instance = null;
@@ -31,17 +37,29 @@ public class ReservationController {
     private ProductController pc = ProductController.getInstance();
     private SupplierController sc = SupplierController.getInstance();
 
+    private ReceiptItemDAO receiptItemDAO;
+    private ReservationDAO reservationDAO;
+
     private ReservationController() {
         idToSupplierReservations = new HashMap<>();
         supplierIdToReservations = new HashMap<>();
         readyReservations = new ArrayList<>();
         lastId = 0;
+
+        receiptItemDAO = ReceiptItemDAO.getInstance();
+        reservationDAO = ReservationDAO.getInstance();
     }
 
     public static ReservationController getInstance() {
         if (instance == null)
             instance = new ReservationController();
         return instance;
+    }
+
+    public ReservationDTO createReservationDTO(int reservationId, int supplierId, int destinationBranch,
+            Contact contact, List<ReceiptItemDTO> receipt) {
+        return new ReservationDTO(reservationId, supplierId, LocalDate.now(), Status.NOTREADY, destinationBranch,
+                contact.getContactDTO(), receipt);
     }
 
     public void makeManualReservation(Map<Integer, Map<Integer, Integer>> supplierToproductToAmount,
@@ -52,7 +70,9 @@ public class ReservationController {
         for (int supplierId : supplierToproductToAmount.keySet()) {
             Map<Integer, Integer> productToAmount = supplierToproductToAmount.get(supplierId);
             Contact contact = sc.getRandomContactOf(supplierId);
-            Reservation r = new Reservation(reservationId, supplierId, new ArrayList<>(), contact, destinationBranch);
+            ReservationDTO rDTO = createReservationDTO(reservationId, supplierId, destinationBranch, contact,
+                    new ArrayList<>());
+            Reservation r = new Reservation(rDTO, contact, new ArrayList<>());
 
             for (int productId : productToAmount.keySet()) {
                 int amount = productToAmount.get(productId);
@@ -65,13 +85,11 @@ public class ReservationController {
                 double pricePerUnitBeforeDiscount = agreement.getBasePrice();
                 double pricePerUnitAfterDiscount = agreement.getPrice(amount);
                 ReceiptItemDTO receiptItemDTO = new ReceiptItemDTO(reservationId, productId, amount,
-                        pricePerUnitBeforeDiscount,
-                        pricePerUnitAfterDiscount);
-                ReceiptItemDAO.getInstance().insert(receiptItemDTO);
-                ReceiptItem item = new ReceiptItem(receiptItemDTO);
+                        pricePerUnitBeforeDiscount, pricePerUnitAfterDiscount);
+                Product product = ProductController.getInstance().getProductById(productId);
+                ReceiptItem item = new ReceiptItem(receiptItemDTO, product);
                 r.addReceiptItem(item);
             }
-
             // calculate final discount
             List<ReceiptItem> items = r.getReceipt();
             sc.calculateSupplierDiscount(supplierId, items);
@@ -80,21 +98,27 @@ public class ReservationController {
 
         // if everything went well, add the reservation to the system
         addPartialReservations(finalOrder);
-
     }
 
-    private void addPartialReservations(List<Reservation> reservations) {
+    private void addPartialReservations(List<Reservation> reservations) throws SQLException {
         for (Reservation r : reservations)
             addPartialReservation(r);
     }
 
-    private void addPartialReservation(Reservation reservation) {
+    private void addPartialReservation(Reservation reservation) throws SQLException {
+        reservationDAO.insert(reservation.getDto());
+        for (ReceiptItemDTO dto : reservation.getDto().getReceipt())
+            receiptItemDAO.insert(dto);
+        savePartialReservation(reservation);
+    }
+
+    private void savePartialReservation(Reservation reservation) {
         idToSupplierReservations.computeIfAbsent(reservation.getId(), k -> new ArrayList<>()).add(reservation);
         supplierIdToReservations.computeIfAbsent(reservation.getSupplierId(), k -> new ArrayList<>()).add(reservation);
     }
 
     public void makeDeficiencyReservation(Map<Integer, Integer> productToAmount, Integer destinationBranch)
-            throws SuppliersException {
+            throws SuppliersException, SQLException {
         int reservationId = getNextIdAndIncrement();
         Map<Integer, Reservation> supToReservation = maxReservationPerSupplier(productToAmount, destinationBranch,
                 reservationId);
@@ -132,7 +156,7 @@ public class ReservationController {
     }
 
     private Map<Integer, Reservation> maxReservationPerSupplier(Map<Integer, Integer> productToAmount,
-            Integer destinationBranch, int reservationId) throws SuppliersException {
+            Integer destinationBranch, int reservationId) throws SuppliersException, SQLException {
         Map<Integer, Reservation> supplierToReservation = new HashMap<>();
 
         for (int productId : productToAmount.keySet()) {
@@ -145,7 +169,9 @@ public class ReservationController {
                 Reservation r = supplierToReservation.get(supplierId);
                 if (r == null) {
                     Contact contact = sc.getRandomContactOf(supplierId);
-                    r = new Reservation(reservationId, supplierId, new ArrayList<>(), contact, destinationBranch);
+                    ReservationDTO rDTO = createReservationDTO(reservationId, supplierId, destinationBranch, contact,
+                            new ArrayList<>());
+                    r = new Reservation(rDTO, contact, new ArrayList<>());
                     supplierToReservation.put(supplierId, r);
                 }
 
@@ -155,7 +181,8 @@ public class ReservationController {
                 double pricePerUnitAfterDiscount = agreement.getPrice(maxAmount);
                 ReceiptItemDTO receiptItemDTO = new ReceiptItemDTO(reservationId, productId, maxAmount,
                         pricePerUnitBeforeDiscount, pricePerUnitAfterDiscount);
-                r.addReceiptItem(new ReceiptItem(receiptItemDTO));
+                Product product = ProductController.getInstance().getProductById(productId);
+                r.addReceiptItem(new ReceiptItem(receiptItemDTO, product));
             }
         }
 
@@ -169,7 +196,7 @@ public class ReservationController {
     }
 
     private Reservation getMostAttractiveReservationAndRemove(Map<Integer, Reservation> supToReservation)
-            throws SuppliersException {
+            throws SuppliersException, SQLException {
         // min time
         // min num of suppliers
         // min total price
@@ -210,45 +237,75 @@ public class ReservationController {
         return lastId++;
     }
 
-    public void cancelReservation(int reservationId) throws SuppliersException {
-        for (Reservation r : idToSupplierReservations.get(reservationId))
+    public void cancelReservation(int reservationId) throws SuppliersException, SQLException {
+        for (Reservation r : idToSupplierReservations.get(reservationId)) {
+            r.getDto().setStatus(Status.ABORTED);
+            reservationDAO.update(r.getDto());
             r.cancel();
+        }
     }
 
-    public void makeReservationReady(int reservationId) throws SuppliersException {
+    public void makeReservationReady(int reservationId) throws SuppliersException, SQLException {
         for (Reservation r : idToSupplierReservations.get(reservationId)) {
+            r.getDto().setStatus(Status.READY);
+            reservationDAO.update(r.getDto());
             r.makeReady();
             readyReservations.add(r.getSupplierId());
         }
     }
 
-    public void closeReservation(int reservationId) throws SuppliersException {
-        for (Reservation r : idToSupplierReservations.get(reservationId))
+    public void closeReservation(int reservationId) throws SuppliersException, SQLException {
+        for (Reservation r : idToSupplierReservations.get(reservationId)) {
+            r.getDto().setStatus(Status.CLOSED);
+            reservationDAO.update(r.getDto());
             r.close();
+        }
     }
 
-    public List<Reservation> getReservationReceipt(int reservationId) throws SuppliersException {
-        if (!idToSupplierReservations.containsKey(reservationId))
-            throw new SuppliersException("No reservation with id " + reservationId + " found.");
+    private Reservation createReservationFromDTO(ReservationDTO rDTO) throws SQLException {
+        List<ReceiptItem> receipt = new ArrayList<>();
+        for (ReceiptItemDTO itemDTO : rDTO.getReceipt()) {
+            Product product = ProductController.getInstance().getProductById(itemDTO.getProductId());
+            receipt.add(new ReceiptItem(itemDTO, product));
+        }
+        int supplierId = rDTO.getSupplierId();
+        String contactPhone = rDTO.getContact().getPhone();
+        Contact contact = SupplierController.getInstance().getContactOfSupplier(supplierId, contactPhone);
+        return new Reservation(rDTO, contact, receipt);
+    }
+
+    public List<Reservation> getReservationReceipt(int reservationId) throws SuppliersException, SQLException {
+        // load all data
+        List<ReservationDTO> fullreservationDTOs = reservationDAO.getFullReservation(reservationId);
+        for (ReservationDTO rDTO : fullreservationDTOs) {
+            Reservation r = createReservationFromDTO(rDTO);
+            savePartialReservation(r);
+        }
 
         return idToSupplierReservations.get(reservationId);
     }
 
-    public List<Reservation> getSupplierReservations(int supplierId) {
-        if (!supplierIdToReservations.containsKey(supplierId))
-            return new ArrayList<>();
+    public List<Reservation> getSupplierReservations(int supplierId) throws SQLException {
+        List<ReservationDTO> reservations = reservationDAO.getSupplierReservations(supplierId);
+        for (ReservationDTO rDTO : reservations) {
+            Reservation r = createReservationFromDTO(rDTO);
+            savePartialReservation(r);
+        }
         return supplierIdToReservations.get(supplierId);
     }
 
-    public Map<Integer, List<Integer>> getReadySupplierToBranches() {
-        Map<Integer, List<Integer>> output = new HashMap<>();
-        for (Integer reservationId : readyReservations) {
-            List<Reservation> subReservations = idToSupplierReservations.get(reservationId);
-            for (Reservation r : subReservations)
-                output.computeIfAbsent(reservationId, k -> new ArrayList<>()).add(r.getDestination());
-        }
-        return output;
-    }
+    // TODO: delete this?
+    // public Map<Integer, List<Integer>> getReadySupplierToBranches() {
+    // Map<Integer, List<Integer>> output = new HashMap<>();
+    // for (Integer reservationId : readyReservations) {
+    // List<Reservation> subReservations =
+    // idToSupplierReservations.get(reservationId);
+    // for (Reservation r : subReservations)
+    // output.computeIfAbsent(reservationId, k -> new
+    // ArrayList<>()).add(r.getDestination());
+    // }
+    // return output;
+    // }
 
     public void clearData() {
         idToSupplierReservations.clear();

@@ -12,6 +12,7 @@ import DataAccessLayer.DTOs.ProductBranchDTO;
 import DataAccessLayer.DTOs.ReportDTO;
 
 public class DeficiencyReportEntryDAO extends DAO<DeficiencyReportEntryDTO> {
+    private static DeficiencyReportEntryDAO instance = null;
     private Repository repo;
     private ProductBranchDAO productBranchDAO;
     private ReportDAO reportDAO;
@@ -23,10 +24,16 @@ public class DeficiencyReportEntryDAO extends DAO<DeficiencyReportEntryDTO> {
         reportDAO = ReportDAO.getInstance();
     }
 
+    public static DeficiencyReportEntryDAO getInstance() {
+        if (instance == null)
+            instance = new DeficiencyReportEntryDAO();
+        return instance;
+    }
+
     @Override
     public DeficiencyReportEntryDTO makeDTO(ResultSet rs) throws SQLException {
         if (!rs.next())
-            throw new SQLException("Can't make DTO from nothing!");
+            return null;
 
         int reportId = rs.getInt("reportId");
         int productId = rs.getInt("productId");

@@ -42,6 +42,10 @@ public class ReservationDTO implements DTO {
         return status;
     }
 
+    public void setStatus(Status status) {
+        this.status = status;
+    }
+
     public int getDestinationBranchId() {
         return destinationBranchId;
     }
@@ -52,6 +56,10 @@ public class ReservationDTO implements DTO {
 
     public List<ReceiptItemDTO> getReceipt() {
         return receipt;
+    }
+
+    public void setReceipt(List<ReceiptItemDTO> receipt) {
+        this.receipt = receipt;
     }
 
     @Override

@@ -71,6 +71,7 @@ public class SpecificProduct {
 
     public void setSellPrice(double sellPrice) {
         this.sellPrice = sellPrice;
+        this.specificProductDTO.updateSellPrice(sellPrice);
     }
 
     public ProductStatus.status getStatus() {
@@ -105,5 +106,9 @@ public class SpecificProduct {
 
     public boolean getIsExpired() {
         return this.expiredDate.isBefore(LocalDate.now().plusDays(1));
+    }
+
+    public SpecificProductDTO getSpecificProductDTO() {
+        return specificProductDTO;
     }
 }

@@ -67,49 +67,29 @@ public class PeriodicReservation {
         return true;
     }
 
-    public boolean changeAmount(int supplierId,int productCode, int amount, int minQuantity, int totalQuantity) throws Exception {
+    public boolean changeAmount(int productCode, int amount, int minQuantity, int totalQuantity) throws Exception {
         if (!productsToAmounts.containsKey(productCode))
             throw new Exception("this product not exist");
         if (!productController.productExists(productCode))
             throw new Exception("this product doesn't exist on suppliers");
-        PeriodicReservationItemDAO periodicReservationItemDAO = PeriodicReservationItemDAO.getInstance();
-        PeriodicReservationItemDTO periodicReservationItemDTO = periodicReservationItemDAO.getById(supplierId,branchId,productCode);
+//        PeriodicReservationItemDAO periodicReservationItemDAO = PeriodicReservationItemDAO.getInstance();
+//        PeriodicReservationItemDTO periodicReservationItemDTO = periodicReservationItemDAO.getById(supplierId,branchId,productCode);
         if (amount + totalQuantity < minQuantity)
             return false;
-        periodicReservationItemDTO.updateAmount(amount);
+//        periodicReservationItemDTO.updateAmount(amount);
         productsToAmounts.put(productCode, amount);
         return true;
     }
 
     public boolean addAmount(int productCode, int amount, int minQuantity, int totalQuantity) throws Exception {
-        if (!productsToAmounts.containsKey(productCode))
-            throw new Exception("this product not exist");
-        if (!productController.productExists(productCode))
-            throw new Exception("this product doesn't exist on suppliers");
         int currentAmount = productsToAmounts.get(productCode);
-        if (amount + currentAmount + totalQuantity < minQuantity)
-            return false;
         int totalAmount = amount + currentAmount;
-        PeriodicReservationItemDAO periodicReservationItemDAO = PeriodicReservationItemDAO.getInstance();
-        PeriodicReservationItemDTO periodicReservationItemDTO = periodicReservationItemDAO.getById(supplierId,branchId,productCode);
-        periodicReservationItemDTO.updateAmount(totalAmount);
-        productsToAmounts.put(productCode, totalAmount);
-        return true;
+        return changeAmount(productCode, totalAmount,minQuantity,totalQuantity);
     }
 
     public boolean reduceAmount(int productCode, int amount, int minQuantity, int totalQuantity) throws Exception {
-        if (!productsToAmounts.containsKey(productCode))
-            throw new Exception("this product not exist");
-        if (!productController.productExists(productCode))
-            throw new Exception("this product doesn't exist on suppliers");
         int currentAmount = productsToAmounts.get(productCode);
-        if (amount - currentAmount + totalQuantity < minQuantity)
-            return false;
-        int totalAmount = currentAmount - amount;
-        PeriodicReservationItemDAO periodicReservationItemDAO = PeriodicReservationItemDAO.getInstance();
-        PeriodicReservationItemDTO periodicReservationItemDTO = periodicReservationItemDAO.getById(supplierId,branchId,productCode);
-        periodicReservationItemDTO.updateAmount(Math.max(0,totalAmount));
-        productsToAmounts.put(productCode, Math.max(0,totalAmount));
-        return true;
+        int totalAmount = Math.max(0,currentAmount - amount);
+        return changeAmount(productCode, totalAmount,minQuantity,totalQuantity);
     }
 }

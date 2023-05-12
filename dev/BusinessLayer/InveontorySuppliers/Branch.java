@@ -41,7 +41,8 @@ public class Branch {
         this.branchId = branchDTO.getId();
         this.branchName = branchDTO.getName();
         this.allProductBranches = new HashMap<>();
-        this.periodicReservations = new ArrayList<>();
+        HashMap<Integer,PeriodicReservation> res = new HashMap<>();
+        this.supplierToPeriodicReservations = new HashMap<>();
         this.categoryController = CategoryController.getInstance();
         this.minAmountForDeficiencyReservation = branchDTO.getMinAmount();
     }
@@ -99,13 +100,14 @@ public void addNewProductBranch(ProductBranchDTO productBranchDTO) throws SQLExc
         return toDao;
     }
 
-    public void sellProduct(int code, int specificId) throws Exception {
+    public SpecificProduct sellProduct(int code, int specificId) throws Exception {
         ProductBranch productBranch = allProductBranches.get(code);
         if (productBranch == null)
             throw new Exception("this product doesn't exist");
-        productBranch.sellProduct(specificId);
+        SpecificProduct sp =productBranch.sellProduct(specificId);
         checkDeficiencyAfterUpdate(productBranch);
         CheckForDeficiencyReservation();
+        return sp;
     }
 
     public void CheckForDeficiencyReservation() throws SQLException {
@@ -140,13 +142,14 @@ public void addNewProductBranch(ProductBranchDTO productBranchDTO) throws SQLExc
         return allExpiredProducts;
     }
 
-    public void reportFlawProduct(int productCode, int specificId, String description) throws Exception {
+    public ProductBranch reportFlawProduct(int productCode, int specificId, String description) throws Exception {
         ProductBranch productBranch = allProductBranches.get(productCode);
         if (productBranch == null)
             throw new Exception("this product doesn't exist in the branch");
         productBranch.reportFlawProduct(specificId, description);
         checkDeficiencyAfterUpdate(productBranch);
         CheckForDeficiencyReservation();
+        return productBranch;
 
     }
 
@@ -256,14 +259,14 @@ public void addNewProductBranch(ProductBranchDTO productBranchDTO) throws SQLExc
      * @param day
      * @return
      */
-    public PeriodicReservationDTO addNewPeriodicReservation(int supplierId, ProductStatus.Day day){
+    public BranchDTO addNewPeriodicReservation(int supplierId, ProductStatus.Day day){
         SupplierController supplierController = SupplierController.getInstance();
         List<PeriodicReservationItemDTO> lst = new ArrayList<>();
         PeriodicReservationDTO periodicReservationDTO = new PeriodicReservationDTO(supplierId,branchId,day,lst);
         branchDTO.addNewPeriodicReservation(periodicReservationDTO);
         PeriodicReservation periodic = supplierController.addNewPeriodicReservation(periodicReservationDTO);
         supplierToPeriodicReservations.put(supplierId,periodic);
-        return periodicReservationDTO;
+        return branchDTO;
     }
 
     /**
@@ -273,10 +276,11 @@ public void addNewProductBranch(ProductBranchDTO productBranchDTO) throws SQLExc
      * @param amount
      * @throws Exception
      */
-    public void addProductToPeriodicReservation(int supplierId,int productCode, int amount) throws Exception {
-        PeriodicReservationDAO periodicReservationDAO = PeriodicReservationDAO.getInstance();
-        PeriodicReservationDTO periodicReservationDTO = periodicReservationDAO.getById(supplierId,branchId);
-        PeriodicReservationItemDTO periodicReservationItemDTO = new PeriodicReservationItemDTO(supplierId,branchId,productCode,amount);
+    public boolean addProductToPeriodicReservation(int supplierId,int productCode, int amount) throws Exception {
+        boolean res = false;
+//        PeriodicReservationDAO periodicReservationDAO = PeriodicReservationDAO.getInstance();
+//        PeriodicReservationDTO periodicReservationDTO = periodicReservationDAO.getById(supplierId,branchId);
+//        PeriodicReservationItemDTO periodicReservationItemDTO = new PeriodicReservationItemDTO(supplierId,branchId,productCode,amount);
         PeriodicReservation pr = supplierToPeriodicReservations.get(supplierId);
         if (checkTime(pr)) {
             ProductBranch productBranch = allProductBranches.get(productCode);
@@ -284,53 +288,64 @@ public void addNewProductBranch(ProductBranchDTO productBranchDTO) throws SQLExc
                 throw new Exception("product doesn't exist");
             int minQuantity = productBranch.getMinQuantity();
             int totalQuantity = productBranch.getTotalAmount();
-            periodicReservationDTO.addProductAndAmount(periodicReservationItemDTO);
-            supplierToPeriodicReservations.get(supplierId).addNewProduct(productCode, amount, minQuantity, totalQuantity);
+//            periodicReservationDTO.addProductAndAmount(periodicReservationItemDTO);
+           res = supplierToPeriodicReservations.get(supplierId).addNewProduct(productCode, amount, minQuantity, totalQuantity);
+
         } else {
             throw new Exception("You cannot edit periodic reservation in less then 24 hours");
         }
+        return res;
     }
 
-    public void changeAmountPeriodicReservation(int supplierId,int productCode, int amount) throws Exception {
-        PeriodicReservationDAO periodicReservationDAO = PeriodicReservationDAO.getInstance();
-        PeriodicReservationDTO periodicReservationDTO = periodicReservationDAO.getById(supplierId,branchId);
+    public boolean changeAmountPeriodicReservation(int supplierId,int productCode, int amount) throws Exception {
+       boolean res = false;
+//        PeriodicReservationDAO periodicReservationDAO = PeriodicReservationDAO.getInstance();
+//        PeriodicReservationDTO periodicReservationDTO = periodicReservationDAO.getById(supplierId,branchId);
         PeriodicReservation pr = supplierToPeriodicReservations.get(supplierId);
         ProductBranch productBranch = allProductBranches.get(productCode);
         if (productBranch == null)
             throw new Exception("product doesn't exist");
         int minQuantity = productBranch.getMinQuantity();
         int totalQuantity = productBranch.getTotalAmount();
-        boolean res = supplierToPeriodicReservations.get(supplierId).changeAmount(supplierId,productCode, amount, minQuantity, totalQuantity);
+         res = supplierToPeriodicReservations.get(supplierId).changeAmount(productCode, amount, minQuantity, totalQuantity);
         if(!res)
             throw new Exception("the total quantity will be less then the min quantity");
+        else
+            return true;
     }
 
-    public void addAmountPeriodicReservation(int supplierId,int productCode, int amount) throws Exception {
-        PeriodicReservationDAO periodicReservationDAO = PeriodicReservationDAO.getInstance();
-        PeriodicReservationDTO periodicReservationDTO = periodicReservationDAO.getById(supplierId,branchId);
+    public boolean addAmountPeriodicReservation(int supplierId,int productCode, int amount) throws Exception {
+        boolean res = false;
+//        PeriodicReservationDAO periodicReservationDAO = PeriodicReservationDAO.getInstance();
+//        PeriodicReservationDTO periodicReservationDTO = periodicReservationDAO.getById(supplierId,branchId);
         PeriodicReservation pr = supplierToPeriodicReservations.get(supplierId);
         ProductBranch productBranch = allProductBranches.get(productCode);
         if (productBranch == null)
             throw new Exception("product doesn't exist");
         int minQuantity = productBranch.getMinQuantity();
         int totalQuantity = productBranch.getTotalAmount();
-        boolean res = supplierToPeriodicReservations.get(supplierId).addAmount(productCode, amount, minQuantity, totalQuantity);
+         res = supplierToPeriodicReservations.get(supplierId).addAmount(productCode, amount, minQuantity, totalQuantity);
         if(!res)
             throw new Exception("the total quantity will be less then the min quantity");
+        else
+            return true;
     }
 
-    public void reduceAmountPeriodicReservation(int supplierId,int productCode, int amount) throws Exception {
-        PeriodicReservationDAO periodicReservationDAO = PeriodicReservationDAO.getInstance();
-        PeriodicReservationDTO periodicReservationDTO = periodicReservationDAO.getById(supplierId,branchId);
+    public boolean reduceAmountPeriodicReservation(int supplierId,int productCode, int amount) throws Exception {
+        boolean res = false;
+//        PeriodicReservationDAO periodicReservationDAO = PeriodicReservationDAO.getInstance();
+//        PeriodicReservationDTO periodicReservationDTO = periodicReservationDAO.getById(supplierId,branchId);
         PeriodicReservation pr = supplierToPeriodicReservations.get(supplierId);
         ProductBranch productBranch = allProductBranches.get(productCode);
         if (productBranch == null)
             throw new Exception("product doesn't exist");
         int minQuantity = productBranch.getMinQuantity();
         int totalQuantity = productBranch.getTotalAmount();
-        boolean res = supplierToPeriodicReservations.get(supplierId).reduceAmount(productCode, amount, minQuantity, totalQuantity);
+         res = supplierToPeriodicReservations.get(supplierId).reduceAmount(productCode, amount, minQuantity, totalQuantity);
         if(!res)
             throw new Exception("the total quantity will be less then the min quantity");
+        else
+            return true;
     }
 
     // Dealing with discount - both on products and categories
@@ -579,5 +594,13 @@ public void addNewProductBranch(ProductBranchDTO productBranchDTO) throws SQLExc
 
 
         return productsToAmount;
+    }
+
+    public PeriodicReservation getPeriodicReservation(int supplierId) {
+        return supplierToPeriodicReservations.get(supplierId);
+    }
+
+    public BranchDTO getBranchDTO() {
+        return this.branchDTO;
     }
 }

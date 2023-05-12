@@ -91,4 +91,8 @@ public LocalDate getExpDate() {
     public void updateDescription(String flawDescription) {
     this.flaw = flawDescription;
     }
+
+    public void updateSellPrice(double sellPrice) {
+        this.sellPrice = sellPrice;
+    }
 }

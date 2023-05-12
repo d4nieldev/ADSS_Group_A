@@ -1,6 +1,6 @@
 package BusinessLayer.InveontorySuppliers;
 
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -8,24 +8,28 @@ import java.util.stream.Collectors;
 import BusinessLayer.Suppliers.Contact;
 import BusinessLayer.enums.Status;
 import BusinessLayer.exceptions.SuppliersException;
+import DataAccessLayer.DTOs.ReservationDTO;
 
 public class Reservation {
     private int id;
     private int supplierId;
-    private Date date;
+    private LocalDate date;
     private Status status;
     private int destinationBranchId;
     private Contact contact;
     private List<ReceiptItem> receipt;
 
-    public Reservation(int id, int supplier_id, List<ReceiptItem> receipt, Contact contact, Integer destinationBranchId) {
-        this.id = id;
-        this.supplierId = supplier_id;
-        this.date = new Date();
-        this.status = Status.NOTREADY;
-        this.receipt = receipt;
+    private ReservationDTO dto;
+
+    public Reservation(ReservationDTO dto, Contact contact, List<ReceiptItem> receipt) {
+        this.dto = dto;
+        this.id = dto.getId();
+        this.supplierId = dto.getSupplierId();
+        this.date = dto.getDate();
+        this.status = dto.getStatus();
+        this.destinationBranchId = dto.getDestinationBranchId();
         this.contact = contact;
-        this.destinationBranchId = destinationBranchId;
+        this.receipt = receipt;
     }
 
     public void cancel() throws SuppliersException {
@@ -72,6 +76,10 @@ public class Reservation {
         return this.destinationBranchId;
     }
 
+    public ReservationDTO getDto() {
+        return dto;
+    }
+
     public double getPriceBeforeDiscount() {
         double sum = 0.0;
         for (ReceiptItem item : receipt)
@@ -90,6 +98,7 @@ public class Reservation {
 
     public void addReceiptItem(ReceiptItem item) {
         this.receipt.add(item);
+        this.dto.getReceipt().add(item.getDTO());
     }
 
     public int getTotalAmount() {
@@ -105,12 +114,14 @@ public class Reservation {
             if (productToAmount.containsKey(productId)) {
                 int amount = Math.min(item.getAmount(), productToAmount.get(productId));
                 item.setAmount(amount);
+                item.getDTO().setAmount(amount);
             }
         }
 
         receipt = receipt.stream()
                 .filter(item -> productToAmount.containsKey(item.getProduct().getId()) && item.getAmount() > 0)
                 .collect(Collectors.toList());
+        dto.setReceipt(receipt.stream().map(item -> item.getDTO()).collect(Collectors.toList()));
     }
 
     public static String reservationsToString(List<Reservation> reservations) {

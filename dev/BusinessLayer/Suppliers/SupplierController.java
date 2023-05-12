@@ -9,10 +9,7 @@ import java.util.TreeMap;
 import BusinessLayer.Inventory.ProductStatus;
 import BusinessLayer.InveontorySuppliers.*;
 import BusinessLayer.exceptions.SuppliersException;
-import DataAccessLayer.DAOs.ContactDAO;
-import DataAccessLayer.DAOs.FixedDaysSupplierDAO;
-import DataAccessLayer.DAOs.OnOrderSuppliersDAO;
-import DataAccessLayer.DAOs.SelfPickUpSupplierDAO;
+import DataAccessLayer.DAOs.*;
 import DataAccessLayer.DTOs.ContactDTO;
 import DataAccessLayer.DTOs.DiscountDTO;
 import DataAccessLayer.DTOs.FixedDaysSupplierDTO;
@@ -20,7 +17,6 @@ import DataAccessLayer.DTOs.OnOrderSuppliersDTO;
 import DataAccessLayer.DTOs.PeriodicReservationDTO;
 import DataAccessLayer.DTOs.SelfPickUpSupplierDTO;
 import DataAccessLayer.DTOs.SupplierDTO;
-import DataAccessLayer.DAOs.ProductAgreementDAO;
 import DataAccessLayer.DTOs.ProductAgreementDTO;
 
 import java.util.List;
@@ -90,13 +86,18 @@ public class SupplierController {
     }
 
     // Getter for Supplier by id
-    public Supplier getSupplierById(int supplierId) throws SuppliersException, SQLException {
+    public Supplier getSupplierById(int supplierId) throws SuppliersException {
         if (supplierId < 0)
             throw new SuppliersException("Supplier with negative id is illegal in the system.");
         if (idToSupplier.containsKey(supplierId)) {
             return idToSupplier.get(supplierId);
         } else {
-            Supplier s = LoadSupplierFromData(supplierId);
+            Supplier s;
+            try {
+                s = LoadSupplierFromData(supplierId);
+            } catch (SQLException e) {
+                throw new SuppliersException("A database error occurred while loading supplier " + supplierId);
+            }
             if (s != null) {
                 return s;
             } else {
@@ -490,12 +491,18 @@ public class SupplierController {
         idToSupplier.clear();
         nextSupplierIdInSystem = 0;
     }
-    public PeriodicReservation addPeriodicReservation(int supplierId, int branchId, ProductStatus.Day day) {
-        //TODO : create new PeriodicReservation and return the object.
-        PeriodicReservationDTO periodicReservationDTO = new PeriodicReservationDTO(supplierId,branchId,day);
+
+    public PeriodicReservation addNewPeriodicReservation(PeriodicReservationDTO periodicReservationDTO) {
+        // TODO : create new PeriodicReservation and return the object.
+        List<PeriodicReservationItemDAO> lst = new ArrayList<>();
         PeriodicReservation periodicReservation = new PeriodicReservation(periodicReservationDTO);
         // add it to the needed Hashmaps.
         return null;
+    }
+
+    public Contact getContactOfSupplier(int supplierId, String phone) {
+        // TODO: implement this method
+        throw new IllegalStateException("Not implemented");
     }
 
 }

@@ -42,10 +42,14 @@ public class Product {
     public int geCategoryId() {
         return categoryId;
     }
-    public Category getCategory(){
+
+    public Category getCategory() {
         CategoryController categoryController = CategoryController.getInstance();
         return categoryController.getCategoryById(categoryId);
+    }
 
+    public int getCategoryId() {
+        return categoryId;
     }
 
     public ProductDTO getDTO() {

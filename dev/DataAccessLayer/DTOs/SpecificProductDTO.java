@@ -20,7 +20,7 @@ private LocalDate expDate;
 private LocalDate arrivedDate;
 
 
-public SpecificProductDTO(int specificId, int generalId, int branchId, double buyPrice, double sellPrice,  ProductStatus.status status, String flaw, LocalDate expDate,LocalDate arrivedDate) {
+public SpecificProductDTO(int specificId, int generalId, int branchId, double buyPrice, double sellPrice, ProductStatus.status status, String flaw, LocalDate expDate, LocalDate arrivedDate) {
    
     this.specificId = specificId;
     this.generalId = generalId;

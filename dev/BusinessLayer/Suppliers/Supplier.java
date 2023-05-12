@@ -5,6 +5,7 @@ import java.util.TreeMap;
 import BusinessLayer.InveontorySuppliers.Discount;
 import BusinessLayer.InveontorySuppliers.DiscountFixed;
 import BusinessLayer.InveontorySuppliers.DiscountPercentage;
+import BusinessLayer.InveontorySuppliers.PeriodicReservation;
 import BusinessLayer.exceptions.SuppliersException;
 import DataAccessLayer.DAOs.ContactDAO;
 import DataAccessLayer.DTOs.ContactDTO;

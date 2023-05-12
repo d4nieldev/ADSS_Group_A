@@ -14,7 +14,9 @@ import DataAccessLayer.DTOs.SpecificProductDTO;
 import java.sql.SQLException;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 public class Branch {
     private int branchId;
@@ -138,17 +140,6 @@ public void addNewProductBranch(ProductBranchDTO productBranchDTO) throws SQLExc
         CheckForDeficiencyReservation();
         return allExpiredProducts;
     }
-
-//    public HashMap<Integer, List<SpecificProduct>> getExpiredProductsByProductsList(List<SpecificProductDTO> specipicProducts){
-//        HashMap<Integer, List<SpecificProduct>> allExpiredProducts = new HashMap<>();
-//        for (ProductBranch productBranch : allProductBranches.values()) {
-//            List<SpecificProduct> expiredProducts = productBranch.getAllExpired(specipicProducts);
-//            allExpiredProducts.put(productBranch.getCode(), expiredProducts);
-//            checkDeficiencyAfterUpdate(productBranch);
-//        }
-//        CheckForDeficiencyReservation();
-//        return allExpiredProducts;
-//    }
 
     public void reportFlawProduct(int productCode, int specificId, String description) throws Exception {
         ProductBranch productBranch = allProductBranches.get(productCode);
@@ -449,63 +440,20 @@ public void addNewProductBranch(ProductBranchDTO productBranchDTO) throws SQLExc
         return idsToStorageAmount;
     }
 
-//    public HashMap<Integer, HashMap<Integer, LocalDate>> getBranchesExpired() {
-//        HashMap<Integer, HashMap<Integer, LocalDate>> result = new HashMap<>();
-//        HashMap<Integer, List<SpecificProduct>> productSpecificsExpired = getExpiredProducts();
-//        for (Integer productCode : productSpecificsExpired.keySet()) {
-//            HashMap<Integer, LocalDate> expired = new HashMap<>();
-//            for (SpecificProduct specificProduct : productSpecificsExpired.get(productCode)) {
-//                int specificId = specificProduct.getSpecificId();
-//                LocalDate expiredDate = specificProduct.getExpiredDate();
-//                expired.put(specificId, expiredDate);
-//            }
-//            result.put(productCode, expired);
-//        }
-//
-//        return result;
-//    }
-
-//    public HashMap<Integer, HashMap<Integer, LocalDate>> getBranchesExpiredBySpecificProductList(List<SpecificProductDTO> expiredProducts) {
-//        HashMap<Integer, HashMap<Integer, LocalDate>> result = new HashMap<>();
-//        HashMap<Integer, List<SpecificProduct>> productSpecificsExpired = getExpiredProductsByProductsList(expiredProducts);
-//        for (Integer productCode : productSpecificsExpired.keySet()) {
-//            HashMap<Integer, LocalDate> expired = new HashMap<>();
-//            for (SpecificProduct specificProduct : productSpecificsExpired.get(productCode)) {
-//                int specificId = specificProduct.getSpecificId();
-//                LocalDate expiredDate = specificProduct.getExpiredDate();
-//                expired.put(specificId, expiredDate);
-//            }
-//            result.put(productCode, expired);
-//        }
-//
-//        return result;
-//    }
-
-    public HashMap<Integer, HashMap<Integer, LocalDate>> getBranchesExpiredBySpecificProductList(List<SpecificProductDTO> expiredProducts) {
+    public HashMap<Integer, HashMap<Integer, LocalDate>> getBranchesExpired() {
         HashMap<Integer, HashMap<Integer, LocalDate>> result = new HashMap<>();
-        Set<Integer> expiredProductBranchCodes = expiredProductBranchCode(expiredProducts);
-        for (Integer expiredProductBranchCode : expiredProductBranchCodes) {
+        HashMap<Integer, List<SpecificProduct>> productSpecificsExpired = getExpiredProducts();
+        for (Integer productCode : productSpecificsExpired.keySet()) {
             HashMap<Integer, LocalDate> expired = new HashMap<>();
-            for (SpecificProductDTO specificProductDTO : expiredProducts) {
-                if(specificProductDTO.getGeneralId() == expiredProductBranchCode){
-                    int specificId = specificProductDTO.getSpecificId();
-                    LocalDate expiredDate = specificProductDTO.getExpDate();
-                    expired.put(specificId, expiredDate);
-                }
+            for (SpecificProduct specificProduct : productSpecificsExpired.get(productCode)) {
+                int specificId = specificProduct.getSpecificId();
+                LocalDate expiredDate = specificProduct.getExpiredDate();
+                expired.put(specificId, expiredDate);
             }
-            result.put(expiredProductBranchCode, expired);
+            result.put(productCode, expired);
         }
 
         return result;
-    }
-
-    public Set<Integer> expiredProductBranchCode(List<SpecificProductDTO> expiredProducts){
-        Set<Integer> expiredProductBranchCodes = new HashSet();
-        for (SpecificProductDTO specificProductDTO : expiredProducts) {
-            Integer code = specificProductDTO.getGeneralId();
-            expiredProductBranchCodes.add(code);
-        }
-        return expiredProductBranchCodes;
     }
 
     public HashMap<Integer, HashMap<Integer, String>> getBranchFlawsIdsToDescription() {

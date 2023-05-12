@@ -41,4 +41,8 @@ public class PeriodicReservationItemDTO implements DTO {
     public int getAmount() {
         return amount;
     }
+
+    public void updateAmount(int amount) {
+        this.amount = amount;
+    }
 }

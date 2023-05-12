@@ -169,6 +169,11 @@ public class BranchController {
         return productFromCategories;
     }
 
+    public void addNewPeriodicReservation(int branchId,int supplierId, ProductStatus.Day day){
+        Branch branch = allBranches.get(branchId);
+        branch.addNewPeriodicReservation(supplierId,day);
+    }
+
 
 }
 

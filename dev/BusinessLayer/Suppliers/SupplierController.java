@@ -492,10 +492,9 @@ public class SupplierController {
         nextSupplierIdInSystem = 0;
     }
 
-    public PeriodicReservation addNewPeriodicReservation(int supplierId, int branchId, ProductStatus day) {
+    public PeriodicReservation addNewPeriodicReservation(PeriodicReservationDTO periodicReservationDTO) {
         // TODO : create new PeriodicReservation and return the object.
         List<PeriodicReservationItemDAO> lst = new ArrayList<>();
-        PeriodicReservationDTO periodicReservationDTO = new PeriodicReservationDTO(supplierId, branchId, day,lst);
         PeriodicReservation periodicReservation = new PeriodicReservation(periodicReservationDTO);
         // add it to the needed Hashmaps.
         return null;

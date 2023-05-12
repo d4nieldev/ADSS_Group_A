@@ -9,13 +9,13 @@ public class BranchDTO implements DTO {
     private int id;
     private String name;
     private int minAmount; //min amount to perform deficiency order
-    private List<PeriodicReservationDTO> periodicReservationDTO;
+    private List<PeriodicReservationDTO> periodicReservationsDTO;
 
     public BranchDTO(int id, String name,int minAmount,List<PeriodicReservationDTO> periodicReservationDTO){
         this.id = id;
         this.name = name;
         this.minAmount = minAmount;
-        this.periodicReservationDTO = periodicReservationDTO;
+        this.periodicReservationsDTO = periodicReservationDTO;
     }
 
     public int getId() {
@@ -29,7 +29,7 @@ public class BranchDTO implements DTO {
         return minAmount;
     }
     public List<PeriodicReservationDTO> getAllPeriodicReservationDTO() {
-        return periodicReservationDTO;
+        return periodicReservationsDTO;
     }
     @Override
     public Map<String, String> getNameToVal() {
@@ -38,6 +38,9 @@ public class BranchDTO implements DTO {
         nameToVal.put("name", ""+ name);
         nameToVal.put("minAmount", ""+ minAmount);
         return nameToVal;
+    }
+    public void addNewPeriodicReservation(PeriodicReservationDTO periodicReservationDTO){
+        periodicReservationsDTO.add(periodicReservationDTO);
     }
 
 

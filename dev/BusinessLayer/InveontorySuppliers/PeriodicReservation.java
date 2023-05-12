@@ -5,10 +5,12 @@ import java.util.HashMap;
 import BusinessLayer.Inventory.BranchController;
 import BusinessLayer.Inventory.Global;
 import BusinessLayer.Inventory.ProductStatus;
+import DataAccessLayer.DAOs.PeriodicReservationItemDAO;
 import DataAccessLayer.DTOs.PeriodicReservationDTO;
+import DataAccessLayer.DTOs.PeriodicReservationItemDTO;
 
 public class PeriodicReservation {
-    private int id;
+    private int supplierId;
     private HashMap<Integer, Integer> productsToAmounts; // maps between product's code to amount to order
     private ProductStatus.Day day; // day for delivery;
     ProductController productController;
@@ -22,7 +24,7 @@ public class PeriodicReservation {
     // productController = ProductController.getInstance();
     // }
     public PeriodicReservation(PeriodicReservationDTO periodicReservationDTO) {
-        this.id = Global.getNewPeriodicId();
+        this.supplierId = periodicReservationDTO.getSupplierId();
         this.day = periodicReservationDTO.getDayOfOrder();
         this.branchId = periodicReservationDTO.getBranchId();
         Branch branch = BranchController.getInstance().getBranchById(getBranchId());
@@ -42,8 +44,8 @@ public class PeriodicReservation {
         return day;
     }
 
-    public int getId() {
-        return id;
+    public int getSupplierId() {
+        return supplierId;
     }
 
     public HashMap<Integer, Integer> getProductsToAmounts() {
@@ -65,13 +67,16 @@ public class PeriodicReservation {
         return true;
     }
 
-    public boolean changeAmount(int productCode, int amount, int minQuantity, int totalQuantity) throws Exception {
+    public boolean changeAmount(int supplierId,int productCode, int amount, int minQuantity, int totalQuantity) throws Exception {
         if (!productsToAmounts.containsKey(productCode))
             throw new Exception("this product not exist");
         if (!productController.productExists(productCode))
             throw new Exception("this product doesn't exist on suppliers");
+        PeriodicReservationItemDAO periodicReservationItemDAO = PeriodicReservationItemDAO.getInstance();
+        PeriodicReservationItemDTO periodicReservationItemDTO = periodicReservationItemDAO.getById(supplierId,branchId,productCode);
         if (amount + totalQuantity < minQuantity)
             return false;
+        periodicReservationItemDTO.updateAmount(amount);
         productsToAmounts.put(productCode, amount);
         return true;
     }
@@ -84,7 +89,11 @@ public class PeriodicReservation {
         int currentAmount = productsToAmounts.get(productCode);
         if (amount + currentAmount + totalQuantity < minQuantity)
             return false;
-        productsToAmounts.put(productCode, amount + currentAmount);
+        int totalAmount = amount + currentAmount;
+        PeriodicReservationItemDAO periodicReservationItemDAO = PeriodicReservationItemDAO.getInstance();
+        PeriodicReservationItemDTO periodicReservationItemDTO = periodicReservationItemDAO.getById(supplierId,branchId,productCode);
+        periodicReservationItemDTO.updateAmount(totalAmount);
+        productsToAmounts.put(productCode, totalAmount);
         return true;
     }
 
@@ -96,7 +105,11 @@ public class PeriodicReservation {
         int currentAmount = productsToAmounts.get(productCode);
         if (amount - currentAmount + totalQuantity < minQuantity)
             return false;
-        productsToAmounts.put(productCode, amount - currentAmount);
+        int totalAmount = currentAmount - amount;
+        PeriodicReservationItemDAO periodicReservationItemDAO = PeriodicReservationItemDAO.getInstance();
+        PeriodicReservationItemDTO periodicReservationItemDTO = periodicReservationItemDAO.getById(supplierId,branchId,productCode);
+        periodicReservationItemDTO.updateAmount(Math.max(0,totalAmount));
+        productsToAmounts.put(productCode, Math.max(0,totalAmount));
         return true;
     }
 }

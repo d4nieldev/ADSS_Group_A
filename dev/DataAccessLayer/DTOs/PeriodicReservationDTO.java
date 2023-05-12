@@ -54,4 +54,8 @@ public class PeriodicReservationDTO implements DTO{
         }
         return result;
     }
+    public void addProductAndAmount(PeriodicReservationItemDTO periodicReservationItemDTO){
+        this.allItems.add(periodicReservationItemDTO);
+    }
+
 }

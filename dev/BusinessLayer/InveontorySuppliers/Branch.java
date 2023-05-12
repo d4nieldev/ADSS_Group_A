@@ -4,11 +4,9 @@ import BusinessLayer.Inventory.*;
 import BusinessLayer.Suppliers.ReservationController;
 import BusinessLayer.Suppliers.SupplierController;
 import DataAccessLayer.DAOs.DiscountDAO;
+import DataAccessLayer.DAOs.PeriodicReservationDAO;
 import DataAccessLayer.DAOs.ProductsDAO;
-import DataAccessLayer.DTOs.BranchDTO;
-import DataAccessLayer.DTOs.DiscountDTO;
-import DataAccessLayer.DTOs.ProductBranchDTO;
-import DataAccessLayer.DTOs.SpecificProductDTO;
+import DataAccessLayer.DTOs.*;
 
 import java.sql.SQLException;
 import java.time.DayOfWeek;
@@ -21,7 +19,9 @@ public class Branch {
     private int branchId;
     private String branchName;
     private HashMap<Integer, ProductBranch> allProductBranches;// maps between productBranch generalId to its object
-    private List<PeriodicReservation> periodicReservations;
+//    private List<PeriodicReservation> periodicReservations;
+
+    private HashMap<Integer,PeriodicReservation> supplierToPeriodicReservations;
     private CategoryController categoryController;
     private HashMap<Integer,Integer> productToAmount; // maps between product to amount for deficiency quantity
     private int minAmountForDeficiencyReservation;
@@ -250,57 +250,85 @@ public void addNewProductBranch(ProductBranchDTO productBranchDTO) throws SQLExc
 
     }
 
-    public void addNewPeriodicReservation(int supplierId, ProductStatus day){
+    /**
+     * add new empty periodic reservation
+     * @param supplierId
+     * @param day
+     * @return
+     */
+    public PeriodicReservationDTO addNewPeriodicReservation(int supplierId, ProductStatus.Day day){
         SupplierController supplierController = SupplierController.getInstance();
-        PeriodicReservation periodic = supplierController.addNewPeriodicReservation(supplierId,branchId,day);
-        periodicReservations.add(periodic);
+        List<PeriodicReservationItemDTO> lst = new ArrayList<>();
+        PeriodicReservationDTO periodicReservationDTO = new PeriodicReservationDTO(supplierId,branchId,day,lst);
+        branchDTO.addNewPeriodicReservation(periodicReservationDTO);
+        PeriodicReservation periodic = supplierController.addNewPeriodicReservation(periodicReservationDTO);
+        supplierToPeriodicReservations.put(supplierId,periodic);
+        return periodicReservationDTO;
     }
-    public void addProductToPeriodicReservation(int periodicReservationId,int productCode, int amount) throws Exception {
-        PeriodicReservation pr = periodicReservations.get(periodicReservationId);
+
+    /**
+     * add new Periodic Item to the PeriodicDTO
+     * @param supplierId
+     * @param productCode
+     * @param amount
+     * @throws Exception
+     */
+    public void addProductToPeriodicReservation(int supplierId,int productCode, int amount) throws Exception {
+        PeriodicReservationDAO periodicReservationDAO = PeriodicReservationDAO.getInstance();
+        PeriodicReservationDTO periodicReservationDTO = periodicReservationDAO.getById(supplierId,branchId);
+        PeriodicReservationItemDTO periodicReservationItemDTO = new PeriodicReservationItemDTO(supplierId,branchId,productCode,amount);
+        PeriodicReservation pr = supplierToPeriodicReservations.get(supplierId);
         if (checkTime(pr)) {
             ProductBranch productBranch = allProductBranches.get(productCode);
             if (productBranch == null)
                 throw new Exception("product doesn't exist");
             int minQuantity = productBranch.getMinQuantity();
             int totalQuantity = productBranch.getTotalAmount();
-            periodicReservations.get(periodicReservationId).addNewProduct(productCode, amount, minQuantity, totalQuantity);
+            periodicReservationDTO.addProductAndAmount(periodicReservationItemDTO);
+            supplierToPeriodicReservations.get(supplierId).addNewProduct(productCode, amount, minQuantity, totalQuantity);
         } else {
             throw new Exception("You cannot edit periodic reservation in less then 24 hours");
         }
     }
 
-    public void changeAmountPeriodicReservation(int periodicReservationId,int productCode, int amount) throws Exception {
-        PeriodicReservation pr = periodicReservations.get(periodicReservationId);
+    public void changeAmountPeriodicReservation(int supplierId,int productCode, int amount) throws Exception {
+        PeriodicReservationDAO periodicReservationDAO = PeriodicReservationDAO.getInstance();
+        PeriodicReservationDTO periodicReservationDTO = periodicReservationDAO.getById(supplierId,branchId);
+        PeriodicReservation pr = supplierToPeriodicReservations.get(supplierId);
         ProductBranch productBranch = allProductBranches.get(productCode);
         if (productBranch == null)
             throw new Exception("product doesn't exist");
         int minQuantity = productBranch.getMinQuantity();
         int totalQuantity = productBranch.getTotalAmount();
-        boolean res = periodicReservations.get(periodicReservationId).changeAmount(productCode, amount, minQuantity, totalQuantity);
+        boolean res = supplierToPeriodicReservations.get(supplierId).changeAmount(supplierId,productCode, amount, minQuantity, totalQuantity);
         if(!res)
             throw new Exception("the total quantity will be less then the min quantity");
     }
 
-    public void addAmountPeriodicReservation(int periodicReservationId,int productCode, int amount) throws Exception {
-        PeriodicReservation pr = periodicReservations.get(periodicReservationId);
+    public void addAmountPeriodicReservation(int supplierId,int productCode, int amount) throws Exception {
+        PeriodicReservationDAO periodicReservationDAO = PeriodicReservationDAO.getInstance();
+        PeriodicReservationDTO periodicReservationDTO = periodicReservationDAO.getById(supplierId,branchId);
+        PeriodicReservation pr = supplierToPeriodicReservations.get(supplierId);
         ProductBranch productBranch = allProductBranches.get(productCode);
         if (productBranch == null)
             throw new Exception("product doesn't exist");
         int minQuantity = productBranch.getMinQuantity();
         int totalQuantity = productBranch.getTotalAmount();
-        boolean res = periodicReservations.get(periodicReservationId).addAmount(productCode, amount, minQuantity, totalQuantity);
+        boolean res = supplierToPeriodicReservations.get(supplierId).addAmount(productCode, amount, minQuantity, totalQuantity);
         if(!res)
             throw new Exception("the total quantity will be less then the min quantity");
     }
 
-    public void reduceAmountPeriodicReservation(int periodicReservationId,int productCode, int amount) throws Exception {
-        PeriodicReservation pr = periodicReservations.get(periodicReservationId);
+    public void reduceAmountPeriodicReservation(int supplierId,int productCode, int amount) throws Exception {
+        PeriodicReservationDAO periodicReservationDAO = PeriodicReservationDAO.getInstance();
+        PeriodicReservationDTO periodicReservationDTO = periodicReservationDAO.getById(supplierId,branchId);
+        PeriodicReservation pr = supplierToPeriodicReservations.get(supplierId);
         ProductBranch productBranch = allProductBranches.get(productCode);
         if (productBranch == null)
             throw new Exception("product doesn't exist");
         int minQuantity = productBranch.getMinQuantity();
         int totalQuantity = productBranch.getTotalAmount();
-        boolean res = periodicReservations.get(periodicReservationId).reduceAmount(productCode, amount, minQuantity, totalQuantity);
+        boolean res = supplierToPeriodicReservations.get(supplierId).reduceAmount(productCode, amount, minQuantity, totalQuantity);
         if(!res)
             throw new Exception("the total quantity will be less then the min quantity");
     }

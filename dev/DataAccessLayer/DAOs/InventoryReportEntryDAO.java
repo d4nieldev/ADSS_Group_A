@@ -5,12 +5,14 @@ import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
 
+import BusinessLayer.Inventory.CategoryController;
 import DataAccessLayer.Repository;
 import DataAccessLayer.DTOs.InventoryReportDTO;
 import DataAccessLayer.DTOs.InventoryReportEntryDTO;
 import DataAccessLayer.DTOs.ReportDTO;
 
 public class InventoryReportEntryDAO extends DAO<InventoryReportEntryDTO> {
+    private static InventoryReportEntryDAO instance = null;
     private Repository repo;
     private ReportDAO reportDAO;
 
@@ -20,10 +22,16 @@ public class InventoryReportEntryDAO extends DAO<InventoryReportEntryDTO> {
         reportDAO = ReportDAO.getInstance();
     }
 
+    public static InventoryReportEntryDAO getInstance() {
+        if (instance == null)
+            instance = new InventoryReportEntryDAO();
+        return instance;
+    }
+
     @Override
     public InventoryReportEntryDTO makeDTO(ResultSet rs) throws SQLException {
         if (!rs.next())
-            throw new SQLException("Can't make DTO from nothing!");
+            return null;
 
         int reportId = rs.getInt("reportId");
         int productId = rs.getInt("productId");

@@ -22,7 +22,7 @@ public class InventoryReport extends Report {
 
     }
 
-    public InventoryReport(Branch branch, List<Category> categoryList) {
+    public InventoryReport(Branch branch, List<Category> categoryList)  {
         super(Global.getNewReportId(), branch.getId(), LocalDate.now());
         // TODO: set all variables
         // Branch branch = branchController.getBranchById(branch);

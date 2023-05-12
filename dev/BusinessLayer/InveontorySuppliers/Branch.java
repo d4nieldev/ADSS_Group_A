@@ -434,7 +434,8 @@ public class Branch {
         HashMap<Integer, String> result = new HashMap<>();
         for (ProductBranch productBranch : allProductBranches.values()) {
             int code = productBranch.getCode();
-            String CategoryName = productBranch.getCategory().getName();
+            Category cat = categoryController.getCategoryById(productBranch.getCategoryID());
+            String CategoryName = cat.getName();
             result.put(code, CategoryName);
         }
         return result;

@@ -9,13 +9,14 @@ public class Category {
     private int id;
     private String name;
     private Category parentCategory;
-    private CategoryDTO CategoryDTO;
+    private CategoryDTO categoryDTO;
 
-    public Category(int id, String name, Category parentCategory, CategoryDTO CategoryDTO) {
-        this.id = id;
-        this.name = name;
-        this.parentCategory = parentCategory;
-        this.CategoryDTO = CategoryDTO;
+    public Category(CategoryDTO categoryDTO) {
+        this.id = categoryDTO.getId();
+        this.name = categoryDTO.getName();
+        CategoryController catCon = CategoryController.getInstance();
+        this.parentCategory = catCon.getCategoryById(categoryDTO.getParentCategoryDTO().getId());
+        this.categoryDTO = categoryDTO;
     }
 
     public Category(int id, String name, CategoryDTO CategoryDTO) {

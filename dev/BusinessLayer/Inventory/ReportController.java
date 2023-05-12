@@ -1,23 +1,27 @@
 package BusinessLayer.Inventory;
 
 import BusinessLayer.InveontorySuppliers.Branch;
+import DataAccessLayer.DAOs.CategoryDAO;
+import DataAccessLayer.DAOs.DeficiencyReportEntryDAO;
+import DataAccessLayer.DAOs.ExpiredAndFlawReportEntryDAO;
+import DataAccessLayer.DAOs.InventoryReportEntryDAO;
 
+import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
 
 public class ReportController {
     private HashMap<Integer, Report> allReports;
     private static ReportController instance = null;
+    private InventoryReportEntryDAO inventoryReportEntryDAO;
+    private ExpiredAndFlawReportEntryDAO expiredAndFlawReportEntryDAO;
+    private DeficiencyReportEntryDAO deficiencyReportEntryDAO;
 
     private ReportController() {
         this.allReports = new HashMap<>();
-    }
-
-    public static ReportController getInstance() {
-        if (instance == null) {
-            instance = new ReportController();
-        }
-        return instance;
+        this.inventoryReportEntryDAO = InventoryReportEntryDAO.getInstance();
+        this.expiredAndFlawReportEntryDAO = ExpiredAndFlawReportEntryDAO.getInstance();
+        this.deficiencyReportEntryDAO = DeficiencyReportEntryDAO.getInstance();
     }
 
     // TODO : change brnachId to Branch object;
@@ -26,6 +30,7 @@ public class ReportController {
     }
 
     public InventoryReport importInventoryReport(int branchId) {
+
 
         Branch branch = BranchController.getInstance().getBranchById(branchId);
         InventoryReport report = new InventoryReport(branch);
@@ -37,6 +42,13 @@ public class ReportController {
         Branch branch = BranchController.getInstance().getBranchById(branchId);
         InventoryReport report = new InventoryReport(branch, categoryList);
         allReports.put(report.getId(), report);
+        return report;
+    }
+
+    public InventoryReport importInventoryReport1(int branchId, List<Category> categoryList) throws SQLException {
+        Branch branch = BranchController.getInstance().getBranchById(branchId);
+
+        InventoryReport report = new InventoryReport(branch, categoryList);
         return report;
     }
 

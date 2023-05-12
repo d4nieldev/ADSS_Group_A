@@ -247,14 +247,14 @@ public class ProductBranch {
         return product.getManufacturer();
     }
 
-    public Category getCategory() {
-        return product.getCategory();
+    public int getCategoryID() {
+        return product.geCategoryId();
     }
 
     public boolean existInCategories(List<Category> allSubCategories) {
         boolean result = false;
         for (Category category : allSubCategories) {
-            if (product.getCategory() == category) {
+            if (product.geCategoryId() == category.getId()) {
                 result = true;
                 break;
             }

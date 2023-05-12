@@ -33,7 +33,7 @@ class MainV2 {
         // hrSystem.employeeService.logIn(123456789, "abc");
         // DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
         // LocalDate localDate = LocalDate.parse("05-06-2003", formatter);
-        // hrSystem.branchService.addNewEmployee(123456789, "printAvailableShiftForEmployeeCheck", "Hatuli", 666, "123", 0, 0, 0, 0, 0, localDate, "dsf", "cashier", 1);
+        // hrSystem.branchService.addNewEmployee(123456789, "printAvailableShiftForEmployeeCheck", "Hatuli", 999, "123", 0, 0, 0, 0, 0, localDate, "dsf", "cashier", 1);
         // System.out.println(hrSystem.employeeService.printAllEmployees(123456789));
         // System.out.println(hrSystem.branchService.printAllBranches(123456789));
         // System.out.println(hrSystem.employeeService.printAllDrivers(123456789));       
@@ -52,10 +52,13 @@ class MainV2 {
         //-----------------add constraint-----------------      
         // memberSystem.branchService.addConstraint(1, 999, 4);
         //-----------------show all available shift for employee-----------------
-        hrSystem.employeeService.logIn(666, "123");
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
-        LocalDate localDate = LocalDate.parse("31-05-2023", formatter);
-        System.out.println(memberSystem.branchService.printAvailableShiftForEmployee(666, localDate));
+        // hrSystem.employeeService.logIn(666, "123");
+        // DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+        // LocalDate localDate = LocalDate.parse("31-05-2023", formatter);
+        // System.out.println(memberSystem.branchService.printAvailableShiftForEmployee(666, localDate));
+        //-----------------delete an employee-----------------
+        hrSystem.employeeService.logIn(123456789, "abc");
+        hrSystem.branchService.deleteEmployee(123456789, 999);
         ////////////////My Beautifual Test Area/////////////////////
 
         // Scanner sc = new Scanner(System.in);

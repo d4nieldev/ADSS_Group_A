@@ -75,6 +75,10 @@ public class BranchFacade {
     public void deleteEmployee(int managerId, int id){
         employeeFacade.checkHrManager(managerId);  // only HR manager
         Employee employeeToRemove = employeeFacade.getEmployeeById(id);
+        employeeFacade.removeAllRolesForEmployeeFromDB(id, employeeToRemove.getRoles());
+        shiftFacade.removeAllConstraintsForEmployee(employeeToRemove);
+        shiftFacade.removeAllFinalShiftForEmployee(employeeToRemove);
+        
         for (int branchId : employeeToRemove.getAllBranches()) {
             getBranchById(branchId).removeEmployeeFromSystem(employeeToRemove, branchesDAO);
         }

@@ -74,8 +74,15 @@ public class Shift{
     }
 
     public void removeConstraint(Employee employee) {
-        if(constraints.containsKey(employee)){
-            throw new Error("The employee is not sign to this sift in the constraints list.");
+        if(!constraints.containsKey(employee)){
+            throw new Error("The employee is not sign to this shift in the constraints list.");
+        }
+        constraints.remove(employee);
+    }
+
+    public void removeConstraintNoError(Employee employee) {
+        if(!constraints.containsKey(employee)){
+            return;
         }
         constraints.remove(employee);
     }
@@ -194,6 +201,13 @@ public class Shift{
         return new ShiftDTO(this.idShift, this.superBranch, this.date, this.time, this.startHour, this.endHour,
 		this.duration, this.finishSettingShift, constraintsToDTO, this.numEmployeesForRole, finalShiftToDTO,
 		this.cancellations, driversInShiftToDTO);
+    }
+    
+    public void removeFromFinalShift(int shiftId, Employee employee) {
+        if(!finalShift.containsKey(employee)){
+            return;
+        }
+        finalShift.remove(employee);
     }
     
 //-------------------------------------Getters And Setters--------------------------------------------------------

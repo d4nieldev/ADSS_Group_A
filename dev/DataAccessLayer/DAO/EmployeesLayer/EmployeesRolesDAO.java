@@ -31,7 +31,7 @@ public class EmployeesRolesDAO {
         String updateString;
         if(empID < 0 || roleToRemove < 0 || roleToRemove == null) return 0;
         updateString= String.format("DELETE FROM %s \n" +
-                "WHERE %d=\"%d\" AND %d=\"%d\";", "EmployeesRoles", "EmployeeID", empID,"Role" ,roleToRemove);
+                "WHERE %s=\"%d\" AND %s=\"%d\";", "EmployeesRoles", "EmployeeID", empID, "RoleID", roleToRemove);
         Statement s;
         try
         {
@@ -39,6 +39,7 @@ public class EmployeesRolesDAO {
             return s.executeUpdate(updateString);
         }
         catch (Exception e ){
+            System.out.println(e.getMessage());
             return 0;
         }
     }

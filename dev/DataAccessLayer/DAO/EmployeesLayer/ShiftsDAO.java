@@ -318,6 +318,14 @@ public class ShiftsDAO extends DAO<ShiftDTO> {
     public int removeConstraint(int empID, int shiftID) {
         return employeeShiftContraintDAO.removeConstraint(empID, shiftID);
     }
+
+    public int removeAllConstraints(int empID) {
+        return employeeShiftContraintDAO.removeAllConstraints(empID);
+    }
+
+    public int removeAllFromFinalShift(int empID) {
+        return employeeShiftFinalDAO.removeAllFromFinalShift(empID);
+    }
     
     public int addNumEmployeeForRole(int shiftID, int roleID, int numberNedded) {
         return numEmployeesForRolesDAO.addNumEmployeeForRole(shiftID, roleID, numberNedded);

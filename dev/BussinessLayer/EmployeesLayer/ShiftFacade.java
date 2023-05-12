@@ -74,6 +74,10 @@ public class ShiftFacade {
         shiftsDAO.removeConstraint(employee.getId(), shiftId);
     }
 
+    public void removeConstraintNoError(int shiftId, Employee employee) {
+        getShift(shiftId).removeConstraintNoError(employee);
+    }
+
     public void checkAssignFinalShift(int managerID, Shift shift, HashMap<Employee, Integer> hrAssign){
         shift.checkAssignFinalShift(hrAssign);
         // if succedded - save the final shift
@@ -100,6 +104,24 @@ public class ShiftFacade {
     public void AddDriverToShift(Driver driver, int shiftID){
         getShift(shiftID).addDriver(driver);
         shiftsDAO.addDriverInShift(driver.getId(), shiftID);
+    }
+
+    public void removeAllConstraintsForEmployee(Employee employee) {
+        for (Shift shift : shifts) {
+            removeConstraintNoError(shift.getID(), employee);
+        }
+        shiftsDAO.removeAllConstraints(employee.getId());
+    }
+
+    public void removeAllFinalShiftForEmployee(Employee employee){
+        for (Shift shift : shifts) {
+            removeEmployeeFromFinalShift(shift.getID(), employee);
+        }
+        shiftsDAO.removeAllFromFinalShift(employee.getId());
+    }
+
+    public void removeEmployeeFromFinalShift(int shiftId, Employee employee) {
+        getShift(shiftId).removeFromFinalShift(shiftId, employee);
     }
     
 //-------------------------------------Getters And Setters--------------------------------------------------------

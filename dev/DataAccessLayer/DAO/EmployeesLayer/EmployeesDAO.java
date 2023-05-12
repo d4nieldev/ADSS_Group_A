@@ -172,6 +172,12 @@ public class EmployeesDAO extends DAO<EmployeeDTO> {
         return ans;
     }
 
+    public void removeAllRolesForEmployee (int employeeId, LinkedList<Integer> employeeRoles) {
+        for (Integer roleId : employeeRoles) {
+            removeRole(employeeId, roleId);
+        }
+    }
+
     // private List<Integer> getAllRolesForEmployee(int id, Connection conn) {
     //     String statement = "SELECT * FROM " + "EmployeesRoles" + " WHERE EmployeeID = " + id + ";";
     //     ResultSet RS = null;

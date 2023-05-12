@@ -114,7 +114,7 @@ public abstract class DAO<T> {
 
     public int delete(String colName,Integer value)
     {
-        String DELETE_SQL=String.format("Delete From %s WHERE %d=\"%d\"",tableName,colName,value);
+        String DELETE_SQL=String.format("Delete From %s WHERE %s=\"%d\"",tableName,colName,value);
         int rowsAffected=-1;
         Connection con=Repository.getInstance().connect();
         try {

@@ -43,4 +43,21 @@ public class EmployeesShiftsFinalsDAO {
             return 0;
         }
     }
+
+    public int removeAllFromFinalShift(int employeeId) {
+        Connection conn = Repository.getInstance().connect();
+        String updateString;
+        if(employeeId < 0) return 0;
+        updateString = String.format("DELETE FROM %s \n" +
+                "WHERE %s=\"%d\";", "EmployeesShiftsFinals", "EmployeeID", employeeId);
+        Statement s;
+        try
+        {
+            s = conn.createStatement();
+            return s.executeUpdate(updateString);
+        }
+        catch (Exception e ){
+            return 0;
+        }
+    }
 }

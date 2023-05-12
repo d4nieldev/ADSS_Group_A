@@ -382,6 +382,10 @@ public class EmployeeFacade {
         return roleClass;
     }
 
+    public void removeAllRolesForEmployeeFromDB(int employeeId, LinkedList<Integer> roles) {
+        employeesDAO.removeAllRolesForEmployee(employeeId, roles);
+    }
+
     // -------------------------------------------------------Help
     // Functions------------------------------------------------------------
 

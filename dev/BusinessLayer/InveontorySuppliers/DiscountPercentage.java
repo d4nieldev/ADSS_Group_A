@@ -7,7 +7,7 @@ public class DiscountPercentage extends Discount {
         super(dto);
     }
 
-    public double getDiscountPercentage() {
+    public double getDiscountValue() {
         return val;
     }
 

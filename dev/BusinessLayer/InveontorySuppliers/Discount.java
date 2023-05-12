@@ -25,6 +25,14 @@ public abstract class Discount {
 
     }
 
+    public DiscountDTO getDto() {
+        return dto;
+    }
+
+    public int getDiscountId() {
+        return discountId;
+    }
+
     public LocalDate getStart_date() {
         return this.start_date;
     }
@@ -34,4 +42,10 @@ public abstract class Discount {
     }
 
     public abstract double getPriceWithDiscount(double price);
+
+
+    public double getVal() {
+        return val;
+    }
 }
+

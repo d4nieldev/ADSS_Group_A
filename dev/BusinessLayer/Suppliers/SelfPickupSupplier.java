@@ -1,23 +1,32 @@
 package BusinessLayer.Suppliers;
-
-import BusinessLayer.InveontorySuppliers.Discount;
+import DataAccessLayer.DTOs.DTO;
+import DataAccessLayer.DTOs.SelfPickUpSupplierDTO;
 
 import java.time.LocalDate;
-import java.util.List;
-import java.util.TreeMap;
 
 class SelfPickupSupplier extends Supplier {
 
     private String address;
     private int maxPreperationDays;
+    private SelfPickUpSupplierDTO selfPickUpSupplierDTO;
 
-    // Copy constructor
-    public SelfPickupSupplier(int id, String name, String phone, String bankAcc, List<String> fields,
-                              String paymentCondition, TreeMap<Integer, Discount> amountToDiscount, List<Contact> contacts,
-                              String address, int maxPreperationDays) {
-        super(id, name, phone, bankAcc, fields, paymentCondition, amountToDiscount, contacts);
-        this.address = address;
-        this.maxPreperationDays = maxPreperationDays;
+    // // Copy constructor
+    // public SelfPickupSupplier(int id, String name, String phone, String bankAcc,
+    // List<String> fields,
+    // String paymentCondition, TreeMap<Integer, Discount> amountToDiscount,
+    // List<Contact> contacts,
+    // String address, int maxPreperationDays) {
+    // super(id, name, phone, bankAcc, fields, paymentCondition, amountToDiscount,
+    // contacts);
+    // this.address = address;
+    // this.maxPreperationDays = maxPreperationDays;
+    // }
+
+    public SelfPickupSupplier(SelfPickUpSupplierDTO selfPickUpSupplierDTO) {
+        super(selfPickUpSupplierDTO.getSuper());
+        this.selfPickUpSupplierDTO = selfPickUpSupplierDTO;
+        this.maxPreperationDays = selfPickUpSupplierDTO.getMaxPreperationDays();
+        this.address = selfPickUpSupplierDTO.getAddress();
     }
 
     @Override
@@ -29,5 +38,7 @@ class SelfPickupSupplier extends Supplier {
     public LocalDate getClosestDeliveryDate() {
         return LocalDate.now().plusDays(maxPreperationDays);
     }
+
+    
 
 }

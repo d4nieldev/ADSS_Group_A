@@ -23,7 +23,7 @@ public class ReservationDAO extends DAO<ReservationDTO> {
     @Override
     public ReservationDTO makeDTO(ResultSet rs) throws SQLException {
         if (!rs.next())
-            throw new SQLException("Can't make DTO from nothing!");
+            return null;
 
         int id = rs.getInt("id");
         int supplierId = rs.getInt("supplierId");

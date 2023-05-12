@@ -1,5 +1,6 @@
 package BusinessLayer.Suppliers;
 
+import java.sql.SQLException;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -12,6 +13,8 @@ import BusinessLayer.InveontorySuppliers.ProductController;
 import BusinessLayer.InveontorySuppliers.ReceiptItem;
 import BusinessLayer.InveontorySuppliers.Reservation;
 import BusinessLayer.exceptions.SuppliersException;
+import DataAccessLayer.DAOs.ReceiptItemDAO;
+import DataAccessLayer.DTOs.ReceiptItemDTO;
 
 public class ReservationController {
     private static ReservationController instance = null;
@@ -42,7 +45,7 @@ public class ReservationController {
     }
 
     public void makeManualReservation(Map<Integer, Map<Integer, Integer>> supplierToproductToAmount,
-            Integer destinationBranch) throws SuppliersException {
+            Integer destinationBranch) throws SuppliersException, SQLException {
         int reservationId = getNextIdAndIncrement();
         List<Reservation> finalOrder = new ArrayList<>();
 
@@ -59,7 +62,13 @@ public class ReservationController {
                             "Supplier " + supplierId + " provides only " + agreement.getStockAmount()
                                     + " units of product " + productId + " but requested " + amount + ".");
 
-                ReceiptItem item = new ReceiptItem(amount, agreement);
+                double pricePerUnitBeforeDiscount = agreement.getBasePrice();
+                double pricePerUnitAfterDiscount = agreement.getPrice(amount);
+                ReceiptItemDTO receiptItemDTO = new ReceiptItemDTO(reservationId, productId, amount,
+                        pricePerUnitBeforeDiscount,
+                        pricePerUnitAfterDiscount);
+                ReceiptItemDAO.getInstance().insert(receiptItemDTO);
+                ReceiptItem item = new ReceiptItem(receiptItemDTO);
                 r.addReceiptItem(item);
             }
 
@@ -142,7 +151,11 @@ public class ReservationController {
 
                 // for each product and supplier, find the maximum amount that can be purchased
                 int maxAmount = Math.min(amount, agreement.getStockAmount());
-                r.addReceiptItem(new ReceiptItem(maxAmount, agreement));
+                double pricePerUnitBeforeDiscount = agreement.getBasePrice();
+                double pricePerUnitAfterDiscount = agreement.getPrice(maxAmount);
+                ReceiptItemDTO receiptItemDTO = new ReceiptItemDTO(reservationId, productId, maxAmount,
+                        pricePerUnitBeforeDiscount, pricePerUnitAfterDiscount);
+                r.addReceiptItem(new ReceiptItem(receiptItemDTO));
             }
         }
 

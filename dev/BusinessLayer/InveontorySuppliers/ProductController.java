@@ -1,5 +1,6 @@
 package BusinessLayer.InveontorySuppliers;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -9,9 +10,15 @@ import java.util.TreeMap;
 
 import BusinessLayer.Suppliers.ProductAgreement;
 import BusinessLayer.exceptions.SuppliersException;
+import DataAccessLayer.DAOs.ProductAgreementDAO;
+import DataAccessLayer.DAOs.ProductsDAO;
+import DataAccessLayer.DTOs.DiscountDTO;
+import DataAccessLayer.DTOs.ProductAgreementDTO;
+import DataAccessLayer.DTOs.ProductDTO;
 
 public class ProductController {
     private static ProductController instance = null;
+    private ProductAgreementDAO productAgreementDAO;
     private Map<Integer, Map<Integer, ProductAgreement>> productIdToSupplierProducts;
     private Map<Integer, List<ProductAgreement>> supplierIdToProductAgreements;
     private Map<Integer, Product> products;
@@ -20,6 +27,7 @@ public class ProductController {
         productIdToSupplierProducts = new HashMap<>();
         supplierIdToProductAgreements = new HashMap<>();
         products = new HashMap<>();
+        productAgreementDAO = ProductAgreementDAO.getInstance();
     }
 
     public static ProductController getInstance() {
@@ -28,19 +36,27 @@ public class ProductController {
         return instance;
     }
 
-    public Collection<ProductAgreement> getProductAgreementsOfProduct(int productId) throws SuppliersException {
-        if (!productIdToSupplierProducts.containsKey(productId))
-            throw new SuppliersException("Product does not exist");
-        return productIdToSupplierProducts.get(productId).values();
+    public ProductAgreement getAgreement(int productId, int supplierId) throws SQLException {
+        if (productIdToSupplierProducts.containsKey(productId)) {
+            if (productIdToSupplierProducts.get(productId).containsKey(supplierId))
+                return productIdToSupplierProducts.get(productId).get(supplierId);
+        }
+        ProductAgreementDTO dto = ProductAgreementDAO.getInstance().getAgreementByProductAndSupplier(productId,
+                supplierId);
+        ProductAgreement agreement = new ProductAgreement(dto);
+        addProductAgreement(supplierId, productId, agreement);
+        return agreement;
     }
 
-    public ProductAgreement getAgreement(int productId, int supplierId) throws SuppliersException {
-        if (!productIdToSupplierProducts.containsKey(productId))
-            throw new SuppliersException("No supplier with id " + supplierId + " exists");
-        if (!productIdToSupplierProducts.get(productId).containsKey(supplierId))
-            throw new SuppliersException(
-                    "Supplier with id " + supplierId + " does not supply product with id " + productId);
-        return productIdToSupplierProducts.get(productId).get(supplierId);
+    public Collection<ProductAgreement> getProductAgreementsOfProduct(int productId)
+            throws SuppliersException, SQLException {
+        Collection<ProductAgreementDTO> dtos = ProductAgreementDAO.getInstance().getAgreementsOfProduct(productId);
+        List<ProductAgreement> output = new ArrayList<>();
+        for (ProductAgreementDTO dto : dtos) {
+            ProductAgreement agreement = getAgreement(productId, dto.getSupplierId());
+            output.add(agreement);
+        }
+        return output;
     }
 
     /**
@@ -55,17 +71,28 @@ public class ProductController {
         supplierIdToProductAgreements.computeIfAbsent(supplierId, k -> new ArrayList<>()).add(productAgreement);
     }
 
-    public List<ProductAgreement> getProductAgreementsOfSupplier(int supplierId) throws SuppliersException {
-        if (!supplierIdToProductAgreements.containsKey(supplierId))
-            throw new SuppliersException("No supplier with id " + supplierId + " exists");
-        return supplierIdToProductAgreements.get(supplierId);
+    public List<ProductAgreement> getProductAgreementsOfSupplier(int supplierId)
+            throws SuppliersException, SQLException {
+        Collection<ProductAgreementDTO> dtos = ProductAgreementDAO.getInstance().getAgreementsOfSupplier(supplierId);
+        List<ProductAgreement> output = new ArrayList<>();
+        for (ProductAgreementDTO dto : dtos) {
+            ProductAgreement agreement = getAgreement(dto.getProductDTO().getId(), supplierId);
+            output.add(agreement);
+        }
+        return output;
     }
 
-    public void updateProductAgreement(int supplierId, int productShopId, int stockAmount,
-            TreeMap<Integer, Discount> amountToDiscount) {
-        ProductAgreement productAgreement = productIdToSupplierProducts.get(productShopId).get(supplierId);
-        productAgreement.setStockAmount(stockAmount);
-        productAgreement.setAmountToDiscount(amountToDiscount);
+    public void updateProductAgreement(int supplierId, int productShopId, int stockAmount, double basePrice,
+            TreeMap<Integer, Discount> amountToDiscount) throws SQLException {
+        ProductAgreement oldAgreement = productIdToSupplierProducts.get(productShopId).get(supplierId);
+        TreeMap<Integer, DiscountDTO> amountToDiscountDTO = new TreeMap<>();
+        for (Integer amount : amountToDiscount.keySet())
+            amountToDiscountDTO.put(amount, amountToDiscount.get(amount).getDto());
+        ProductAgreementDTO dto = new ProductAgreementDTO(supplierId, oldAgreement.getDto().getProductDTO(),
+                stockAmount, basePrice, oldAgreement.getProductSupplierId(), amountToDiscountDTO);
+        productAgreementDAO.update(dto);
+        ProductAgreement newAgreement = new ProductAgreement(dto);
+        addProductAgreement(supplierId, productShopId, newAgreement);
     }
 
     /**
@@ -73,6 +100,7 @@ public class ProductController {
      * 
      * @param supplierId the supplier id
      */
+    // TODO: delete this
     public void deleteAllSupplierAgreements(int supplierId) {
         for (Integer productId : productIdToSupplierProducts.keySet()) {
             for (Integer supId : productIdToSupplierProducts.get(productId).keySet()) {
@@ -86,15 +114,24 @@ public class ProductController {
         }
     }
 
-    public void addProduct(Product product) throws SuppliersException {
+    public void addProduct(Product product) throws SuppliersException, SQLException {
         if (products.containsKey(product.getId()))
             throw new SuppliersException("A product with id " + product.getId() + " already exists");
-
+        ProductDTO dto = product.getDTO();
+        ProductsDAO.getInstance().insert(dto);
         products.put(product.getId(), product);
     }
 
-    public Product getProductById(int productId) {
-        return products.get(productId);
+    public Product getProductById(int productId) throws SQLException {
+        if (products.containsKey(productId))
+            return products.get(productId);
+        else {
+            // load from tables and save
+            ProductDTO productDTO = ProductsDAO.getInstance().getById(productId);
+            Product product = new Product(productDTO);
+            products.put(productId, product);
+            return product;
+        }
     }
 
     public void clearData() {
@@ -103,11 +140,7 @@ public class ProductController {
         products.clear();
     }
 
-    public Map<Integer, Product> getProducts() {
-        return products;
-    }
-
-    public boolean exist(int id) {
-        return products.containsKey(id);
+    public boolean exist(int id) throws SQLException {
+        return getProductById(id) != null;
     }
 }

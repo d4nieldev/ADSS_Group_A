@@ -5,12 +5,14 @@ import java.util.List;
 public class ExpiredAndFlawReportDTO extends ReportDTO {
     private List<SpecificProductDTO> expiredProducts;
     private List<SpecificProductDTO> flawProducts;
+    private ReportDTO reportDTO;
 
-    public ExpiredAndFlawReportDTO(ReportDTO report, List<SpecificProductDTO> expiredProducts,
+    public ExpiredAndFlawReportDTO(ReportDTO reportDTO, List<SpecificProductDTO> expiredProducts,
             List<SpecificProductDTO> flawProducts) {
-        super(report);
+        super(reportDTO);
         this.expiredProducts = expiredProducts;
         this.flawProducts = flawProducts;
+        this.reportDTO = reportDTO;
     }
 
     public List<SpecificProductDTO> getExpiredProducts() {
@@ -20,4 +22,6 @@ public class ExpiredAndFlawReportDTO extends ReportDTO {
     public List<SpecificProductDTO> getFlawProducts() {
         return flawProducts;
     }
+
+    public ReportDTO getReportDTO(){ return reportDTO; }
 }

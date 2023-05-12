@@ -1,34 +1,34 @@
 package BusinessLayer.Inventory;
 
 import BusinessLayer.InveontorySuppliers.Branch;
+import DataAccessLayer.DTOs.InventoryReportDTO;
 
 import java.time.LocalDate;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.List;
 
 public class InventoryReport extends Report {
 
-    private HashMap<Integer, Integer> idToStorageAmount;
-    private HashMap<Integer, Integer> idToShelfAmount;
+    private Map<Integer, Integer> idToStorageAmount;
+    private Map<Integer, Integer> idToShelfAmount;
     private HashMap<Integer, String> idsToName;
 
-    public InventoryReport(Branch branch) {
-        super(Global.getNewReportId(), branch.getId(), LocalDate.now());
-        // TODO: set all variables
-        // Branch branch = branchController.getBranchById(branch);
-        this.idsToName = branch.getIdsToName();
-        this.idToShelfAmount = branch.getIdsTOShelfAmount();
-        this.idToStorageAmount = branch.getIdsTOStorageAmount();
+//    public InventoryReport(Branch branch) {
+//        super(Global.getNewReportId(), branch.getId(), LocalDate.now());
+//        // TODO: set all variables
+//        // Branch branch = branchController.getBranchById(branch);
+//        this.idsToName = branch.getIdsToName();
+//        this.idToShelfAmount = branch.getIdsTOShelfAmount();
+//        this.idToStorageAmount = branch.getIdsTOStorageAmount();
 
     }
 
-    public InventoryReport(Branch branch, List<Category> categoryList)  {
-        super(Global.getNewReportId(), branch.getId(), LocalDate.now());
-        // TODO: set all variables
-        // Branch branch = branchController.getBranchById(branch);
-        this.idsToName = branch.getIdsToNameByCategories(categoryList);
-        this.idToShelfAmount = branch.getIdsTOShelfAmountByCategories(categoryList);
-        this.idToStorageAmount = branch.getIdsTOStorageAmountByCategories(categoryList);
+    public InventoryReport(InventoryReportDTO inventoryReportDTO, HashMap<Integer, String> idsToName)  {
+        super(inventoryReportDTO.getId(), inventoryReportDTO.getBranchId(), LocalDate.now(), inventoryReportDTO.getReportDTO());
+        this.idsToName = idsToName;
+        this.idToShelfAmount = inventoryReportDTO.getIdToShopAmount();
+        this.idToStorageAmount = inventoryReportDTO.getIdToStorageAmount();
 
     }
 
@@ -36,11 +36,11 @@ public class InventoryReport extends Report {
         return idsToName;
     }
 
-    public HashMap<Integer, Integer> getIdToStorageAmount() {
+    public Map<Integer, Integer> getIdToStorageAmount() {
         return idToStorageAmount;
     }
 
-    public HashMap<Integer, Integer> getIdToShelfAmount() {
+    public Map<Integer, Integer> getIdToShelfAmount() {
         return idToShelfAmount;
     }
 }

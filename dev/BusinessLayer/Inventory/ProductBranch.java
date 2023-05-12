@@ -167,6 +167,7 @@ public class ProductBranch {
         return allExpired;
     }
 
+
     public List<SpecificProduct> getAllFlaws() {
         List<SpecificProduct> allFlaws = new ArrayList<>();
         for (SpecificProduct sp : allSpecificProducts.values()) {

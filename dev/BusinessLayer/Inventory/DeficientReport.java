@@ -1,6 +1,7 @@
 package BusinessLayer.Inventory;
 
 import BusinessLayer.InveontorySuppliers.Branch;
+import DataAccessLayer.DTOs.ExpiredAndFlawReportDTO;
 
 import java.time.LocalDate;
 import java.util.HashMap;
@@ -16,30 +17,30 @@ public class DeficientReport extends Report {
 
     private BranchController branchController;
 
-    public DeficientReport(int branchId) {
-        super(Global.getNewReportId(), branchId, LocalDate.now());
+    public DeficientReport(DeficiencyReportDTO deficiencyReportDTO) {
+        super(deficiencyReportDTO.getId(), expiredAndFlawReportDTO.getBranchId(), LocalDate.now(), expiredAndFlawReportDTO.getReportDTO());
         this.branchController = BranchController.getInstance();
         Branch branch = branchController.getBranchById(branchId);
         this.idToName = branch.getAllDeficiencyProducts();
-        this.idToTotalAmount = branch.getAllTotalAmountForDeficiencyProducts();
+//        this.idToTotalAmount = branch.getAllTotalAmountForDeficiencyProducts();
         this.products = branch.getAllProductBranches();
-        this.idToMinQuantity = branch.getAllMinQuantityForDeficiencyProducts();
-        this.idToIdealQuantity = branch.getAllIdealQuantityForDeficiencyProducts();
+//        this.idToMinQuantity = branch.getAllMinQuantityForDeficiencyProducts();
+//        this.idToIdealQuantity = branch.getAllIdealQuantityForDeficiencyProducts();
     }
 
     public HashMap<Integer, String> getIdToName() {
         return idToName;
     }
 
-    public HashMap<Integer, Integer> getIdToTotalAmount() {
-        return idToTotalAmount;
-    }
-
-    public HashMap<Integer, Integer> getIdToMinQuantity() {
-        return idToMinQuantity;
-    }
-
-    public HashMap<Integer, Integer> getIdToIdealQuantity() {
-        return idToIdealQuantity;
-    }
+//    public HashMap<Integer, Integer> getIdToTotalAmount() {
+//        return idToTotalAmount;
+//    }
+//
+//    public HashMap<Integer, Integer> getIdToMinQuantity() {
+//        return idToMinQuantity;
+//    }
+//
+//    public HashMap<Integer, Integer> getIdToIdealQuantity() {
+//        return idToIdealQuantity;
+//    }
 }

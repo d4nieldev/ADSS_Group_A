@@ -19,11 +19,11 @@ public class Category {
         this.categoryDTO = categoryDTO;
     }
 
-    public Category(int id, String name, CategoryDTO CategoryDTO) {
-        this.id = id;
-        this.name = name;
-        this.CategoryDTO = CategoryDTO;
-    }
+//    public Category(int id, String name, CategoryDTO CategoryDTO) {
+//        this.id = id;
+//        this.name = name;
+//        this.CategoryDTO = CategoryDTO;
+//    }
 
     public int getId() {
         return id;
@@ -65,6 +65,6 @@ public class Category {
         return result;
     }
 
-    public CategoryDTO getCategoryDTO() { return CategoryDTO; }
+    public CategoryDTO getCategoryDTO() { return categoryDTO; }
 
 }

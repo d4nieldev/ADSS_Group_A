@@ -9,16 +9,16 @@ public class ReportDTO implements DTO {
     private int branchId;
     private LocalDate createdDate;
 
+//    public ReportDTO(int id, int branchId, LocalDate createdDate) {
+//        this.id = id;
+//        this.branchId = branchId;
+//        this.createdDate = createdDate;
+//    }
+
     public ReportDTO(int id, int branchId, LocalDate createdDate) {
         this.id = id;
         this.branchId = branchId;
         this.createdDate = createdDate;
-    }
-
-    public ReportDTO(ReportDTO reportDto) {
-        this.id = reportDto.id;
-        this.branchId = reportDto.branchId;
-        this.createdDate = reportDto.createdDate;
     }
 
     @Override

@@ -1,6 +1,7 @@
 package BusinessLayer.Inventory;
 
 import BusinessLayer.InveontorySuppliers.Branch;
+import DataAccessLayer.DTOs.ExpiredAndFlawReportDTO;
 
 import java.time.LocalDate;
 import java.util.HashMap;
@@ -10,20 +11,23 @@ public class ExpiredAndFlawReport extends Report {
                                                                                         // map specific and ExpireDate
     private HashMap<Integer, HashMap<Integer, String>> codeToSpecificDescription; // maps between product code to map of
                                                                                     // specificId and flaw description all// its specificProducts that flaws
-   private HashMap<Integer,ProductBranch> products;
-//   private HashMap<Integer, String> codeToCategory;
-//    private HashMap<Integer, String> idsToName;
-    private BranchController branchController;
+    private HashMap<Integer,ProductBranch> products;
 
-    public ExpiredAndFlawReport(int branchId) {
-        super(Global.getNewReportId(), branchId, LocalDate.now());
+    private BranchController branchController;
+//    private HashMap<Integer, String> codeToCategory;
+//    private HashMap<Integer, String> idsToName;
+
+    public ExpiredAndFlawReport(ExpiredAndFlawReportDTO expiredAndFlawReportDTO) {
+        super(expiredAndFlawReportDTO.getId(), expiredAndFlawReportDTO.getBranchId(), LocalDate.now(), expiredAndFlawReportDTO.getReportDTO());
+
         this.branchController = BranchController.getInstance();
-        Branch branch = branchController.getBranchById(branchId);
-        this.idToExpiredSpecificIdAndDate = branch.getBranchesExpired();
+        Branch branch = branchController.getBranchById(expiredAndFlawReportDTO.getBranchId());
+        this.idToExpiredSpecificIdAndDate = branch.getBranchesExpiredBySpecificProductList(expiredAndFlawReportDTO.getExpiredProducts());
         this.codeToSpecificDescription = branch.getBranchFlawsIdsToDescription();
         this.products = branch.getAllProductBranches();
 //        this.idsToName = branch.getIdsToName();
 //        this.codeToCategory = branch.getCodeToCategory();
+        this.branchController = BranchController.getInstance();
     }
 
     public HashMap<Integer, HashMap<Integer, LocalDate>> getIdToExpiredSpecificIdAndDate() {

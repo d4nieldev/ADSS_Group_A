@@ -11,11 +11,11 @@ public class ReceiptItem {
     private Product product;
     private LocalDate expiredDate;
 
-    public ReceiptItem(ReceiptItemDTO dto) {
+    public ReceiptItem(ReceiptItemDTO dto, Product product) {
         this.amount = dto.getAmount();
         this.pricePerUnitBeforeDiscount = dto.getPricePerUnitBeforeDiscount();
         this.pricePerUnitAfterDiscount = dto.getPricePerUnitAfterDiscount();
-        this.product = ProductController.getInstance().getProductById(dto.getProductId());
+        this.product = product;
     }
 
     public int getAmount() {

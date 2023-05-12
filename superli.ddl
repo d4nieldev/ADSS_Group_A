@@ -284,5 +284,5 @@ CREATE TABLE IF NOT EXISTS ExpiredAndFlawReportEntries (
 	
 	FOREIGN KEY (reportId)   REFERENCES Reports(id)                 ON DELETE CASCADE,
 	FOREIGN KEY (specificId) REFERENCES SpecificProduct(specificId) ON DELETE SET NULL,
-	PRIMARY KEY (reportId, productId)
+	PRIMARY KEY (reportId, specificId)
 )

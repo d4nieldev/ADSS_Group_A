@@ -9,6 +9,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import BusinessLayer.InveontorySuppliers.Product;
 import BusinessLayer.InveontorySuppliers.ProductController;
 import BusinessLayer.InveontorySuppliers.ReceiptItem;
 import BusinessLayer.InveontorySuppliers.Reservation;
@@ -65,10 +66,10 @@ public class ReservationController {
                 double pricePerUnitBeforeDiscount = agreement.getBasePrice();
                 double pricePerUnitAfterDiscount = agreement.getPrice(amount);
                 ReceiptItemDTO receiptItemDTO = new ReceiptItemDTO(reservationId, productId, amount,
-                        pricePerUnitBeforeDiscount,
-                        pricePerUnitAfterDiscount);
+                        pricePerUnitBeforeDiscount, pricePerUnitAfterDiscount);
                 ReceiptItemDAO.getInstance().insert(receiptItemDTO);
-                ReceiptItem item = new ReceiptItem(receiptItemDTO);
+                Product product = ProductController.getInstance().getProductById(productId);
+                ReceiptItem item = new ReceiptItem(receiptItemDTO, product);
                 r.addReceiptItem(item);
             }
 
@@ -94,7 +95,7 @@ public class ReservationController {
     }
 
     public void makeDeficiencyReservation(Map<Integer, Integer> productToAmount, Integer destinationBranch)
-            throws SuppliersException {
+            throws SuppliersException, SQLException {
         int reservationId = getNextIdAndIncrement();
         Map<Integer, Reservation> supToReservation = maxReservationPerSupplier(productToAmount, destinationBranch,
                 reservationId);
@@ -132,7 +133,7 @@ public class ReservationController {
     }
 
     private Map<Integer, Reservation> maxReservationPerSupplier(Map<Integer, Integer> productToAmount,
-            Integer destinationBranch, int reservationId) throws SuppliersException {
+            Integer destinationBranch, int reservationId) throws SuppliersException, SQLException {
         Map<Integer, Reservation> supplierToReservation = new HashMap<>();
 
         for (int productId : productToAmount.keySet()) {
@@ -155,7 +156,8 @@ public class ReservationController {
                 double pricePerUnitAfterDiscount = agreement.getPrice(maxAmount);
                 ReceiptItemDTO receiptItemDTO = new ReceiptItemDTO(reservationId, productId, maxAmount,
                         pricePerUnitBeforeDiscount, pricePerUnitAfterDiscount);
-                r.addReceiptItem(new ReceiptItem(receiptItemDTO));
+                Product product = ProductController.getInstance().getProductById(productId);
+                r.addReceiptItem(new ReceiptItem(receiptItemDTO, product));
             }
         }
 
@@ -169,7 +171,7 @@ public class ReservationController {
     }
 
     private Reservation getMostAttractiveReservationAndRemove(Map<Integer, Reservation> supToReservation)
-            throws SuppliersException {
+            throws SuppliersException, SQLException {
         // min time
         // min num of suppliers
         // min total price

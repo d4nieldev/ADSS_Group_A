@@ -36,7 +36,8 @@ public class ProductBranch {
         this.totalAmount = 0;
         this.discountsHistory = new ArrayList<>();
     }
-    public ProductBranch (ProductBranchDTO productBranchDTO) throws SQLException {
+
+    public ProductBranch(ProductBranchDTO productBranchDTO) throws SQLException {
         ProductController productController = ProductController.getInstance();
         this.product = productController.getProductById(productBranchDTO.getProductDTO().getId());
         this.price = productBranchDTO.getPrice();
@@ -44,7 +45,7 @@ public class ProductBranch {
         this.minQuantity = productBranchDTO.getMinQuantity();
 
         HashMap<Integer, SpecificProduct> specificProductMap = new HashMap<>();
-        HashMap<Integer,SpecificProductDTO> dtos = productBranchDTO.getAllSpecificProducts();
+        HashMap<Integer, SpecificProductDTO> dtos = productBranchDTO.getAllSpecificProducts();
         for (Integer index : dtos.keySet()) {
             SpecificProductDTO dto = dtos.get(index);
             SpecificProduct specificProduct = new SpecificProduct(dto);
@@ -53,7 +54,7 @@ public class ProductBranch {
 
         this.allSpecificProducts = specificProductMap;
         DiscountController discountController = DiscountController.getInstance();
-        this.discount = discountController.getDiscountById(productBranchDTO.getDiscountDTO().getId())   ;
+        this.discount = discountController.getDiscountById(productBranchDTO.getDiscountDTO().getId());
         this.totalAmount = productBranchDTO.getAllSpecificProducts().size();
         this.discountsHistory = new ArrayList<>();
         this.productBranchDTO = productBranchDTO;
@@ -96,6 +97,7 @@ public class ProductBranch {
         if (sp != null)
             sp.setStatus(status);
     }
+
     public void setFlowDescription(int specificProduct, String description) {
         SpecificProduct sp = allSpecificProducts.get(specificProduct);
         if (sp != null)
@@ -107,16 +109,17 @@ public class ProductBranch {
         Discount maxDiscount = getCurrentMaxDiscount();
         this.discount = maxDiscount;
         DiscountDTO discountDTO = null;
-        if(discount != maxDiscount) {
+        if (discount != maxDiscount) {
             if (discount instanceof DiscountFixed) {
-                 discountDTO = new DiscountDTO(maxDiscount.getDiscountId(), maxDiscount.getStart_date(), maxDiscount.getEnd_date(), maxDiscount.getDiscountValue(), "fixed Discount");
-            }
-            else {
-                 discountDTO = new DiscountDTO(maxDiscount.getDiscountId(), maxDiscount.getStart_date(), maxDiscount.getEnd_date(), maxDiscount.getDiscountValue(), "Percentage discount");
+                discountDTO = new DiscountDTO(maxDiscount.getDiscountId(), maxDiscount.getStart_date(),
+                        maxDiscount.getEnd_date(), maxDiscount.getVal(), "fixed Discount");
+            } else {
+                discountDTO = new DiscountDTO(maxDiscount.getDiscountId(), maxDiscount.getStart_date(),
+                        maxDiscount.getEnd_date(), maxDiscount.getVal(), "Percentage discount");
             }
             productBranchDTO.updateDiscount(discountDTO);
         }
-}
+    }
 
     public int getCode() {
         return product.getId();
@@ -180,10 +183,11 @@ public class ProductBranch {
         return allFlaws;
     }
 
-    public List<SpecificProduct> receiveSupply(int amount, double buyPrice, LocalDate expiredDate,int branchId) {
-      List<SpecificProduct> addedSpecific = new ArrayList<>();
+    public List<SpecificProduct> receiveSupply(int amount, double buyPrice, LocalDate expiredDate, int branchId) {
+        List<SpecificProduct> addedSpecific = new ArrayList<>();
         for (int i = 0; i < amount; i++) {
-            SpecificProductDTO  specificProductDTO = new SpecificProductDTO(Global.getNewSpecificId(),getCode(),branchId,buyPrice,-1, ProductStatus.status.ON_STORAGE,"",expiredDate,LocalDate.now());
+            SpecificProductDTO specificProductDTO = new SpecificProductDTO(Global.getNewSpecificId(), getCode(),
+                    branchId, buyPrice, -1, ProductStatus.status.ON_STORAGE, "", expiredDate, LocalDate.now());
             SpecificProduct newSpecific = new SpecificProduct(specificProductDTO);
             addedSpecific.add(newSpecific);
             allSpecificProducts.put(newSpecific.getSpecificId(), newSpecific);

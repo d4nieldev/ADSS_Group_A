@@ -9,7 +9,7 @@ import Misc.*;
 
 public class Shift{
     public int idShift;
-    private Branch superBranch;
+    private int superBranch;
     private LocalDate date;
     private ShiftTime time;
     private int startHour;
@@ -23,7 +23,7 @@ public class Shift{
     private HashMap<Integer, LinkedList<Integer>> cancellations;
     private LinkedList<Driver> driversInShift;
 
-    public Shift(int idShift, Branch superBranch, LocalDate date, int startHour, int endHour, ShiftTime time, HashMap<Integer, Integer> numEmployeesForRole){
+    public Shift(int idShift, int superBranch, LocalDate date, int startHour, int endHour, ShiftTime time, HashMap<Integer, Integer> numEmployeesForRole){
         this.idShift = idShift;
         this.superBranch = superBranch;
         this.date = date;
@@ -38,6 +38,23 @@ public class Shift{
         this.finalShift = new HashMap<Employee, Integer>();
         cancellations = new HashMap<Integer, LinkedList<Integer>>();
         driversInShift = new LinkedList<>();
+    }
+
+    public Shift(ShiftDTO shiftDTO,  HashMap<Employee, LinkedList<Integer>> constraints, HashMap<Employee, Integer> finalShift, LinkedList<Driver> driversInShift) {
+        this.idShift = shiftDTO.idShift;
+        this.superBranch = shiftDTO.superBranch;
+        this.date = shiftDTO.date;
+        this.time = shiftDTO.time;
+        this.startHour = shiftDTO.startHour;
+        this.endHour = shiftDTO.endHour;
+        this.duration = shiftDTO.duration;
+        this.finishSettingShift = shiftDTO.finishSettingShift;
+        this.constraints = constraints;
+        this.numEmployeesForRole = shiftDTO.numEmployeesForRole;
+        this.helpMapForAssign = new HashMap<Integer, Integer>();
+        this.finalShift = finalShift;
+        this.cancellations = shiftDTO.cancellations;
+        this.driversInShift = driversInShift;
     }
 
     public void addCancelation(Employee employee, int itemCode, int itemID){
@@ -57,8 +74,15 @@ public class Shift{
     }
 
     public void removeConstraint(Employee employee) {
-        if(constraints.containsKey(employee)){
-            throw new Error("The employee is not sign to this sift in the constraints list.");
+        if(!constraints.containsKey(employee)){
+            throw new Error("The employee is not sign to this shift in the constraints list.");
+        }
+        constraints.remove(employee);
+    }
+
+    public void removeConstraintNoError(Employee employee) {
+        if(!constraints.containsKey(employee)){
+            return;
         }
         constraints.remove(employee);
     }
@@ -105,8 +129,8 @@ public class Shift{
                 }
                 helpMapForAssign.put(currRole, 1);
             }
-            if(helpMapForAssign.get(currRole) == numEmployeesForRole.get(currRole)){
-                throw new Error("The role " + currRole.toString() + " is full (" + numEmployeesForRole.get(currRole) + " employees already) for this shift. Change the number of employees needed or remove some srom this shift.");
+            else if(helpMapForAssign.get(currRole) == numEmployeesForRole.get(currRole)){
+                throw new Error("The role " + currRole.toString() + " is full (" + numEmployeesForRole.get(currRole) + " employees already) for this shift. Change the number of employees needed or remove some from this shift.");
             }
             helpMapForAssign.replace(currRole, helpMapForAssign.get(currRole), helpMapForAssign.get(currRole).intValue() + 1);
         }
@@ -156,7 +180,7 @@ public class Shift{
     }
     
     public String toString(){
-		return "Shift ID: " + idShift + " , Super Branch Id: " + superBranch.getBranchId() + " [date: " + date + ", time: " + time.toString() + 
+		return "Shift ID: " + idShift + " , Super Branch Id: " + superBranch + " [date: " + date + ", time: " + time.toString() + 
         ", start hour: " + startHour + ", end hour: " + endHour  + ", duration: " + duration + "]";
     }
     
@@ -174,16 +198,23 @@ public class Shift{
             driversInShiftToDTO.add(driver.getId());
         }
 
-        return new ShiftDTO(this.idShift, this.superBranch.getBranchId(), this.date, this.time, this.startHour, this.endHour,
+        return new ShiftDTO(this.idShift, this.superBranch, this.date, this.time, this.startHour, this.endHour,
 		this.duration, this.finishSettingShift, constraintsToDTO, this.numEmployeesForRole, finalShiftToDTO,
 		this.cancellations, driversInShiftToDTO);
     }
     
+    public void removeFromFinalShift(int shiftId, Employee employee) {
+        if(!finalShift.containsKey(employee)){
+            return;
+        }
+        finalShift.remove(employee);
+    }
+    
 //-------------------------------------Getters And Setters--------------------------------------------------------
     public int getID(){return idShift;}
-    public int getSuperBranchId(){return superBranch.getBranchId();}
-    public String getSuperBranchAddress(){return superBranch.getBranchAddress();}
-    public String getLocation(){return superBranch.getBranchLocation().toString(); }
+    public int getSuperBranchId(){return superBranch;}
+    //public String getSuperBranchAddress(){return superBranch.getBranchAddress();}
+    //public String getLocation(){return superBranch.getBranchLocation().toString(); }
     public LocalDate getDate(){return date;}
     public ShiftTime getShiftTime(){return time;}
     public void setStartHour(int newStartHour){
@@ -193,6 +224,7 @@ public class Shift{
         if(this.startHour >= newEndHour){throw new Error("The end hour have to be after the start hour.");}
     this.endHour = newEndHour;}
     public int getDuration(){return duration;}
+    public HashMap<Integer, Integer> getNumEmployeesForRole(){return numEmployeesForRole;}    
     public boolean getIsFinishSettingShift(){return finishSettingShift;}
     public HashMap<Employee, LinkedList<Integer>> getConstraints(){return constraints;}
     public HashMap<Employee, Integer> getFinalShift(){return finalShift;}

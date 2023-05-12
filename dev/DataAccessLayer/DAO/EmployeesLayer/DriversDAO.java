@@ -144,8 +144,8 @@ public class DriversDAO extends DAO<DriverDTO> {
                     /* bank account number */RS.getInt(7), /* salary */RS.getInt(8),
                     /* bonus */ RS.getInt(9), /* start date */ LocalDate.parse(RS.getString(10)),
                     /* temps employment */ RS.getString(11), roles,
-                    /* is logged in */ RS.getBoolean(13), /* super branch */ RS.getInt(14),
-                    /* driver license */  License.valueOf(RS.getString(15)), availableShiftDates, workedDates);
+                    /* is logged in */ RS.getBoolean(12), /* super branch */ RS.getInt(13),
+                    /* driver license */  License.valueOf(RS.getString(14)), availableShiftDates, workedDates);
         } catch (Exception e) {
             output = null;
         } finally {
@@ -191,6 +191,26 @@ public class DriversDAO extends DAO<DriverDTO> {
             return null;
         }
         return ans;
+    }
+
+    public DriverDTO getDriverById(int id) {
+        Connection conn = Repository.getInstance().connect();
+        ResultSet res = get(tableName, "ID", id, conn);
+        DriverDTO driver = null;
+
+        try {
+            if (!res.next()){
+                return null;
+            }
+            driver = makeDTO(res);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        finally {
+            Repository.getInstance().closeConnection(conn);
+        }
+
+        return driver;
     }
     
     public int addAvailableShiftDates(int empID, LocalDate dateToAdd) {

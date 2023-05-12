@@ -134,8 +134,9 @@ public class BranchController {
         // return a list of all products who the new discount on them been changed
         List<ProductBranch> changeDiscount = branch.setDiscountOnProducts(productsToDiscount,discount);
 
-        //add the discount to the product
+        //add the discount to the product and update the discount DTO on PRODUCT
         for (ProductBranch productBranch : changeDiscount){
+            productBranchDAO.getByProductAndBranchId(productBranch.getCode(),branchId).updateDiscount(discountDTO);
             ProductBranchDiscountDTO productBranchDiscountsDTO = new ProductBranchDiscountDTO(productBranch.getCode(),branchId,discountDTO);
         }
 

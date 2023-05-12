@@ -319,20 +319,13 @@ public void addNewProductBranch(ProductBranchDTO productBranchDTO) throws SQLExc
     public List<ProductBranch> setDiscountOnProducts(List<ProductBranch> productsToDiscount, Discount discount) throws Exception {
       HashMap<ProductBranch,DiscountDTO> changeDiscount = new HashMap<>();
       List<ProductBranch> productToDiscount = new ArrayList<>();
-//        DiscountDTO discountDTO = null;
-//        if (discount instanceof DiscountFixed) {
-//                 discountDTO = new DiscountDTO(discount.getDiscountId(), discount.getStart_date(), discount.getEnd_date(), discount.getDiscountValue(), "fixed Discount");
-//            }
-//            else {
-//                 discountDTO = new DiscountDTO(discount.getDiscountId(), discount.getStart_date(), discount.getEnd_date(), discount.getDiscountValue(), "Percentage discount");
-//            }
+
         for (ProductBranch productBranch : productsToDiscount) {
             if (!allProductBranches.containsKey(productBranch.getCode())) {
                 throw new Exception("this product not fount on this branch");
             }
             boolean ans = productBranch.applyDiscount(discount);
             if(ans){
-//                changeDiscount.put(productBranch,discountDTO);
                 productToDiscount.add(productBranch);
             }
         }

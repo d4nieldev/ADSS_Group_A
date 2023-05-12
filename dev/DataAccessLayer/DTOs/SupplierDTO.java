@@ -10,13 +10,15 @@ public class SupplierDTO implements DTO {
     protected String name;
     protected String bankAccount;
     protected String paymentCondition;
-    protected List<String> fields;
+    protected List<SuppliersFieldsDTO> fields;
     protected List<ContactDTO> contacts;
     protected TreeMap<Integer, DiscountDTO> amountToDiscount;
     protected Map<Integer, PeriodicReservationDTO> branchToPeriodicReservations;
 
-    public SupplierDTO(int id, String name, String bankAccount, String paymentCondition, List<String> fields,
-            List<ContactDTO> contacts, TreeMap<Integer, DiscountDTO> amountToDiscount, Map<Integer, PeriodicReservationDTO> branchToPeriodicReservations) {
+    public SupplierDTO(int id, String name, String bankAccount, String paymentCondition,
+            List<SuppliersFieldsDTO> fields,
+            List<ContactDTO> contacts, TreeMap<Integer, DiscountDTO> amountToDiscount,
+            Map<Integer, PeriodicReservationDTO> branchToPeriodicReservations) {
         this.id = id;
         this.name = name;
         this.bankAccount = bankAccount;
@@ -57,7 +59,7 @@ public class SupplierDTO implements DTO {
         return paymentCondition;
     }
 
-    public List<String> getFields() {
+    public List<SuppliersFieldsDTO> getFields() {
         return fields;
     }
 
@@ -71,5 +73,42 @@ public class SupplierDTO implements DTO {
 
     public Map<Integer, PeriodicReservationDTO> getBranchToPeriodicReservations() {
         return branchToPeriodicReservations;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setBankAccount(String bankAccount) {
+        this.bankAccount = bankAccount;
+    }
+
+    public void setPaymentCondition(String paymentCondition) {
+        this.paymentCondition = paymentCondition;
+    }
+
+    public void addField(SuppliersFieldsDTO field) {
+        fields.add(field);
+    }
+
+    public void removeField(SuppliersFieldsDTO field) {
+        fields.remove(field);
+    }
+
+    public SuppliersFieldsDTO getFieldDTObyName(String fieldName) {
+        for (SuppliersFieldsDTO field : fields) {
+            if (field.getFieldName().equals(fieldName)) {
+                return field;
+            }
+        }
+        return null;
+    }
+
+    public void addContact(ContactDTO contact) {
+        contacts.add(contact);
+    }
+
+    public void removeContact(ContactDTO contact) {
+        contacts.remove(contact);
     }
 }

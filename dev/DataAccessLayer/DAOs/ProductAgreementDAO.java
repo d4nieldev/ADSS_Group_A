@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.TreeMap;
 
 import DataAccessLayer.Repository;
+import DataAccessLayer.DTOs.AgreementAmountToDiscountDTO;
 import DataAccessLayer.DTOs.DiscountDTO;
 import DataAccessLayer.DTOs.ProductAgreementDTO;
 
@@ -79,6 +80,30 @@ public class ProductAgreementDAO extends DAO<ProductAgreementDTO> {
         ProductAgreementDTO paDTO = makeDTO(rs);
         rs.close();
         return paDTO;
+    }
+
+    @Override
+    public void insert(ProductAgreementDTO dataObject) throws SQLException {
+        super.insert(dataObject);
+        // insert all amountToDiscount of the agreement
+        for (Integer amount : dataObject.getAmountToDiscount().keySet()) {
+            DiscountDTO disDTO = dataObject.getAmountToDiscount().get(amount);
+            AgreementAmountToDiscountDTO agreeDisDTO = new AgreementAmountToDiscountDTO(dataObject.getSupplierId(),
+                    dataObject.getProductDTO().getId(), amount, disDTO);
+            agreementAmountToDiscountDAO.insert(agreeDisDTO);
+        }
+    }
+
+    @Override
+    public void update(ProductAgreementDTO dataObject) throws SQLException {
+        super.update(dataObject);
+        // inupdatesert all amountToDiscount of the agreement
+        for (Integer amount : dataObject.getAmountToDiscount().keySet()) {
+            DiscountDTO disDTO = dataObject.getAmountToDiscount().get(amount);
+            AgreementAmountToDiscountDTO agreeDisDTO = new AgreementAmountToDiscountDTO(dataObject.getSupplierId(),
+                    dataObject.getProductDTO().getId(), amount, disDTO);
+            agreementAmountToDiscountDAO.update(agreeDisDTO);
+        }
     }
 
 }

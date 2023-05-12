@@ -5,8 +5,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.TreeMap;
-
-import BusinessLayer.Inventory.ProductStatus;
 import BusinessLayer.InveontorySuppliers.*;
 import BusinessLayer.exceptions.SuppliersException;
 import DataAccessLayer.DAOs.*;
@@ -17,6 +15,7 @@ import DataAccessLayer.DTOs.OnOrderSuppliersDTO;
 import DataAccessLayer.DTOs.PeriodicReservationDTO;
 import DataAccessLayer.DTOs.SelfPickUpSupplierDTO;
 import DataAccessLayer.DTOs.SupplierDTO;
+import DataAccessLayer.DTOs.SuppliersFieldsDTO;
 import DataAccessLayer.DTOs.ProductAgreementDTO;
 
 import java.util.List;
@@ -34,6 +33,8 @@ public class SupplierController {
     private FixedDaysSupplierDAO fixedDaysSupplierDAO;
     private OnOrderSuppliersDAO onOrderSuppliersDAO;
     private SelfPickUpSupplierDAO selfPickupSupplierDAO;
+    private SupplierDAO supplierDAO;
+    private SuppliersFieldsDAO suppliersFieldsDAO;
 
     // Constructor for SupplierController
     private SupplierController() {
@@ -56,14 +57,25 @@ public class SupplierController {
         fixedDaysSupplierDAO = FixedDaysSupplierDAO.getInstance();
         onOrderSuppliersDAO = OnOrderSuppliersDAO.getInstance();
         selfPickupSupplierDAO = SelfPickUpSupplierDAO.getInstance();
-        // TODO: Add load of next supplier id from database
-        this.nextSupplierIdInSystem = 0;
+        supplierDAO = SupplierDAO.getInstance();
+        suppliersFieldsDAO = SuppliersFieldsDAO.getInstance();
+
+        // we load the last id of supplier.
+        try {
+            LoadSupplierLastId();
+        } catch (Exception e) {
+            throw new SuppliersException("A database error occurred while loading supplier last id.");
+        }
     }
 
     public static SupplierController getInstance() {
         if (instance == null)
             instance = new SupplierController();
         return instance;
+    }
+
+    private void LoadSupplierLastId() throws SQLException {
+        nextSupplierIdInSystem = supplierDAO.getLastId() + 1;
     }
 
     // getSupplierFromData
@@ -117,7 +129,6 @@ public class SupplierController {
         selfPickupSupplierDAO.deleteById(id);
         fixedDaysSupplierDAO.deleteById(id);
         // after successfuly deleted from data, we can delete in the presistence.
-        // TODO: maybe we need to delete all his periodic reservations.
         ProductController.getInstance().deleteAllSupplierAgreements(supplierId);
         idToSupplier.remove(supplierId);
     }
@@ -127,25 +138,31 @@ public class SupplierController {
             List<String> supplierFields, String paymentCondition, TreeMap<Integer, Discount> amountToDiscount,
             List<String> contactNames, List<String> contactPhones, List<Integer> days)
             throws SuppliersException, SQLException {
-        // we add the office contact
-        addOfficeContact(contactNames, contactPhones, supplierPhone);
-        // first we try to make the supplier DTO
-        SupplierDTO supDTO = new SupplierDTO(nextSupplierIdInSystem, supplierName, supplierBankAccount,
-                paymentCondition,
-                supplierFields,
-                makeContactDTOList(makeContactList(contactPhones, contactNames, nextSupplierIdInSystem)),
-                makeDiscountDTOMap(amountToDiscount), new HashMap<Integer, PeriodicReservationDTO>());
-        // now we make fixedDaysSupplierDtosList
-        List<FixedDaysSupplierDTO> dtos = new LinkedList<>();
-        for (int day : days) {
-            FixedDaysSupplierDTO dto = new FixedDaysSupplierDTO(supDTO, day);
-            // now we insert to the proper DAO
-            fixedDaysSupplierDAO.insert(dto);
+        try {
+            // we add the office contact
+            addOfficeContact(contactNames, contactPhones, supplierPhone);
+            // first we try to make the supplier DTO
+            SupplierDTO supDTO = new SupplierDTO(nextSupplierIdInSystem, supplierName, supplierBankAccount,
+                    paymentCondition,
+                    makeFieldsDTOList(nextSupplierIdInSystem, supplierFields),
+                    makeContactDTOList(makeContactList(contactPhones, contactNames, nextSupplierIdInSystem)),
+                    makeDiscountDTOMap(amountToDiscount), new HashMap<Integer, PeriodicReservationDTO>());
+            // now we make fixedDaysSupplierDtosList
+            List<FixedDaysSupplierDTO> dtos = new LinkedList<>();
+            for (int day : days) {
+                FixedDaysSupplierDTO dto = new FixedDaysSupplierDTO(supDTO, day);
+                // now we insert to the proper DAO
+                fixedDaysSupplierDAO.insert(dto);
+            }
+            // now we insert to business layer
+            FixedDaysSupplier fds = new FixedDaysSupplier(dtos);
+            idToSupplier.put(nextSupplierIdInSystem, fds);
+            nextSupplierIdInSystem++;
+        } catch (Exception e) {
+            nextSupplierIdInSystem--;
+            throw new SuppliersException(
+                    "A database error occurred while inserting supplier " + nextSupplierIdInSystem);
         }
-        // now we insert to business layer
-        FixedDaysSupplier fds = new FixedDaysSupplier(dtos);
-        idToSupplier.put(nextSupplierIdInSystem, fds);
-        nextSupplierIdInSystem++;
 
     }
 
@@ -155,21 +172,27 @@ public class SupplierController {
             List<String> supplierFields, String paymentCondition, TreeMap<Integer, Discount> amountToDiscount,
             List<String> contactNames, List<String> contactPhones, int maxSupplyDays)
             throws SuppliersException, SQLException {
-        // we add the office contact
-        addOfficeContact(contactNames, contactPhones, supplierPhone);
-        // first we try to make the DTO
-        OnOrderSuppliersDTO dto = new OnOrderSuppliersDTO(
-                new SupplierDTO(nextSupplierIdInSystem, supplierName, supplierBankAccount, paymentCondition,
-                        supplierFields,
-                        makeContactDTOList(makeContactList(contactPhones, contactNames, nextSupplierIdInSystem)),
-                        makeDiscountDTOMap(amountToDiscount), new HashMap<Integer, PeriodicReservationDTO>()),
-                maxSupplyDays);
-        // now we insert to the proper DAO
-        onOrderSuppliersDAO.insert(dto);
-        // now we insert to business layer
-        OnOrderSupplier oos = new OnOrderSupplier(dto);
-        idToSupplier.put(nextSupplierIdInSystem, oos);
-        nextSupplierIdInSystem++;
+        try {
+            // we add the office contact
+            addOfficeContact(contactNames, contactPhones, supplierPhone);
+            // first we try to make the DTO
+            OnOrderSuppliersDTO dto = new OnOrderSuppliersDTO(
+                    new SupplierDTO(nextSupplierIdInSystem, supplierName, supplierBankAccount, paymentCondition,
+                            makeFieldsDTOList(nextSupplierIdInSystem, supplierFields),
+                            makeContactDTOList(makeContactList(contactPhones, contactNames, nextSupplierIdInSystem)),
+                            makeDiscountDTOMap(amountToDiscount), new HashMap<Integer, PeriodicReservationDTO>()),
+                    maxSupplyDays);
+            // now we insert to the proper DAO
+            onOrderSuppliersDAO.insert(dto);
+            // now we insert to business layer
+            OnOrderSupplier oos = new OnOrderSupplier(dto);
+            idToSupplier.put(nextSupplierIdInSystem, oos);
+            nextSupplierIdInSystem++;
+        } catch (Exception e) {
+            nextSupplierIdInSystem--;
+            throw new SuppliersException(
+                    "A database error occurred while inserting supplier " + nextSupplierIdInSystem);
+        }
     }
 
     // Add 'Self Pickup' supplier to the system
@@ -178,21 +201,27 @@ public class SupplierController {
             List<String> supplierFields, String paymentCondition, TreeMap<Integer, Discount> amountToDiscount,
             List<String> contactNames, List<String> contactPhones, String address, int maxPreperationDays)
             throws SuppliersException, SQLException {
-        // we add the office contact
-        addOfficeContact(contactNames, contactPhones, supplierPhone);
-        // first we try to make the DTO
-        SelfPickUpSupplierDTO dto = new SelfPickUpSupplierDTO(
-                new SupplierDTO(nextSupplierIdInSystem, supplierName, supplierBankAccount, paymentCondition,
-                        supplierFields,
-                        makeContactDTOList(makeContactList(contactPhones, contactNames, nextSupplierIdInSystem)),
-                        makeDiscountDTOMap(amountToDiscount), new HashMap<Integer, PeriodicReservationDTO>()),
-                address, maxPreperationDays);
-        // now we insert to the proper DAO
-        selfPickupSupplierDAO.insert(dto);
-        // now we insert to business layer
-        SelfPickupSupplier sps = new SelfPickupSupplier(dto);
-        idToSupplier.put(nextSupplierIdInSystem, sps);
-        nextSupplierIdInSystem++;
+        try {
+            // we add the office contact
+            addOfficeContact(contactNames, contactPhones, supplierPhone);
+            // first we try to make the DTO
+            SelfPickUpSupplierDTO dto = new SelfPickUpSupplierDTO(
+                    new SupplierDTO(nextSupplierIdInSystem, supplierName, supplierBankAccount, paymentCondition,
+                            makeFieldsDTOList(nextSupplierIdInSystem, supplierFields),
+                            makeContactDTOList(makeContactList(contactPhones, contactNames, nextSupplierIdInSystem)),
+                            makeDiscountDTOMap(amountToDiscount), new HashMap<Integer, PeriodicReservationDTO>()),
+                    address, maxPreperationDays);
+            // now we insert to the proper DAO
+            selfPickupSupplierDAO.insert(dto);
+            // now we insert to business layer
+            SelfPickupSupplier sps = new SelfPickupSupplier(dto);
+            idToSupplier.put(nextSupplierIdInSystem, sps);
+            nextSupplierIdInSystem++;
+        } catch (Exception e) {
+            nextSupplierIdInSystem--;
+            throw new SuppliersException(
+                    "A database error occurred while inserting supplier " + nextSupplierIdInSystem);
+        }
 
     }
 
@@ -202,86 +231,92 @@ public class SupplierController {
         contactPhones.add(0, officePhone);
     }
 
-    // -----------------------------------------------------------------------------------------
-
     // Update supplier name
     public void setSupplierName(int supplierId, String supplierName) throws SuppliersException {
         try {
-            getSupplierById(supplierId).setName(supplierName);
+            Supplier s = getSupplierById(supplierId);
+            // try to set the dto and update in database
+            SupplierDTO sDTO = s.getDTO();
+            sDTO.setName(supplierName);
+            supplierDAO.update(sDTO);
+            // now update in presistence
+            s.setName(supplierName);
         } catch (Exception e) {
-            throw e;
-        }
-    }
-
-    // Update supplier phone
-    public void setSupplierPhone(int supplierId, String supplierPhone) throws SuppliersException {
-        try {
-            getSupplierById(supplierId).setPhone(supplierPhone);
-        } catch (Exception e) {
-            throw e;
+            throw new SuppliersException(
+                    "A database error occurred while changing name of supplier with id: " + supplierId);
         }
     }
 
     // Update supplier bank account
     public void setSupplierBankAccount(int supplierId, String supplierBankAccount) throws SuppliersException {
         try {
-            getSupplierById(supplierId).setBankAcc(supplierBankAccount);
+            Supplier s = getSupplierById(supplierId);
+            // try to set the dto and update in database
+            SupplierDTO sDTO = s.getDTO();
+            sDTO.setBankAccount(supplierBankAccount);
+            supplierDAO.update(sDTO);
+            // now update in presistence
+            s.setBankAcc(supplierBankAccount);
         } catch (Exception e) {
-            throw e;
-        }
-    }
-
-    // Update supplier fields
-    public void setSupplierFields(int supplierId, List<String> supplierFields) throws SuppliersException {
-        try {
-            getSupplierById(supplierId).setFields(supplierFields);
-        } catch (Exception e) {
-            throw e;
-        }
-    }
-
-    // Add supplier field
-    public void addSupplierField(int supplierId, String field) throws SuppliersException {
-        try {
-            getSupplierById(supplierId).getFields().add(field);
-        } catch (Exception e) {
-            throw e;
+            throw new SuppliersException(
+                    "A database error occurred while changing bank account of supplier with id: " + supplierId);
         }
     }
 
     // Update supplier payment condition
     public void setSupplierPaymentCondition(int supplierId, String paymentCondition) throws SuppliersException {
         try {
-            getSupplierById(supplierId).setPaymentCondition(paymentCondition);
+            Supplier s = getSupplierById(supplierId);
+            // try to set the dto and update in database
+            SupplierDTO sDTO = s.getDTO();
+            sDTO.setPaymentCondition(paymentCondition);
+            supplierDAO.update(sDTO);
+            // now update in presistence
+            s.setPaymentCondition(paymentCondition);
         } catch (Exception e) {
-            throw e;
+            throw new SuppliersException(
+                    "A database error occurred while changing payment condition of supplier with id: " + supplierId);
         }
     }
 
-    // Update supplier discount
-    public void setSupplierAmountToDiscount(int supplierId, TreeMap<Integer, Discount> amountToDiscount)
-            throws SuppliersException {
+    // Add supplier field
+    public void addSupplierField(int supplierId, String field) throws SuppliersException {
         try {
-            getSupplierById(supplierId).setAmountToDiscount(amountToDiscount);
+            Supplier s = getSupplierById(supplierId);
+            // try to make new dto and add to database;
+            SuppliersFieldsDTO sfDTO = new SuppliersFieldsDTO(supplierId, field);
+            suppliersFieldsDAO.insert(sfDTO);
+
+            SupplierDTO sDTO = s.getDTO();
+            sDTO.addField(sfDTO);
+
+            // now update in presistence
+            s.addField(field);
         } catch (Exception e) {
-            throw e;
+            throw new SuppliersException(
+                    "A database error occurred while adding field of supplier with id: " + supplierId);
         }
     }
 
-    // Add supplier contacts names and phones
-    public void setSupplierContactNamesAndPhones(int supplierId, List<String> contactPhones, List<String> contactNames)
-            throws Exception {
+    // Remove supplier field
+    public void removeSupplierField(int supplierId, String field) throws SuppliersException {
         try {
-            if (contactNames.size() != contactPhones.size()) {
-                throw new Exception("Number of contact names and phones does not match");
+            Supplier s = getSupplierById(supplierId);
+            if (!s.getFields().contains(field)) {
+                throw new SuppliersException("Field " + field + " does not exist in supplier " + supplierId);
             }
+            // try to delete from database first.
+            SupplierDTO sDTO = s.getDTO();
+            SuppliersFieldsDTO fieldDTO = sDTO.getFieldDTObyName(field);
+            suppliersFieldsDAO.delete(fieldDTO);
 
-            for (int i = 0; i < contactNames.size(); i++) {
-                addSupplierContact(supplierId, contactPhones.get(i), contactNames.get(i));
-            }
+            sDTO.removeField(fieldDTO);
 
+            // now update in presistence
+            s.removeField(field);
         } catch (Exception e) {
-            throw e;
+            throw new SuppliersException(
+                    "A database error occurred while removing field from supplier with id: " + supplierId);
         }
     }
 
@@ -289,10 +324,19 @@ public class SupplierController {
     public void addSupplierContact(int supplierId, String contactPhone, String contactName) throws Exception {
         try {
             Supplier s = getSupplierById(supplierId);
-            Contact c = new Contact(contactPhone, contactName);
+            // try to make new dto and add to database;
+            ContactDTO cDTO = new ContactDTO(supplierId, contactPhone, contactName);
+            contactDAO.insert(cDTO);
+
+            SupplierDTO sDTO = s.getDTO();
+            sDTO.addContact(cDTO);
+
+            // now update in presistence
+            Contact c = new Contact(cDTO);
             s.addContact(c);
         } catch (Exception e) {
-            throw e;
+            throw new SuppliersException(
+                    "A database error occurred while adding contact for supplier with id: " + supplierId);
         }
     }
 
@@ -300,21 +344,32 @@ public class SupplierController {
     public void deleteSupplierContact(int supplierId, String contactPhone, String contactName) throws Exception {
         try {
             Supplier s = getSupplierById(supplierId);
-            Contact c = new Contact(contactPhone, contactName);
+            Contact c = getContactByPhone(s, contactPhone);
+            if (c == null) {
+                throw new SuppliersException(
+                        "Contact with phone " + contactPhone + " does not exist in supplier " + supplierId);
+            }
+            // try to delete from database first.
+            ContactDTO cDTO = c.getContactDTO();
+            contactDAO.delete(cDTO);
+            SupplierDTO sDTO = s.getDTO();
+            sDTO.removeContact(cDTO);
+
+            // now update in presistence
             s.deleteContact(c);
         } catch (Exception e) {
-            throw e;
+            throw new SuppliersException(
+                    "A database error occurred while removing contact from supplier with id: " + supplierId);
         }
     }
 
-    // Delete all supplier contacts
-    public void deleteAllSupplierContacts(int supplierId) throws SuppliersException {
-        try {
-            Supplier s = getSupplierById(supplierId);
-            s.deleteAllContacts();
-        } catch (Exception e) {
-            throw e;
+    private Contact getContactByPhone(Supplier s, String contactPhone) {
+        for (Contact c : s.getContacts()) {
+            if (c.getPhone().equals(contactPhone)) {
+                return c;
+            }
         }
+        return null;
     }
 
     /**
@@ -334,14 +389,14 @@ public class SupplierController {
      * 
      **/
     public void addSupplierProductAgreement(int supplierId, int productShopId, int productSupplierId, int stockAmount,
-            double basePrice, TreeMap<Integer, DiscountDTO> amountToDiscount) throws SuppliersException, SQLException {
+            double basePrice, TreeMap<Integer, Discount> amountToDiscount) throws SuppliersException {
         try {
             if (supplierId < 0) {
                 throw new SuppliersException("Supplier id cannot be negative.");
             }
-            if (!idToSupplier.containsKey(supplierId)) {
-                throw new SuppliersException("There is no supplier with id " + supplierId + " in the system.");
-            }
+            // just to load if it doesn't exist in presistence.
+            getSupplierById(supplierId);
+
             if (stockAmount < 0) {
                 throw new SuppliersException("Stock amount cannot be negative.");
             }
@@ -350,13 +405,17 @@ public class SupplierController {
             }
 
             Product product = ProductController.getInstance().getProductById(productShopId);
+            // first we add to database
+            TreeMap<Integer, DiscountDTO> discountDTOMap = makeDiscountDTOMap(amountToDiscount);
             ProductAgreementDTO dto = new ProductAgreementDTO(supplierId, product.getDTO(), stockAmount, basePrice,
-                    productSupplierId, amountToDiscount);
+                    productSupplierId, discountDTOMap);
             productAgreementDAO.insert(dto);
+
+            // now we add to presistence
             ProductAgreement pa = new ProductAgreement(dto);
             ProductController.getInstance().addProductAgreement(supplierId, productShopId, pa);
-        } catch (SuppliersException e) {
-            throw e;
+        } catch (Exception e) {
+            throw new SuppliersException("A error occurred while adding agreement to supplier with id: " + supplierId);
         }
 
     }
@@ -377,10 +436,19 @@ public class SupplierController {
      * @throws SuppliersException if the information is not valid
      * 
      **/
-    public void updateSupplierProductAgreement(int supplierId, int productShopId, int stockAmount,
-            TreeMap<Integer, Discount> amountToDiscount) throws Exception {
-        ProductController.getInstance().updateProductAgreement(supplierId, productShopId, stockAmount,
-                amountToDiscount);
+    public void updateSupplierProductAgreement(int supplierId, int productShopId, int stockAmount, int basePrice,
+            TreeMap<Integer, Discount> amountToDiscount) throws SuppliersException {
+        try {
+            // just to make sure we load if it doesn't exist in presistence.
+            getSupplierById(supplierId);
+
+            // handles the data and presistence update.
+            ProductController.getInstance().updateProductAgreement(supplierId, productShopId, stockAmount, basePrice,
+                    amountToDiscount);
+        } catch (Exception e) {
+            throw new SuppliersException(
+                    "A error occurred while updating agreement to supplier with id: " + supplierId);
+        }
     }
 
     /**
@@ -423,6 +491,22 @@ public class SupplierController {
         return res;
     }
 
+    private List<SuppliersFieldsDTO> makeFieldsDTOList(int supplierId, List<String> fields) throws SuppliersException {
+        try {
+            List<SuppliersFieldsDTO> suppliersFieldsDTOs = new ArrayList<SuppliersFieldsDTO>();
+            for (String field : fields) {
+                // try to insert to database
+                SuppliersFieldsDTO dto = new SuppliersFieldsDTO(supplierId, field);
+                suppliersFieldsDAO.insert(dto);
+                suppliersFieldsDTOs.add(dto);
+            }
+            return suppliersFieldsDTOs;
+        } catch (Exception e) {
+            throw new SuppliersException(
+                    "A database error occurred while inserting fields to new supplier " + supplierId);
+        }
+    }
+
     /**
      * Sets a new price of items in receipt, after calculating the discount per
      * total order amount.
@@ -455,19 +539,17 @@ public class SupplierController {
      * 
      * @param supplierId the id of the supplier
      * @return information about the supplier
-     * @throws Exception
+     * @throws SuppliersException
      */
-    public String getSupplierCard(int supplierId) throws Exception {
+    public String getSupplierCard(int supplierId) throws SuppliersException {
         try {
-            if (!idToSupplier.containsKey(supplierId)) {
-                throw new Exception("There is no supplier with id " + supplierId + " in the system.");
-            }
+            Supplier s = getSupplierById(supplierId);
             if (supplierId < 0) {
                 throw new Exception("Supplier id cannot be negative.");
             }
-            return idToSupplier.get(supplierId).toString();
+            return s.toString();
         } catch (Exception e) {
-            throw e;
+            throw new SuppliersException("Error occurred while getting supplier card with id: " + supplierId);
         }
     }
 
@@ -475,7 +557,8 @@ public class SupplierController {
         return getSupplierById(supplierID).getRandomContact();
     }
 
-    private void makePeriodicalReservations() throws SQLException {
+    private void makePeriodicalReservations() throws SQLException { // TODO: make sure with daniel that this method is
+                                                                    // properly implemented.
         for (Supplier s : idToSupplier.values()) {
             Map<Integer, PeriodicReservation> branchToPeriodicReservations = s.getBranchToPeriodicReservations();
             for (int branchId : branchToPeriodicReservations.keySet()) {
@@ -487,22 +570,22 @@ public class SupplierController {
         }
     }
 
-    public void clearData() {
+    public void clearPresistenceData() {
         idToSupplier.clear();
         nextSupplierIdInSystem = 0;
     }
 
     public PeriodicReservation addNewPeriodicReservation(PeriodicReservationDTO periodicReservationDTO) {
-        // TODO : create new PeriodicReservation and return the object.
-        List<PeriodicReservationItemDAO> lst = new ArrayList<>();
+        // TODO : create new PeriodicReservation and return the object. (MAKE SURE WITH
+        // DANIEL)
         PeriodicReservation periodicReservation = new PeriodicReservation(periodicReservationDTO);
-        // add it to the needed Hashmaps.
-        return null;
+        Supplier s = getSupplierById(periodicReservation.getSupplierId());
+        s.putPeriodicReservation(periodicReservation.getBranchId(), periodicReservation);
+        return periodicReservation;
     }
 
     public Contact getContactOfSupplier(int supplierId, String phone) {
-        // TODO: implement this method
-        throw new IllegalStateException("Not implemented");
+        return getContactByPhone(getSupplierById(supplierId), phone);
     }
 
 }

@@ -7,18 +7,15 @@ import BusinessLayer.InveontorySuppliers.DiscountFixed;
 import BusinessLayer.InveontorySuppliers.DiscountPercentage;
 import BusinessLayer.InveontorySuppliers.PeriodicReservation;
 import BusinessLayer.exceptions.SuppliersException;
-import DataAccessLayer.DAOs.ContactDAO;
 import DataAccessLayer.DTOs.ContactDTO;
-import DataAccessLayer.DTOs.DTO;
 import DataAccessLayer.DTOs.DiscountDTO;
 import DataAccessLayer.DTOs.PeriodicReservationDTO;
 import DataAccessLayer.DTOs.SupplierDTO;
-
+import DataAccessLayer.DTOs.SuppliersFieldsDTO;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -34,26 +31,27 @@ public abstract class Supplier {
     private Map<Integer, PeriodicReservation> branchToPeriodicReservations;
     private SupplierDTO supplierDTO;
 
-    // public Supplier(int id, String name, String phone, String bankAcc, List<String> fields, String paymentCondition,
-    //                 TreeMap<Integer, Discount> amountToDiscount, List<Contact> contacts) {
-    //     this.id = id;
-    //     this.name = name;
-    //     this.bankAcc = bankAcc;
-    //     this.fields = fields;
-    //     this.paymentCondition = paymentCondition;
-    //     this.amountToDiscount = amountToDiscount;
-    //     this.contacts = addOfficeContact(contacts, phone);
-    //     this.branchToPeriodicReservations = new HashMap<>();
-    //     //this.supplierDTO = new SupplierDTO(id, name, bankAcc, paymentCondition, fields, makeContactDTOList(contacts), );
+    // public Supplier(int id, String name, String phone, String bankAcc,
+    // List<String> fields, String paymentCondition,
+    // TreeMap<Integer, Discount> amountToDiscount, List<Contact> contacts) {
+    // this.id = id;
+    // this.name = name;
+    // this.bankAcc = bankAcc;
+    // this.fields = fields;
+    // this.paymentCondition = paymentCondition;
+    // this.amountToDiscount = amountToDiscount;
+    // this.contacts = addOfficeContact(contacts, phone);
+    // this.branchToPeriodicReservations = new HashMap<>();
+    // //this.supplierDTO = new SupplierDTO(id, name, bankAcc, paymentCondition,
+    // fields, makeContactDTOList(contacts), );
     // }
 
     public Supplier(SupplierDTO supplierDTO) {
-        //TODO: make sure that we add the office phone as a contact.
         this.supplierDTO = supplierDTO;
         this.id = supplierDTO.getId();
         this.name = supplierDTO.getName();
         this.bankAcc = supplierDTO.getBankAccount();
-        this.fields = supplierDTO.getFields();
+        this.fields = makeFieldsList(supplierDTO.getFields());
         this.paymentCondition = supplierDTO.getPaymentCondition();
         TreeMap<Integer, DiscountDTO> amountToDiscountDTO = supplierDTO.getAmountToDiscount();
         this.amountToDiscount = makeDiscountMap(amountToDiscountDTO);
@@ -62,10 +60,12 @@ public abstract class Supplier {
         this.branchToPeriodicReservations = makePeriodicalReservations(periodicReservationDTO);
     }
 
-    private Map<Integer, PeriodicReservation> makePeriodicalReservations(Map<Integer, PeriodicReservationDTO> periodicReservationDTO) {
+    private Map<Integer, PeriodicReservation> makePeriodicalReservations(
+            Map<Integer, PeriodicReservationDTO> periodicReservationDTO) {
         Map<Integer, PeriodicReservation> res = new HashMap<>();
         for (Integer key : periodicReservationDTO.keySet()) {
             PeriodicReservationDTO dto = periodicReservationDTO.get(key);
+            // TODO: what going on here? why we make pr and leave it like this?
             PeriodicReservation pr = new PeriodicReservation(dto);
         }
         return res;
@@ -95,6 +95,14 @@ public abstract class Supplier {
         return res;
     }
 
+    private List<String> makeFieldsList(List<SuppliersFieldsDTO> fieldsDTOs) {
+        List<String> fields = new ArrayList<>();
+        for (SuppliersFieldsDTO f : fieldsDTOs) {
+            fields.add(f.getFieldName());
+        }
+        return fields;
+    }
+
     public abstract LocalDate getClosestDeliveryDate();
 
     public Map<Integer, PeriodicReservation> getBranchToPeriodicReservations() {
@@ -104,7 +112,7 @@ public abstract class Supplier {
     public void setBranchToPeriodicReservations(Map<Integer, PeriodicReservation> branchToPeriodicReservations) {
         this.branchToPeriodicReservations = branchToPeriodicReservations;
     }
-    
+
     // Getter and setter for id
     public int getId() {
         return id;
@@ -125,7 +133,6 @@ public abstract class Supplier {
         return bankAcc;
     }
 
-
     // Getter and setter for fields
     public List<String> getFields() {
         return fields;
@@ -135,7 +142,6 @@ public abstract class Supplier {
     public String getPaymentCondition() {
         return paymentCondition;
     }
-
 
     // Getter and setter for amountToDiscount
     public TreeMap<Integer, Discount> getAmountToDiscount() {
@@ -198,6 +204,10 @@ public abstract class Supplier {
         return discount;
     }
 
+    public SupplierDTO getDTO() {
+        return this.supplierDTO;
+    }
+
     @Override
     public String toString() {
         return "Supplier [id=" + id + ", name=" + name + ", phone=" + getPhone() + ", bankAcc=" + bankAcc + ", fields="
@@ -205,6 +215,26 @@ public abstract class Supplier {
                 + ", paymentCondition=" + paymentCondition + ", amountToDiscount=" + amountToDiscount + "\ncontacts="
                 + contacts + "]";
 
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setBankAcc(String bankAcc) {
+        this.bankAcc = bankAcc;
+    }
+
+    public void setPaymentCondition(String paymentCondition) {
+        this.paymentCondition = paymentCondition;
+    }
+
+    public void addField(String field) {
+        this.fields.add(field);
+    }
+
+    public void removeField(String field) {
+        this.fields.remove(field);
     }
 
 }

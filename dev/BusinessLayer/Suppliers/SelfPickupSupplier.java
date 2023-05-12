@@ -1,5 +1,5 @@
 package BusinessLayer.Suppliers;
-import DataAccessLayer.DTOs.DTO;
+
 import DataAccessLayer.DTOs.SelfPickUpSupplierDTO;
 
 import java.time.LocalDate;
@@ -38,7 +38,4 @@ class SelfPickupSupplier extends Supplier {
     public LocalDate getClosestDeliveryDate() {
         return LocalDate.now().plusDays(maxPreperationDays);
     }
-
-    
-
 }

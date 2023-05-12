@@ -44,10 +44,25 @@ public class ReservationController {
         idToSupplierReservations = new HashMap<>();
         supplierIdToReservations = new HashMap<>();
         readyReservations = new ArrayList<>();
-        lastId = 0;
 
         receiptItemDAO = ReceiptItemDAO.getInstance();
         reservationDAO = ReservationDAO.getInstance();
+
+        // Get last id from the database
+        try {
+            LoadReservationLastId();
+        } catch (SQLException e) {
+            // TODO: how we want to handle exception? loading of the last id failed.
+        }
+    }
+
+    /**
+     * Sets the next id to be the last id used in the database.
+     * 
+     * @throws SQLException if there is an error in the database.
+     */
+    private void LoadReservationLastId() throws SQLException {
+        lastId = reservationDAO.getLastId() + 1;
     }
 
     public static ReservationController getInstance() {

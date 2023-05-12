@@ -7,8 +7,6 @@ import java.util.HashMap;
 import java.util.List;
 
 import BusinessLayer.InveontorySuppliers.*;
-import DataAccessLayer.DAOs.ProductBranchDiscountsDAO;
-import DataAccessLayer.DTOs.DiscountDTO;
 import DataAccessLayer.DTOs.ProductBranchDTO;
 import DataAccessLayer.DTOs.SpecificProductDTO;
 
@@ -290,6 +288,10 @@ public class ProductBranch {
     public Category getCategory() {
         return product.getCategory();
     }
+    public int getCategoryId() {
+        return product.getCategoryId();
+    }
+
 
     public boolean existInCategories(List<Category> allSubCategories) {
         boolean result = false;

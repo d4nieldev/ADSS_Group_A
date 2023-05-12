@@ -2,13 +2,16 @@ package DataAccessLayer.DAOs;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
 
+import DataAccessLayer.DTOs.PeriodicReservationDTO;
 import DataAccessLayer.Repository;
 import DataAccessLayer.DTOs.BranchDTO;
 
 public class BranchDAO extends DAO<BranchDTO> {
 
     private static BranchDAO instance = null;
+
     private Repository repo;
 
     private BranchDAO() {
@@ -30,8 +33,9 @@ public class BranchDAO extends DAO<BranchDTO> {
         int id = rs.getInt("id");
         String name = rs.getString("name");
         int minAmount = rs.getInt("minAmount");
-
-        return new BranchDTO(id, name,minAmount);
+        PeriodicReservationDAO periodicReservationDAO = PeriodicReservationDAO.getInstance();
+        List<PeriodicReservationDTO> allPeriodicReservationDTO = periodicReservationDAO.getByBranchId(id);
+        return new BranchDTO(id,name,minAmount,allPeriodicReservationDTO);
     }
 
     public BranchDTO getById(int branchId) throws SQLException {

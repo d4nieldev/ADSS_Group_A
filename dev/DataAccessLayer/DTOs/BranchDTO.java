@@ -1,6 +1,7 @@
 package DataAccessLayer.DTOs;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class BranchDTO implements DTO {
@@ -8,14 +9,18 @@ public class BranchDTO implements DTO {
     private int id;
     private String name;
     private int minAmount; //min amount to perform deficiency order
+    private List<PeriodicReservationDTO> periodicReservationDTO;
 
-    public BranchDTO(int id, String name/*,PeriodicReservationDTO periodicReservationDTO*/,int minAmount){
+    public BranchDTO(int id, String name,int minAmount,List<PeriodicReservationDTO> periodicReservationDTO){
         this.id = id;
         this.name = name;
         this.minAmount = minAmount;
-//        this.periodicReservationDTO = periodicReservationDTO;
+        this.periodicReservationDTO = periodicReservationDTO;
     }
 
+    public int getId() {
+        return id;
+    }
     public String getName(){
         return name;
     }
@@ -23,12 +28,8 @@ public class BranchDTO implements DTO {
     public int getMinAmount() {
         return minAmount;
     }
-
-    //    public PeriodicReservationDTO getPeriodicReservationDTO() {
-//        return periodicReservationDTO;
-//    }
-    public int getId() {
-        return id;
+    public List<PeriodicReservationDTO> getAllPeriodicReservationDTO() {
+        return periodicReservationDTO;
     }
     @Override
     public Map<String, String> getNameToVal() {
@@ -38,6 +39,11 @@ public class BranchDTO implements DTO {
         nameToVal.put("minAmount", ""+ minAmount);
         return nameToVal;
     }
+
+
+
+
+
 
     
 }

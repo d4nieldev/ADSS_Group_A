@@ -6,7 +6,6 @@ import java.time.LocalDate;
 import java.util.HashMap;
 
 import BusinessLayer.Inventory.ProductStatus;
-import BusinessLayer.Inventory.SpecificProduct;
 import DataAccessLayer.Repository;
 import DataAccessLayer.DTOs.SpecificProductDTO;
 

@@ -8,6 +8,7 @@ import DataAccessLayer.DAOs.*;
 import DataAccessLayer.DTOs.*;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -44,14 +45,15 @@ public class BranchController {
         return allFlaws;
     }
 
-    public HashMap<Integer, List<SpecificProduct>> getBranchExpired(int branchId) {
+    public HashMap<Integer, List<SpecificProduct>> getBranchExpired(int branchId) throws SQLException {
         HashMap<Integer, List<SpecificProduct>> result = new HashMap<>();
         Branch branch = allBranches.get(branchId);
         result = branch.getExpiredProducts();
         return result;
     }
     public void addBranch(int branchId,String branchName, int minAmount) throws SQLException {
-        BranchDTO branchDTO = new BranchDTO(branchId,branchName,minAmount);
+        List<PeriodicReservationDTO> allBranchReservations = new ArrayList<>();
+        BranchDTO branchDTO = new BranchDTO(branchId,branchName,minAmount,allBranchReservations);
         branchDAO.insert(branchDTO);
         Branch newBranch = new Branch(branchDTO);
         allBranches.put(branchId,newBranch) ;

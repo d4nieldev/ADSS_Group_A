@@ -1,7 +1,6 @@
 package BusinessLayer.Inventory;
 
 import BusinessLayer.InveontorySuppliers.Branch;
-import DataAccessLayer.DAOs.CategoryDAO;
 import DataAccessLayer.DAOs.DeficiencyReportEntryDAO;
 import DataAccessLayer.DAOs.ExpiredAndFlawReportEntryDAO;
 import DataAccessLayer.DAOs.InventoryReportEntryDAO;

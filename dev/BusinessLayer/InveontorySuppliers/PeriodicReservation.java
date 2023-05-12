@@ -2,10 +2,9 @@ package BusinessLayer.InveontorySuppliers;
 
 import java.util.HashMap;
 
+import BusinessLayer.Inventory.BranchController;
 import BusinessLayer.Inventory.Global;
 import BusinessLayer.Inventory.ProductStatus;
-import BusinessLayer.InveontorySuppliers.ProductController;
-import BusinessLayer.enums.Day;
 import DataAccessLayer.DTOs.PeriodicReservationDTO;
 
 public class PeriodicReservation {
@@ -13,6 +12,8 @@ public class PeriodicReservation {
     private HashMap<Integer, Integer> productsToAmounts; // maps between product's code to amount to order
     private ProductStatus.Day day; // day for delivery;
     ProductController productController;
+
+     private int branchId;
 
     // public PeriodicReservation(int supplierId,Day day) {
     // this.id = Global.getNewPeriodicId();
@@ -23,8 +24,9 @@ public class PeriodicReservation {
     public PeriodicReservation(PeriodicReservationDTO periodicReservationDTO) {
         this.id = Global.getNewPeriodicId();
         this.day = periodicReservationDTO.getDayOfOrder();
-        // this.productsToAmounts = //TODO:implement;
-
+        this.branchId = periodicReservationDTO.getBranchId();
+        Branch branch = BranchController.getInstance().getBranchById(getBranchId());
+        this.productsToAmounts = periodicReservationDTO.getAllItemsMap();
     }
 
     public PeriodicReservation() {
@@ -32,12 +34,16 @@ public class PeriodicReservation {
         this.productsToAmounts = new HashMap<>();
     }
 
-    public void setDay(Day day) {
+    public void setDay( ProductStatus.Day day) {
         this.day = day;
     }
 
-    public Day getDay() {
+    public ProductStatus.Day getDay() {
         return day;
+    }
+
+    public int getId() {
+        return id;
     }
 
     public HashMap<Integer, Integer> getProductsToAmounts() {
@@ -45,7 +51,7 @@ public class PeriodicReservation {
     }
 
     public int getBranchId() {
-        return id;
+        return branchId;
     }
 
     public boolean addNewProduct(int productCode, int amount, int minQuantity, int totalQuantity) throws Exception {

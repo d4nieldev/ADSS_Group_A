@@ -2,17 +2,20 @@ package DataAccessLayer.DAOs;
 
 import BusinessLayer.Inventory.ProductStatus;
 import DataAccessLayer.DTOs.PeriodicReservationDTO;
-import DataAccessLayer.DTOs.SpecificProductDTO;
+import DataAccessLayer.DTOs.PeriodicReservationItemDTO;
 import DataAccessLayer.Repository;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class PeriodicReservationDAO extends DAO<PeriodicReservationDTO> {
 
     private static PeriodicReservationDAO instance = null;
+    private PeriodicReservationItemDAO periodicReservationItemDAO;
     private Repository repo;
 
     public static PeriodicReservationDAO getInstance() {
@@ -24,6 +27,8 @@ public class PeriodicReservationDAO extends DAO<PeriodicReservationDTO> {
     private PeriodicReservationDAO() {
         super("PeriodicReservation");
         this.repo = Repository.getInstance();
+        this.periodicReservationItemDAO = PeriodicReservationItemDAO.getInstance();
+
     }
 
     @Override
@@ -34,8 +39,9 @@ public class PeriodicReservationDAO extends DAO<PeriodicReservationDTO> {
         int supplierId = rs.getInt("supplierId");
         int branchId = rs.getInt("branchId");
         ProductStatus.Day dayOfOrder = stringToStatus(rs.getString("dayOfOrder"));
+        List<PeriodicReservationItemDTO> allItems = periodicReservationItemDAO.getBySupplierAndBrunchId(supplierId,branchId);
 
-        return new PeriodicReservationDTO(supplierId, branchId, dayOfOrder);
+        return new PeriodicReservationDTO(supplierId, branchId, dayOfOrder,allItems);
     }
 
     public PeriodicReservationDTO getById(int supplierId, int branchID) throws SQLException {
@@ -82,4 +88,22 @@ public class PeriodicReservationDAO extends DAO<PeriodicReservationDTO> {
         return supplierPeriodicReservations;
     }
 
+    /***
+     * return all branch periodic reservation
+     * @param branchId
+     * @return
+     * @throws SQLException
+     */
+    public List<PeriodicReservationDTO> getByBranchId(int branchId) throws SQLException {
+        String query = "SELECT * FROM " + tableName + " WHERE branchId = ?;";
+        ResultSet rs = repo.executeQuery(query, branchId);
+        List<PeriodicReservationDTO> allBranchReservations = new ArrayList<>();
+        while (rs.next()) {
+            PeriodicReservationDTO periodicReservationDTO = makeDTO(rs);
+            allBranchReservations.add(periodicReservationDTO);
+        }
+
+        rs.close();
+        return allBranchReservations;
+    }
 }

@@ -3,7 +3,6 @@ package BusinessLayer.Inventory;
 import DataAccessLayer.DTOs.SpecificProductDTO;
 
 import java.time.LocalDate;
-import java.util.HashMap;
 
 public class SpecificProduct {
     private int generalId;

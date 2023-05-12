@@ -9,10 +9,7 @@ import java.util.TreeMap;
 import BusinessLayer.Inventory.ProductStatus;
 import BusinessLayer.InveontorySuppliers.*;
 import BusinessLayer.exceptions.SuppliersException;
-import DataAccessLayer.DAOs.ContactDAO;
-import DataAccessLayer.DAOs.FixedDaysSupplierDAO;
-import DataAccessLayer.DAOs.OnOrderSuppliersDAO;
-import DataAccessLayer.DAOs.SelfPickUpSupplierDAO;
+import DataAccessLayer.DAOs.*;
 import DataAccessLayer.DTOs.ContactDTO;
 import DataAccessLayer.DTOs.DiscountDTO;
 import DataAccessLayer.DTOs.FixedDaysSupplierDTO;
@@ -20,7 +17,6 @@ import DataAccessLayer.DTOs.OnOrderSuppliersDTO;
 import DataAccessLayer.DTOs.PeriodicReservationDTO;
 import DataAccessLayer.DTOs.SelfPickUpSupplierDTO;
 import DataAccessLayer.DTOs.SupplierDTO;
-import DataAccessLayer.DAOs.ProductAgreementDAO;
 import DataAccessLayer.DTOs.ProductAgreementDTO;
 
 import java.util.List;
@@ -496,9 +492,10 @@ public class SupplierController {
         nextSupplierIdInSystem = 0;
     }
 
-    public PeriodicReservation addPeriodicReservation(int supplierId, int branchId, ProductStatus.Day day) {
+    public PeriodicReservation addNewPeriodicReservation(int supplierId, int branchId, ProductStatus day) {
         // TODO : create new PeriodicReservation and return the object.
-        PeriodicReservationDTO periodicReservationDTO = new PeriodicReservationDTO(supplierId, branchId, day);
+        List<PeriodicReservationItemDAO> lst = new ArrayList<>();
+        PeriodicReservationDTO periodicReservationDTO = new PeriodicReservationDTO(supplierId, branchId, day,lst);
         PeriodicReservation periodicReservation = new PeriodicReservation(periodicReservationDTO);
         // add it to the needed Hashmaps.
         return null;

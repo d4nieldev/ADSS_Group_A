@@ -58,6 +58,10 @@ public class ProductBranch {
         this.productBranchDTO = productBranchDTO;
     }
 
+    public ProductBranchDTO getProductBranchDTO() {
+        return productBranchDTO;
+    }
+
     public Discount getDiscount() {
         return discount;
     }
@@ -222,7 +226,7 @@ public class ProductBranch {
      * 
      * @param specificId
      */
-    public void sellProduct(int specificId) throws Exception {
+    public SpecificProduct sellProduct(int specificId) throws Exception {
         SpecificProduct sp = getSpecificProduct(specificId);
         if (sp != null) {
             if (sp.getStatus() == ProductStatus.status.ON_SHELF || sp.getStatus() == ProductStatus.status.ON_STORAGE) {
@@ -234,7 +238,7 @@ public class ProductBranch {
             } else
                 throw new Exception("cannot sell products not from shelf");
         }
-
+        return sp;
     }
 
     private void UpdateSellPrice(SpecificProduct sp) {
@@ -249,7 +253,7 @@ public class ProductBranch {
         return false;
     }
 
-    public void reportFlawProduct(int specificId, String description) throws Exception {
+    public SpecificProduct reportFlawProduct(int specificId, String description) throws Exception {
         SpecificProduct specificProduct = allSpecificProducts.get(specificId);
         if (specificProduct == null)
             throw new Exception("this specific product doesn't exist");
@@ -261,6 +265,7 @@ public class ProductBranch {
         if (status == ProductStatus.status.ON_SHELF || status == ProductStatus.status.ON_STORAGE) {
             totalAmount--;
         }
+        return specificProduct;
     }
 
     public List<SpecificProduct> getOnShelfProduct() {
@@ -304,5 +309,8 @@ public class ProductBranch {
         }
 
         return result;
+    }
+    public SpecificProduct getSpecificById (int specificId){
+        return allSpecificProducts.get(specificId);
     }
 }

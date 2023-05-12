@@ -58,4 +58,11 @@ public class PeriodicReservationDTO implements DTO{
         this.allItems.add(periodicReservationItemDTO);
     }
 
+    public void updateItem(PeriodicReservationItemDTO periodicReservationItemDTO){
+        for (PeriodicReservationItemDTO pri : allItems){
+            if(pri.getBranchId() == periodicReservationItemDTO.getBranchId() && pri.getSupplierId() == periodicReservationItemDTO.getSupplierId()
+                    && pri.getProductId() == periodicReservationItemDTO.getProductId())
+                pri = periodicReservationItemDTO;
+        }
+    }
 }

@@ -29,6 +29,7 @@ public class SupplierController {
     private ReservationController rc;
     ProductAgreementDAO productAgreementDAO;
     Thread periodicReservationsCareTaker;
+
     private ContactDAO contactDAO;
     private FixedDaysSupplierDAO fixedDaysSupplierDAO;
     private OnOrderSuppliersDAO onOrderSuppliersDAO;
@@ -41,6 +42,7 @@ public class SupplierController {
         this.idToSupplier = new TreeMap<Integer, Supplier>();
         this.rc = ReservationController.getInstance();
         this.productAgreementDAO = ProductAgreementDAO.getInstance();
+
         periodicReservationsCareTaker = new Thread(() -> {
             try {
                 while (!Thread.interrupted()) {
@@ -52,20 +54,25 @@ public class SupplierController {
                 e.printStackTrace();
             }
         });
-        periodicReservationsCareTaker.start();
+
         contactDAO = ContactDAO.getInstance();
         fixedDaysSupplierDAO = FixedDaysSupplierDAO.getInstance();
         onOrderSuppliersDAO = OnOrderSuppliersDAO.getInstance();
         selfPickupSupplierDAO = SelfPickUpSupplierDAO.getInstance();
         supplierDAO = SupplierDAO.getInstance();
         suppliersFieldsDAO = SuppliersFieldsDAO.getInstance();
+    }
 
-        // we load the last id of supplier.
-        try {
-            LoadSupplierLastId();
-        } catch (Exception e) {
-            throw new SuppliersException("A database error occurred while loading supplier last id.");
-        }
+    /**
+     * initializes the controller, fetchies relevant data from the database and
+     * starts the periodic reservation thread
+     * 
+     * @throws SQLException if a database error occurs
+     */
+    public void init() throws SQLException {
+        loadSupplierLastId();
+        loadPeriodicReservations();
+        periodicReservationsCareTaker.start();
     }
 
     public static SupplierController getInstance() {
@@ -74,8 +81,12 @@ public class SupplierController {
         return instance;
     }
 
-    private void LoadSupplierLastId() throws SQLException {
+    private void loadSupplierLastId() throws SQLException {
         nextSupplierIdInSystem = supplierDAO.getLastId() + 1;
+    }
+
+    private void loadPeriodicReservations() throws SQLException {
+        // TODO: load all periodic reservations here
     }
 
     // getSupplierFromData

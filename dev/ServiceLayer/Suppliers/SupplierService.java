@@ -5,7 +5,6 @@ import java.util.TreeMap;
 
 import BusinessLayer.InveontorySuppliers.ProductController;
 import BusinessLayer.Suppliers.SupplierController;
-import BusinessLayer.exceptions.SuppliersException;
 
 public class SupplierService {
     private SupplierController supplierController;
@@ -32,7 +31,7 @@ public class SupplierService {
      */
     public String addFixedDaysSupplierBaseAgreement(String supplierName, String supplierPhone,
             String supplierBankAccount,
-            List<String> supplierFields, String paymentCondition, TreeMap<Integer, Double> amountToDiscount,
+            List<String> supplierFields, String paymentCondition, TreeMap<Integer, String> amountToDiscount,
             List<String> contactNames, List<String> contactPhones, List<Integer> days) {
         try {
             supplierController.addFixedDaysSupplierBaseAgreement(supplierName, supplierPhone, supplierBankAccount,
@@ -59,7 +58,7 @@ public class SupplierService {
      * @return success/error message
      */
     public String addOnOrderSupplierBaseAgreement(String supplierName, String supplierPhone, String supplierBankAccount,
-            List<String> supplierFields, String paymentCondition, TreeMap<Integer, Double> amountToDiscount,
+            List<String> supplierFields, String paymentCondition, TreeMap<Integer, String> amountToDiscount,
             List<String> contactNames, List<String> contactPhones, int maxSupplyDays) {
         try {
             supplierController.addOnOrderSupplierBaseAgreement(supplierName, supplierPhone, supplierBankAccount,
@@ -87,12 +86,12 @@ public class SupplierService {
      */
     public String addSelfPickupSupplierBaseAgreement(String supplierName, String supplierPhone,
             String supplierBankAccount,
-            List<String> supplierFields, String paymentCondition, TreeMap<Integer, Double> amountToDiscount,
-            List<String> contactNames, List<String> contactPhones, String address) {
+            List<String> supplierFields, String paymentCondition, TreeMap<Integer, String> amountToDiscount,
+            List<String> contactNames, List<String> contactPhones, String address, Integer maxPreparationDays) {
         try {
             supplierController.addSelfPickupSupplierBaseAgreement(supplierName, supplierPhone, supplierBankAccount,
                     supplierFields,
-                    paymentCondition, amountToDiscount, contactNames, contactPhones, address);
+                    paymentCondition, amountToDiscount, contactNames, contactPhones, address, maxPreparationDays);
             return "Supplier of type: 'Self Pickup' added successfully";
         } catch (Exception e) {
             return e.getMessage();
@@ -144,21 +143,21 @@ public class SupplierService {
         }
     }
 
-    // Update supplier fields
-    public String setSupplierFields(int supplierId, List<String> supplierFields) {
-        try {
-            supplierController.setSupplierFields(supplierId, supplierFields);
-            return "Supplier fields updated successfully";
-        } catch (Exception e) {
-            return e.getMessage();
-        }
-    }
-
     // Add supplier field
     public String addSupplierField(int supplierId, String field) {
         try {
             supplierController.addSupplierField(supplierId, field);
             return "Supplier field named: " + field + " added successfully";
+        } catch (Exception e) {
+            return e.getMessage();
+        }
+    }
+
+    // Remove supplier field
+    public String removeSupplierField(int supplierId, String field) {
+        try {
+            supplierController.removeSupplierField(supplierId, field);
+            return "Supplier field named: " + field + " removed successfully";
         } catch (Exception e) {
             return e.getMessage();
         }
@@ -172,28 +171,6 @@ public class SupplierService {
         } catch (Exception e) {
             return e.getMessage();
         }
-    }
-
-    // Update supplier discount
-    public String setSupplierAmountToDiscount(int supplierId, TreeMap<Integer, Double> amountToDiscount) {
-        try {
-            supplierController.setSupplierAmountToDiscount(supplierId, amountToDiscount);
-            return "Supplier field  updated successfully";
-        } catch (Exception e) {
-            return e.getMessage();
-        }
-    }
-
-    // Update supplier contacts names and phones
-    public String setSupplierContactNamesAndPhones(int supplierId, List<String> contactPhones,
-            List<String> contactNames) {
-        try {
-            supplierController.setSupplierContactNamesAndPhones(supplierId, contactPhones, contactNames);
-            return "Supplier contacts updated successfully";
-        } catch (Exception e) {
-            return e.getMessage();
-        }
-
     }
 
     // Add supplier contact
@@ -216,16 +193,6 @@ public class SupplierService {
         }
     }
 
-    // Delete all supplier contacts
-    public String deleteAllSupplierContacts(int supplierId) {
-        try {
-            supplierController.deleteAllSupplierContacts(supplierId);
-            return "All supplier contacts deleted successfully";
-        } catch (Exception e) {
-            return e.getMessage();
-        }
-    }
-
     /**
      * Addes a new supplier agreement about a specific product
      * 
@@ -238,7 +205,7 @@ public class SupplierService {
      * @return success/error message
      */
     public String addSupplierProductAgreement(int supplierId, int productShopId, int productSupplierId, int stockAmount,
-            double basePrice, TreeMap<Integer, Double> amountToDiscount) {
+            double basePrice, TreeMap<Integer, String> amountToDiscount) {
         try {
             supplierController.addSupplierProductAgreement(supplierId, productShopId, productSupplierId, stockAmount,
                     basePrice, amountToDiscount);
@@ -264,7 +231,7 @@ public class SupplierService {
     public String getSupplierProductAgreements(int supplierId) {
         try {
             return productController.getProductAgreementsOfSupplier(supplierId).toString();
-        } catch (SuppliersException e) {
+        } catch (Exception e) {
             return e.getMessage();
         }
     }

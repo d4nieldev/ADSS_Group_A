@@ -1,6 +1,7 @@
 package BusinessLayer.Suppliers;
 
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -24,6 +25,7 @@ import java.util.Map;
 public class SupplierController {
 
     private int nextSupplierIdInSystem;
+    private int nextDiscountIdInSystem;
     private TreeMap<Integer, Supplier> idToSupplier;
     private static SupplierController instance = null;
     private ReservationController rc;
@@ -36,6 +38,7 @@ public class SupplierController {
     private SelfPickUpSupplierDAO selfPickupSupplierDAO;
     private SupplierDAO supplierDAO;
     private SuppliersFieldsDAO suppliersFieldsDAO;
+    private DiscountDAO discountDAO;
 
     // Constructor for SupplierController
     private SupplierController() {
@@ -61,6 +64,7 @@ public class SupplierController {
         selfPickupSupplierDAO = SelfPickUpSupplierDAO.getInstance();
         supplierDAO = SupplierDAO.getInstance();
         suppliersFieldsDAO = SuppliersFieldsDAO.getInstance();
+        discountDAO = DiscountDAO.getInstance();
     }
 
     /**
@@ -72,6 +76,7 @@ public class SupplierController {
     public void init() throws SQLException {
         loadSupplierLastId();
         loadPeriodicReservations();
+        loadDiscountLastId();
         periodicReservationsCareTaker.start();
     }
 
@@ -83,6 +88,10 @@ public class SupplierController {
 
     private void loadSupplierLastId() throws SQLException {
         nextSupplierIdInSystem = supplierDAO.getLastId() + 1;
+    }
+
+    private void loadDiscountLastId() throws SQLException {
+        nextDiscountIdInSystem = discountDAO.getLastId() + 1;
     }
 
     private void loadPeriodicReservations() throws SQLException {
@@ -146,7 +155,7 @@ public class SupplierController {
 
     // Add 'Fixed days' supplier to the system
     public void addFixedDaysSupplierBaseAgreement(String supplierName, String supplierPhone, String supplierBankAccount,
-            List<String> supplierFields, String paymentCondition, TreeMap<Integer, Discount> amountToDiscount,
+            List<String> supplierFields, String paymentCondition, TreeMap<Integer, String> amountToDiscount,
             List<String> contactNames, List<String> contactPhones, List<Integer> days)
             throws SuppliersException, SQLException {
         try {
@@ -180,7 +189,7 @@ public class SupplierController {
     // Add 'On Order' supplier to the system
     public void addOnOrderSupplierBaseAgreement(String supplierName, String supplierPhone,
             String supplierBankAccount,
-            List<String> supplierFields, String paymentCondition, TreeMap<Integer, Discount> amountToDiscount,
+            List<String> supplierFields, String paymentCondition, TreeMap<Integer, String> amountToDiscount,
             List<String> contactNames, List<String> contactPhones, int maxSupplyDays)
             throws SuppliersException, SQLException {
         try {
@@ -209,7 +218,7 @@ public class SupplierController {
     // Add 'Self Pickup' supplier to the system
     public void addSelfPickupSupplierBaseAgreement(String supplierName, String supplierPhone,
             String supplierBankAccount,
-            List<String> supplierFields, String paymentCondition, TreeMap<Integer, Discount> amountToDiscount,
+            List<String> supplierFields, String paymentCondition, TreeMap<Integer, String> amountToDiscount,
             List<String> contactNames, List<String> contactPhones, String address, int maxPreperationDays)
             throws SuppliersException, SQLException {
         try {
@@ -354,6 +363,9 @@ public class SupplierController {
     // Delete supplier contact
     public void deleteSupplierContact(int supplierId, String contactPhone, String contactName) throws Exception {
         try {
+            if (contactName.equals("Office")) {
+                throw new SuppliersException("Cannot delete the Office contact");
+            }
             Supplier s = getSupplierById(supplierId);
             Contact c = getContactByPhone(s, contactPhone);
             if (c == null) {
@@ -400,7 +412,7 @@ public class SupplierController {
      * 
      **/
     public void addSupplierProductAgreement(int supplierId, int productShopId, int productSupplierId, int stockAmount,
-            double basePrice, TreeMap<Integer, Discount> amountToDiscount) throws SuppliersException {
+            double basePrice, TreeMap<Integer, String> amountToDiscount) throws SuppliersException {
         try {
             if (supplierId < 0) {
                 throw new SuppliersException("Supplier id cannot be negative.");
@@ -448,18 +460,27 @@ public class SupplierController {
      * 
      **/
     public void updateSupplierProductAgreement(int supplierId, int productShopId, int stockAmount, int basePrice,
-            TreeMap<Integer, Discount> amountToDiscount) throws SuppliersException {
+            TreeMap<Integer, String> amountToDiscount) throws SuppliersException {
         try {
             // just to make sure we load if it doesn't exist in presistence.
             getSupplierById(supplierId);
 
             // handles the data and presistence update.
             ProductController.getInstance().updateProductAgreement(supplierId, productShopId, stockAmount, basePrice,
-                    amountToDiscount);
+                    makeDiscountMap(amountToDiscount));
         } catch (Exception e) {
             throw new SuppliersException(
                     "A error occurred while updating agreement to supplier with id: " + supplierId);
         }
+    }
+
+    private TreeMap<Integer, Discount> makeDiscountMap(TreeMap<Integer, String> amountToDiscount) {
+        TreeMap<Integer, Discount> res = new TreeMap<>();
+        for (Integer key : amountToDiscount.keySet()) {
+            Discount dis = makeDiscountFromValue(amountToDiscount.get(key));
+            res.put(key, dis);
+        }
+        return res;
     }
 
     /**
@@ -492,14 +513,31 @@ public class SupplierController {
         return contactDTOs;
     }
 
-    private TreeMap<Integer, DiscountDTO> makeDiscountDTOMap(TreeMap<Integer, Discount> amountToDiscount) {
+    private TreeMap<Integer, DiscountDTO> makeDiscountDTOMap(TreeMap<Integer, String> amountToDiscount) {
         TreeMap<Integer, DiscountDTO> res = new TreeMap<>();
         for (Integer key : amountToDiscount.keySet()) {
-            Discount dis = amountToDiscount.get(key);
+            Discount dis = makeDiscountFromValue(amountToDiscount.get(key));
             DiscountDTO disDTO = dis.getDto();
             res.put(key, disDTO);
         }
         return res;
+    }
+
+    private Discount makeDiscountFromValue(String value) {
+        Discount dis = null;
+        if (value.indexOf('%') != -1) {
+            // means that the discount is of percentage type
+            DiscountDTO dto = new DiscountDTO(nextDiscountIdInSystem, LocalDate.now(), null,
+                    Double.parseDouble(value.substring(0, value.length() - 1)), "Precentage");
+            dis = new DiscountPercentage(dto);
+            return dis;
+        } else {
+            // means that the discount is of fixed type
+            DiscountDTO dto = new DiscountDTO(nextDiscountIdInSystem, LocalDate.now(), null,
+                    Double.parseDouble(value.substring(0, value.length())), "Fixed");
+            dis = new DiscountFixed(dto);
+            return dis;
+        }
     }
 
     private List<SuppliersFieldsDTO> makeFieldsDTOList(int supplierId, List<String> fields) throws SuppliersException {

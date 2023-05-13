@@ -32,6 +32,18 @@ public SpecificProductDTO(int specificId, int generalId, int branchId, double bu
     this.expDate = expDate;
     this.arrivedDate = arrivedDate;
 }
+    public SpecificProductDTO(int specificId, int generalId, int branchId, double buyPrice, String flaw, LocalDate expDate) {
+
+        this.specificId = specificId;
+        this.generalId = generalId;
+        this.branchId = branchId;
+        this.buyPrice = buyPrice;
+        this.sellPrice = -1;
+        this.status = ProductStatus.status.ON_STORAGE;
+        this.flaw = flaw;
+        this.expDate = expDate;
+        this.arrivedDate = LocalDate.now();
+    }
 
 @Override
 public Map<String, String> getNameToVal() {

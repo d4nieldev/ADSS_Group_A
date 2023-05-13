@@ -60,14 +60,31 @@ public class BranchController {
         Branch newBranch = new Branch(branchDTO);
         allBranches.put(branchId,newBranch) ;
     }
-    public Branch getBranchById(int branchId){
+    public Branch getBranchById(int branchId) throws Exception {
+        if(allBranches.containsKey(branchId))
         return allBranches.get(branchId);
+        else {
+            BranchDTO branchDTO = branchDAO.getById(branchId);
+            if(branchDTO == null) {
+                throw new Exception("this branch doesnt exist");
+            }
+            Branch branch = new Branch(branchDTO);
+            allBranches.put(branchId,branch);
+            return branch;
+        }
     }
-    public Branch getBranchByName(String name){
+    public Branch getBranchByName(String name) throws SQLException {
         Branch result = null;
         for(Branch branch : allBranches.values()){
             if(branch.getName() == name)
                 result = branch;
+        }
+        if(result == null)
+        {
+            BranchDTO branchDTO = branchDAO.getByName(name);
+            Branch branch = new Branch(branchDTO);
+            allBranches.put(branch.getId(),branch);
+            result = branch;
         }
         return result;
     }
@@ -115,6 +132,20 @@ public class BranchController {
             return result;
         }
     }
+    private Branch checkBranchExist(int branchId) throws Exception {
+        if(allBranches.containsKey(branchId))
+            return allBranches.get(branchId);
+        else {
+            BranchDTO branchDTO = branchDAO.getById(branchId);
+            if(branchDTO == null) {
+                throw new Exception("this branch doesn't exist");
+            }
+            Branch branch = new Branch(branchDTO);
+            allBranches.put(branchId,branch);
+            return branch;
+        }
+
+    }
 
     /***
      * create dto object for the discount -> add it to DiscountDAO -> and find all the products that the discount on them
@@ -155,7 +186,8 @@ public class BranchController {
      * @throws Exception
      */
     public void setDiscountOnCategories(int branchId,List<Integer> categoriesToDiscount, Discount discount) throws Exception {
-           Branch branch = allBranches.get(branchId);
+
+           Branch branch = checkBranchExist(branchId);
            CategoryController categoryController = CategoryController.getInstance();
            List<Category> allCategories = categoryController.getCategoriesByIds(categoriesToDiscount);
            List<Category> allSubCategories = categoryController.getListAllSubCategories(allCategories);
@@ -176,22 +208,22 @@ public class BranchController {
      * @param branchId
      * @return
      */
-    private List<ProductBranch> getProductsByCategories(List<Category> allSubCategories, int branchId) {
-        Branch branch = allBranches.get(branchId);
+    private List<ProductBranch> getProductsByCategories(List<Category> allSubCategories, int branchId) throws Exception {
+        Branch branch = checkBranchExist(branchId);
         List<ProductBranch> productFromCategories = branch.getProductsByCategories(allSubCategories);
         return productFromCategories;
     }
 
-    public void addNewPeriodicReservation(int branchId,int supplierId, ProductStatus.Day day) throws SQLException {
-        Branch branch = allBranches.get(branchId);
+    public void addNewPeriodicReservation(int branchId,int supplierId, ProductStatus.Day day) throws Exception {
+        Branch branch = checkBranchExist(branchId);
         BranchDTO branchDTO = branch.addNewPeriodicReservation(supplierId,day);
-        PeriodicReservation periodicReservation = branch.getPeriodicReservation(supplierId);
+//        PeriodicReservation periodicReservation = branch.getPeriodicReservation(supplierId);
         PeriodicReservationDTO periodicReservationDTO = branchDTO.getPeriodicDTO(supplierId);
         periodicReservationDAO.insert(periodicReservationDTO);
         branchDAO.update(branchDTO);
     }
     public void addProductToPeriodicReservation(int branchId,int supplierId,int productCode, int amount) throws Exception {
-        Branch branch = allBranches.get(branchId);
+        Branch branch = checkBranchExist(branchId);
         BranchDTO branchDTO = branchDAO.getById(branchId);
         boolean res = branch.addProductToPeriodicReservation(supplierId,productCode,amount);
         if(res){
@@ -206,7 +238,7 @@ public class BranchController {
     }
 
     public void changeAmountPeriodicReservation(int branchId,int supplierId,int productCode, int amount) throws Exception {
-        Branch branch = allBranches.get(branchId);
+        Branch branch = checkBranchExist(branchId);
         BranchDTO branchDTO = branchDAO.getById(branchId);
         boolean res = branch.changeAmountPeriodicReservation(supplierId, productCode, amount);
         if (res) {
@@ -221,7 +253,7 @@ public class BranchController {
         }
     }
     public void addAmountPeriodicReservation(int branchId,int supplierId,int productCode, int amount) throws Exception {
-        Branch branch = allBranches.get(branchId);
+        Branch branch = checkBranchExist(branchId);
         BranchDTO branchDTO = branchDAO.getById(branchId);
         boolean res = branch.addAmountPeriodicReservation(supplierId, productCode, amount);
         if (res) {
@@ -237,7 +269,7 @@ public class BranchController {
     }
 
     public void reduceAmountPeriodicReservation(int branchId,int supplierId,int productCode, int amount) throws Exception {
-        Branch branch = allBranches.get(branchId);
+        Branch branch = checkBranchExist(branchId);
         BranchDTO branchDTO = branchDAO.getById(branchId);
         boolean res = branch.reduceAmountPeriodicReservation(supplierId, productCode, amount);
         if (res) {
@@ -260,12 +292,12 @@ public class BranchController {
          * @param specificId
          * @throws Exception
          */
+
     public void sellProduct(int branchId,int productCode, int specificId) throws Exception {
-        Branch branch = allBranches.get(branchId);
+        Branch branch = checkBranchExist(branchId);
         SpecificProduct sp = branch.sellProduct(productCode,specificId);
         SpecificProductDTO specificProductDTO = specificProductDAO.getById(specificId);
         specificProductDAO.update(specificProductDTO);
-
     }
 
     /**
@@ -277,7 +309,7 @@ public class BranchController {
      * @throws Exception
      */
     public void reportFlawProduct(int branchId,int productCode,int specificId , String description) throws Exception {
-        Branch branch = allBranches.get(branchId);
+        Branch branch = checkBranchExist(branchId);
         ProductBranch productBranch = branch.reportFlawProduct(productCode,specificId,description);
         SpecificProductDTO specificProductDTO = productBranch.getSpecificById(specificId).getSpecificProductDTO();
         specificProductDAO.update(specificProductDTO);
@@ -285,7 +317,6 @@ public class BranchController {
         productBranchDAO.update(productBranchDTO);
         BranchDTO branchDTO = branch.getBranchDTO();
         branchDAO.update(branchDTO);
-
     }
 
 }

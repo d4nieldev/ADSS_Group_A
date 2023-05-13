@@ -22,7 +22,7 @@ public class InventoryReport extends Report {
 //        this.idToShelfAmount = branch.getIdsTOShelfAmount();
 //        this.idToStorageAmount = branch.getIdsTOStorageAmount();
 
-    }
+
 
     public InventoryReport(InventoryReportDTO inventoryReportDTO, HashMap<Integer, String> idsToName)  {
         super(inventoryReportDTO.getId(), inventoryReportDTO.getBranchId(), LocalDate.now(), inventoryReportDTO.getReportDTO());

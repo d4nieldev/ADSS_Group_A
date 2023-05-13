@@ -30,8 +30,6 @@ public class ReportController {
     }
 
     public InventoryReport importInventoryReport(int branchId) {
-
-
         Branch branch = BranchController.getInstance().getBranchById(branchId);
         InventoryReport report = new InventoryReport(branch);
         allReports.put(report.getId(), report);

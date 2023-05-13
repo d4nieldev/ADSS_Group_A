@@ -11,6 +11,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import BusinessLayer.InveontorySuppliers.PeriodicReservation;
 import BusinessLayer.InveontorySuppliers.Product;
 import BusinessLayer.InveontorySuppliers.ProductController;
 import BusinessLayer.InveontorySuppliers.ReceiptItem;
@@ -24,6 +25,7 @@ import DataAccessLayer.DTOs.ReservationDTO;
 
 public class ReservationController {
     private static ReservationController instance = null;
+    private boolean initialized;
     // maps between the main reservation and the sub-reservations it was splited
     // into.
     private Map<Integer, List<Reservation>> idToSupplierReservations;
@@ -33,6 +35,7 @@ public class ReservationController {
     // list of reservations with 'Ready' status.
     private List<Integer> readyReservations;
     // the next id for a reservation in the system.
+    private Map<Integer, List<PeriodicReservation>> supplierIdToPeriodicReservations;
     private int lastId;
     private ProductController pc = ProductController.getInstance();
     private SupplierController sc = SupplierController.getInstance();
@@ -40,20 +43,42 @@ public class ReservationController {
     private ReceiptItemDAO receiptItemDAO;
     private ReservationDAO reservationDAO;
 
+    private Thread periodicReservationsCareTaker;
+
     private ReservationController() {
         idToSupplierReservations = new HashMap<>();
         supplierIdToReservations = new HashMap<>();
         readyReservations = new ArrayList<>();
 
+        periodicReservationsCareTaker = new Thread(() -> {
+            try {
+                while (!Thread.interrupted()) {
+                    makePeriodicalReservations();
+                    Thread.sleep(86400000); // sleep for a day
+                }
+            } catch (InterruptedException ignored) {
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        });
+
         receiptItemDAO = ReceiptItemDAO.getInstance();
         reservationDAO = ReservationDAO.getInstance();
 
-        // Get last id from the database
-        try {
-            LoadReservationLastId();
-        } catch (SQLException e) {
-            // TODO: how we want to handle exception? loading of the last id failed.
+        this.initialized = false;
+    }
+
+    public void init() throws SQLException {
+        if (!initialized) {
+            loadReservationLastId();
+            loadPeriodicReservations();
+            periodicReservationsCareTaker.start();
+            initialized = true;
         }
+    }
+
+    private void loadPeriodicReservations() throws SQLException {
+        // TODO: load all periodic reservations here
     }
 
     /**
@@ -61,7 +86,7 @@ public class ReservationController {
      * 
      * @throws SQLException if there is an error in the database.
      */
-    private void LoadReservationLastId() throws SQLException {
+    private void loadReservationLastId() throws SQLException {
         lastId = reservationDAO.getLastId() + 1;
     }
 
@@ -327,5 +352,9 @@ public class ReservationController {
         supplierIdToReservations.clear();
         readyReservations.clear();
         lastId = 0;
+    }
+
+    private void makePeriodicalReservations() throws SQLException {
+        // TODO: implement
     }
 }

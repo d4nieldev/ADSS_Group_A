@@ -17,6 +17,7 @@ public class ExpiredAndFlawReport extends Report {
 //    private HashMap<Integer, String> codeToCategory;
 //    private HashMap<Integer, String> idsToName;
 
+
     public ExpiredAndFlawReport(ExpiredAndFlawReportDTO expiredAndFlawReportDTO) {
         super(expiredAndFlawReportDTO.getId(), expiredAndFlawReportDTO.getBranchId(), LocalDate.now(), expiredAndFlawReportDTO.getReportDTO());
 

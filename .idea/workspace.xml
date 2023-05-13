@@ -5,22 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="a2472df3-0b1c-47fc-bcd6-f26fc4f0a51c" name="Changes" comment="arrange the service">
-      <change afterPath="$PROJECT_DIR$/dev/InventoryTest/ProductBranchTest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/dev/InventoryTest/SpecificProductTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/dev/BusinessLayer/Inventory/BranchController.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/BusinessLayer/Inventory/BranchController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dev/BusinessLayer/Inventory/DeficientReport.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/BusinessLayer/Inventory/DeficientReport.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dev/BusinessLayer/Inventory/InventoryReport.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/BusinessLayer/Inventory/InventoryReport.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dev/BusinessLayer/Suppliers/OnOrderSupplier.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/BusinessLayer/Suppliers/OnOrderSupplier.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dev/DataAccessLayer/DAOs/BranchDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/DataAccessLayer/DAOs/BranchDAO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dev/DataAccessLayer/DTOs/ProductBranchDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/DataAccessLayer/DTOs/ProductBranchDTO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dev/DataAccessLayer/DTOs/SpecificProductDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/DataAccessLayer/DTOs/SpecificProductDTO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dev/InventoryTest/Category1ControllerTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/InventoryTest/Category1ControllerTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dev/InventoryTest/GeneralProductTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/InventoryTest/GeneralProductTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dev/InventoryTest/ProductController1Test.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/InventoryTest/ProductController1Test.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dev/Presentation_Layer/Program1.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/Presentation_Layer/Program1.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dev/Presentation_Layer/ReportSystem.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/Presentation_Layer/ReportSystem.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dev/ServiceLayer/Suppliers/SupplierService.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/ServiceLayer/Suppliers/SupplierService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dev/BusinessLayer/Inventory/ExpiredAndFlawReport.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/BusinessLayer/Inventory/ExpiredAndFlawReport.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -33,6 +19,13 @@
         <option value="Class" />
         <option value="JUnit4 Test Class" />
       </list>
+    </option>
+  </component>
+  <component name="Git.Pull.Settings">
+    <option name="OPTIONS">
+      <set>
+        <option value="FF_ONLY" />
+      </set>
     </option>
   </component>
   <component name="Git.Settings">
@@ -181,7 +174,14 @@
       <option name="project" value="LOCAL" />
       <updated>1684001432388</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="arrange the service">
+      <created>1684018067636</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1684018067637</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">

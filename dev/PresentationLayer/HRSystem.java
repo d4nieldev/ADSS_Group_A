@@ -24,7 +24,8 @@ class HRSystem {
 
     public void run(int loginId) {
         Scanner sc = new Scanner(System.in);
-        System.out.println("0 - Go back\n1 - Add employee (not driver).\n2 - Add driver.\n3 - Print all branches.\n4 - Print all employees (drivers not included)\n5 - Print all drivers\n6 - Add empty shift\n7 - Submit a shift\n8 - Add constraint for some Employee to Shift\n9 - Edit employee\n10 - Delete an employee\n");
+        // System.out.println("0 - Go back\n1 - Add employee (not driver).\n2 - Add driver.\n3 - Print all branches.\n4 - Print all employees (drivers not included)\n5 - Print all drivers\n6 - Add empty shift\n7 - Submit a shift\n8 - Add constraint for some Employee to Shift\n9 - Edit employee\n10 - Delete an employee\n");
+        System.out.println(getMenu());
         String option = sc.nextLine();
 
         while(!option.equals("0")){
@@ -403,7 +404,8 @@ class HRSystem {
                 option = sc.nextLine();
             }
 
-            System.out.println("0 - Go back\n1 - Add employee (not driver).\n2 - Add driver.\n3 - Print all branches.\n4 - Print all employees (drivers not included)\n5 - Print all drivers\n6 - Add empty shift\n7 - Submit a shift\n8 - Add constraint for some Employee to Shift\n9 - Edit employee\n10 - Delete an employee\n");
+            // System.out.println("0 - Go back\n1 - Add employee (not driver).\n2 - Add driver.\n3 - Print all branches.\n4 - Print all employees (drivers not included)\n5 - Print all drivers\n6 - Add empty shift\n7 - Submit a shift\n8 - Add constraint for some Employee to Shift\n9 - Edit employee\n10 - Delete an employee\n");
+            System.out.println(getMenu());
             option = sc.nextLine();
         }
 
@@ -411,4 +413,37 @@ class HRSystem {
 
         sc.close();
     }
+
+    public static String getMenu() {
+        String horizontalLine = "+-------------------------------------------------------+";
+        String option1 = "| 0 - Go back                                             |";
+        String option2 = "| 1 - Add employee (not driver).                          |";
+        String option3 = "| 2 - Add driver.                                         |";
+        String option4 = "| 3 - Print all branches.                                 |";
+        String option5 = "| 4 - Print all employees (drivers not included).         |";
+        String option6 = "| 5 - Print all drivers.                                  |";
+        String option7 = "| 6 - Add empty shift.                                    |";
+        String option8 = "| 7 - Submit a shift.                                     |";
+        String option9 = "| 8 - Add constraint for some Employee to Shift.          |";
+        String option10 = "| 9 - Edit employee.                                      |";
+        String option11 = "| 10 - Delete an employee.                                |";
+        String bottomLine = "+-------------------------------------------------------+";
+    
+        StringBuilder sb = new StringBuilder();
+        sb.append(horizontalLine).append("\n")
+          .append(option1).append("\n")
+          .append(option2).append("\n")
+          .append(option3).append("\n")
+          .append(option4).append("\n")
+          .append(option5).append("\n")
+          .append(option6).append("\n")
+          .append(option7).append("\n")
+          .append(option8).append("\n")
+          .append(option9).append("\n")
+          .append(option10).append("\n")
+          .append(option11).append("\n")
+          .append(bottomLine);
+        return sb.toString();
+    }
+    
 }

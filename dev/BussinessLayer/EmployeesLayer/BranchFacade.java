@@ -173,8 +173,7 @@ public class BranchFacade {
             for (Shift shiftOnDate : shiftsOnDate) {
                 if(shiftOnDate.getSuperBranchId() == branchId && !shiftOnDate.getIsFinishSettingShift() && needEmployee(emp, shiftOnDate)) 
                     {
-                        
-                        res += shiftOnDate.toString() + "\n";
+                        res += shiftOnDate.getShiftDetails() + "\n";
                     }
             }
         }

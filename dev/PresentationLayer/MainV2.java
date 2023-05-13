@@ -52,10 +52,10 @@ class MainV2 {
         //-----------------add constraint-----------------      
         // memberSystem.branchService.addConstraint(1, 999, 4);
         //-----------------show all available shift for employee-----------------
-        // hrSystem.employeeService.logIn(666, "123");
+        // hrSystem.employeeService.logIn(44, "4");
         // DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
-        // LocalDate localDate = LocalDate.parse("31-05-2023", formatter);
-        // System.out.println(memberSystem.branchService.printAvailableShiftForEmployee(666, localDate));
+        // LocalDate localDate = LocalDate.parse("30-05-2023", formatter);
+        // System.out.println(memberSystem.branchService.printAvailableShiftForEmployee(44, localDate));
         //-----------------delete an employee-----------------
         // hrSystem.employeeService.logIn(123456789, "abc");
         // hrSystem.branchService.deleteEmployee(123456789, 999);

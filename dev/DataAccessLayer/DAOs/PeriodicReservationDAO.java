@@ -7,6 +7,7 @@ import DataAccessLayer.Repository;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.DayOfWeek;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -56,7 +57,7 @@ public class PeriodicReservationDAO extends DAO<PeriodicReservationDTO> {
 
         int supplierId = rs.getInt("supplierId");
         int branchId = rs.getInt("branchId");
-        ProductStatus.Day dayOfOrder = stringToStatus(rs.getString("dayOfOrder"));
+        DayOfWeek dayOfOrder = stringToStatus(rs.getString("dayOfOrder"));
         List<PeriodicReservationItemDTO> allItems = periodicReservationItemDAO.getBySupplierAndBrunchId(supplierId,
                 branchId);
 
@@ -71,22 +72,22 @@ public class PeriodicReservationDAO extends DAO<PeriodicReservationDTO> {
         return dto;
     }
 
-    private ProductStatus.Day stringToStatus(String status) {
+    private DayOfWeek stringToStatus(String status) {
         switch (status) {
             case "Sunday":
-                return ProductStatus.Day.Sunday;
+                return DayOfWeek.SUNDAY;
             case "Monday":
-                return ProductStatus.Day.Monday;
+                return DayOfWeek.MONDAY;
             case "Tuesday":
-                return ProductStatus.Day.Tuesday;
+                return DayOfWeek.TUESDAY;
             case "Wednesday":
-                return ProductStatus.Day.Wednesday;
+                return DayOfWeek.WEDNESDAY;
             case "Thursday":
-                return ProductStatus.Day.Thursday;
+                return DayOfWeek.THURSDAY;
             case "Friday":
-                return ProductStatus.Day.Friday;
+                return DayOfWeek.FRIDAY;
             case "Saturday":
-                return ProductStatus.Day.Saturday;
+                return DayOfWeek.SATURDAY;
         }
         return null;
     }

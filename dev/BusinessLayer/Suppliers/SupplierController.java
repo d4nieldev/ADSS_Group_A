@@ -4,31 +4,38 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.TreeMap;
-import BusinessLayer.InveontorySuppliers.*;
+
+import BusinessLayer.InveontorySuppliers.Discount;
+import BusinessLayer.InveontorySuppliers.PeriodicReservation;
+import BusinessLayer.InveontorySuppliers.Product;
+import BusinessLayer.InveontorySuppliers.ProductController;
+import BusinessLayer.InveontorySuppliers.ReceiptItem;
 import BusinessLayer.exceptions.SuppliersException;
-import DataAccessLayer.DAOs.*;
+import DataAccessLayer.DAOs.ContactDAO;
+import DataAccessLayer.DAOs.FixedDaysSupplierDAO;
+import DataAccessLayer.DAOs.OnOrderSuppliersDAO;
+import DataAccessLayer.DAOs.ProductAgreementDAO;
+import DataAccessLayer.DAOs.SelfPickUpSupplierDAO;
+import DataAccessLayer.DAOs.SupplierDAO;
+import DataAccessLayer.DAOs.SuppliersFieldsDAO;
 import DataAccessLayer.DTOs.ContactDTO;
 import DataAccessLayer.DTOs.DiscountDTO;
 import DataAccessLayer.DTOs.FixedDaysSupplierDTO;
 import DataAccessLayer.DTOs.OnOrderSuppliersDTO;
 import DataAccessLayer.DTOs.PeriodicReservationDTO;
+import DataAccessLayer.DTOs.ProductAgreementDTO;
 import DataAccessLayer.DTOs.SelfPickUpSupplierDTO;
 import DataAccessLayer.DTOs.SupplierDTO;
 import DataAccessLayer.DTOs.SuppliersFieldsDTO;
-import DataAccessLayer.DTOs.ProductAgreementDTO;
-
-import java.util.List;
-import java.util.Map;
 
 public class SupplierController {
-
     private int nextSupplierIdInSystem;
+    private boolean initialized;
     private TreeMap<Integer, Supplier> idToSupplier;
     private static SupplierController instance = null;
-    private ReservationController rc;
     ProductAgreementDAO productAgreementDAO;
-    Thread periodicReservationsCareTaker;
 
     private ContactDAO contactDAO;
     private FixedDaysSupplierDAO fixedDaysSupplierDAO;
@@ -40,20 +47,7 @@ public class SupplierController {
     // Constructor for SupplierController
     private SupplierController() {
         this.idToSupplier = new TreeMap<Integer, Supplier>();
-        this.rc = ReservationController.getInstance();
         this.productAgreementDAO = ProductAgreementDAO.getInstance();
-
-        periodicReservationsCareTaker = new Thread(() -> {
-            try {
-                while (!Thread.interrupted()) {
-                    makePeriodicalReservations();
-                    Thread.sleep(86400000); // sleep for a day
-                }
-            } catch (InterruptedException ignored) {
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        });
 
         contactDAO = ContactDAO.getInstance();
         fixedDaysSupplierDAO = FixedDaysSupplierDAO.getInstance();
@@ -61,6 +55,8 @@ public class SupplierController {
         selfPickupSupplierDAO = SelfPickUpSupplierDAO.getInstance();
         supplierDAO = SupplierDAO.getInstance();
         suppliersFieldsDAO = SuppliersFieldsDAO.getInstance();
+
+        initialized = false;
     }
 
     /**
@@ -70,9 +66,10 @@ public class SupplierController {
      * @throws SQLException if a database error occurs
      */
     public void init() throws SQLException {
-        loadSupplierLastId();
-        loadPeriodicReservations();
-        periodicReservationsCareTaker.start();
+        if (!initialized) {
+            loadSupplierLastId();
+            initialized = true;
+        }
     }
 
     public static SupplierController getInstance() {
@@ -83,10 +80,6 @@ public class SupplierController {
 
     private void loadSupplierLastId() throws SQLException {
         nextSupplierIdInSystem = supplierDAO.getLastId() + 1;
-    }
-
-    private void loadPeriodicReservations() throws SQLException {
-        // TODO: load all periodic reservations here
     }
 
     // getSupplierFromData
@@ -568,32 +561,23 @@ public class SupplierController {
         return getSupplierById(supplierID).getRandomContact();
     }
 
-    private void makePeriodicalReservations() throws SQLException { // TODO: make sure with daniel that this method is
-                                                                    // properly implemented.
-        for (Supplier s : idToSupplier.values()) {
-            Map<Integer, PeriodicReservation> branchToPeriodicReservations = s.getBranchToPeriodicReservations();
-            for (int branchId : branchToPeriodicReservations.keySet()) {
-                PeriodicReservation pr = branchToPeriodicReservations.get(branchId);
-                Map<Integer, Map<Integer, Integer>> supplierToProductToAmount = new HashMap<>();
-                supplierToProductToAmount.put(s.getId(), pr.getProductsToAmounts());
-                rc.makeManualReservation(supplierToProductToAmount, pr.getBranchId());
-            }
-        }
-    }
-
     public void clearPresistenceData() {
         idToSupplier.clear();
         nextSupplierIdInSystem = 0;
     }
 
-    public PeriodicReservation addNewPeriodicReservation(PeriodicReservationDTO periodicReservationDTO) {
-        // TODO : create new PeriodicReservation and return the object. (MAKE SURE WITH
-        // DANIEL)
-        PeriodicReservation periodicReservation = new PeriodicReservation(periodicReservationDTO);
-        Supplier s = getSupplierById(periodicReservation.getSupplierId());
-        s.putPeriodicReservation(periodicReservation.getBranchId(), periodicReservation);
-        return periodicReservation;
-    }
+    // public PeriodicReservation addNewPeriodicReservation(PeriodicReservationDTO
+    // periodicReservationDTO) {
+    // // TODO : create new PeriodicReservation and return the object. (MAKE SURE
+    // WITH
+    // // DANIEL)
+    // PeriodicReservation periodicReservation = new
+    // PeriodicReservation(periodicReservationDTO);
+    // Supplier s = getSupplierById(periodicReservation.getSupplierId());
+    // s.putPeriodicReservation(periodicReservation.getBranchId(),
+    // periodicReservation);
+    // return periodicReservation;
+    // }
 
     public Contact getContactOfSupplier(int supplierId, String phone) {
         return getContactByPhone(getSupplierById(supplierId), phone);

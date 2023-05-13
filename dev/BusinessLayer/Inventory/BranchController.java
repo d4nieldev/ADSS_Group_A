@@ -208,80 +208,10 @@ public class BranchController {
      * @param branchId
      * @return
      */
-    private List<ProductBranch> getProductsByCategories(List<Category> allSubCategories, int branchId) throws Exception {
-        Branch branch = checkBranchExist(branchId);
+    private List<ProductBranch> getProductsByCategories(List<Category> allSubCategories, int branchId) {
+        Branch branch = allBranches.get(branchId);
         List<ProductBranch> productFromCategories = branch.getProductsByCategories(allSubCategories);
         return productFromCategories;
-    }
-
-    public void addNewPeriodicReservation(int branchId,int supplierId, ProductStatus.Day day) throws Exception {
-        Branch branch = checkBranchExist(branchId);
-        BranchDTO branchDTO = branch.addNewPeriodicReservation(supplierId,day);
-//        PeriodicReservation periodicReservation = branch.getPeriodicReservation(supplierId);
-        PeriodicReservationDTO periodicReservationDTO = branchDTO.getPeriodicDTO(supplierId);
-        periodicReservationDAO.insert(periodicReservationDTO);
-        branchDAO.update(branchDTO);
-    }
-    public void addProductToPeriodicReservation(int branchId,int supplierId,int productCode, int amount) throws Exception {
-        Branch branch = checkBranchExist(branchId);
-        BranchDTO branchDTO = branchDAO.getById(branchId);
-        boolean res = branch.addProductToPeriodicReservation(supplierId,productCode,amount);
-        if(res){
-            PeriodicReservationDTO periodicReservationDTO = periodicReservationDAO.getById(supplierId,branchId);
-            PeriodicReservationItemDTO periodicReservationItemDTO = new PeriodicReservationItemDTO(supplierId,branchId,productCode,amount);
-            periodicReservationItemDAO.insert(periodicReservationItemDTO);
-            periodicReservationDTO.addProductAndAmount(periodicReservationItemDTO);
-            periodicReservationDAO.update(periodicReservationDTO);
-            branchDTO.updatePeriodicReservation(periodicReservationDTO);
-            branchDAO.update(branchDTO);
-        }
-    }
-
-    public void changeAmountPeriodicReservation(int branchId,int supplierId,int productCode, int amount) throws Exception {
-        Branch branch = checkBranchExist(branchId);
-        BranchDTO branchDTO = branchDAO.getById(branchId);
-        boolean res = branch.changeAmountPeriodicReservation(supplierId, productCode, amount);
-        if (res) {
-            PeriodicReservationDTO periodicReservationDTO = periodicReservationDAO.getById(supplierId, branchId);
-            PeriodicReservationItemDTO periodicReservationItemDTO = periodicReservationItemDAO.getById(supplierId,branchId,productCode);
-            periodicReservationItemDTO.updateAmount(amount);
-            periodicReservationItemDAO.update(periodicReservationItemDTO);
-            periodicReservationDTO.updateItem(periodicReservationItemDTO);
-            periodicReservationDAO.update(periodicReservationDTO);
-            branchDTO.updatePeriodicReservation(periodicReservationDTO);
-            branchDAO.update(branchDTO);
-        }
-    }
-    public void addAmountPeriodicReservation(int branchId,int supplierId,int productCode, int amount) throws Exception {
-        Branch branch = checkBranchExist(branchId);
-        BranchDTO branchDTO = branchDAO.getById(branchId);
-        boolean res = branch.addAmountPeriodicReservation(supplierId, productCode, amount);
-        if (res) {
-            PeriodicReservationDTO periodicReservationDTO = periodicReservationDAO.getById(supplierId, branchId);
-            PeriodicReservationItemDTO periodicReservationItemDTO = periodicReservationItemDAO.getById(supplierId,branchId,productCode);
-            periodicReservationItemDTO.updateAmount(amount);
-            periodicReservationItemDAO.update(periodicReservationItemDTO);
-            periodicReservationDTO.updateItem(periodicReservationItemDTO);
-            periodicReservationDAO.update(periodicReservationDTO);
-            branchDTO.updatePeriodicReservation(periodicReservationDTO);
-            branchDAO.update(branchDTO);
-        }
-    }
-
-    public void reduceAmountPeriodicReservation(int branchId,int supplierId,int productCode, int amount) throws Exception {
-        Branch branch = checkBranchExist(branchId);
-        BranchDTO branchDTO = branchDAO.getById(branchId);
-        boolean res = branch.reduceAmountPeriodicReservation(supplierId, productCode, amount);
-        if (res) {
-            PeriodicReservationDTO periodicReservationDTO = periodicReservationDAO.getById(supplierId, branchId);
-            PeriodicReservationItemDTO periodicReservationItemDTO = periodicReservationItemDAO.getById(supplierId,branchId,productCode);
-            periodicReservationItemDTO.updateAmount(amount);
-            periodicReservationItemDAO.update(periodicReservationItemDTO);
-            periodicReservationDTO.updateItem(periodicReservationItemDTO);
-            periodicReservationDAO.update(periodicReservationDTO);
-            branchDTO.updatePeriodicReservation(periodicReservationDTO);
-            branchDAO.update(branchDTO);
-        }
     }
 
 
@@ -292,12 +222,12 @@ public class BranchController {
          * @param specificId
          * @throws Exception
          */
-
     public void sellProduct(int branchId,int productCode, int specificId) throws Exception {
-        Branch branch = checkBranchExist(branchId);
+        Branch branch = allBranches.get(branchId);
         SpecificProduct sp = branch.sellProduct(productCode,specificId);
         SpecificProductDTO specificProductDTO = specificProductDAO.getById(specificId);
         specificProductDAO.update(specificProductDTO);
+
     }
 
     /**
@@ -317,6 +247,7 @@ public class BranchController {
         productBranchDAO.update(productBranchDTO);
         BranchDTO branchDTO = branch.getBranchDTO();
         branchDAO.update(branchDTO);
+
     }
 
 }

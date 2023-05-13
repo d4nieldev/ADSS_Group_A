@@ -21,6 +21,15 @@ public class ProductBranchDTO implements DTO {
         this.idealQuantity = idealQuantity;
         this.allSpecificProducts = allSpecificProducts;
     }
+    public ProductBranchDTO(ProductDTO productDTO,int branchId, double price, int minQuantity,int idealQuantity, HashMap<Integer,SpecificProductDTO> allSpecificProducts) {
+        this.productDTO = productDTO;
+        this.discountDTO = null;
+        this.branchId = branchId;
+        this.price = price;
+        this.minQuantity = minQuantity;
+        this.idealQuantity = idealQuantity;
+        this.allSpecificProducts = allSpecificProducts;
+    }
     @Override
     public Map<String, String> getNameToVal() {
         Map<String, String> nameToVal = new HashMap<>();

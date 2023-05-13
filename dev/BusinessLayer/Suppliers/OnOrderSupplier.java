@@ -48,4 +48,6 @@ class OnOrderSupplier extends Supplier {
     public LocalDate getClosestDeliveryDate() {
         return LocalDate.now().plusDays(maxSupplyDays);
     }
+
+
 }

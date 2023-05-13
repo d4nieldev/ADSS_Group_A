@@ -41,7 +41,7 @@ public class ProductService {
 
 
 
-    //    public void addNewProduct(String name, int code, double price, String manufacturer, int min_quantity,int total_quantity){
+//        public void addNewProduct(String name, int code, double price, String manufacturer, int min_quantity,int total_quantity){
 //        productController.addNewGeneralProduct(name,code,price,manufacturer,min_quantity,total_quantity);
 //    }
 //    public void addNewProduct(String name, int code, double price, String manufacturer, int min_quantity,int total_quantity, int categoryId, String categoryName, int parentCategory){
@@ -54,7 +54,7 @@ public class ProductService {
 //    }
 
 
-    //    public void receiveSupply(int code,String name,double price,int amount, String expiredDate,String manufacturer){
+//        public void receiveSupply(int code,String name,double price,int amount, String expiredDate,String manufacturer){
 //        GeneralProduct gp = productController.getGeneralProductByCode(code);
 //        if (gp != null) {
 //           productController.receiveExistSupply(code,price,amount,LocalDate.parse(expiredDate));
@@ -82,33 +82,28 @@ public class ProductService {
             System.out.println(category.getName());
         }
     }
-    public void sellProduct(int code, int id,int branchId) throws Exception {
-        Branch branch = branchController.getBranchById(branchId);
-        branch.sellProduct(code,id);
-//        System.out.println("the sell been successful");
+    public void sellProduct(int ProductCode, int SpecificId,int branchId) throws Exception {
+        branchController.sellProduct(branchId,ProductCode,SpecificId);
     }
 
-    public void reportFlawProduct(int branchId,int code,int id, String description) throws Exception {
-        Branch branch = branchController.getBranchById(branchId);
-        branch.reportFlawProduct(code,id,description);
+    public void reportFlawProduct(int branchId,int productCode,int specifcId, String description) throws Exception {
+        branchController.reportFlawProduct(branchId,productCode,specifcId,description);
     }
 
-    public void setDiscountByProducts(int branchId, List<Integer> lst, Discount discount) throws Exception {
-        Branch branch = branchController.getBranchById(branchId);
-        List<ProductBranch> products = branch.getProductsByCode(lst);
-        branch.setDiscountOnProducts(products,discount);
+    public void setDiscountByProducts(int branchId, List<Integer> productsToDiscount, Discount discount) throws Exception {
+        branchController.setDiscountOnProducts(branchId,productsToDiscount,discount);
+
 
     }
         public void setDiscountByCategories(int branchId,List<Integer> categories, Discount discount) throws Exception {
-        Branch branch = branchController.getBranchById(branchId);
-        List<Category> allSubCategories = categoryController.getListAllSubCategoriesByIds(categories);
-        branch.setDiscountOnCategories(allSubCategories,discount);
+        branchController.setDiscountOnCategories(branchId,categories,discount);
+//        Branch branch = branchController.getBranchById(branchId);
+//        List<Category> allSubCategories = categoryController.getListAllSubCategoriesByIds(categories);
+//        branch.setDiscountOnCategories(allSubCategories,discount);
 
 
     }
-//    public GeneralProduct getProductByCode (int code){
-//        return productController.getGeneralProductByCode(code);
-//    }
+
 
 
 

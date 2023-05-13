@@ -114,19 +114,17 @@ public class BranchController {
             ProductBranchDTO result = new ProductBranchDTO(productDTO,discountDTO,branchId,productBranch.getPrice(),productBranch.getMinQuantity(),productBranch.getIdealQuantity(),null);
             return result;
         }
-
-
     }
 
     /***
      * create dto object for the discount -> add it to DiscountDAO -> and find all the products that the discount on them
      * changed -> update their discount
-     * @param productsToDiscount
+     * @param
      * @param discount
      * @param branchId
      * @throws Exception
      */
-    public void setDiscountOnProducts(int branchId, List<ProductBranch> productsToDiscount, Discount discount) throws Exception {
+    public void setDiscountOnProducts(int branchId, List<Integer> products, Discount discount) throws Exception {
         DiscountDTO discountDTO = null;
         if (discount instanceof DiscountFixed) {
             discountDTO = new DiscountDTO(discount.getDiscountId(), discount.getStart_date(), discount.getEnd_date(), discount.getDiscountValue(), "fixed Discount");
@@ -137,6 +135,7 @@ public class BranchController {
         discountDAO.insert(discountDTO);
         Branch branch = allBranches.get(branchId);
         // return a list of all products who the new discount on them been changed
+        List<ProductBranch> productsToDiscount = branch.getProductsByCode(products);
         List<ProductBranch> changeDiscount = branch.setDiscountOnProducts(productsToDiscount,discount);
 
         //add the discount to the product and update the discount DTO on PRODUCT
@@ -146,8 +145,8 @@ public class BranchController {
             ProductBranchDiscountDTO productBranchDiscountDTO = new ProductBranchDiscountDTO(productBranch.getCode(),branchId,discountDTO);
             productBranchDiscountsDAO.insert(productBranchDiscountDTO);
         }
-
     }
+
     /***
      * find all products from catgories -> apply on them setDiscountOnProducts function
      * @param categoriesToDiscount
@@ -155,12 +154,14 @@ public class BranchController {
      * @param branchId
      * @throws Exception
      */
-    public void setDiscountOnCategories(int branchId,List<Category> categoriesToDiscount, Discount discount) throws Exception {
+    public void setDiscountOnCategories(int branchId,List<Integer> categoriesToDiscount, Discount discount) throws Exception {
            Branch branch = allBranches.get(branchId);
            CategoryController categoryController = CategoryController.getInstance();
-           List<Category> allSubCategories = categoryController.getListAllSubCategories(categoriesToDiscount);
+           List<Category> allCategories = categoryController.getCategoriesByIds(categoriesToDiscount);
+           List<Category> allSubCategories = categoryController.getListAllSubCategories(allCategories);
            List<ProductBranch> productsToDiscount = branch.getProductsByCategories(allSubCategories);
-           setDiscountOnProducts(branchId,productsToDiscount,discount);
+           List<Integer> productsToCode = branch.getCodeByProducts(productsToDiscount);
+           setDiscountOnProducts(branchId,productsToCode,discount);
     }
 
 //    public void setDiscountOnCategories(List<Category> categoriesToDiscount, Discount discount, int branchId) throws Exception {

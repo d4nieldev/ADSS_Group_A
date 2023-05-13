@@ -603,4 +603,12 @@ public void addNewProductBranch(ProductBranchDTO productBranchDTO) throws SQLExc
     public BranchDTO getBranchDTO() {
         return this.branchDTO;
     }
+
+    public List<Integer> getCodeByProducts(List<ProductBranch> productsToDiscount) {
+        List <Integer> res = new ArrayList<>();
+        for(ProductBranch productBranch : productsToDiscount){
+            res.add(productBranch.getCode());
+        }
+        return res;
+    }
 }

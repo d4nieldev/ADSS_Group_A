@@ -48,7 +48,7 @@ public class CategoryController {
         CategoryDTO CatDTO = new CategoryDTO(newId, name);
         categoryDAO.insert(CatDTO);
 
-        Category category = new Category(newId, name, CatDTO);
+        Category category = new Category(CatDTO);
         allCategories.add(category);
         categoryDic.put(category.getId(), category);
     }

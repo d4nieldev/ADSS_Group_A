@@ -45,4 +45,13 @@ public class BranchDAO extends DAO<BranchDTO> {
         return dto;
     }
 
+    public BranchDTO getByName(String name) throws SQLException {
+        ResultSet rs = repo.executeQuery("SELECT * FROM Branches WHERE name= ?;", name);
+        BranchDTO dto = makeDTO(rs);
+        rs.close();
+        return dto;
+    }
+
+
+
 }

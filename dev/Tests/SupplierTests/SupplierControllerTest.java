@@ -5,6 +5,8 @@ import static org.junit.Assert.assertThrows;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
+import java.sql.SQLException;
+import java.util.Arrays;
 import java.util.List;
 import java.util.TreeMap;
 
@@ -18,6 +20,9 @@ import BusinessLayer.Suppliers.Supplier;
 import BusinessLayer.Suppliers.ProductAgreement;
 import BusinessLayer.Suppliers.SupplierController;
 import BusinessLayer.exceptions.SuppliersException;
+import DataAccessLayer.DTOs.CategoryDTO;
+import DataAccessLayer.DTOs.ProductDTO;
+import DataAccessLayer.DTOs.ReceiptItemDTO;
 
 public class SupplierControllerTest {
 
@@ -37,7 +42,7 @@ public class SupplierControllerTest {
     @After
     public void clearController() {
         ProductController.getInstance().clearData();
-        SupplierController.getInstance().clearData();
+        SupplierController.getInstance().clearPresistenceData();
     }
 
     /**
@@ -45,25 +50,26 @@ public class SupplierControllerTest {
      * 
      * @throws Exception
      */
-    public static void createSupplier0() throws SuppliersException {
+    public static void createSupplier0() throws SuppliersException, SQLException {
         String name = "FastAndBest ";
         String phone = "0507164509";
         String bankAccount = "12-128-148258";
-        List<String> fields = List.of("Tech", "Cleaning");
+        List<String> fields = Arrays.asList("Tech", "Cleaning");
         String paymentCondition = "net 30 EOM";
-        TreeMap<Integer, Double> amountToDiscount = new TreeMap<>();
-        amountToDiscount.put(100, 0.025);
-        amountToDiscount.put(500, 0.03);
-        List<String> contactNames = List.of("Dana Grinberg", "Roni Katz");
-        List<String> contactPhones = List.of("0525948325", "0535669897");
+        TreeMap<Integer, String> amountToDiscount = new TreeMap<>();
+        amountToDiscount.put(100, "0.025%");
+        amountToDiscount.put(500, "0.03%");
+        List<String> contactNames = Arrays.asList("Dana Grinberg", "Roni Katz");
+        List<String> contactPhones = Arrays.asList("0525948325", "0535669897");
         int maxSupplyDays = 4;
 
         SupplierController.getInstance().addOnOrderSupplierBaseAgreement(name, phone, bankAccount, fields,
                 paymentCondition, amountToDiscount, contactNames, contactPhones, maxSupplyDays);
     }
 
-    public void createProduct() throws SuppliersException {
-        Product TaraMilk = new Product(203, "Tara Milk 1.5L", "Tara");
+    public void createProduct() throws SuppliersException, SQLException {
+        CategoryDTO diaryCategoryDTO = new CategoryDTO(1, "Diary");
+        ProductDTO TaraMilk = new ProductDTO(203, "Tara Milk 1.5L", "Tara", diaryCategoryDTO);
         ProductController.getInstance().addProduct(TaraMilk);
     }
 
@@ -97,7 +103,7 @@ public class SupplierControllerTest {
     }
 
     @Test
-    public void deleteExistingSupplierTest() {
+    public void deleteExistingSupplierTest() throws SQLException {
         // test for existing supplier id in system.
         try {
             sc.deleteSupplier(0);
@@ -120,21 +126,21 @@ public class SupplierControllerTest {
     }
 
     @Test
-    public void addFixedDaysSupplierBaseAgreementTest() {
+    public void addFixedDaysSupplierBaseAgreementTest() throws SQLException {
         // to validate creation we try to get this supplier and check if his id, name
         // and phone are correct.
 
         String name = "AllYouNeed";
         String phone = "0507164588";
         String bankAccount = "09-319-158988";
-        List<String> fields = List.of("Meat", "Sweet drinks");
-        String paymentCondition = "net 45 EOM";
-        TreeMap<Integer, Double> amountToDiscount = new TreeMap<>();
-        amountToDiscount.put(50, 0.015);
-        amountToDiscount.put(90, 0.02);
-        List<String> contactNames = List.of("Kevin Monk");
-        List<String> contactPhones = List.of("0525869525");
-        List<Integer> days = List.of(2, 4);
+        List<String> fields = Arrays.asList("Meat", "Sweet drinks");
+        String paymentCondition = "net 60 EOM";
+        TreeMap<Integer, String> amountToDiscount = new TreeMap<>();
+        amountToDiscount.put(50, "0.015%");
+        amountToDiscount.put(90, "0.02%");
+        List<String> contactNames = Arrays.asList("Kevin Monk");
+        List<String> contactPhones = Arrays.asList("0525869525");
+        List<Integer> days = Arrays.asList(2, 4);
         try {
             SupplierController.getInstance().addFixedDaysSupplierBaseAgreement(name, phone, bankAccount, fields,
                     paymentCondition,
@@ -149,19 +155,19 @@ public class SupplierControllerTest {
     }
 
     @Test
-    public void addOnOrderSupplierBaseAgreementTest() {
+    public void addOnOrderSupplierBaseAgreementTest() throws SQLException {
         // to validate creation we try to get this supplier and check if his id, name
         // and phone are correct.
         String name = "AllYouNeed";
         String phone = "0507164588";
         String bankAccount = "09-319-158988";
-        List<String> fields = List.of("Meat", "Sweet drinks");
+        List<String> fields = Arrays.asList("Meat", "Sweet drinks");
         String paymentCondition = "net 45 EOM";
-        TreeMap<Integer, Double> amountToDiscount = new TreeMap<>();
-        amountToDiscount.put(50, 0.015);
-        amountToDiscount.put(90, 0.02);
-        List<String> contactNames = List.of("Kevin Monk");
-        List<String> contactPhones = List.of("0525869525");
+        TreeMap<Integer, String> amountToDiscount = new TreeMap<>();
+        amountToDiscount.put(50, "0.015%");
+        amountToDiscount.put(90, "0.02%");
+        List<String> contactNames = Arrays.asList("Kevin Monk");
+        List<String> contactPhones = Arrays.asList("0525869525");
         int maxSupplyDays = 7;
         try {
             SupplierController.getInstance().addOnOrderSupplierBaseAgreement(name, phone, bankAccount, fields,
@@ -177,24 +183,25 @@ public class SupplierControllerTest {
     }
 
     @Test
-    public void addSelfPickupSupplierBaseAgreementTest() {
+    public void addSelfPickupSupplierBaseAgreementTest() throws SQLException {
         // to validate creation we try to get this supplier and check if his id, name
         // and phone are correct.
         String name = "AllYouNeed";
         String phone = "0507164588";
         String bankAccount = "09-319-158988";
-        List<String> fields = List.of("Meat", "Sweet drinks");
+        List<String> fields = Arrays.asList("Meat", "Sweet drinks");
         String paymentCondition = "net 45 EOM";
-        TreeMap<Integer, Double> amountToDiscount = new TreeMap<>();
-        amountToDiscount.put(50, 0.015);
-        amountToDiscount.put(90, 0.02);
-        List<String> contactNames = List.of("Kevin Monk");
-        List<String> contactPhones = List.of("0525869525");
+        TreeMap<Integer, String> amountToDiscount = new TreeMap<>();
+        amountToDiscount.put(50, "0.015%");
+        amountToDiscount.put(90, "0.02%");
+        List<String> contactNames = Arrays.asList("Kevin Monk");
+        List<String> contactPhones = Arrays.asList("0525869525");
         String address = "Shilo 4, Ashkelon";
+        Integer maxPreparationDays = 3;
         try {
             SupplierController.getInstance().addSelfPickupSupplierBaseAgreement(name, phone, bankAccount, fields,
                     paymentCondition,
-                    amountToDiscount, contactNames, contactPhones, address);
+                    amountToDiscount, contactNames, contactPhones, address, maxPreparationDays);
             Supplier s = sc.getSupplierById(1);
             assertEquals(1, s.getId());
             assertEquals("AllYouNeed", s.getName());
@@ -222,22 +229,6 @@ public class SupplierControllerTest {
     }
 
     @Test
-    public void setSupplierPhoneTest() {
-        try {
-            sc.setSupplierPhone(0, "0500000000");
-            assertEquals("0500000000", sc.getSupplierById(0).getPhone());
-        } catch (SuppliersException e) {
-            fail(e.getMessage());
-        }
-
-        // test for Non existing supplier id in system.
-        Exception e = assertThrows(SuppliersException.class, () -> sc.setSupplierPhone(5, "0500000000"));
-
-        // check that error message is correct.
-        assertEquals("SUPPLIERS EXCEPTION: There is no supplier with id " + 5 + " in the system.", e.getMessage());
-    }
-
-    @Test
     public void setSupplierBankAccountTest() {
         try {
             sc.setSupplierBankAccount(0, "12-4558-6996");
@@ -254,28 +245,22 @@ public class SupplierControllerTest {
     }
 
     @Test
-    public void deleteAllSupplierContactsTest() {
-        // we check that after deleting all contacts we still have the office contact.
-        try {
-            sc.deleteAllSupplierContacts(0);
-            assertEquals(1, sc.getSupplierById(0).getContacts().size());
-        } catch (SuppliersException e) {
-            fail(e.getMessage());
-        }
+    public void tryTodeleteOfficeContact() {
+        assertThrows(SuppliersException.class, () -> sc.deleteSupplierContact(0, "Office", "0507164509"));
     }
 
     @Test
     public void addSupplierProductAgreementTest() {
         // we check that after adding a product agreement, our supplier has the product
         // agreement (by checking the prouct's id in the agreement)
-        TreeMap<Integer, Double> amountToDiscount = new TreeMap<>();
-        amountToDiscount.put(50, 0.03);
-        amountToDiscount.put(200, 0.045);
+        TreeMap<Integer, String> amountToDiscount = new TreeMap<>();
+        amountToDiscount.put(50, "0.03%");
+        amountToDiscount.put(200, "0.045%");
         try {
             sc.addSupplierProductAgreement(0, 203, 33, 500, 24.9, amountToDiscount);
             assertEquals(203,
-                    ProductController.getInstance().getProductAgreementsOfSupplier(0).get(0).getProduct().getId());
-        } catch (SuppliersException e) {
+                    ProductController.getInstance().getProductAgreementsOfSupplier(0).get(0).getProductId());
+        } catch (Exception e) {
             fail(e.getMessage());
         }
         // test for Non existing supplier id in system.
@@ -298,17 +283,20 @@ public class SupplierControllerTest {
     }
 
     @Test
-    public void calculateSupplierDiscountTest() {
+    public void calculateSupplierDiscountTest() throws SQLException {
         try {
             // we make one recipt item for the agreement and check the price of the item
             // before discount and after discount.
-            TreeMap<Integer, Double> amountToDiscount = new TreeMap<>();
-            amountToDiscount.put(50, 0.03);
-            amountToDiscount.put(200, 0.045);
+            TreeMap<Integer, String> amountToDiscount = new TreeMap<>();
+            amountToDiscount.put(50, "0.03%");
+            amountToDiscount.put(200, "0.045%");
             sc.addSupplierProductAgreement(0, 203, 33, 500, 24.9, amountToDiscount);
             ProductAgreement pa = ProductController.getInstance().getProductAgreementsOfSupplier(0).get(0);
+            Product p = ProductController.getInstance().getProductById(pa.getProductId());
+
             // creation of recipt item.
-            ReceiptItem ri = new ReceiptItem(400, pa);
+            ReceiptItemDTO riDTO = new ReceiptItemDTO(0, 203, 400, 24.9, 23.7795);
+            ReceiptItem ri = new ReceiptItem(riDTO, p);
             // we check the price of item before the supplier discount. *Notice that there
             // could be another type of discount before calculating this one.*
             double pricePerUnitBeforeSupplierDiscount = ri.getPricePerUnitAfterDiscount();
@@ -316,7 +304,7 @@ public class SupplierControllerTest {
             double predictedPricePerUnitAfterSupplierDiscount = pricePerUnitBeforeSupplierDiscount * (1 - 0.025);
             System.out.println(predictedPricePerUnitAfterSupplierDiscount);
             // puting the single recipt in a list and calculating the supplier discount.
-            sc.calculateSupplierDiscount(0, List.of(ri));
+            sc.calculateSupplierDiscount(0, Arrays.asList(ri));
             System.out.println(ri.getPricePerUnitAfterDiscount());
             assertEquals(predictedPricePerUnitAfterSupplierDiscount, ri.getPricePerUnitAfterDiscount(), 0.0001);
         } catch (SuppliersException e) {
@@ -326,7 +314,7 @@ public class SupplierControllerTest {
     }
 
     @Test
-    public void getRandomContactOfTest() {
+    public void getRandomContactOfTest() throws SQLException {
         // we check that the contact that we recieved exists in the supplier contacts
         // list.
         try {

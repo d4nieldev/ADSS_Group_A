@@ -4,11 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a2472df3-0b1c-47fc-bcd6-f26fc4f0a51c" name="Changes" comment="expired and flaw report business DAO+DTO">
+    <list default="true" id="a2472df3-0b1c-47fc-bcd6-f26fc4f0a51c" name="Changes" comment="arrange the service">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dev/BusinessLayer/Inventory/InventoryReport.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/BusinessLayer/Inventory/InventoryReport.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dev/BusinessLayer/Inventory/ReportController.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/BusinessLayer/Inventory/ReportController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dev/BusinessLayer/InveontorySuppliers/Branch.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/BusinessLayer/InveontorySuppliers/Branch.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -25,6 +22,19 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
+  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
+  "lastFilter": {
+    "state": "OPEN"
+  }
+}]]></component>
+  <component name="GithubPullRequestsUISettings">
+    <option name="selectedUrlAndAccountId">
+      <UrlAndAccount>
+        <option name="accountId" value="cd69c43f-ae6a-4947-ad90-3362432d685a" />
+        <option name="url" value="https://github.com/d4nieldev/ADSS_Group_A.git" />
+      </UrlAndAccount>
+    </option>
+  </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
@@ -35,6 +45,26 @@
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "last_opened_file_path": "/Users/Metar/Documents/GitHub/ADSS_Group_A/dev",
+    "project.structure.last.edited": "Project",
+    "project.structure.proportion": "0.0",
+    "project.structure.side.proportion": "0.0",
+    "settings.editor.selected.configurable": "editing.templates"
+  }
+}]]></component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/dev" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/dev" />
+    </key>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
@@ -52,13 +82,42 @@
       <option name="project" value="LOCAL" />
       <updated>1683811338091</updated>
     </task>
-    <task id="LOCAL‎00002" summary="expired and flaw report business DAO+DTO">
-      <created>1683907208924</created>
-      <option name="number" value="LOCAL‎00002" />
-      <option name="presentableId" value="LOCAL‎00002" />
-      <updated>1683907208924</updated>
+    <task id="LOCAL-00002" summary="PeriodicReservation DAO+DTO">
+      <created>1683811590788</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1683811590788</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="implement SpecificProduct, ProductBranch, Branch , BranchController">
+      <created>1683846403228</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1683846403228</updated>
+    </task>
+    <task id="LOCAL-00004" summary="implement SpecificProduct, ProductBranch, Branch , BranchController">
+      <created>1683846715860</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1683846715860</updated>
+    </task>
+    <task id="LOCAL-00005" summary="add PeriodicReservationItemDAO +DTO and arrange all what related to these">
+      <created>1683896273694</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1683896273694</updated>
+    </task>
+    <task id="LOCAL-00006" summary="arrange the service">
+      <created>1684001432388</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1684001432388</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -71,11 +130,12 @@
         </entry>
       </map>
     </option>
-    <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="PeriodicReservation DAO+DTO" />
-    <MESSAGE value="expired and flaw report business DAO+DTO" />
-    <option name="LAST_COMMIT_MESSAGE" value="expired and flaw report business DAO+DTO" />
+    <MESSAGE value="implement SpecificProduct, ProductBranch, Branch , BranchController" />
+    <MESSAGE value="add PeriodicReservationItemDAO +DTO and arrange all what related to these" />
+    <MESSAGE value="arrange the service" />
+    <option name="LAST_COMMIT_MESSAGE" value="arrange the service" />
   </component>
 </project>

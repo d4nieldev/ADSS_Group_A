@@ -7,6 +7,7 @@ import DataAccessLayer.Repository;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.DayOfWeek;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -32,16 +33,35 @@ public class PeriodicReservationDAO extends DAO<PeriodicReservationDTO> {
     }
 
     @Override
+    public void insert(PeriodicReservationDTO dataObject) throws SQLException {
+        super.insert(dataObject);
+        // insert all periodic reservation items
+        for (PeriodicReservationItemDTO item : dataObject.getAllItems()) {
+            periodicReservationItemDAO.insert(item);
+        }
+    }
+
+    @Override
+    public void update(PeriodicReservationDTO dataObject) throws SQLException {
+        super.update(dataObject);
+        // update all periodic reservation items
+        for (PeriodicReservationItemDTO item : dataObject.getAllItems()) {
+            periodicReservationItemDAO.update(item);
+        }
+    }
+
+    @Override
     public PeriodicReservationDTO makeDTO(ResultSet rs) throws SQLException {
         if (!rs.next())
             throw new SQLException("Can't make DTO from nothing!");
 
         int supplierId = rs.getInt("supplierId");
         int branchId = rs.getInt("branchId");
-        ProductStatus.Day dayOfOrder = stringToStatus(rs.getString("dayOfOrder"));
-        List<PeriodicReservationItemDTO> allItems = periodicReservationItemDAO.getBySupplierAndBrunchId(supplierId,branchId);
+        DayOfWeek dayOfOrder = stringToStatus(rs.getString("dayOfOrder"));
+        List<PeriodicReservationItemDTO> allItems = periodicReservationItemDAO.getBySupplierAndBrunchId(supplierId,
+                branchId);
 
-        return new PeriodicReservationDTO(supplierId, branchId, dayOfOrder,allItems);
+        return new PeriodicReservationDTO(supplierId, branchId, dayOfOrder, allItems);
     }
 
     public PeriodicReservationDTO getById(int supplierId, int branchID) throws SQLException {
@@ -52,22 +72,22 @@ public class PeriodicReservationDAO extends DAO<PeriodicReservationDTO> {
         return dto;
     }
 
-    private ProductStatus.Day stringToStatus(String status) {
+    private DayOfWeek stringToStatus(String status) {
         switch (status) {
             case "Sunday":
-                return ProductStatus.Day.Sunday;
+                return DayOfWeek.SUNDAY;
             case "Monday":
-                return ProductStatus.Day.Monday;
+                return DayOfWeek.MONDAY;
             case "Tuesday":
-                return ProductStatus.Day.Tuesday;
+                return DayOfWeek.TUESDAY;
             case "Wednesday":
-                return ProductStatus.Day.Wednesday;
+                return DayOfWeek.WEDNESDAY;
             case "Thursday":
-                return ProductStatus.Day.Thursday;
+                return DayOfWeek.THURSDAY;
             case "Friday":
-                return ProductStatus.Day.Friday;
+                return DayOfWeek.FRIDAY;
             case "Saturday":
-                return ProductStatus.Day.Saturday;
+                return DayOfWeek.SATURDAY;
         }
         return null;
     }
@@ -90,6 +110,7 @@ public class PeriodicReservationDAO extends DAO<PeriodicReservationDTO> {
 
     /***
      * return all branch periodic reservation
+     * 
      * @param branchId
      * @return
      * @throws SQLException

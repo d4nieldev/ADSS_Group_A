@@ -1,9 +1,10 @@
 package BusinessLayer.Inventory;
 
 import BusinessLayer.InveontorySuppliers.Branch;
-import DataAccessLayer.DAOs.*;
-import DataAccessLayer.DTOs.DeficiencyReportDTO;
-import DataAccessLayer.DTOs.*;
+import DataAccessLayer.DAOs.CategoryDAO;
+import DataAccessLayer.DAOs.DeficiencyReportEntryDAO;
+import DataAccessLayer.DAOs.ExpiredAndFlawReportEntryDAO;
+import DataAccessLayer.DAOs.InventoryReportEntryDAO;
 
 import java.sql.SQLException;
 import java.time.LocalDate;

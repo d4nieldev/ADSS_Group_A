@@ -10,8 +10,10 @@ import java.util.TreeMap;
 
 import BusinessLayer.Suppliers.ProductAgreement;
 import BusinessLayer.exceptions.SuppliersException;
+import DataAccessLayer.DAOs.CategoryDAO;
 import DataAccessLayer.DAOs.ProductAgreementDAO;
 import DataAccessLayer.DAOs.ProductsDAO;
+import DataAccessLayer.DTOs.CategoryDTO;
 import DataAccessLayer.DTOs.DiscountDTO;
 import DataAccessLayer.DTOs.ProductAgreementDTO;
 import DataAccessLayer.DTOs.ProductDTO;
@@ -140,10 +142,13 @@ public class ProductController {
         }
     }
 
-    public void addProduct(ProductDTO productDTO) throws SuppliersException, SQLException {
-        if (products.containsKey(productDTO.getId()))
-            throw new SuppliersException("A product with id " + productDTO.getId() + " already exists");
+    public void addProduct(int id, String name, String manufacturer, int categoryId)
+            throws SuppliersException, SQLException {
+        if (products.containsKey(id))
+            throw new SuppliersException("A product with id " + id + " already exists");
 
+        CategoryDTO categoryDTO = CategoryDAO.getInstance().getById(categoryId);
+        ProductDTO productDTO = new ProductDTO(categoryId, name, manufacturer, categoryDTO);
         productsDAO.insert(productDTO);
         Product product = new Product(productDTO);
         products.put(productDTO.getId(), product);

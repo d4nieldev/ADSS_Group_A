@@ -1,9 +1,6 @@
 package BusinessLayer.Inventory;
 
-import BusinessLayer.InveontorySuppliers.Branch;
-import BusinessLayer.InveontorySuppliers.Discount;
-import BusinessLayer.InveontorySuppliers.DiscountFixed;
-import BusinessLayer.InveontorySuppliers.Reservation;
+import BusinessLayer.InveontorySuppliers.*;
 import DataAccessLayer.DAOs.*;
 import DataAccessLayer.DTOs.*;
 
@@ -20,6 +17,8 @@ public class BranchController {
     private SpecificProductDAO specificProductDAO;
     private DiscountDAO discountDAO;
     private ProductBranchDiscountsDAO productBranchDiscountsDAO;
+    private PeriodicReservationDAO periodicReservationDAO;
+    private PeriodicReservationItemDAO periodicReservationItemDAO;
 
 
     private BranchController() {
@@ -29,6 +28,9 @@ public class BranchController {
         this.specificProductDAO = SpecificProductDAO.getInstance();
         this.discountDAO = DiscountDAO.getInstance();
         this.productBranchDiscountsDAO = ProductBranchDiscountsDAO.getInstance();
+        this.periodicReservationDAO = PeriodicReservationDAO.getInstance();
+        this.periodicReservationItemDAO = PeriodicReservationItemDAO.getInstance();
+
     }
 
     public static BranchController getInstance() {//
@@ -58,14 +60,31 @@ public class BranchController {
         Branch newBranch = new Branch(branchDTO);
         allBranches.put(branchId,newBranch) ;
     }
-    public Branch getBranchById(int branchId){
+    public Branch getBranchById(int branchId) throws Exception {
+        if(allBranches.containsKey(branchId))
         return allBranches.get(branchId);
+        else {
+            BranchDTO branchDTO = branchDAO.getById(branchId);
+            if(branchDTO == null) {
+                throw new Exception("this branch doesnt exist");
+            }
+            Branch branch = new Branch(branchDTO);
+            allBranches.put(branchId,branch);
+            return branch;
+        }
     }
-    public Branch getBranchByName(String name){
+    public Branch getBranchByName(String name) throws SQLException {
         Branch result = null;
         for(Branch branch : allBranches.values()){
             if(branch.getName() == name)
                 result = branch;
+        }
+        if(result == null)
+        {
+            BranchDTO branchDTO = branchDAO.getByName(name);
+            Branch branch = new Branch(branchDTO);
+            allBranches.put(branch.getId(),branch);
+            result = branch;
         }
         return result;
     }
@@ -89,7 +108,8 @@ public class BranchController {
                 }
 
             }
-
+            BranchDTO branchDTO = branch.getBranchDTO();
+            branchDAO.update(branchDTO);
         }
     }
 
@@ -111,19 +131,31 @@ public class BranchController {
             ProductBranchDTO result = new ProductBranchDTO(productDTO,discountDTO,branchId,productBranch.getPrice(),productBranch.getMinQuantity(),productBranch.getIdealQuantity(),null);
             return result;
         }
-
+    }
+    private Branch checkBranchExist(int branchId) throws Exception {
+        if(allBranches.containsKey(branchId))
+            return allBranches.get(branchId);
+        else {
+            BranchDTO branchDTO = branchDAO.getById(branchId);
+            if(branchDTO == null) {
+                throw new Exception("this branch doesn't exist");
+            }
+            Branch branch = new Branch(branchDTO);
+            allBranches.put(branchId,branch);
+            return branch;
+        }
 
     }
 
     /***
      * create dto object for the discount -> add it to DiscountDAO -> and find all the products that the discount on them
      * changed -> update their discount
-     * @param productsToDiscount
+     * @param
      * @param discount
      * @param branchId
      * @throws Exception
      */
-    public void setDiscountOnProducts(List<ProductBranch> productsToDiscount, Discount discount,int branchId) throws Exception {
+    public void setDiscountOnProducts(int branchId, List<Integer> products, Discount discount) throws Exception {
         DiscountDTO discountDTO = null;
         if (discount instanceof DiscountFixed) {
             discountDTO = new DiscountDTO(discount.getDiscountId(), discount.getStart_date(), discount.getEnd_date(), discount.getDiscountValue(), "fixed Discount");
@@ -131,17 +163,19 @@ public class BranchController {
         else {
             discountDTO = new DiscountDTO(discount.getDiscountId(), discount.getStart_date(), discount.getEnd_date(), discount.getDiscountValue(), "Percentage discount");
         }
-        this.discountDAO.insert(discountDTO);
+        discountDAO.insert(discountDTO);
         Branch branch = allBranches.get(branchId);
         // return a list of all products who the new discount on them been changed
+        List<ProductBranch> productsToDiscount = branch.getProductsByCode(products);
         List<ProductBranch> changeDiscount = branch.setDiscountOnProducts(productsToDiscount,discount);
 
         //add the discount to the product and update the discount DTO on PRODUCT
         for (ProductBranch productBranch : changeDiscount){
-            productBranchDAO.getByProductAndBranchId(productBranch.getCode(),branchId).updateDiscount(discountDTO);
-            ProductBranchDiscountDTO productBranchDiscountsDTO = new ProductBranchDiscountDTO(productBranch.getCode(),branchId,discountDTO);
+            ProductBranchDTO productBranchDTO = productBranchDAO.getByProductAndBranchId(productBranch.getCode(),branchId);
+            productBranchDAO.update(productBranchDTO);
+            ProductBranchDiscountDTO productBranchDiscountDTO = new ProductBranchDiscountDTO(productBranch.getCode(),branchId,discountDTO);
+            productBranchDiscountsDAO.insert(productBranchDiscountDTO);
         }
-
     }
 
     /***
@@ -151,11 +185,22 @@ public class BranchController {
      * @param branchId
      * @throws Exception
      */
-    public void setDiscountOnCategories(List<Category> categoriesToDiscount, Discount discount, int branchId) throws Exception {
-        List<Category> allSubCategories = CategoryController.getInstance().getListAllSubCategories(categoriesToDiscount);
-        List<ProductBranch> productsFromCategory = getProductsByCategories(allSubCategories,branchId);
-        setDiscountOnProducts(productsFromCategory, discount,branchId);
+    public void setDiscountOnCategories(int branchId,List<Integer> categoriesToDiscount, Discount discount) throws Exception {
+
+           Branch branch = checkBranchExist(branchId);
+           CategoryController categoryController = CategoryController.getInstance();
+           List<Category> allCategories = categoryController.getCategoriesByIds(categoriesToDiscount);
+           List<Category> allSubCategories = categoryController.getListAllSubCategories(allCategories);
+           List<ProductBranch> productsToDiscount = branch.getProductsByCategories(allSubCategories);
+           List<Integer> productsToCode = branch.getCodeByProducts(productsToDiscount);
+           setDiscountOnProducts(branchId,productsToCode,discount);
     }
+
+//    public void setDiscountOnCategories(List<Category> categoriesToDiscount, Discount discount, int branchId) throws Exception {
+//        List<Category> allSubCategories = CategoryController.getInstance().getListAllSubCategories(categoriesToDiscount);
+//        List<ProductBranch> productsFromCategory = getProductsByCategories(allSubCategories,branchId);
+//        setDiscountOnProducts(productsFromCategory, discount,branchId);
+//    }
 
     /***
      * private method for receving the product of branch by categories
@@ -169,11 +214,41 @@ public class BranchController {
         return productFromCategories;
     }
 
-    public void addNewPeriodicReservation(int branchId,int supplierId, ProductStatus.Day day){
+
+        /**
+         * sell a product
+         * @param branchId
+         * @param productCode
+         * @param specificId
+         * @throws Exception
+         */
+    public void sellProduct(int branchId,int productCode, int specificId) throws Exception {
         Branch branch = allBranches.get(branchId);
-        branch.addNewPeriodicReservation(supplierId,day);
+        SpecificProduct sp = branch.sellProduct(productCode,specificId);
+        SpecificProductDTO specificProductDTO = specificProductDAO.getById(specificId);
+        specificProductDAO.update(specificProductDTO);
+
     }
 
+    /**
+     * report on a flaw product
+     * @param branchId
+     * @param productCode
+     * @param specificId
+     * @param description
+     * @throws Exception
+     */
+    public void reportFlawProduct(int branchId,int productCode,int specificId , String description) throws Exception {
+        Branch branch = checkBranchExist(branchId);
+        ProductBranch productBranch = branch.reportFlawProduct(productCode,specificId,description);
+        SpecificProductDTO specificProductDTO = productBranch.getSpecificById(specificId).getSpecificProductDTO();
+        specificProductDAO.update(specificProductDTO);
+        ProductBranchDTO productBranchDTO = productBranch.getProductBranchDTO();
+        productBranchDAO.update(productBranchDTO);
+        BranchDTO branchDTO = branch.getBranchDTO();
+        branchDAO.update(branchDTO);
+
+    }
 
 }
 

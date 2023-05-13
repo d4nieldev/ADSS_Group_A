@@ -630,4 +630,25 @@ public void addNewProductBranch(ProductBranchDTO productBranchDTO) throws SQLExc
         }
         return res;
     }
+
+    public HashMap<Integer, ProductBranch> getAllDeficiencyProductsBranch() {
+        HashMap<Integer, ProductBranch> allDeficiencyProducts = new HashMap<>();
+        for (ProductBranch productBranch : allProductBranches.values()) {
+            boolean check = productBranch.checkForDeficiency();
+            if (check) {
+                allDeficiencyProducts.put(productBranch.getCode(), productBranch);
+            }
+        }
+        return allDeficiencyProducts;
+    }
+
+    public HashMap<Integer, ProductBranch> getDeficiencyProductBranches(Map<Integer, ProductBranchDTO> idToProductBranch) {
+        HashMap<Integer, ProductBranch> deficiencyProductBranches = new HashMap<>();
+        for (Integer productCode : idToProductBranch.keySet()) {
+            ProductBranchDTO productBranchDTO = idToProductBranch.get(productCode);
+            ProductBranch productBranch = allProductBranches.get(productBranchDTO.getProductDTO().getId());
+            deficiencyProductBranches.put(productCode, productBranch);
+        }
+        return deficiencyProductBranches;
+    }
 }

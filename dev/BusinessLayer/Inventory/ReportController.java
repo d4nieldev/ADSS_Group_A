@@ -1,11 +1,8 @@
 package BusinessLayer.Inventory;
 
 import BusinessLayer.InveontorySuppliers.Branch;
-import DataAccessLayer.DAOs.CategoryDAO;
-import DataAccessLayer.DAOs.DeficiencyReportEntryDAO;
-import DataAccessLayer.DAOs.ExpiredAndFlawReportEntryDAO;
-import DataAccessLayer.DAOs.InventoryReportEntryDAO;
-
+import DataAccessLayer.DAOs.*;
+import DataAccessLayer.DTOs.*;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.HashMap;
@@ -40,7 +37,7 @@ public class ReportController {
 //        return report;
 //    }
 
-    public InventoryReport importInventoryReport(int branchId, List<Category> categoryList) throws SQLException {
+    public InventoryReport importInventoryReport(int branchId, List<Category> categoryList) throws Exception {
         Branch branch = BranchController.getInstance().getBranchById(branchId);
         int reportID = Global.getNewReportId();
         ReportDTO repDTO = new ReportDTO(reportID, branchId, LocalDate.now());
@@ -69,7 +66,7 @@ public class ReportController {
 //        return report;
 //    }
 
-    public ExpiredAndFlawReport importExpiredAndFlawReport(int branchId) throws SQLException{
+    public ExpiredAndFlawReport importExpiredAndFlawReport(int branchId) throws Exception {
         Branch branch = BranchController.getInstance().getBranchById(branchId);
         int reportID = Global.getNewReportId();
         ReportDTO repDTO = new ReportDTO(reportID, branchId, LocalDate.now());
@@ -96,7 +93,7 @@ public class ReportController {
 //        return report;
 //    }
 
-    public DeficientReport importDeficientReport(int branchId) throws SQLException{
+    public DeficientReport importDeficientReport(int branchId) throws Exception {
         Branch branch = BranchController.getInstance().getBranchById(branchId);
         int reportID = Global.getNewReportId();
         ReportDTO repDTO = new ReportDTO(reportID, branchId, LocalDate.now());

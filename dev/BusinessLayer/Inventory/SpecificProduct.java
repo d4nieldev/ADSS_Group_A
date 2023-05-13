@@ -106,4 +106,8 @@ public class SpecificProduct {
     public boolean getIsExpired() {
         return this.expiredDate.isBefore(LocalDate.now().plusDays(1));
     }
+    public SpecificProductDTO getSpecificProductDTO() {
+        return specificProductDTO;
+    }
+
 }

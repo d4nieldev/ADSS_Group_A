@@ -61,6 +61,13 @@ public class ProductBranch {
     public Discount getDiscount() {
         return discount;
     }
+    public ProductBranchDTO getProductBranchDTO() {
+        return productBranchDTO;
+    }
+    public SpecificProduct getSpecificById (int specificId){
+        return allSpecificProducts.get(specificId);
+    }
+
 
     public HashMap<Integer, SpecificProduct> getAllSpecificProducts() {
         return allSpecificProducts;
@@ -222,7 +229,7 @@ public class ProductBranch {
      * 
      * @param specificId
      */
-    public void sellProduct(int specificId) throws Exception {
+    public SpecificProduct sellProduct(int specificId) throws Exception {
         SpecificProduct sp = getSpecificProduct(specificId);
         if (sp != null) {
             if (sp.getStatus() == ProductStatus.status.ON_SHELF || sp.getStatus() == ProductStatus.status.ON_STORAGE) {
@@ -234,7 +241,7 @@ public class ProductBranch {
             } else
                 throw new Exception("cannot sell products not from shelf");
         }
-
+        return sp;
     }
 
     private void UpdateSellPrice(SpecificProduct sp) {

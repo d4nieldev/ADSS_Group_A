@@ -8,7 +8,7 @@ public class InventoryReportDTO extends ReportDTO {
     private ReportDTO reportDTO;
 
     public InventoryReportDTO(ReportDTO reportDTO, Map<Integer, Integer> idToStorageAmount, Map<Integer, Integer> idToShopAmount) {
-        super(reportDTO);
+        super(reportDTO.getId(), reportDTO.getBranchId(), reportDTO.getCreatedDate());
         this.idToStorageAmount = idToStorageAmount;
         this.idToShopAmount = idToShopAmount;
         this.reportDTO = reportDTO;

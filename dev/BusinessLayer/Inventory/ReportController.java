@@ -2,6 +2,7 @@ package BusinessLayer.Inventory;
 
 import BusinessLayer.InveontorySuppliers.Branch;
 import DataAccessLayer.DAOs.*;
+import DataAccessLayer.DTOs.DeficiencyReportDTO;
 import DataAccessLayer.DTOs.*;
 
 import java.sql.SQLException;
@@ -95,7 +96,23 @@ public class ReportController {
 //    }
 
     public DeficientReport importDeficientReport(int branchId) throws SQLException{
+        Branch branch = BranchController.getInstance().getBranchById(branchId);
+        int reportID = Global.getNewReportId();
+        ReportDTO repDTO = new ReportDTO(reportID, branchId, LocalDate.now());
+        reportDAO.insert(repDTO);
 
+        HashMap<Integer, ProductBranch> deficiencyProductsBranch = branch.getAllDeficiencyProductsBranch();
+        for (Integer productCode : deficiencyProductsBranch.keySet()) {
+            ProductBranch deficiencyProduct = deficiencyProductsBranch.get(productCode);
+            int missingAmount = deficiencyProduct.getMinQuantity()-deficiencyProduct.getTotalAmount();
+            DeficiencyReportEntryDTO defEntDTO = new DeficiencyReportEntryDTO(reportID, deficiencyProduct.getCode(), missingAmount);
+            deficiencyReportEntryDAO.insert(defEntDTO);
+        }
+        DeficiencyReportDTO defDTO = deficiencyReportEntryDAO.getFullReportById(reportID);
+
+        DeficientReport report = new DeficientReport(defDTO);
+        allReports.put(report.getId(), report);
+        return report;
     }
 
     public InventoryReport getInventoryReport(int reportId) throws Exception {

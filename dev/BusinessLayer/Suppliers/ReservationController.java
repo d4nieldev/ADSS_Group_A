@@ -18,8 +18,10 @@ import BusinessLayer.InveontorySuppliers.ReceiptItem;
 import BusinessLayer.InveontorySuppliers.Reservation;
 import BusinessLayer.enums.Status;
 import BusinessLayer.exceptions.SuppliersException;
+import DataAccessLayer.DAOs.PeriodicReservationDAO;
 import DataAccessLayer.DAOs.ReceiptItemDAO;
 import DataAccessLayer.DAOs.ReservationDAO;
+import DataAccessLayer.DTOs.PeriodicReservationDTO;
 import DataAccessLayer.DTOs.ReceiptItemDTO;
 import DataAccessLayer.DTOs.ReservationDTO;
 
@@ -35,13 +37,14 @@ public class ReservationController {
     // list of reservations with 'Ready' status.
     private List<Integer> readyReservations;
     // the next id for a reservation in the system.
-    private Map<Integer, List<PeriodicReservation>> supplierIdToPeriodicReservations;
+    private Map<Integer, Map<Integer, PeriodicReservation>> supplierToBranchToPeriodicReservations;
     private int lastId;
     private ProductController pc = ProductController.getInstance();
     private SupplierController sc = SupplierController.getInstance();
 
     private ReceiptItemDAO receiptItemDAO;
     private ReservationDAO reservationDAO;
+    private PeriodicReservationDAO periodicReservationDAO;
 
     private Thread periodicReservationsCareTaker;
 
@@ -49,6 +52,7 @@ public class ReservationController {
         idToSupplierReservations = new HashMap<>();
         supplierIdToReservations = new HashMap<>();
         readyReservations = new ArrayList<>();
+        supplierToBranchToPeriodicReservations = new HashMap<>();
 
         periodicReservationsCareTaker = new Thread(() -> {
             try {
@@ -64,6 +68,7 @@ public class ReservationController {
 
         receiptItemDAO = ReceiptItemDAO.getInstance();
         reservationDAO = ReservationDAO.getInstance();
+        periodicReservationDAO = PeriodicReservationDAO.getInstance();
 
         this.initialized = false;
     }
@@ -78,7 +83,25 @@ public class ReservationController {
     }
 
     private void loadPeriodicReservations() throws SQLException {
-        // TODO: load all periodic reservations here
+        List<PeriodicReservationDTO> dtos = periodicReservationDAO.selectAll();
+        for (PeriodicReservationDTO dto : dtos) {
+            PeriodicReservation pr = new PeriodicReservation(dto);
+            int supplierId = dto.getSupplierId();
+            int branchId = dto.getBranchId();
+            supplierToBranchToPeriodicReservations.computeIfAbsent(supplierId, k -> new HashMap<>()).put(branchId, pr);
+        }
+    }
+
+    private void makePeriodicalReservations() throws SQLException {
+        for (Map<Integer, PeriodicReservation> supplierReservations : supplierToBranchToPeriodicReservations.values()) {
+            for (PeriodicReservation pr : supplierReservations.values()) {
+                Map<Integer, Map<Integer, Integer>> supplierToProductToAmount = new HashMap<>();
+                int supplierId = pr.getSupplierId();
+                Map<Integer, Integer> productToAmount = pr.getProductsToAmounts();
+                supplierToProductToAmount.put(supplierId, productToAmount);
+                makeManualReservation(supplierToProductToAmount, pr.getBranchId());
+            }
+        }
     }
 
     /**
@@ -352,9 +375,5 @@ public class ReservationController {
         supplierIdToReservations.clear();
         readyReservations.clear();
         lastId = 0;
-    }
-
-    private void makePeriodicalReservations() throws SQLException {
-        // TODO: implement
     }
 }

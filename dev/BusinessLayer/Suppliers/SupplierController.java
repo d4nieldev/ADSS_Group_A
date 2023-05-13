@@ -4,25 +4,33 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.TreeMap;
-import BusinessLayer.InveontorySuppliers.*;
+
+import BusinessLayer.InveontorySuppliers.Discount;
+import BusinessLayer.InveontorySuppliers.PeriodicReservation;
+import BusinessLayer.InveontorySuppliers.Product;
+import BusinessLayer.InveontorySuppliers.ProductController;
+import BusinessLayer.InveontorySuppliers.ReceiptItem;
 import BusinessLayer.exceptions.SuppliersException;
-import DataAccessLayer.DAOs.*;
+import DataAccessLayer.DAOs.ContactDAO;
+import DataAccessLayer.DAOs.FixedDaysSupplierDAO;
+import DataAccessLayer.DAOs.OnOrderSuppliersDAO;
+import DataAccessLayer.DAOs.ProductAgreementDAO;
+import DataAccessLayer.DAOs.SelfPickUpSupplierDAO;
+import DataAccessLayer.DAOs.SupplierDAO;
+import DataAccessLayer.DAOs.SuppliersFieldsDAO;
 import DataAccessLayer.DTOs.ContactDTO;
 import DataAccessLayer.DTOs.DiscountDTO;
 import DataAccessLayer.DTOs.FixedDaysSupplierDTO;
 import DataAccessLayer.DTOs.OnOrderSuppliersDTO;
 import DataAccessLayer.DTOs.PeriodicReservationDTO;
+import DataAccessLayer.DTOs.ProductAgreementDTO;
 import DataAccessLayer.DTOs.SelfPickUpSupplierDTO;
 import DataAccessLayer.DTOs.SupplierDTO;
 import DataAccessLayer.DTOs.SuppliersFieldsDTO;
-import DataAccessLayer.DTOs.ProductAgreementDTO;
-
-import java.util.List;
-import java.util.Map;
 
 public class SupplierController {
-
     private int nextSupplierIdInSystem;
     private boolean initialized;
     private TreeMap<Integer, Supplier> idToSupplier;
@@ -558,14 +566,18 @@ public class SupplierController {
         nextSupplierIdInSystem = 0;
     }
 
-    public PeriodicReservation addNewPeriodicReservation(PeriodicReservationDTO periodicReservationDTO) {
-        // TODO : create new PeriodicReservation and return the object. (MAKE SURE WITH
-        // DANIEL)
-        PeriodicReservation periodicReservation = new PeriodicReservation(periodicReservationDTO);
-        Supplier s = getSupplierById(periodicReservation.getSupplierId());
-        s.putPeriodicReservation(periodicReservation.getBranchId(), periodicReservation);
-        return periodicReservation;
-    }
+    // public PeriodicReservation addNewPeriodicReservation(PeriodicReservationDTO
+    // periodicReservationDTO) {
+    // // TODO : create new PeriodicReservation and return the object. (MAKE SURE
+    // WITH
+    // // DANIEL)
+    // PeriodicReservation periodicReservation = new
+    // PeriodicReservation(periodicReservationDTO);
+    // Supplier s = getSupplierById(periodicReservation.getSupplierId());
+    // s.putPeriodicReservation(periodicReservation.getBranchId(),
+    // periodicReservation);
+    // return periodicReservation;
+    // }
 
     public Contact getContactOfSupplier(int supplierId, String phone) {
         return getContactByPhone(getSupplierById(supplierId), phone);

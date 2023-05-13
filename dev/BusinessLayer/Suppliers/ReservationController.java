@@ -1,7 +1,7 @@
 package BusinessLayer.Suppliers;
 
 import java.sql.SQLException;
-import java.sql.Savepoint;
+import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
@@ -11,19 +11,24 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import BusinessLayer.InveontorySuppliers.PeriodicReservation;
 import BusinessLayer.InveontorySuppliers.Product;
 import BusinessLayer.InveontorySuppliers.ProductController;
 import BusinessLayer.InveontorySuppliers.ReceiptItem;
 import BusinessLayer.InveontorySuppliers.Reservation;
 import BusinessLayer.enums.Status;
 import BusinessLayer.exceptions.SuppliersException;
+import DataAccessLayer.DAOs.PeriodicReservationDAO;
 import DataAccessLayer.DAOs.ReceiptItemDAO;
 import DataAccessLayer.DAOs.ReservationDAO;
+import DataAccessLayer.DTOs.PeriodicReservationDTO;
+import DataAccessLayer.DTOs.PeriodicReservationItemDTO;
 import DataAccessLayer.DTOs.ReceiptItemDTO;
 import DataAccessLayer.DTOs.ReservationDTO;
 
 public class ReservationController {
     private static ReservationController instance = null;
+    private boolean initialized;
     // maps between the main reservation and the sub-reservations it was splited
     // into.
     private Map<Integer, List<Reservation>> idToSupplierReservations;
@@ -33,27 +38,105 @@ public class ReservationController {
     // list of reservations with 'Ready' status.
     private List<Integer> readyReservations;
     // the next id for a reservation in the system.
+    private Map<Integer, Map<Integer, PeriodicReservation>> supplierToBranchToPeriodicReservations;
     private int lastId;
     private ProductController pc = ProductController.getInstance();
     private SupplierController sc = SupplierController.getInstance();
 
     private ReceiptItemDAO receiptItemDAO;
     private ReservationDAO reservationDAO;
+    private PeriodicReservationDAO periodicReservationDAO;
+
+    private Thread periodicReservationsCareTaker;
 
     private ReservationController() {
         idToSupplierReservations = new HashMap<>();
         supplierIdToReservations = new HashMap<>();
         readyReservations = new ArrayList<>();
+        supplierToBranchToPeriodicReservations = new HashMap<>();
+
+        periodicReservationsCareTaker = new Thread(() -> {
+            try {
+                while (!Thread.interrupted()) {
+                    orderPeriodicalReservations(LocalDate.now().getDayOfWeek());
+                    Thread.sleep(86400000); // sleep for a day
+                }
+            } catch (InterruptedException ignored) {
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        });
 
         receiptItemDAO = ReceiptItemDAO.getInstance();
         reservationDAO = ReservationDAO.getInstance();
+        periodicReservationDAO = PeriodicReservationDAO.getInstance();
 
-        // Get last id from the database
-        try {
-            LoadReservationLastId();
-        } catch (SQLException e) {
-            // TODO: how we want to handle exception? loading of the last id failed.
+        this.initialized = false;
+    }
+
+    public void init() throws SQLException {
+        if (!initialized) {
+            loadReservationLastId();
+            loadPeriodicReservations();
+            periodicReservationsCareTaker.start();
+            initialized = true;
         }
+    }
+
+    private void loadPeriodicReservations() throws SQLException {
+        List<PeriodicReservationDTO> dtos = periodicReservationDAO.selectAll();
+        for (PeriodicReservationDTO dto : dtos) {
+            PeriodicReservation pr = new PeriodicReservation(dto);
+            int supplierId = dto.getSupplierId();
+            int branchId = dto.getBranchId();
+            supplierToBranchToPeriodicReservations.computeIfAbsent(supplierId, k -> new HashMap<>()).put(branchId, pr);
+        }
+    }
+
+    private void orderPeriodicalReservations(DayOfWeek day) throws SQLException {
+        for (Map<Integer, PeriodicReservation> supplierReservations : supplierToBranchToPeriodicReservations.values()) {
+            for (PeriodicReservation pr : supplierReservations.values()) {
+                if (day == pr.getDay()) {
+                    Map<Integer, Map<Integer, Integer>> supplierToProductToAmount = new HashMap<>();
+                    int supplierId = pr.getSupplierId();
+                    Map<Integer, Integer> productToAmount = pr.getProductsToAmounts();
+                    supplierToProductToAmount.put(supplierId, productToAmount);
+                    makeManualReservation(supplierToProductToAmount, pr.getBranchId());
+                }
+            }
+        }
+    }
+
+    private boolean periodicReservationExists(int supplierId, int branchId) {
+        return supplierToBranchToPeriodicReservations.containsKey(supplierId)
+                && supplierToBranchToPeriodicReservations.get(supplierId).containsKey(branchId);
+    }
+
+    public void addPeriodicReservation(int branchId, int supplierId, DayOfWeek day,
+            Map<Integer, Integer> productToAmount) throws SQLException {
+        List<PeriodicReservationItemDTO> items = new ArrayList<>();
+        for (int productId : productToAmount.keySet()) {
+            int amount = productToAmount.get(productId);
+            PeriodicReservationItemDTO itemDTO = new PeriodicReservationItemDTO(supplierId, branchId, productId,
+                    amount);
+            items.add(itemDTO);
+        }
+        PeriodicReservationDTO rDTO = new PeriodicReservationDTO(supplierId, branchId, day, items);
+        PeriodicReservation r = new PeriodicReservation(rDTO);
+        periodicReservationDAO.insert(r.getDTO());
+        supplierToBranchToPeriodicReservations.computeIfAbsent(supplierId, k -> new HashMap<>()).put(branchId, r);
+    }
+
+    public void updatePeriodicReservation(int branchId, int supplierId, DayOfWeek day,
+            Map<Integer, Integer> productToAmount) throws SQLException {
+        if (!periodicReservationExists(supplierId, branchId))
+            throw new SuppliersException(
+                    "No periodic reservation found for supplier " + supplierId + " and branch " + branchId);
+
+        PeriodicReservation r = supplierToBranchToPeriodicReservations.get(supplierId).get(branchId);
+        r.setDay(day);
+        r.setProductsToAmounts(productToAmount);
+        periodicReservationDAO.update(r.getDTO());
     }
 
     /**
@@ -61,7 +144,7 @@ public class ReservationController {
      * 
      * @throws SQLException if there is an error in the database.
      */
-    private void LoadReservationLastId() throws SQLException {
+    private void loadReservationLastId() throws SQLException {
         lastId = reservationDAO.getLastId() + 1;
     }
 

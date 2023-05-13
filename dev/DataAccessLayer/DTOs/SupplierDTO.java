@@ -16,8 +16,7 @@ public class SupplierDTO implements DTO {
     protected Map<Integer, PeriodicReservationDTO> branchToPeriodicReservations;
 
     public SupplierDTO(int id, String name, String bankAccount, String paymentCondition,
-            List<SuppliersFieldsDTO> fields,
-            List<ContactDTO> contacts, TreeMap<Integer, DiscountDTO> amountToDiscount,
+            List<SuppliersFieldsDTO> fields, List<ContactDTO> contacts, TreeMap<Integer, DiscountDTO> amountToDiscount,
             Map<Integer, PeriodicReservationDTO> branchToPeriodicReservations) {
         this.id = id;
         this.name = name;

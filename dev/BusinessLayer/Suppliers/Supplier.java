@@ -28,7 +28,6 @@ public abstract class Supplier {
     private String paymentCondition;
     private TreeMap<Integer, Discount> amountToDiscount;
     private List<Contact> contacts;
-    private Map<Integer, PeriodicReservation> branchToPeriodicReservations;
     private SupplierDTO supplierDTO;
 
     // public Supplier(int id, String name, String phone, String bankAcc,
@@ -57,18 +56,6 @@ public abstract class Supplier {
         this.amountToDiscount = makeDiscountMap(amountToDiscountDTO);
         this.contacts = makeContactList(supplierDTO.getContacts());
         Map<Integer, PeriodicReservationDTO> periodicReservationDTO = supplierDTO.getBranchToPeriodicReservations();
-        this.branchToPeriodicReservations = makePeriodicalReservations(periodicReservationDTO);
-    }
-
-    private Map<Integer, PeriodicReservation> makePeriodicalReservations(
-            Map<Integer, PeriodicReservationDTO> periodicReservationDTO) {
-        Map<Integer, PeriodicReservation> res = new HashMap<>();
-        for (Integer key : periodicReservationDTO.keySet()) {
-            PeriodicReservationDTO dto = periodicReservationDTO.get(key);
-            // TODO: what going on here? why we make pr and leave it like this?
-            PeriodicReservation pr = new PeriodicReservation(dto);
-        }
-        return res;
     }
 
     private List<Contact> makeContactList(List<ContactDTO> contactDTOs) {
@@ -104,14 +91,6 @@ public abstract class Supplier {
     }
 
     public abstract LocalDate getClosestDeliveryDate();
-
-    public Map<Integer, PeriodicReservation> getBranchToPeriodicReservations() {
-        return branchToPeriodicReservations;
-    }
-
-    public void setBranchToPeriodicReservations(Map<Integer, PeriodicReservation> branchToPeriodicReservations) {
-        this.branchToPeriodicReservations = branchToPeriodicReservations;
-    }
 
     // Getter and setter for id
     public int getId() {
@@ -159,17 +138,6 @@ public abstract class Supplier {
 
     public Contact getOffice() {
         return contacts.get(0);
-    }
-
-    public PeriodicReservation getPeriodicReservationOfBranch(int branchId) {
-        if (!branchToPeriodicReservations.containsKey(branchId))
-            throw new SuppliersException(
-                    "This supplier does not have a periodic reservation to the branch " + branchId);
-        return branchToPeriodicReservations.get(branchId);
-    }
-
-    public void putPeriodicReservation(int branchId, PeriodicReservation reservation) {
-        branchToPeriodicReservations.put(branchId, reservation);
     }
 
     // Add a new contact

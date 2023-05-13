@@ -2,19 +2,19 @@ package DataAccessLayer.DTOs;
 
 import BusinessLayer.Inventory.ProductStatus;
 
+import java.time.DayOfWeek;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class PeriodicReservationDTO implements DTO{
+public class PeriodicReservationDTO implements DTO {
     private int supplierId;
     private int branchId;
-    private ProductStatus.Day dayOfOrder;
+    private DayOfWeek dayOfOrder;
     private List<PeriodicReservationItemDTO> allItems;
 
-
-
-    public PeriodicReservationDTO(int supplierId, int branchId, ProductStatus.Day dayOfOrder, List<PeriodicReservationItemDTO> allItems) {
+    public PeriodicReservationDTO(int supplierId, int branchId, DayOfWeek dayOfOrder,
+            List<PeriodicReservationItemDTO> allItems) {
         this.supplierId = supplierId;
         this.branchId = branchId;
         this.dayOfOrder = dayOfOrder;
@@ -38,31 +38,29 @@ public class PeriodicReservationDTO implements DTO{
         return branchId;
     }
 
-    public ProductStatus.Day getDayOfOrder() {
+    public DayOfWeek getDayOfOrder() {
         return dayOfOrder;
     }
 
     public List<PeriodicReservationItemDTO> getAllItems() {
         return allItems;
     }
-    public HashMap<Integer,Integer> getAllItemsMap(){
-        HashMap<Integer,Integer> result = new HashMap<>();
-        for (PeriodicReservationItemDTO periodicReservationItemDTO : allItems){
+
+    public HashMap<Integer, Integer> getAllItemsMap() {
+        HashMap<Integer, Integer> result = new HashMap<>();
+        for (PeriodicReservationItemDTO periodicReservationItemDTO : allItems) {
             int productId = periodicReservationItemDTO.getProductId();
             int amount = periodicReservationItemDTO.getAmount();
-            result.put(productId,amount);
+            result.put(productId, amount);
         }
         return result;
     }
-    public void addProductAndAmount(PeriodicReservationItemDTO periodicReservationItemDTO){
-        this.allItems.add(periodicReservationItemDTO);
+
+    public void setDayOfOrder(DayOfWeek dayOfOrder) {
+        this.dayOfOrder = dayOfOrder;
     }
 
-    public void updateItem(PeriodicReservationItemDTO periodicReservationItemDTO){
-        for (PeriodicReservationItemDTO pri : allItems){
-            if(pri.getBranchId() == periodicReservationItemDTO.getBranchId() && pri.getSupplierId() == periodicReservationItemDTO.getSupplierId()
-                    && pri.getProductId() == periodicReservationItemDTO.getProductId())
-                pri = periodicReservationItemDTO;
-        }
+    public void setAllItems(List<PeriodicReservationItemDTO> allItems) {
+        this.allItems = allItems;
     }
 }

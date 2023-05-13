@@ -57,63 +57,63 @@ class MainV2 {
         // LocalDate localDate = LocalDate.parse("31-05-2023", formatter);
         // System.out.println(memberSystem.branchService.printAvailableShiftForEmployee(666, localDate));
         //-----------------delete an employee-----------------
-        hrSystem.employeeService.logIn(123456789, "abc");
-        hrSystem.branchService.deleteEmployee(123456789, 999);
+        // hrSystem.employeeService.logIn(123456789, "abc");
+        // hrSystem.branchService.deleteEmployee(123456789, 999);
         ////////////////My Beautifual Test Area/////////////////////
 
-        // Scanner sc = new Scanner(System.in);
+        Scanner sc = new Scanner(System.in);
 
-        // System.out.print("Hello there, in order to login to the system please enter your Id: ");
-        // int loginId = Integer.parseInt(sc.nextLine());
-        // System.out.println("");
+        System.out.print("Hello there, in order to login to the system please enter your Id: ");
+        int loginId = Integer.parseInt(sc.nextLine());
+        System.out.println("");
 
-        // System.out.print("Great, now enter your password: ");
-        // String loginPassword = sc.nextLine();
-        // System.out.println("");
+        System.out.print("Great, now enter your password: ");
+        String loginPassword = sc.nextLine();
+        System.out.println("");
 
-        // while (true){
-        //     try {
-        //         hrSystem.employeeService.logIn(loginId, loginPassword);
-        //         System.out.println("");
-        //         break;
-        //     }
-        //     catch (Error e) {
-        //         System.out.println(e.toString());
-        //         System.out.println();
-        //         System.out.print("Enter your Id again: ");
-        //         loginId = Integer.parseInt(sc.nextLine());
-        //         System.out.println("");
+        while (true){
+            try {
+                hrSystem.employeeService.logIn(loginId, loginPassword);
+                System.out.println("");
+                break;
+            }
+            catch (Error e) {
+                System.out.println(e.toString());
+                System.out.println();
+                System.out.print("Enter your Id again: ");
+                loginId = Integer.parseInt(sc.nextLine());
+                System.out.println("");
 
-        //         System.out.print("Enter your password again: ");
-        //         loginPassword = sc.nextLine();
-        //         System.out.println("");
-        //     }
-        // }
+                System.out.print("Enter your password again: ");
+                loginPassword = sc.nextLine();
+                System.out.println("");
+            }
+        }
 
-        // System.out.println("Wellcome to the system\n");
+        System.out.println("Wellcome to the system\n");
         
-        // String managerRole = hrSystem.employeeService.getManagerType(loginId);
+        String managerRole = hrSystem.employeeService.getManagerType(loginId);
 
-        // switch (managerRole){
-        //     case("HRMANAGER") : {
+        switch (managerRole){
+            case("HRMANAGER") : {
 
-        //         hrSystem.run(loginId);
+                hrSystem.run(loginId);
                 
-        //         break;
-        //     }                
+                break;
+            }                
 
-        //     case("TRANSPORTMANAGER") : {
-        //         transportSystem.run(loginId);
-        //         break;
-        //     }
+            case("TRANSPORTMANAGER") : {
+                transportSystem.run(loginId);
+                break;
+            }
             
-        //     default : {
-        //         memberSystem.run(loginId);
-        //         break;
-        //     }
-        // }
+            default : {
+                memberSystem.run(loginId);
+                break;
+            }
+        }
 
-        // sc.close();
+        sc.close();
     }
 
 

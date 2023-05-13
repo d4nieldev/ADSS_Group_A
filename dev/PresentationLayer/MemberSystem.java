@@ -23,7 +23,7 @@ public class MemberSystem {
 
     public void run(int loginId) {
         Scanner sc = new Scanner(System.in);
-        System.out.println("1 - Show all shifts.\n 2 - Add constraint for a shift.\n3 - Go back.");
+        System.out.println("1 - Show all shifts.\n2 - Add constraint for a shift.\n3 - Go back.");
         String option = sc.nextLine();
 
         while (!option.equals("0")) {

@@ -42,4 +42,6 @@ public class BranchDTO {
         return String.format("(\"%d\",\"%d\",\"%s\")", this.branchId, notAllowEmployees.get(index), "NOTALLOW");
     }
 
+    public String getBranchAddress(){return this.address;}
+
 }

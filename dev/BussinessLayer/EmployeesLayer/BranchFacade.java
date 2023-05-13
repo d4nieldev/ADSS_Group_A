@@ -253,6 +253,17 @@ public class BranchFacade {
         }
         throw new Error("The branch id " + branchId + " is not in the system. Please try again");
     }
+    public Branch getBranchByAddress(String address){
+        for (Branch branch : branchs) {
+            if (branch.getBranchAddress() == address)
+                return branch;
+        }
+        BranchDTO bra = branchesDAO.getBranchByAddress(address);
+        if (bra != null) {
+            return createNewBranchFromBranchDTO(bra);
+        }
+        throw new Error("The branch address " + address + " is not in the system. Please try again");
+    }
 
     private void checkShiftManagerExist( HashMap<Employee, Integer> hashMapEmployees){
         boolean foundManager = false;

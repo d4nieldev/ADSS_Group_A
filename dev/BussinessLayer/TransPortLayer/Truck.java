@@ -1,5 +1,7 @@
 package BussinessLayer.TransPortLayer;
 
+import DataAccessLayer.DTO.TransportLayer.TruckDTO;
+
 public class Truck {
     private String plateNumber;
     private String model;
@@ -15,6 +17,13 @@ public class Truck {
         this.isAvailable = true;
     }
 
+    public TruckDTO toDTO(){
+        return new TruckDTO(this.plateNumber = plateNumber,
+        this.model = model,
+        this.weightNeto = weightNeto,
+        this.weightMax = weightMax,
+        this.isAvailable = true);
+    }
     public String getPlateNumber() {
         return plateNumber;
     }

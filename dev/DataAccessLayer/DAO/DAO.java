@@ -67,6 +67,19 @@ public abstract class DAO<T> {
         return rs;
     }
 
+    // get by String
+    public ResultSet get(String nameOfTable, String colName, String value, Connection con) {
+        String SELECT_SQL = String.format("SELECT * FROM %s WHERE \"%s\"=\"%s\"", nameOfTable, colName, value);
+        ResultSet rs = null;
+        try {
+            Statement stmt = con.createStatement();
+            rs = stmt.executeQuery(SELECT_SQL);
+        } catch (SQLException e) {
+        }
+
+        return rs;
+    }
+
     // get by LocalDate
     public ResultSet get(String nameOfTable, String colName, LocalDate value, Connection con) {
         String SELECT_SQL = String.format("SELECT * FROM %s WHERE \"%s\"=\"%s\"", nameOfTable, colName, value);

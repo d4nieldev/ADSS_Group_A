@@ -6,6 +6,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Scanner;
 
+import BussinessLayer.EmployeesLayer.BranchFacade;
 import BussinessLayer.EmployeesLayer.Driver;
 import BussinessLayer.EmployeesLayer.Employee;
 import BussinessLayer.EmployeesLayer.EmployeeFacade;
@@ -17,16 +18,16 @@ import BussinessLayer.TransPortLayer.TruckFacade;
 
 public class EmployeeTransportFacade {
     private EmployeeFacade employeeFacade;
+    private BranchFacade branchFacade;
     private ShiftFacade shiftFacade;
-
-
 
     // privates for transport moudle
     private TransportFacade transportFacade =TransportFacade.getInstance();
     private TruckFacade truckFacade = TruckFacade.getInstance();
 
-    public EmployeeTransportFacade(EmployeeFacade employeeFacade, ShiftFacade shiftFacade){
+    public EmployeeTransportFacade(EmployeeFacade employeeFacade, BranchFacade branchFacade, ShiftFacade shiftFacade){
         this.employeeFacade = employeeFacade;
+        this.branchFacade = branchFacade;
         this.shiftFacade = shiftFacade;
     }
 
@@ -74,10 +75,31 @@ public class EmployeeTransportFacade {
         String input = scanner.nextLine();
         LocalDate transportDate = LocalDate.parse(input, formatter);
 
-        transportFacade.letTheUserMatch(deliveries,getDayDrivers(
-            employeeFacade.getRoleClassInstance().getRoleByName("TRANSPORTMANAGER").getId(),transportDate),
-            truckFacade.getAvailableTrucks());
-        // TODO - insert driver to shift - AddDriverToShift(LocalDate transportDate, HashMap<Integer driverID, list<Integer> address>)
+        transportFacade.letTheUserMatch(transportDate,deliveries,getDayDrivers(
+                employeeFacade.getRoleClassInstance().getRoleByName("TRANSPORTMANAGER").getId(),transportDate),
+                truckFacade.getAvailableTrucks());
+
+        List<Integer> driversIds = transportFacade.getDriversByDate(transportDate);
+        for (Integer driverId : driversIds) {
+            List<String> branches = transportFacade.getBranchesByDateAndDriverId(transportDate,driverId);
+            addToShift(transportDate,driverId,branches);
+        }
+
+    }
+
+    private void addToShift(LocalDate transportDate, Integer driverId, List<String> branches) {
+        LinkedList<Integer> branchesID = new LinkedList<>();
+        for (String branchAddress : branches) {
+            branchesID.add(branchFacade.getBranchByAddress(branchAddress).getBranchId());
+        }
+        LinkedList<Shift> shiftsOnDate = shiftFacade.getShiftsByDate(transportDate);
+        for (Integer branchId : branchesID) {
+            for (Shift shiftOnDate : shiftsOnDate) {
+                if(shiftOnDate.getSuperBranchId() == branchId && !shiftOnDate.getIsFinishSettingShift()){
+                    AddDriverToShift(driverId, shiftOnDate.getID());
+                } 
+            }
+        }
     }
 
     public void AddDriverToShift(int driverID, int shiftID){

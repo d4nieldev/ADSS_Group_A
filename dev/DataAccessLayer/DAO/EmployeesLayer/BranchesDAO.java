@@ -200,6 +200,36 @@ public class BranchesDAO extends DAO<BranchDTO> {
         return newBra;
     }
 
+    public BranchDTO getBranchByAddress(String address) {
+
+        for (Integer intBranch : BRANCH_IDENTITY_MAP.keySet()) {
+            BranchDTO bra = BRANCH_IDENTITY_MAP.get(intBranch);
+            if(bra.getBranchAddress() == address){
+                return bra; 
+            }
+        }
+
+        Connection conn = Repository.getInstance().connect();
+        ResultSet res = get(tableName, "Address", address, conn);
+
+        BranchDTO newBra = null;
+
+        try {
+            if (!res.next()){
+                return null;
+            }
+            newBra = makeDTO(res);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        finally {
+            Repository.getInstance().closeConnection(conn);
+        }
+    
+        BRANCH_IDENTITY_MAP.put(newBra.branchId, newBra);
+        return newBra;
+    }
+
     public int addOriginEmployee(int empID, int branchID) {
         return employeesBranchesDAO.addOriginEmployee(empID, branchID);
     }

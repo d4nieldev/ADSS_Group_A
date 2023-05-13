@@ -6,10 +6,14 @@ import java.util.stream.Collectors;
 
 import BussinessLayer.EmployeeTransportFacade;
 import BussinessLayer.EmployeesLayer.Driver;
+import DataAccessLayer.DAO.TransportLayer.TransportDAO;
+import DataAccessLayer.DAO.TransportLayer.TruckDAO;
 
 public class TransportFacade {
 
     private Map<Integer, Transport> transportMap;
+    private TransportDAO transportDAO;
+    private TruckDAO truckDAO;
     private EmployeeTransportFacade employeeTransportFacade=null;
 
     int id=0;
@@ -17,6 +21,9 @@ public class TransportFacade {
 
     private TransportFacade() {
         transportMap = new HashMap<Integer, Transport>();
+        transportDAO = new TransportDAO();
+        truckDAO = new TruckDAO();
+
     }
 
     public static TransportFacade getInstance()
@@ -27,14 +34,15 @@ public class TransportFacade {
     }
 
 
-    public void createTransport(String date, String leavingTime, String truckNumber, String driverName, int driverId, String source,
-                                List<Destination> destinationList,List<Delivery> deliveryList,int truckWeightNeto,int truckWeightMax)
+    public void createTransport(LocalDate date, String leavingTime, String truckNumber, String driverName, int driverId, String source,
+                                List<Destination> destinationList, List<Delivery> deliveryList, int truckWeightNeto, int truckWeightMax)
     {
         Transport shipment = new Transport(id, date, leavingTime, truckNumber, driverName, driverId,
                 destinationList.get(0).getAddress(), destinationList,deliveryList,truckWeightNeto,truckWeightMax);
         System.out.println("The id of transport is:"+ id);
         addTransport(id , shipment);
         id++;
+
     }
 
     /**
@@ -432,7 +440,7 @@ public class TransportFacade {
     /**
      * make match of all choise of user
      */
-    public void letTheUserMatch(List<Delivery> deliveries, List<Driver> availableDrivers, List<Truck> availableTrucks)
+    public void letTheUserMatch(LocalDate transportDate, List<Delivery> deliveries, List<Driver> availableDrivers, List<Truck> availableTrucks)
     {
 
         List<Delivery> availableDeliveries = new ArrayList<>(deliveries);
@@ -501,7 +509,7 @@ public class TransportFacade {
             Date d = new Date();
             List<Destination> destinationList = letTheUserChooseTheOrder(matchedDeliveries);
 
-            createTransport("11/1/22","0000",truck.getPlateNumber(),driver.getFirstName(),driver.getId(),"source",
+            createTransport(transportDate,"0000",truck.getPlateNumber(),driver.getFirstName(),driver.getId(),"source",
                     destinationList,matchedDeliveries,truck.getWeightNeto(),truck.getWeightMax());
         }
 
@@ -574,6 +582,27 @@ public class TransportFacade {
         }
 
         return sb.toString();
+    }
+
+    public List<Integer> getDriversByDate(LocalDate transportDate) {
+        List<Integer> drivers = new ArrayList<Integer>();
+        for (Transport transport : transportMap.values()) {
+            if (transport.getDate().equals(transportDate)) {
+                drivers.add(transport.getDriverId());
+            }
+        }
+        return drivers;
+    }
+
+
+    public List<String> getBranchesByDateAndDriverId(LocalDate transportDate, int driverId) {
+        List<String> branches = new ArrayList<String>();
+        for (Transport transport : transportMap.values()) {
+            if (transport.getDate().equals(transportDate) && transport.getDriverId() == driverId) {
+                branches.addAll(transport.getDestinationBranches());
+            }
+        }
+        return branches;
     }
 
 }

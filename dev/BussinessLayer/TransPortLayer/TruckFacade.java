@@ -1,5 +1,7 @@
 package BussinessLayer.TransPortLayer;
 
+import DataAccessLayer.DAO.TransportLayer.TruckDAO;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -7,9 +9,12 @@ import java.util.Map;
 
 public class TruckFacade {
     private Map<String, Truck> trucks;
+    private TruckDAO truckDAO;
+
 
     public TruckFacade() {
         trucks = new HashMap<>();
+        truckDAO = new TruckDAO();
     }
 
     /**
@@ -27,7 +32,7 @@ public class TruckFacade {
     public void newTrack(String plateNumber, String model, int weightNeto, int weightMax){
         Truck truck = new Truck(plateNumber, model, weightNeto, weightMax);
         addTruck(truck);
-        
+        truckDAO.insert(truck.toDTO());
     }
 
     /**

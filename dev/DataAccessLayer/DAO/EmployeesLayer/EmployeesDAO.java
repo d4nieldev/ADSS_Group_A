@@ -7,13 +7,10 @@ import DataAccessLayer.DTO.EmployeeLayer.*;
 import java.sql.*;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.HashMap;
 import java.util.LinkedList;
-import java.util.Map;
 
 public class EmployeesDAO extends DAO<EmployeeDTO> {
     private EmployeesRolesDAO employeeRoleDAO;
-    private static Map<Integer, EmployeeDTO> EMPLOYEE_IDENTITY_MAP = new HashMap<>();
 
     public EmployeesDAO() {
         this.tableName = "Employees";

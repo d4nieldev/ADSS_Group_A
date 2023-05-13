@@ -28,7 +28,6 @@ public class ExpiredAndFlawReport extends Report {
         this.products = branch.getAllProductBranches();
 //        this.idsToName = branch.getIdsToName();
 //        this.codeToCategory = branch.getCodeToCategory();
-        this.branchController = BranchController.getInstance();
     }
 
     public HashMap<Integer, HashMap<Integer, LocalDate>> getIdToExpiredSpecificIdAndDate() {

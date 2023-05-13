@@ -9,15 +9,13 @@ public class DeficiencyReportDTO extends ReportDTO {
 
     public DeficiencyReportDTO(ReportDTO reportDTO, Map<Integer, ProductBranchDTO> idToProductBranch,
             Map<Integer, Integer> idToMissingAmount) {
-        super(reportDTO.getId(), reportDTO.getBranchId(), reportDTO.getCreatedDate());
+        super(reportDTO);
         this.idToProductBranch = idToProductBranch;
         this.idToMissingAmount = idToMissingAmount;
         this.reportDTO = reportDTO;
     }
 
-    public ReportDTO getReportDTO() {
-        return reportDTO;
-    }
+    public ReportDTO getReportDTO(){ return reportDTO; }
 
     public Map<Integer, ProductBranchDTO> getIdToProductBranch() {
         return idToProductBranch;

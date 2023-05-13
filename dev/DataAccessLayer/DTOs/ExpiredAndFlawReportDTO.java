@@ -9,7 +9,7 @@ public class ExpiredAndFlawReportDTO extends ReportDTO {
 
     public ExpiredAndFlawReportDTO(ReportDTO reportDTO, List<SpecificProductDTO> expiredProducts,
             List<SpecificProductDTO> flawProducts) {
-        super(reportDTO.getId(), reportDTO.getBranchId(), reportDTO.getCreatedDate());
+        super(reportDTO);
         this.expiredProducts = expiredProducts;
         this.flawProducts = flawProducts;
         this.reportDTO = reportDTO;

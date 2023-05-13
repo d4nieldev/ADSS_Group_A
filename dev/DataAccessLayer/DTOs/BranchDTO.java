@@ -44,19 +44,9 @@ public class BranchDTO implements DTO {
     }
 
 
-    public PeriodicReservationDTO getPeriodicDTO(int supplierId) {
-        PeriodicReservationDTO result = null;
-        for (PeriodicReservationDTO periodicReservationDTO : periodicReservationsDTO){
-            if(periodicReservationDTO.getSupplierId() == supplierId)
-               result = periodicReservationDTO;
-        }
-        return result;
-    }
 
-    public void updatePeriodicReservation(PeriodicReservationDTO periodicReservationDTO) {
-        for (PeriodicReservationDTO pr : periodicReservationsDTO){
-            if(periodicReservationDTO.getSupplierId() == periodicReservationDTO.getSupplierId())
-                pr = periodicReservationDTO;
-        }
-    }
+
+
+
+    
 }

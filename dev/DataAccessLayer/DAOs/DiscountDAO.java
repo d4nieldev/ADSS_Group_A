@@ -44,4 +44,15 @@ public class DiscountDAO extends DAO<DiscountDTO> {
         return discount;
     }
 
+    public int getLastId() throws SQLException {
+        String query = "SELECT Max(id) FROM Discounts;";
+        ResultSet rs = repo.executeQuery(query);
+        DiscountDTO dto = makeDTO(rs);
+        if (dto == null) {
+            return -1;
+        }
+        rs.close();
+        return dto.getId();
+    }
+
 }

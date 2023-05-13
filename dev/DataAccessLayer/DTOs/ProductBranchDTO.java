@@ -73,5 +73,4 @@ public class ProductBranchDTO implements DTO {
     public void updateDiscount(DiscountDTO discountDTO) {
         this.discountDTO = discountDTO;
     }
-
 }

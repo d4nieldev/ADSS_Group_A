@@ -120,6 +120,7 @@ public class ProductController {
                 productSupplierId, amountToDiscountDTO);
         productAgreementDAO.update(newAgreementDTO);
         ProductAgreement newAgreement = new ProductAgreement(newAgreementDTO);
+
         addProductAgreement(supplierId, productShopId, newAgreement);
     }
 

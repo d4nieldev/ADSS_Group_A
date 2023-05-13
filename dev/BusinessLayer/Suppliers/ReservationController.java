@@ -1,7 +1,7 @@
 package BusinessLayer.Suppliers;
 
 import java.sql.SQLException;
-import java.sql.Savepoint;
+import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
@@ -22,6 +22,7 @@ import DataAccessLayer.DAOs.PeriodicReservationDAO;
 import DataAccessLayer.DAOs.ReceiptItemDAO;
 import DataAccessLayer.DAOs.ReservationDAO;
 import DataAccessLayer.DTOs.PeriodicReservationDTO;
+import DataAccessLayer.DTOs.PeriodicReservationItemDTO;
 import DataAccessLayer.DTOs.ReceiptItemDTO;
 import DataAccessLayer.DTOs.ReservationDTO;
 
@@ -57,7 +58,7 @@ public class ReservationController {
         periodicReservationsCareTaker = new Thread(() -> {
             try {
                 while (!Thread.interrupted()) {
-                    makePeriodicalReservations();
+                    orderPeriodicalReservations(LocalDate.now().getDayOfWeek());
                     Thread.sleep(86400000); // sleep for a day
                 }
             } catch (InterruptedException ignored) {
@@ -92,16 +93,50 @@ public class ReservationController {
         }
     }
 
-    private void makePeriodicalReservations() throws SQLException {
+    private void orderPeriodicalReservations(DayOfWeek day) throws SQLException {
         for (Map<Integer, PeriodicReservation> supplierReservations : supplierToBranchToPeriodicReservations.values()) {
             for (PeriodicReservation pr : supplierReservations.values()) {
-                Map<Integer, Map<Integer, Integer>> supplierToProductToAmount = new HashMap<>();
-                int supplierId = pr.getSupplierId();
-                Map<Integer, Integer> productToAmount = pr.getProductsToAmounts();
-                supplierToProductToAmount.put(supplierId, productToAmount);
-                makeManualReservation(supplierToProductToAmount, pr.getBranchId());
+                if (day == pr.getDay()) {
+                    Map<Integer, Map<Integer, Integer>> supplierToProductToAmount = new HashMap<>();
+                    int supplierId = pr.getSupplierId();
+                    Map<Integer, Integer> productToAmount = pr.getProductsToAmounts();
+                    supplierToProductToAmount.put(supplierId, productToAmount);
+                    makeManualReservation(supplierToProductToAmount, pr.getBranchId());
+                }
             }
         }
+    }
+
+    private boolean periodicReservationExists(int supplierId, int branchId) {
+        return supplierToBranchToPeriodicReservations.containsKey(supplierId)
+                && supplierToBranchToPeriodicReservations.get(supplierId).containsKey(branchId);
+    }
+
+    public void addPeriodicReservation(int branchId, int supplierId, DayOfWeek day,
+            Map<Integer, Integer> productToAmount) throws SQLException {
+        List<PeriodicReservationItemDTO> items = new ArrayList<>();
+        for (int productId : productToAmount.keySet()) {
+            int amount = productToAmount.get(productId);
+            PeriodicReservationItemDTO itemDTO = new PeriodicReservationItemDTO(supplierId, branchId, productId,
+                    amount);
+            items.add(itemDTO);
+        }
+        PeriodicReservationDTO rDTO = new PeriodicReservationDTO(supplierId, branchId, day, items);
+        PeriodicReservation r = new PeriodicReservation(rDTO);
+        periodicReservationDAO.insert(r.getDTO());
+        supplierToBranchToPeriodicReservations.computeIfAbsent(supplierId, k -> new HashMap<>()).put(branchId, r);
+    }
+
+    public void updatePeriodicReservation(int branchId, int supplierId, DayOfWeek day,
+            Map<Integer, Integer> productToAmount) throws SQLException {
+        if (!periodicReservationExists(supplierId, branchId))
+            throw new SuppliersException(
+                    "No periodic reservation found for supplier " + supplierId + " and branch " + branchId);
+
+        PeriodicReservation r = supplierToBranchToPeriodicReservations.get(supplierId).get(branchId);
+        r.setDay(day);
+        r.setProductsToAmounts(productToAmount);
+        periodicReservationDAO.update(r.getDTO());
     }
 
     /**

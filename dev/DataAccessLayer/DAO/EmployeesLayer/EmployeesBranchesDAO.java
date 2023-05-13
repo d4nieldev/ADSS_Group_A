@@ -31,7 +31,7 @@ public class EmployeesBranchesDAO {
         String updateString;
         if(empID < 0 || branchID < 0) return 0;
         updateString= String.format("DELETE FROM %s \n" +
-                "WHERE %d=\"%d\" AND %d=\"%d\" AND %s=\"%s\"", "EmployeesBranches", "EmployeeID", empID,
+                "WHERE %s=\"%d\" AND %s=\"%d\" AND %s=\"%s\"", "EmployeesBranches", "EmployeeID", empID,
                  "BranchID" , branchID, "Status", "ORIGIN");
         Statement s;
         try

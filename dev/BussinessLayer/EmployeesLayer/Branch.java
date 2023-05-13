@@ -22,6 +22,15 @@ public class Branch {
         this.notAllowEmployees = new LinkedList<>();
     }
 
+    public Branch(BranchDTO branchDTO, LinkedList<Employee> originEmployees, LinkedList<Employee> foreignEmployees, LinkedList<Employee> notAlloEmployees) {
+        this.branchId = branchDTO.branchId;
+        this.address = branchDTO.address;
+        this.location = branchDTO.location;
+        this.originEmployees = originEmployees;
+        this.foreignEmployees = foreignEmployees;
+        this.notAllowEmployees = notAlloEmployees;
+    }
+
     public void addNewEmployee(Employee employee){
         originEmployees.add(employee);
     }
@@ -68,6 +77,15 @@ public class Branch {
 
         return new BranchDTO(this.branchId, this.address, this.location.toString(), originEmployeesToDTO,
          foreignEmployeesToDTO, notAllowEmployeesToDTO);
+    }
+
+    public String ToString(){
+        return "Branch ID: " + branchId + "\n" +
+        "Branch Address: " + address + "\n" +
+        "Branch Location: " + location.toString() + "\n" +
+        "Origin Employees: " + originEmployees.toString() + "\n" +
+        "Foreign Employees: " + foreignEmployees.toString() + "\n" +
+        "Not Allow Employees: " + notAllowEmployees.toString() + "\n";
     }
 
     //-------------------------------------Getters And Setters--------------------------------------------------------

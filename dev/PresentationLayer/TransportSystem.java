@@ -5,7 +5,6 @@ import BussinessLayer.TransPortLayer.Destination;
 import BussinessLayer.TransPortLayer.DestinationType;
 import BussinessLayer.TransPortLayer.Location;
 import ServiceLayer.EmployeesLayer.serviceFactory;
-import ServiceLayer.TransportLayer.DriverService;
 import ServiceLayer.TransportLayer.TransportService;
 import ServiceLayer.TransportLayer.TruckService;
 
@@ -15,46 +14,41 @@ public class TransportSystem
 
 {
 
-    private static TransportService transportServices = new TransportService();
-    private static DriverService driverService = new DriverService();
-    private static TruckService truckService = new TruckService();
-
+    private static TransportService transportService;
+    private static TruckService truckService;
 
     public TransportSystem(serviceFactory serviceFactory) {
-        transportServices = serviceFactory.getTransportService();
-        driverService = serviceFactory.getDriverService();
+        transportService = serviceFactory.getTransportService();
         truckService = serviceFactory.getTruckService();
     }
 
-    public void run(int loginId)
-    {
+    public void run(int loginId) {
 
         System.out.println("Welcome to the Transport System!");
 
-        makeSomeDrivers();
+        Scanner sc = new Scanner(System.in);
+        // makeSomeDrivers();
         makeSomeTrucks();
         List<Destination> dests = makeSomeDestinations();
         List<Destination> sources = makeSomeSources();
-        List<Delivery> deliveries = transportServices.createDeliveries(sources, dests);
+        List<Delivery> deliveries = transportService.createDeliveries(sources, dests);
 
-        transportServices.letTheUserMatch(deliveries);
-        transportServices.runTheTransports();
+        transportService.createTransports(deliveries);
+        transportService.runTheTransports();
 
-        Scanner scanner = new Scanner(System.in);
         boolean continueChoosing = true;
         while (continueChoosing) {
             System.out.println("\nWhat would you like to change?");
-            System.out.println("1. Drivers");
+            System.out.println("1. none");
             System.out.println("2. Trucks");
             System.out.println("3. Transports");
             System.out.println("4. Exit");
 
-            int choice = scanner.nextInt();
-            scanner.nextLine(); // consume the newline character
+            int choice = sc.nextInt();
+            sc.nextLine(); // consume the newline character
 
             switch (choice) {
                 case 1:
-                    changeDriverService();
                     break;
                 case 2:
                     changeTruckService();
@@ -71,81 +65,8 @@ public class TransportSystem
         }
 
         System.out.println("Thank you for using the Transport System!");
-        scanner.close();
+        sc.close();
     }
-
-    private static void changeDriverService() {
-        Scanner scanner = new Scanner(System.in);
-        boolean isDone = false;
-
-        while (!isDone) {
-            System.out.println("What would you like to do with the driver service?");
-            System.out.println("1. Add new driver");
-            System.out.println("2. Remove a driver");
-            System.out.println("3. Change driver's name");
-            System.out.println("4. Change driver's license");
-            System.out.println("5. Change driver's availability");
-            System.out.println("6. Print driver's license type");
-            System.out.println("7. Exit");
-
-            int choice = scanner.nextInt();
-
-            switch (choice) {
-                case 1:
-                    System.out.println("Enter driver's ID:");
-                    int id = scanner.nextInt();
-                    scanner.nextLine();
-                    System.out.println("Enter driver's name:");
-                    String name = scanner.nextLine();
-                    System.out.println("Enter driver's license type:");
-                    String license = scanner.nextLine();
-                    System.out.println(driverService.addDriver(id, name, license));
-                    break;
-                case 2:
-                    System.out.println("Enter driver's ID:");
-                    int idToRemove = scanner.nextInt();
-                    System.out.println(driverService.removeDriver(idToRemove));
-                    break;
-                case 3:
-                    System.out.println("Enter driver's ID:");
-                    int idToChangeName = scanner.nextInt();
-                    scanner.nextLine();
-                    System.out.println("Enter driver's new name:");
-                    String newName = scanner.nextLine();
-                    System.out.println(driverService.changeName(idToChangeName, newName));
-                    break;
-                case 4:
-                    System.out.println("Enter driver's ID:");
-                    int idToChangeLicense = scanner.nextInt();
-                    scanner.nextLine();
-                    System.out.println("Enter driver's new license type:");
-                    String newLicense = scanner.nextLine();
-                    System.out.println(driverService.changeLicence(idToChangeLicense, newLicense));
-                    break;
-                case 5:
-                    System.out.println("Enter driver's ID:");
-                    int idToChangeAvailability = scanner.nextInt();
-                    scanner.nextLine();
-                    System.out.println("Enter driver's new availability (true/false):");
-                    boolean newAvailability = scanner.nextBoolean();
-                    System.out.println(driverService.setAvailable(idToChangeAvailability, newAvailability));
-                    break;
-                case 6:
-                    System.out.println("Enter driver's ID:");
-                    int idToPrintLicense = scanner.nextInt();
-                    System.out.println(driverService.printDriverLicense(idToPrintLicense));
-                    break;
-                case 7:
-                    isDone = true;
-                    break;
-                default:
-                    System.out.println("Invalid choice. Please choose again.");
-                    break;
-            }
-            scanner.close();
-        }
-    }
-
 
     private static void changeTruckService() {
         Scanner scanner = new Scanner(System.in);
@@ -230,12 +151,12 @@ public class TransportSystem
             default:
                 System.out.println("Invalid choice");
         }
+
         scanner.close();
     }
 
     private static void changeTransportService() {
         Scanner scanner = new Scanner(System.in);
-        TransportService transportService = new TransportService();
 
         System.out.println("Enter transport ID:");
         int id = scanner.nextInt();
@@ -307,7 +228,6 @@ public class TransportSystem
         scanner.close();
     }
 
-
     /**
      * Makes default list of destination or scan this from user
      *
@@ -342,15 +262,18 @@ public class TransportSystem
                 dests.add(new Destination(name, phoneNumber, contactName, location, DestinationType.DESTINATION));
             }
         } else {
-            dests.add(transportServices.addDestination("tel aviv", "555-1234", "John Smith", Location.NORTH, DestinationType.DESTINATION));
-            dests.add(transportServices.addDestination("raanana", "555-5678", "Jane Doe", Location.SOUTH, DestinationType.DESTINATION));
-            dests.add(new Destination("ashkelon", "555-9012", "Bob Johnson", Location.CENTER, DestinationType.DESTINATION));
+            dests.add(transportService.addDestination("tel aviv", "555-1234", "John Smith", Location.NORTH,
+                    DestinationType.DESTINATION));
+            dests.add(transportService.addDestination("raanana", "555-5678", "Jane Doe", Location.SOUTH,
+                    DestinationType.DESTINATION));
+            dests.add(new Destination("ashkelon", "555-9012", "Bob Johnson", Location.CENTER,
+                    DestinationType.DESTINATION));
         }
 
         scanner.close();
+
         return dests;
     }
-
 
     /**
      * Makes default list of sources or scan this from user
@@ -379,19 +302,22 @@ public class TransportSystem
                 System.out.println("Enter source location (NORTH, SOUTH, CENTER):");
                 Location location = Location.valueOf(scanner.next().toUpperCase());
 
-                sources.add(transportServices.addDestination(name, phone, contact, location, DestinationType.SOURCE));
+                sources.add(transportService.addDestination(name, phone, contact, location, DestinationType.SOURCE));
             }
         } else {
             // Use default sources
-            sources.add(transportServices.addDestination("cola", "555-1234", "John Smith", Location.NORTH, DestinationType.SOURCE));
-            sources.add(transportServices.addDestination("osem", "555-5678", "Jane Doe", Location.SOUTH, DestinationType.SOURCE));
-            sources.add(transportServices.addDestination("tnuva", "555-9012", "Bob Johnson", Location.CENTER, DestinationType.SOURCE));
+            sources.add(transportService.addDestination("cola", "555-1234", "John Smith", Location.NORTH,
+                    DestinationType.SOURCE));
+            sources.add(transportService.addDestination("osem", "555-5678", "Jane Doe", Location.SOUTH,
+                    DestinationType.SOURCE));
+            sources.add(transportService.addDestination("tnuva", "555-9012", "Bob Johnson", Location.CENTER,
+                    DestinationType.SOURCE));
         }
 
         scanner.close();
+
         return sources;
     }
-
 
     /**
      * Makes default trucks in facade or scan this from user
@@ -436,50 +362,7 @@ public class TransportSystem
             System.out.println(truckService.addTruck("dddd", "d", 200, 1000));
             System.out.println(truckService.addTruck("eeee", "a", 200, 1000));
         }
-        scanner.close();
-    }
 
-
-    /**
-     * Makes default drivers in facade or scan this from user
-     *
-     * @return
-     */
-    private static void makeSomeDrivers() {
-        Scanner scanner = new Scanner(System.in);
-
-        System.out.println("Do you want to create the drivers yourself? (y/n)");
-        String choice = scanner.nextLine();
-
-        if (choice.equalsIgnoreCase("y")) {
-            // Let the user create the drivers
-            while (true) {
-                System.out.println("Enter driver ID (integer):");
-                int id = scanner.nextInt();
-                scanner.nextLine(); // Consume the newline character
-
-                System.out.println("Enter driver name:");
-                String name = scanner.nextLine();
-
-                System.out.println("Enter driver license number:");
-                String licenseNumber = scanner.nextLine();
-
-                System.out.println(driverService.addDriver(id, name, licenseNumber));
-
-                System.out.println("Do you want to add another driver? (y/n)");
-                choice = scanner.nextLine();
-                if (choice.equalsIgnoreCase("n")) {
-                    break;
-                }
-            }
-        } else {
-            // Use the default drivers
-            System.out.println(driverService.addDriver(1,"rotem","a"));
-            System.out.println(driverService.addDriver(2,"kfir","b"));
-            System.out.println(driverService.addDriver(3,"adi","c"));
-            System.out.println(driverService.addDriver(4,"messi","d"));
-            System.out.println(driverService.addDriver(5,"ronaldo","e"));
-        }
         scanner.close();
     }
 

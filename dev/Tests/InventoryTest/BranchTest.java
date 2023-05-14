@@ -67,9 +67,9 @@ public class BranchTest {
         // Assert
         assertTrue(allProducts.size() == 2);
     }
-    @Test
-    public void testMakeDeficiencyReservation(){
-        BranchDTO branchDTO =
-        branchController.getBranchById(1).
-    }
+//    @Test
+//    public void testMakeDeficiencyReservation(){
+//        BranchDTO branchDTO =
+//        branchController.getBranchById(1).
+//    }
 }

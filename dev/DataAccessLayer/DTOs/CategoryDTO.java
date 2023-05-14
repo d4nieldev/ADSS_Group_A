@@ -1,5 +1,7 @@
 package DataAccessLayer.DTOs;
 
+import BusinessLayer.Inventory.Global;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -8,14 +10,14 @@ public class CategoryDTO implements DTO {
     private String name;
     private CategoryDTO parentCategoryDTO; // can be null
 
-    public CategoryDTO(int id, String name, CategoryDTO parentCategoryDTO) {
-        this.id = id;
+    public CategoryDTO( String name, CategoryDTO parentCategoryDTO) {
+        this.id = Global.getNewCategoryid();
         this.name = name;
         this.parentCategoryDTO = parentCategoryDTO;
     }
 
-    public CategoryDTO(int id, String name) {
-        this.id = id;
+    public CategoryDTO(String name) {
+        this.id = Global.getNewCategoryid();
         this.name = name;
         this.parentCategoryDTO = null;
     }

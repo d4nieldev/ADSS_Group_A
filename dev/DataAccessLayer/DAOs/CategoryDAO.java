@@ -35,7 +35,7 @@ public class CategoryDAO extends DAO<CategoryDTO> {
         } else {
             parenCategoryDTO = getById(Integer.parseInt(categoryParentId));
         }
-        return new CategoryDTO(id, name, parenCategoryDTO);
+        return new CategoryDTO(name, parenCategoryDTO);
     }
 
     public CategoryDTO getById(int categoryId) throws SQLException {

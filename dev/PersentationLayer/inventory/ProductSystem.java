@@ -26,6 +26,14 @@ public class ProductSystem {
             throw new RuntimeException(e);
         }
     }
+
+    //    static {
+//        try {
+//            productService = new ProductService();
+//        } catch (Exception e) {
+//            throw new RuntimeException(e);
+//        }
+//    }
     private static ReservationService reservationService = ReservationService.create();
 
     public static int addNewCategory() {

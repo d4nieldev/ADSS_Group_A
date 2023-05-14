@@ -49,8 +49,8 @@ public class BranchFacade {
         employeeFacade.addDriver(managerId, firstName, lastName, id, password, bankNum, bankBranch, bankAccount, salary,
         InitializeBonus, startDate, tempsEmployment, driverLicense);
         Branch branch = getBranchById(0);
-        Employee employee = employeeFacade.getEmployeeById(id);
-        branch.addNewEmployee(employee);
+        Driver driver = employeeFacade.getDriverById(id);
+        branch.addNewEmployee(driver);
     }
     
     public void addForeignEmployee(int managerId, int idEmployee, int branchId){

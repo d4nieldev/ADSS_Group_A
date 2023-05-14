@@ -396,6 +396,11 @@ public class EmployeeFacade {
                 if (employee.getId() == id)
                     return employee;
             }
+
+            for (Driver driver : drivers) {
+                if (driver.getId() == id)
+                    return (Driver) driver;
+            }
         }   
         throw new Error("The id " + id + " is not in the system. Please try again");
     }
@@ -405,7 +410,7 @@ public class EmployeeFacade {
         if (isEmployeeExistsAndLoadEmployee(id)) {      
             for (Driver driver : drivers) {
                 if (driver.getId() == id)
-                    return driver;
+                    return (Driver) driver;
             }
         }
         throw new Error("The id " + id + "is not in the system. Please try again");
@@ -435,7 +440,6 @@ public class EmployeeFacade {
         return false;
     }
 
-
     // return true if the employee is a driver
     public boolean isEmployeeDriver(int id) {
         isEmployeeExistsAndLoadEmployee(id);
@@ -450,6 +454,12 @@ public class EmployeeFacade {
     public boolean isEmployeeLoggedIn(int id) {
         Employee employee = getEmployeeById(id);
         return employee.getIsLoggedIn();
+    }
+
+    // return true if the employee logged in to the system
+    public boolean isDriverLoggedIn(int id) {
+        Driver driver = getDriverById(id);
+        return driver.getIsLoggedIn();
     }
 
     // throw error if the employee is not logged in to the system

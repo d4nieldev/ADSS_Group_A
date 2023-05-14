@@ -59,7 +59,7 @@ public class EmployeeTransportFacade {
         employeeFacade.checkLoggedIn(idEmployee);
         employeeFacade.checkEmployee(idEmployee);
         Employee employee = employeeFacade.getEmployeeById(idEmployee);
-        employee.checkRoleInEmployee(employeeFacade.getRoleClassInstance().getRoleByName("TRANSPOERMANAGER").getId());
+        employee.checkRoleInEmployee(employeeFacade.getRoleClassInstance().getRoleByName("TRANSPORTMANAGER").getId());
         if(date.compareTo(LocalDate.now()) <= 0) {return employeeFacade.getDayDriversPast(date);}
         else {return employeeFacade.getDayDriversFuture(date);}
     }
@@ -67,7 +67,7 @@ public class EmployeeTransportFacade {
     public boolean checkstorekeeperInShift(int shiftId, String address, LocalDate date){
         return shiftFacade.checkstorekeeperInShift(shiftId, address, date);
     }
-    public void createTransports(List<Delivery> deliveries)
+    public void createTransports(int managerId, List<Delivery> deliveries)
     {
         Scanner scanner = new Scanner(System.in);
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
@@ -76,7 +76,7 @@ public class EmployeeTransportFacade {
         LocalDate transportDate = LocalDate.parse(input, formatter);
 
         transportFacade.letTheUserMatch(transportDate,deliveries,getDayDrivers(
-                employeeFacade.getRoleClassInstance().getRoleByName("TRANSPORTMANAGER").getId(),transportDate),
+                managerId, transportDate),
                 truckFacade.getAvailableTrucks());
 
         List<Integer> driversIds = transportFacade.getDriversByDate(transportDate);

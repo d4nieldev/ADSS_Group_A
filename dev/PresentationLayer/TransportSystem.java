@@ -33,7 +33,7 @@ public class TransportSystem
         List<Destination> sources = makeSomeSources();
         List<Delivery> deliveries = transportService.createDeliveries(sources, dests);
 
-        transportService.createTransports(deliveries);
+        transportService.createTransports(loginId, deliveries);
         transportService.runTheTransports();
 
         boolean continueChoosing = true;
@@ -152,7 +152,6 @@ public class TransportSystem
                 System.out.println("Invalid choice");
         }
 
-        scanner.close();
     }
 
     private static void changeTransportService() {
@@ -176,11 +175,11 @@ public class TransportSystem
         int choice = scanner.nextInt();
 
         switch (choice) {
-            case 1:
-                System.out.println("Enter new date:");
-                String date = scanner.next();
-                System.out.println(transportService.changeDate(id, date));
-                break;
+            // case 1:
+            //     System.out.println("Enter new date:");
+            //     String date = scanner.next();
+            //     System.out.println(transportService.changeDate(id, date));
+            //     break;
             case 2:
                 System.out.println("Enter new leaving time:");
                 String leavingTime = scanner.next();
@@ -225,7 +224,6 @@ public class TransportSystem
                 break;
         }
 
-        scanner.close();
     }
 
     /**
@@ -270,8 +268,6 @@ public class TransportSystem
                     DestinationType.DESTINATION));
         }
 
-        scanner.close();
-
         return dests;
     }
 
@@ -313,8 +309,6 @@ public class TransportSystem
             sources.add(transportService.addDestination("tnuva", "555-9012", "Bob Johnson", Location.CENTER,
                     DestinationType.SOURCE));
         }
-
-        scanner.close();
 
         return sources;
     }
@@ -363,7 +357,6 @@ public class TransportSystem
             System.out.println(truckService.addTruck("eeee", "a", 200, 1000));
         }
 
-        scanner.close();
     }
 
 }

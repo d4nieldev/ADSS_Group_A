@@ -1,8 +1,10 @@
 package Tests.InventoryTest;
 
 import BusinessLayer.Inventory.*;
+import BusinessLayer.InveontorySuppliers.Branch;
 import BusinessLayer.InveontorySuppliers.ProductController;
 import BusinessLayer.Suppliers.ReservationController;
+import DataAccessLayer.DTOs.BranchDTO;
 import ServiceLayer.Suppliers.ReservationService;
 import org.junit.Before;
 import org.junit.Test;
@@ -44,7 +46,7 @@ public class BranchTest {
         Category category3 = categoryController.getCategoryById(2);
         categoryController.addNewCategory("category4",category3 );
         Category category4 = categoryController.getCategoryById(3);
-        branchController.addBranch(1,"testBranch" ,10);
+        branchController.addBranch(1,"testBranch" ,1);
         productController.addProduct(1,"produc1","Manufacturer1",0);
         productController.addProduct(2,"produc2","Manufacturer2",1);
     }
@@ -54,7 +56,7 @@ public class BranchTest {
      * @throws SQLException
      */
     @Test
-    public void getAllProductBranches() throws SQLException {
+    public void testGetAllProductBranches() throws SQLException {
         // Arrange
         HashMap<Integer,Integer> productToAmount = new HashMap<>();
         productToAmount.put(1,10);
@@ -64,5 +66,10 @@ public class BranchTest {
         HashMap<Integer, ProductBranch> allProducts = branchController.getBranchById(1).getAllProductBranches();
         // Assert
         assertTrue(allProducts.size() == 2);
+    }
+    @Test
+    public void testMakeDeficiencyReservation(){
+        BranchDTO branchDTO =
+        branchController.getBranchById(1).
     }
 }

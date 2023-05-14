@@ -67,52 +67,63 @@ class MainV2 {
 
         Scanner sc = new Scanner(System.in);
 
-        System.out.print("Hello there, in order to login to the system please enter your Id: ");
-        int loginId = Integer.parseInt(sc.nextLine());
-        System.out.println("");
+        while (true) {
 
-        System.out.print("Great, now enter your password: ");
-        String loginPassword = sc.nextLine();
-        System.out.println("");
-
-        while (true){
-            try {
-                hrSystem.employeeService.logIn(loginId, loginPassword);
-                System.out.println("");
-                break;
-            }
-            catch (Error e) {
-                System.out.println(e.toString());
-                System.out.println();
-                System.out.print("Enter your Id again: ");
-                loginId = Integer.parseInt(sc.nextLine());
+            //System.out.println("1 - Exit the system\n2 - Login to the system\n");
+            System.out.println(getMenu() + "\n");
+            int option = Integer.parseInt(sc.nextLine());
+            if (option == 2) {
+                System.out.print("Hello there, in order to login to the system please enter your Id: ");
+                int loginId = Integer.parseInt(sc.nextLine());
                 System.out.println("");
 
-                System.out.print("Enter your password again: ");
-                loginPassword = sc.nextLine();
+                System.out.print("Great, now enter your password: ");
+                String loginPassword = sc.nextLine();
                 System.out.println("");
-            }
-        }
 
-        System.out.println("Wellcome to the system\n");
+                while (true){
+                    try {
+                        hrSystem.employeeService.logIn(loginId, loginPassword);
+                        System.out.println("");
+                        break;
+                    }
+                    catch (Error e) {
+                        System.out.println(e.toString());
+                        System.out.println();
+                        System.out.print("Enter your Id again: ");
+                        loginId = Integer.parseInt(sc.nextLine());
+                        System.out.println("");
+
+                        System.out.print("Enter your password again: ");
+                        loginPassword = sc.nextLine();
+                        System.out.println("");
+                    }
+                }
+
+                System.out.println("Wellcome to the system\n");
+                
+                String managerRole = hrSystem.employeeService.getManagerType(loginId);
+
+                switch (managerRole){
+                    case("HRMANAGER") : {
+                        hrSystem.run(loginId);
+                        break;
+                    }                
         
-        String managerRole = hrSystem.employeeService.getManagerType(loginId);
-
-        switch (managerRole){
-            case("HRMANAGER") : {
-
-                hrSystem.run(loginId);
-            
-                break;
-            }                
-
-            case("TRANSPORTMANAGER") : {
-                transportSystem.run(loginId);
-                break;
+                    case("TRANSPORTMANAGER") : {
+                        transportSystem.run(loginId);
+                        break;
+                    }
+                    
+                    default : {
+                        memberSystem.run(loginId);
+                        break;
+                    }
+                }
             }
-            
-            default : {
-                memberSystem.run(loginId);
+
+            else {
+                System.out.println("Goodbye, see you next time!");
                 break;
             }
         }
@@ -120,15 +131,17 @@ class MainV2 {
         sc.close();
     }
 
-
-
+    public static String getMenu() {
+        String horizontalLine = "+---------------------------------------+";
+        String option1 = "| 1 - Exit the system                  |";
+        String option2 = "| 2 - Login to the system              |";
+        String bottomLine = "+---------------------------------------+";
     
-
-
-    /**
-     * Makes default drivers in facade or scan this from user
-     *
-     * @return
-     */
-
+        StringBuilder sb = new StringBuilder();
+        sb.append(horizontalLine).append("\n")
+          .append(option1).append("\n")
+          .append(option2).append("\n")
+          .append(bottomLine);
+        return sb.toString();
+    }
 }

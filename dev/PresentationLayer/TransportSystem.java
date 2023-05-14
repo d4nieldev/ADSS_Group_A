@@ -65,7 +65,6 @@ public class TransportSystem
         }
 
         System.out.println("Thank you for using the Transport System!");
-        sc.close();
     }
 
     private static void changeTruckService() {

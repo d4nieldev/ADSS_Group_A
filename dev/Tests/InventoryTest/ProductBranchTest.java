@@ -85,7 +85,7 @@ public class ProductBranchTest {
         ProductBranch productBranch = branchController.getBranchById(1).getProductByCode(1);
         productBranch.applyDiscount(discountPercentage1);
         productBranch.applyDiscount(discountPercentage2);
-        productBranch.applyDiscount(discountPercentage3)ף
+        productBranch.applyDiscount(discountPercentage3);
         // Act
         boolean result = discountDTO3.equals(productBranch.getCurrentMaxDiscount());
         // Assert
@@ -118,8 +118,4 @@ public class ProductBranchTest {
 //        // Arrange
 //        List<SpecificProduct>
 //    }
-
-
-
-
     }

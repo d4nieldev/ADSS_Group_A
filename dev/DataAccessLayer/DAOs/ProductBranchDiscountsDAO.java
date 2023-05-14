@@ -17,6 +17,7 @@ public class ProductBranchDiscountsDAO extends DAO<ProductBranchDiscountDTO> {
         this.discountDAO = DiscountDAO.getInstance();
         Repository.getInstance();
     }
+
     public static ProductBranchDiscountsDAO getInstance() {
         if (instance == null)
             instance = new ProductBranchDiscountsDAO();
@@ -26,7 +27,7 @@ public class ProductBranchDiscountsDAO extends DAO<ProductBranchDiscountDTO> {
     @Override
     public ProductBranchDiscountDTO makeDTO(ResultSet rs) throws SQLException {
         if (!rs.next())
-            throw new SQLException("Can't make DTO from nothing!");
+            return null;
 
         int productId = rs.getInt("productId");
         int branchId = rs.getInt("branchId");
@@ -38,6 +39,6 @@ public class ProductBranchDiscountsDAO extends DAO<ProductBranchDiscountDTO> {
     }
 
     public DiscountDTO getById(int discountId) throws SQLException {
-        return  DiscountDAO.getInstance().getById(discountId);
+        return DiscountDAO.getInstance().getById(discountId);
     }
 }

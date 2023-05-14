@@ -28,14 +28,14 @@ public class BranchDAO extends DAO<BranchDTO> {
     @Override
     public BranchDTO makeDTO(ResultSet rs) throws SQLException {
         if (!rs.next())
-            throw new SQLException("Can't make DTO from nothing!");
+            return null;
 
         int id = rs.getInt("id");
         String name = rs.getString("name");
         int minAmount = rs.getInt("minAmount");
         PeriodicReservationDAO periodicReservationDAO = PeriodicReservationDAO.getInstance();
         List<PeriodicReservationDTO> allPeriodicReservationDTO = periodicReservationDAO.getByBranchId(id);
-        return new BranchDTO(id,name,minAmount,allPeriodicReservationDTO);
+        return new BranchDTO(id, name, minAmount, allPeriodicReservationDTO);
     }
 
     public BranchDTO getById(int branchId) throws SQLException {
@@ -51,7 +51,5 @@ public class BranchDAO extends DAO<BranchDTO> {
         rs.close();
         return dto;
     }
-
-
 
 }

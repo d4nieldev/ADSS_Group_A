@@ -26,7 +26,7 @@ public class DiscountDAO extends DAO<DiscountDTO> {
     @Override
     public DiscountDTO makeDTO(ResultSet rs) throws SQLException {
         if (!rs.next())
-            throw new SQLException("Can't make DTO from nothing!");
+            return null;
 
         int id = rs.getInt("id");
         LocalDate startDate = LocalDate.parse(rs.getString("startDate"));

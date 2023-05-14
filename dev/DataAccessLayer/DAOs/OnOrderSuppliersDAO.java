@@ -14,8 +14,8 @@ public class OnOrderSuppliersDAO extends DAO<OnOrderSuppliersDTO> {
 
     private static OnOrderSuppliersDAO instance = null;
 
-    public static OnOrderSuppliersDAO getInstance(){
-        if(instance == null)
+    public static OnOrderSuppliersDAO getInstance() {
+        if (instance == null)
             instance = new OnOrderSuppliersDAO();
         return instance;
     }
@@ -51,7 +51,7 @@ public class OnOrderSuppliersDAO extends DAO<OnOrderSuppliersDTO> {
     @Override
     public OnOrderSuppliersDTO makeDTO(ResultSet rs) throws SQLException {
         if (!rs.next())
-            throw new SQLException("Can't make DTO from nothing!");
+            return null;
 
         int supplierId = rs.getInt("supplierId");
         int maxSupplyDays = rs.getInt("maxSupplyDays");

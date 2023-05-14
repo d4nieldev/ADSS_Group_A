@@ -60,7 +60,7 @@ public class Driver extends Employee {
      * @return
      */
     public boolean hasLicenseFor(String model) {
-        return this.getDriverLicense().equals(model);
+        return this.getDriverLicense().name().equals(model);
     }
     
     public DriverDTO driverToDTO() {

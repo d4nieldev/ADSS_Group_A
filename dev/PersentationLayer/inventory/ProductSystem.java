@@ -16,7 +16,6 @@ import java.util.List;
 import java.util.Locale;
 
 public class ProductSystem {
-//    public  static Scanner scanner = new Scanner(System.in);
     public  static BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
     private static ProductService productService;
 
@@ -27,7 +26,7 @@ public class ProductSystem {
             throw new RuntimeException(e);
         }
     }
-    private static ReservationService reservationService = new ReservationService();
+    private static ReservationService reservationService = ReservationService.create();
 
 
     public static int addNewCategory() {

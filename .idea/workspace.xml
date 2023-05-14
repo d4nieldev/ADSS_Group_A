@@ -4,8 +4,15 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a2472df3-0b1c-47fc-bcd6-f26fc4f0a51c" name="Changes" comment="add tests to product branch">
+    <list default="true" id="a2472df3-0b1c-47fc-bcd6-f26fc4f0a51c" name="Changes" comment="add the service">
+      <change afterPath="$PROJECT_DIR$/dev/Tests/InventoryTest/BranchTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/dev/Tests/InventoryTest/CategoryTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dev/BusinessLayer/Inventory/CategoryController.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/BusinessLayer/Inventory/CategoryController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dev/PersentationLayer/inventory/ProductSystem.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/PersentationLayer/inventory/ProductSystem.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dev/Tests/InventoryTest/Category1ControllerTest.java" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/dev/Tests/InventoryTest/ProductBranchTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/Tests/InventoryTest/ProductBranchTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dev/Tests/InventoryTest/SpecificProductTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/Tests/InventoryTest/SpecificProductTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -16,6 +23,7 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="Class" />
+        <option value="JUnit4 Test Class" />
       </list>
     </option>
   </component>
@@ -49,6 +57,8 @@
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
     "RunOnceActivity.ShowReadmeOnStart": "true",
+    "com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary": "JUnit4",
+    "com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit4": "",
     "create.test.in.the.same.root": "true",
     "last_opened_file_path": "/Users/Metar/Documents/GitHub/ADSS_Group_A/dev/Tests"
   }
@@ -61,6 +71,12 @@
     </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/dev" />
+    </key>
+    <key name="CreateTestDialog.Recents.Supers">
+      <recent name="" />
+    </key>
+    <key name="CreateTestDialog.RecentsKey">
+      <recent name="Tests.InventoryTest" />
     </key>
   </component>
   <component name="RunManager">
@@ -172,7 +188,14 @@
       <option name="project" value="LOCAL" />
       <updated>1684082762478</updated>
     </task>
-    <option name="localTasksCounter" value="12" />
+    <task id="LOCAL-00012" summary="add the service">
+      <created>1684083577729</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1684083577729</updated>
+    </task>
+    <option name="localTasksCounter" value="13" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -195,6 +218,7 @@
     <MESSAGE value="add function for test" />
     <MESSAGE value="change presentation + product service" />
     <MESSAGE value="add tests to product branch" />
-    <option name="LAST_COMMIT_MESSAGE" value="add tests to product branch" />
+    <MESSAGE value="add the service" />
+    <option name="LAST_COMMIT_MESSAGE" value="add the service" />
   </component>
 </project>

@@ -4,10 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a2472df3-0b1c-47fc-bcd6-f26fc4f0a51c" name="Changes" comment="">
+    <list default="true" id="a2472df3-0b1c-47fc-bcd6-f26fc4f0a51c" name="Changes" comment="add update productBranch option on recevice reservation">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dev/BusinessLayer/Inventory/BranchController.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/BusinessLayer/Inventory/BranchController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dev/BusinessLayer/InveontorySuppliers/Branch.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/BusinessLayer/InveontorySuppliers/Branch.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dev/BusinessLayer/InveontorySuppliers/ProductController.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/BusinessLayer/InveontorySuppliers/ProductController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dev/InventoryTest/ProductBranchTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/InventoryTest/ProductBranchTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -107,7 +107,14 @@
       <option name="project" value="LOCAL" />
       <updated>1684001432388</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="add update productBranch option on recevice reservation">
+      <created>1684057792380</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1684057792380</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -126,6 +133,7 @@
     <MESSAGE value="implement SpecificProduct, ProductBranch, Branch , BranchController" />
     <MESSAGE value="add PeriodicReservationItemDAO +DTO and arrange all what related to these" />
     <MESSAGE value="arrange the service" />
-    <option name="LAST_COMMIT_MESSAGE" value="arrange the service" />
+    <MESSAGE value="add update productBranch option on recevice reservation" />
+    <option name="LAST_COMMIT_MESSAGE" value="add update productBranch option on recevice reservation" />
   </component>
 </project>

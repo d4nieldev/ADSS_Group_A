@@ -116,7 +116,7 @@ public class Shift{
     public void checkAssignFinalShift(HashMap<Employee, Integer> hrAssign){
         for (Employee currAssignEmployee : hrAssign.keySet()) {
             Integer currRole = hrAssign.get(currAssignEmployee);
-            if(helpMapForAssign.get(currRole) == null){
+            if(!helpMapForAssign.containsKey(currRole)){
                 boolean foundRole = false;
                 for (Integer checkRole : numEmployeesForRole.keySet()) {
                     if(checkRole.equals(currRole)){
@@ -127,7 +127,7 @@ public class Shift{
                 if(!foundRole){
                     throw new Error("The role " + currRole.toString() + " is not needed in this shift. Please add this role or try again without this role.");
                 }
-                helpMapForAssign.put(currRole, 1);
+                helpMapForAssign.put(currRole, 0);
             }
             else if(helpMapForAssign.get(currRole) == numEmployeesForRole.get(currRole)){
                 throw new Error("The role " + currRole.toString() + " is full (" + numEmployeesForRole.get(currRole) + " employees already) for this shift. Change the number of employees needed or remove some from this shift.");

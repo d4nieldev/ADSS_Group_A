@@ -83,7 +83,9 @@ public class ShiftFacade {
         // if succedded - save the final shift
         shift.assignFinalShift(hrAssign);
         // save in Database
-        shiftsDAO.addShiftFinal(managerID, shift.getID());
+        for (Employee emp : hrAssign.keySet()) {
+            shiftsDAO.addShiftFinal(emp.getId(), shift.getID());   
+        }
     }
 
     public String missingStaffToRole(int employeeId, int shiftId){

@@ -221,7 +221,7 @@ public class BranchFacade {
         employeeFacade.checkEmployee(idEmployee);
         Employee employee = employeeFacade.getEmployeeById(idEmployee);
         for (int shiftId : employee.getHistoryShift()) {
-            if(shiftFacade.getShift(shiftId).getDate().equals(date)){
+            if(shiftFacade.getShift(shiftId).getDate() == (date)){
 				throw new Error("The employee " + toString() + " already has a shift on the date " + date.toString());
 			}
         }

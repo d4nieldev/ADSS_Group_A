@@ -24,7 +24,7 @@ public class InventoryReport extends Report {
 
 //    }
 
-    public InventoryReport(InventoryReportDTO inventoryReportDTO, HashMap<Integer, String> idsToName)  {
+    public InventoryReport(InventoryReportDTO inventoryReportDTO, HashMap<Integer, String> idsToName) {
         super(inventoryReportDTO.getId(), inventoryReportDTO.getBranchId(), LocalDate.now(), inventoryReportDTO.getReportDTO());
         this.idsToName = idsToName;
         this.idToShelfAmount = inventoryReportDTO.getIdToShopAmount();

@@ -8,10 +8,10 @@ import java.util.HashMap;
 
 public class ExpiredAndFlawReport extends Report {
     private HashMap<Integer, HashMap<Integer, LocalDate>> idToExpiredSpecificIdAndDate; // maps between productBranch to
-                                                                                        // map specific and ExpireDate
+    // map specific and ExpireDate
     private HashMap<Integer, HashMap<Integer, String>> codeToSpecificDescription; // maps between product code to map of
-                                                                                    // specificId and flaw description all// its specificProducts that flaws
-    private HashMap<Integer,ProductBranch> products;
+    // specificId and flaw description all// its specificProducts that flaws
+    private HashMap<Integer, ProductBranch> products;
 
     private BranchController branchController;
 //    private HashMap<Integer, String> codeToCategory;
@@ -38,7 +38,7 @@ public class ExpiredAndFlawReport extends Report {
         return codeToSpecificDescription;
     }
 
-    public HashMap<Integer,ProductBranch> getProducts() {
+    public HashMap<Integer, ProductBranch> getProducts() {
         return products;
     }
 

@@ -99,7 +99,7 @@ public class BranchController {
         } else {
             HashMap<ProductBranch, List<SpecificProduct>> toDao = branch.receiveReservation(reservation);
             for (ProductBranch productBranch : toDao.keySet()) {
-               updateProductBranchOrCreate(productBranch, reservation.getDestination());
+                updateProductBranchOrCreate(productBranch, reservation.getDestination());
                 for (SpecificProduct specificProduct : toDao.get(productBranch)) {
                     // create new SpecificProductDto object and insert it to DAO
                     SpecificProductDTO specificProductDTO = new SpecificProductDTO(specificProduct.getSpecificId(),
@@ -118,7 +118,7 @@ public class BranchController {
 
     /***
      * check if the DTO is exist - return if so - else create new one
-     * 
+     *
      * @param productBranch
      * @param branchId
      * @return
@@ -159,7 +159,7 @@ public class BranchController {
      * create dto object for the discount -> add it to DiscountDAO -> and find all
      * the products that the discount on them
      * changed -> update their discount
-     * 
+     *
      * @param
      * @param discount
      * @param branchId
@@ -194,7 +194,7 @@ public class BranchController {
     /***
      * find all products from catgories -> apply on them setDiscountOnProducts
      * function
-     * 
+     *
      * @param categoriesToDiscount
      * @param discount
      * @param branchId
@@ -223,7 +223,7 @@ public class BranchController {
 
     /***
      * private method for receving the product of branch by categories
-     * 
+     *
      * @param allSubCategories
      * @param branchId
      * @return
@@ -236,7 +236,7 @@ public class BranchController {
 
     /**
      * sell a product
-     * 
+     *
      * @param branchId
      * @param productCode
      * @param specificId
@@ -252,7 +252,7 @@ public class BranchController {
 
     /**
      * report on a flaw product
-     * 
+     *
      * @param branchId
      * @param productCode
      * @param specificId

@@ -74,6 +74,29 @@ public class ReportController {
         return report;
     }
 
+    public InventoryReport importInventoryReport(int branchId) throws Exception {
+        Branch branch = BranchController.getInstance().getBranchById(branchId);
+        int reportID = Global.getNewReportId();
+        ReportDTO repDTO = new ReportDTO(reportID, branchId, LocalDate.now());
+        reportDAO.insert(repDTO);
+
+        for (ProductBranch productBranch : branch.getAllProductBranches().values()) {
+            int code = productBranch.getCode();
+            int shelfAmount = productBranch.getOnShelfProduct().size();
+            int storageAmount = productBranch.getTotalAmount() - productBranch.getOnShelfProduct().size();
+
+            InventoryReportEntryDTO invRepEnDTO = new InventoryReportEntryDTO(reportID, code, shelfAmount, storageAmount);
+            inventoryReportEntryDAO.insert(invRepEnDTO);
+        }
+
+        InventoryReportDTO invRepDTO = inventoryReportEntryDAO.getFullReportById(reportID);
+        HashMap<Integer, String> idsToName = branch.getIdsToNameForAllegories();
+
+        InventoryReport report = new InventoryReport(invRepDTO, idsToName);
+        allReports.put(report.getId(), report);
+        return report;
+    }
+
 //    public ExpiredAndFlawReport importExpiredAndFlawReport(int branchId) {
 //        ExpiredAndFlawReport report = new ExpiredAndFlawReport(branchId);
 //        allReports.put(report.getId(), report);

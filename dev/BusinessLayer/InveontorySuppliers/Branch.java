@@ -480,6 +480,20 @@ public void addNewProductBranch(ProductBranchDTO productBranchDTO) throws SQLExc
         return idsToName;
     }
 
+    public HashMap<Integer, String> getIdsToNameForAllegories() {
+        HashMap<Integer, String> idsToName = new HashMap<>();
+        List<ProductBranch> productsForAllegories = new ArrayList<>();
+        for(Integer productBrancheCode : getAllProductBranches().keySet()){
+            productsForAllegories.add(getAllProductBranches().get(productBrancheCode));
+        }
+        for (ProductBranch productBranch : productsForAllegories) {
+            int code = productBranch.getCode();
+            String name = productBranch.getName();
+            idsToName.put(code, name);
+        }
+        return idsToName;
+    }
+
     public HashMap<Integer, Integer> getIdsTOShelfAmountByCategories(List<Category> categoryList) {
         List<ProductBranch> productsByCategories = getProductsByCategories(categoryList);
         HashMap<Integer, Integer> idsToShelfAmount = new HashMap<>();

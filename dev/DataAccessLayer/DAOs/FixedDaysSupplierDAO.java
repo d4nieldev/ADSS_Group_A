@@ -16,8 +16,8 @@ public class FixedDaysSupplierDAO extends DAO<FixedDaysSupplierDTO> {
 
     private static FixedDaysSupplierDAO instance = null;
 
-    public static FixedDaysSupplierDAO getInstance(){
-        if(instance == null)
+    public static FixedDaysSupplierDAO getInstance() {
+        if (instance == null)
             instance = new FixedDaysSupplierDAO();
         return instance;
     }
@@ -47,10 +47,10 @@ public class FixedDaysSupplierDAO extends DAO<FixedDaysSupplierDTO> {
 
     public void deleteById(int supplierId) throws SQLException {
         List<FixedDaysSupplierDTO> dtos = getById(supplierId);
-        for(FixedDaysSupplierDTO dto: dtos ){
+        for (FixedDaysSupplierDTO dto : dtos) {
             delete(dto);
         }
-        
+
     }
 
     @Override
@@ -72,13 +72,15 @@ public class FixedDaysSupplierDAO extends DAO<FixedDaysSupplierDTO> {
         PreparedStatement statement = con.prepareStatement(query);
         statement.setInt(1, supplierId);
         ResultSet supRS = statement.executeQuery();
-        con.close();
-        while (supRS.next()){
+        while (supRS.next()) {
             fixedDaysSupplierDTOs.add(makeDTO(supRS));
         }
         statement.close();
         supRS.close();
         con.close();
+
+        if (fixedDaysSupplierDTOs.size() == 0)
+            return null;
 
         return fixedDaysSupplierDTOs;
     }

@@ -9,11 +9,11 @@ public class ReportDTO implements DTO {
     private int branchId;
     private LocalDate createdDate;
 
-//    public ReportDTO(int id, int branchId, LocalDate createdDate) {
-//        this.id = id;
-//        this.branchId = branchId;
-//        this.createdDate = createdDate;
-//    }
+    // public ReportDTO(int id, int branchId, LocalDate createdDate) {
+    // this.id = id;
+    // this.branchId = branchId;
+    // this.createdDate = createdDate;
+    // }
 
     public ReportDTO(int id, int branchId, LocalDate createdDate) {
         this.id = id;
@@ -26,7 +26,10 @@ public class ReportDTO implements DTO {
         Map<String, String> nameToVal = new HashMap<>();
         nameToVal.put("id", "" + id);
         nameToVal.put("branchId", "" + branchId);
-        nameToVal.put("createdDate", createdDate.toString());
+        if (createdDate == null)
+            nameToVal.put("createdDate", null);
+        else
+            nameToVal.put("createdDate", createdDate.toString());
         return nameToVal;
     }
 

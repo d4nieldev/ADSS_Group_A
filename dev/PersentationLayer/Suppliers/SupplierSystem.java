@@ -365,10 +365,14 @@ public class SupplierSystem {
         // TODO: we make 10% form.
         System.out.println("**For fixed price it could be any price**");
         TreeMap<Integer, String> amountTodiscountMap = new TreeMap<Integer, String>();
-        System.out.print("Enter amount discount pair: ");
-        String input = scanner.nextLine();
+        String input;
 
-        while (!input.equals("done")) {
+        while (true) {
+            System.out.print("Enter amount discount pair: ");
+            input = scanner.nextLine();
+            if (input.equals("done"))
+                break;
+
             String[] AmountDiscount = input.split(" ");
             if (AmountDiscount.length != 2) {
                 System.out.println("Invalid amount discount pair. Try again");
@@ -381,9 +385,6 @@ public class SupplierSystem {
             }
             String discount = AmountDiscount[1];
             amountTodiscountMap.put(amount, discount);
-
-            System.out.print("Enter amount discount pair: ");
-            input = scanner.nextLine();
         }
         return amountTodiscountMap;
     }

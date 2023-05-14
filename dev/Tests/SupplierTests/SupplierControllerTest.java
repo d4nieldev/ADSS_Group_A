@@ -6,21 +6,25 @@ import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import java.sql.SQLException;
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.TreeMap;
 
-import org.junit.*;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.BeforeClass;
+import org.junit.Test;
 
 import BusinessLayer.Inventory.CategoryController;
 import BusinessLayer.InveontorySuppliers.Product;
 import BusinessLayer.InveontorySuppliers.ProductController;
 import BusinessLayer.InveontorySuppliers.ReceiptItem;
 import BusinessLayer.Suppliers.Contact;
-import BusinessLayer.Suppliers.Supplier;
 import BusinessLayer.Suppliers.ProductAgreement;
+import BusinessLayer.Suppliers.Supplier;
 import BusinessLayer.Suppliers.SupplierController;
 import BusinessLayer.exceptions.SuppliersException;
+import DataAccessLayer.Repository;
 import DataAccessLayer.DTOs.ReceiptItemDTO;
 
 public class SupplierControllerTest {
@@ -28,8 +32,10 @@ public class SupplierControllerTest {
     SupplierController sc = SupplierController.getInstance();
 
     @Before
-    public void setup() throws Exception {
+    public void setup() {
         try {
+            // ProductController.getInstance().init();
+            SupplierController.getInstance().init();
             createSupplier0();
             createProduct();
         } catch (Exception e) {
@@ -39,9 +45,18 @@ public class SupplierControllerTest {
     }
 
     @After
-    public void clearController() {
+    public void clearController() throws SQLException {
+        SupplierController.getInstance().deleteSupplier(0);
         ProductController.getInstance().clearData();
         SupplierController.getInstance().clearData();
+    }
+
+    private static <T> List<T> createList(T... args) {
+        List<T> lst = new ArrayList<>();
+        for (T item : args) {
+            lst.add(item);
+        }
+        return lst;
     }
 
     /**
@@ -53,13 +68,14 @@ public class SupplierControllerTest {
         String name = "FastAndBest ";
         String phone = "0507164509";
         String bankAccount = "12-128-148258";
-        List<String> fields = Arrays.asList("Tech", "Cleaning");
+        List<String> fields = createList("Tech", "Cleaning");
         String paymentCondition = "net 30 EOM";
         TreeMap<Integer, String> amountToDiscount = new TreeMap<>();
         amountToDiscount.put(100, "0.025%");
         amountToDiscount.put(500, "0.03%");
-        List<String> contactNames = Arrays.asList("Dana Grinberg", "Roni Katz");
-        List<String> contactPhones = Arrays.asList("0525948325", "0535669897");
+
+        List<String> contactNames = createList("Dana Grinberg", "Roni Katz");
+        List<String> contactPhones = createList("0525948325", "0535669897");
         int maxSupplyDays = 4;
 
         SupplierController.getInstance().addOnOrderSupplierBaseAgreement(name, phone, bankAccount, fields,
@@ -131,14 +147,14 @@ public class SupplierControllerTest {
         String name = "AllYouNeed";
         String phone = "0507164588";
         String bankAccount = "09-319-158988";
-        List<String> fields = Arrays.asList("Meat", "Sweet drinks");
+        List<String> fields = createList("Meat", "Sweet drinks");
         String paymentCondition = "net 60 EOM";
         TreeMap<Integer, String> amountToDiscount = new TreeMap<>();
         amountToDiscount.put(50, "0.015%");
         amountToDiscount.put(90, "0.02%");
-        List<String> contactNames = Arrays.asList("Kevin Monk");
-        List<String> contactPhones = Arrays.asList("0525869525");
-        List<Integer> days = Arrays.asList(2, 4);
+        List<String> contactNames = createList("Kevin Monk");
+        List<String> contactPhones = createList("0525869525");
+        List<Integer> days = createList(2, 4);
         try {
             SupplierController.getInstance().addFixedDaysSupplierBaseAgreement(name, phone, bankAccount, fields,
                     paymentCondition,
@@ -159,13 +175,13 @@ public class SupplierControllerTest {
         String name = "AllYouNeed";
         String phone = "0507164588";
         String bankAccount = "09-319-158988";
-        List<String> fields = Arrays.asList("Meat", "Sweet drinks");
+        List<String> fields = createList("Meat", "Sweet drinks");
         String paymentCondition = "net 45 EOM";
         TreeMap<Integer, String> amountToDiscount = new TreeMap<>();
         amountToDiscount.put(50, "0.015%");
         amountToDiscount.put(90, "0.02%");
-        List<String> contactNames = Arrays.asList("Kevin Monk");
-        List<String> contactPhones = Arrays.asList("0525869525");
+        List<String> contactNames = createList("Kevin Monk");
+        List<String> contactPhones = createList("0525869525");
         int maxSupplyDays = 7;
         try {
             SupplierController.getInstance().addOnOrderSupplierBaseAgreement(name, phone, bankAccount, fields,
@@ -187,13 +203,13 @@ public class SupplierControllerTest {
         String name = "AllYouNeed";
         String phone = "0507164588";
         String bankAccount = "09-319-158988";
-        List<String> fields = Arrays.asList("Meat", "Sweet drinks");
+        List<String> fields = createList("Meat", "Sweet drinks");
         String paymentCondition = "net 45 EOM";
         TreeMap<Integer, String> amountToDiscount = new TreeMap<>();
         amountToDiscount.put(50, "0.015%");
         amountToDiscount.put(90, "0.02%");
-        List<String> contactNames = Arrays.asList("Kevin Monk");
-        List<String> contactPhones = Arrays.asList("0525869525");
+        List<String> contactNames = createList("Kevin Monk");
+        List<String> contactPhones = createList("0525869525");
         String address = "Shilo 4, Ashkelon";
         Integer maxPreparationDays = 3;
         try {
@@ -302,7 +318,7 @@ public class SupplierControllerTest {
             double predictedPricePerUnitAfterSupplierDiscount = pricePerUnitBeforeSupplierDiscount * (1 - 0.025);
             System.out.println(predictedPricePerUnitAfterSupplierDiscount);
             // puting the single recipt in a list and calculating the supplier discount.
-            sc.calculateSupplierDiscount(0, Arrays.asList(ri));
+            sc.calculateSupplierDiscount(0, createList(ri));
             System.out.println(ri.getPricePerUnitAfterDiscount());
             assertEquals(predictedPricePerUnitAfterSupplierDiscount, ri.getPricePerUnitAfterDiscount(), 0.0001);
         } catch (SuppliersException e) {

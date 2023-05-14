@@ -7,6 +7,7 @@ import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Types;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -77,11 +78,20 @@ public abstract class DAO<T extends DTO> {
     private void setValInStatement(PreparedStatement statement, String val, String type, int idx) throws SQLException {
         switch (type) {
             case "INTEGER":
-                statement.setInt(idx, Integer.parseInt(val));
+                if (val == null)
+                    statement.setNull(idx, Types.INTEGER);
+                else
+                    statement.setInt(idx, Integer.parseInt(val));
             case "REAL":
-                statement.setDouble(idx, Double.parseDouble(val));
+                if (val == null)
+                    statement.setNull(idx, Types.REAL);
+                else
+                    statement.setDouble(idx, Double.parseDouble(val));
             case "TEXT":
-                statement.setString(idx, val);
+                if (val == null)
+                    statement.setNull(idx, Types.VARCHAR);
+                else
+                    statement.setString(idx, val);
         }
     }
 
@@ -92,7 +102,7 @@ public abstract class DAO<T extends DTO> {
         StringBuilder query = new StringBuilder("INSERT INTO " + this.tableName);
         query.append("(" + String.join(", ", nameToType.keySet()) + ")\n");
         query.append(
-                "VALUES (" + String.join(", ", Collections.nCopies(nameToType.size(), "?")) + ");");
+                " VALUES (" + String.join(", ", Collections.nCopies(nameToType.size(), "?")) + ");");
         PreparedStatement statement = con.prepareStatement(query.toString());
 
         Map<String, String> nameToVal = dataObject.getNameToVal();
@@ -100,7 +110,7 @@ public abstract class DAO<T extends DTO> {
         for (String colName : nameToType.keySet()) {
             String val = nameToVal.get(colName);
             String type = nameToType.get(colName);
-            setValInStatement(statement, val, type, i);
+            setValInStatement(statement, val, type, i++);
         }
 
         statement.executeUpdate();

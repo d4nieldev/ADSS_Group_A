@@ -1,38 +1,59 @@
 package ServiceLayer.Suppliers;
 
 import java.sql.SQLException;
+import java.time.DayOfWeek;
 import java.util.Map;
 
-import BusinessLayer.InveontorySuppliers.Product;
 import BusinessLayer.InveontorySuppliers.ProductController;
 import BusinessLayer.InveontorySuppliers.Reservation;
 import BusinessLayer.Suppliers.ReservationController;
 import BusinessLayer.exceptions.SuppliersException;
-import DataAccessLayer.DTOs.ProductDTO;
 
 public class ReservationService {
     private ReservationController reservationController;
 
-    public ReservationService() {
+    private ReservationService() {
         reservationController = ReservationController.getInstance();
     }
 
-    // requirement dropped
-    // public String makeAutoReservation(Map<Integer, Integer> productToAmount,
-    // String destinationBranch) {
-    // try {
-    // reservationController.makeDeficiencyReservation(productToAmount,
-    // destinationBranch);
-    // return "Success";
-    // } catch (SuppliersException e) {
-    // return e.getMessage();
-    // }
-    // }
+    public static ReservationService create() {
+        try {
+            ReservationService service = new ReservationService();
+            service.reservationController.init();
+            return service;
+        } catch (SQLException e) {
+            throw new RuntimeException("Error initializing reservation service");
+        }
+    }
 
     public String makeManualReservation(Map<Integer, Map<Integer, Integer>> supplierToproductToAmount,
             int destinationBranch) {
         try {
             reservationController.makeManualReservation(supplierToproductToAmount, destinationBranch);
+            return "Success";
+        } catch (SuppliersException e) {
+            return e.getMessage();
+        } catch (SQLException e) {
+            return "DATABASE ERROR: " + e.getMessage();
+        }
+    }
+
+    public String addPeriodicReservation(int supplierId, int branchId, DayOfWeek day,
+            Map<Integer, Integer> productToAmount) {
+        try {
+            reservationController.addPeriodicReservation(branchId, supplierId, day, productToAmount);
+            return "Success";
+        } catch (SuppliersException e) {
+            return e.getMessage();
+        } catch (SQLException e) {
+            return "DATABASE ERROR: " + e.getMessage();
+        }
+    }
+
+    public String updatePeriodicReservation(int supplierId, int branchId, DayOfWeek day,
+            Map<Integer, Integer> productToAmount) {
+        try {
+            reservationController.updatePeriodicReservation(branchId, supplierId, day, productToAmount);
             return "Success";
         } catch (SuppliersException e) {
             return e.getMessage();

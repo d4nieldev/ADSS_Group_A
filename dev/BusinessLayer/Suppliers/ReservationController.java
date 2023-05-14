@@ -11,6 +11,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import BusinessLayer.Inventory.BranchController;
 import BusinessLayer.InveontorySuppliers.PeriodicReservation;
 import BusinessLayer.InveontorySuppliers.Product;
 import BusinessLayer.InveontorySuppliers.ProductController;
@@ -184,7 +185,7 @@ public class ReservationController {
                 double pricePerUnitAfterDiscount = agreement.getPrice(amount);
                 ReceiptItemDTO receiptItemDTO = new ReceiptItemDTO(reservationId, productId, amount,
                         pricePerUnitBeforeDiscount, pricePerUnitAfterDiscount);
-                Product product = ProductController.getInstance().getProductById(productId);
+                Product product = pc.getProductById(productId);
                 ReceiptItem item = new ReceiptItem(receiptItemDTO, product);
                 r.addReceiptItem(item);
             }
@@ -195,15 +196,16 @@ public class ReservationController {
         }
 
         // if everything went well, add the reservation to the system
-        addPartialReservations(finalOrder);
+        orderPartialReservations(finalOrder);
     }
 
-    private void addPartialReservations(List<Reservation> reservations) throws SQLException {
+    private void orderPartialReservations(List<Reservation> reservations) throws SQLException {
         for (Reservation r : reservations)
-            addPartialReservation(r);
+            orderPartialReservation(r);
     }
 
-    private void addPartialReservation(Reservation reservation) throws SQLException {
+    private void orderPartialReservation(Reservation reservation) throws SQLException {
+        BranchController.getInstance().receiveReservation(reservation);
         reservationDAO.insert(reservation.getDto());
         for (ReceiptItemDTO dto : reservation.getDto().getReceipt())
             receiptItemDAO.insert(dto);
@@ -237,7 +239,7 @@ public class ReservationController {
             throw new SuppliersException("The reservation could not be made due to lack of stock.");
 
         // if everything went well, add the reservation to the system
-        addPartialReservations(finalOrder);
+        orderPartialReservations(finalOrder);
     }
 
     private void subtractReservationFromOrder(Map<Integer, Integer> productToAmount, Reservation r) {

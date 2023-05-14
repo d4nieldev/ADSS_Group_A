@@ -1,4 +1,4 @@
-package InventoryTest;
+package Tests.InventoryTest;
 
 import BusinessLayer.Inventory.BranchController;
 import BusinessLayer.Inventory.ProductBranch;
@@ -30,7 +30,7 @@ public class ProductBranchTest {
         branch = branchController.getBranchById(branch.getId());
         CategoryDTO categoryDTO = new CategoryDTO(1,"Milks products");
         ProductDTO productDTO = new ProductDTO(1,"Milk","Tnuva",categoryDTO);
-        productController.addNewProduct(productDTO);
+        productController.addProduct(productDTO);
         SpecificProductDTO specificProductDTO1 = new SpecificProductDTO(1,1,1,10,"", LocalDate.parse("2023-11-11"));
         SpecificProductDTO specificProductDTO2 = new SpecificProductDTO(2,1,1,10,"", LocalDate.parse("2023-01-11"));
         SpecificProductDTO specificProductDTO3 = new SpecificProductDTO(3,1,1,10,"", LocalDate.parse("2023-11-11"));
@@ -43,15 +43,19 @@ public class ProductBranchTest {
     }
 
     @Test
-    void reportFlawProductTest() throws Exception {
+    void reportFlawProduct_existingSpecificProductWithOnShelfStatus_updatesStatusAndFlawDescription() throws Exception {
         // Arrange
+        SpecificProduct specificProduct = new SpecificProduct();
+        specificProduct.setStatus(ProductStatus.status.ON_SHELF);
+        specificProduct.setFlawDescription("");
+        int specificId = 1;
+        String description = "Missing button";
 
-        String description = "test Flaw description";
+        ProductBranch productBranch = new ProductBranch();
+        productBranch.getAllSpecificProducts().put(specificId, specificProduct);
 
-        ProductBranch productBranch = branchController.getBranchById(1).getProductByCode(1);
         // Act
-       productBranch.reportFlawProduct(1, description);
-       SpecificProduct result = productBranch.getSpecificById(1);
+        SpecificProduct result = productBranch.reportFlawProduct(specificId, description);
 
         // Assert
         assertEquals(ProductStatus.status.IS_FLAW, result.getStatus());

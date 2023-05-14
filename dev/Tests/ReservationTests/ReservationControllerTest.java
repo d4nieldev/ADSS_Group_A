@@ -4,6 +4,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThrows;
 import static org.junit.Assert.fail;
 
+import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -15,6 +16,7 @@ import org.junit.Test;
 
 import BusinessLayer.InveontorySuppliers.Product;
 import BusinessLayer.InveontorySuppliers.ProductController;
+import BusinessLayer.InveontorySuppliers.Reservation;
 import BusinessLayer.Suppliers.ReservationController;
 import BusinessLayer.Suppliers.SupplierController;
 import BusinessLayer.exceptions.SuppliersException;
@@ -22,11 +24,9 @@ import BusinessLayer.exceptions.SuppliersException;
 public class ReservationControllerTest {
     ReservationController rc = ReservationController.getInstance();
 
-    private void createProducts() throws SuppliersException {
-        Product product0 = new Product(0, "Product 0", "Manufacturer 0");
-        Product product1 = new Product(1, "Product 1", "Manufacturer 1");
-        ProductController.getInstance().addProduct(product0);
-        ProductController.getInstance().addProduct(product1);
+    private void createProducts() throws SuppliersException, SQLException {
+        ProductController.getInstance().addProduct(0, "Product 0", "Manufacturer 0", 0);
+        ProductController.getInstance().addProduct(1, "Product 1", "Manufacturer 1", 1);
     }
 
     private void createSupplier0() throws Exception {
@@ -35,13 +35,12 @@ public class ReservationControllerTest {
         String bankAccount = "1234567890";
         List<String> fields = List.of("Health", "Food");
         String paymentCondition = "Shotef-30";
-        TreeMap<Integer, Double> amountToDiscount = new TreeMap<>();
+        TreeMap<Integer, String> amountToDiscount = new TreeMap<>();
         List<String> contactNames = List.of("John Doe", "Jane Doe");
         List<String> contactPhones = List.of("1524973302", "1678420619");
-        List<Integer> days = List.of(2, 5);
 
-        SupplierController.getInstance().addFixedDaysSupplierBaseAgreement(name, phone, bankAccount, fields,
-                paymentCondition, amountToDiscount, contactNames, contactPhones, days);
+        SupplierController.getInstance().addOnOrderSupplierBaseAgreement(name, phone, bankAccount, fields,
+                paymentCondition, amountToDiscount, contactNames, contactPhones, 3);
 
         int supplierId = 0;
         int productShopId = 0;
@@ -49,8 +48,8 @@ public class ReservationControllerTest {
         int stockAmount = 100;
         double basePrice = 100.0;
         amountToDiscount = new TreeMap<>();
-        amountToDiscount.put(50, 0.1);
-        amountToDiscount.put(70, 0.3);
+        amountToDiscount.put(50, "10%");
+        amountToDiscount.put(70, "30%");
 
         SupplierController.getInstance().addSupplierProductAgreement(supplierId, productShopId, productSupplierId,
                 stockAmount, basePrice, amountToDiscount);
@@ -60,7 +59,7 @@ public class ReservationControllerTest {
         stockAmount = 50;
         basePrice = 200.0;
         amountToDiscount = new TreeMap<>();
-        amountToDiscount.put(10, 0.1);
+        amountToDiscount.put(10, "10%");
 
         SupplierController.getInstance().addSupplierProductAgreement(supplierId, productShopId, productSupplierId,
                 stockAmount, basePrice, amountToDiscount);
@@ -73,13 +72,13 @@ public class ReservationControllerTest {
         String bankAccount = "1234567890";
         List<String> fields = List.of("Health", "Food");
         String paymentCondition = "Shotef-30";
-        TreeMap<Integer, Double> amountToDiscount = new TreeMap<>();
+        TreeMap<Integer, String> amountToDiscount = new TreeMap<>();
         List<String> contactNames = List.of("John Doe", "Jane Doe");
         List<String> contactPhones = List.of("1524973302", "1678420619");
         List<Integer> days = List.of(2, 5);
 
-        SupplierController.getInstance().addFixedDaysSupplierBaseAgreement(name, phone, bankAccount, fields,
-                paymentCondition, amountToDiscount, contactNames, contactPhones, days);
+        SupplierController.getInstance().addOnOrderSupplierBaseAgreement(name, phone, bankAccount, fields,
+                paymentCondition, amountToDiscount, contactNames, contactPhones, 2);
 
         int supplierId = 1;
         int productShopId = 0;
@@ -87,7 +86,7 @@ public class ReservationControllerTest {
         int stockAmount = 200;
         double basePrice = 90.0;
         amountToDiscount = new TreeMap<>();
-        amountToDiscount.put(70, 0.1);
+        amountToDiscount.put(70, "10%");
 
         SupplierController.getInstance().addSupplierProductAgreement(supplierId, productShopId, productSupplierId,
                 stockAmount, basePrice, amountToDiscount);
@@ -153,7 +152,7 @@ public class ReservationControllerTest {
         productToAmount.put(0, 1000);
 
         // check that the reservation is not possible
-        assertThrows(SuppliersException.class, () -> rc.makeDeficiencyReservation(productToAmount, "Ness Ziona"));
+        assertThrows(SuppliersException.class, () -> rc.makeDeficiencyReservation(productToAmount, 0));
 
         // check that no reservation is made
         assertThrows(SuppliersException.class, () -> rc.getReservationReceipt(0));
@@ -165,7 +164,7 @@ public class ReservationControllerTest {
         productToAmount.put(7, 1);
 
         // check that the reservation is not possible
-        assertThrows(SuppliersException.class, () -> rc.makeDeficiencyReservation(productToAmount, "Ashkelon"));
+        assertThrows(SuppliersException.class, () -> rc.makeDeficiencyReservation(productToAmount, 0));
 
         // check that no reservation is made
         assertThrows(SuppliersException.class, () -> rc.getReservationReceipt(0));
@@ -174,13 +173,13 @@ public class ReservationControllerTest {
     @Test
     public void makeAutoReservationNoSplitTest() {
         Map<Integer, Integer> productToAmount = new HashMap<>();
-        productToAmount.put(0, 1); // should order from supplier 1
+        productToAmount.put(0, 1); // should order from supplier 1 (he is faster)
 
         try {
-            rc.makeDeficiencyReservation(productToAmount, "Haifa");
+            rc.makeDeficiencyReservation(productToAmount, 0);
             assertEquals(0, rc.getSupplierReservations(0).size());
             assertEquals(1, rc.getSupplierReservations(1).size());
-        } catch (SuppliersException e) {
+        } catch (Exception e) {
             fail(e.getMessage());
         }
 
@@ -189,13 +188,18 @@ public class ReservationControllerTest {
     @Test
     public void makeAutoReservationSplitTest() {
         Map<Integer, Integer> productToAmount = new HashMap<>();
-        productToAmount.put(0, 150); // should order 150 from supplier 1
-        productToAmount.put(1, 80); // should order 50 from supplier 0 and 30 from supplier 1
+        productToAmount.put(0, 150); // should order 150 from supplier 1 (because he is faster)
+        productToAmount.put(1, 80); // should order 50 from supplier 0 and 30 from supplier 1 (this is the only
+                                    // option)
         try {
-            rc.makeDeficiencyReservation(productToAmount, "Tel Aviv");
+            rc.makeDeficiencyReservation(productToAmount, 0);
             assertEquals(1, rc.getSupplierReservations(0).size());
+            Reservation r0 = rc.getSupplierReservations(0).get(0);
+            assertEquals(50, r0.getTotalAmount());
             assertEquals(1, rc.getSupplierReservations(1).size());
-        } catch (SuppliersException e) {
+            Reservation r1 = rc.getSupplierReservations(1).get(0);
+            assertEquals(180, r1.getTotalAmount());
+        } catch (Exception e) {
             fail(e.getMessage());
         }
     }
@@ -209,7 +213,7 @@ public class ReservationControllerTest {
         supplierToProductToAmount.put(0, supplier0productToAmount);
 
         // check that the reservation is not possible
-        assertThrows(SuppliersException.class, () -> rc.makeManualReservation(supplierToProductToAmount, "Ness Ziona"));
+        assertThrows(SuppliersException.class, () -> rc.makeManualReservation(supplierToProductToAmount, 0));
 
         // check that no reservation is made
         assertThrows(SuppliersException.class, () -> rc.getReservationReceipt(0));
@@ -223,7 +227,7 @@ public class ReservationControllerTest {
         supplierToProductToAmount.put(0, supplier0productToAmount);
 
         // check that the reservation is not possible
-        assertThrows(SuppliersException.class, () -> rc.makeManualReservation(supplierToProductToAmount, "Ashkelon"));
+        assertThrows(SuppliersException.class, () -> rc.makeManualReservation(supplierToProductToAmount, 0));
 
         // check that no reservation is made
         assertThrows(SuppliersException.class, () -> rc.getReservationReceipt(0));
@@ -238,10 +242,10 @@ public class ReservationControllerTest {
         supplierToProductToAmount.put(1, supplier1productToAmount);
 
         try {
-            rc.makeManualReservation(supplierToProductToAmount, "Haifa");
+            rc.makeManualReservation(supplierToProductToAmount, 0);
             assertEquals(0, rc.getSupplierReservations(0).size());
             assertEquals(1, rc.getSupplierReservations(1).size());
-        } catch (SuppliersException e) {
+        } catch (Exception e) {
             fail(e.getMessage());
         }
 
@@ -259,10 +263,10 @@ public class ReservationControllerTest {
         supplierToProductToAmount.put(1, supplier1productToAmount);
 
         try {
-            rc.makeManualReservation(supplierToProductToAmount, "Tel Aviv");
+            rc.makeManualReservation(supplierToProductToAmount, 0);
             assertEquals(1, rc.getSupplierReservations(0).size());
             assertEquals(1, rc.getSupplierReservations(1).size());
-        } catch (SuppliersException e) {
+        } catch (Exception e) {
             fail(e.getMessage());
         }
     }

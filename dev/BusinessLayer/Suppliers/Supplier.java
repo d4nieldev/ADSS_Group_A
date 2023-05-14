@@ -1,23 +1,17 @@
 package BusinessLayer.Suppliers;
 
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.TreeMap;
 
 import BusinessLayer.InveontorySuppliers.Discount;
 import BusinessLayer.InveontorySuppliers.DiscountFixed;
 import BusinessLayer.InveontorySuppliers.DiscountPercentage;
-import BusinessLayer.InveontorySuppliers.PeriodicReservation;
-import BusinessLayer.exceptions.SuppliersException;
 import DataAccessLayer.DTOs.ContactDTO;
 import DataAccessLayer.DTOs.DiscountDTO;
-import DataAccessLayer.DTOs.PeriodicReservationDTO;
 import DataAccessLayer.DTOs.SupplierDTO;
 import DataAccessLayer.DTOs.SuppliersFieldsDTO;
-
-import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 public abstract class Supplier {
 
@@ -55,7 +49,6 @@ public abstract class Supplier {
         TreeMap<Integer, DiscountDTO> amountToDiscountDTO = supplierDTO.getAmountToDiscount();
         this.amountToDiscount = makeDiscountMap(amountToDiscountDTO);
         this.contacts = makeContactList(supplierDTO.getContacts());
-        Map<Integer, PeriodicReservationDTO> periodicReservationDTO = supplierDTO.getBranchToPeriodicReservations();
     }
 
     private List<Contact> makeContactList(List<ContactDTO> contactDTOs) {

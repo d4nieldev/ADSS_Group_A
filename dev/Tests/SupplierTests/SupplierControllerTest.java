@@ -41,7 +41,7 @@ public class SupplierControllerTest {
     @After
     public void clearController() {
         ProductController.getInstance().clearData();
-        SupplierController.getInstance().clearPresistenceData();
+        SupplierController.getInstance().clearData();
     }
 
     /**

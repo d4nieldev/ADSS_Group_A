@@ -6,10 +6,7 @@ public class Global {
     public static int SpecificId = 0;
     public static int reportId = 0;
     public static int periodicId = 0;
-
     public static int discountId = 0;
-
-
     public static int getNewProductid() {
         Productid++;
         return Productid - 1;
@@ -34,11 +31,11 @@ public class Global {
 
         return reportId++;
     }
-    public static int getNewDiscountId() {
-
-        return discountId++;
-    }
     public static int getNewPeriodicId() {
         return periodicId++;
+    }
+
+    public static int getNewDiscountId() {
+        return discountId++;
     }
 }

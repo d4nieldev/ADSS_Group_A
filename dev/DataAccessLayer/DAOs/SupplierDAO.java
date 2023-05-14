@@ -76,9 +76,6 @@ public class SupplierDAO extends DAO<SupplierDTO> {
             SupplierAmountToDiscountDTO supDisDTO = new SupplierAmountToDiscountDTO(dataObject.getId(), amount, disDTO);
             supplierAmountToDiscountDAO.insert(supDisDTO);
         }
-        for (Integer branchId : dataObject.getBranchToPeriodicReservations().keySet()) {
-            periodicReservationDAO.insert(dataObject.getBranchToPeriodicReservations().get(branchId));
-        }
     }
 
     @Override
@@ -97,9 +94,6 @@ public class SupplierDAO extends DAO<SupplierDTO> {
             DiscountDTO disDTO = dataObject.getAmountToDiscount().get(amount);
             SupplierAmountToDiscountDTO supDisDTO = new SupplierAmountToDiscountDTO(dataObject.getId(), amount, disDTO);
             supplierAmountToDiscountDAO.update(supDisDTO);
-        }
-        for (Integer branchId : dataObject.getBranchToPeriodicReservations().keySet()) {
-            periodicReservationDAO.update(dataObject.getBranchToPeriodicReservations().get(branchId));
         }
     }
 

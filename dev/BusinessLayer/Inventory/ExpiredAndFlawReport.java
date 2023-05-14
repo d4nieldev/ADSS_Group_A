@@ -17,7 +17,8 @@ public class ExpiredAndFlawReport extends Report {
 //    private HashMap<Integer, String> codeToCategory;
 //    private HashMap<Integer, String> idsToName;
 
-    public ExpiredAndFlawReport(ExpiredAndFlawReportDTO expiredAndFlawReportDTO) {
+
+    public ExpiredAndFlawReport(ExpiredAndFlawReportDTO expiredAndFlawReportDTO) throws Exception {
         super(expiredAndFlawReportDTO.getId(), expiredAndFlawReportDTO.getBranchId(), LocalDate.now(), expiredAndFlawReportDTO.getReportDTO());
 
         this.branchController = BranchController.getInstance();
@@ -27,7 +28,6 @@ public class ExpiredAndFlawReport extends Report {
         this.products = branch.getAllProductBranches();
 //        this.idsToName = branch.getIdsToName();
 //        this.codeToCategory = branch.getCodeToCategory();
-        this.branchController = BranchController.getInstance();
     }
 
     public HashMap<Integer, HashMap<Integer, LocalDate>> getIdToExpiredSpecificIdAndDate() {

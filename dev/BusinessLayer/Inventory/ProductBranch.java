@@ -58,13 +58,16 @@ public class ProductBranch {
         this.productBranchDTO = productBranchDTO;
     }
 
-    public ProductBranchDTO getProductBranchDTO() {
-        return productBranchDTO;
-    }
-
     public Discount getDiscount() {
         return discount;
     }
+    public ProductBranchDTO getProductBranchDTO() {
+        return productBranchDTO;
+    }
+    public SpecificProduct getSpecificById (int specificId){
+        return allSpecificProducts.get(specificId);
+    }
+
 
     public HashMap<Integer, SpecificProduct> getAllSpecificProducts() {
         return allSpecificProducts;
@@ -222,7 +225,7 @@ public class ProductBranch {
     }
 
     /**
-     * sell a product and update the inventory quantity
+     * sell a product and update the ServiceLayer.PersentationLayer.inventory quantity
      * 
      * @param specificId
      */
@@ -253,7 +256,7 @@ public class ProductBranch {
         return false;
     }
 
-    public SpecificProduct reportFlawProduct(int specificId, String description) throws Exception {
+    public void reportFlawProduct(int specificId, String description) throws Exception {
         SpecificProduct specificProduct = allSpecificProducts.get(specificId);
         if (specificProduct == null)
             throw new Exception("this specific product doesn't exist");
@@ -265,7 +268,6 @@ public class ProductBranch {
         if (status == ProductStatus.status.ON_SHELF || status == ProductStatus.status.ON_STORAGE) {
             totalAmount--;
         }
-        return specificProduct;
     }
 
     public List<SpecificProduct> getOnShelfProduct() {
@@ -309,8 +311,5 @@ public class ProductBranch {
         }
 
         return result;
-    }
-    public SpecificProduct getSpecificById (int specificId){
-        return allSpecificProducts.get(specificId);
     }
 }

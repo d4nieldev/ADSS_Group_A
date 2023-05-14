@@ -8,7 +8,7 @@ import java.util.TreeMap;
 import ServiceLayer.Suppliers.SupplierService;
 
 public class SupplierSystem {
-    private static SupplierService ss = new SupplierService();
+    private static SupplierService ss = SupplierService.create();
 
     public static void help() {
         String manual = "";

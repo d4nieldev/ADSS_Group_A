@@ -13,7 +13,6 @@ public class SupplierDTO implements DTO {
     protected List<SuppliersFieldsDTO> fields;
     protected List<ContactDTO> contacts;
     protected TreeMap<Integer, DiscountDTO> amountToDiscount;
-    protected Map<Integer, PeriodicReservationDTO> branchToPeriodicReservations;
 
     public SupplierDTO(int id, String name, String bankAccount, String paymentCondition,
             List<SuppliersFieldsDTO> fields, List<ContactDTO> contacts, TreeMap<Integer, DiscountDTO> amountToDiscount,
@@ -25,7 +24,6 @@ public class SupplierDTO implements DTO {
         this.fields = fields;
         this.contacts = contacts;
         this.amountToDiscount = amountToDiscount;
-        this.branchToPeriodicReservations = branchToPeriodicReservations;
     }
 
     @Override
@@ -68,10 +66,6 @@ public class SupplierDTO implements DTO {
 
     public TreeMap<Integer, DiscountDTO> getAmountToDiscount() {
         return amountToDiscount;
-    }
-
-    public Map<Integer, PeriodicReservationDTO> getBranchToPeriodicReservations() {
-        return branchToPeriodicReservations;
     }
 
     public void setName(String name) {

@@ -99,8 +99,7 @@ public class BranchController {
         } else {
             HashMap<ProductBranch, List<SpecificProduct>> toDao = branch.receiveReservation(reservation);
             for (ProductBranch productBranch : toDao.keySet()) {
-                ProductBranchDTO productBranchDTO = checkExistProductDTO(productBranch, reservation.getDestination());
-                productBranchDAO.insert(productBranchDTO);
+               updateProductBranchOrCreate(productBranch, reservation.getDestination());
                 for (SpecificProduct specificProduct : toDao.get(productBranch)) {
                     // create new SpecificProductDto object and insert it to DAO
                     SpecificProductDTO specificProductDTO = new SpecificProductDTO(specificProduct.getSpecificId(),
@@ -125,16 +124,19 @@ public class BranchController {
      * @return
      * @throws SQLException
      */
-    private ProductBranchDTO checkExistProductDTO(ProductBranch productBranch, int branchId) throws SQLException {
+    private void updateProductBranchOrCreate(ProductBranch productBranch, int branchId) throws SQLException {
         ProductBranchDTO productBranchDTO = productBranchDAO.getByProductAndBranchId(productBranch.getCode(), branchId);
-        if (productBranchDTO != null)
-            return productBranchDTO;
+        //if exist - update table with the updated dto after receive reservation
+        if (productBranchDTO != null) {
+            productBranchDAO.update(productBranchDTO);
+        }
+        //if not exist - create new one and insert it to the DAO
         else {
             ProductDTO productDTO = ProductsDAO.getInstance().getById(productBranch.getCode());
             DiscountDTO discountDTO = DiscountDAO.getInstance().getById(productBranch.getDiscount().getDiscountId());
             ProductBranchDTO result = new ProductBranchDTO(productDTO, discountDTO, branchId, productBranch.getPrice(),
                     productBranch.getMinQuantity(), productBranch.getIdealQuantity(), null);
-            return result;
+            productBranchDAO.insert(result);
         }
     }
 

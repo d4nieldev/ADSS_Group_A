@@ -85,6 +85,12 @@ public void addNewProductBranch(ProductBranchDTO productBranchDTO) throws SQLExc
 
     }
 
+    /***
+     * return an hash map with all new productBranch - or updated productBranch
+     * @param reservation
+     * @return
+     * @throws SQLException
+     */
     public HashMap<ProductBranch,List<SpecificProduct>> receiveReservation(Reservation reservation) throws SQLException {
         HashMap<ProductBranch,List<SpecificProduct>> toDao = new HashMap<>();
         List<ReceiptItem> allItems = reservation.getReceipt();

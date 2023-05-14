@@ -4,16 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="9eae729d-74b6-43b2-89ea-619f52f99034" name="Changes" comment="minor">
+    <list default="true" id="a2472df3-0b1c-47fc-bcd6-f26fc4f0a51c" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dev/BusinessLayer/Inventory/ExpiredAndFlawReport.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/BusinessLayer/Inventory/ExpiredAndFlawReport.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dev/BusinessLayer/Inventory/ProductBranch.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/BusinessLayer/Inventory/ProductBranch.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dev/BusinessLayer/Inventory/SpecificProduct.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/BusinessLayer/Inventory/SpecificProduct.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dev/BusinessLayer/Inventory/BranchController.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/BusinessLayer/Inventory/BranchController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/dev/BusinessLayer/InveontorySuppliers/Branch.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/BusinessLayer/InveontorySuppliers/Branch.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dev/DataAccessLayer/DTOs/DeficiencyReportDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/DataAccessLayer/DTOs/DeficiencyReportDTO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dev/DataAccessLayer/DTOs/ExpiredAndFlawReportDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/DataAccessLayer/DTOs/ExpiredAndFlawReportDTO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dev/DataAccessLayer/DTOs/InventoryReportDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/DataAccessLayer/DTOs/InventoryReportDTO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dev/InventoryTest/SpecificProductTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/InventoryTest/SpecificProductTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -28,6 +22,11 @@
     </option>
   </component>
   <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="master" />
+      </map>
+    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="GithubPullRequestsUISettings">
@@ -42,7 +41,7 @@
     <option name="stateVersion" value="1" />
   </component>
   <component name="ProjectId" id="2NdsbCzWK4fsTY9AuiarcADHq23" />
-  <component name="ProjectLevelVcsManager">
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
     <ConfirmationsSetting value="2" id="Add" />
   </component>
   <component name="ProjectViewState">

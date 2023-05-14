@@ -100,7 +100,7 @@ public abstract class DAO<T extends DTO> {
         for (String colName : nameToType.keySet()) {
             String val = nameToVal.get(colName);
             String type = nameToType.get(colName);
-            setValInStatement(statement, val, type, i);
+            setValInStatement(statement, val, type, i++);
         }
 
         statement.executeUpdate();

@@ -25,7 +25,7 @@ public class SupplierService {
             // service.productController.init();
             return service;
         } catch (SQLException e) {
-            throw new RuntimeException("Error initializing SupplierService");
+            throw new RuntimeException(e.getMessage());
         }
     }
 

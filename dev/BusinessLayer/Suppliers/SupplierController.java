@@ -490,10 +490,7 @@ public class SupplierController {
             throws SQLException {
         List<Contact> contactList = new LinkedList<Contact>();
         for (int i = 0; i < contactPhones.size(); i++) {
-            // try to insert to database
             ContactDTO cDTO = new ContactDTO(supplierId, contactPhones.get(i), contactNames.get(i));
-            contactDAO.insert(cDTO);
-            // add to presistence
             Contact c = new Contact(cDTO);
             contactList.add(c);
         }
@@ -551,20 +548,14 @@ public class SupplierController {
         }
     }
 
-    private List<SuppliersFieldsDTO> makeFieldsDTOList(int supplierId, List<String> fields) throws SuppliersException {
-        try {
-            List<SuppliersFieldsDTO> suppliersFieldsDTOs = new ArrayList<SuppliersFieldsDTO>();
-            for (String field : fields) {
-                // try to insert to database
-                SuppliersFieldsDTO dto = new SuppliersFieldsDTO(supplierId, field);
-                suppliersFieldsDAO.insert(dto);
-                suppliersFieldsDTOs.add(dto);
-            }
-            return suppliersFieldsDTOs;
-        } catch (Exception e) {
-            throw new SuppliersException(
-                    "A database error occurred while inserting fields to new supplier " + supplierId);
+    private List<SuppliersFieldsDTO> makeFieldsDTOList(int supplierId, List<String> fields) {
+        List<SuppliersFieldsDTO> suppliersFieldsDTOs = new ArrayList<>();
+        for (String field : fields) {
+            // try to insert to database
+            SuppliersFieldsDTO dto = new SuppliersFieldsDTO(supplierId, field);
+            suppliersFieldsDTOs.add(dto);
         }
+        return suppliersFieldsDTOs;
     }
 
     /**

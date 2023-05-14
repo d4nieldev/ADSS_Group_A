@@ -106,7 +106,7 @@ public class SupplierDAO extends DAO<SupplierDTO> {
     }
 
     public int getLastId() throws SQLException {
-        String query = "SELECT Max(supplierId) FROM Suppliers;";
+        String query = "SELECT Max(id) FROM Suppliers;";
         ResultSet rs = repo.executeQuery(query);
         SupplierDTO dto = makeDTO(rs);
         if (dto == null) {

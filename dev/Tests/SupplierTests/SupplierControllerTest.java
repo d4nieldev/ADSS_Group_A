@@ -12,7 +12,6 @@ import java.util.TreeMap;
 
 import org.junit.After;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 
 import BusinessLayer.Inventory.CategoryController;
@@ -28,13 +27,13 @@ import DataAccessLayer.DTOs.ReceiptItemDTO;
 
 public class SupplierControllerTest {
 
-    SupplierController sc = SupplierController.getInstance();
+    private static SupplierController sc = SupplierController.getInstance();
 
     @Before
     public void setup() {
         try {
             // ProductController.getInstance().init();
-            SupplierController.getInstance().init();
+            sc.init();
             createSupplier0();
             createProduct();
         } catch (Exception e) {
@@ -45,9 +44,9 @@ public class SupplierControllerTest {
 
     @After
     public void clearController() throws SQLException {
-        SupplierController.getInstance().deleteSupplier(0);
-        ProductController.getInstance().clearData();
-        SupplierController.getInstance().clearData();
+        // sc.deleteSupplier(0);
+        // ProductController.getInstance().clearData();
+        // sc.clearData();
     }
 
     private static <T> List<T> createList(T... args) {
@@ -77,7 +76,7 @@ public class SupplierControllerTest {
         List<String> contactPhones = createList("0525948325", "0535669897");
         int maxSupplyDays = 4;
 
-        SupplierController.getInstance().addOnOrderSupplierBaseAgreement(name, phone, bankAccount, fields,
+        sc.addOnOrderSupplierBaseAgreement(name, phone, bankAccount, fields,
                 paymentCondition, amountToDiscount, contactNames, contactPhones, maxSupplyDays);
     }
 
@@ -155,7 +154,7 @@ public class SupplierControllerTest {
         List<String> contactPhones = createList("0525869525");
         List<Integer> days = createList(2, 4);
         try {
-            SupplierController.getInstance().addFixedDaysSupplierBaseAgreement(name, phone, bankAccount, fields,
+            sc.addFixedDaysSupplierBaseAgreement(name, phone, bankAccount, fields,
                     paymentCondition,
                     amountToDiscount, contactNames, contactPhones, days);
             Supplier s = sc.getSupplierById(1);
@@ -183,7 +182,7 @@ public class SupplierControllerTest {
         List<String> contactPhones = createList("0525869525");
         int maxSupplyDays = 7;
         try {
-            SupplierController.getInstance().addOnOrderSupplierBaseAgreement(name, phone, bankAccount, fields,
+            sc.addOnOrderSupplierBaseAgreement(name, phone, bankAccount, fields,
                     paymentCondition,
                     amountToDiscount, contactNames, contactPhones, maxSupplyDays);
             Supplier s = sc.getSupplierById(1);
@@ -212,7 +211,7 @@ public class SupplierControllerTest {
         String address = "Shilo 4, Ashkelon";
         Integer maxPreparationDays = 3;
         try {
-            SupplierController.getInstance().addSelfPickupSupplierBaseAgreement(name, phone, bankAccount, fields,
+            sc.addSelfPickupSupplierBaseAgreement(name, phone, bankAccount, fields,
                     paymentCondition,
                     amountToDiscount, contactNames, contactPhones, address, maxPreparationDays);
             Supplier s = sc.getSupplierById(1);

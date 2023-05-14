@@ -1,11 +1,8 @@
 package BusinessLayer.Suppliers;
 
-import BusinessLayer.InveontorySuppliers.Discount;
-import DataAccessLayer.DTOs.OnOrderSuppliersDTO;
-
 import java.time.LocalDate;
-import java.util.List;
-import java.util.TreeMap;
+
+import DataAccessLayer.DTOs.OnOrderSuppliersDTO;
 
 class OnOrderSupplier extends Supplier {
     // private LocalDate lastOrderDate;

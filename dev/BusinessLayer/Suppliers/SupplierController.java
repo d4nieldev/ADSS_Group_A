@@ -601,7 +601,7 @@ public class SupplierController {
         return getSupplierById(supplierID).getRandomContact();
     }
 
-    public void clearPresistenceData() {
+    public void clearData() {
         idToSupplier.clear();
         nextSupplierIdInSystem = 0;
     }

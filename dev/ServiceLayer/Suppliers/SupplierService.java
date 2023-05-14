@@ -1,7 +1,10 @@
 package ServiceLayer.Suppliers;
 
+import java.sql.SQLException;
 import java.util.List;
 import java.util.TreeMap;
+
+import javax.management.RuntimeErrorException;
 
 import BusinessLayer.InveontorySuppliers.ProductController;
 import BusinessLayer.Suppliers.SupplierController;
@@ -10,9 +13,20 @@ public class SupplierService {
     private SupplierController supplierController;
     private ProductController productController;
 
-    public SupplierService() {
+    private SupplierService() {
         supplierController = SupplierController.getInstance();
         productController = ProductController.getInstance();
+    }
+
+    public static SupplierService create() {
+        try {
+            SupplierService service = new SupplierService();
+            service.supplierController.init();
+            // service.productController.init();
+            return service;
+        } catch (SQLException e) {
+            throw new RuntimeException("Error initializing SupplierService");
+        }
     }
 
     /**

@@ -30,11 +30,8 @@ public class Program {
                 case "reservations":
                     ReservationSystem.reservations(commandTokens);
                     break;
-                case "ready":
-                    ReservationSystem.ready();
-                    break;
-                case "addProduct":
-                    ReservationSystem.addProduct(commandTokens);
+                case "addPeriodicReservation":
+                    ReservationSystem.addPeriodicReservation(scanner, commandTokens);
                     break;
                 case "addSupplier":
                     SupplierSystem.addSupplier(scanner);

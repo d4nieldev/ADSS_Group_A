@@ -8,7 +8,7 @@ import java.util.Scanner;
 import ServiceLayer.Suppliers.ReservationService;
 
 public class ReservationSystem {
-    private static ReservationService rs = new ReservationService();
+    private static ReservationService rs = ReservationService.create();
 
     public static void help() {
         String manual = "";
@@ -25,7 +25,6 @@ public class ReservationSystem {
         manual += "addPeriodicReservation [supplier_id] [branch_id] [week_day] = add a new periodic reservation for the supplier and branch\n";
         manual += "receipt [reservation_id] = show all items, amounts, and prices for this reservation\n";
         manual += "reservations [supplier_id] = show all reservations history with the supplier\n";
-        manual += "addProduct [id] [name] [manufacturer] [category_id] = add a new product to the system\n";
         manual += "===========================================================================================";
         System.out.println(manual);
     }
@@ -227,27 +226,6 @@ public class ReservationSystem {
             return;
         }
         System.out.println(rs.getSupplierReservations(supplierId));
-    }
-
-    public static void addProduct(String[] commandTokens) {
-        if (commandTokens.length != 5) {
-            System.out.println("addProduct command must have 5 arguments. Please try again.\n");
-            return;
-        }
-        int productId = tryParseInt(commandTokens[1], Integer.MIN_VALUE);
-        if (productId == Integer.MIN_VALUE) {
-            System.out.println("product id must be an integer. Please try again.\n");
-            return;
-        }
-        String name = commandTokens[2];
-        String manufacturer = commandTokens[3];
-        int categoryId = tryParseInt(commandTokens[4], Integer.MIN_VALUE);
-        if (categoryId == Integer.MIN_VALUE) {
-            System.out.println("category id must be an integer. Please try again.\n");
-            return;
-        }
-
-        System.out.println(rs.addProduct(productId, name, manufacturer, categoryId));
     }
 
     public static int tryParseInt(String s, int defaultValue) {

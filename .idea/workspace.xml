@@ -4,8 +4,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a2472df3-0b1c-47fc-bcd6-f26fc4f0a51c" name="Changes" comment="add tests to product branch">
-      <change beforePath="$PROJECT_DIR$/dev/Tests/InventoryTest/ProductBranchTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/Tests/InventoryTest/ProductBranchTest.java" afterDir="false" />
+    <list default="true" id="a2472df3-0b1c-47fc-bcd6-f26fc4f0a51c" name="Changes" comment="finish reports">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dev/BusinessLayer/Inventory/DeficientReport.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/BusinessLayer/Inventory/DeficientReport.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dev/BusinessLayer/Inventory/ExpiredAndFlawReport.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/BusinessLayer/Inventory/ExpiredAndFlawReport.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dev/BusinessLayer/Inventory/ReportController.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/BusinessLayer/Inventory/ReportController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dev/BusinessLayer/InveontorySuppliers/Branch.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/BusinessLayer/InveontorySuppliers/Branch.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dev/ServiceLayer/inventory/ReportService.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/ServiceLayer/inventory/ReportService.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -46,13 +51,6 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "create.test.in.the.same.root": "true",
-    "last_opened_file_path": "/Users/Metar/Documents/GitHub/ADSS_Group_A/dev/Tests"
-  }
-}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/dev/Tests" />
@@ -185,6 +183,7 @@
         </entry>
       </map>
     </option>
+    <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="PeriodicReservation DAO+DTO" />

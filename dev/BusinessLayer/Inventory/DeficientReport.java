@@ -22,6 +22,14 @@ public class DeficientReport extends Report {
         this.products = branch.getDeficiencyProductBranches(deficiencyReportDTO.getIdToProductBranch());
     }
 
+    public HashMap<Integer, ProductBranch> getProducts() {
+        return products;
+    }
+
+    public Map<Integer, Integer> getIdToMissingAmount() {
+        return idToMissingAmount;
+    }
+
 //    public HashMap<Integer, String> getIdToName() {
 //        return idToName;
 //    }

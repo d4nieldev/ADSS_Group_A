@@ -38,6 +38,10 @@ public class ExpiredAndFlawReport extends Report {
         return codeToSpecificDescription;
     }
 
+    public HashMap<Integer,ProductBranch> getProducts() {
+        return products;
+    }
+
 //    public HashMap<Integer, String> getIdsToName() {
 //
 //        return idsToName;

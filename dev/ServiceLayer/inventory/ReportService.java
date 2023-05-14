@@ -7,6 +7,7 @@ import BusinessLayer.InveontorySuppliers.ProductController;
 import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 public class ReportService {
@@ -21,7 +22,7 @@ public class ReportService {
         this.categoryController = CategoryController.getInstance();
         this.branchController = BranchController.getInstance();
     }
-    public void importInventoryReport(int branchId) {
+    public void importInventoryReport(int branchId) throws Exception {
 
         InventoryReport inventoryReport = reportController.importInventoryReport(branchId);
 
@@ -32,8 +33,8 @@ public class ReportService {
 
         Set<Integer> productsCode = inventoryReport.getIdToName().keySet();
         HashMap<Integer,String> codeToName = inventoryReport.getIdToName();
-        HashMap<Integer,Integer> shelfAmount = inventoryReport.getIdToShelfAmount();
-        HashMap<Integer,Integer> storageAmount = inventoryReport.getIdToStorageAmount();
+        Map<Integer,Integer> shelfAmount = inventoryReport.getIdToShelfAmount();
+        Map<Integer,Integer> storageAmount = inventoryReport.getIdToStorageAmount();
         int index = 1;
         for (Integer productCode : productsCode) {
             System.out.printf("%-5d%-20s%-10d%-20d%-20d%n", index, codeToName.get(productCode), productCode, shelfAmount.get(productCode), storageAmount.get(productCode));
@@ -72,8 +73,8 @@ public class ReportService {
 
         Set<Integer> productsCode = inventoryReport.getIdToName().keySet();
         HashMap<Integer,String> codeToName = inventoryReport.getIdToName();
-        HashMap<Integer,Integer> shelfAmount = inventoryReport.getIdToShelfAmount();
-        HashMap<Integer,Integer> storageAmount = inventoryReport.getIdToStorageAmount();
+        Map<Integer,Integer> shelfAmount = inventoryReport.getIdToShelfAmount();
+        Map<Integer,Integer> storageAmount = inventoryReport.getIdToStorageAmount();
         int index = 1;
         for (Integer productCode : productsCode) {
             System.out.printf("%-5d%-20s%-20d%-20d%-20d%n", index, codeToName.get(productCode), productCode, shelfAmount.get(productCode), storageAmount.get(productCode));
@@ -95,8 +96,8 @@ public class ReportService {
 
         Set<Integer> productsCode = inventoryReport.getIdToName().keySet();
         HashMap<Integer,String> codeToName = inventoryReport.getIdToName();
-        HashMap<Integer,Integer> shelfAmount = inventoryReport.getIdToShelfAmount();
-        HashMap<Integer,Integer> storageAmount = inventoryReport.getIdToStorageAmount();
+        Map<Integer,Integer> shelfAmount = inventoryReport.getIdToShelfAmount();
+        Map<Integer,Integer> storageAmount = inventoryReport.getIdToStorageAmount();
         int index = 1;
         for (Integer productCode : productsCode) {
             System.out.printf("%-5d%-20s%-20d%-20d%-20d%n", index, codeToName.get(productCode), productCode, shelfAmount.get(productCode), storageAmount.get(productCode));
@@ -107,7 +108,7 @@ public class ReportService {
         System.out.println("===============================================");
     }
 
-    public void importExpiredAndFlawsReport(int branchId) {
+    public void importExpiredAndFlawsReport(int branchId) throws Exception {
         ExpiredAndFlawReport expiredAndFlawReport = reportController.importExpiredAndFlawReport(branchId);
 
         // Print header
@@ -119,26 +120,24 @@ public class ReportService {
         System.out.format("%-10s%-20s%-15s%-20s%-25s%-25s%n", "NO.", "NAME", "Category Name", "Specific ID", "FlawDescription" ,"ExpiredDate");
 
         // Get all flow and expired products
-        Set<Integer> productsCode = expiredAndFlawReport.getIdsToName().keySet();
-        HashMap<Integer,String> codeToName = expiredAndFlawReport.getIdsToName();
-        HashMap<Integer,HashMap<Integer, LocalDate>> idToExpiredSpecificIdAndDate =expiredAndFlawReport.getIdToExpiredSpecificIdAndDate();
-        HashMap<Integer , HashMap<Integer,String>> codeToSpecificDescription = expiredAndFlawReport.getCodeToSpecificDescription();
-        HashMap<Integer,String> codeToCategory = expiredAndFlawReport.getCodeToCategory();
+        HashMap<Integer,ProductBranch> products = expiredAndFlawReport.getProducts();
+        HashMap<Integer, HashMap<Integer, LocalDate>> idToExpiredSpecificIdAndDate = expiredAndFlawReport.getIdToExpiredSpecificIdAndDate();
+        HashMap<Integer, HashMap<Integer, String>> codeToSpecificDescription = expiredAndFlawReport.getCodeToSpecificDescription();
 
         int index = 0;
         // Iterate through each general product and print its flow products
-        for (Integer productCode : productsCode) {
+        for (Integer productCode : products.keySet()) {
             HashMap<Integer, String> flowProducts = codeToSpecificDescription.get(productCode);
             for (int id : flowProducts.keySet()) {
-                System.out.format("%-10d%-20s%-15s%-20d%-25s%-25s%n", index++, codeToName.get(productCode), codeToCategory.get(productCode), id, flowProducts.get(id),"X");
+                System.out.format("%-10d%-20s%-15s%-20d%-25s%-25s%n", index++, products.get(productCode).getName(), products.get(productCode).getCategory(), id, flowProducts.get(id),"X");
             }
         }
 
         // Iterate through all expired products and print the same details, with "EXPIRED" as the flow description
-        for (Integer productCode : productsCode) {
+        for (Integer productCode : products.keySet()) {
             HashMap<Integer, LocalDate> expiredDate = idToExpiredSpecificIdAndDate.get(productCode);
             for (int id : expiredDate.keySet()) {
-                System.out.format("%-10d%-20s%-15s%-20d%-25s%-25s%n", index++, codeToName.get(productCode), codeToCategory.get(productCode), id, "X","Expired at: " + expiredDate.get(id));
+                System.out.format("%-10d%-20s%-15s%-20d%-25s%-25s%n", index++, products.get(productCode).getName(), products.get(productCode).getCategory(), id, "X","Expired at: " + expiredDate.get(id));
             }
         }
 
@@ -158,26 +157,24 @@ public class ReportService {
         System.out.format("%-10s%-20s%-15s%-20s%-25s%-25s%n", "NO.", "NAME", "Category Name", "Specific ID", "FlawDescription" ,"ExpiredDate");
 
         // Get all flow and expired products
-        Set<Integer> productsCode = expiredAndFlawReport.getIdsToName().keySet();
-        HashMap<Integer,String> codeToName = expiredAndFlawReport.getIdsToName();
-        HashMap<Integer,HashMap<Integer, LocalDate>> idToExpiredSpecificIdAndDate =expiredAndFlawReport.getIdToExpiredSpecificIdAndDate();
-        HashMap<Integer , HashMap<Integer,String>> codeToSpecificDescription = expiredAndFlawReport.getCodeToSpecificDescription();
-        HashMap<Integer,String> codeToCategory = expiredAndFlawReport.getCodeToCategory();
+        HashMap<Integer,ProductBranch> products = expiredAndFlawReport.getProducts();
+        HashMap<Integer, HashMap<Integer, LocalDate>> idToExpiredSpecificIdAndDate = expiredAndFlawReport.getIdToExpiredSpecificIdAndDate();
+        HashMap<Integer, HashMap<Integer, String>> codeToSpecificDescription = expiredAndFlawReport.getCodeToSpecificDescription();
 
         int index = 0;
         // Iterate through each general product and print its flow products
-        for (Integer productCode : productsCode) {
+        for (Integer productCode : products.keySet()) {
             HashMap<Integer, String> flowProducts = codeToSpecificDescription.get(productCode);
             for (int id : flowProducts.keySet()) {
-                System.out.format("%-10d%-20s%-15s%-20d%-25s%-25s%n", index++, codeToName.get(productCode), codeToCategory.get(productCode), id, flowProducts.get(id),"X");
+                System.out.format("%-10d%-20s%-15s%-20d%-25s%-25s%n", index++, products.get(productCode).getName(), products.get(productCode).getCategory(), id, flowProducts.get(id),"X");
             }
         }
 
         // Iterate through all expired products and print the same details, with "EXPIRED" as the flow description
-        for (Integer productCode : productsCode) {
+        for (Integer productCode : products.keySet()) {
             HashMap<Integer, LocalDate> expiredDate = idToExpiredSpecificIdAndDate.get(productCode);
             for (int id : expiredDate.keySet()) {
-                System.out.format("%-10d%-20s%-15s%-20d%-25s%-25s%n", index++, codeToName.get(productCode), codeToCategory.get(productCode), id, "X","Expired at: " + expiredDate.get(id));
+                System.out.format("%-10d%-20s%-15s%-20d%-25s%-25s%n", index++, products.get(productCode).getName(), products.get(productCode).getCategory(), id, "X","Expired at: " + expiredDate.get(id));
             }
         }
 
@@ -185,7 +182,7 @@ public class ReportService {
         System.out.println("====================================================");
     }
 
-    public void importDeficientReport(int branchId) {
+    public void importDeficientReport(int branchId) throws Exception {
 
         DeficientReport deficientReport = reportController.importDeficientReport(branchId);
 
@@ -193,15 +190,13 @@ public class ReportService {
         System.out.println("          Deficiency Report");
         System.out.println("===============================================");
         System.out.printf("%-5s%-20s%-20s%-20s%-20s%-20s%n", "NO.", "Product Name", "Code", "TotalAmount" ,"MinQuantity", "IdealQuantity");
-        Set<Integer> productsCode = deficientReport.getIdToName().keySet();
-        HashMap<Integer,String> codeToName = deficientReport.getIdToName();
-        HashMap<Integer,Integer> totalAmount = deficientReport.getIdToTotalAmount();
-        HashMap<Integer,Integer> minQuantity = deficientReport.getIdToMinQuantity();
-        HashMap<Integer,Integer> idealQuantity = deficientReport.getIdToIdealQuantity();
+
+        HashMap<Integer,ProductBranch> products = deficientReport.getProducts();
+        Map<Integer, Integer> idToMissingAmount = deficientReport.getIdToMissingAmount();
 
         int index = 1;
-        for (Integer productCode : productsCode) {
-            System.out.printf("%-5d%-20s%-10d%-20d%-20d%-20d%n", index, codeToName.get(productCode), productCode, totalAmount.get(productCode), minQuantity.get(productCode), idealQuantity.get(productCode));
+        for (Integer productCode : products.keySet()) {
+            System.out.printf("%-5d%-20s%-10d%-20d%-20d%-20d%n", index, products.get(productCode).getName(), productCode, idToMissingAmount.get(productCode));
 
             index++;
         }
@@ -218,14 +213,12 @@ public class ReportService {
         System.out.println("===============================================");
         System.out.printf("%-5s%-20s%-20s%-20s%-20s%-20s%ns", "NO.", "Product Name", "Code", "TotalAmount" ,"MinQuantity", "IdealQuantity");
 
-        Set<Integer> productsCode = deficientReport.getIdToName().keySet();
-        HashMap<Integer,String> codeToName = deficientReport.getIdToName();
-        HashMap<Integer,Integer> totalAmount = deficientReport.getIdToTotalAmount();
-        HashMap<Integer,Integer> minQuantity = deficientReport.getIdToMinQuantity();
-        HashMap<Integer,Integer> idealQuantity = deficientReport.getIdToIdealQuantity();
+        HashMap<Integer,ProductBranch> products = deficientReport.getProducts();
+        Map<Integer, Integer> idToMissingAmount = deficientReport.getIdToMissingAmount();
+
         int index = 1;
-        for (Integer productCode : productsCode) {
-            System.out.printf("%-5d%-20s%-10d%-20d%-20d%-20d%n", index, codeToName.get(productCode), productCode, totalAmount.get(productCode), minQuantity.get(productCode), idealQuantity.get(productCode));
+        for (Integer productCode : products.keySet()) {
+            System.out.printf("%-5d%-20s%-10d%-20d%-20d%-20d%n", index, products.get(productCode).getName(), productCode, idToMissingAmount.get(productCode));
 
             index++;
         }

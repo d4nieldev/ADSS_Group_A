@@ -1,14 +1,13 @@
 package ServiceLayer.Suppliers;
 
 import java.sql.SQLException;
+import java.time.DayOfWeek;
 import java.util.Map;
 
-import BusinessLayer.InveontorySuppliers.Product;
 import BusinessLayer.InveontorySuppliers.ProductController;
 import BusinessLayer.InveontorySuppliers.Reservation;
 import BusinessLayer.Suppliers.ReservationController;
 import BusinessLayer.exceptions.SuppliersException;
-import DataAccessLayer.DTOs.ProductDTO;
 
 public class ReservationService {
     private ReservationController reservationController;
@@ -33,6 +32,30 @@ public class ReservationService {
             int destinationBranch) {
         try {
             reservationController.makeManualReservation(supplierToproductToAmount, destinationBranch);
+            return "Success";
+        } catch (SuppliersException e) {
+            return e.getMessage();
+        } catch (SQLException e) {
+            return "DATABASE ERROR: " + e.getMessage();
+        }
+    }
+
+    public String addPeriodicReservation(int supplierId, int branchId, DayOfWeek day,
+            Map<Integer, Integer> productToAmount) {
+        try {
+            reservationController.addPeriodicReservation(branchId, supplierId, day, productToAmount);
+            return "Success";
+        } catch (SuppliersException e) {
+            return e.getMessage();
+        } catch (SQLException e) {
+            return "DATABASE ERROR: " + e.getMessage();
+        }
+    }
+
+    public String updatePeriodicReservation(int supplierId, int branchId, DayOfWeek day,
+            Map<Integer, Integer> productToAmount) {
+        try {
+            reservationController.updatePeriodicReservation(branchId, supplierId, day, productToAmount);
             return "Success";
         } catch (SuppliersException e) {
             return e.getMessage();

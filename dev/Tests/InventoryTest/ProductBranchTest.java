@@ -57,7 +57,7 @@ public class ProductBranchTest {
     }
 
     @Test
-    public void testApplyDiscount() throws SQLException, SQLException {
+    public void testApplyDiscount() throws Exception {
         // Arrange
         List<Discount> discountsHistory = new ArrayList<>();
         DiscountDTO discountDTO1 = new DiscountDTO(1,LocalDate.now().minusDays(10),LocalDate.now().plusDays(10),0.1,"Percentage Discount");
@@ -76,8 +76,8 @@ public class ProductBranchTest {
         // Arrange
         List<Discount> discountsHistory = new ArrayList<>();
         DiscountDTO discountDTO1 = new DiscountDTO(1,LocalDate.now().minusDays(10),LocalDate.now().plusDays(10),0.1,"Percentage Discount");
-        DiscountDTO discountDTO2 = new DiscountDTO(1,LocalDate.now().minusDays(10),LocalDate.now().plusDays(10),0.15,"Percentage Discount");
-        DiscountDTO discountDTO3 = new DiscountDTO(1,LocalDate.now().minusDays(10),LocalDate.now().plusDays(10),0.2,"Percentage Discount");
+        DiscountDTO discountDTO2 = new DiscountDTO(2,LocalDate.now().minusDays(10),LocalDate.now().plusDays(10),0.15,"Percentage Discount");
+        DiscountDTO discountDTO3 = new DiscountDTO(3,LocalDate.now().minusDays(10),LocalDate.now().plusDays(10),0.2,"Percentage Discount");
         DiscountPercentage discountPercentage1 = new DiscountPercentage(discountDTO1);
         DiscountPercentage discountPercentage2 = new DiscountPercentage(discountDTO2);
         DiscountPercentage discountPercentage3 = new DiscountPercentage(discountDTO3);
@@ -113,9 +113,39 @@ public class ProductBranchTest {
         boolean result = productBranch.getPrice() == price * (1 -0.2);
         assertTrue(result);
     }
-//    @Test
-//    public void testGetAllExpired() throws Exception {
-//        // Arrange
-//        List<SpecificProduct>
-//    }
+    @Test
+    public void testGetAllExpired() throws Exception {
+        // Arrange
+        ProductBranch productBranch = branchController.getBranchById(1).getProductByCode(1);
+        // Act
+        List<SpecificProduct> allExpired = productBranch.getAllExpired();
+        SpecificProduct expired = productBranch.getSpecificById(2);
+        SpecificProduct result = allExpired.get(0);
+        // Assert
+        assertEquals(expired,result);
+    }
+
+    @Test
+    public void testReceiveSupply() throws Exception {
+        // Arrange
+        ProductBranch productBranch = branchController.getBranchById(1).getProductByCode(1);
+        // Act
+        int amount = 3;
+        productBranch.receiveSupply(amount,5,LocalDate.now().plusMonths(1),1);
+        int result = productBranch.getTotalAmount();
+        // Assert
+        assertEquals(amount,result);
+
+    }
+    @Test
+    public void testGetOnStorage() throws Exception {
+        // Arrange
+        ProductBranch productBranch = branchController.getBranchById(1).getProductByCode(1);
+        // Act
+        int amount = 3;
+        productBranch.receiveSupply(amount,5,LocalDate.now().plusMonths(1),1);
+        int result = productBranch.getTotalAmount() - productBranch.getOnShelfProduct().size();
+        // Assert
+        assertEquals(amount,result);
+    }
     }

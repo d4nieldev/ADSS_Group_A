@@ -47,11 +47,6 @@ public class SpecificProductTest {
         ProductBranchDTO productBranchDTO = new ProductBranchDTO(productDTO,branch.getId(),15,50,100,allSpecific);
         ProductBranch productBranch = new ProductBranch(productBranchDTO);
     }
-
-    @After
-    public void tearDown() throws Exception {
-    }
-
     @Test
     public void testSetFlawDescription() throws Exception {
         SpecificProduct sp = branch.getProductByCode(1).getSpecificById(1);
@@ -59,7 +54,6 @@ public class SpecificProductTest {
         sp.setFlawDescription(description);
         assertEquals(description, sp.getFlawDescription());
     }
-
     @Test
     void testSetStatus() throws Exception {
         SpecificProduct sp = branch.getProductByCode(1).getSpecificById(1);

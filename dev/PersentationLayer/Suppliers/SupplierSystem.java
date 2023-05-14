@@ -362,12 +362,17 @@ public class SupplierSystem {
         System.out.println("**Notice that there are two types of discounts: 1 - By precentage , 2 - By fixed price**");
         System.out.println(
                 "**For precentage please type a float between (0-1) and '%'. For example: to have 10% you need to type 0.01%.**");
+        // TODO: we make 10% form.
         System.out.println("**For fixed price it could be any price**");
         TreeMap<Integer, String> amountTodiscountMap = new TreeMap<Integer, String>();
-        System.out.print("Enter amount discount pair: ");
-        String input = scanner.nextLine();
+        String input;
 
-        while (!input.equals("done")) {
+        while (true) {
+            System.out.print("Enter amount discount pair: ");
+            input = scanner.nextLine();
+            if (input.equals("done"))
+                break;
+
             String[] AmountDiscount = input.split(" ");
             if (AmountDiscount.length != 2) {
                 System.out.println("Invalid amount discount pair. Try again");
@@ -380,9 +385,6 @@ public class SupplierSystem {
             }
             String discount = AmountDiscount[1];
             amountTodiscountMap.put(amount, discount);
-
-            System.out.print("Enter amount discount pair: ");
-            input = scanner.nextLine();
         }
         return amountTodiscountMap;
     }

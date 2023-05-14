@@ -2,5 +2,6 @@
   "java.project.referencedLibraries": [
     "lib/**/*.jar",
     "c:\\Users\\Daniel\\Downloads\\sqlite-jdbc-3.41.2.1.jar"
-  ]
+  ],
+  "java.debug.settings.onBuildFailureProceed": true
 }

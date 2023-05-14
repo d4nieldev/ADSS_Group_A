@@ -26,7 +26,7 @@ public class DiscountDAO extends DAO<DiscountDTO> {
     @Override
     public DiscountDTO makeDTO(ResultSet rs) throws SQLException {
         if (!rs.next())
-            throw new SQLException("Can't make DTO from nothing!");
+            return null;
 
         int id = rs.getInt("id");
         LocalDate startDate = LocalDate.parse(rs.getString("startDate"));
@@ -45,7 +45,7 @@ public class DiscountDAO extends DAO<DiscountDTO> {
     }
 
     public int getLastId() throws SQLException {
-        String query = "SELECT Max(id) FROM Discounts;";
+        String query = "SELECT * FROM Discounts WHERE id = (SELECT Max(id) FROM Discounts);";
         ResultSet rs = repo.executeQuery(query);
         DiscountDTO dto = makeDTO(rs);
         if (dto == null) {

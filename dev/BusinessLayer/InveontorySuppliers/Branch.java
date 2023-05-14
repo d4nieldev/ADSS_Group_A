@@ -72,18 +72,18 @@ public void addNewProductBranch(ProductBranchDTO productBranchDTO) throws SQLExc
     ProductBranch newProduct = new ProductBranch(productBranchDTO)  ;
     allProductBranches.put(newProduct.getCode(), newProduct);
 }
-    public void receiveSupply(int generalId) {
-        LocalDate tomorrow = LocalDate.now().plusDays(1);
-        LocalDate yesterday = LocalDate.now().minusDays(1);
-        // SpecificProduct sp1 = new SpecificProduct(generalId,20,tomorrow);
-        // SpecificProduct sp2 = new SpecificProduct(generalId,20,tomorrow);
-        // SpecificProduct sp3 = new SpecificProduct(generalId,20,yesterday);
-        // SpecificProduct sp4 = new SpecificProduct(generalId,20,yesterday);
-//        ProductBranch productBranch = allProductBranches.get(generalId);
-//        productBranch.receiveSupply(2, 15, tomorrow);
-//        productBranch.receiveSupply(2, 15, yesterday);
-
-    }
+//    public void receiveSupply(int generalId) {
+//        LocalDate tomorrow = LocalDate.now().plusDays(1);
+//        LocalDate yesterday = LocalDate.now().minusDays(1);
+//        // SpecificProduct sp1 = new SpecificProduct(generalId,20,tomorrow);
+//        // SpecificProduct sp2 = new SpecificProduct(generalId,20,tomorrow);
+//        // SpecificProduct sp3 = new SpecificProduct(generalId,20,yesterday);
+//        // SpecificProduct sp4 = new SpecificProduct(generalId,20,yesterday);
+////        ProductBranch productBranch = allProductBranches.get(generalId);
+////        productBranch.receiveSupply(2, 15, tomorrow);
+////        productBranch.receiveSupply(2, 15, yesterday);
+//
+//    }
 
     /***
      * return an hash map with all new productBranch - or updated productBranch
@@ -128,8 +128,7 @@ public void addNewProductBranch(ProductBranchDTO productBranchDTO) throws SQLExc
 
     public void CheckForDeficiencyReservation() throws SQLException {
         boolean overCapacity = getTotalDeficiencyAmount() > minAmountForDeficiencyReservation;
-        if ( overCapacity) {
-
+        if (overCapacity) {
             makeDeficiencyReservation();
         }
     }
@@ -178,8 +177,7 @@ public void addNewProductBranch(ProductBranchDTO productBranchDTO) throws SQLExc
         boolean check = productBranch.checkForDeficiency();
         if(check){
             alertForDeficiency(productBranch);
-            int amount = productBranch.getIdealQuantity() -
-                    productBranch.getTotalAmount();
+            int amount = productBranch.getIdealQuantity() - productBranch.getTotalAmount();
             productToAmount.put(productBranch.getCode(),amount);
         }
 

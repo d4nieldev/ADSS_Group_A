@@ -26,7 +26,7 @@ public class ContactDAO extends DAO<ContactDTO> {
     @Override
     public ContactDTO makeDTO(ResultSet rs) throws SQLException {
         if (!rs.next())
-            throw new SQLException("Can't make DTO from nothing!");
+            return null;
 
         int supplierId = rs.getInt("supplierId");
         String phone = rs.getString("phone");

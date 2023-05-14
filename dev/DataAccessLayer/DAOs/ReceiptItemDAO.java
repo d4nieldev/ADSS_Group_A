@@ -27,7 +27,7 @@ public class ReceiptItemDAO extends DAO<ReceiptItemDTO> {
     @Override
     public ReceiptItemDTO makeDTO(ResultSet rs) throws SQLException {
         if (!rs.next())
-            throw new SQLException("Can't make DTO from nothing!");
+            return null;
 
         int reservationId = rs.getInt("reservationId");
         int productId = rs.getInt("productId");

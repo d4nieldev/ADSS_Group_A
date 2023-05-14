@@ -21,6 +21,7 @@ public class SupplierDAO extends DAO<SupplierDTO> {
     private PeriodicReservationDAO periodicReservationDAO;
     private Repository repo;
     private static SupplierDAO instance = null;
+    private DiscountDAO discountDAO;
 
     // public abstract List<FieldDTO> getFieldsBySupplierId(int supplierId);
     // public abstract void addFieldToSupplier(int supplierId, int fieldId);
@@ -32,6 +33,7 @@ public class SupplierDAO extends DAO<SupplierDTO> {
         supplierAmountToDiscountDAO = SupplierAmountToDiscountDAO.getInstance();
         periodicReservationDAO = PeriodicReservationDAO.getInstance();
         repo = Repository.getInstance();
+        discountDAO = DiscountDAO.getInstance();
     }
 
     public static SupplierDAO getInstance() {
@@ -73,6 +75,7 @@ public class SupplierDAO extends DAO<SupplierDTO> {
         // insert all amountToDiscount of the supplier
         for (Integer amount : dataObject.getAmountToDiscount().keySet()) {
             DiscountDTO disDTO = dataObject.getAmountToDiscount().get(amount);
+            discountDAO.insert(disDTO);
             SupplierAmountToDiscountDTO supDisDTO = new SupplierAmountToDiscountDTO(dataObject.getId(), amount, disDTO);
             supplierAmountToDiscountDAO.insert(supDisDTO);
         }
@@ -106,7 +109,7 @@ public class SupplierDAO extends DAO<SupplierDTO> {
     }
 
     public int getLastId() throws SQLException {
-        String query = "SELECT Max(supplierId) FROM Suppliers;";
+        String query = "SELECT * FROM Suppliers WHERE id = (SELECT Max(id) FROM Suppliers);";
         ResultSet rs = repo.executeQuery(query);
         SupplierDTO dto = makeDTO(rs);
         if (dto == null) {

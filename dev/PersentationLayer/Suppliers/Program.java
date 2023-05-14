@@ -2,9 +2,12 @@ package PersentationLayer.Suppliers;
 
 import java.util.Scanner;
 
+import DataAccessLayer.Repository;
+
 public class Program {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
+        Repository.getInstance();
         while (true) {
             System.out.print("> ");
             String[] commandTokens = scanner.nextLine().split(" ");

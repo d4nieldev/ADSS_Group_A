@@ -23,8 +23,14 @@ public class DiscountDTO implements DTO {
     public Map<String, String> getNameToVal() {
         Map<String, String> nameToVal = new HashMap<>();
         nameToVal.put("id", "" + id);
-        nameToVal.put("startDate", startDate.toString());
-        nameToVal.put("endDate", endDate.toString());
+        if (startDate == null)
+            nameToVal.put("startDate", null);
+        else
+            nameToVal.put("startDate", startDate.toString());
+        if (endDate == null)
+            nameToVal.put("endDate", null);
+        else
+            nameToVal.put("endDate", endDate.toString());
         nameToVal.put("val", "" + val);
         nameToVal.put("dType", dType);
         return nameToVal;

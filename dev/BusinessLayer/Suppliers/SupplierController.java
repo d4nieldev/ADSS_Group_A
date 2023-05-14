@@ -518,20 +518,36 @@ public class SupplierController {
         return res;
     }
 
-    private Discount makeDiscountFromValue(String value) {
+    private Discount makeDiscountFromValue(String value) throws SuppliersException {
         Discount dis = null;
         if (value.indexOf('%') != -1) {
             // means that the discount is of percentage type
+            double disVal = tryParseDouble((value.substring(0, value.length() - 1)), Double.MIN_VALUE);
+            if (disVal == Double.MIN_VALUE || disVal < 0 || disVal > 1) {
+                throw new SuppliersException("Invalid precentage discount value: " + value);
+            }
             DiscountDTO dto = new DiscountDTO(nextDiscountIdInSystem, LocalDate.now(), null,
-                    Double.parseDouble(value.substring(0, value.length() - 1)), "Precentage");
+                    disVal, "Precentage");
             dis = new DiscountPercentage(dto);
             return dis;
         } else {
             // means that the discount is of fixed type
+            double disVal = tryParseDouble((value.substring(0, value.length())), Double.MIN_VALUE);
+            if (disVal == Double.MIN_VALUE || disVal < 0) {
+                throw new SuppliersException("Invalid fixed discount value: " + value);
+            }
             DiscountDTO dto = new DiscountDTO(nextDiscountIdInSystem, LocalDate.now(), null,
-                    Double.parseDouble(value.substring(0, value.length())), "Fixed");
+                    disVal, "Fixed");
             dis = new DiscountFixed(dto);
             return dis;
+        }
+    }
+
+    public static double tryParseDouble(String s, double defaultValue) {
+        try {
+            return Double.parseDouble(s);
+        } catch (NumberFormatException e) {
+            return defaultValue;
         }
     }
 

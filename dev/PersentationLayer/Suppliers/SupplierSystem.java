@@ -17,15 +17,16 @@ public class SupplierSystem {
         manual += "deleteSupplier [supplier_id] = Deletes an existing supplier from the system.\n";
         manual += "editSupplier [supplier_id] = After typing this command, you can edit the supplier information with the following commands: \n";
         manual += "                              updateName [new_name]\n";
-        manual += "                              updatePhone [new_phone]\n";
         manual += "                              updateBankAccount [new_bankAccount]\n";
-        manual += "                              updateFields = The system will ask you to enter fields one by one until typing 'done'\n";
+        manual += "                              addField [new_field]\n";
+        manual += "                              removeField [field_to_remove]\n";
         manual += "                              updatePaymentCondition [new_paymentCondition]\n";
-        manual += "                              updateAmountDiscount = The system will ask you to enter an amount and discount (decimal)\n";
-        manual += "                                                       in this format \"[amount] [discount]\" until typing 'done' \n";
+        // manual += " updateAmountDiscount = The system will ask you to enter an amount
+        // and discount (decimal)\n";
+        // manual += " in this format \"[amount] [discount]\" until typing 'done' \n";
+        // TODO: add an update agreement command
         manual += "                              addContact [contact_phone] [contact_name]\n";
         manual += "                              deleteContact [contact_phone] [contact_name]\n";
-        manual += "                              deleteAllContacts\n";
         manual += "addAgreement [product_id] [supplier_id] = Adds a new product agreement with a supplier. The system will ask you about information needed to this action.\n";
         manual += "                                           If an agreement already exist, the system will update it to the new one.\n";
         manual += "getCard [supplier_id] = Information about the supplier will be presented.\n";
@@ -55,7 +56,7 @@ public class SupplierSystem {
         List<String> fields = makeFieldsList(scanner);
 
         // add amount-discount map
-        TreeMap<Integer, Double> amountTodiscount = makeAmountDiscountPercentageMap(scanner);
+        TreeMap<Integer, String> amountTodiscount = makeAmountDiscountMap(scanner);
 
         // add contacts list
         System.out.println("Enter contacts [phone] [name] pairs (enter 'done' to finish): ");
@@ -142,8 +143,16 @@ public class SupplierSystem {
                 case 3: {
                     System.out.print("Enter the supplier's address: ");
                     String address = scanner.nextLine();
+                    System.out.print("Enter the supplier's max preparation days: ");
+                    Integer maxPreparationDays;
+                    while (true) {
+                        maxPreparationDays = tryParseInt(scanner.nextLine(), Integer.MIN_VALUE);
+                        if (maxPreparationDays != Integer.MIN_VALUE)
+                            break;
+                        System.out.println("Maximum preparation days must be an integer!");
+                    }
                     msg = ss.addSelfPickupSupplierBaseAgreement(name, phone, bankAccount, fields, paymentCondition,
-                            amountTodiscount, names, phones, address);
+                            amountTodiscount, names, phones, address, maxPreparationDays);
                     System.out.println(msg);
                     enteredSupplierType = true;
                     break;
@@ -241,20 +250,23 @@ public class SupplierSystem {
                 else
                     msg = ss.setSupplierName(supId, editCommandTokens[1]);
                 break;
-            case "updatePhone":
-                if (editCommandTokens.length != 2)
-                    System.out.println("Expected phone. Try again");
-                else
-                    msg = ss.setSupplierPhone(supId, editCommandTokens[1]);
-                break;
             case "updateBankAccount":
                 if (editCommandTokens.length != 2)
                     System.out.println("Expected bank account. Try again");
                 else
                     msg = ss.setSupplierBankAccount(supId, editCommandTokens[1]);
                 break;
-            case "updateFields":
-                msg = ss.setSupplierFields(supId, makeFieldsList(scanner));
+            case "removeField":
+                if (editCommandTokens.length != 2)
+                    System.out.println("Expected remove field. Try again");
+                else
+                    msg = ss.removeSupplierField(supId, editCommandTokens[1]);
+                break;
+            case "addField":
+                if (editCommandTokens.length != 2)
+                    System.out.println("Expected add field. Try again");
+                else
+                    msg = ss.addSupplierField(supId, editCommandTokens[1]);
                 break;
             case "updatePaymentCondition":
                 if (editCommandTokens.length != 2)
@@ -262,17 +274,16 @@ public class SupplierSystem {
                 else
                     msg = ss.setSupplierPaymentCondition(supId, editCommandTokens[1]);
                 break;
-            case "updateAmountDiscount":
-                msg = ss.setSupplierAmountToDiscount(supId, makeAmountDiscountPercentageMap(scanner));
-                break;
+            // TODO: this functionality is not implemented yet. Maybe i should add th
+            // opthion to add a new amount-discount pair, or to add a new map.
+            // case "updateAmountDiscount":
+            // msg = ss.setSupplierAmountToDiscount(supId, makeAmountDiscountMap(scanner));
+            // break;
             case "deleteContact":
                 if (editCommandTokens.length != 3)
                     System.out.println("Expected phone and name. Try again");
                 else
                     msg = ss.deleteSupplierContact(supId, editCommandTokens[1], editCommandTokens[2]);
-                break;
-            case "deleteAllContacts":
-                msg = ss.deleteAllSupplierContacts(supId);
                 break;
             case "addContact":
                 msg = ss.addSupplierContact(supId, editCommandTokens[1], editCommandTokens[2]);
@@ -332,7 +343,7 @@ public class SupplierSystem {
             return;
         }
 
-        TreeMap<Integer, Double> amountDiscount = makeAmountDiscountPercentageMap(scanner);
+        TreeMap<Integer, String> amountDiscount = makeAmountDiscountMap(scanner);
 
         String msg = ss.addSupplierProductAgreement(supplierId, productId, productSupplierId, stockAmount, basePrice,
                 amountDiscount);
@@ -345,11 +356,14 @@ public class SupplierSystem {
      * 
      * @return
      */
-    private static TreeMap<Integer, Double> makeAmountDiscountPercentageMap(Scanner scanner) {
+    private static TreeMap<Integer, String> makeAmountDiscountMap(Scanner scanner) {
         System.out.println(
                 "Enter total amount to discount in format of [amount] [discount] pairs (enter 'done' to finish): ");
-        System.out.println("**Notice that the discount must be a percentage (0-100)**");
-        TreeMap<Integer, Double> amountTodiscountMap = new TreeMap<Integer, Double>();
+        System.out.println("**Notice that there are two types of discounts: 1 - By precentage , 2 - By fixed price**");
+        System.out.println(
+                "**For precentage please type a float between (0-1) and '%'. For example: to have 10% you need to type 0.01%.**");
+        System.out.println("**For fixed price it could be any price**");
+        TreeMap<Integer, String> amountTodiscountMap = new TreeMap<Integer, String>();
         System.out.print("Enter amount discount pair: ");
         String input = scanner.nextLine();
 
@@ -360,23 +374,12 @@ public class SupplierSystem {
                 continue;
             }
             Integer amount = tryParseInt(AmountDiscount[0], Integer.MIN_VALUE);
-            if (amount == Integer.MIN_VALUE) {
-                System.out.println("amount must be an integer!");
+            if (amount == Integer.MIN_VALUE || amount < 0) {
+                System.out.println("amount must be an non negative integer!");
                 continue;
             }
-            Double discount = tryParseDouble(AmountDiscount[1], Double.MIN_VALUE);
-            if (discount == Double.MIN_VALUE) {
-                System.out.println("discount must be a number!");
-                continue;
-            }
-            if (amount < 0 || discount < 0) {
-                System.out.println("Amount and discount cant be negative");
-            }
-            if (discount > 100) {
-                System.out.println("Discount must be a percentage (no more than 100%)");
-            }
-            // TODO: maybe ask the user to provide the discount percantage in 0.XX format.
-            amountTodiscountMap.put(amount, discount / 100);
+            String discount = AmountDiscount[1];
+            amountTodiscountMap.put(amount, discount);
 
             System.out.print("Enter amount discount pair: ");
             input = scanner.nextLine();

@@ -19,4 +19,12 @@ public class SuppliersFieldsDTO implements DTO {
         nameToVal.put("fieldName", fieldName);
         return nameToVal;
     }
+
+    public int getSupplierId() {
+        return supplierId;
+    }
+
+    public String getFieldName() {
+        return fieldName;
+    }
 }

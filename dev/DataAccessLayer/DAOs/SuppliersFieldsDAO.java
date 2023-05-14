@@ -35,15 +35,14 @@ public class SuppliersFieldsDAO extends DAO<SuppliersFieldsDTO> {
         return new SuppliersFieldsDTO(supplierId, fieldName);
     }
 
-    public List<String> getFieldsOfSupplier(int supplierId) throws SQLException {
+    public List<SuppliersFieldsDTO> getFieldsOfSupplier(int supplierId) throws SQLException {
         ResultSet rs = repo.executeQuery("SELECT * FROM " + tableName + " WHERE supplierId = ?;", supplierId);
-
-        List<String> fields = new ArrayList<>();
-        while (rs.next())
-            fields.add(rs.getString("fieldName"));
-
+        List<SuppliersFieldsDTO> fields = new ArrayList<>();
+        while (rs.next()) {
+            SuppliersFieldsDTO field = makeDTO(rs);
+            fields.add(field);
+        }
         rs.close();
-
         return fields;
     }
 

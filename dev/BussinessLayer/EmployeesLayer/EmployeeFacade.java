@@ -156,7 +156,7 @@ public class EmployeeFacade {
             employees.add(new Employee(employeeDTO));
         }
         for (Employee employee : employees) {
-            strPrint += employee.toString() + "\n";
+            strPrint += employee.newToString() + "\n";
         }
         return strPrint;
     }
@@ -172,7 +172,7 @@ public class EmployeeFacade {
             drivers.add(new Driver(driverDTO));
         }
         for (Driver driver : drivers) {
-            strPrint += driver.toString() + "\n";
+            strPrint += driver.newToString() + "\n";
         }
         return strPrint;
     }
@@ -224,7 +224,8 @@ public class EmployeeFacade {
 
     public String printDayDriversPast(LocalDate date) {
         String strDrivers = "";
-        for (Driver driver : drivers) {
+        List<Driver> driversForFunction = getDayDriversPast(date);
+        for (Driver driver : driversForFunction) {
             if (driver.getWorkedDates().contains(date)) {
                 strDrivers += driver.toString();
             }
@@ -234,7 +235,8 @@ public class EmployeeFacade {
 
     public String printDayDriversFuture(LocalDate date) {
         String strDrivers = "";
-        for (Driver driver : drivers) {
+        List<Driver> driversForFunction = getDayDriversFuture(date);
+        for (Driver driver : driversForFunction) {
             if (driver.getAvailableShiftDates().contains(date)) {
                 strDrivers += driver.toString();
             }
@@ -246,8 +248,14 @@ public class EmployeeFacade {
         LinkedList<Driver> returnDrivers = new LinkedList<>();
         for (Driver driver : drivers) {
             if (driver.getWorkedDates().contains(date)) {
-                returnDrivers.add(driver);
+                drivers.remove(driver);
             }
+        }
+        List<DriverDTO> driversDTO = driversDAO.getDriversByDate(date);
+        for (DriverDTO driverDTO : driversDTO) {
+            Driver d = new Driver(driverDTO);
+            drivers.add(d);
+            returnDrivers.add(d);
         }
         return returnDrivers;
     }
@@ -256,8 +264,14 @@ public class EmployeeFacade {
         LinkedList<Driver> returnDrivers = new LinkedList<>();
         for (Driver driver : drivers) {
             if (driver.getAvailableShiftDates().contains(date)) {
-                returnDrivers.add(driver);
+                drivers.remove(driver);
             }
+        }
+        List<DriverDTO> driversDTO = driversDAO.getDriversByDate(date);
+        for (DriverDTO driverDTO : driversDTO) {
+            Driver d = new Driver(driverDTO);
+            drivers.add(d);
+            returnDrivers.add(d);
         }
         return returnDrivers;
     }
@@ -266,6 +280,11 @@ public class EmployeeFacade {
     // Setters--------------------------------------------------------
 
     public LinkedList<Driver> getAllDrivers() {
+        List<DriverDTO> driversDTO = driversDAO.getAll();
+        drivers = new LinkedList<>();
+        for (DriverDTO driverDTO : driversDTO) {
+            drivers.add(new Driver(driverDTO));
+        }
         return drivers;
     }
 

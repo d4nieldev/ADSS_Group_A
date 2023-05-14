@@ -279,25 +279,25 @@ class HRSystem {
                     branchService.approveFinalShift(loginId,shiftId,branchId,shiftAssign);
                 }
 
-                else if(option.equals("8")){ // 8 add constraint for an employee to a shift
-                    System.out.println("You choose to add constraint for an employee to a shift.");
-                    System.out.println("please enter the following information:");
-                    System.out.println("");
+                // else if(option.equals("8")){ // 8 add constraint for an employee to a shift
+                //     System.out.println("You choose to add constraint for an employee to a shift.");
+                //     System.out.println("please enter the following information:");
+                //     System.out.println("");
 
-                    System.out.print("Branch Id: ");
-                    int branch = Integer.parseInt(sc.nextLine());
-                    System.out.println("");
+                //     System.out.print("Branch Id: ");
+                //     int branch = Integer.parseInt(sc.nextLine());
+                //     System.out.println("");
 
-                    System.out.print("Employee Id: ");
-                    int idEmployee = Integer.parseInt(sc.nextLine());
-                    System.out.println("");
+                //     System.out.print("Employee Id: ");
+                //     int idEmployee = Integer.parseInt(sc.nextLine());
+                //     System.out.println("");
 
-                    System.out.print("Shift Id: ");
-                    int shift = Integer.parseInt(sc.nextLine());
-                    System.out.println("");
+                //     System.out.print("Shift Id: ");
+                //     int shift = Integer.parseInt(sc.nextLine());
+                //     System.out.println("");
 
-                    branchService.addConstraint(branch, idEmployee, shift);
-                }
+                //     branchService.addConstraint(branch, idEmployee, shift);
+                // }
 
                 else if (option.equals("9")){ // 9 edit employee
                     System.out.print("Enter the Id of the employee you wish to edit: ");

@@ -15,7 +15,10 @@ public class Category {
         this.id = categoryDTO.getId();
         this.name = categoryDTO.getName();
         CategoryController catCon = CategoryController.getInstance();
-        this.parentCategory = catCon.getCategoryById(categoryDTO.getParentCategoryDTO().getId());
+        if (categoryDTO.getParentCategoryDTO() != null)
+            this.parentCategory = catCon.getCategoryById(categoryDTO.getParentCategoryDTO().getId());
+        else
+            this.parentCategory = null;
         this.categoryDTO = categoryDTO;
     }
 

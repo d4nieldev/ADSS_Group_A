@@ -59,9 +59,6 @@ public class Repository {
 
         ResultSet rs = stmt.executeQuery();
 
-        stmt.close();
-        conn.close();
-
         return rs;
     }
 

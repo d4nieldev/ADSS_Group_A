@@ -71,7 +71,6 @@ public class SupplierController {
      * @throws SQLException if a database error occurs
      */
     public void init() throws SQLException {
-
         if (!initialized) {
             loadSupplierLastId();
             loadDiscountLastId();
@@ -153,31 +152,25 @@ public class SupplierController {
             List<String> supplierFields, String paymentCondition, TreeMap<Integer, String> amountToDiscount,
             List<String> contactNames, List<String> contactPhones, List<Integer> days)
             throws SuppliersException, SQLException {
-        try {
-            // we add the office contact
-            addOfficeContact(contactNames, contactPhones, supplierPhone);
-            // first we try to make the supplier DTO
-            SupplierDTO supDTO = new SupplierDTO(nextSupplierIdInSystem, supplierName, supplierBankAccount,
-                    paymentCondition,
-                    makeFieldsDTOList(nextSupplierIdInSystem, supplierFields),
-                    makeContactDTOList(makeContactList(contactPhones, contactNames, nextSupplierIdInSystem)),
-                    makeDiscountDTOMap(amountToDiscount), new HashMap<Integer, PeriodicReservationDTO>());
-            // now we make fixedDaysSupplierDtosList
-            List<FixedDaysSupplierDTO> dtos = new LinkedList<>();
-            for (int day : days) {
-                FixedDaysSupplierDTO dto = new FixedDaysSupplierDTO(supDTO, day);
-                // now we insert to the proper DAO
-                fixedDaysSupplierDAO.insert(dto);
-            }
-            // now we insert to business layer
-            FixedDaysSupplier fds = new FixedDaysSupplier(dtos);
-            idToSupplier.put(nextSupplierIdInSystem, fds);
-            nextSupplierIdInSystem++;
-        } catch (Exception e) {
-            nextSupplierIdInSystem--;
-            throw new SuppliersException(
-                    "A database error occurred while inserting supplier " + nextSupplierIdInSystem);
+        // we add the office contact
+        addOfficeContact(contactNames, contactPhones, supplierPhone);
+        // first we try to make the supplier DTO
+        SupplierDTO supDTO = new SupplierDTO(nextSupplierIdInSystem, supplierName, supplierBankAccount,
+                paymentCondition,
+                makeFieldsDTOList(nextSupplierIdInSystem, supplierFields),
+                makeContactDTOList(makeContactList(contactPhones, contactNames, nextSupplierIdInSystem)),
+                makeDiscountDTOMap(amountToDiscount), new HashMap<Integer, PeriodicReservationDTO>());
+        // now we make fixedDaysSupplierDtosList
+        List<FixedDaysSupplierDTO> dtos = new LinkedList<>();
+        for (int day : days) {
+            FixedDaysSupplierDTO dto = new FixedDaysSupplierDTO(supDTO, day);
+            // now we insert to the proper DAO
+            fixedDaysSupplierDAO.insert(dto);
         }
+        // now we insert to business layer
+        FixedDaysSupplier fds = new FixedDaysSupplier(dtos);
+        idToSupplier.put(nextSupplierIdInSystem, fds);
+        nextSupplierIdInSystem++;
 
     }
 
@@ -187,27 +180,22 @@ public class SupplierController {
             List<String> supplierFields, String paymentCondition, TreeMap<Integer, String> amountToDiscount,
             List<String> contactNames, List<String> contactPhones, int maxSupplyDays)
             throws SuppliersException, SQLException {
-        try {
-            // we add the office contact
-            addOfficeContact(contactNames, contactPhones, supplierPhone);
-            // first we try to make the DTO
-            OnOrderSuppliersDTO dto = new OnOrderSuppliersDTO(
-                    new SupplierDTO(nextSupplierIdInSystem, supplierName, supplierBankAccount, paymentCondition,
-                            makeFieldsDTOList(nextSupplierIdInSystem, supplierFields),
-                            makeContactDTOList(makeContactList(contactPhones, contactNames, nextSupplierIdInSystem)),
-                            makeDiscountDTOMap(amountToDiscount), new HashMap<Integer, PeriodicReservationDTO>()),
-                    maxSupplyDays);
-            // now we insert to the proper DAO
-            onOrderSuppliersDAO.insert(dto);
-            // now we insert to business layer
-            OnOrderSupplier oos = new OnOrderSupplier(dto);
-            idToSupplier.put(nextSupplierIdInSystem, oos);
-            nextSupplierIdInSystem++;
-        } catch (Exception e) {
-            nextSupplierIdInSystem--;
-            throw new SuppliersException(
-                    "A database error occurred while inserting supplier " + nextSupplierIdInSystem);
-        }
+        // we add the office contact
+        addOfficeContact(contactNames, contactPhones, supplierPhone);
+        // first we try to make the DTO
+        OnOrderSuppliersDTO dto = new OnOrderSuppliersDTO(
+                new SupplierDTO(nextSupplierIdInSystem, supplierName, supplierBankAccount, paymentCondition,
+                        makeFieldsDTOList(nextSupplierIdInSystem, supplierFields),
+                        makeContactDTOList(makeContactList(contactPhones, contactNames, nextSupplierIdInSystem)),
+                        makeDiscountDTOMap(amountToDiscount), new HashMap<Integer, PeriodicReservationDTO>()),
+                maxSupplyDays);
+        // now we insert to the proper DAO
+        onOrderSuppliersDAO.insert(dto);
+        // now we insert to business layer
+        OnOrderSupplier oos = new OnOrderSupplier(dto);
+        idToSupplier.put(nextSupplierIdInSystem, oos);
+        nextSupplierIdInSystem++;
+
     }
 
     // Add 'Self Pickup' supplier to the system
@@ -215,27 +203,25 @@ public class SupplierController {
             String supplierBankAccount,
             List<String> supplierFields, String paymentCondition, TreeMap<Integer, String> amountToDiscount,
             List<String> contactNames, List<String> contactPhones, String address, int maxPreperationDays)
-            throws SuppliersException, SQLException {
+            throws SuppliersException {
+        // we add the office contact
+        addOfficeContact(contactNames, contactPhones, supplierPhone);
+        // first we try to make the DTO
+        SelfPickUpSupplierDTO dto = new SelfPickUpSupplierDTO(
+                new SupplierDTO(nextSupplierIdInSystem, supplierName, supplierBankAccount, paymentCondition,
+                        makeFieldsDTOList(nextSupplierIdInSystem, supplierFields),
+                        makeContactDTOList(makeContactList(contactPhones, contactNames, nextSupplierIdInSystem)),
+                        makeDiscountDTOMap(amountToDiscount), new HashMap<Integer, PeriodicReservationDTO>()),
+                address, maxPreperationDays);
         try {
-            // we add the office contact
-            addOfficeContact(contactNames, contactPhones, supplierPhone);
-            // first we try to make the DTO
-            SelfPickUpSupplierDTO dto = new SelfPickUpSupplierDTO(
-                    new SupplierDTO(nextSupplierIdInSystem, supplierName, supplierBankAccount, paymentCondition,
-                            makeFieldsDTOList(nextSupplierIdInSystem, supplierFields),
-                            makeContactDTOList(makeContactList(contactPhones, contactNames, nextSupplierIdInSystem)),
-                            makeDiscountDTOMap(amountToDiscount), new HashMap<Integer, PeriodicReservationDTO>()),
-                    address, maxPreperationDays);
             // now we insert to the proper DAO
             selfPickupSupplierDAO.insert(dto);
             // now we insert to business layer
             SelfPickupSupplier sps = new SelfPickupSupplier(dto);
             idToSupplier.put(nextSupplierIdInSystem, sps);
             nextSupplierIdInSystem++;
-        } catch (Exception e) {
-            nextSupplierIdInSystem--;
-            throw new SuppliersException(
-                    "A database error occurred while inserting supplier " + nextSupplierIdInSystem);
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
 
     }
@@ -486,8 +472,7 @@ public class SupplierController {
      * @return list of Contact objects built from a list of phone numbers and list
      *         of names
      */
-    private List<Contact> makeContactList(List<String> contactPhones, List<String> contactNames, int supplierId)
-            throws SQLException {
+    private List<Contact> makeContactList(List<String> contactPhones, List<String> contactNames, int supplierId) {
         List<Contact> contactList = new LinkedList<Contact>();
         for (int i = 0; i < contactPhones.size(); i++) {
             ContactDTO cDTO = new ContactDTO(supplierId, contactPhones.get(i), contactNames.get(i));
@@ -523,7 +508,7 @@ public class SupplierController {
             if (disVal == Double.MIN_VALUE || disVal < 0 || disVal > 1) {
                 throw new SuppliersException("Invalid precentage discount value: " + value);
             }
-            DiscountDTO dto = new DiscountDTO(nextDiscountIdInSystem, LocalDate.now(), null,
+            DiscountDTO dto = new DiscountDTO(nextDiscountIdInSystem++, LocalDate.now(), null,
                     disVal, "Precentage");
             dis = new DiscountPercentage(dto);
             return dis;
@@ -533,7 +518,7 @@ public class SupplierController {
             if (disVal == Double.MIN_VALUE || disVal < 0) {
                 throw new SuppliersException("Invalid fixed discount value: " + value);
             }
-            DiscountDTO dto = new DiscountDTO(nextDiscountIdInSystem, LocalDate.now(), null,
+            DiscountDTO dto = new DiscountDTO(nextDiscountIdInSystem++, LocalDate.now(), null,
                     disVal, "Fixed");
             dis = new DiscountFixed(dto);
             return dis;

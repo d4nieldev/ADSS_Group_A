@@ -7,14 +7,14 @@ public class Global {
     public static int reportId = 0;
     public static int periodicId = 0;
     public static int discountId = 0;
+
     public static int getNewProductid() {
         Productid++;
         return Productid - 1;
     }
 
     public static int getNewCategoryid() {
-        Categoryid++;
-        return Categoryid - 1;
+        return Categoryid++;
     }
 
     /**
@@ -31,6 +31,7 @@ public class Global {
 
         return reportId++;
     }
+
     public static int getNewPeriodicId() {
         return periodicId++;
     }

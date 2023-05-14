@@ -214,7 +214,7 @@ public class Repository {
         // --------------------------------------------------------------------------------------------
         // Suppliers and Inventory Layer Tables
         String suppliersInventoryDDL = """
-                    ---------------- Discounts ----------------------
+                ---------------- Discounts ----------------------
 
                 CREATE TABLE IF NOT EXISTS Discounts (
                     id        INTEGER NOT NULL,
@@ -252,7 +252,7 @@ public class Repository {
 
                 CREATE TABLE IF NOT EXISTS SuppliersFields (
                     supplierId INTEGER NOT NULL,
-                    fieldName  INTEGER NOT NULL,
+                    fieldName  TEXT    NOT NULL,
 
                     FOREIGN KEY (supplierId) REFERENCES Suppliers(id) ON DELETE CASCADE,
                     FOREIGN KEY (fieldName)  REFERENCES Fields(name)  ON DELETE CASCADE,
@@ -338,8 +338,8 @@ public class Repository {
 
                     CHECK (minQuantity > 0 AND price >= 0),
 
-                    FOREIGN KEY (productId) REFERENCES Product(id) ON DELETE CASCADE,
-                    FOREIGN KEY (branchId)  REFERENCES Branch(id)  ON DELETE CASCADE,
+                    FOREIGN KEY (productId) REFERENCES Products(id) ON DELETE CASCADE,
+                    FOREIGN KEY (branchId)  REFERENCES Branches(id)  ON DELETE CASCADE,
                     PRIMARY KEY(branchId, productId)
                 );
 
@@ -412,7 +412,7 @@ public class Repository {
                     CHECK(status IN ('NotReady', 'Ready', 'Closed', 'Aborted')),
 
                     FOREIGN KEY (supplierId)               REFERENCES Suppliers(id)               ON DELETE SET NULL,
-                    FOREIGN KEY (destinationBranch)        REFERENCES Branch(id)                  ON DELETE SET NULL,
+                    FOREIGN KEY (destinationBranch)        REFERENCES Branches(id)                  ON DELETE SET NULL,
                     FOREIGN KEY (supplierId, contactPhone) REFERENCES Contacts(supplierId, phone) ON DELETE SET NULL,
                     PRIMARY KEY (id, supplierId)
                 );
@@ -439,7 +439,7 @@ public class Repository {
                     CHECK(dayOfOrder BETWEEN 1 AND 7),
 
                     FOREIGN KEY (supplierId) REFERENCES Suppliers(id) ON DELETE CASCADE,
-                    FOREIGN KEY (branchId)   REFERENCES Branch(id)    ON DELETE CASCADE,
+                    FOREIGN KEY (branchId)   REFERENCES Branches(id)    ON DELETE CASCADE,
                     PRIMARY KEY (supplierId, branchId)
                 );
 
@@ -463,7 +463,7 @@ public class Repository {
                     branchId    INTEGER,
                     createdDate TEXT NOT NULL,
 
-                    FOREIGN KEY (branchId) REFERENCES Branch(id),
+                    FOREIGN KEY (branchId) REFERENCES Branches(id),
                     PRIMARY KEY (id)
                 );
 
@@ -501,7 +501,9 @@ public class Repository {
                     FOREIGN KEY (reportId)   REFERENCES Reports(id)                 ON DELETE CASCADE,
                     FOREIGN KEY (specificId) REFERENCES SpecificProduct(specificId) ON DELETE SET NULL,
                     PRIMARY KEY (reportId, specificId)
-                )""";
+                )
+
+                    """;
         Connection conn = connect();
         if (conn == null)
             return;

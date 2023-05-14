@@ -12,6 +12,7 @@ import java.util.TreeMap;
 
 import org.junit.After;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import BusinessLayer.Inventory.CategoryController;
@@ -23,6 +24,7 @@ import BusinessLayer.Suppliers.ProductAgreement;
 import BusinessLayer.Suppliers.Supplier;
 import BusinessLayer.Suppliers.SupplierController;
 import BusinessLayer.exceptions.SuppliersException;
+import DataAccessLayer.Repository;
 import DataAccessLayer.DTOs.ReceiptItemDTO;
 
 public class SupplierControllerTest {
@@ -32,8 +34,8 @@ public class SupplierControllerTest {
     @Before
     public void setup() {
         try {
-            SupplierController.getInstance().init();
             // ProductController.getInstance().init();
+            SupplierController.getInstance().init();
             createSupplier0();
             createProduct();
         } catch (Exception e) {
@@ -43,7 +45,8 @@ public class SupplierControllerTest {
     }
 
     @After
-    public void clearController() {
+    public void clearController() throws SQLException {
+        SupplierController.getInstance().deleteSupplier(0);
         ProductController.getInstance().clearData();
         SupplierController.getInstance().clearData();
     }

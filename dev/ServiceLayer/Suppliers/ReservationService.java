@@ -12,21 +12,19 @@ import BusinessLayer.exceptions.SuppliersException;
 public class ReservationService {
     private ReservationController reservationController;
 
-    public ReservationService() {
+    private ReservationService() {
         reservationController = ReservationController.getInstance();
     }
 
-    // requirement dropped
-    // public String makeAutoReservation(Map<Integer, Integer> productToAmount,
-    // String destinationBranch) {
-    // try {
-    // reservationController.makeDeficiencyReservation(productToAmount,
-    // destinationBranch);
-    // return "Success";
-    // } catch (SuppliersException e) {
-    // return e.getMessage();
-    // }
-    // }
+    public static ReservationService create() {
+        try {
+            ReservationService service = new ReservationService();
+            service.reservationController.init();
+            return service;
+        } catch (SQLException e) {
+            throw new RuntimeException("Error initializing reservation service");
+        }
+    }
 
     public String makeManualReservation(Map<Integer, Map<Integer, Integer>> supplierToproductToAmount,
             int destinationBranch) {

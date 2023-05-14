@@ -8,7 +8,7 @@ import java.util.Scanner;
 import ServiceLayer.Suppliers.ReservationService;
 
 public class ReservationSystem {
-    private static ReservationService rs = new ReservationService();
+    private static ReservationService rs = ReservationService.create();
 
     public static void help() {
         String manual = "";

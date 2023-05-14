@@ -1,5 +1,6 @@
 package PersentationLayer.Suppliers;
 
+import java.time.DayOfWeek;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
@@ -12,9 +13,8 @@ public class ReservationSystem {
     public static void help() {
         String manual = "";
         manual += "===========================================================================================";
-        manual += "makereservation [auto/manual] [branch] = open the reservation menu.\n";
-        manual += "    auto - enter lines in the format of \"[product_id] [amount]\"\n";
-        manual += "    manual - enter lines in the format of \"[supplier_id] [product_id] [amount]\"\n";
+        manual += "makereservation [branch] = open the reservation menu.\n";
+        manual += "    enter lines in the format of \"[supplier_id] [product_id] [amount]\"\n";
         manual += "    for changing amount of product type the line again with the updated amount\n";
         manual += "    for closing the reservation menu enter \"done\"\n";
         manual += "    for aborting the reservation enter \"abort\"\n";
@@ -22,68 +22,30 @@ public class ReservationSystem {
         manual += "cancelreservation [reservation_id] = cancel the reservation\n";
         manual += "readyreservation [reservation_id] = make the reservation ready\n";
         manual += "closereservation [reservation_id] = close the reservation\n";
+        manual += "addPeriodicReservation [supplier_id] [branch_id] [week_day] = add a new periodic reservation for the supplier and branch\n";
         manual += "receipt [reservation_id] = show all items, amounts, and prices for this reservation\n";
         manual += "reservations [supplier_id] = show all reservations history with the supplier\n";
-        manual += "ready = for each supplier, show the destinations of the reservations that are ready\n";
-        manual += "addProduct [id] [name] [manufacturer] = add a new product to the system\n";
+        manual += "addProduct [id] [name] [manufacturer] [category_id] = add a new product to the system\n";
         manual += "===========================================================================================";
         System.out.println(manual);
     }
 
     public static void makereservation(String[] commandTokens, Scanner scanner) {
-        if (commandTokens.length != 3) {
-            System.out.println("makereservation command requires 3 arguments");
+        if (commandTokens.length != 2) {
+            System.out.println("makereservation command requires 2 arguments");
             return;
         }
 
-        if (commandTokens[1].equals("auto")) {
-            makeAutoReservation(scanner, commandTokens[2]);
-        } else if (commandTokens[1].equals("manual")) {
-            makeManualReservation(scanner, commandTokens[2]);
-        } else {
-            System.out.println("only auto and manual commands are allowed for makereservation");
-        }
-    }
-
-    private static void makeAutoReservation(Scanner scanner, String destinationBranch) {
-        Map<Integer, Integer> productToAmount = new HashMap<>();
-        String line;
-
-        while (true) {
-            line = scanner.nextLine();
-            if (line.equals("done") || line.equals("abort"))
-                break;
-            String[] command = line.split(" ");
-            if (command.length != 2) {
-                System.out.println("The format of the command is \"[product_id] [amount]\". Please try again.\n");
-                continue;
-            }
-            int productId = tryParseInt(command[0], Integer.MIN_VALUE);
-            if (productId == Integer.MIN_VALUE) {
-                System.out.println("product id must be an integer. Please try again.\n");
-                continue;
-            } else if (productId < 0) {
-                System.out.println("product id must be greater or equal to 0. Please try again.\n");
-                continue;
-            }
-            int amount = tryParseInt(command[1], Integer.MIN_VALUE);
-            if (amount == Integer.MIN_VALUE) {
-                System.out.println("amount must be an integer. Please try again.\n");
-                continue;
-            } else if (amount <= 0) {
-                System.out.println("amount must be greater than 0. Please try again.\n");
-                continue;
-            }
-
-            productToAmount.put(productId, amount);
+        int destinationBranch = tryParseInt(commandTokens[2], Integer.MIN_VALUE);
+        if (destinationBranch == Integer.MIN_VALUE) {
+            System.out.println("destination branch id must be an integer");
+            return;
         }
 
-        if (line.equals("done") && productToAmount.size() > 0)
-            System.out.println(rs.makeAutoReservation(productToAmount, destinationBranch));
-
+        makeManualReservation(scanner, destinationBranch);
     }
 
-    private static void makeManualReservation(Scanner scanner, String destinationBranch) {
+    private static void makeManualReservation(Scanner scanner, int destinationBranch) {
         Map<Integer, Map<Integer, Integer>> supplierToproductToAmount = new HashMap<>();
         String line;
 
@@ -115,12 +77,12 @@ public class ReservationSystem {
             }
 
             supplierToproductToAmount.computeIfAbsent(supplierId, k -> new HashMap<>()).put(productId, amount);
-
-            line = scanner.nextLine();
         }
 
         if (line.equals("done") && supplierToproductToAmount.size() > 0)
             System.out.println(rs.makeManualReservation(supplierToproductToAmount, destinationBranch));
+        else
+            System.out.println("aborted");
 
     }
 
@@ -164,6 +126,83 @@ public class ReservationSystem {
         System.out.println(rs.closeReservation(reservationId));
     }
 
+    private static DayOfWeek intToDayOfWeek(int day) {
+        switch (day) {
+            case 1:
+                return DayOfWeek.SUNDAY;
+            case 2:
+                return DayOfWeek.MONDAY;
+            case 3:
+                return DayOfWeek.TUESDAY;
+            case 4:
+                return DayOfWeek.WEDNESDAY;
+            case 5:
+                return DayOfWeek.THURSDAY;
+            case 6:
+                return DayOfWeek.FRIDAY;
+            case 7:
+                return DayOfWeek.SATURDAY;
+            default:
+                return null;
+        }
+    }
+
+    public static void addPeriodicReservation(Scanner scanner, String[] commandTokens) {
+        if (commandTokens.length != 4) {
+            System.out.println("addPeriodicReservation command requires 4 arguments!");
+            return;
+        }
+
+        int supplierId = tryParseInt(commandTokens[0], Integer.MIN_VALUE);
+        if (supplierId == Integer.MIN_VALUE) {
+            System.out.println("supplier id must be an integer. Please try again.\n");
+            return;
+        }
+        int branchId = tryParseInt(commandTokens[1], Integer.MIN_VALUE);
+        if (branchId == Integer.MIN_VALUE) {
+            System.out.println("branch id must be an integer. Please try again.\n");
+            return;
+        }
+        int day = tryParseInt(commandTokens[2], Integer.MIN_VALUE);
+        DayOfWeek dayOfWeek = intToDayOfWeek(day);
+        if (dayOfWeek == null) {
+            System.out.println("day of week must be an integer between 1 and 7. Please try again.\n");
+            return;
+        }
+
+        Map<Integer, Integer> productToAmount = new HashMap<>();
+
+        String line;
+        while (true) {
+            line = scanner.nextLine();
+            if (line.equals("done") || line.equals("abort"))
+                break;
+
+            String[] command = line.split(" ");
+            if (command.length != 2) {
+                System.out.println("The format of the command is \"[product_id] [amount]\". Please try again.\n");
+                continue;
+            }
+            int productId = tryParseInt(command[0], Integer.MIN_VALUE);
+            if (productId <= 0) {
+                System.out.println("supplier id must be a non negative integer. Please try again.\n");
+                continue;
+            }
+            int amount = tryParseInt(command[1], Integer.MIN_VALUE);
+            if (amount <= 0) {
+                System.out.println("product id must be a non negative integer. Please try again.\n");
+                continue;
+            }
+
+            productToAmount.put(productId, amount);
+        }
+
+        if (line.equals("done") && productToAmount.size() > 0)
+            System.out.println(rs.addPeriodicReservation(supplierId, branchId, dayOfWeek, productToAmount));
+        else
+            System.out.println("aborted");
+    }
+
     public static void receipt(String[] commandTokens) {
         if (commandTokens.length != 2) {
             System.out.println("receipt command must have 2 arguments. Please try again.\n");
@@ -190,13 +229,9 @@ public class ReservationSystem {
         System.out.println(rs.getSupplierReservations(supplierId));
     }
 
-    public static void ready() {
-        System.out.println(rs.getReadySupplierToAddresses());
-    }
-
     public static void addProduct(String[] commandTokens) {
-        if (commandTokens.length != 4) {
-            System.out.println("addProduct command must have 4 arguments. Please try again.\n");
+        if (commandTokens.length != 5) {
+            System.out.println("addProduct command must have 5 arguments. Please try again.\n");
             return;
         }
         int productId = tryParseInt(commandTokens[1], Integer.MIN_VALUE);
@@ -206,7 +241,13 @@ public class ReservationSystem {
         }
         String name = commandTokens[2];
         String manufacturer = commandTokens[3];
-        System.out.println(rs.addProduct(productId, name, manufacturer));
+        int categoryId = tryParseInt(commandTokens[4], Integer.MIN_VALUE);
+        if (categoryId == Integer.MIN_VALUE) {
+            System.out.println("category id must be an integer. Please try again.\n");
+            return;
+        }
+
+        System.out.println(rs.addProduct(productId, name, manufacturer, categoryId));
     }
 
     public static int tryParseInt(String s, int defaultValue) {

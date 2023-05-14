@@ -29,7 +29,7 @@ public class ProductBranchTest {
         productController = ProductController.getInstance();
         branchController.addBranch(1,"testBranch",300);
         branch = branchController.getBranchById(branch.getId());
-        CategoryDTO categoryDTO = new CategoryDTO(1,"Milks products");
+        CategoryDTO categoryDTO = new CategoryDTO("Milks products");
         ProductDTO productDTO = new ProductDTO(1,"Milk","Tnuva",categoryDTO);
         productController.addNewProduct(productDTO);
         SpecificProductDTO specificProductDTO1 = new SpecificProductDTO(1,1,1,10,"", LocalDate.parse("2023-11-11"));
@@ -45,7 +45,7 @@ public class ProductBranchTest {
     }
 
     @Test
-    void reportFlawProductsTest() throws Exception {
+    public void reportFlawProductsTest() throws Exception {
         // Arrange
         String description = "Report flaw Test";
         branchController.reportFlawProduct(1,1,1,description);

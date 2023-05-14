@@ -31,8 +31,7 @@ public class SpecificProductDTO implements DTO {
         this.arrivedDate = arrivedDate;
     }
 
-    public SpecificProductDTO(int specificId, int generalId, int branchId, double buyPrice, String flaw,
-            LocalDate expDate) {
+    public SpecificProductDTO(int specificId, int generalId, int branchId, double buyPrice, String flaw, LocalDate expDate) {
 
         this.specificId = specificId;
         this.generalId = generalId;
@@ -41,6 +40,18 @@ public class SpecificProductDTO implements DTO {
         this.sellPrice = -1;
         this.status = ProductStatus.status.ON_STORAGE;
         this.flaw = flaw;
+        this.expDate = expDate;
+        this.arrivedDate = LocalDate.now();
+    }
+    public SpecificProductDTO(int specificId, int generalId, int branchId, double buyPrice, LocalDate expDate) {
+
+        this.specificId = specificId;
+        this.generalId = generalId;
+        this.branchId = branchId;
+        this.buyPrice = buyPrice;
+        this.sellPrice = -1;
+        this.status = ProductStatus.status.ON_STORAGE;
+        this.flaw = "";
         this.expDate = expDate;
         this.arrivedDate = LocalDate.now();
     }

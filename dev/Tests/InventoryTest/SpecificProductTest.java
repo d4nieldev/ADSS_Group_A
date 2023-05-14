@@ -34,7 +34,7 @@ public class SpecificProductTest {
         productController = ProductController.getInstance();
         branchController.addBranch(1,"testBranch",300);
         branch = branchController.getBranchById(branch.getId());
-        CategoryDTO categoryDTO = new CategoryDTO(1,"Milks products");
+        CategoryDTO categoryDTO = new CategoryDTO("Milks products");
         ProductDTO productDTO = new ProductDTO(1,"Milk","Tnuva",categoryDTO);
 //        productController.addProduct(productDTO);
         SpecificProductDTO specificProductDTO1 = new SpecificProductDTO(1,1,1,10,"", LocalDate.parse("2023-11-11"));
@@ -47,6 +47,8 @@ public class SpecificProductTest {
         ProductBranchDTO productBranchDTO = new ProductBranchDTO(productDTO,branch.getId(),15,50,100,allSpecific);
         ProductBranch productBranch = new ProductBranch(productBranchDTO);
     }
+
+
     @Test
     public void testSetFlawDescription() throws Exception {
         SpecificProduct sp = branch.getProductByCode(1).getSpecificById(1);
@@ -54,6 +56,7 @@ public class SpecificProductTest {
         sp.setFlawDescription(description);
         assertEquals(description, sp.getFlawDescription());
     }
+
     @Test
     void testSetStatus() throws Exception {
         SpecificProduct sp = branch.getProductByCode(1).getSpecificById(1);

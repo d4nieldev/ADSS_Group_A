@@ -34,8 +34,7 @@ public class CategoryController {
     }
 
     public int addNewCategory(String name, Category parentCategory) throws SQLException {
-        int newId = Global.getNewCategoryid();
-        CategoryDTO CatDTO = new CategoryDTO(newId, name, parentCategory.getCategoryDTO());
+        CategoryDTO CatDTO = new CategoryDTO(name, parentCategory.getCategoryDTO());
         categoryDAO.insert(CatDTO);
         Category category = new Category(CatDTO);
         allCategories.add(category);
@@ -44,14 +43,13 @@ public class CategoryController {
     }
 
     public int addNewCategory(String name) throws SQLException {
-        int newId = Global.getNewCategoryid();
-        CategoryDTO CatDTO = new CategoryDTO(newId, name);
+        CategoryDTO CatDTO = new CategoryDTO( name);
         categoryDAO.insert(CatDTO);
 
         Category category = new Category(CatDTO);
         allCategories.add(category);
         categoryDic.put(category.getId(), category);
-        return newId;
+        return category.getId();
     }
 
     // public void addNewCategory(String name) {

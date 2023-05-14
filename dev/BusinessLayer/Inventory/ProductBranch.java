@@ -130,7 +130,7 @@ public class ProductBranch {
         this.minQuantity = newMinQuantity;
     }
 
-    private Discount getCurrentMaxDiscount() {
+    public Discount getCurrentMaxDiscount() {
         Discount maxDiscount = null;
         double currentPrice = price;
         for (Discount dis : discountsHistory) {

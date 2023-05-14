@@ -45,11 +45,16 @@ public class FixedDaysSupplierDAO extends DAO<FixedDaysSupplierDTO> {
         super.delete(dataObject);
     }
 
-    public void deleteById(int supplierId) throws SQLException {
+    public boolean deleteById(int supplierId) throws SQLException {
         List<FixedDaysSupplierDTO> dtos = getById(supplierId);
-        for (FixedDaysSupplierDTO dto : dtos) {
-            delete(dto);
+        // TODO: i delete only if i got something.
+        if (dtos != null) {
+            for (FixedDaysSupplierDTO dto : dtos) {
+                delete(dto);
+            }
+            return true;
         }
+        return false;
 
     }
 
@@ -75,13 +80,14 @@ public class FixedDaysSupplierDAO extends DAO<FixedDaysSupplierDTO> {
         while (supRS.next()) {
             fixedDaysSupplierDTOs.add(makeDTO(supRS));
         }
-        statement.close();
-        supRS.close();
-        con.close();
+        // statement.close();
+        // supRS.close();
+        // con.close();
 
         if (fixedDaysSupplierDTOs.size() == 0)
             return null;
 
+        supRS.close();
         return fixedDaysSupplierDTOs;
     }
 

@@ -61,7 +61,7 @@ public abstract class DAO<T extends DTO> {
 
         DatabaseMetaData meta = conn.getMetaData();
 
-        ResultSet pk = meta.getPrimaryKeys(null, null, "People");
+        ResultSet pk = meta.getPrimaryKeys(null, null, tableName);
 
         List<String> pks = new ArrayList<>();
         while (pk.next()) {

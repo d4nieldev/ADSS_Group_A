@@ -5,7 +5,6 @@ import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
 
-import BusinessLayer.Inventory.CategoryController;
 import DataAccessLayer.Repository;
 import DataAccessLayer.DTOs.InventoryReportDTO;
 import DataAccessLayer.DTOs.InventoryReportEntryDTO;

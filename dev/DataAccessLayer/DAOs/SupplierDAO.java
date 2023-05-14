@@ -101,7 +101,7 @@ public class SupplierDAO extends DAO<SupplierDTO> {
     }
 
     public SupplierDTO getById(int supplierId) throws SQLException {
-        String query = "SELECT * FROM Suppliers WHERE supplierId= ?;";
+        String query = "SELECT * FROM Suppliers WHERE id= ?;";
         ResultSet rs = repo.executeQuery(query, supplierId);
         SupplierDTO dto = makeDTO(rs);
         rs.close();

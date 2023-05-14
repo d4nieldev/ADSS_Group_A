@@ -43,9 +43,13 @@ public class OnOrderSuppliersDAO extends DAO<OnOrderSuppliersDTO> {
         super.delete(dataObject);
     }
 
-    public void deleteById(int supplierId) throws SQLException {
+    public boolean deleteById(int supplierId) throws SQLException {
         OnOrderSuppliersDTO dto = getById(supplierId);
-        delete(dto);
+        if(dto != null){
+            delete(dto);
+            return true;
+        }
+        return false;
     }
 
     @Override
@@ -67,9 +71,11 @@ public class OnOrderSuppliersDAO extends DAO<OnOrderSuppliersDTO> {
         PreparedStatement statement = con.prepareStatement(query);
         statement.setInt(1, supplierId);
         ResultSet supRS = statement.executeQuery();
-        statement.close();
-        con.close();
-        return makeDTO(supRS);
+        //statement.close();
+        //con.close();
+        OnOrderSuppliersDTO res = makeDTO(supRS);
+        supRS.close();
+        return res;
     }
 
 }

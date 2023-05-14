@@ -1,6 +1,5 @@
 package DataAccessLayer.DAOs;
 
-import BusinessLayer.Inventory.ProductStatus;
 import DataAccessLayer.DTOs.PeriodicReservationDTO;
 import DataAccessLayer.DTOs.PeriodicReservationItemDTO;
 import DataAccessLayer.Repository;

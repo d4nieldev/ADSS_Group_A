@@ -24,7 +24,8 @@ public class ReportController {
         this.reportDAO = ReportDAO.getInstance();
         this.inventoryReportEntryDAO = InventoryReportEntryDAO.getInstance();
     }
-    public static ReportController getInstance(){
+
+    public static ReportController getInstance() {
         if (instance == null) {
             instance = new ReportController();
         }
@@ -139,7 +140,7 @@ public class ReportController {
         HashMap<Integer, ProductBranch> deficiencyProductsBranch = branch.getAllDeficiencyProductsBranch();
         for (Integer productCode : deficiencyProductsBranch.keySet()) {
             ProductBranch deficiencyProduct = deficiencyProductsBranch.get(productCode);
-            int missingAmount = deficiencyProduct.getMinQuantity()-deficiencyProduct.getTotalAmount();
+            int missingAmount = deficiencyProduct.getMinQuantity() - deficiencyProduct.getTotalAmount();
             DeficiencyReportEntryDTO defEntDTO = new DeficiencyReportEntryDTO(reportID, deficiencyProduct.getCode(), missingAmount);
             deficiencyReportEntryDAO.insert(defEntDTO);
         }

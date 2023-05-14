@@ -26,7 +26,8 @@ public class SpecificProduct {
         this.flawDescription = "";
         this.arrivedDate = LocalDate.now();
     }
-    public SpecificProduct(SpecificProductDTO specificProductDTO){
+
+    public SpecificProduct(SpecificProductDTO specificProductDTO) {
         this.generalId = specificProductDTO.getGeneralId();
         this.specificId = specificProductDTO.getSpecificId();
         this.buyPrice = specificProductDTO.getBuyPrice();
@@ -106,6 +107,7 @@ public class SpecificProduct {
     public boolean getIsExpired() {
         return this.expiredDate.isBefore(LocalDate.now().plusDays(1));
     }
+
     public SpecificProductDTO getSpecificProductDTO() {
         return specificProductDTO;
     }

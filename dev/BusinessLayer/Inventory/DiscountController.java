@@ -14,6 +14,7 @@ public class DiscountController {
     private DiscountController() {
         this.idToDiscount = new HashMap<>();
     }
+
     public static DiscountController getInstance() {
         if (instance == null) {
             instance = new DiscountController();
@@ -21,8 +22,8 @@ public class DiscountController {
         return instance;
     }
 
-    public void addNewDiscount(Discount discount){
-        this.idToDiscount.put(discount.getDiscountId(),discount);
+    public void addNewDiscount(Discount discount) {
+        this.idToDiscount.put(discount.getDiscountId(), discount);
     }
 
     public Discount getDiscountById(int discountId) {

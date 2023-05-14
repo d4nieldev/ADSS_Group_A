@@ -42,6 +42,7 @@ public abstract class Discount {
     }
 
     public abstract double getPriceWithDiscount(double price);
+
     public abstract double getDiscountValue();
 
 

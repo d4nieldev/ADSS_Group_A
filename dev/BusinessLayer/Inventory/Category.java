@@ -18,13 +18,6 @@ public class Category {
         this.parentCategory = catCon.getCategoryById(categoryDTO.getParentCategoryDTO().getId());
         this.categoryDTO = categoryDTO;
     }
-
-    // public Category(int id, String name, CategoryDTO CategoryDTO) {
-    // this.id = id;
-    // this.name = name;
-    // this.CategoryDTO = CategoryDTO;
-    // }
-
     public int getId() {
         return id;
     }

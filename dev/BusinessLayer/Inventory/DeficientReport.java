@@ -11,7 +11,7 @@ import java.util.Map;
 public class DeficientReport extends Report {
     //TODO: change amount to hou much the deficiency
     private Map<Integer, Integer> idToMissingAmount;
-    private HashMap<Integer,ProductBranch> products;
+    private HashMap<Integer, ProductBranch> products;
     private BranchController branchController;
 
     public DeficientReport(DeficiencyReportDTO deficiencyReportDTO) throws Exception {

@@ -31,9 +31,9 @@ public class Branch {
     private HashMap<Integer, ProductBranch> allProductBranches;// maps between productBranch generalId to its object
 //    private List<PeriodicReservation> periodicReservations;
 
-    private HashMap<Integer,PeriodicReservation> supplierToPeriodicReservations;
+    private HashMap<Integer, PeriodicReservation> supplierToPeriodicReservations;
     private CategoryController categoryController;
-    private HashMap<Integer,Integer> productToAmount; // maps between product to amount for deficiency quantity
+    private HashMap<Integer, Integer> productToAmount; // maps between product to amount for deficiency quantity
     private int minAmountForDeficiencyReservation;
     private BranchDTO branchDTO;
 
@@ -51,7 +51,7 @@ public class Branch {
         this.branchId = branchDTO.getId();
         this.branchName = branchDTO.getName();
         this.allProductBranches = new HashMap<>();
-        HashMap<Integer,PeriodicReservation> res = new HashMap<>();
+        HashMap<Integer, PeriodicReservation> res = new HashMap<>();
         this.supplierToPeriodicReservations = new HashMap<>();
         this.categoryController = CategoryController.getInstance();
         this.minAmountForDeficiencyReservation = branchDTO.getMinAmount();
@@ -60,6 +60,7 @@ public class Branch {
     public int getId() {
         return this.branchId;
     }
+
     public String getName() {
         return this.branchName;
     }
@@ -68,10 +69,10 @@ public class Branch {
         return allProductBranches;
     }
 
-public void addNewProductBranch(ProductBranchDTO productBranchDTO) throws SQLException {
-    ProductBranch newProduct = new ProductBranch(productBranchDTO)  ;
-    allProductBranches.put(newProduct.getCode(), newProduct);
-}
+    public void addNewProductBranch(ProductBranchDTO productBranchDTO) throws SQLException {
+        ProductBranch newProduct = new ProductBranch(productBranchDTO);
+        allProductBranches.put(newProduct.getCode(), newProduct);
+    }
 //    public void receiveSupply(int generalId) {
 //        LocalDate tomorrow = LocalDate.now().plusDays(1);
 //        LocalDate yesterday = LocalDate.now().minusDays(1);
@@ -91,8 +92,8 @@ public void addNewProductBranch(ProductBranchDTO productBranchDTO) throws SQLExc
      * @return
      * @throws SQLException
      */
-    public HashMap<ProductBranch,List<SpecificProduct>> receiveReservation(Reservation reservation) throws SQLException {
-        HashMap<ProductBranch,List<SpecificProduct>> toDao = new HashMap<>();
+    public HashMap<ProductBranch, List<SpecificProduct>> receiveReservation(Reservation reservation) throws SQLException {
+        HashMap<ProductBranch, List<SpecificProduct>> toDao = new HashMap<>();
         List<ReceiptItem> allItems = reservation.getReceipt();
         for (ReceiptItem ri : allItems) {
             int amount = ri.getAmount();
@@ -105,13 +106,13 @@ public void addNewProductBranch(ProductBranchDTO productBranchDTO) throws SQLExc
                 int minQuantity = 50;
                 ProductsDAO productsDAO = ProductsDAO.getInstance();
                 DiscountDAO discountDAO = DiscountDAO.getInstance();
-                ProductBranchDTO productBranchDTO = new ProductBranchDTO(productsDAO.getById(id),discountDAO.getById(-1),reservation.getDestination(),buyPrice,minQuantity,idealQuantity,new HashMap<Integer, SpecificProductDTO>() );
+                ProductBranchDTO productBranchDTO = new ProductBranchDTO(productsDAO.getById(id), discountDAO.getById(-1), reservation.getDestination(), buyPrice, minQuantity, idealQuantity, new HashMap<Integer, SpecificProductDTO>());
                 ProductBranch newProductBranch = new ProductBranch(productBranchDTO);
                 addNewProductBranch(productBranchDTO);
             }
             ProductBranch productBranch = allProductBranches.get(id);
-            List<SpecificProduct> addedSpecifics = productBranch.receiveSupply(amount, buyPrice, expiredDate,reservation.getDestination());
-           toDao.put(productBranch,addedSpecifics);
+            List<SpecificProduct> addedSpecifics = productBranch.receiveSupply(amount, buyPrice, expiredDate, reservation.getDestination());
+            toDao.put(productBranch, addedSpecifics);
         }
         return toDao;
     }
@@ -133,10 +134,10 @@ public void addNewProductBranch(ProductBranchDTO productBranchDTO) throws SQLExc
         }
     }
 
-    private int getTotalDeficiencyAmount(){
+    private int getTotalDeficiencyAmount() {
 
         int result = 0;
-        for(Integer amount :productToAmount.values()){
+        for (Integer amount : productToAmount.values()) {
             result += amount;
         }
         return result;
@@ -175,10 +176,10 @@ public void addNewProductBranch(ProductBranchDTO productBranchDTO) throws SQLExc
      */
     private void checkDeficiencyAfterUpdate(ProductBranch productBranch) {
         boolean check = productBranch.checkForDeficiency();
-        if(check){
+        if (check) {
             alertForDeficiency(productBranch);
             int amount = productBranch.getIdealQuantity() - productBranch.getTotalAmount();
-            productToAmount.put(productBranch.getCode(),amount);
+            productToAmount.put(productBranch.getCode(), amount);
         }
 
     }
@@ -209,7 +210,7 @@ public void addNewProductBranch(ProductBranchDTO productBranchDTO) throws SQLExc
 
     private void makeDeficiencyReservation() throws SQLException {
         ReservationController reservationController = ReservationController.getInstance();
-        reservationController.makeDeficiencyReservation(productToAmount,this.branchId);
+        reservationController.makeDeficiencyReservation(productToAmount, this.branchId);
     }
 
     // Dealing with periodic Reservation
@@ -223,13 +224,13 @@ public void addNewProductBranch(ProductBranchDTO productBranchDTO) throws SQLExc
      *
      * @return
      */
-    private boolean checkTime(PeriodicReservation periodicReservations ){
+    private boolean checkTime(PeriodicReservation periodicReservations) {
         //TODO:Change type of day
 //        ProductStatus.Day day = periodicReservations.getDay();
         ProductStatus.Day day = ProductStatus.Day.Sunday; //change it
         LocalDate currentDate = LocalDate.now();
         int deliveryDay = 0;
-        if (day == ProductStatus.Day.Sunday )
+        if (day == ProductStatus.Day.Sunday)
             deliveryDay = 1;
         else if (day == day.Monday)
             deliveryDay = 2;
@@ -280,15 +281,15 @@ public void addNewProductBranch(ProductBranchDTO productBranchDTO) throws SQLExc
      * @throws Exception
      */
     public List<ProductBranch> setDiscountOnProducts(List<ProductBranch> productsToDiscount, Discount discount) throws Exception {
-      HashMap<ProductBranch,DiscountDTO> changeDiscount = new HashMap<>();
-      List<ProductBranch> productToDiscount = new ArrayList<>();
+        HashMap<ProductBranch, DiscountDTO> changeDiscount = new HashMap<>();
+        List<ProductBranch> productToDiscount = new ArrayList<>();
 
         for (ProductBranch productBranch : productsToDiscount) {
             if (!allProductBranches.containsKey(productBranch.getCode())) {
                 throw new Exception("this product not fount on this branch");
             }
             boolean ans = productBranch.applyDiscount(discount);
-            if(ans){
+            if (ans) {
                 productToDiscount.add(productBranch);
             }
         }
@@ -434,7 +435,7 @@ public void addNewProductBranch(ProductBranchDTO productBranchDTO) throws SQLExc
         return result;
     }
 
-    public Set<Integer> expiredProductBranchCode(List<SpecificProductDTO> expiredProducts){
+    public Set<Integer> expiredProductBranchCode(List<SpecificProductDTO> expiredProducts) {
         Set<Integer> expiredProductBranchCodes = new HashSet();
         for (SpecificProductDTO specificProductDTO : expiredProducts) {
             Integer code = specificProductDTO.getGeneralId();
@@ -483,7 +484,7 @@ public void addNewProductBranch(ProductBranchDTO productBranchDTO) throws SQLExc
     public HashMap<Integer, String> getIdsToNameForAllegories() {
         HashMap<Integer, String> idsToName = new HashMap<>();
         List<ProductBranch> productsForAllegories = new ArrayList<>();
-        for(Integer productBrancheCode : getAllProductBranches().keySet()){
+        for (Integer productBrancheCode : getAllProductBranches().keySet()) {
             productsForAllegories.add(getAllProductBranches().get(productBrancheCode));
         }
         for (ProductBranch productBranch : productsForAllegories) {
@@ -534,7 +535,7 @@ public void addNewProductBranch(ProductBranchDTO productBranchDTO) throws SQLExc
     }
 
     public HashMap<Integer, Integer> getProductsToAmountById(int id) {
-        HashMap<Integer,Integer> productsToAmount = new HashMap<>();
+        HashMap<Integer, Integer> productsToAmount = new HashMap<>();
 
 
         return productsToAmount;
@@ -549,8 +550,8 @@ public void addNewProductBranch(ProductBranchDTO productBranchDTO) throws SQLExc
     }
 
     public List<Integer> getCodeByProducts(List<ProductBranch> productsToDiscount) {
-        List <Integer> res = new ArrayList<>();
-        for(ProductBranch productBranch : productsToDiscount){
+        List<Integer> res = new ArrayList<>();
+        for (ProductBranch productBranch : productsToDiscount) {
             res.add(productBranch.getCode());
         }
         return res;
@@ -576,13 +577,14 @@ public void addNewProductBranch(ProductBranchDTO productBranchDTO) throws SQLExc
         }
         return deficiencyProductBranches;
     }
+
     public HashMap<Integer, HashMap<Integer, LocalDate>> getBranchesExpiredBySpecificProductList(List<SpecificProductDTO> expiredProducts) {
         HashMap<Integer, HashMap<Integer, LocalDate>> result = new HashMap<>();
         Set<Integer> expiredProductBranchCodes = expiredProductBranchCode(expiredProducts);
         for (Integer expiredProductBranchCode : expiredProductBranchCodes) {
             HashMap<Integer, LocalDate> expired = new HashMap<>();
             for (SpecificProductDTO specificProductDTO : expiredProducts) {
-                if(specificProductDTO.getGeneralId() == expiredProductBranchCode){
+                if (specificProductDTO.getGeneralId() == expiredProductBranchCode) {
                     int specificId = specificProductDTO.getSpecificId();
                     LocalDate expiredDate = specificProductDTO.getExpDate();
                     expired.put(specificId, expiredDate);

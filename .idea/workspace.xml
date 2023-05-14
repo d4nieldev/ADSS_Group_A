@@ -4,8 +4,19 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a2472df3-0b1c-47fc-bcd6-f26fc4f0a51c" name="Changes" comment="delete unnecessary test folder">
+    <list default="true" id="a2472df3-0b1c-47fc-bcd6-f26fc4f0a51c" name="Changes" comment="minor changes">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dev/BusinessLayer/Inventory/BranchController.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/BusinessLayer/Inventory/BranchController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dev/BusinessLayer/Inventory/Category.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/BusinessLayer/Inventory/Category.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dev/BusinessLayer/Inventory/DeficientReport.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/BusinessLayer/Inventory/DeficientReport.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dev/BusinessLayer/Inventory/DiscountController.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/BusinessLayer/Inventory/DiscountController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dev/BusinessLayer/Inventory/ExpiredAndFlawReport.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/BusinessLayer/Inventory/ExpiredAndFlawReport.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dev/BusinessLayer/Inventory/Global.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/BusinessLayer/Inventory/Global.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dev/BusinessLayer/Inventory/InventoryReport.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/BusinessLayer/Inventory/InventoryReport.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dev/BusinessLayer/Inventory/ProductBranch.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/BusinessLayer/Inventory/ProductBranch.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dev/BusinessLayer/Inventory/ReportController.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/BusinessLayer/Inventory/ReportController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dev/BusinessLayer/Inventory/SpecificProduct.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/BusinessLayer/Inventory/SpecificProduct.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dev/PersentationLayer/inventory/Program1.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/PersentationLayer/inventory/Program1.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -209,7 +220,14 @@
       <option name="project" value="LOCAL" />
       <updated>1684090778789</updated>
     </task>
-    <option name="localTasksCounter" value="16" />
+    <task id="LOCAL-00016" summary="minor changes">
+      <created>1684092946956</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1684092946956</updated>
+    </task>
+    <option name="localTasksCounter" value="17" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -235,6 +253,7 @@
     <MESSAGE value="add the service" />
     <MESSAGE value="add some tests" />
     <MESSAGE value="delete unnecessary test folder" />
-    <option name="LAST_COMMIT_MESSAGE" value="delete unnecessary test folder" />
+    <MESSAGE value="minor changes" />
+    <option name="LAST_COMMIT_MESSAGE" value="minor changes" />
   </component>
 </project>

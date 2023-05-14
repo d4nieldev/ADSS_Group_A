@@ -30,7 +30,11 @@ public class DiscountDAO extends DAO<DiscountDTO> {
 
         int id = rs.getInt("id");
         LocalDate startDate = LocalDate.parse(rs.getString("startDate"));
-        LocalDate endDate = LocalDate.parse(rs.getString("endDate"));
+        String endDateString = rs.getString("endDate");
+        LocalDate endDate = null;
+        if (endDateString != null) {
+            endDate = LocalDate.parse(endDateString);
+        }
         double val = rs.getDouble("val");
         String dType = rs.getString("dType");
 

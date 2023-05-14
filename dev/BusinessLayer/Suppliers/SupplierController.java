@@ -53,7 +53,6 @@ public class SupplierController {
     private SupplierController() {
         this.idToSupplier = new TreeMap<Integer, Supplier>();
         this.productAgreementDAO = ProductAgreementDAO.getInstance();
-
         contactDAO = ContactDAO.getInstance();
         fixedDaysSupplierDAO = FixedDaysSupplierDAO.getInstance();
         onOrderSuppliersDAO = OnOrderSuppliersDAO.getInstance();
@@ -139,9 +138,15 @@ public class SupplierController {
         Supplier s = getSupplierById(supplierId);
         // if exists, it is not null
         int id = s.getId();
-        onOrderSuppliersDAO.deleteById(id);
-        selfPickupSupplierDAO.deleteById(id);
-        fixedDaysSupplierDAO.deleteById(id);
+        if (!onOrderSuppliersDAO.deleteById(id)) {
+            if (!selfPickupSupplierDAO.deleteById(id)) {
+                if (!fixedDaysSupplierDAO.deleteById(id)) {
+                    throw new SuppliersException("Supplier wasn't deleted from system");
+                }
+
+            }
+        }
+
         // after successfuly deleted from data, we can delete in the presistence.
         ProductController.getInstance().deleteAllSupplierAgreements(supplierId);
         idToSupplier.remove(supplierId);

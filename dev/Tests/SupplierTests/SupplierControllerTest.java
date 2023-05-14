@@ -24,7 +24,6 @@ import BusinessLayer.Suppliers.ProductAgreement;
 import BusinessLayer.Suppliers.Supplier;
 import BusinessLayer.Suppliers.SupplierController;
 import BusinessLayer.exceptions.SuppliersException;
-import DataAccessLayer.Repository;
 import DataAccessLayer.DTOs.ReceiptItemDTO;
 
 public class SupplierControllerTest {

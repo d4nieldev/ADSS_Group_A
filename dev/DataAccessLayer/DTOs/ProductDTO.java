@@ -22,7 +22,7 @@ public class ProductDTO implements DTO {
         nameToVal.put("id", "" + id);
         nameToVal.put("name", name);
         nameToVal.put("manufacturer", manufacturer);
-        nameToVal.put("category", "" + category.getId());
+        nameToVal.put("categoryId", "" + category.getId());
         return nameToVal;
     }
 

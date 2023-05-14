@@ -53,7 +53,7 @@ public class PeriodicReservationDAO extends DAO<PeriodicReservationDTO> {
     @Override
     public PeriodicReservationDTO makeDTO(ResultSet rs) throws SQLException {
         if (!rs.next())
-            throw new SQLException("Can't make DTO from nothing!");
+            return null;
 
         int supplierId = rs.getInt("supplierId");
         int branchId = rs.getInt("branchId");

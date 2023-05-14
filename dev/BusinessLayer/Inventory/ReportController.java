@@ -3,7 +3,7 @@ package BusinessLayer.Inventory;
 import BusinessLayer.InveontorySuppliers.Branch;
 import DataAccessLayer.DAOs.*;
 import DataAccessLayer.DTOs.*;
-import java.sql.SQLException;
+
 import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.List;
@@ -24,6 +24,12 @@ public class ReportController {
         this.reportDAO = ReportDAO.getInstance();
         this.inventoryReportEntryDAO = InventoryReportEntryDAO.getInstance();
     }
+    public static ReportController getInstance(){
+        if (instance == null) {
+            instance = new ReportController();
+        }
+        return instance;
+    }
 
     // TODO : change brnachId to Branch object;
     public HashMap<Integer, Report> getAllReports() {
@@ -37,6 +43,14 @@ public class ReportController {
 //        return report;
 //    }
 
+    //TODO: importInventroyReport- regular one without categories filter
+//    public InventoryReport importInventoryReport(int branchId) throws SQLException {
+//        Branch branch = BranchController.getInstance().getBranchById(branchId);
+//        int reportID = Global.getNewReportId();
+//        ReportDTO repDTO = new ReportDTO(reportID, branchId, LocalDate.now());
+//        reportDAO.insert(repDTO);
+//
+//    }
     public InventoryReport importInventoryReport(int branchId, List<Category> categoryList) throws Exception {
         Branch branch = BranchController.getInstance().getBranchById(branchId);
         int reportID = Global.getNewReportId();
@@ -134,4 +148,6 @@ public class ReportController {
 
         return (DeficientReport) allReports.get(reportId);
     }
+
+
 }

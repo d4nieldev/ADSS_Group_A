@@ -2,6 +2,7 @@ package BusinessLayer.InveontorySuppliers;
 
 import BusinessLayer.Inventory.Category;
 import BusinessLayer.Inventory.CategoryController;
+import DataAccessLayer.DTOs.CategoryDTO;
 import DataAccessLayer.DTOs.ProductDTO;
 
 public class Product {
@@ -18,6 +19,15 @@ public class Product {
         this.manufacturer = dto.getManufacturer();
         this.categoryId = dto.getCategory().getId();
     }
+
+//    public Product(int id, String name, String manufacturer, int categoryId) {
+//        this.id = id;
+//        this.name = name;
+//        this.manufacturer = manufacturer;
+//        this.categoryId = categoryDTO.getId();
+//        CategoryDTO categoryDTO =
+//        this.dto = new ProductDTO(id,name,manufacturer,)
+//    }
 
     public int getId() {
         return id;

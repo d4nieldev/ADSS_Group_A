@@ -225,7 +225,7 @@ public class ProductBranch {
     }
 
     /**
-     * sell a product and update the inventory quantity
+     * sell a product and update the ServiceLayer.PersentationLayer.inventory quantity
      * 
      * @param specificId
      */

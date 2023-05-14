@@ -198,7 +198,7 @@ public class Repository {
                 suppliersInventoryDDL.append(scanner.nextLine()).append("\n");
             scanner.close();
         } catch (FileNotFoundException e) {
-            System.out.println("Expected to find a ddl file for suppliers and inventory called 'superli_ddl.txt'.");
+            System.out.println("Expected to find a ddl file for suppliers and ServiceLayer.PersentationLayer.inventory called 'superli_ddl.txt'.");
             e.printStackTrace();
         }
         Connection conn = connect();

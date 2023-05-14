@@ -12,6 +12,7 @@ import java.util.TreeMap;
 
 import org.junit.*;
 
+import BusinessLayer.Inventory.CategoryController;
 import BusinessLayer.InveontorySuppliers.Product;
 import BusinessLayer.InveontorySuppliers.ProductController;
 import BusinessLayer.InveontorySuppliers.ReceiptItem;
@@ -20,8 +21,6 @@ import BusinessLayer.Suppliers.Supplier;
 import BusinessLayer.Suppliers.ProductAgreement;
 import BusinessLayer.Suppliers.SupplierController;
 import BusinessLayer.exceptions.SuppliersException;
-import DataAccessLayer.DTOs.CategoryDTO;
-import DataAccessLayer.DTOs.ProductDTO;
 import DataAccessLayer.DTOs.ReceiptItemDTO;
 
 public class SupplierControllerTest {
@@ -68,9 +67,8 @@ public class SupplierControllerTest {
     }
 
     public void createProduct() throws SuppliersException, SQLException {
-        CategoryDTO diaryCategoryDTO = new CategoryDTO(1, "Diary");
-        ProductDTO TaraMilk = new ProductDTO(203, "Tara Milk 1.5L", "Tara", diaryCategoryDTO);
-        ProductController.getInstance().addProduct(TaraMilk);
+        CategoryController.getInstance().addNewCategory("Diary");
+        ProductController.getInstance().addProduct(203, "Tara Milk 1.5L", "Tara", 0);
     }
 
     @Test

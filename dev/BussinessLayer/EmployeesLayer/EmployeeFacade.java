@@ -25,19 +25,19 @@ public class EmployeeFacade {
         driversDAO = new DriversDAO();
         roleClass = new Role();
 
-        // add roles instaces to the class Role in Misc
-        roleClass.addRole("HRMANAGER");
-        roleClass.addRole("TRANSPORTMANAGER");
-        roleClass.addRole("SUPPLIERMANAGER");
-        roleClass.addRole("INVENTORYMANAGER");
-        roleClass.addRole("BRANCHMANAGER");
-        roleClass.addRole("SHIFTMANAGER");
-        roleClass.addRole("CASHIER");
-        roleClass.addRole("STOREKEEPER");
-        roleClass.addRole("DRIVER");
-        roleClass.addRole("GENERRAL");
-        roleClass.addRole("CLEANER");
-        roleClass.addRole("SECURITY");
+        // // add roles instaces to the class Role in Misc
+        // roleClass.addRole("HRMANAGER");
+        // roleClass.addRole("TRANSPORTMANAGER");
+        // roleClass.addRole("SUPPLIERMANAGER");
+        // roleClass.addRole("INVENTORYMANAGER");
+        // roleClass.addRole("BRANCHMANAGER");
+        // roleClass.addRole("SHIFTMANAGER");
+        // roleClass.addRole("CASHIER");
+        // roleClass.addRole("STOREKEEPER");
+        // roleClass.addRole("DRIVER");
+        // roleClass.addRole("GENERRAL");
+        // roleClass.addRole("CLEANER");
+        // roleClass.addRole("SECURITY");
 
         // Adding Hr manager manualy to the system.
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");

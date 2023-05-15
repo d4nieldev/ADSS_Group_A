@@ -530,7 +530,7 @@ public class TransportFacade {
     private void printDrivers(List<Driver> drivers) {
         for (int i = 0; i < drivers.size(); i++) {
             Driver driver = drivers.get(i);
-            System.out.println(i + ": " + driver.getFirstName() + " (" + driver.getDriverLicense() + ")");
+            System.out.println(i + ": " + driver.getFirstName() +" "+driver.getLastName()+ " (" + driver.getDriverLicense() + ")");
         }
     }
 

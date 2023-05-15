@@ -254,7 +254,6 @@ public class Transport {
         System.out.println("Date: " + date);
         System.out.println("Leaving Time: " + leavingTime);
         System.out.println("Truck Number: " + truckNumber);
-        System.out.println("Driver Name: " + driverName);
         System.out.println("Driver ID: " + driverId);
         System.out.println("Source: " + source);
 

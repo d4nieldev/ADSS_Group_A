@@ -9,6 +9,13 @@
             "name": "MainV2",
             "request": "launch",
             "mainClass": "PresentationLayer.MainV2",
+            "projectName": "ADSS_Group_A_48ceeda7"
+        },
+        {
+            "type": "java",
+            "name": "MainV2",
+            "request": "launch",
+            "mainClass": "PresentationLayer.MainV2",
             "projectName": "ADSS_Group_A_a5407a9a"
         },
         {

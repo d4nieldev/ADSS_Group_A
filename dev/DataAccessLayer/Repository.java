@@ -103,6 +103,8 @@ public class Repository {
                 value = rs.getString(i);
                 break;
         }
+        if (rs.wasNull())
+            value = null;
         return value;
     }
 

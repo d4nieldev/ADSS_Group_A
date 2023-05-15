@@ -33,7 +33,7 @@
         <SOURCES />
       </library>
     </orderEntry>
-    <orderEntry type="module-library" exported="">
+    <orderEntry type="module-library">
       <library>
         <CLASSES>
           <root url="jar://$MODULE_DIR$/dev/lib/sqlite-jdbc-3.41.2.1.jar!/" />
@@ -42,5 +42,6 @@
         <SOURCES />
       </library>
     </orderEntry>
+    <orderEntry type="library" exported="" name="sqlite-jdbc-3.41.2.1" level="project" />
   </component>
 </module>

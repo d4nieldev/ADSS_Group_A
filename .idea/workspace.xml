@@ -5,10 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="a2472df3-0b1c-47fc-bcd6-f26fc4f0a51c" name="Changes" comment="Changes">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dev/BussinessLayer/EmployeesLayer/EmployeeFacade.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/BussinessLayer/EmployeesLayer/EmployeeFacade.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dev/PresentationLayer/MainV2.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/PresentationLayer/MainV2.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dev/TestTransport/EmployeeControllerTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/TestTransport/EmployeeControllerTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.vscode/settings.json" beforeDir="false" afterPath="$PROJECT_DIR$/.vscode/settings.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -42,11 +39,12 @@
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/dev/lib/sqlite-jdbc-3.41.2.1.jar" />
     <property name="project.structure.last.edited" value="Modules" />
-    <property name="project.structure.proportion" value="0.0" />
-    <property name="project.structure.side.proportion" value="0.0" />
+    <property name="project.structure.proportion" value="0.15" />
+    <property name="project.structure.side.proportion" value="0.2" />
   </component>
   <component name="RunManager" selected="Application.java">
     <configuration name="java" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
@@ -74,7 +72,7 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="EmployeeControllerTest.logOut" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="EmployeeControllerTest.logIn" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="ADSS_Group_A" />
       <extension name="coverage">
         <pattern>
@@ -84,7 +82,7 @@
       </extension>
       <option name="PACKAGE_NAME" value="TestTransport" />
       <option name="MAIN_CLASS_NAME" value="TestTransport.EmployeeControllerTest" />
-      <option name="METHOD_NAME" value="logOut" />
+      <option name="METHOD_NAME" value="logIn" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -93,7 +91,7 @@
     <recent_temporary>
       <list>
         <item itemvalue="Application.java" />
-        <item itemvalue="JUnit.EmployeeControllerTest.logOut" />
+        <item itemvalue="JUnit.EmployeeControllerTest.logIn" />
         <item itemvalue="JUnit.EmployeeControllerTest" />
       </list>
     </recent_temporary>
@@ -107,7 +105,7 @@
       <option name="presentableId" value="Default" />
       <updated>1680005362759</updated>
       <workItem from="1682600820798" duration="1371000" />
-      <workItem from="1684175940486" duration="1532000" />
+      <workItem from="1684175940486" duration="3396000" />
     </task>
     <servers />
   </component>
@@ -124,7 +122,6 @@
         </entry>
       </map>
     </option>
-    <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -134,7 +131,17 @@
           <line>449</line>
           <option name="timeStamp" value="3" />
         </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/dev/DataAccessLayer/DAO/DAO.java</url>
+          <line>58</line>
+          <option name="timeStamp" value="4" />
+        </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
+    <watches-manager>
+      <configuration name="Application">
+        <watch expression="((JDBC4ResultSet)res).colsMeta" custom="org.sqlite.jdbc4.JDBC4ResultSet" />
+      </configuration>
+    </watches-manager>
   </component>
 </project>

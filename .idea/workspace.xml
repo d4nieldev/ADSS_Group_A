@@ -5,8 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="a2472df3-0b1c-47fc-bcd6-f26fc4f0a51c" name="Changes" comment="Changes">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dev/TestTransport/EmployeeControllerTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/TestTransport/EmployeeControllerTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.vscode/settings.json" beforeDir="false" afterPath="$PROJECT_DIR$/.vscode/settings.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -40,6 +39,7 @@
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/dev/lib/sqlite-jdbc-3.41.2.1.jar" />
     <property name="project.structure.last.edited" value="Modules" />
@@ -105,7 +105,7 @@
       <option name="presentableId" value="Default" />
       <updated>1680005362759</updated>
       <workItem from="1682600820798" duration="1371000" />
-      <workItem from="1684175940486" duration="2858000" />
+      <workItem from="1684175940486" duration="3396000" />
     </task>
     <servers />
   </component>

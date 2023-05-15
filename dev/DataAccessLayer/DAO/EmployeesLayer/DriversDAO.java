@@ -215,8 +215,20 @@ public class DriversDAO extends DAO<DriverDTO> {
     }
     
     public List<DriverDTO> getDriversByDate(LocalDate date) {
-        List<DriverDTO> drivers = getAll("Date", date);
-        return drivers;
+        Connection conn = Repository.getInstance().connect();
+        ResultSet RS = driversAvailableShiftDatesDAO.getAll(conn,"Date", date);
+        List <DriverDTO> output= new LinkedList<>();
+        
+        try {
+            Statement S = conn.createStatement();
+            while (RS.next())
+                output.add(makeDTO(RS));
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        } finally {
+            Repository.getInstance().closeConnection(conn);
+        }
+        return output;
     }
 
     public int addAvailableShiftDates(int empID, LocalDate dateToAdd) {

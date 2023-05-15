@@ -255,6 +255,7 @@ public class EmployeeFacade {
         for (DriverDTO driverDTO : driversDTO) {
             Driver d = new Driver(driverDTO);
             drivers.add(d);
+            d.getWorkedDates().contains(date);
             returnDrivers.add(d);
         }
         return returnDrivers;
@@ -271,6 +272,7 @@ public class EmployeeFacade {
         for (DriverDTO driverDTO : driversDTO) {
             Driver d = new Driver(driverDTO);
             drivers.add(d);
+            d.getAvailableShiftDates().contains(date);
             returnDrivers.add(d);
         }
         return returnDrivers;

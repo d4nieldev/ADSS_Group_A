@@ -4,6 +4,7 @@ import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 import DataAccessLayer.DTOs.DiscountDTO;
 
@@ -25,7 +26,13 @@ public class DiscountDAO extends DAO<DiscountDTO> {
     public DiscountDTO makeDTO(Map<String, Object> row) throws SQLException {
         int id = (int) row.get("id");
         LocalDate startDate = LocalDate.parse((String) row.get("startDate"));
-        String endDateString = (String) row.get("endDate");
+        Object end = row.get("endDate");
+        String endDateString;
+        if (Objects.isNull(end)) {
+            endDateString = null;
+        } else {
+            endDateString = (String) end;
+        }
         LocalDate endDate = null;
         if (endDateString != null) {
             endDate = LocalDate.parse(endDateString);

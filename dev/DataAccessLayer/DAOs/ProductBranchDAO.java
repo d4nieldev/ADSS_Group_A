@@ -4,6 +4,7 @@ import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 import DataAccessLayer.DTOs.DiscountDTO;
 import DataAccessLayer.DTOs.ProductBranchDTO;
@@ -27,7 +28,13 @@ public class ProductBranchDAO extends DAO<ProductBranchDTO> {
     @Override
     public ProductBranchDTO makeDTO(Map<String, Object> row) throws SQLException {
         int productId = (int) row.get("productId");
-        Integer discountId = (Integer) row.get("discountId");
+        Integer discountId;
+        Object dis = row.get("discountId");
+        if (Objects.isNull(dis)) {
+            discountId = null;
+        } else {
+            discountId = (Integer) dis;
+        }
         int branchId = (int) row.get("branchId");
         double price = (double) row.get("price");
         int minQuantity = (int) row.get("minQuantity");

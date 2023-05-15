@@ -280,7 +280,7 @@ public class Repository {
 
                     FOREIGN KEY (productId, branchId) REFERENCES ProductBranch(productId, branchId) ON DELETE CASCADE,
                     FOREIGN KEY (discountId)          REFERENCES Discounts(id)                      ON DELETE SET NULL,
-                    PRIMARY KEY (discountId,branchId,discountId)
+                    PRIMARY KEY (productId,branchId,discountId)
                 );
 
                 CREATE TABLE IF NOT EXISTS SpecificProduct (

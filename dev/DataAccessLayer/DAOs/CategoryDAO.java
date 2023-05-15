@@ -3,6 +3,7 @@ package DataAccessLayer.DAOs;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 import DataAccessLayer.DTOs.CategoryDTO;
 
@@ -23,12 +24,18 @@ public class CategoryDAO extends DAO<CategoryDTO> {
     public CategoryDTO makeDTO(Map<String, Object> row) throws SQLException {
         int id = (int) row.get("id");
         String name = (String) row.get("name");
-        String categoryParentId = (String) row.get("parent");
+        Object parent = row.get("parent");
+        Integer categoryParentId;
+        if (Objects.isNull(parent)) {
+            categoryParentId = null;
+        } else {
+            categoryParentId = (Integer) parent;
+        }
         CategoryDTO parenCategoryDTO;
         if (categoryParentId == null) {
             parenCategoryDTO = null;
         } else {
-            parenCategoryDTO = getById(Integer.parseInt(categoryParentId));
+            parenCategoryDTO = getById(categoryParentId);
         }
         return new CategoryDTO(id, name, parenCategoryDTO);
     }

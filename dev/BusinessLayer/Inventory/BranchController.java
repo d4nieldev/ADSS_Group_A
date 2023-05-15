@@ -169,10 +169,10 @@ public class BranchController {
         DiscountDTO discountDTO = null;
         if (discount instanceof DiscountFixed) {
             discountDTO = new DiscountDTO(discount.getDiscountId(), discount.getStart_date(), discount.getEnd_date(),
-                    discount.getDiscountValue(), "fixed Discount");
+                    discount.getDiscountValue(), "Fixed");
         } else {
             discountDTO = new DiscountDTO(discount.getDiscountId(), discount.getStart_date(), discount.getEnd_date(),
-                    discount.getDiscountValue(), "Percentage discount");
+                    discount.getDiscountValue(), "Precentage");
         }
         discountDAO.insert(discountDTO);
         Branch branch = allBranches.get(branchId);

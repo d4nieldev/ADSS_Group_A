@@ -32,7 +32,7 @@ public class InventoryReportEntryDAO extends DAO<InventoryReportEntryDTO> {
         if (!rs.next())
             return null;
 
-        int reportId = rs.getInt("reportId");
+        int reportId = rs.getInt("entryId");
         int productId = rs.getInt("productId");
         int shelfAmount = rs.getInt("shelfAmount");
         int storageAmount = rs.getInt("storageAmount");
@@ -41,7 +41,7 @@ public class InventoryReportEntryDAO extends DAO<InventoryReportEntryDTO> {
     }
 
     public InventoryReportDTO getFullReportById(int reportId) throws SQLException {
-        String query = "SELECT * FROM " + tableName + " WHERE reportId = ?;";
+        String query = "SELECT * FROM " + tableName + " WHERE entryId = ?;";
         ResultSet rs = repo.executeQuery(query, reportId);
 
         Map<Integer, Integer> idToStorageAmount = new HashMap<>();

@@ -51,6 +51,7 @@ public class Branch {
         this.branchId = branchDTO.getId();
         this.branchName = branchDTO.getName();
         this.allProductBranches = new HashMap<>();
+        this.productToAmount = new HashMap<>();
         HashMap<Integer, PeriodicReservation> res = new HashMap<>();
         this.supplierToPeriodicReservations = new HashMap<>();
         this.categoryController = CategoryController.getInstance();

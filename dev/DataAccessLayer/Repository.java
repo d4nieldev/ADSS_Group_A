@@ -29,6 +29,7 @@ public class Repository {
         try {
             Class.forName("org.sqlite.JDBC");
             String url = "jdbc:sqlite:database.db";
+//            String url = "jdbc:sqlite::memory:";
             conn = DriverManager.getConnection(url);
 
         } catch (SQLException e) {

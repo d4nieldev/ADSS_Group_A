@@ -10,8 +10,8 @@ public class CategoryDTO implements DTO {
     private String name;
     private CategoryDTO parentCategoryDTO; // can be null
 
-    public CategoryDTO( String name, CategoryDTO parentCategoryDTO) {
-        this.id = Global.getNewCategoryid();
+    public CategoryDTO( int id ,String name, CategoryDTO parentCategoryDTO) {
+        this.id = id;
         this.name = name;
         this.parentCategoryDTO = parentCategoryDTO;
     }

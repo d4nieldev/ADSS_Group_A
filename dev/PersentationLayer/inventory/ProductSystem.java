@@ -118,14 +118,14 @@ public class ProductSystem {
                 System.out.println("please enter discount fix number");
                 double fixNumber = Double.parseDouble(reader.readLine());
                 DiscountDTO discountDTO = new DiscountDTO(Global.getNewDiscountId(), LocalDate.parse(startDate),
-                        LocalDate.parse(endDate), fixNumber, "Fix Discount");
+                        LocalDate.parse(endDate), fixNumber, "Fixed");
                 DiscountFixed discount = new DiscountFixed(discountDTO);
                 productService.setDiscountByCategories(branchId, lst, discount);
             } else if (discountKind == 2) {
                 System.out.println("please enter discount percentage");
                 double discountPercentage = Double.parseDouble(reader.readLine());
                 DiscountDTO discountDTO = new DiscountDTO(Global.getNewDiscountId(), LocalDate.parse(startDate),
-                        LocalDate.parse(endDate), discountPercentage, "Percentage Discount");
+                        LocalDate.parse(endDate), discountPercentage, "Precentage");
                 DiscountPercentage discount = new DiscountPercentage(discountDTO);
                 productService.setDiscountByCategories(branchId, lst, discount);
             }
@@ -244,20 +244,20 @@ public class ProductSystem {
     public static void getMenu() {
         System.out.println("Please choose an action (press 0 for menu):");
         System.out.println("1.  Add new product");
-        System.out.println("2.  Import PersentationLayer.inventory report");
-        System.out.println("3.  Receive supply");
-        System.out.println("4.  Sell product");
-        System.out.println("5.  Set discount - categories");
-        System.out.println("6.  Set discount - product");
-        System.out.println("7.  Report flaw product");
-        System.out.println("8.  Import general product report");
-        System.out.println("9.  Import product history discount");
-        System.out.println("10. Import expired product report");
-        System.out.println("11. Import flaw report");
-        System.out.println("12. Import PersentationLayer.inventory report by categories");
-        System.out.println("13. Import buy-sell");
-        System.out.println("14. Import shortage report");
-        System.out.println("15. Import future expired products");
+        System.out.println("2.  Add Category");
+//        System.out.println("3.  Receive supply");
+        System.out.println("3.  Sell product");
+        System.out.println("4.  Set discount - categories");
+        System.out.println("5.  Set discount - product");
+        System.out.println("6.  Report flaw product");
+        System.out.println("7.  Import inventory Report");
+        System.out.println("8.  Import expired and flaws report");
+        System.out.println("9. Import deficiency report");
+        System.out.println("10. Import inventory report by categories");
+        System.out.println("11. Import report by report id");
+        System.out.println("12. Import product report");
+        System.out.println("13. Import shortage report");
+//        System.out.println("14. Import future expired products");
         System.out.println("-1. close the program");
     }
 
@@ -269,19 +269,19 @@ public class ProductSystem {
         System.out.println("Please choose an action (press 0 for menu):");
         System.out.println("1.  Add new product");
         System.out.println("2.  Add Category");
-        System.out.println("3.  Receive supply");
-        System.out.println("4.  Sell product");
-        System.out.println("5.  Set discount - categories");
-        System.out.println("6.  Set discount - product");
-        System.out.println("7.  Report flaw product");
-        System.out.println("8.  Import general product report");
-        System.out.println("9.  Import product history discount");
-        System.out.println("10. Import expired product report");
-        System.out.println("11. Import flaw report");
-        System.out.println("12. Import PersentationLayer.inventory report by categories");
-        System.out.println("13. Import buy-sell");
-        System.out.println("14. Import shortage report");
-        System.out.println("15. Import future expired products");
+//        System.out.println("3.  Receive supply");
+        System.out.println("3.  Sell product");
+        System.out.println("4.  Set discount - categories");
+        System.out.println("5.  Set discount - product");
+        System.out.println("6.  Report flaw product");
+        System.out.println("7.  Import inventory Report");
+        System.out.println("8.  Import expired and flaws report");
+        System.out.println("9. Import deficiency report");
+        System.out.println("10. Import inventory report by categories");
+        System.out.println("11. Import report by report id");
+        System.out.println("12. Import product report");
+        System.out.println("13. Import shortage report");
+//        System.out.println("14. Import future expired products");
         System.out.println("-1. close the program");
         System.out.println("--------------------------------------------------------");
 

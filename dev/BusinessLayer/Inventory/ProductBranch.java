@@ -53,7 +53,9 @@ public class ProductBranch {
 
         this.allSpecificProducts = specificProductMap;
         DiscountController discountController = DiscountController.getInstance();
-        this.discount = discountController.getDiscountById(productBranchDTO.getDiscountDTO().getId());
+
+//        this.discount = discountController.getDiscountById(productBranchDTO.getDiscountDTO().getId());
+        this.discount = null;
         this.totalAmount = productBranchDTO.getAllSpecificProducts().size();
         this.discountsHistory = new ArrayList<>();
         this.productBranchDTO = productBranchDTO;

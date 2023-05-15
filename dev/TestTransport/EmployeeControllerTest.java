@@ -16,7 +16,6 @@ import static org.junit.jupiter.api.Assertions.*;
 
      @BeforeEach
      void setUp() {
-
      }
 
      @Test
@@ -24,26 +23,26 @@ import static org.junit.jupiter.api.Assertions.*;
 
          //////////////Test 1///////////////
          assertFalse(emp.getEmployeeById(123456789).getIsLoggedIn()); //check that at the begging the employee is logged off.
-         emp.logIn(123456789, "abc");
+         emp.logIn(123456789, "HRmanager");
          assertTrue(emp.getEmployeeById(123456789).getIsLoggedIn()); //check that the login function worked.
          emp.logOut(123456789);
 
          //////////////Test 2///////////////
-         emp.logIn(123456789, "abc");
-         assertThrows(Error.class, () -> emp.logIn(123456789, "abc")); //log in to logged in employee.
+         emp.logIn(123456789, "HRmanager");
+         assertThrows(Error.class, () -> emp.logIn(123456789, "HRmanager")); //log in to logged in employee.
 
          //////////////Test 3///////////////
-         assertThrows(Error.class, () -> emp.logIn(123789, "abc")); // log in to non exist employee
+         assertThrows(Error.class, () -> emp.logIn(123789, "HRmanager")); // log in to non exist employee
 
          //////////////Test 4///////////////
-         assertThrows(Error.class, () -> emp.logIn(123456789, "ab")); // log in with incorrect password.
+         assertThrows(Error.class, () -> emp.logIn(123456789, "HRmanagerrrrrr")); // log in with incorrect password.
      }
 
      @Test
      void logOut() {
 
          //////////////Test 1///////////////
-         emp.logIn(123456789, "abc");
+         emp.logIn(123456789, "HRmanager");
          emp.logOut(123456789);
          assertFalse(emp.getEmployeeById(123456789).getIsLoggedIn()); //check the logout function works.
 
@@ -63,7 +62,7 @@ import static org.junit.jupiter.api.Assertions.*;
                  "Chashier", "HRMANAGER", 0)); //add employee from offline HR.
 
          //////////////Test 2///////////////
-         emp.logIn(123456789, "abc");
+         emp.logIn(123456789, "HRmanager");
          emp.addEmployee(123456789,"Tal", "Koren", 123, "123",
                  123, 123, 123, 123, 123,
                  localDate, "Chashier", "HRMANAGER", 0);
@@ -85,7 +84,7 @@ import static org.junit.jupiter.api.Assertions.*;
          DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
          LocalDate localDate = LocalDate.parse("05-06-2003", formatter);
 
-         emp.logIn(123456789, "abc");
+         emp.logIn(123456789, "HRmanager");
 
          //////////////Test 1///////////////
          emp.addEmployee(123456789,"Tal", "Koren", 123, "123",
@@ -106,7 +105,7 @@ import static org.junit.jupiter.api.Assertions.*;
          DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
          LocalDate localDate = LocalDate.parse("05-06-2003", formatter);
 
-         emp.logIn(123456789, "abc");
+         emp.logIn(123456789, "HRmanager");
          emp.addEmployee(123456789,"Tal", "Koren", 123, "123",
                  123, 123, 123, 123, 123,
                  localDate, "Chashier", "Chashier", 0);
@@ -139,7 +138,7 @@ import static org.junit.jupiter.api.Assertions.*;
          DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
          LocalDate localDate = LocalDate.parse("05-06-2003", formatter);
 
-         emp.logIn(123456789, "abc");
+         emp.logIn(123456789, "HRmanager");
          emp.addEmployee(123456789,"Tal", "Koren", 123, "123",
                  123, 123, 123, 123, 123,
                  localDate, "Chashier", "Chashier", 0);
@@ -174,7 +173,7 @@ import static org.junit.jupiter.api.Assertions.*;
          DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
          LocalDate localDate = LocalDate.parse("05-06-2003", formatter);
 
-         emp.logIn(123456789, "abc");
+         emp.logIn(123456789, "HRmanager");
          emp.addEmployee(123456789,"Tal", "Koren", 123, "123",
                  123, 123, 123, 123, 123,
                  localDate, "Chashier", "Chashier", 0);
@@ -202,7 +201,7 @@ import static org.junit.jupiter.api.Assertions.*;
          DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
          LocalDate localDate = LocalDate.parse("05-06-2003", formatter);
 
-         emp.logIn(123456789, "abc");
+         emp.logIn(123456789, "HRmanager");
          emp.addEmployee(123456789,"Tal", "Koren", 123, "123",
                  123, 123, 123, 123, 123,
                  localDate, "Chashier", "Chashier", 0);
@@ -230,7 +229,7 @@ import static org.junit.jupiter.api.Assertions.*;
          DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
          LocalDate localDate = LocalDate.parse("05-06-2003", formatter);
 
-         emp.logIn(123456789, "abc");
+         emp.logIn(123456789, "HRmanager");
          emp.addEmployee(1123456789,"Tal", "Koren", 123, "123",
                  123, 123, 123, 123, 123,
                  localDate, "Chashier", "Chashier", 0);
@@ -258,7 +257,7 @@ import static org.junit.jupiter.api.Assertions.*;
          DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
          LocalDate localDate = LocalDate.parse("05-06-2003", formatter);
 
-         emp.logIn(123456789, "abc");
+         emp.logIn(123456789, "HRmanager");
          emp.addEmployee(123456789,"Tal", "Koren", 123, "123",
                  123, 123, 123, 123, 123,
                  localDate, "Chashier", "Chashier", 0);
@@ -286,7 +285,7 @@ import static org.junit.jupiter.api.Assertions.*;
          DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
          LocalDate localDate = LocalDate.parse("05-06-2003", formatter);
 
-         emp.logIn(123456789, "abc");
+         emp.logIn(123456789, "HRmanager");
          emp.addEmployee(123456789,"Tal", "Koren", 123, "123",
                  123, 123, 123, 123, 123,
                  localDate, "Chashier", "Chashier", 0);
@@ -314,7 +313,7 @@ import static org.junit.jupiter.api.Assertions.*;
          DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
          LocalDate localDate = LocalDate.parse("05-06-2003", formatter);
 
-         emp.logIn(123456789, "abc");
+         emp.logIn(123456789, "HRmanager");
          emp.addEmployee(123456789,"Tal", "Koren", 123, "123",
                  123, 123, 123, 123, 123,
                  localDate, "Chashier", "Chashier", 0);
@@ -342,7 +341,7 @@ import static org.junit.jupiter.api.Assertions.*;
          DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
          LocalDate localDate = LocalDate.parse("05-06-2003", formatter);
 
-         emp.logIn(123456789, "abc");
+         emp.logIn(123456789, "HRmanager");
          emp.addEmployee(123456789,"Tal", "Koren", 123, "123",
                  123, 123, 123, 123, 123,
                  localDate, "Chashier", "Chashier", 0);

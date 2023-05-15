@@ -1,15 +1,15 @@
 package BussinessLayer.EmployeesLayer;
 
-import java.util.LinkedList;
-import java.util.List;
-
-import DataAccessLayer.DAO.EmployeesLayer.*;
+import DataAccessLayer.DAO.EmployeesLayer.DriversDAO;
+import DataAccessLayer.DAO.EmployeesLayer.EmployeesDAO;
 import DataAccessLayer.DTO.EmployeeLayer.DriverDTO;
 import DataAccessLayer.DTO.EmployeeLayer.EmployeeDTO;
+import Misc.License;
+import Misc.Role;
 
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import Misc.*;
+import java.util.LinkedList;
+import java.util.List;
 
 public class EmployeeFacade {
     private LinkedList<Employee> employees;
@@ -54,7 +54,7 @@ public class EmployeeFacade {
 
     // commit log in for employee, if exsist
     public void logIn(int id, String password) {
-        if (isEmployeeExistsAndLoadEmployee(id) && !isEmployeeLoggedIn(id)) {
+        if (!isEmployeeLoggedIn(id)) {
             Employee e = getEmployeeById(id);
 
             if (e.getId() == id && e.getPassword().equals(password)) {

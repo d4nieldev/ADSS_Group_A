@@ -1,22 +1,8 @@
 package PresentationLayer;
 
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
+import ServiceLayer.EmployeesLayer.serviceFactory;
+
 import java.util.Scanner;
-
-import BussinessLayer.EmployeesLayer.Driver;
-import BussinessLayer.TransPortLayer.Delivery;
-import BussinessLayer.TransPortLayer.Destination;
-import BussinessLayer.TransPortLayer.DestinationType;
-import BussinessLayer.TransPortLayer.Location;
-import Misc.ShiftTime;
-import ServiceLayer.TransportLayer.TransportService;
-import ServiceLayer.TransportLayer.TruckService;
-
-import ServiceLayer.EmployeesLayer.*;
 
 class MainV2 {
 

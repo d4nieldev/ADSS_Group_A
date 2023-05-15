@@ -5,8 +5,6 @@ import BusinessLayer.InveontorySuppliers.Branch;
 import BusinessLayer.InveontorySuppliers.Discount;
 import BusinessLayer.InveontorySuppliers.Product;
 import BusinessLayer.InveontorySuppliers.ProductController;
-import BusinessLayer.Suppliers.SupplierController;
-import BusinessLayer.exceptions.SuppliersException;
 import DataAccessLayer.DAOs.CategoryDAO;
 import DataAccessLayer.DTOs.*;
 
@@ -31,7 +29,6 @@ public class ProductService {
         this.productController = ProductController.getInstance();
         this.categoryController = CategoryController.getInstance();
         this.branchController = BranchController.getInstance();
-
 
     }
 

@@ -27,13 +27,13 @@ public class ProductSystem {
         }
     }
 
-    //    static {
-//        try {
-//            productService = new ProductService();
-//        } catch (Exception e) {
-//            throw new RuntimeException(e);
-//        }
-//    }
+    // static {
+    // try {
+    // productService = new ProductService();
+    // } catch (Exception e) {
+    // throw new RuntimeException(e);
+    // }
+    // }
     private static ReservationService reservationService = ReservationService.create();
 
     public static int addNewCategory() {
@@ -242,10 +242,9 @@ public class ProductSystem {
     }
 
     public static void getMenu() {
-        System.out.println("Please choose an action (press 0 for menu):");
         System.out.println("1.  Add new product");
         System.out.println("2.  Add Category");
-//        System.out.println("3.  Receive supply");
+        // System.out.println("3. Receive supply");
         System.out.println("3.  Sell product");
         System.out.println("4.  Set discount - categories");
         System.out.println("5.  Set discount - product");
@@ -257,8 +256,8 @@ public class ProductSystem {
         System.out.println("11. Import report by report id");
         System.out.println("12. Import product report");
         System.out.println("13. Import shortage report");
-//        System.out.println("14. Import future expired products");
-        System.out.println("-1. close the program");
+        // System.out.println("14. Import future expired products");
+        // System.out.println("-1. close the program");
     }
 
     public static void getStart() {
@@ -269,7 +268,7 @@ public class ProductSystem {
         System.out.println("Please choose an action (press 0 for menu):");
         System.out.println("1.  Add new product");
         System.out.println("2.  Add Category");
-//        System.out.println("3.  Receive supply");
+        // System.out.println("3. Receive supply");
         System.out.println("3.  Sell product");
         System.out.println("4.  Set discount - categories");
         System.out.println("5.  Set discount - product");
@@ -281,7 +280,7 @@ public class ProductSystem {
         System.out.println("11. Import report by report id");
         System.out.println("12. Import product report");
         System.out.println("13. Import shortage report");
-//        System.out.println("14. Import future expired products");
+        // System.out.println("14. Import future expired products");
         System.out.println("-1. close the program");
         System.out.println("--------------------------------------------------------");
 

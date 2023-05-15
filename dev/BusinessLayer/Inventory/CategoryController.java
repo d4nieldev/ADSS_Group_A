@@ -52,6 +52,11 @@ public class CategoryController {
         return category.getId();
     }
 
+    public void clearData(){
+        allCategories.clear();
+        categoryDic.clear();
+    }
+
     // public void addNewCategory(String name) {
     // boolean flag = false;
     // for (Category cat : allCategories) {

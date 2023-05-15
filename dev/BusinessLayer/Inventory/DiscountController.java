@@ -29,4 +29,8 @@ public class DiscountController {
     public Discount getDiscountById(int discountId) {
         return idToDiscount.get(discountId);
     }
+
+    public void clearData(){
+        idToDiscount.clear();
+    }
 }

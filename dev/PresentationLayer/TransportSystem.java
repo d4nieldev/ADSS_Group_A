@@ -273,11 +273,11 @@ public class TransportSystem
                 dests.add(new Destination(name, phoneNumber, contactName, location, DestinationType.DESTINATION));
             }
         } else {
-            dests.add(transportService.addDestination("tel aviv", "555-1234", "John Smith", Location.NORTH,
+            dests.add(transportService.addDestination("Tel Aviv", "555-1234", "John Smith", Location.NORTH,
                     DestinationType.DESTINATION));
-            dests.add(transportService.addDestination("raanana", "555-5678", "Jane Doe", Location.SOUTH,
+            dests.add(transportService.addDestination("Yafo", "555-5678", "Jane Doe", Location.SOUTH,
                     DestinationType.DESTINATION));
-            dests.add(new Destination("ashkelon", "555-9012", "Bob Johnson", Location.CENTER,
+            dests.add(new Destination("Haifa", "555-9012", "Bob Johnson", Location.CENTER,
                     DestinationType.DESTINATION));
         }
 
@@ -363,11 +363,11 @@ public class TransportSystem
                 }
             }
         } else {
-            System.out.println(truckService.addTruck("aaaa", "b", 200, 250));
-            System.out.println(truckService.addTruck("bbbb", "b", 200, 1000));
-            System.out.println(truckService.addTruck("cccc", "c", 200, 1000));
-            System.out.println(truckService.addTruck("dddd", "b", 200, 1000));
-            System.out.println(truckService.addTruck("eeee", "null", 200, 1000));
+            System.out.println(truckService.addTruck("aaaa", "B", 200, 250));
+            System.out.println(truckService.addTruck("bbbb", "B", 200, 1000));
+            System.out.println(truckService.addTruck("cccc", "C", 200, 1000));
+            System.out.println(truckService.addTruck("dddd", "B", 200, 1000));
+            System.out.println(truckService.addTruck("eeee", "NULL", 200, 1000));
         }
 
     }

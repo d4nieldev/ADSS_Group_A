@@ -106,7 +106,7 @@ public class ShiftFacade {
     
     public void AddDriverToShift(Driver driver, int shiftID){
         getShift(shiftID).addDriver(driver);
-        shiftsDAO.addDriverInShift(driver.getId(), shiftID);
+        shiftsDAO.addDriverInShift(shiftID, driver.getId());
     }
 
     public void removeAllConstraintsForEmployee(Employee employee) {

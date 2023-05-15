@@ -157,6 +157,7 @@ public class EmployeeFacade {
         }
         for (Employee employee : employees) {
             strPrint += employee.newToString() + "\n";
+            if(employee.getId() == managerId) {employee.SetIsLoggedInToTrue();}
         }
         return strPrint;
     }

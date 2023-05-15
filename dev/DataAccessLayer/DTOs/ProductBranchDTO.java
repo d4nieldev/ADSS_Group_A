@@ -34,7 +34,7 @@ public class ProductBranchDTO implements DTO {
     public Map<String, String> getNameToVal() {
         Map<String, String> nameToVal = new HashMap<>();
         nameToVal.put("productId", "" + productDTO.getId());
-        nameToVal.put("discountId", "" + discountDTO.getId());
+       // nameToVal.put("discountId", "" + discountDTO.getId());
         nameToVal.put("branchId", "" + branchId);
         nameToVal.put("price", "" + price);
         nameToVal.put("minQuantity", "" + minQuantity);

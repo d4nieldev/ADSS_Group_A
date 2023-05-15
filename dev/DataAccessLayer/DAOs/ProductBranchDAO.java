@@ -46,7 +46,7 @@ public class ProductBranchDAO extends DAO<ProductBranchDTO> {
     }
 
     public ProductBranchDTO getByProductAndBranchId(int productId, int branchId) throws SQLException {
-        String query = "SELECT * FROM SpecificProducts WHERE productId= ? AND branchId= ?;";
+        String query = "SELECT * FROM " + tableName + " WHERE productId= ? AND branchId= ?;";
         ResultSet rs = repo.executeQuery(query, productId, branchId);
         ProductBranchDTO dto = makeDTO(rs);
         rs.close();

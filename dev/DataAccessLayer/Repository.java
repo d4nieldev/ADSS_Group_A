@@ -206,6 +206,7 @@ public class Repository {
                     branchId    INTEGER NOT NULL,
                     price       REAL    NOT NULL,
                     minQuantity INTEGER NOT NULL,
+                    idealQuantity INTEGER NOT NULL,
 
                     CHECK (minQuantity > 0 AND price >= 0),
 
@@ -234,7 +235,7 @@ public class Repository {
                     flaw       TEXT,
                     expDate    TEXT    NOT NULL,
 
-                    CHECK (buyPrice >= 0 AND sellPrice >= 0 AND status IN ('SOLD', 'ON_SHELF', 'ON_STORAGE')),
+                    CHECK (buyPrice >= 0 AND status IN ('SOLD', 'ON_SHELF', 'ON_STORAGE', 'EXPIRED')),
 
                     FOREIGN KEY (generalId, branchId) REFERENCES ProductBranch(productId, branchId) ON DELETE SET NULL,
                     PRIMARY KEY (specificId)

@@ -5,6 +5,7 @@ import static org.junit.Assert.assertThrows;
 import static org.junit.Assert.fail;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -14,33 +15,41 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import BusinessLayer.Inventory.BranchController;
+import BusinessLayer.Inventory.CategoryController;
 import BusinessLayer.InveontorySuppliers.Product;
 import BusinessLayer.InveontorySuppliers.ProductController;
 import BusinessLayer.InveontorySuppliers.Reservation;
 import BusinessLayer.Suppliers.ReservationController;
 import BusinessLayer.Suppliers.SupplierController;
 import BusinessLayer.exceptions.SuppliersException;
+import DataAccessLayer.Repository;
 
 public class ReservationControllerTest {
     ReservationController rc = ReservationController.getInstance();
 
     private void createProducts() throws SuppliersException, SQLException {
+        BranchController.getInstance().addBranch(0, "Ashkelon", 80);
+        CategoryController.getInstance().addNewCategory("Cat1");
+        CategoryController.getInstance().addNewCategory("Cat2");
         ProductController.getInstance().addProduct(0, "Product 0", "Manufacturer 0", 0);
         ProductController.getInstance().addProduct(1, "Product 1", "Manufacturer 1", 1);
+        // TODO: how we add product branch??
     }
 
     private void createSupplier0() throws Exception {
         String name = "Supplier 0";
         String phone = "1234567890";
         String bankAccount = "1234567890";
-        List<String> fields = List.of("Health", "Food");
-        String paymentCondition = "Shotef-30";
+        List<String> fields = createList("Health", "Food");
+        String paymentCondition = "net 30 EOM";
         TreeMap<Integer, String> amountToDiscount = new TreeMap<>();
-        List<String> contactNames = List.of("John Doe", "Jane Doe");
-        List<String> contactPhones = List.of("1524973302", "1678420619");
+        List<String> contactNames = createList("John Doe", "Jane Doe");
+        List<String> contactPhones = createList("1524973302", "1678420619");
+        Integer maxSupplyDays = 3;
 
         SupplierController.getInstance().addOnOrderSupplierBaseAgreement(name, phone, bankAccount, fields,
-                paymentCondition, amountToDiscount, contactNames, contactPhones, 3);
+                paymentCondition, amountToDiscount, contactNames, contactPhones, maxSupplyDays);
 
         int supplierId = 0;
         int productShopId = 0;
@@ -48,8 +57,8 @@ public class ReservationControllerTest {
         int stockAmount = 100;
         double basePrice = 100.0;
         amountToDiscount = new TreeMap<>();
-        amountToDiscount.put(50, "10%");
-        amountToDiscount.put(70, "30%");
+        amountToDiscount.put(50, "0.1%");
+        amountToDiscount.put(70, "0.3%");
 
         SupplierController.getInstance().addSupplierProductAgreement(supplierId, productShopId, productSupplierId,
                 stockAmount, basePrice, amountToDiscount);
@@ -59,7 +68,7 @@ public class ReservationControllerTest {
         stockAmount = 50;
         basePrice = 200.0;
         amountToDiscount = new TreeMap<>();
-        amountToDiscount.put(10, "10%");
+        amountToDiscount.put(10, "0.1%");
 
         SupplierController.getInstance().addSupplierProductAgreement(supplierId, productShopId, productSupplierId,
                 stockAmount, basePrice, amountToDiscount);
@@ -70,15 +79,15 @@ public class ReservationControllerTest {
         String name = "Supplier 1";
         String phone = "1234567890";
         String bankAccount = "1234567890";
-        List<String> fields = List.of("Health", "Food");
-        String paymentCondition = "Shotef-30";
+        List<String> fields = createList("Health", "Food");
+        String paymentCondition = "net 30 EOM";
         TreeMap<Integer, String> amountToDiscount = new TreeMap<>();
-        List<String> contactNames = List.of("John Doe", "Jane Doe");
-        List<String> contactPhones = List.of("1524973302", "1678420619");
-        List<Integer> days = List.of(2, 5);
+        List<String> contactNames = createList("John Doe", "Jane Doe");
+        List<String> contactPhones = createList("1524973302", "1678420619");
+        List<Integer> days = createList(2, 5);
 
-        SupplierController.getInstance().addOnOrderSupplierBaseAgreement(name, phone, bankAccount, fields,
-                paymentCondition, amountToDiscount, contactNames, contactPhones, 2);
+        SupplierController.getInstance().addFixedDaysSupplierBaseAgreement(name, phone, bankAccount, fields,
+                paymentCondition, amountToDiscount, contactNames, contactPhones, days);
 
         int supplierId = 1;
         int productShopId = 0;
@@ -86,7 +95,7 @@ public class ReservationControllerTest {
         int stockAmount = 200;
         double basePrice = 90.0;
         amountToDiscount = new TreeMap<>();
-        amountToDiscount.put(70, "10%");
+        amountToDiscount.put(70, "0.1%");
 
         SupplierController.getInstance().addSupplierProductAgreement(supplierId, productShopId, productSupplierId,
                 stockAmount, basePrice, amountToDiscount);
@@ -101,10 +110,19 @@ public class ReservationControllerTest {
                 stockAmount, basePrice, amountToDiscount);
     }
 
+    private static <T> List<T> createList(T... args) {
+        List<T> lst = new ArrayList<>();
+        for (T item : args) {
+            lst.add(item);
+        }
+        return lst;
+    }
+
     private void clearAllData() {
         ProductController.getInstance().clearData();
         SupplierController.getInstance().clearData();
         ReservationController.getInstance().clearData();
+        Repository.getInstance().DELETE_ALL_DATA();
     }
 
     /**
@@ -156,6 +174,7 @@ public class ReservationControllerTest {
 
         // check that no reservation is made
         assertThrows(SuppliersException.class, () -> rc.getReservationReceipt(0));
+
     }
 
     @Test
@@ -174,7 +193,6 @@ public class ReservationControllerTest {
     public void makeAutoReservationNoSplitTest() {
         Map<Integer, Integer> productToAmount = new HashMap<>();
         productToAmount.put(0, 1); // should order from supplier 1 (he is faster)
-
         try {
             rc.makeDeficiencyReservation(productToAmount, 0);
             assertEquals(0, rc.getSupplierReservations(0).size());

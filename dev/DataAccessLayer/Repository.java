@@ -205,6 +205,7 @@ public class Repository {
 
                 CREATE TABLE IF NOT EXISTS ProductBranch (
                     productId   INTEGER NOT NULL,
+                    discountId  INTEGER,
                     branchId    INTEGER NOT NULL,
                     price       REAL    NOT NULL,
                     minQuantity INTEGER NOT NULL,

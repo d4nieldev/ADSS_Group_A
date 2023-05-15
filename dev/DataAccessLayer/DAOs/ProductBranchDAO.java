@@ -13,6 +13,7 @@ public class ProductBranchDAO extends DAO<ProductBranchDTO> {
     private static ProductBranchDAO instance = null;
     private ProductsDAO productDAO;
     private Repository repo;
+    
 
     private ProductBranchDAO() {
         super("ProductBranch");
@@ -32,6 +33,7 @@ public class ProductBranchDAO extends DAO<ProductBranchDTO> {
             return null;
 
         int productId = rs.getInt("productId");
+        int discountId = rs.getInt("discountId");
         int branchId = rs.getInt("branchId");
         double price = rs.getDouble("price");
         int minQuantity = rs.getInt("minQuantity");
@@ -39,7 +41,7 @@ public class ProductBranchDAO extends DAO<ProductBranchDTO> {
         SpecificProductDAO specificProductDAO = SpecificProductDAO.getInstance();
         HashMap<Integer, SpecificProductDTO> specificProductHashMap = specificProductDAO.getByGeneralId(productId,
                 branchId);
-        DiscountDTO discountDTO = getByProductAndBranchId(productId, branchId).getDiscountDTO();
+        DiscountDTO discountDTO = DiscountDAO.getInstance().getById(discountId);
 
         return new ProductBranchDTO(productDAO.getById(productId), discountDTO, branchId, price, minQuantity,
                 idealQuantity, specificProductHashMap);

@@ -67,7 +67,7 @@ public class EmployeeFacade {
                 System.out.println("Hello " + e.getFirstName() + " " +
                         e.getLastName() + " You have logged in successfully");
             } else {
-                System.out.println("Id or password are incorrect.");
+                throw new Error("Id or password are incorrect.");
             }
         } else {
             throw new Error("You must enter a valid Id and be logged out to that user before you log in back again.");

@@ -57,13 +57,13 @@ class MainV2 {
         // shiftAssign.put(999, 5);
         // hrSystem.branchService.approveFinalShift(123456789, 5, 1, shiftAssign);
         // -----------------add constraint-----------------
-        // memberSystem.branchService.addConstraint(1, 999, 4);
+        // hrSystem.employeeService.logIn(207, "emp7");
+        // memberSystem.branchService.addConstraint(2, 207, 3);
         // -----------------show all available shift for employee-----------------
-        // hrSystem.employeeService.logIn(44, "4");
-        // DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
-        // LocalDate localDate = LocalDate.parse("30-05-2023", formatter);
-        // System.out.println(memberSystem.branchService.printAvailableShiftForEmployee(44,
-        //////////////// localDate));
+        //  hrSystem.employeeService.logIn(207, "emp7");
+        //  DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+        //  LocalDate localDate = LocalDate.parse("30-05-2023", formatter);
+        //  System.out.println(memberSystem.branchService.printAvailableShiftForEmployee(207, localDate));
         // -----------------delete an employee-----------------
         // hrSystem.employeeService.logIn(123456789, "abc");
         // hrSystem.branchService.deleteEmployee(123456789, 999);

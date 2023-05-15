@@ -135,7 +135,7 @@ public class Branch {
     public void CheckForDeficiencyReservation() throws SQLException {
         boolean overCapacity = getTotalDeficiencyAmount() > minAmountForDeficiencyReservation;
         if (overCapacity) {
-            makeDeficiencyReservation();
+//            makeDeficiencyReservation();
         }
     }
 

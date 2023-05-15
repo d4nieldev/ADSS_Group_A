@@ -1,12 +1,12 @@
 package DataAccessLayer.DAOs;
 
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Map;
 
-import DataAccessLayer.DTOs.PeriodicReservationDTO;
 import DataAccessLayer.Repository;
 import DataAccessLayer.DTOs.BranchDTO;
+import DataAccessLayer.DTOs.PeriodicReservationDTO;
 
 public class BranchDAO extends DAO<BranchDTO> {
 
@@ -26,30 +26,28 @@ public class BranchDAO extends DAO<BranchDTO> {
     }
 
     @Override
-    public BranchDTO makeDTO(ResultSet rs) throws SQLException {
-        if (!rs.next())
-            return null;
-
-        int id = rs.getInt("id");
-        String name = rs.getString("name");
-        int minAmount = rs.getInt("minAmount");
+    public BranchDTO makeDTO(Map<String, Object> row) throws SQLException {
+        int id = (int) row.get("id");
+        String name = (String) row.get("name");
+        int minAmount = (int) row.get("minAmount");
         PeriodicReservationDAO periodicReservationDAO = PeriodicReservationDAO.getInstance();
         List<PeriodicReservationDTO> allPeriodicReservationDTO = periodicReservationDAO.getByBranchId(id);
         return new BranchDTO(id, name, minAmount, allPeriodicReservationDTO);
     }
 
     public BranchDTO getById(int branchId) throws SQLException {
-        ResultSet rs = repo.executeQuery("SELECT * FROM Branches WHERE id= ?;", branchId);
-        BranchDTO dto = makeDTO(rs);
-        rs.close();
-        return dto;
+        List<Map<String, Object>> rows = repo.executeQuery("SELECT * FROM Branches WHERE id= ?;", branchId);
+        if (rows.size() > 0)
+            return makeDTO(rows.get(0));
+        return null;
     }
 
     public BranchDTO getByName(String name) throws SQLException {
-        ResultSet rs = repo.executeQuery("SELECT * FROM Branches WHERE name= ?;", name);
-        BranchDTO dto = makeDTO(rs);
-        rs.close();
-        return dto;
+        List<Map<String, Object>> rows = repo.executeQuery("SELECT * FROM Branches WHERE name= ?;", name);
+        if (rows.size() > 0)
+            return makeDTO(rows.get(0));
+
+        return null;
     }
 
 }

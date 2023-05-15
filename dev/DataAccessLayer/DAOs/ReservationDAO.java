@@ -1,13 +1,11 @@
 package DataAccessLayer.DAOs;
 
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import BusinessLayer.enums.Status;
-import DataAccessLayer.Repository;
 import DataAccessLayer.DTOs.ContactDTO;
 import DataAccessLayer.DTOs.ReceiptItemDTO;
 import DataAccessLayer.DTOs.ReservationDTO;
@@ -16,13 +14,11 @@ public class ReservationDAO extends DAO<ReservationDTO> {
     private static ReservationDAO instance = null;
     private ReceiptItemDAO receiptItemDAO;
     private ContactDAO contactDAO;
-    private Repository repo;
 
     protected ReservationDAO() {
         super("Reservations");
         receiptItemDAO = ReceiptItemDAO.getInstance();
         contactDAO = ContactDAO.getInstance();
-        repo = Repository.getInstance();
     }
 
     public static ReservationDAO getInstance() {
@@ -32,16 +28,13 @@ public class ReservationDAO extends DAO<ReservationDTO> {
     }
 
     @Override
-    public ReservationDTO makeDTO(ResultSet rs) throws SQLException {
-        if (!rs.next())
-            return null;
-
-        int id = rs.getInt("id");
-        int supplierId = rs.getInt("supplierId");
-        LocalDate date = LocalDate.parse(rs.getString("rDate"));
-        Status status = stringToStatus(rs.getString("status"));
-        int destinationBranchId = rs.getInt("destinationBranch");
-        String contactPhone = rs.getString("contactPhone");
+    public ReservationDTO makeDTO(Map<String, Object> row) throws SQLException {
+        int id = (int) row.get("id");
+        int supplierId = (int) row.get("supplierId");
+        LocalDate date = LocalDate.parse((String) row.get("rDate"));
+        Status status = stringToStatus((String) row.get("status"));
+        int destinationBranchId = (int) row.get("destinationBranch");
+        String contactPhone = (String) row.get("contactPhone");
 
         ContactDTO contact = contactDAO.getBySupplierAndPhone(supplierId, contactPhone);
         List<ReceiptItemDTO> receipt = receiptItemDAO.getReceiptOfReservation(id);
@@ -50,16 +43,16 @@ public class ReservationDAO extends DAO<ReservationDTO> {
     }
 
     public List<ReservationDTO> getFullReservation(int reservationId) throws SQLException {
-        ResultSet rs = repo.executeQuery("SELECT * FROM " + tableName + " WHERE id = ?;", reservationId);
-        List<ReservationDTO> res = makeDTOs(rs);
-        rs.close();
+        String query = "SELECT * FROM " + tableName + " WHERE id = ?;";
+        List<Map<String, Object>> rows = repo.executeQuery(query, reservationId);
+        List<ReservationDTO> res = makeDTOs(rows);
         return res;
     }
 
     public List<ReservationDTO> getSupplierReservations(int supplierId) throws SQLException {
-        ResultSet rs = repo.executeQuery("SELECT * FROM " + tableName + " WHERE supplierId = ?;", supplierId);
-        List<ReservationDTO> res = makeDTOs(rs);
-        rs.close();
+        String query = "SELECT * FROM " + tableName + " WHERE supplierId = ?;";
+        List<Map<String, Object>> rows = repo.executeQuery(query, supplierId);
+        List<ReservationDTO> res = makeDTOs(rows);
         return res;
     }
 
@@ -78,15 +71,11 @@ public class ReservationDAO extends DAO<ReservationDTO> {
     }
 
     public int getLastId() throws SQLException {
-        // String query = "SELECT Max(id) FROM Reservations;";
         String query = "SELECT * FROM Reservations WHERE id=(SELECT MAX(id) FROM Reservations)";
-        ResultSet rs = repo.executeQuery(query);
-        ReservationDTO dto = makeDTO(rs);
-        if (dto == null) {
-            return -1;
-        }
-        rs.close();
-        return dto.getId();
+        List<Map<String, Object>> rows = repo.executeQuery(query);
+        if (rows.size() > 0)
+            return makeDTO(rows.get(0)).getId();
+        return -1;
     }
 
 }

@@ -1,11 +1,9 @@
 package DataAccessLayer.DAOs;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
+import java.util.Map;
 
-import DataAccessLayer.Repository;
 import DataAccessLayer.DTOs.SelfPickUpSupplierDTO;
 import DataAccessLayer.DTOs.SupplierDTO;
 
@@ -14,8 +12,8 @@ public class SelfPickUpSupplierDAO extends DAO<SelfPickUpSupplierDTO> {
 
     private static SelfPickUpSupplierDAO instance = null;
 
-    public static SelfPickUpSupplierDAO getInstance(){
-        if(instance == null)
+    public static SelfPickUpSupplierDAO getInstance() {
+        if (instance == null)
             instance = new SelfPickUpSupplierDAO();
         return instance;
     }
@@ -45,7 +43,7 @@ public class SelfPickUpSupplierDAO extends DAO<SelfPickUpSupplierDTO> {
 
     public boolean deleteById(int supplierId) throws SQLException {
         SelfPickUpSupplierDTO dto = getById(supplierId);
-        if(dto != null){
+        if (dto != null) {
             delete(dto);
             return true;
         }
@@ -53,32 +51,21 @@ public class SelfPickUpSupplierDAO extends DAO<SelfPickUpSupplierDTO> {
     }
 
     @Override
-    public SelfPickUpSupplierDTO makeDTO(ResultSet rs) throws SQLException {
-        if (!rs.next())
-            return null;
-
-        int id = rs.getInt("supplierId");
-        String address = rs.getString("address");
-        int maxPreperationDays = rs.getInt("maxPreperationDays");
+    public SelfPickUpSupplierDTO makeDTO(Map<String, Object> row) throws SQLException {
+        int id = (int) row.get("supplierId");
+        String address = (String) row.get("address");
+        int maxPreperationDays = (int) row.get("maxPreperationDays");
 
         SupplierDTO supplierDTO = supplierDAO.getById(id);
         return new SelfPickUpSupplierDTO(supplierDTO, address, maxPreperationDays);
     }
 
     public SelfPickUpSupplierDTO getById(int supplierId) throws SQLException {
-        Connection con = Repository.getInstance().connect();
-
         String query = "SELECT * FROM SelfPickupSuppliers WHERE supplierId= ?;";
-        PreparedStatement statement = con.prepareStatement(query);
-        statement.setInt(1, supplierId);
-        ResultSet supRS = statement.executeQuery();
-        //statement.close();
-        //con.close();
-        SelfPickUpSupplierDTO res = makeDTO(supRS);
-        supRS.close();
-        return res;
+        List<Map<String, Object>> rows = repo.executeQuery(query, supplierId);
+        if (rows.size() > 0)
+            return makeDTO(rows.get(0));
+        return null;
     }
-
-
 
 }

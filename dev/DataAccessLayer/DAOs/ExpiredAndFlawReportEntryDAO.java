@@ -1,17 +1,16 @@
 package DataAccessLayer.DAOs;
 
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
+import BusinessLayer.Inventory.ProductStatus;
 import DataAccessLayer.Repository;
 import DataAccessLayer.DTOs.ExpiredAndFlawReportDTO;
 import DataAccessLayer.DTOs.ExpiredAndFlawReportEntryDTO;
 import DataAccessLayer.DTOs.ReportDTO;
 import DataAccessLayer.DTOs.SpecificProductDTO;
-
-import BusinessLayer.Inventory.ProductStatus;
 
 public class ExpiredAndFlawReportEntryDAO extends DAO<ExpiredAndFlawReportEntryDTO> {
     private static ExpiredAndFlawReportEntryDAO instance = null;
@@ -33,25 +32,22 @@ public class ExpiredAndFlawReportEntryDAO extends DAO<ExpiredAndFlawReportEntryD
     }
 
     @Override
-    public ExpiredAndFlawReportEntryDTO makeDTO(ResultSet rs) throws SQLException {
-        if (!rs.next())
-            return null;
-
-        int reportId = rs.getInt("reportId");
-        int specificId = rs.getInt("specificId");
+    public ExpiredAndFlawReportEntryDTO makeDTO(Map<String, Object> row) throws SQLException {
+        int reportId = (int) row.get("reportId");
+        int specificId = (int) row.get("specificId");
 
         return new ExpiredAndFlawReportEntryDTO(reportId, specificId);
     }
 
     public ExpiredAndFlawReportDTO getFullReportById(int reportId) throws SQLException {
         String query = "SELECT * FROM " + tableName + " WHERE reportId = ?;";
-        ResultSet rs = repo.executeQuery(query, reportId);
+        List<Map<String, Object>> rows = repo.executeQuery(query, reportId);
 
         List<SpecificProductDTO> expiredProducts = new ArrayList<>();
         List<SpecificProductDTO> flawProducts = new ArrayList<>();
 
-        while (rs.next()) {
-            int specificId = rs.getInt("specificId");
+        for (Map<String, Object> row : rows) {
+            int specificId = (int) row.get("specificId");
             SpecificProductDTO specificProductDTO = specificProductDAO.getById(specificId);
             if (specificProductDTO.getStatus() == ProductStatus.status.EXPIRED)
                 expiredProducts.add(specificProductDTO);
@@ -64,7 +60,6 @@ public class ExpiredAndFlawReportEntryDAO extends DAO<ExpiredAndFlawReportEntryD
 
         ReportDTO reportDTO = reportDAO.getById(reportId);
         ExpiredAndFlawReportDTO dto = new ExpiredAndFlawReportDTO(reportDTO, expiredProducts, flawProducts);
-        rs.close();
 
         return dto;
     }

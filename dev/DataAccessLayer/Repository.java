@@ -5,16 +5,20 @@ import java.sql.DatabaseMetaData;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class Repository {
 
     private static Repository instance = null;
 
     private Repository() {
-        establishConnection();
         createTables();
     }
 
@@ -23,10 +27,6 @@ public class Repository {
         if (instance == null)
             instance = new Repository();
         return instance;
-    }
-
-    private void establishConnection() {
-
     }
 
     // connect to the DATABASE
@@ -45,28 +45,47 @@ public class Repository {
         return conn;
     }
 
-    public ResultSet executeQuery(String query, Object... params) throws SQLException {
-        Connection conn = connect();
-        PreparedStatement stmt = conn.prepareStatement(query);
-        int i = 1;
-        for (Object param : params) {
-            if (param instanceof String) {
-                stmt.setString(i, (String) param);
-            } else if (param instanceof Integer) {
-                stmt.setInt(i, (Integer) param);
-            } else if (param instanceof Double) {
-                stmt.setDouble(i, (Double) param);
-            } else if (param instanceof LocalDate) {
-                stmt.setString(i, param.toString());
-            } else {
-                throw new IllegalArgumentException("Unsupported parameter type: " + param.getClass().getName());
+    public List<Map<String, Object>> executeQuery(String query, Object... params) throws SQLException {
+        List<Map<String, Object>> result = new ArrayList<>();
+
+        try (Connection conn = connect()) {
+            try (PreparedStatement stmt = conn.prepareStatement(query)) {
+                int i = 1;
+                for (Object param : params) {
+                    if (param instanceof String) {
+                        stmt.setString(i, (String) param);
+                    } else if (param instanceof Integer) {
+                        stmt.setInt(i, (Integer) param);
+                    } else if (param instanceof Double) {
+                        stmt.setDouble(i, (Double) param);
+                    } else if (param instanceof LocalDate) {
+                        stmt.setString(i, param.toString());
+                    } else {
+                        throw new IllegalArgumentException("Unsupported parameter type: " + param.getClass().getName());
+                    }
+                    i++;
+                }
+
+                try (ResultSet rs = stmt.executeQuery()) {
+                    ResultSetMetaData metaData = rs.getMetaData();
+                    while (rs.next()) {
+                        Map<String, Object> row = new HashMap<>();
+
+                        // iterate over the columns in the result set
+                        for (int j = 1; j <= metaData.getColumnCount(); j++) {
+                            String columnName = metaData.getColumnLabel(j);
+                            Object value = rs.getObject(j);
+                            row.put(columnName, value);
+                        }
+
+                        result.add(row);
+                    }
+
+                }
             }
-            i++;
         }
 
-        ResultSet rs = stmt.executeQuery();
-
-        return rs;
+        return result;
     }
 
     // disconnect from the DATABASE

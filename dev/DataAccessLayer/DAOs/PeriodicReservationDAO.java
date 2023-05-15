@@ -1,16 +1,15 @@
 package DataAccessLayer.DAOs;
 
-import DataAccessLayer.DTOs.PeriodicReservationDTO;
-import DataAccessLayer.DTOs.PeriodicReservationItemDTO;
-import DataAccessLayer.Repository;
-
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.DayOfWeek;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import DataAccessLayer.Repository;
+import DataAccessLayer.DTOs.PeriodicReservationDTO;
+import DataAccessLayer.DTOs.PeriodicReservationItemDTO;
 
 public class PeriodicReservationDAO extends DAO<PeriodicReservationDTO> {
 
@@ -50,13 +49,10 @@ public class PeriodicReservationDAO extends DAO<PeriodicReservationDTO> {
     }
 
     @Override
-    public PeriodicReservationDTO makeDTO(ResultSet rs) throws SQLException {
-        if (!rs.next())
-            return null;
-
-        int supplierId = rs.getInt("supplierId");
-        int branchId = rs.getInt("branchId");
-        DayOfWeek dayOfOrder = stringToStatus(rs.getString("dayOfOrder"));
+    public PeriodicReservationDTO makeDTO(Map<String, Object> row) throws SQLException {
+        int supplierId = (int) row.get("supplierId");
+        int branchId = (int) row.get("branchId");
+        DayOfWeek dayOfOrder = stringToStatus((String) row.get("dayOfOrder"));
         List<PeriodicReservationItemDTO> allItems = periodicReservationItemDAO.getBySupplierAndBrunchId(supplierId,
                 branchId);
 
@@ -65,10 +61,11 @@ public class PeriodicReservationDAO extends DAO<PeriodicReservationDTO> {
 
     public PeriodicReservationDTO getById(int supplierId, int branchID) throws SQLException {
         String query = "SELECT * FROM PeriodicReservation WHERE supplierId= ? AND branchId= ?;";
-        ResultSet rs = repo.executeQuery(query, supplierId, branchID);
-        PeriodicReservationDTO dto = makeDTO(rs);
-        rs.close();
-        return dto;
+        List<Map<String, Object>> rows = repo.executeQuery(query, supplierId, branchID);
+        if (rows.size() > 0)
+            return makeDTO(rows.get(0));
+
+        return null;
     }
 
     private DayOfWeek stringToStatus(String status) {
@@ -94,15 +91,13 @@ public class PeriodicReservationDAO extends DAO<PeriodicReservationDTO> {
     public Map<Integer, PeriodicReservationDTO> getSupplierPeriodicReservations(int supplierId) throws SQLException {
 
         String query = "SELECT * FROM " + tableName + " WHERE supplierId = ?;";
-        ResultSet rs = repo.executeQuery(query, supplierId);
+        List<Map<String, Object>> rows = repo.executeQuery(query, supplierId);
 
-        List<PeriodicReservationDTO> dtos = makeDTOs(rs);
+        List<PeriodicReservationDTO> dtos = makeDTOs(rows);
         Map<Integer, PeriodicReservationDTO> supplierPeriodicReservations = new HashMap<>();
         for (PeriodicReservationDTO dto : dtos) {
             supplierPeriodicReservations.put(dto.getBranchId(), dto);
         }
-
-        rs.close();
 
         return supplierPeriodicReservations;
     }
@@ -116,14 +111,13 @@ public class PeriodicReservationDAO extends DAO<PeriodicReservationDTO> {
      */
     public List<PeriodicReservationDTO> getByBranchId(int branchId) throws SQLException {
         String query = "SELECT * FROM " + tableName + " WHERE branchId = ?;";
-        ResultSet rs = repo.executeQuery(query, branchId);
+        List<Map<String, Object>> rows = repo.executeQuery(query, branchId);
         List<PeriodicReservationDTO> allBranchReservations = new ArrayList<>();
-        while (rs.next()) {
-            PeriodicReservationDTO periodicReservationDTO = makeDTO(rs);
+        for (Map<String, Object> row : rows) {
+            PeriodicReservationDTO periodicReservationDTO = makeDTO(row);
             allBranchReservations.add(periodicReservationDTO);
         }
 
-        rs.close();
         return allBranchReservations;
     }
 }

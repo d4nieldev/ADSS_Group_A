@@ -1,21 +1,18 @@
 package DataAccessLayer.DAOs;
 
-import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Map;
 
 import DataAccessLayer.DTOs.DiscountDTO;
 import DataAccessLayer.DTOs.ProductBranchDiscountDTO;
-import DataAccessLayer.Repository;
 
 public class ProductBranchDiscountsDAO extends DAO<ProductBranchDiscountDTO> {
     private DiscountDAO discountDAO;
-    private Repository repo;
     private static ProductBranchDiscountsDAO instance = null;
 
     private ProductBranchDiscountsDAO() {
         super("ProductBranchDiscounts");
         this.discountDAO = DiscountDAO.getInstance();
-        Repository.getInstance();
     }
 
     public static ProductBranchDiscountsDAO getInstance() {
@@ -25,13 +22,10 @@ public class ProductBranchDiscountsDAO extends DAO<ProductBranchDiscountDTO> {
     }
 
     @Override
-    public ProductBranchDiscountDTO makeDTO(ResultSet rs) throws SQLException {
-        if (!rs.next())
-            return null;
-
-        int productId = rs.getInt("productId");
-        int branchId = rs.getInt("branchId");
-        int discountId = rs.getInt("discountId");
+    public ProductBranchDiscountDTO makeDTO(Map<String, Object> row) throws SQLException {
+        int productId = (int) row.get("productId");
+        int branchId = (int) row.get("branchId");
+        int discountId = (int) row.get("discountId");
 
         DiscountDTO discount = discountDAO.getById(discountId);
 

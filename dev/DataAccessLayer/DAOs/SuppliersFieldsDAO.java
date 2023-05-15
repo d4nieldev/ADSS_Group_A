@@ -1,9 +1,8 @@
 package DataAccessLayer.DAOs;
 
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import DataAccessLayer.Repository;
 import DataAccessLayer.DTOs.SuppliersFieldsDTO;
@@ -25,20 +24,17 @@ public class SuppliersFieldsDAO extends DAO<SuppliersFieldsDTO> {
     }
 
     @Override
-    public SuppliersFieldsDTO makeDTO(ResultSet rs) throws SQLException {
-        if (!rs.next())
-            return null;
-
-        int supplierId = rs.getInt("supplierId");
-        String fieldName = rs.getString("fieldName");
+    public SuppliersFieldsDTO makeDTO(Map<String, Object> row) throws SQLException {
+        int supplierId = (int) row.get("supplierId");
+        String fieldName = (String) row.get("fieldName");
 
         return new SuppliersFieldsDTO(supplierId, fieldName);
     }
 
     public List<SuppliersFieldsDTO> getFieldsOfSupplier(int supplierId) throws SQLException {
-        ResultSet rs = repo.executeQuery("SELECT * FROM " + tableName + " WHERE supplierId = ?;", supplierId);
-        List<SuppliersFieldsDTO> fields = makeDTOs(rs);
-        rs.close();
+        String query = "SELECT * FROM " + tableName + " WHERE supplierId = ?;";
+        List<Map<String, Object>> rows = repo.executeQuery(query, supplierId);
+        List<SuppliersFieldsDTO> fields = makeDTOs(rows);
         return fields;
     }
 

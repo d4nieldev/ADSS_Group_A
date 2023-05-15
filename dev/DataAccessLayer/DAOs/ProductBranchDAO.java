@@ -1,11 +1,12 @@
 package DataAccessLayer.DAOs;
 
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
-import DataAccessLayer.DTOs.DiscountDTO;
 import DataAccessLayer.Repository;
+import DataAccessLayer.DTOs.DiscountDTO;
 import DataAccessLayer.DTOs.ProductBranchDTO;
 import DataAccessLayer.DTOs.SpecificProductDTO;
 
@@ -27,15 +28,12 @@ public class ProductBranchDAO extends DAO<ProductBranchDTO> {
     }
 
     @Override
-    public ProductBranchDTO makeDTO(ResultSet rs) throws SQLException {
-        if (!rs.next())
-            return null;
-
-        int productId = rs.getInt("productId");
-        int branchId = rs.getInt("branchId");
-        double price = rs.getDouble("price");
-        int minQuantity = rs.getInt("minQuantity");
-        int idealQuantity = rs.getInt("idealQuantity");
+    public ProductBranchDTO makeDTO(Map<String, Object> row) throws SQLException {
+        int productId = (int) row.get("productId");
+        int branchId = (int) row.get("branchId");
+        double price = (double) row.get("price");
+        int minQuantity = (int) row.get("minQuantity");
+        int idealQuantity = (int) row.get("idealQuantity");
         SpecificProductDAO specificProductDAO = SpecificProductDAO.getInstance();
         HashMap<Integer, SpecificProductDTO> specificProductHashMap = specificProductDAO.getByGeneralId(productId,
                 branchId);
@@ -47,18 +45,18 @@ public class ProductBranchDAO extends DAO<ProductBranchDTO> {
 
     public ProductBranchDTO getByProductAndBranchId(int productId, int branchId) throws SQLException {
         String query = "SELECT * FROM " + tableName + " WHERE productId= ? AND branchId= ?;";
-        ResultSet rs = repo.executeQuery(query, productId, branchId);
-        ProductBranchDTO dto = makeDTO(rs);
-        rs.close();
-        return dto;
+        List<Map<String, Object>> rows = repo.executeQuery(query, productId, branchId);
+        if (rows.size() > 0)
+            return makeDTO(rows.get(0));
+        return null;
     }
 
     public ProductBranchDTO getByProductAndBranch(int productId, int branchId) throws SQLException {
-        ResultSet rs = repo.executeQuery("SELECT * FROM " + tableName + " WHERE productId = ? AND branchId = ?;",
-                productId, branchId);
-        ProductBranchDTO dto = makeDTO(rs);
-        rs.close();
-        return dto;
+        String query = "SELECT * FROM " + tableName + " WHERE productId = ? AND branchId = ?;";
+        List<Map<String, Object>> rows = repo.executeQuery(query, productId, branchId);
+        if (rows.size() > 0)
+            return makeDTO(rows.get(0));
+        return null;
     }
 
 }

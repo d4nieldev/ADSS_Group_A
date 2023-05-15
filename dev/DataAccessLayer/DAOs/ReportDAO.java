@@ -1,19 +1,17 @@
 package DataAccessLayer.DAOs;
 
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.util.List;
+import java.util.Map;
 
-import DataAccessLayer.Repository;
 import DataAccessLayer.DTOs.ReportDTO;
 
 public class ReportDAO extends DAO<ReportDTO> {
     private static ReportDAO instance = null;
-    private static Repository repo;
 
     protected ReportDAO() {
         super("Reports");
-        repo = Repository.getInstance();
     }
 
     public static ReportDAO getInstance() {
@@ -24,22 +22,20 @@ public class ReportDAO extends DAO<ReportDTO> {
     }
 
     @Override
-    public ReportDTO makeDTO(ResultSet rs) throws SQLException {
-        if (!rs.next())
-            return null;
-
-        int id = rs.getInt("id");
-        int branchId = rs.getInt("branchId");
-        LocalDate createdDate = LocalDate.parse(rs.getString("createdDate"));
+    public ReportDTO makeDTO(Map<String, Object> row) throws SQLException {
+        int id = (int) row.get("id");
+        int branchId = (int) row.get("branchId");
+        LocalDate createdDate = LocalDate.parse((String) row.get("createdDate"));
 
         return new ReportDTO(id, branchId, createdDate);
     }
 
     public ReportDTO getById(int id) throws SQLException {
-        ResultSet rs = repo.executeQuery("SELECT * FROM " + tableName + " WHERE id = ?;", id);
-        ReportDTO dto = makeDTO(rs);
-        rs.close();
-        return dto;
+        List<Map<String, Object>> rows = repo.executeQuery("SELECT * FROM " + tableName + " WHERE id = ?;", id);
+        if (rows.size() > 0)
+            return makeDTO(rows.get(0));
+
+        return null;
     }
 
 }

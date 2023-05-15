@@ -1,7 +1,8 @@
 package DataAccessLayer.DAOs;
 
-import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
+import java.util.Map;
 import java.util.TreeMap;
 
 import DataAccessLayer.Repository;
@@ -26,14 +27,11 @@ public class AgreementAmountToDiscountDAO extends DAO<AgreementAmountToDiscountD
     }
 
     @Override
-    public AgreementAmountToDiscountDTO makeDTO(ResultSet rs) throws SQLException {
-        if (!rs.next())
-            return null;
-
-        int supplierId = rs.getInt("supplyId");
-        int productId = rs.getInt("productId");
-        int amount = rs.getInt("amount");
-        int discountId = rs.getInt("discount");
+    public AgreementAmountToDiscountDTO makeDTO(Map<String, Object> rs) throws SQLException {
+        int supplierId = (int) rs.get("supplyId");
+        int productId = (int) rs.get("productId");
+        int amount = (int) rs.get("amount");
+        int discountId = (int) rs.get("discount");
 
         DiscountDTO discount = discountDAO.getById(discountId);
 
@@ -43,17 +41,15 @@ public class AgreementAmountToDiscountDAO extends DAO<AgreementAmountToDiscountD
     public TreeMap<Integer, DiscountDTO> getAgreementAmountToDiscount(int supplierId, int productId)
             throws SQLException {
         String query = "SELECT * FROM " + tableName + " WHERE supplierId = ? AND productId = ?;";
-        ResultSet rs = repo.executeQuery(query, supplierId, productId);
+        List<Map<String, Object>> rs = repo.executeQuery(query, supplierId, productId);
 
         TreeMap<Integer, DiscountDTO> amountToDiscount = new TreeMap<>();
-        while (rs.next()) {
-            int amount = rs.getInt("amount");
-            int discountId = rs.getInt("discount");
+        for (Map<String, Object> row : rs) {
+            int amount = (int) row.get("amount");
+            int discountId = (int) row.get("discount");
             DiscountDTO discount = discountDAO.getById(discountId);
             amountToDiscount.put(amount, discount);
         }
-
-        rs.close();
 
         return amountToDiscount;
 

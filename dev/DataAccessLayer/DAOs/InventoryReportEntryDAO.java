@@ -1,8 +1,8 @@
 package DataAccessLayer.DAOs;
 
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import DataAccessLayer.Repository;
@@ -28,29 +28,26 @@ public class InventoryReportEntryDAO extends DAO<InventoryReportEntryDTO> {
     }
 
     @Override
-    public InventoryReportEntryDTO makeDTO(ResultSet rs) throws SQLException {
-        if (!rs.next())
-            return null;
-
-        int reportId = rs.getInt("entryId");
-        int productId = rs.getInt("productId");
-        int shelfAmount = rs.getInt("shelfAmount");
-        int storageAmount = rs.getInt("storageAmount");
+    public InventoryReportEntryDTO makeDTO(Map<String, Object> row) throws SQLException {
+        int reportId = (int) row.get("entryId");
+        int productId = (int) row.get("productId");
+        int shelfAmount = (int) row.get("shelfAmount");
+        int storageAmount = (int) row.get("storageAmount");
 
         return new InventoryReportEntryDTO(reportId, productId, shelfAmount, storageAmount);
     }
 
     public InventoryReportDTO getFullReportById(int reportId) throws SQLException {
         String query = "SELECT * FROM " + tableName + " WHERE reportId = ?;";
-        ResultSet rs = repo.executeQuery(query, reportId);
+        List<Map<String, Object>> rows = repo.executeQuery(query, reportId);
 
         Map<Integer, Integer> idToStorageAmount = new HashMap<>();
         Map<Integer, Integer> idToShelfAmount = new HashMap<>();
 
-        while (rs.next()) {
-            int productId = rs.getInt("productId");
-            int shelfAmount = rs.getInt("shelfAmount");
-            int storageAmount = rs.getInt("storageAmount");
+        for (Map<String, Object> row : rows) {
+            int productId = (int) row.get("productId");
+            int shelfAmount = (int) row.get("shelfAmount");
+            int storageAmount = (int) row.get("storageAmount");
 
             idToStorageAmount.put(productId, storageAmount);
             idToShelfAmount.put(productId, shelfAmount);
@@ -61,7 +58,6 @@ public class InventoryReportEntryDAO extends DAO<InventoryReportEntryDTO> {
 
         ReportDTO reportDTO = reportDAO.getById(reportId);
         InventoryReportDTO dto = new InventoryReportDTO(reportDTO, idToStorageAmount, idToShelfAmount);
-        rs.close();
 
         return dto;
     }

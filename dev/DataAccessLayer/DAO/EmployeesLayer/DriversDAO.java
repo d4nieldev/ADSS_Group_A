@@ -2,6 +2,7 @@ package DataAccessLayer.DAO.EmployeesLayer;
 
 import java.sql.*;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -139,6 +140,7 @@ public class DriversDAO extends DAO<DriverDTO> {
             if (workedDates == null) {
                 return null;
             }
+            //DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
             output = new DriverDTO(/* Id */RS.getInt(1), /* first name */RS.getString(2),
                     /* last name */RS.getString(3), /* password */RS.getString(4),
                     /* bank number */RS.getInt(5), /* bank branch number */RS.getInt(6),
@@ -155,18 +157,18 @@ public class DriversDAO extends DAO<DriverDTO> {
         return output;
     }
     
-    public LinkedList<Integer> getRolesList(Integer id, Connection conn) {
-        LinkedList<Integer> ans = new LinkedList<>();
-        ResultSet rs = get("EmployeesRoles", "EmployeeID", id, conn);
-        try {
-            while (rs.next()) {
-                ans.add(rs.getInt(2));
-            }
-        } catch (Exception e) {
-            return null;
-        }
-        return ans;
-    }
+    // public LinkedList<Integer> getRolesList(Integer id, Connection conn) {
+    //     LinkedList<Integer> ans = new LinkedList<>();
+    //     ResultSet rs = get("EmployeesRoles", "EmployeeID", id, conn);
+    //     try {
+    //         while (rs.next()) {
+    //             ans.add(rs.getInt(2));
+    //         }
+    //     } catch (Exception e) {
+    //         return null;
+    //     }
+    //     return ans;
+    // }
     
     public LinkedList<LocalDate> getAvailableShiftDatesList(Integer id, Connection conn) {
         LinkedList<LocalDate> ans = new LinkedList<>();

@@ -5,9 +5,9 @@ import java.util.LinkedList;
 import Misc.License;
 
 public class DriverDTO {
+	public int id;
 	public String firstName;
 	public String lastName;
-	public int id;
 	public String password;
 	public int bankNum;
 	public int bankBranch;
@@ -16,7 +16,7 @@ public class DriverDTO {
 	public int bonus;
 	public LocalDate startDate;
 	public String tempsEmployment;
-	public LinkedList<Integer> roles;
+	public int role;
 	public boolean isLoggedIn;
 	public int superBranch;
     public License driverLicense;
@@ -25,7 +25,7 @@ public class DriverDTO {
 	
 
 	public DriverDTO(int id, String firstName, String lastName, String password, int bankNum, int bankBranch, int bankAccount, 
-						int salary, int InitializeBonus, LocalDate startDate, String tempsEmployment, LinkedList<Integer> roles,
+						int salary, int InitializeBonus, LocalDate startDate, String tempsEmployment, int role,
 	 					Boolean isLoggedIn, Integer branch, License driverLicense, LinkedList<LocalDate> availableShiftDates,
                          LinkedList<LocalDate> workedDates){
 		this.firstName = firstName;
@@ -39,7 +39,7 @@ public class DriverDTO {
 		this.bonus = InitializeBonus;
 		this.startDate = startDate;
 		this.tempsEmployment = tempsEmployment;
-		this.roles = roles;
+		this.role = role;
 		this.isLoggedIn = isLoggedIn;
 		this.superBranch = branch;
         this.driverLicense = driverLicense;
@@ -55,9 +55,9 @@ public class DriverDTO {
 		 this.driverLicense.toString());
     }
 
-    public String getRole() {
-        return String.format("(\"%d\",%d)", this.id, roles.get(0));
-    }
+    // public String getRole() {
+    //     return String.format("(\"%d\",%d)", this.id, roles.get(0));
+    // }
 
 	public int getNumberOfAvailableShiftDates(){return availableShiftDates.size();}
     public String getAvailableShiftDates(int index) {

@@ -20,7 +20,7 @@ public class BranchFacade {
         this.shiftFacade = shiftFacade;
         branchs = new LinkedList<>();
         branchesDAO = new BranchesDAO();
-        addBranchForStartUpTheSystem(0, "BGU", Location.SOUTH);
+        //addBranchForStartUpTheSystem(0, "BGU", Location.SOUTH);
     }
     
     public void addBranch(int managerId, String address, Location location) {

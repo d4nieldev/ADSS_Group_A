@@ -49,8 +49,8 @@ public class BranchFacade {
         employeeFacade.addDriver(managerId, firstName, lastName, id, password, bankNum, bankBranch, bankAccount, salary,
         InitializeBonus, startDate, tempsEmployment, driverLicense);
         Branch branch = getBranchById(0);
-        Employee employee = employeeFacade.getEmployeeById(id);
-        branch.addNewEmployee(employee);
+        Driver driver = employeeFacade.getDriverById(id);
+        branch.addNewEmployee(driver);
     }
     
     public void addForeignEmployee(int managerId, int idEmployee, int branchId){
@@ -173,8 +173,7 @@ public class BranchFacade {
             for (Shift shiftOnDate : shiftsOnDate) {
                 if(shiftOnDate.getSuperBranchId() == branchId && !shiftOnDate.getIsFinishSettingShift() && needEmployee(emp, shiftOnDate)) 
                     {
-                        
-                        res += shiftOnDate.toString() + "\n";
+                        res += shiftOnDate.getShiftDetails() + "\n";
                     }
             }
         }
@@ -222,7 +221,7 @@ public class BranchFacade {
         employeeFacade.checkEmployee(idEmployee);
         Employee employee = employeeFacade.getEmployeeById(idEmployee);
         for (int shiftId : employee.getHistoryShift()) {
-            if(shiftFacade.getShift(shiftId).getDate().equals(date)){
+            if(shiftFacade.getShift(shiftId).getDate() == (date)){
 				throw new Error("The employee " + toString() + " already has a shift on the date " + date.toString());
 			}
         }

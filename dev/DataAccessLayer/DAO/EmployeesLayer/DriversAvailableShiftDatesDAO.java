@@ -31,7 +31,7 @@ public class DriversAvailableShiftDatesDAO {
         String updateString;
         if(dateToRemove == null) return 0;
         updateString= String.format("DELETE FROM %s \n" +
-                "WHERE %d=\"%d\" AND %s=\"%s\";", "DriversAvailableShiftDates", "DriverID", empID,"Date" ,dateToRemove);
+                "WHERE %s=\"%d\" AND %s=\"%s\";", "DriversAvailableShiftDates", "DriverID", empID,"Date" ,dateToRemove);
         Statement s;
         try
         {

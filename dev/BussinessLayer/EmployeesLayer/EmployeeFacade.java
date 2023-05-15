@@ -156,7 +156,7 @@ public class EmployeeFacade {
             employees.add(new Employee(employeeDTO));
         }
         for (Employee employee : employees) {
-            strPrint += employee.toString() + "\n";
+            strPrint += employee.newToString() + "\n";
         }
         return strPrint;
     }
@@ -172,7 +172,7 @@ public class EmployeeFacade {
             drivers.add(new Driver(driverDTO));
         }
         for (Driver driver : drivers) {
-            strPrint += driver.toString() + "\n";
+            strPrint += driver.newToString() + "\n";
         }
         return strPrint;
     }
@@ -224,7 +224,8 @@ public class EmployeeFacade {
 
     public String printDayDriversPast(LocalDate date) {
         String strDrivers = "";
-        for (Driver driver : drivers) {
+        List<Driver> driversForFunction = getDayDriversPast(date);
+        for (Driver driver : driversForFunction) {
             if (driver.getWorkedDates().contains(date)) {
                 strDrivers += driver.toString();
             }
@@ -234,7 +235,8 @@ public class EmployeeFacade {
 
     public String printDayDriversFuture(LocalDate date) {
         String strDrivers = "";
-        for (Driver driver : drivers) {
+        List<Driver> driversForFunction = getDayDriversFuture(date);
+        for (Driver driver : driversForFunction) {
             if (driver.getAvailableShiftDates().contains(date)) {
                 strDrivers += driver.toString();
             }
@@ -246,8 +248,14 @@ public class EmployeeFacade {
         LinkedList<Driver> returnDrivers = new LinkedList<>();
         for (Driver driver : drivers) {
             if (driver.getWorkedDates().contains(date)) {
-                returnDrivers.add(driver);
+                drivers.remove(driver);
             }
+        }
+        List<DriverDTO> driversDTO = driversDAO.getDriversByDate(date);
+        for (DriverDTO driverDTO : driversDTO) {
+            Driver d = new Driver(driverDTO);
+            drivers.add(d);
+            returnDrivers.add(d);
         }
         return returnDrivers;
     }
@@ -256,8 +264,14 @@ public class EmployeeFacade {
         LinkedList<Driver> returnDrivers = new LinkedList<>();
         for (Driver driver : drivers) {
             if (driver.getAvailableShiftDates().contains(date)) {
-                returnDrivers.add(driver);
+                drivers.remove(driver);
             }
+        }
+        List<DriverDTO> driversDTO = driversDAO.getDriversByDate(date);
+        for (DriverDTO driverDTO : driversDTO) {
+            Driver d = new Driver(driverDTO);
+            drivers.add(d);
+            returnDrivers.add(d);
         }
         return returnDrivers;
     }
@@ -266,6 +280,11 @@ public class EmployeeFacade {
     // Setters--------------------------------------------------------
 
     public LinkedList<Driver> getAllDrivers() {
+        List<DriverDTO> driversDTO = driversDAO.getAll();
+        drivers = new LinkedList<>();
+        for (DriverDTO driverDTO : driversDTO) {
+            drivers.add(new Driver(driverDTO));
+        }
         return drivers;
     }
 
@@ -396,6 +415,11 @@ public class EmployeeFacade {
                 if (employee.getId() == id)
                     return employee;
             }
+
+            for (Driver driver : drivers) {
+                if (driver.getId() == id)
+                    return (Driver) driver;
+            }
         }   
         throw new Error("The id " + id + " is not in the system. Please try again");
     }
@@ -405,7 +429,7 @@ public class EmployeeFacade {
         if (isEmployeeExistsAndLoadEmployee(id)) {      
             for (Driver driver : drivers) {
                 if (driver.getId() == id)
-                    return driver;
+                    return (Driver) driver;
             }
         }
         throw new Error("The id " + id + "is not in the system. Please try again");
@@ -435,7 +459,6 @@ public class EmployeeFacade {
         return false;
     }
 
-
     // return true if the employee is a driver
     public boolean isEmployeeDriver(int id) {
         isEmployeeExistsAndLoadEmployee(id);
@@ -450,6 +473,12 @@ public class EmployeeFacade {
     public boolean isEmployeeLoggedIn(int id) {
         Employee employee = getEmployeeById(id);
         return employee.getIsLoggedIn();
+    }
+
+    // return true if the employee logged in to the system
+    public boolean isDriverLoggedIn(int id) {
+        Driver driver = getDriverById(id);
+        return driver.getIsLoggedIn();
     }
 
     // throw error if the employee is not logged in to the system

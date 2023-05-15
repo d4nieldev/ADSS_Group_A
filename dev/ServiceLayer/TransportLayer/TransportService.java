@@ -180,8 +180,8 @@ public class TransportService {
     }
 
 
-    public void createTransports(List<Delivery> deliveries) {
-        employeeTransportFacade.createTransports(deliveries);
+    public void createTransports(int managerId, List<Delivery> deliveries) {
+        employeeTransportFacade.createTransports(managerId, deliveries);
     }
 }
 

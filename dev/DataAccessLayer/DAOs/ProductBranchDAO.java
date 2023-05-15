@@ -42,7 +42,11 @@ public class ProductBranchDAO extends DAO<ProductBranchDTO> {
         SpecificProductDAO specificProductDAO = SpecificProductDAO.getInstance();
         HashMap<Integer, SpecificProductDTO> specificProductHashMap = specificProductDAO.getByGeneralId(productId,
                 branchId);
-        DiscountDTO discountDTO = DiscountDAO.getInstance().getById(discountId);
+        DiscountDTO discountDTO;
+        if (discountId != null)
+            discountDTO = DiscountDAO.getInstance().getById(discountId);
+        else
+            discountDTO = null;
         if (discountDTO == null)
             return new ProductBranchDTO(productDAO.getById(productId), branchId, price, minQuantity,
                     idealQuantity, specificProductHashMap);

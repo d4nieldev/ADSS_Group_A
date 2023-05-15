@@ -322,7 +322,7 @@ public class Repository {
                     rDate             TEXT    NOT NULL,
                     status            TEXT    NOT NULL,
                     destinationBranch INTEGER,
-                    contactPhone      INTEGER,
+                    contactPhone      TEXT,
 
                     CHECK(status IN ('NOTREADY', 'READY', 'CLOSED', 'ABORTED')),
 

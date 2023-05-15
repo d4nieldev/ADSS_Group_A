@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import BusinessLayer.InveontorySuppliers.*;
+import DataAccessLayer.DAOs.SpecificProductDAO;
 import DataAccessLayer.DTOs.ProductBranchDTO;
 import DataAccessLayer.DTOs.SpecificProductDTO;
 
@@ -49,6 +50,7 @@ public class ProductBranch {
             SpecificProductDTO dto = dtos.get(index);
             SpecificProduct specificProduct = new SpecificProduct(dto);
             specificProductMap.put(index, specificProduct);
+            SpecificProductDAO.getInstance().insert(dto);
         }
 
         this.allSpecificProducts = specificProductMap;
@@ -301,6 +303,9 @@ public class ProductBranch {
 
     public Category getCategory() {
         return product.getCategory();
+    }
+    public String getCategoryName() {
+        return product.getCategoryName();
     }
 
     public int getCategoryId() {

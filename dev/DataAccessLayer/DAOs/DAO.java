@@ -157,7 +157,7 @@ private Map<String, String> getColumnNameToType() throws SQLException {
             String val = nameToVal.get(colName);
             String type = nameToType.get(colName);
             setValInStatement(statement, val, type, i++);
-        }
+         }
 
         statement.executeUpdate();
         statement.close();

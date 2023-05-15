@@ -41,7 +41,7 @@ public class InventoryReportEntryDAO extends DAO<InventoryReportEntryDTO> {
     }
 
     public InventoryReportDTO getFullReportById(int reportId) throws SQLException {
-        String query = "SELECT * FROM " + tableName + " WHERE entryId = ?;";
+        String query = "SELECT * FROM " + tableName + " WHERE reportId = ?;";
         ResultSet rs = repo.executeQuery(query, reportId);
 
         Map<Integer, Integer> idToStorageAmount = new HashMap<>();

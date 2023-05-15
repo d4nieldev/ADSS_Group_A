@@ -226,16 +226,17 @@ public class Repository {
                 );
 
                 CREATE TABLE IF NOT EXISTS SpecificProduct (
-                    specificId INTEGER NOT NULL,
-                    generalId  INTEGER NOT NULL,
-                    branchId   INTEGER NOT NULL,
-                    buyPrice   REAL    NOT NULL,
-                    sellPrice  REAL,
-                    status     TEXT,
-                    flaw       TEXT,
-                    expDate    TEXT    NOT NULL,
+                    specificId     INTEGER NOT NULL,
+                    generalId      INTEGER NOT NULL,
+                    branchId       INTEGER NOT NULL,
+                    buyPrice       REAL    NOT NULL,
+                    sellPrice      REAL,
+                    status         TEXT,
+                    flaw           TEXT,
+                    expDate        TEXT    NOT NULL,
+                    arrivedDate    TEXT    NOT NULL,
 
-                    CHECK (buyPrice >= 0 AND sellPrice >= 0 AND status IN ('SOLD', 'ON_SHELF', 'ON_STORAGE')),
+                    CHECK (buyPrice >= 0 AND status IN ('SOLD', 'ON_SHELF', 'ON_STORAGE', 'EXPIRED')),
 
                     FOREIGN KEY (generalId, branchId) REFERENCES ProductBranch(productId, branchId) ON DELETE SET NULL,
                     PRIMARY KEY (specificId)

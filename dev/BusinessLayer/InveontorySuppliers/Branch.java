@@ -70,9 +70,10 @@ public class Branch {
         return allProductBranches;
     }
 
-    public void addNewProductBranch(ProductBranchDTO productBranchDTO) throws SQLException {
+    public ProductBranch addNewProductBranch(ProductBranchDTO productBranchDTO) throws SQLException {
         ProductBranch newProduct = new ProductBranch(productBranchDTO);
         allProductBranches.put(newProduct.getCode(), newProduct);
+        return newProduct;
     }
 //    public void receiveSupply(int generalId) {
 //        LocalDate tomorrow = LocalDate.now().plusDays(1);
@@ -107,6 +108,7 @@ public class Branch {
                 int minQuantity = 50;
                 ProductsDAO productsDAO = ProductsDAO.getInstance();
                 DiscountDAO discountDAO = DiscountDAO.getInstance();
+                //TODO: chack if the product belong to some discount -> if yes add the discount's dto ' else should be null
                 ProductBranchDTO productBranchDTO = new ProductBranchDTO(productsDAO.getById(id), discountDAO.getById(-1), reservation.getDestination(), buyPrice, minQuantity, idealQuantity, new HashMap<Integer, SpecificProductDTO>());
                 ProductBranch newProductBranch = new ProductBranch(productBranchDTO);
                 addNewProductBranch(productBranchDTO);

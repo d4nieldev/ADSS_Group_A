@@ -4,22 +4,22 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a2472df3-0b1c-47fc-bcd6-f26fc4f0a51c" name="Changes" comment="format change">
-      <change beforePath="$PROJECT_DIR$/.idea/ADSS_Group_A.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/ADSS_Group_A.iml" afterDir="false" />
+    <list default="true" id="a2472df3-0b1c-47fc-bcd6-f26fc4f0a51c" name="Changes" comment="start debugging -&gt; 1-6 works the reports not">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/database.db" beforeDir="false" afterPath="$PROJECT_DIR$/database.db" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/dev/BusinessLayer/Inventory/BranchController.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/BusinessLayer/Inventory/BranchController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dev/BusinessLayer/Inventory/CategoryController.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/BusinessLayer/Inventory/CategoryController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/dev/BusinessLayer/Inventory/ProductBranch.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/BusinessLayer/Inventory/ProductBranch.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dev/BusinessLayer/Inventory/ReportController.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/BusinessLayer/Inventory/ReportController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/dev/BusinessLayer/InveontorySuppliers/Branch.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/BusinessLayer/InveontorySuppliers/Branch.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dev/DataAccessLayer/DAOs/CategoryDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/DataAccessLayer/DAOs/CategoryDAO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dev/BusinessLayer/InveontorySuppliers/Product.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/BusinessLayer/InveontorySuppliers/Product.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/dev/DataAccessLayer/DAOs/DAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/DataAccessLayer/DAOs/DAO.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/dev/DataAccessLayer/DAOs/InventoryReportEntryDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/DataAccessLayer/DAOs/InventoryReportEntryDAO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dev/DataAccessLayer/DAOs/ReservationDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/DataAccessLayer/DAOs/ReservationDAO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dev/DataAccessLayer/DTOs/CategoryDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/DataAccessLayer/DTOs/CategoryDTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dev/DataAccessLayer/DAOs/SpecificProductDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/DataAccessLayer/DAOs/SpecificProductDAO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dev/DataAccessLayer/DTOs/SpecificProductDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/DataAccessLayer/DTOs/SpecificProductDTO.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/dev/DataAccessLayer/Repository.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/DataAccessLayer/Repository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dev/PersentationLayer/inventory/ProductSystem.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/PersentationLayer/inventory/ProductSystem.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dev/PersentationLayer/inventory/Program1.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/PersentationLayer/inventory/Program1.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/dev/ServiceLayer/inventory/ProductService.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/ServiceLayer/inventory/ProductService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dev/ServiceLayer/inventory/ReportService.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/ServiceLayer/inventory/ReportService.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -61,21 +61,21 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "ASKED_ADD_EXTERNAL_FILES": "true",
-    "Git.Branch.Popup.ShowAllRemotes": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary": "JUnit4",
-    "com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit4": "",
-    "create.test.in.the.same.root": "true",
-    "last_opened_file_path": "/Users/Metar/Documents/GitHub/ADSS_Group_A/dev/Tests",
-    "project.structure.last.edited": "Modules",
-    "project.structure.proportion": "0.0",
-    "project.structure.side.proportion": "0.0",
-    "settings.editor.selected.configurable": "preferences.pluginManager"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
+    &quot;Git.Branch.Popup.ShowAllRemotes&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary&quot;: &quot;JUnit4&quot;,
+    &quot;com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit4&quot;: &quot;&quot;,
+    &quot;create.test.in.the.same.root&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/Users/Metar/Documents/GitHub/ADSS_Group_A/dev/Tests&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.0&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/dev/Tests" />
@@ -293,7 +293,14 @@
       <option name="project" value="LOCAL" />
       <updated>1684096194665</updated>
     </task>
-    <option name="localTasksCounter" value="19" />
+    <task id="LOCAL-00019" summary="start debugging -&gt; 1-6 works the reports not">
+      <created>1684112370095</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1684112370095</updated>
+    </task>
+    <option name="localTasksCounter" value="20" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -322,7 +329,8 @@
     <MESSAGE value="delete unnecessary test folder" />
     <MESSAGE value="minor changes" />
     <MESSAGE value="format change" />
-    <option name="LAST_COMMIT_MESSAGE" value="format change" />
+    <MESSAGE value="start debugging -&gt; 1-6 works the reports not" />
+    <option name="LAST_COMMIT_MESSAGE" value="start debugging -&gt; 1-6 works the reports not" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -339,18 +347,8 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/dev/ServiceLayer/inventory/ProductService.java</url>
-          <line>111</line>
+          <line>112</line>
           <option name="timeStamp" value="29" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/dev/DataAccessLayer/DAOs/DAO.java</url>
-          <line>150</line>
-          <option name="timeStamp" value="35" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/dev/BusinessLayer/InveontorySuppliers/Branch.java</url>
-          <line>167</line>
-          <option name="timeStamp" value="40" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/dev/PersentationLayer/inventory/ProductSystem.java</url>
@@ -359,7 +357,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/dev/BusinessLayer/Inventory/ProductBranch.java</url>
-          <line>240</line>
+          <line>242</line>
           <option name="timeStamp" value="43" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
@@ -369,13 +367,8 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/dev/BusinessLayer/Inventory/BranchController.java</url>
-          <line>209</line>
+          <line>233</line>
           <option name="timeStamp" value="48" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/dev/PersentationLayer/inventory/ReportSystem.java</url>
-          <line>19</line>
-          <option name="timeStamp" value="55" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/dev/ServiceLayer/inventory/ReportService.java</url>
@@ -384,13 +377,73 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/dev/BusinessLayer/Inventory/ReportController.java</url>
-          <line>117</line>
-          <option name="timeStamp" value="60" />
+          <line>92</line>
+          <option name="timeStamp" value="63" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/dev/DataAccessLayer/DAOs/DAO.java</url>
-          <line>153</line>
-          <option name="timeStamp" value="61" />
+          <url>file://$PROJECT_DIR$/dev/BusinessLayer/Inventory/ReportController.java</url>
+          <line>120</line>
+          <option name="timeStamp" value="71" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/dev/DataAccessLayer/DAOs/ExpiredAndFlawReportEntryDAO.java</url>
+          <line>54</line>
+          <option name="timeStamp" value="73" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/dev/BusinessLayer/Inventory/ReportController.java</url>
+          <line>112</line>
+          <option name="timeStamp" value="76" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/dev/ServiceLayer/inventory/ReportService.java</url>
+          <line>130</line>
+          <option name="timeStamp" value="78" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/dev/ServiceLayer/inventory/ReportService.java</url>
+          <line>186</line>
+          <option name="timeStamp" value="79" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/dev/BusinessLayer/Inventory/ReportController.java</url>
+          <line>146</line>
+          <option name="timeStamp" value="80" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/dev/BusinessLayer/Inventory/ReportController.java</url>
+          <line>139</line>
+          <option name="timeStamp" value="81" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/dev/DataAccessLayer/DAOs/DeficiencyReportEntryDAO.java</url>
+          <line>48</line>
+          <option name="timeStamp" value="82" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/dev/DataAccessLayer/DAOs/DeficiencyReportEntryDAO.java</url>
+          <line>64</line>
+          <option name="timeStamp" value="83" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/dev/BusinessLayer/Inventory/ReportController.java</url>
+          <line>148</line>
+          <option name="timeStamp" value="84" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/dev/BusinessLayer/Inventory/DeficientReport.java</url>
+          <line>21</line>
+          <option name="timeStamp" value="85" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/dev/BusinessLayer/InveontorySuppliers/Branch.java</url>
+          <line>574</line>
+          <option name="timeStamp" value="86" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/dev/DataAccessLayer/DTOs/DeficiencyReportDTO.java</url>
+          <line>11</line>
+          <option name="timeStamp" value="87" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

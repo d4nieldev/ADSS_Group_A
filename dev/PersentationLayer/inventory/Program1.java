@@ -1,5 +1,7 @@
 package PersentationLayer.inventory;
 
+import DataAccessLayer.Repository;
+
 import java.util.Scanner;
 
 public class Program1 {
@@ -62,6 +64,7 @@ public class Program1 {
                     ProductSystem.getMenu();
                     break;
                 case -1:
+                    Repository.getInstance().DELETE_ALL_DATA();
                     System.exit(-1);
                 default:
                     System.out.println("Invalid input");

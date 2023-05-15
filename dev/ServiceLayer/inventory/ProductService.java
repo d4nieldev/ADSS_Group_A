@@ -39,8 +39,8 @@ public class ProductService {
     }
 
     private void initial() throws Exception {
-        branchController.addBranch(2,"branch2",10);
-        Branch branch = branchController.getBranchById(2);
+        branchController.addBranch(1,"branch1",100);
+        Branch branch = branchController.getBranchById(1);
 
         categoryController.addNewCategory("Tnuva"); // id - 0
         Category tnuva = categoryController.getCategoryById(0);
@@ -66,27 +66,28 @@ public class ProductService {
         hashMilk.put(specificProductDTO1.getSpecificId(),specificProductDTO1);
         hashMilk.put(specificProductDTO2.getSpecificId(),specificProductDTO2);
         hashMilk.put(specificProductDTO3.getSpecificId(),specificProductDTO3);
-        ProductBranchDTO productBranchDTO1 = new ProductBranchDTO(p1DTO,2,20,0,100,hashMilk); //milk
+        ProductBranchDTO productBranchDTO1 = new ProductBranchDTO(p1DTO,1,20,5,100,hashMilk); //milk
 
 
-        SpecificProductDTO specificProductDTO11 = new SpecificProductDTO(1,2,1,5, LocalDate.now().plusDays(2));
-        SpecificProductDTO specificProductDTO22 = new SpecificProductDTO(2,2,1,5, LocalDate.now().plusDays(2));
-        SpecificProductDTO specificProductDTO33 = new SpecificProductDTO(3,2,1,5, LocalDate.now().minusDays(2));
+        SpecificProductDTO specificProductDTO11 = new SpecificProductDTO(4,2,1,5, LocalDate.now().plusDays(2));
+        SpecificProductDTO specificProductDTO22 = new SpecificProductDTO(5,2,1,5, LocalDate.now().plusDays(2));
+        SpecificProductDTO specificProductDTO33 = new SpecificProductDTO(6,2,1,5, LocalDate.now().minusDays(2));
 
         HashMap<Integer,SpecificProductDTO> hashKoteg = new HashMap<>();
 
-        hashKoteg.put(specificProductDTO11.getSpecificId(),specificProductDTO1);
-        hashKoteg.put(specificProductDTO22.getSpecificId(),specificProductDTO2);
-        hashKoteg.put(specificProductDTO33.getSpecificId(),specificProductDTO3);
-        ProductBranchDTO productBranchDTO2 = new ProductBranchDTO(p2DTO,2,5,0,100,hashKoteg);
+        hashKoteg.put(specificProductDTO11.getSpecificId(),specificProductDTO11);
+        hashKoteg.put(specificProductDTO22.getSpecificId(),specificProductDTO22);
+        hashKoteg.put(specificProductDTO33.getSpecificId(),specificProductDTO33);
+        ProductBranchDTO productBranchDTO2 = new ProductBranchDTO(p2DTO,1,5,5,100,hashKoteg);
 
-        ProductBranch productBranchMilk = new ProductBranch(productBranchDTO1);
-        ProductBranch productBranchKoteg = new ProductBranch(productBranchDTO2);
-        branch.addNewProductBranch(productBranchDTO1);
-        branch.addNewProductBranch(productBranchDTO2);
+//        ProductBranch productBranchMilk = new ProductBranch(productBranchDTO1);
+//        ProductBranch productBranchKoteg = new ProductBranch(productBranchDTO2);
+//        branch.addNewProductBranch(productBranchDTO1);
+//        branch.addNewProductBranch(productBranchDTO2);
+        ProductBranch productBranchMilk = branchController.getBranchById(1).addNewProductBranch(productBranchDTO1);
+        ProductBranch productBranchKoteg = branchController.getBranchById(1).addNewProductBranch(productBranchDTO2);
 
-
-       // branch.reportFlawProduct(1,1,"FlowProduct!!!");
+        branch.reportFlawProduct(1,1,"FlowProduct!!!");
     }
 
     public void addNewProduct(int code,String name, String manufacturer, int categoryId) throws SQLException {

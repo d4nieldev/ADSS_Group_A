@@ -1,22 +1,19 @@
 package DataAccessLayer.DAOs;
 
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import BusinessLayer.Inventory.ProductStatus;
-import DataAccessLayer.Repository;
 import DataAccessLayer.DTOs.SpecificProductDTO;
 
 public class SpecificProductDAO extends DAO<SpecificProductDTO> {
     private static SpecificProductDAO instance = null;
-    private Repository repo;
 
     private SpecificProductDAO() {
         super("SpecificProduct");
-        this.repo = Repository.getInstance();
     }
 
     public static SpecificProductDAO getInstance() {
@@ -26,19 +23,16 @@ public class SpecificProductDAO extends DAO<SpecificProductDTO> {
     }
 
     @Override
-    public SpecificProductDTO makeDTO(ResultSet rs) throws SQLException {
-        if (!rs.next())
-            return null;
-
-        int specificId = rs.getInt("specificId");
-        int generalId = rs.getInt("generalId");
-        int branchId = rs.getInt("branchId");
-        double buyPrice = rs.getDouble("buyPrice");
-        double sellPrice = rs.getDouble("sellPrice");
-        ProductStatus.status status = stringToStatus(rs.getString("status"));
-        String flaw = rs.getString("flaw");
-        LocalDate expDate = LocalDate.parse(rs.getString("expDate"));
-        LocalDate arrivedDate = LocalDate.parse(rs.getString("arrivedDate"));
+    public SpecificProductDTO makeDTO(Map<String, Object> row) throws SQLException {
+        int specificId = (int) row.get("specificId");
+        int generalId = (int) row.get("generalId");
+        int branchId = (int) row.get("branchId");
+        double buyPrice = (double) row.get("buyPrice");
+        double sellPrice = (double) row.get("sellPrice");
+        ProductStatus.status status = stringToStatus((String) row.get("status"));
+        String flaw = (String) row.get("flaw");
+        LocalDate expDate = LocalDate.parse((String) row.get("expDate"));
+        LocalDate arrivedDate = LocalDate.parse((String) row.get("arrivedDate"));
 
         return new SpecificProductDTO(specificId, generalId, branchId, buyPrice, sellPrice, status, flaw, expDate,
                 arrivedDate);
@@ -46,22 +40,20 @@ public class SpecificProductDAO extends DAO<SpecificProductDTO> {
 
     public SpecificProductDTO getById(int specificId) throws SQLException {
         String query = "SELECT * FROM SpecificProduct WHERE specificId= ?;";
-        ResultSet rs = repo.executeQuery(query, specificId);
-        SpecificProductDTO dto = makeDTO(rs);
-        rs.close();
-        return dto;
+        List<Map<String, Object>> rows = repo.executeQuery(query, specificId);
+        if (rows.size() > 0)
+            return makeDTO(rows.get(0));
+        return null;
     }
 
     public HashMap<Integer, SpecificProductDTO> getByGeneralId(int productId, int branchId) throws SQLException {
         String query = "SELECT * FROM SpecificProduct WHERE specificId= ? AND generalId= ?;";
-        ResultSet rs = repo.executeQuery(query, productId, branchId);
-        List<SpecificProductDTO> dtos = makeDTOs(rs);
+        List<Map<String, Object>> rows = repo.executeQuery(query, productId, branchId);
+        List<SpecificProductDTO> dtos = makeDTOs(rows);
         HashMap<Integer, SpecificProductDTO> resultMap = new HashMap<>();
         for (SpecificProductDTO dto : dtos) {
             resultMap.put(dto.getSpecificId(), dto);
         }
-
-        rs.close();
         return resultMap;
     }
 

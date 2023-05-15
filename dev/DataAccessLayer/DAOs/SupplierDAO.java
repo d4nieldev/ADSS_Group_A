@@ -1,12 +1,10 @@
 package DataAccessLayer.DAOs;
 
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
-import DataAccessLayer.Repository;
 import DataAccessLayer.DTOs.ContactDTO;
 import DataAccessLayer.DTOs.DiscountDTO;
 import DataAccessLayer.DTOs.PeriodicReservationDTO;
@@ -19,7 +17,6 @@ public class SupplierDAO extends DAO<SupplierDTO> {
     private ContactDAO contactDAO;
     private SupplierAmountToDiscountDAO supplierAmountToDiscountDAO;
     private PeriodicReservationDAO periodicReservationDAO;
-    private Repository repo;
     private static SupplierDAO instance = null;
     private DiscountDAO discountDAO;
 
@@ -32,7 +29,6 @@ public class SupplierDAO extends DAO<SupplierDTO> {
         contactDAO = ContactDAO.getInstance();
         supplierAmountToDiscountDAO = SupplierAmountToDiscountDAO.getInstance();
         periodicReservationDAO = PeriodicReservationDAO.getInstance();
-        repo = Repository.getInstance();
         discountDAO = DiscountDAO.getInstance();
     }
 
@@ -43,14 +39,11 @@ public class SupplierDAO extends DAO<SupplierDTO> {
     }
 
     @Override
-    public SupplierDTO makeDTO(ResultSet rs) throws SQLException {
-        if (!rs.next())
-            return null;
-
-        int id = rs.getInt("id");
-        String name = rs.getString("name");
-        String bankAccount = rs.getString("bankAccount");
-        String paymentCondition = rs.getString("paymentCondition");
+    public SupplierDTO makeDTO(Map<String, Object> row) throws SQLException {
+        int id = (int) row.get("id");
+        String name = (String) row.get("name");
+        String bankAccount = (String) row.get("bankAccount");
+        String paymentCondition = (String) row.get("paymentCondition");
         List<SuppliersFieldsDTO> fields = suppliersFieldsDAO.getFieldsOfSupplier(id);
         List<ContactDTO> contacts = contactDAO.getSupplierContacts(id);
         TreeMap<Integer, DiscountDTO> amountToDiscount = supplierAmountToDiscountDAO.getSupplierAmountToDiscount(id);
@@ -103,21 +96,19 @@ public class SupplierDAO extends DAO<SupplierDTO> {
 
     public SupplierDTO getById(int supplierId) throws SQLException {
         String query = "SELECT * FROM Suppliers WHERE id= ?;";
-        ResultSet rs = repo.executeQuery(query, supplierId);
-        SupplierDTO dto = makeDTO(rs);
-        rs.close();
-        return dto;
+        List<Map<String, Object>> rows = repo.executeQuery(query, supplierId);
+        if (rows.size() > 0)
+            return makeDTO(rows.get(0));
+        return null;
     }
 
     public int getLastId() throws SQLException {
         String query = "SELECT * FROM Suppliers WHERE id = (SELECT Max(id) FROM Suppliers);";
-        ResultSet rs = repo.executeQuery(query);
-        SupplierDTO dto = makeDTO(rs);
-        if (dto == null) {
-            return -1;
-        }
-        rs.close();
-        return dto.getId();
+        List<Map<String, Object>> rows = repo.executeQuery(query);
+        if (rows.size() > 0)
+            return makeDTO(rows.get(0)).getId();
+
+        return -1;
     }
 
 }

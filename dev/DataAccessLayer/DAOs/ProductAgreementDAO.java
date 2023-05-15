@@ -1,15 +1,11 @@
 package DataAccessLayer.DAOs;
 
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 import java.util.TreeMap;
 
-import org.junit.runner.Result;
-
-import DataAccessLayer.Repository;
 import DataAccessLayer.DTOs.AgreementAmountToDiscountDTO;
 import DataAccessLayer.DTOs.DiscountDTO;
 import DataAccessLayer.DTOs.ProductAgreementDTO;
@@ -18,14 +14,12 @@ public class ProductAgreementDAO extends DAO<ProductAgreementDTO> {
     private static ProductAgreementDAO instance = null;
     private ProductsDAO productDAO;
     private AgreementAmountToDiscountDAO agreementAmountToDiscountDAO;
-    private Repository repo;
     private DiscountDAO discountDAO;
 
     private ProductAgreementDAO() {
         super("ProductAgreement");
         productDAO = ProductsDAO.getInstance();
         agreementAmountToDiscountDAO = AgreementAmountToDiscountDAO.getInstance();
-        repo = Repository.getInstance();
         discountDAO = DiscountDAO.getInstance();
     }
 
@@ -66,15 +60,12 @@ public class ProductAgreementDAO extends DAO<ProductAgreementDTO> {
     }
 
     @Override
-    public ProductAgreementDTO makeDTO(ResultSet rs) throws SQLException {
-        if (!rs.next())
-            return null;
-
-        int supplierId = rs.getInt("supplierId");
-        int productId = rs.getInt("productId");
-        int stockAmount = rs.getInt("stockAmount");
-        double minQuantity = rs.getDouble("basePrice");
-        int productSupplierId = rs.getInt("productSupplierId");
+    public ProductAgreementDTO makeDTO(Map<String, Object> row) throws SQLException {
+        int supplierId = (int) row.get("supplierId");
+        int productId = (int) row.get("productId");
+        int stockAmount = (int) row.get("stockAmount");
+        double minQuantity = (double) row.get("basePrice");
+        int productSupplierId = (int) row.get("productSupplierId");
         TreeMap<Integer, DiscountDTO> amountToDiscount = agreementAmountToDiscountDAO
                 .getAgreementAmountToDiscount(productSupplierId, productId);
 
@@ -84,32 +75,26 @@ public class ProductAgreementDAO extends DAO<ProductAgreementDTO> {
 
     public Collection<ProductAgreementDTO> getAgreementsOfProduct(int productId) throws SQLException {
         String query = "SELECT * FROM " + tableName + " WHERE productId = ?;";
-        ResultSet rs = repo.executeQuery(query, productId);
+        List<Map<String, Object>> rows = repo.executeQuery(query, productId);
 
-        List<ProductAgreementDTO> output = makeDTOs(rs);
-
-        rs.close();
+        List<ProductAgreementDTO> output = makeDTOs(rows);
 
         return output;
     }
 
     public Collection<ProductAgreementDTO> getAgreementsOfSupplier(int supplierId) throws SQLException {
         String query = "SELECT * FROM " + tableName + " WHERE supplierId = ?;";
-        ResultSet rs = repo.executeQuery(query, supplierId);
-
-        List<ProductAgreementDTO> output = makeDTOs(rs);
-
-        rs.close();
-
+        List<Map<String, Object>> rows = repo.executeQuery(query, supplierId);
+        List<ProductAgreementDTO> output = makeDTOs(rows);
         return output;
     }
 
     public ProductAgreementDTO getAgreementByProductAndSupplier(int productId, int supplierId) throws SQLException {
         String query = "SELECT * FROM " + tableName + " WHERE productId = ? AND supplierId = ?;";
-        ResultSet rs = repo.executeQuery(query, productId, supplierId);
-        ProductAgreementDTO paDTO = makeDTO(rs);
-        rs.close();
-        return paDTO;
+        List<Map<String, Object>> rows = repo.executeQuery(query, productId, supplierId);
+        if (rows.size() > 0)
+            return makeDTO(rows.get(0));
+        return null;
     }
 
 }

@@ -1,20 +1,16 @@
 package DataAccessLayer.DAOs;
 
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
-import DataAccessLayer.Repository;
 import DataAccessLayer.DTOs.ReceiptItemDTO;
 
 public class ReceiptItemDAO extends DAO<ReceiptItemDTO> {
     private static ReceiptItemDAO instance = null;
-    private Repository repo;
 
     private ReceiptItemDAO() {
         super("ReceiptItem");
-        repo = Repository.getInstance();
     }
 
     public static ReceiptItemDAO getInstance() {
@@ -25,26 +21,21 @@ public class ReceiptItemDAO extends DAO<ReceiptItemDTO> {
     }
 
     @Override
-    public ReceiptItemDTO makeDTO(ResultSet rs) throws SQLException {
-        if (!rs.next())
-            return null;
-
-        int reservationId = rs.getInt("reservationId");
-        int productId = rs.getInt("productId");
-        int amount = rs.getInt("amount");
-        double pricePerUnitBeforeDiscount = rs.getDouble("pricePerUnitBeforeDiscount");
-        double pricePerUnitAfterDiscount = rs.getDouble("pricePerUnitAfterDiscount");
+    public ReceiptItemDTO makeDTO(Map<String, Object> row) throws SQLException {
+        int reservationId = (int) row.get("reservationId");
+        int productId = (int) row.get("productId");
+        int amount = (int) row.get("amount");
+        double pricePerUnitBeforeDiscount = (double) row.get("pricePerUnitBeforeDiscount");
+        double pricePerUnitAfterDiscount = (double) row.get("pricePerUnitAfterDiscount");
 
         return new ReceiptItemDTO(reservationId, productId, amount, pricePerUnitBeforeDiscount,
                 pricePerUnitAfterDiscount);
     }
 
     public List<ReceiptItemDTO> getReceiptOfReservation(int reservationId) throws SQLException {
-        ResultSet rs = repo.executeQuery("SELECT * FROM " + tableName + " WHERE reservationId = ?;", reservationId);
-
-        List<ReceiptItemDTO> receipt = makeDTOs(rs);
-        rs.close();
-
+        String query = "SELECT * FROM " + tableName + " WHERE reservationId = ?;";
+        List<Map<String, Object>> rows = repo.executeQuery(query, reservationId);
+        List<ReceiptItemDTO> receipt = makeDTOs(rows);
         return receipt;
     }
 

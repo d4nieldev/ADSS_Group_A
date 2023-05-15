@@ -1,20 +1,16 @@
 package DataAccessLayer.DAOs;
 
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
-import DataAccessLayer.Repository;
 import DataAccessLayer.DTOs.ContactDTO;
 
 public class ContactDAO extends DAO<ContactDTO> {
     private static ContactDAO instance = null;
-    private Repository repo;
 
     private ContactDAO() {
         super("Contacts");
-        repo = Repository.getInstance();
     }
 
     public static ContactDAO getInstance() {
@@ -24,38 +20,31 @@ public class ContactDAO extends DAO<ContactDTO> {
     }
 
     @Override
-    public ContactDTO makeDTO(ResultSet rs) throws SQLException {
-        if (!rs.next())
-            return null;
-
-        int supplierId = rs.getInt("supplierId");
-        String phone = rs.getString("phone");
-        String name = rs.getString("name");
+    public ContactDTO makeDTO(Map<String, Object> row) throws SQLException {
+        int supplierId = (int) row.get("supplierId");
+        String phone = (String) row.get("phone");
+        String name = (String) row.get("name");
 
         return new ContactDTO(supplierId, phone, name);
     }
 
     public List<ContactDTO> getSupplierContacts(int supplierId) throws SQLException {
-        ResultSet rs = repo.executeQuery("SELECT * FROM " + tableName + " WHERE supplierId = ?;", supplierId);
+        List<Map<String, Object>> rows = repo.executeQuery("SELECT * FROM " + tableName + " WHERE supplierId = ?;",
+                supplierId);
 
-        List<ContactDTO> contacts = new ArrayList<>();
-        while (rs.next())
-            contacts.add(makeDTO(rs));
-
-        rs.close();
+        List<ContactDTO> contacts = makeDTOs(rows);
 
         return contacts;
     }
 
     public ContactDTO getBySupplierAndPhone(int supplierId, String phone) throws SQLException {
-        ResultSet rs = repo.executeQuery("SELECT * FROM " + tableName + " WHERE supplierId = ? AND phone = ?;",
+        List<Map<String, Object>> rows = repo.executeQuery(
+                "SELECT * FROM " + tableName + " WHERE supplierId = ? AND phone = ?;",
                 supplierId, phone);
+        if (rows.size() > 0)
+            return makeDTO(rows.get(0));
 
-        ContactDTO dto = makeDTO(rs);
-
-        rs.close();
-
-        return dto;
+        return null;
     }
 
 }

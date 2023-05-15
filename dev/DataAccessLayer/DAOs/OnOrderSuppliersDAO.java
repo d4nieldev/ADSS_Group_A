@@ -1,18 +1,15 @@
 package DataAccessLayer.DAOs;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
+import java.util.Map;
 
-import DataAccessLayer.Repository;
 import DataAccessLayer.DTOs.OnOrderSuppliersDTO;
 import DataAccessLayer.DTOs.SupplierDTO;
 
 public class OnOrderSuppliersDAO extends DAO<OnOrderSuppliersDTO> {
-    SupplierDAO supplierDAO;
-
     private static OnOrderSuppliersDAO instance = null;
+    private SupplierDAO supplierDAO;
 
     public static OnOrderSuppliersDAO getInstance() {
         if (instance == null)
@@ -45,7 +42,7 @@ public class OnOrderSuppliersDAO extends DAO<OnOrderSuppliersDTO> {
 
     public boolean deleteById(int supplierId) throws SQLException {
         OnOrderSuppliersDTO dto = getById(supplierId);
-        if(dto != null){
+        if (dto != null) {
             delete(dto);
             return true;
         }
@@ -53,29 +50,21 @@ public class OnOrderSuppliersDAO extends DAO<OnOrderSuppliersDTO> {
     }
 
     @Override
-    public OnOrderSuppliersDTO makeDTO(ResultSet rs) throws SQLException {
-        if (!rs.next())
-            return null;
-
-        int supplierId = rs.getInt("supplierId");
-        int maxSupplyDays = rs.getInt("maxSupplyDays");
+    public OnOrderSuppliersDTO makeDTO(Map<String, Object> row) throws SQLException {
+        int supplierId = (int) row.get("supplierId");
+        int maxSupplyDays = (int) row.get("maxSupplyDays");
 
         SupplierDTO supplierDTO = supplierDAO.getById(supplierId);
         return new OnOrderSuppliersDTO(supplierDTO, maxSupplyDays);
     }
 
     public OnOrderSuppliersDTO getById(int supplierId) throws SQLException {
-        Connection con = Repository.getInstance().connect();
-
         String query = "SELECT * FROM OnOrderSuppliers WHERE supplierId= ?;";
-        PreparedStatement statement = con.prepareStatement(query);
-        statement.setInt(1, supplierId);
-        ResultSet supRS = statement.executeQuery();
-        //statement.close();
-        //con.close();
-        OnOrderSuppliersDTO res = makeDTO(supRS);
-        supRS.close();
-        return res;
+        List<Map<String, Object>> rows = repo.executeQuery(query, supplierId);
+        if (rows.size() > 0)
+            return makeDTO(rows.get(0));
+
+        return null;
     }
 
 }

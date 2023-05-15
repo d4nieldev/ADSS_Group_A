@@ -164,10 +164,10 @@ public class ReservationController {
 
     public void makeManualReservation(Map<Integer, Map<Integer, Integer>> supplierToproductToAmount,
             Integer destinationBranch) throws SuppliersException, SQLException {
-        int reservationId = getNextIdAndIncrement();
         List<Reservation> finalOrder = new ArrayList<>();
 
         for (int supplierId : supplierToproductToAmount.keySet()) {
+            int reservationId = getNextIdAndIncrement();
             Map<Integer, Integer> productToAmount = supplierToproductToAmount.get(supplierId);
             Contact contact = sc.getRandomContactOf(supplierId);
             ReservationDTO rDTO = createReservationDTO(reservationId, supplierId, destinationBranch, contact,
@@ -228,9 +228,7 @@ public class ReservationController {
 
     public void makeDeficiencyReservation(Map<Integer, Integer> productToAmount, Integer destinationBranch)
             throws SuppliersException, SQLException {
-        int reservationId = getNextIdAndIncrement();
-        Map<Integer, Reservation> supToReservation = maxReservationPerSupplier(productToAmount, destinationBranch,
-                reservationId);
+        Map<Integer, Reservation> supToReservation = maxReservationPerSupplier(productToAmount, destinationBranch);
 
         List<Reservation> finalOrder = new ArrayList<>();
         while (productToAmount.size() > 0 && supToReservation.size() > 0) {
@@ -265,7 +263,7 @@ public class ReservationController {
     }
 
     private Map<Integer, Reservation> maxReservationPerSupplier(Map<Integer, Integer> productToAmount,
-            Integer destinationBranch, int reservationId) throws SuppliersException, SQLException {
+            Integer destinationBranch) throws SuppliersException, SQLException {
         Map<Integer, Reservation> supplierToReservation = new HashMap<>();
 
         for (int productId : productToAmount.keySet()) {
@@ -278,6 +276,7 @@ public class ReservationController {
                 Reservation r = supplierToReservation.get(supplierId);
                 if (r == null) {
                     Contact contact = sc.getRandomContactOf(supplierId);
+                    int reservationId = getNextIdAndIncrement();
                     ReservationDTO rDTO = createReservationDTO(reservationId, supplierId, destinationBranch, contact,
                             new ArrayList<>());
                     r = new Reservation(rDTO, contact, new ArrayList<>());
@@ -288,7 +287,7 @@ public class ReservationController {
                 int maxAmount = Math.min(amount, agreement.getStockAmount());
                 double pricePerUnitBeforeDiscount = agreement.getBasePrice();
                 double pricePerUnitAfterDiscount = agreement.getPrice(maxAmount);
-                ReceiptItemDTO receiptItemDTO = new ReceiptItemDTO(reservationId, productId, maxAmount,
+                ReceiptItemDTO receiptItemDTO = new ReceiptItemDTO(r.getId(), productId, maxAmount,
                         pricePerUnitBeforeDiscount, pricePerUnitAfterDiscount);
                 Product product = ProductController.getInstance().getProductById(productId);
                 r.addReceiptItem(new ReceiptItem(receiptItemDTO, product));

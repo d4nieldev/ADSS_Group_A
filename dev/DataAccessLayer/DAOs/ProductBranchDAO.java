@@ -5,7 +5,6 @@ import java.sql.SQLException;
 import java.util.HashMap;
 
 import DataAccessLayer.DTOs.DiscountDTO;
-import DataAccessLayer.DTOs.ProductBranchDiscountDTO;
 import DataAccessLayer.Repository;
 import DataAccessLayer.DTOs.ProductBranchDTO;
 import DataAccessLayer.DTOs.SpecificProductDTO;

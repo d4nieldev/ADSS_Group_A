@@ -1,20 +1,15 @@
 package DataAccessLayer.DAOs;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
-import DataAccessLayer.Repository;
 import DataAccessLayer.DTOs.FixedDaysSupplierDTO;
 import DataAccessLayer.DTOs.SupplierDTO;
 
 public class FixedDaysSupplierDAO extends DAO<FixedDaysSupplierDTO> {
-    SupplierDAO supplierDAO;
-
     private static FixedDaysSupplierDAO instance = null;
+    private SupplierDAO supplierDAO;
 
     public static FixedDaysSupplierDAO getInstance() {
         if (instance == null)
@@ -61,29 +56,22 @@ public class FixedDaysSupplierDAO extends DAO<FixedDaysSupplierDTO> {
     }
 
     @Override
-    public FixedDaysSupplierDTO makeDTO(ResultSet rs) throws SQLException {
-        if (!rs.next())
-            return null;
-
-        int supplierId = rs.getInt("supplierId");
-        int dayOfSupply = rs.getInt("dayOfSupply");
+    public FixedDaysSupplierDTO makeDTO(Map<String, Object> row) throws SQLException {
+        int supplierId = (int) row.get("supplierId");
+        int dayOfSupply = (int) row.get("dayOfSupply");
 
         SupplierDTO supplierDTO = supplierDAO.getById(supplierId);
         return new FixedDaysSupplierDTO(supplierDTO, dayOfSupply);
     }
 
     public List<FixedDaysSupplierDTO> getById(int supplierId) throws SQLException {
-        Connection con = Repository.getInstance().connect();
         String query = "SELECT * FROM FixedDaysSuppliers WHERE supplierId= ?;";
-        PreparedStatement statement = con.prepareStatement(query);
-        statement.setInt(1, supplierId);
-        ResultSet supRS = statement.executeQuery();
-        List<FixedDaysSupplierDTO> fixedDaysSupplierDTOs = makeDTOs(supRS);
+        List<Map<String, Object>> rows = repo.executeQuery(query, supplierId);
+        List<FixedDaysSupplierDTO> fixedDaysSupplierDTOs = makeDTOs(rows);
 
         if (fixedDaysSupplierDTOs.size() == 0)
             return null;
 
-        supRS.close();
         return fixedDaysSupplierDTOs;
     }
 

@@ -1,19 +1,17 @@
 package DataAccessLayer.DAOs;
 
-import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
+import java.util.Map;
 
-import DataAccessLayer.Repository;
 import DataAccessLayer.DTOs.CategoryDTO;
 import DataAccessLayer.DTOs.ProductDTO;
 
 public class ProductsDAO extends DAO<ProductDTO> {
     private static ProductsDAO instance = null;
-    private Repository repo;
 
     protected ProductsDAO() {
         super("Products");
-        repo = Repository.getInstance();
     }
 
     public static ProductsDAO getInstance() {
@@ -24,14 +22,11 @@ public class ProductsDAO extends DAO<ProductDTO> {
     }
 
     @Override
-    public ProductDTO makeDTO(ResultSet rs) throws SQLException {
-        if (!rs.next())
-            return null;
-
-        int id = rs.getInt("id");
-        String name = rs.getString("name");
-        String manufacturer = rs.getString("manufacturer");
-        int categoryId = rs.getInt("categoryId");
+    public ProductDTO makeDTO(Map<String, Object> row) throws SQLException {
+        int id = (int) row.get("id");
+        String name = (String) row.get("name");
+        String manufacturer = (String) row.get("manufacturer");
+        int categoryId = (int) row.get("categoryId");
 
         CategoryDTO category = CategoryDAO.getInstance().getById(categoryId);
 
@@ -40,10 +35,10 @@ public class ProductsDAO extends DAO<ProductDTO> {
 
     public ProductDTO getById(int id) throws SQLException {
         String query = "SELECT * FROM Products WHERE id= ?;";
-        ResultSet rs = repo.executeQuery(query, id);
-        ProductDTO dto = makeDTO(rs);
-        rs.close();
-        return dto;
+        List<Map<String, Object>> rows = repo.executeQuery(query, id);
+        if (rows.size() > 0)
+            return makeDTO(rows.get(0));
+        return null;
     }
 
 }

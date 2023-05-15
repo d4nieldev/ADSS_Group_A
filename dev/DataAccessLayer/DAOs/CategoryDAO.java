@@ -1,18 +1,16 @@
 package DataAccessLayer.DAOs;
 
-import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
+import java.util.Map;
 
-import DataAccessLayer.Repository;
 import DataAccessLayer.DTOs.CategoryDTO;
 
 public class CategoryDAO extends DAO<CategoryDTO> {
     private static CategoryDAO instance = null;
-    private Repository repo;
 
     protected CategoryDAO() {
         super("Categories");
-        repo = Repository.getInstance();
     }
 
     public static CategoryDAO getInstance() {
@@ -22,29 +20,25 @@ public class CategoryDAO extends DAO<CategoryDTO> {
     }
 
     @Override
-    public CategoryDTO makeDTO(ResultSet rs) throws SQLException {
-        if (!rs.next())
-            return null;
-
-        int id = rs.getInt("id");
-        String name = rs.getString("name");
-        String categoryParentId = rs.getString("parent");
+    public CategoryDTO makeDTO(Map<String, Object> row) throws SQLException {
+        int id = (int) row.get("id");
+        String name = (String) row.get("name");
+        String categoryParentId = (String) row.get("parent");
         CategoryDTO parenCategoryDTO;
         if (categoryParentId == null) {
             parenCategoryDTO = null;
         } else {
             parenCategoryDTO = getById(Integer.parseInt(categoryParentId));
         }
-        return new CategoryDTO(id,name, parenCategoryDTO);
+        return new CategoryDTO(id, name, parenCategoryDTO);
     }
 
     public CategoryDTO getById(int categoryId) throws SQLException {
-        ResultSet rs = repo.executeQuery("SELECT * FROM Categories WHERE id= ?;", categoryId);
-        CategoryDTO categoryDTO = makeDTO(rs);
+        List<Map<String, Object>> rows = repo.executeQuery("SELECT * FROM Categories WHERE id= ?;", categoryId);
+        if (rows.size() > 0)
+            return makeDTO(rows.get(0));
 
-        rs.close();
-
-        return categoryDTO;
+        return null;
     }
 
 }

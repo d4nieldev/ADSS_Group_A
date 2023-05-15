@@ -76,7 +76,7 @@ public class EmployeeFacade {
 
     // commit log out for employee, if exsist
     public void logOut(int id) {
-        if (isEmployeeExistsAndLoadEmployee(id) && isEmployeeLoggedIn(id)) {
+        if ( isEmployeeLoggedIn(id)) {
             Employee e = getEmployeeById(id);
             e.SetIsLoggedInToFalse();
             if (isEmployeeDriver(id)) {

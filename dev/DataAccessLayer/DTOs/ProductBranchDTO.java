@@ -11,8 +11,10 @@ public class ProductBranchDTO implements DTO {
     private int minQuantity;
     private int idealQuantity;
 
-    private HashMap<Integer,SpecificProductDTO> allSpecificProducts;
-    public ProductBranchDTO(ProductDTO productDTO, DiscountDTO discountDTO,int branchId, double price, int minQuantity,int idealQuantity, HashMap<Integer,SpecificProductDTO> allSpecificProducts) {
+    private HashMap<Integer, SpecificProductDTO> allSpecificProducts;
+
+    public ProductBranchDTO(ProductDTO productDTO, DiscountDTO discountDTO, int branchId, double price, int minQuantity,
+            int idealQuantity, HashMap<Integer, SpecificProductDTO> allSpecificProducts) {
         this.productDTO = productDTO;
         this.discountDTO = discountDTO;
         this.branchId = branchId;
@@ -21,7 +23,9 @@ public class ProductBranchDTO implements DTO {
         this.idealQuantity = idealQuantity;
         this.allSpecificProducts = allSpecificProducts;
     }
-    public ProductBranchDTO(ProductDTO productDTO,int branchId, double price, int minQuantity,int idealQuantity, HashMap<Integer,SpecificProductDTO> allSpecificProducts) {
+
+    public ProductBranchDTO(ProductDTO productDTO, int branchId, double price, int minQuantity, int idealQuantity,
+            HashMap<Integer, SpecificProductDTO> allSpecificProducts) {
         this.productDTO = productDTO;
         this.discountDTO = null;
         this.branchId = branchId;
@@ -30,11 +34,18 @@ public class ProductBranchDTO implements DTO {
         this.idealQuantity = idealQuantity;
         this.allSpecificProducts = allSpecificProducts;
     }
+
     @Override
     public Map<String, String> getNameToVal() {
         Map<String, String> nameToVal = new HashMap<>();
         nameToVal.put("productId", "" + productDTO.getId());
-       // nameToVal.put("discountId", "" + discountDTO.getId());
+        // TODO: can be a place to mistake if not implemented cuurent discount ID
+        // support.
+        if (discountDTO == null) {
+            nameToVal.put("discountId", "" + null);
+        } else {
+            nameToVal.put("discountId", "" + discountDTO.getId());
+        }
         nameToVal.put("branchId", "" + branchId);
         nameToVal.put("price", "" + price);
         nameToVal.put("minQuantity", "" + minQuantity);
@@ -45,6 +56,7 @@ public class ProductBranchDTO implements DTO {
     public ProductDTO getProductDTO() {
         return productDTO;
     }
+
     public DiscountDTO getDiscountDTO() {
         return discountDTO;
     }
@@ -68,7 +80,6 @@ public class ProductBranchDTO implements DTO {
     public HashMap<Integer, SpecificProductDTO> getAllSpecificProducts() {
         return allSpecificProducts;
     }
-
 
     public void updateDiscount(DiscountDTO discountDTO) {
         this.discountDTO = discountDTO;

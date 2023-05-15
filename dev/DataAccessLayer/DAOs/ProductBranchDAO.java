@@ -27,6 +27,7 @@ public class ProductBranchDAO extends DAO<ProductBranchDTO> {
     @Override
     public ProductBranchDTO makeDTO(Map<String, Object> row) throws SQLException {
         int productId = (int) row.get("productId");
+        int discountId = (int) row.get("discountId");
         int branchId = (int) row.get("branchId");
         double price = (double) row.get("price");
         int minQuantity = (int) row.get("minQuantity");
@@ -34,7 +35,7 @@ public class ProductBranchDAO extends DAO<ProductBranchDTO> {
         SpecificProductDAO specificProductDAO = SpecificProductDAO.getInstance();
         HashMap<Integer, SpecificProductDTO> specificProductHashMap = specificProductDAO.getByGeneralId(productId,
                 branchId);
-        DiscountDTO discountDTO = getByProductAndBranchId(productId, branchId).getDiscountDTO();
+        DiscountDTO discountDTO = DiscountDAO.getInstance().getById(discountId);
 
         return new ProductBranchDTO(productDAO.getById(productId), discountDTO, branchId, price, minQuantity,
                 idealQuantity, specificProductHashMap);

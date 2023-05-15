@@ -24,6 +24,7 @@ public class ShiftsDAO extends DAO<ShiftDTO> {
         numEmployeesForRolesDAO = new NumEmployeesForRolesDAO();
         employeeShiftFinalDAO = new EmployeesShiftsFinalsDAO();
         shiftsCancellationsDAO = new ShiftsCancellationsDAO();
+        driversInShiftsDAO = new DriversInShiftsDAO();
     }
 
     @Override

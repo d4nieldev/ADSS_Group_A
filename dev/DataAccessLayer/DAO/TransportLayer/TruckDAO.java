@@ -28,6 +28,7 @@ public class TruckDAO extends DAO<TruckDTO> {
             s.executeUpdate(InsertStatement(toInsertTruck));
             ans = 1;
         } catch (Exception e) {
+            System.out.println(e.getMessage());
             ans = 0;
         } finally {
             Repository.getInstance().closeConnection(conn);

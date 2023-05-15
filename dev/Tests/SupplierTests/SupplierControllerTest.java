@@ -23,6 +23,7 @@ import BusinessLayer.Suppliers.ProductAgreement;
 import BusinessLayer.Suppliers.Supplier;
 import BusinessLayer.Suppliers.SupplierController;
 import BusinessLayer.exceptions.SuppliersException;
+import DataAccessLayer.Repository;
 import DataAccessLayer.DTOs.ReceiptItemDTO;
 
 public class SupplierControllerTest {
@@ -44,9 +45,9 @@ public class SupplierControllerTest {
 
     @After
     public void clearController() throws SQLException {
-        // sc.deleteSupplier(0);
-        // ProductController.getInstance().clearData();
-        // sc.clearData();
+        ProductController.getInstance().clearData();
+        sc.clearData();
+        Repository.getInstance().DELETE_ALL_DATA();
     }
 
     private static <T> List<T> createList(T... args) {

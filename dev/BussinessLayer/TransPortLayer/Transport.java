@@ -41,27 +41,14 @@ public class Transport {
         this.currentWeight= truckWeightNeto;
     }
 
-    /*public TransportDTO toDTO(){
-        return new TransportDTO(this.id = id,
-        this.date = date,
-        this.leavingTime = leavingTime,
-        this.truckNumber = truckNumber,
-        this.driverName = driverName,
-        this.driverId = driverId,
-        this.source = source,
-        this.destinationList=destinationList,
-        this.deliveryList=deliveryList,
-        this.truckWeightNeto=truckWeightNeto,
-        this.truckWeightMax=truckWeightMax,
-        this.loadedItems= new ArrayList<String>(),
-        this.currentWeight= truckWeightNeto);
-    }*/
+    public TransportDTO toDTO(){
+        return new TransportDTO(id,date.toString(),leavingTime,truckNumber,driverName,driverId,source,truckWeightNeto,truckWeightMax,"dhdhd",currentWeight);
+    }
     public void addDestination(Destination destination) {
         destinationList.add(destination);
     }
 
     public void removeDestination(String destinationName) {
-        destinationList.remove(destinationName);
     }
 
     public Destination getDestination(int i)
@@ -294,5 +281,7 @@ public class Transport {
         }
         return branches;
     }
+
+
 
 }

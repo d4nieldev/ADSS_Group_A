@@ -14,16 +14,14 @@ public class TransportDTO {
     private String driverName;
     private int driverId;
     private String source;
-    private List<Destination> destinationList;
-    private List<Delivery> deliveryList;
     private int truckWeightNeto;
     private int truckWeightMax;
-    private List<String> loadedItems;
+    private String loadedItems;
     private int currentWeight;
 
     public TransportDTO(int id, String date, String leavingTime, String truckNumber, String driverName, int driverId,
-                        String source, List<Destination> destinationList, List<Delivery> deliveryList, int truckWeightNeto,
-                        int truckWeightMax, List<String> loadedItems, int currentWeight) {
+                        String source,   int truckWeightNeto,
+                        int truckWeightMax, String loadedItems, int currentWeight) {
         this.id = id;
         this.date = date;
         this.leavingTime = leavingTime;
@@ -31,8 +29,6 @@ public class TransportDTO {
         this.driverName = driverName;
         this.driverId = driverId;
         this.source = source;
-        this.destinationList = destinationList;
-        this.deliveryList = deliveryList;
         this.truckWeightNeto = truckWeightNeto;
         this.truckWeightMax = truckWeightMax;
         this.loadedItems = loadedItems;
@@ -67,13 +63,6 @@ public class TransportDTO {
         return source;
     }
 
-    public List<Destination> getDestinationList() {
-        return destinationList;
-    }
-
-    public List<Delivery> getDeliveryList() {
-        return deliveryList;
-    }
 
     public int getTruckWeightNeto() {
         return truckWeightNeto;
@@ -83,7 +72,7 @@ public class TransportDTO {
         return truckWeightMax;
     }
 
-    public List<String> getLoadedItems() {
+    public String getLoadedItems() {
         return loadedItems;
     }
 
@@ -92,9 +81,9 @@ public class TransportDTO {
     }
 
     public String fieldsToString() {
-        return String.format("(\"%s\",\"%s\",\"%s\",\"%s\",\"%s\",\"%s\",\"%s\",\"%s\",\"%s\",\"%s\",\"%s\",\"%s\",\"%s\")",
+        return String.format("(\"%d\",\"%s\",\"%s\",\"%s\",\"%s\",\"%d\",\"%s\",\"%d\",\"%d\",\"%s\",\"%d\")",
                 this.id, this.date, this.leavingTime, this.truckNumber, this.driverName, this.driverId, this.source,
-                this.destinationList, this.deliveryList, this.truckWeightNeto, this.truckWeightMax, this.loadedItems,
+                  this.truckWeightNeto, this.truckWeightMax, this.loadedItems,
                 this.currentWeight);
     }
 }

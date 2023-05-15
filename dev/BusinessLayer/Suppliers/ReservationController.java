@@ -10,6 +10,7 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import BusinessLayer.Inventory.BranchController;
 import BusinessLayer.InveontorySuppliers.PeriodicReservation;
@@ -213,6 +214,14 @@ public class ReservationController {
     }
 
     private void savePartialReservation(Reservation reservation) {
+        if (supplierIdToReservations.containsKey(reservation.getSupplierId()) &&
+                supplierIdToReservations
+                        .get(reservation.getSupplierId())
+                        .stream()
+                        .filter(r -> r.getId() == reservation.getId())
+                        .collect(Collectors.toList()).size() > 0)
+            return; // reservation already exists
+
         idToSupplierReservations.computeIfAbsent(reservation.getId(), k -> new ArrayList<>()).add(reservation);
         supplierIdToReservations.computeIfAbsent(reservation.getSupplierId(), k -> new ArrayList<>()).add(reservation);
     }
@@ -306,8 +315,11 @@ public class ReservationController {
         Comparator<Integer> supComp = (sup1, sup2) -> {
             Supplier s1 = SupplierController.getInstance().getSupplierById(sup1);
             Supplier s2 = SupplierController.getInstance().getSupplierById(sup2);
-            // s1 before s2 <=> s1 supplies before sw <=> s1.time - s2.time < 0
-            int output = (int) ChronoUnit.DAYS.between(s1.getClosestDeliveryDate(), s2.getClosestDeliveryDate());
+            // s1 before s2 <=> s1 supplies before s2 <=> s1.time - s2.time < 0
+            int s1Befores2 = s1.getClosestDeliveryDate().isBefore(s2.getClosestDeliveryDate()) ? 1 : 0;
+            int s2Befores1 = s2.getClosestDeliveryDate().isBefore(s1.getClosestDeliveryDate()) ? 1 : 0;
+
+            int output = s2Befores1 - s1Befores2;
 
             Reservation r1 = supToReservation.get(sup1);
             Reservation r2 = supToReservation.get(sup2);
@@ -394,7 +406,7 @@ public class ReservationController {
             Reservation r = createReservationFromDTO(rDTO);
             savePartialReservation(r);
         }
-        return supplierIdToReservations.get(supplierId);
+        return supplierIdToReservations.getOrDefault(supplierId, new ArrayList<>());
     }
 
     // TODO: delete this?

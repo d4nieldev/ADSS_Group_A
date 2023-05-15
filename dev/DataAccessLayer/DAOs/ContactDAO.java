@@ -51,8 +51,6 @@ public class ContactDAO extends DAO<ContactDTO> {
         ResultSet rs = repo.executeQuery("SELECT * FROM " + tableName + " WHERE supplierId = ? AND phone = ?;",
                 supplierId, phone);
 
-        if (!rs.next())
-            throw new SQLException("No such contact found with id " + supplierId + " and phone " + phone);
         ContactDTO dto = makeDTO(rs);
 
         rs.close();

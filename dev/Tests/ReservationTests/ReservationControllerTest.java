@@ -5,6 +5,7 @@ import static org.junit.Assert.assertThrows;
 import static org.junit.Assert.fail;
 
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -46,7 +47,7 @@ public class ReservationControllerTest {
         TreeMap<Integer, String> amountToDiscount = new TreeMap<>();
         List<String> contactNames = createList("John Doe", "Jane Doe");
         List<String> contactPhones = createList("1524973302", "1678420619");
-        Integer maxSupplyDays = 3;
+        Integer maxSupplyDays = 1;
 
         SupplierController.getInstance().addOnOrderSupplierBaseAgreement(name, phone, bankAccount, fields,
                 paymentCondition, amountToDiscount, contactNames, contactPhones, maxSupplyDays);
@@ -75,6 +76,27 @@ public class ReservationControllerTest {
 
     }
 
+    private int getDay() {
+        switch (LocalDate.now().getDayOfWeek()) {
+            case SUNDAY:
+                return 1;
+            case MONDAY:
+                return 2;
+            case TUESDAY:
+                return 3;
+            case WEDNESDAY:
+                return 4;
+            case THURSDAY:
+                return 5;
+            case FRIDAY:
+                return 6;
+            case SATURDAY:
+                return 7;
+            default:
+                return 0;
+        }
+    }
+
     private void createSupplier1() throws Exception {
         String name = "Supplier 1";
         String phone = "1234567890";
@@ -84,7 +106,7 @@ public class ReservationControllerTest {
         TreeMap<Integer, String> amountToDiscount = new TreeMap<>();
         List<String> contactNames = createList("John Doe", "Jane Doe");
         List<String> contactPhones = createList("1524973302", "1678420619");
-        List<Integer> days = createList(2, 5);
+        List<Integer> days = createList((getDay() + 3) % 7); // make sure this supplier is slower
 
         SupplierController.getInstance().addFixedDaysSupplierBaseAgreement(name, phone, bankAccount, fields,
                 paymentCondition, amountToDiscount, contactNames, contactPhones, days);

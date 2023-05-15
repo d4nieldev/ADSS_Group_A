@@ -5,6 +5,7 @@ import java.sql.SQLException;
 import java.util.HashMap;
 
 import DataAccessLayer.DTOs.DiscountDTO;
+import DataAccessLayer.DTOs.ProductBranchDiscountDTO;
 import DataAccessLayer.Repository;
 import DataAccessLayer.DTOs.ProductBranchDTO;
 import DataAccessLayer.DTOs.SpecificProductDTO;
@@ -39,8 +40,11 @@ public class ProductBranchDAO extends DAO<ProductBranchDTO> {
         SpecificProductDAO specificProductDAO = SpecificProductDAO.getInstance();
         HashMap<Integer, SpecificProductDTO> specificProductHashMap = specificProductDAO.getByGeneralId(productId,
                 branchId);
-        DiscountDTO discountDTO = getByProductAndBranchId(productId, branchId).getDiscountDTO();
-
+        DiscountDTO discountDTO = ProductBranchDiscountsDAO.getInstance().getByIdAndBranch(productId,branchId);
+        if(discountDTO == null)
+            return new ProductBranchDTO(productDAO.getById(productId), branchId, price, minQuantity,
+                    idealQuantity, specificProductHashMap);
+        else
         return new ProductBranchDTO(productDAO.getById(productId), discountDTO, branchId, price, minQuantity,
                 idealQuantity, specificProductHashMap);
     }

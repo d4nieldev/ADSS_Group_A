@@ -115,11 +115,11 @@ public class ProductBranch {
             sp.setFlawDescription(description);
     }
 
-    public boolean applyDiscount(Discount discount) throws SQLException {
-        discountsHistory.add(discount);
+    public boolean applyDiscount(Discount discountNew) throws SQLException {
+        discountsHistory.add(discountNew);
         Discount maxDiscount = getCurrentMaxDiscount();
         this.discount = maxDiscount;
-        if (discount != maxDiscount) {
+        if (discountNew == maxDiscount) {
             return true;
         }
         return false;

@@ -17,11 +17,9 @@ import BusinessLayer.Inventory.ProductStatus;
 import BusinessLayer.Inventory.SpecificProduct;
 import BusinessLayer.Suppliers.ReservationController;
 import DataAccessLayer.DAOs.DiscountDAO;
+import DataAccessLayer.DAOs.ProductBranchDiscountsDAO;
 import DataAccessLayer.DAOs.ProductsDAO;
-import DataAccessLayer.DTOs.BranchDTO;
-import DataAccessLayer.DTOs.DiscountDTO;
-import DataAccessLayer.DTOs.ProductBranchDTO;
-import DataAccessLayer.DTOs.SpecificProductDTO;
+import DataAccessLayer.DTOs.*;
 
 public class Branch {
     private int branchId;
@@ -289,7 +287,7 @@ public class Branch {
      * @return
      * @throws Exception
      */
-    public List<ProductBranch> setDiscountOnProducts(List<ProductBranch> productsToDiscount, Discount discount)
+    public List<ProductBranch> setDiscountOnProducts(List<ProductBranch> productsToDiscount, Discount discount,DiscountDTO discountDTO)
             throws Exception {
         HashMap<ProductBranch, DiscountDTO> changeDiscount = new HashMap<>();
         List<ProductBranch> productToDiscount = new ArrayList<>();
@@ -301,16 +299,17 @@ public class Branch {
             boolean ans = productBranch.applyDiscount(discount);
             if (ans) {
                 productToDiscount.add(productBranch);
+                ProductBranchDiscountDTO productBranchDiscountDTO = new ProductBranchDiscountDTO(productBranch.getCode(),branchId,discountDTO);
             }
         }
         return productToDiscount;
     }
 
-    public void setDiscountOnCategories(List<Category> categoriesToDiscount, Discount discount) throws Exception {
-        List<Category> allSubCategories = categoryController.getListAllSubCategories(categoriesToDiscount);
-        List<ProductBranch> productsFromCategory = getProductsByCategories(allSubCategories);
-        setDiscountOnProducts(productsFromCategory, discount);
-    }
+//    public void setDiscountOnCategories(List<Category> categoriesToDiscount, Discount discount) throws Exception {
+//        List<Category> allSubCategories = categoryController.getListAllSubCategories(categoriesToDiscount);
+//        List<ProductBranch> productsFromCategory = getProductsByCategories(allSubCategories);
+//        setDiscountOnProducts(productsFromCategory, discount,discoun);
+//    }
 
     public List<ProductBranch> getProductsByCategories(List<Category> allSubCategories) {
         List<ProductBranch> result = new ArrayList<>();

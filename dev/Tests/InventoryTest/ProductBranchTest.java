@@ -31,7 +31,7 @@ public class ProductBranchTest {
         branch = branchController.getBranchById(branch.getId());
         CategoryDTO categoryDTO = new CategoryDTO("Milks products");
         ProductDTO productDTO = new ProductDTO(1,"Milk","Tnuva",categoryDTO);
-        productController.addNewProduct(productDTO);
+        productController.addProduct(productDTO);
         SpecificProductDTO specificProductDTO1 = new SpecificProductDTO(1,1,1,10,"", LocalDate.parse("2023-11-11"));
         SpecificProductDTO specificProductDTO2 = new SpecificProductDTO(2,1,1,10,"", LocalDate.parse("2023-01-11"));
         SpecificProductDTO specificProductDTO3 = new SpecificProductDTO(3,1,1,10,"", LocalDate.parse("2023-11-11"));

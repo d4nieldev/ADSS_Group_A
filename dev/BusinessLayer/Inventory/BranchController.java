@@ -213,7 +213,7 @@ public class BranchController {
         Branch branch = allBranches.get(branchId);
         // return a list of all products who the new discount on them been changed
         List<ProductBranch> productsToDiscount = branch.getProductsByCode(products);
-        List<ProductBranch> changeDiscount = branch.setDiscountOnProducts(productsToDiscount, discount,discountDTO);
+        List<ProductBranch> changeDiscount = branch.setDiscountOnProducts(productsToDiscount, discount, discountDTO);
 
         // add the discount to the product and update the discount DTO on PRODUCT
         for (ProductBranch productBranch : changeDiscount) {
@@ -236,7 +236,8 @@ public class BranchController {
      * @param branchId
      * @throws Exception
      */
-    public List<ProductBranch> setDiscountOnCategories(int branchId, List<Integer> categoriesToDiscount, Discount discount)
+    public List<ProductBranch> setDiscountOnCategories(int branchId, List<Integer> categoriesToDiscount,
+            Discount discount)
             throws Exception {
 
         Branch branch = checkBranchExist(branchId);
@@ -282,7 +283,7 @@ public class BranchController {
     public void sellProduct(int branchId, int productCode, int specificId) throws Exception {
         Branch branch = allBranches.get(branchId);
         SpecificProduct sp = branch.sellProduct(productCode, specificId);
-        SpecificProductDTO specificProductDTO = specificProductDAO.getById(specificId);
+        SpecificProductDTO specificProductDTO = sp.getSpecificProductDTO();
         specificProductDAO.update(specificProductDTO);
 
     }
@@ -308,9 +309,21 @@ public class BranchController {
 
     }
 
-    public ProductBranch addNewProductBranch(int branchId, ProductBranchDTO productBranchDTO) throws SQLException {
+    public ProductBranch addNewProductBranch(int productId, int branchId, Integer discountId, double price,
+            int minQuantity, int idealQuantity) throws SQLException {
+        getBranchById(branchId); // just to check if exists
+        ProductDTO productDTO = ProductController.getInstance().getProductById(productId).getDTO();
+        DiscountDTO discountDTO = null;
+        if (discountId != null)
+            discountDTO = DiscountController.getInstance().getDiscountById(discountId).getDto();
+        ProductBranchDTO productBranchDTO = new ProductBranchDTO(productDTO, discountDTO, branchId, price, minQuantity,
+                idealQuantity, new HashMap<>());
         productBranchDAO.insert(productBranchDTO);
         return allBranches.get(branchId).addNewProductBranch(productBranchDTO);
+    }
+
+    public void clearData() {
+        allBranches.clear();
     }
 
 }

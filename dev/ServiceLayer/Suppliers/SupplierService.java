@@ -22,7 +22,6 @@ public class SupplierService {
         try {
             SupplierService service = new SupplierService();
             service.supplierController.init();
-            // service.productController.init();
             return service;
         } catch (SQLException e) {
             throw new RuntimeException(e.getMessage());

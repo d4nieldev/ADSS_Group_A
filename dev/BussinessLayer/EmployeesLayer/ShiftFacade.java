@@ -81,7 +81,7 @@ public class ShiftFacade {
     public void checkAssignFinalShift(int managerID, Shift shift, HashMap<Employee, Integer> hrAssign){
         shift.checkAssignFinalShift(hrAssign);
         // if succedded - save the final shift
-        shift.assignFinalShift(hrAssign);
+        shift.assignFinalShift(hrAssign); 
         // save in Database
         for (Employee emp : hrAssign.keySet()) {
             shiftsDAO.addShiftFinal(emp.getId(), shift.getID());   
@@ -192,7 +192,15 @@ public class ShiftFacade {
             if(branch.getBranchAddress().equals(address) && shift.getDate().equals(date) && shift.getShiftTime().equals(ShiftTime.MORNING))
                 return shift;
         }
-        return null;
+        int branchId = branch.getBranchId();
+        ShiftDTO shiftDTO = shiftsDAO.getShiftsByDateTimeBranchId(branchId, "MORNING", date);
+        if(shiftDTO != null){
+            Shift s = createNewShiftFromShiftDTO(shiftDTO);
+            shifts.add(s);
+            return s;
+        }
+
+        throw new Error("No such a shift in this system by the address " + address + " and date " + date + "and time MORNING");
     }
 
     public Shift getShiftByAddressDateEvening(Branch branch, String address, LocalDate date){
@@ -200,7 +208,15 @@ public class ShiftFacade {
             if(branch.getBranchAddress().equals(address) && shift.getDate().equals(date) && shift.getShiftTime().equals(ShiftTime.EVENING))
                 return shift;
         }
-        return null;
+        int branchId = branch.getBranchId();
+        ShiftDTO shiftDTO = shiftsDAO.getShiftsByDateTimeBranchId(branchId, "EVENING", date);
+        if(shiftDTO != null){
+            Shift s = createNewShiftFromShiftDTO(shiftDTO);
+            shifts.add(s);
+            return s;
+        }
+
+        throw new Error("No such a shift in this system by the address " + address + " and date " + date + "and time EVENING");
     }
 
     public LinkedList<Shift> getShiftsByDate(LocalDate date){

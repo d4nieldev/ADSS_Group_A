@@ -149,8 +149,9 @@ public class Repository {
                 "\t\"EmployeeID\"\tINTEGER,\n" +
                 "\t\"EmployeeRole\"\tINTEGER,\n" +
                 "\tPRIMARY KEY(\"EmployeeID\",\"ShiftID\"),\n" +
-                "\tFOREIGN KEY(\"EmployeeID\") REFERENCES \"Employees\"(\"ID\") ON DELETE CASCADE\n" +
-                "\tFOREIGN KEY(\"ShiftID\") REFERENCES \"Shifts\"(\"ShiftID\") ON DELETE CASCADE\n" +
+                "\tFOREIGN KEY(\"EmployeeID\") REFERENCES \"Employees\"(\"ID\") ON DELETE CASCADE,\n" +
+                "\tFOREIGN KEY(\"ShiftID\") REFERENCES \"Shifts\"(\"ShiftID\") ON DELETE CASCADE,\n" +
+                "\tFOREIGN KEY(\"EmployeeRole\") REFERENCES \"Roles\"(\"RoleID\") ON DELETE CASCADE\n" +
                 ");";
         String ShiftsCancellationsTable = "CREATE TABLE IF NOT EXISTS \"ShiftsCancellations\" (\n" +
                 "\t\"ShiftID\"\tINTEGER,\n" +

@@ -19,6 +19,8 @@ public class ReceiptItem {
         this.pricePerUnitBeforeDiscount = dto.getPricePerUnitBeforeDiscount();
         this.pricePerUnitAfterDiscount = dto.getPricePerUnitAfterDiscount();
         this.product = product;
+        // TODO: we suppose that the expiry date is 30 days from now.
+        this.expiredDate = LocalDate.now().plusDays(30);
     }
 
     public int getAmount() {

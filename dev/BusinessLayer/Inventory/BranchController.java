@@ -126,14 +126,21 @@ public class BranchController {
      */
     private void updateProductBranchOrCreate(ProductBranch productBranch, int branchId) throws SQLException {
         ProductBranchDTO productBranchDTO = productBranchDAO.getByProductAndBranchId(productBranch.getCode(), branchId);
-        //if exist - update table with the updated dto after receive reservation
+        // if exist - update table with the updated dto after receive reservation
         if (productBranchDTO != null) {
             productBranchDAO.update(productBranchDTO);
         }
-        //if not exist - create new one and insert it to the DAO
+        // if not exist - create new one and insert it to the DAO
         else {
             ProductDTO productDTO = ProductsDAO.getInstance().getById(productBranch.getCode());
-            DiscountDTO discountDTO = DiscountDAO.getInstance().getById(productBranch.getDiscount().getDiscountId());
+            Discount d = productBranch.getDiscount();
+            DiscountDTO discountDTO;
+            if (d == null) {
+                // TODO: make sure this isn't a bug
+                discountDTO = null;
+            } else {
+                discountDTO = DiscountDAO.getInstance().getById(d.getDiscountId());
+            }
             ProductBranchDTO result = new ProductBranchDTO(productDTO, discountDTO, branchId, productBranch.getPrice(),
                     productBranch.getMinQuantity(), productBranch.getIdealQuantity(), null);
             productBranchDAO.insert(result);

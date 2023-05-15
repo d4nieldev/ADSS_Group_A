@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import BusinessLayer.InveontorySuppliers.*;
+import DataAccessLayer.DTOs.DiscountDTO;
 import DataAccessLayer.DTOs.ProductBranchDTO;
 import DataAccessLayer.DTOs.SpecificProductDTO;
 
@@ -53,7 +54,13 @@ public class ProductBranch {
 
         this.allSpecificProducts = specificProductMap;
         DiscountController discountController = DiscountController.getInstance();
-        this.discount = discountController.getDiscountById(productBranchDTO.getDiscountDTO().getId());
+        DiscountDTO disDTO = productBranchDTO.getDiscountDTO();
+        if (disDTO == null) {
+            this.discount = null;
+        } else {
+            this.discount = discountController.getDiscountById(disDTO.getId());
+        }
+
         this.totalAmount = productBranchDTO.getAllSpecificProducts().size();
         this.discountsHistory = new ArrayList<>();
         this.productBranchDTO = productBranchDTO;
@@ -70,7 +77,6 @@ public class ProductBranch {
     public SpecificProduct getSpecificById(int specificId) {
         return allSpecificProducts.get(specificId);
     }
-
 
     public HashMap<Integer, SpecificProduct> getAllSpecificProducts() {
         return allSpecificProducts;
@@ -174,7 +180,6 @@ public class ProductBranch {
         return allExpired;
     }
 
-
     public List<SpecificProduct> getAllFlaws() {
         List<SpecificProduct> allFlaws = new ArrayList<>();
         for (SpecificProduct sp : allSpecificProducts.values()) {
@@ -188,7 +193,8 @@ public class ProductBranch {
     public List<SpecificProduct> receiveSupply(int amount, double buyPrice, LocalDate expiredDate, int branchId) {
         List<SpecificProduct> addedSpecific = new ArrayList<>();
         for (int i = 0; i < amount; i++) {
-            SpecificProductDTO specificProductDTO = new SpecificProductDTO(Global.getNewSpecificId(), getCode(), branchId, buyPrice, -1, ProductStatus.status.ON_STORAGE, "", expiredDate, LocalDate.now());
+            SpecificProductDTO specificProductDTO = new SpecificProductDTO(Global.getNewSpecificId(), getCode(),
+                    branchId, buyPrice, -1, ProductStatus.status.ON_STORAGE, "", expiredDate, LocalDate.now());
             SpecificProduct newSpecific = new SpecificProduct(specificProductDTO);
             addedSpecific.add(newSpecific);
             allSpecificProducts.put(newSpecific.getSpecificId(), newSpecific);
@@ -229,7 +235,8 @@ public class ProductBranch {
     }
 
     /**
-     * sell a product and update the ServiceLayer.PersentationLayer.inventory quantity
+     * sell a product and update the ServiceLayer.PersentationLayer.inventory
+     * quantity
      *
      * @param specificId
      */
@@ -304,7 +311,6 @@ public class ProductBranch {
     public int getCategoryId() {
         return product.getCategoryId();
     }
-
 
     public boolean existInCategories(List<Category> allSubCategories) {
         boolean result = false;

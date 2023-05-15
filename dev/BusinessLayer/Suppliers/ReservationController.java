@@ -362,7 +362,7 @@ public class ReservationController {
         }
     }
 
-    private Reservation createReservationFromDTO(ReservationDTO rDTO) throws SQLException {
+    private Reservation createReservationFromDTO(ReservationDTO rDTO) throws SQLException, SuppliersException {
         List<ReceiptItem> receipt = new ArrayList<>();
         for (ReceiptItemDTO itemDTO : rDTO.getReceipt()) {
             Product product = ProductController.getInstance().getProductById(itemDTO.getProductId());
@@ -381,8 +381,11 @@ public class ReservationController {
             Reservation r = createReservationFromDTO(rDTO);
             savePartialReservation(r);
         }
-
-        return idToSupplierReservations.get(reservationId);
+        List<Reservation> res = idToSupplierReservations.get(reservationId);
+        if (res == null) {
+            throw new SuppliersException("Tried to get a reservation recipt from a non existing reservation id");
+        }
+        return res;
     }
 
     public List<Reservation> getSupplierReservations(int supplierId) throws SQLException {

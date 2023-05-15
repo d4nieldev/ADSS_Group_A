@@ -14,7 +14,7 @@ public class SpecificProductDAO extends DAO<SpecificProductDTO> {
     private Repository repo;
 
     private SpecificProductDAO() {
-        super("SpecificProducts");
+        super("SpecificProduct");
         this.repo = Repository.getInstance();
     }
 
@@ -39,19 +39,21 @@ public class SpecificProductDAO extends DAO<SpecificProductDTO> {
         LocalDate expDate = LocalDate.parse(rs.getString("expDate"));
         LocalDate arrivedDate = LocalDate.parse(rs.getString("arrivedDate"));
 
-        return new SpecificProductDTO(specificId, generalId, branchId, buyPrice, sellPrice, status, flaw, expDate,arrivedDate);
+        return new SpecificProductDTO(specificId, generalId, branchId, buyPrice, sellPrice, status, flaw, expDate,
+                arrivedDate);
     }
 
     public SpecificProductDTO getById(int specificId) throws SQLException {
-        String query = "SELECT * FROM SpecificProducts WHERE specificId= ?;";
+        String query = "SELECT * FROM SpecificProduct WHERE specificId= ?;";
         ResultSet rs = repo.executeQuery(query, specificId);
         SpecificProductDTO dto = makeDTO(rs);
         rs.close();
         return dto;
     }
+
     public HashMap<Integer, SpecificProductDTO> getByGeneralId(int productId, int branchId) throws SQLException {
-        String query = "SELECT * FROM SpecificProducts WHERE specificId= ? AND generalId= ?;";
-        ResultSet rs = repo.executeQuery(query, productId,branchId);
+        String query = "SELECT * FROM SpecificProduct WHERE specificId= ? AND generalId= ?;";
+        ResultSet rs = repo.executeQuery(query, productId, branchId);
         HashMap<Integer, SpecificProductDTO> resultMap = new HashMap<>();
 
         while (rs.next()) {
@@ -76,6 +78,5 @@ public class SpecificProductDAO extends DAO<SpecificProductDTO> {
         }
         return null;
     }
-
 
 }

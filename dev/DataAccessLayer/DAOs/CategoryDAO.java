@@ -4,16 +4,13 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
 
-import DataAccessLayer.Repository;
 import DataAccessLayer.DTOs.CategoryDTO;
 
 public class CategoryDAO extends DAO<CategoryDTO> {
     private static CategoryDAO instance = null;
-    private Repository repo;
 
     protected CategoryDAO() {
         super("Categories");
-        repo = Repository.getInstance();
     }
 
     public static CategoryDAO getInstance() {

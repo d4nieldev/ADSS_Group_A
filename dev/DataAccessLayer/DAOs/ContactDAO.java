@@ -4,16 +4,13 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
 
-import DataAccessLayer.Repository;
 import DataAccessLayer.DTOs.ContactDTO;
 
 public class ContactDAO extends DAO<ContactDTO> {
     private static ContactDAO instance = null;
-    private Repository repo;
 
     private ContactDAO() {
         super("Contacts");
-        repo = Repository.getInstance();
     }
 
     public static ContactDAO getInstance() {

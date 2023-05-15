@@ -5,7 +5,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import DataAccessLayer.Repository;
 import DataAccessLayer.DTOs.DeficiencyReportDTO;
 import DataAccessLayer.DTOs.DeficiencyReportEntryDTO;
 import DataAccessLayer.DTOs.ProductBranchDTO;
@@ -13,13 +12,11 @@ import DataAccessLayer.DTOs.ReportDTO;
 
 public class DeficiencyReportEntryDAO extends DAO<DeficiencyReportEntryDTO> {
     private static DeficiencyReportEntryDAO instance = null;
-    private Repository repo;
     private ProductBranchDAO productBranchDAO;
     private ReportDAO reportDAO;
 
     protected DeficiencyReportEntryDAO() {
         super("DeficiencyReportEntries");
-        repo = Repository.getInstance();
         productBranchDAO = ProductBranchDAO.getInstance();
         reportDAO = ReportDAO.getInstance();
     }

@@ -5,19 +5,16 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import DataAccessLayer.Repository;
 import DataAccessLayer.DTOs.InventoryReportDTO;
 import DataAccessLayer.DTOs.InventoryReportEntryDTO;
 import DataAccessLayer.DTOs.ReportDTO;
 
 public class InventoryReportEntryDAO extends DAO<InventoryReportEntryDTO> {
     private static InventoryReportEntryDAO instance = null;
-    private Repository repo;
     private ReportDAO reportDAO;
 
     protected InventoryReportEntryDAO() {
         super("InventoryReportEntries");
-        repo = Repository.getInstance();
         reportDAO = ReportDAO.getInstance();
     }
 

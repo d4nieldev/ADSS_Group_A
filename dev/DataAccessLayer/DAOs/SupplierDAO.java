@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
-import DataAccessLayer.Repository;
 import DataAccessLayer.DTOs.ContactDTO;
 import DataAccessLayer.DTOs.DiscountDTO;
 import DataAccessLayer.DTOs.PeriodicReservationDTO;
@@ -18,7 +17,6 @@ public class SupplierDAO extends DAO<SupplierDTO> {
     private ContactDAO contactDAO;
     private SupplierAmountToDiscountDAO supplierAmountToDiscountDAO;
     private PeriodicReservationDAO periodicReservationDAO;
-    private Repository repo;
     private static SupplierDAO instance = null;
     private DiscountDAO discountDAO;
 
@@ -31,7 +29,6 @@ public class SupplierDAO extends DAO<SupplierDTO> {
         contactDAO = ContactDAO.getInstance();
         supplierAmountToDiscountDAO = SupplierAmountToDiscountDAO.getInstance();
         periodicReservationDAO = PeriodicReservationDAO.getInstance();
-        repo = Repository.getInstance();
         discountDAO = DiscountDAO.getInstance();
     }
 

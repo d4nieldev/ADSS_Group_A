@@ -5,16 +5,13 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
 
-import DataAccessLayer.Repository;
 import DataAccessLayer.DTOs.DiscountDTO;
 
 public class DiscountDAO extends DAO<DiscountDTO> {
     private static DiscountDAO instance = null;
-    private Repository repo;
 
     protected DiscountDAO() {
         super("Discounts");
-        repo = Repository.getInstance();
     }
 
     public static DiscountDAO getInstance() {

@@ -4,7 +4,6 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
 
-import DataAccessLayer.Repository;
 import DataAccessLayer.DTOs.BranchDTO;
 import DataAccessLayer.DTOs.PeriodicReservationDTO;
 
@@ -12,11 +11,8 @@ public class BranchDAO extends DAO<BranchDTO> {
 
     private static BranchDAO instance = null;
 
-    private Repository repo;
-
     private BranchDAO() {
         super("Branches");
-        Repository.getInstance();
     }
 
     public static BranchDAO getInstance() {

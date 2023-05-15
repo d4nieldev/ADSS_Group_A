@@ -7,8 +7,8 @@ import DataAccessLayer.DTOs.DiscountDTO;
 import DataAccessLayer.DTOs.ProductBranchDiscountDTO;
 
 public class ProductBranchDiscountsDAO extends DAO<ProductBranchDiscountDTO> {
-    private DiscountDAO discountDAO;
     private static ProductBranchDiscountsDAO instance = null;
+    private DiscountDAO discountDAO;
 
     private ProductBranchDiscountsDAO() {
         super("ProductBranchDiscounts");

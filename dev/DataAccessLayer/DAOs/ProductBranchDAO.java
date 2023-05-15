@@ -5,7 +5,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import DataAccessLayer.Repository;
 import DataAccessLayer.DTOs.DiscountDTO;
 import DataAccessLayer.DTOs.ProductBranchDTO;
 import DataAccessLayer.DTOs.SpecificProductDTO;
@@ -13,12 +12,10 @@ import DataAccessLayer.DTOs.SpecificProductDTO;
 public class ProductBranchDAO extends DAO<ProductBranchDTO> {
     private static ProductBranchDAO instance = null;
     private ProductsDAO productDAO;
-    private Repository repo;
 
     private ProductBranchDAO() {
         super("ProductBranch");
         productDAO = ProductsDAO.getInstance();
-        this.repo = Repository.getInstance();
     }
 
     public static ProductBranchDAO getInstance() {

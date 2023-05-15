@@ -8,9 +8,8 @@ import DataAccessLayer.DTOs.FixedDaysSupplierDTO;
 import DataAccessLayer.DTOs.SupplierDTO;
 
 public class FixedDaysSupplierDAO extends DAO<FixedDaysSupplierDTO> {
-    SupplierDAO supplierDAO;
-
     private static FixedDaysSupplierDAO instance = null;
+    private SupplierDAO supplierDAO;
 
     public static FixedDaysSupplierDAO getInstance() {
         if (instance == null)

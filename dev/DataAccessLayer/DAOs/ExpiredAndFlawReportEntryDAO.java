@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Map;
 
 import BusinessLayer.Inventory.ProductStatus;
-import DataAccessLayer.Repository;
 import DataAccessLayer.DTOs.ExpiredAndFlawReportDTO;
 import DataAccessLayer.DTOs.ExpiredAndFlawReportEntryDTO;
 import DataAccessLayer.DTOs.ReportDTO;
@@ -14,13 +13,11 @@ import DataAccessLayer.DTOs.SpecificProductDTO;
 
 public class ExpiredAndFlawReportEntryDAO extends DAO<ExpiredAndFlawReportEntryDTO> {
     private static ExpiredAndFlawReportEntryDAO instance = null;
-    private Repository repo;
     private ReportDAO reportDAO;
     private SpecificProductDAO specificProductDAO;
 
     protected ExpiredAndFlawReportEntryDAO() {
         super("ExpiredAndFlawReportEntries");
-        repo = Repository.getInstance();
         reportDAO = ReportDAO.getInstance();
         specificProductDAO = SpecificProductDAO.getInstance();
     }

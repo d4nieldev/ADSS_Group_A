@@ -4,16 +4,13 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
 
-import DataAccessLayer.Repository;
 import DataAccessLayer.DTOs.SuppliersFieldsDTO;
 
 public class SuppliersFieldsDAO extends DAO<SuppliersFieldsDTO> {
     private static SuppliersFieldsDAO instance = null;
-    private Repository repo;
 
     protected SuppliersFieldsDAO() {
         super("SuppliersFields");
-        repo = Repository.getInstance();
     }
 
     public static SuppliersFieldsDAO getInstance() {

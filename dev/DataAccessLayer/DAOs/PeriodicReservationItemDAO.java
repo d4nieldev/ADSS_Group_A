@@ -4,12 +4,10 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
 
-import DataAccessLayer.Repository;
 import DataAccessLayer.DTOs.PeriodicReservationItemDTO;
 
 public class PeriodicReservationItemDAO extends DAO<PeriodicReservationItemDTO> {
     private static PeriodicReservationItemDAO instance = null;
-    private Repository repo;
 
     public static PeriodicReservationItemDAO getInstance() {
         if (instance == null)
@@ -19,7 +17,6 @@ public class PeriodicReservationItemDAO extends DAO<PeriodicReservationItemDTO> 
 
     private PeriodicReservationItemDAO() {
         super("PeriodicReservationItem");
-        this.repo = Repository.getInstance();
     }
 
     @Override

@@ -4,16 +4,13 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
 
-import DataAccessLayer.Repository;
 import DataAccessLayer.DTOs.ReceiptItemDTO;
 
 public class ReceiptItemDAO extends DAO<ReceiptItemDTO> {
     private static ReceiptItemDAO instance = null;
-    private Repository repo;
 
     private ReceiptItemDAO() {
         super("ReceiptItem");
-        repo = Repository.getInstance();
     }
 
     public static ReceiptItemDAO getInstance() {

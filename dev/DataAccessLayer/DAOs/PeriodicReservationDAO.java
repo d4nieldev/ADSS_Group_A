@@ -7,7 +7,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import DataAccessLayer.Repository;
 import DataAccessLayer.DTOs.PeriodicReservationDTO;
 import DataAccessLayer.DTOs.PeriodicReservationItemDTO;
 
@@ -15,7 +14,6 @@ public class PeriodicReservationDAO extends DAO<PeriodicReservationDTO> {
 
     private static PeriodicReservationDAO instance = null;
     private PeriodicReservationItemDAO periodicReservationItemDAO;
-    private Repository repo;
 
     public static PeriodicReservationDAO getInstance() {
         if (instance == null)
@@ -25,9 +23,7 @@ public class PeriodicReservationDAO extends DAO<PeriodicReservationDTO> {
 
     private PeriodicReservationDAO() {
         super("PeriodicReservation");
-        this.repo = Repository.getInstance();
         this.periodicReservationItemDAO = PeriodicReservationItemDAO.getInstance();
-
     }
 
     @Override

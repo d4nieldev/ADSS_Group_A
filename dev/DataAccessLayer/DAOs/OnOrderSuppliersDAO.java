@@ -8,9 +8,8 @@ import DataAccessLayer.DTOs.OnOrderSuppliersDTO;
 import DataAccessLayer.DTOs.SupplierDTO;
 
 public class OnOrderSuppliersDAO extends DAO<OnOrderSuppliersDTO> {
-    SupplierDAO supplierDAO;
-
     private static OnOrderSuppliersDAO instance = null;
+    private SupplierDAO supplierDAO;
 
     public static OnOrderSuppliersDAO getInstance() {
         if (instance == null)

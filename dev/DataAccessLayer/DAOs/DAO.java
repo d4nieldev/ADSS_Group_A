@@ -39,7 +39,7 @@ public abstract class DAO<T extends DTO> {
 
         return output;
     }
-    
+
     private Map<String, String> getColumnNameToType() throws SQLException {
         Connection conn = repo.connect();
 

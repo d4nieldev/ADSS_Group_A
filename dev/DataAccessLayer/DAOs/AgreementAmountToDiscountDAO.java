@@ -5,19 +5,16 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
-import DataAccessLayer.Repository;
 import DataAccessLayer.DTOs.AgreementAmountToDiscountDTO;
 import DataAccessLayer.DTOs.DiscountDTO;
 
 public class AgreementAmountToDiscountDAO extends DAO<AgreementAmountToDiscountDTO> {
     private DiscountDAO discountDAO = null;
     private static AgreementAmountToDiscountDAO instance = null;
-    private Repository repo;
 
     protected AgreementAmountToDiscountDAO() {
         super("AgreementAmountToDiscount");
         discountDAO = DiscountDAO.getInstance();
-        repo = Repository.getInstance();
     }
 
     public static AgreementAmountToDiscountDAO getInstance() {

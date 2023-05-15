@@ -8,11 +8,14 @@ import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Types;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import javax.naming.spi.DirStateFactory.Result;
 
 public class Repository {
 
@@ -74,7 +77,8 @@ public class Repository {
                         // iterate over the columns in the result set
                         for (int j = 1; j <= metaData.getColumnCount(); j++) {
                             String columnName = metaData.getColumnLabel(j);
-                            Object value = rs.getObject(j);
+                            int type = metaData.getColumnType(j);
+                            Object value = getValueBasedOnType(rs, type, j);
                             row.put(columnName, value);
                         }
 
@@ -86,6 +90,38 @@ public class Repository {
         }
 
         return result;
+    }
+
+    private Object getValueBasedOnType(ResultSet rs, int type, int i) throws SQLException {
+        Object value = null;
+        switch (type) {
+            case Types.INTEGER:
+                value = rs.getInt(i);
+                break;
+            case Types.BIGINT:
+                value = rs.getLong(i);
+                break;
+            case Types.FLOAT:
+            case Types.REAL:
+                value = rs.getFloat(i);
+                break;
+            case Types.DOUBLE:
+                value = rs.getDouble(i);
+                break;
+            case Types.DATE:
+                value = rs.getDate(i);
+                break;
+            case Types.TIME:
+                value = rs.getTime(i);
+                break;
+            case Types.TIMESTAMP:
+                value = rs.getTimestamp(i);
+                break;
+            default:
+                value = rs.getObject(i);
+                break;
+        }
+        return value;
     }
 
     // disconnect from the DATABASE

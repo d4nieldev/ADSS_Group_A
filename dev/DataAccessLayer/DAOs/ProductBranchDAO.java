@@ -27,7 +27,7 @@ public class ProductBranchDAO extends DAO<ProductBranchDTO> {
     @Override
     public ProductBranchDTO makeDTO(Map<String, Object> row) throws SQLException {
         int productId = (int) row.get("productId");
-        int discountId = (int) row.get("discountId");
+        Integer discountId = (Integer) row.get("discountId");
         int branchId = (int) row.get("branchId");
         double price = (double) row.get("price");
         int minQuantity = (int) row.get("minQuantity");

@@ -42,7 +42,7 @@ public class ProductBranchDTO implements DTO {
         // TODO: can be a place to mistake if not implemented cuurent discount ID
         // support.
         if (discountDTO == null) {
-            nameToVal.put("discountId", "" + null);
+            nameToVal.put("discountId", null);
         } else {
             nameToVal.put("discountId", "" + discountDTO.getId());
         }

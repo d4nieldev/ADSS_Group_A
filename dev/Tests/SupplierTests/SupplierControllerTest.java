@@ -14,12 +14,16 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import BusinessLayer.Inventory.BranchController;
 import BusinessLayer.Inventory.CategoryController;
+import BusinessLayer.Inventory.DiscountController;
+import BusinessLayer.Inventory.ReportController;
 import BusinessLayer.InveontorySuppliers.Product;
 import BusinessLayer.InveontorySuppliers.ProductController;
 import BusinessLayer.InveontorySuppliers.ReceiptItem;
 import BusinessLayer.Suppliers.Contact;
 import BusinessLayer.Suppliers.ProductAgreement;
+import BusinessLayer.Suppliers.ReservationController;
 import BusinessLayer.Suppliers.Supplier;
 import BusinessLayer.Suppliers.SupplierController;
 import BusinessLayer.exceptions.SuppliersException;
@@ -46,6 +50,11 @@ public class SupplierControllerTest {
     @After
     public void clearController() throws SQLException {
         ProductController.getInstance().clearData();
+        ReservationController.getInstance().clearData();
+        BranchController.getInstance().clearData();
+        CategoryController.getInstance().clearData();
+        DiscountController.getInstance().clearData();
+        ReportController.getInstance().clearData();
         sc.clearData();
         Repository.getInstance().DELETE_ALL_DATA();
     }

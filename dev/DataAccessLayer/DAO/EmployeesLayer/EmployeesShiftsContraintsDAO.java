@@ -21,6 +21,7 @@ public class EmployeesShiftsContraintsDAO {
             return s.executeUpdate(updateString);
         }
         catch (Exception e ){
+            System.out.println(e.getMessage());
             return 0;
         }
     }

@@ -38,7 +38,7 @@ public class MemberSystem {
                     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
                     LocalDate localDate = LocalDate.parse(date, formatter);
 
-                    branchService.printAvailableShiftForEmployee(loginId, localDate);
+                    System.out.println(branchService.printAvailableShiftForEmployee(loginId, localDate));    
                 }
 
                 else if (option.equals("2")) { // 2 Add constraint for a shift

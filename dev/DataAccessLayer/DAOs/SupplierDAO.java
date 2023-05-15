@@ -85,9 +85,10 @@ public class SupplierDAO extends DAO<SupplierDTO> {
     public void update(SupplierDTO dataObject) throws SQLException {
         super.update(dataObject);
         // update all fields of the supplier
-        for (SuppliersFieldsDTO field : dataObject.getFields()) {
-            suppliersFieldsDAO.update(field);
-        }
+        // TODO: verify with vladi - this creates a problem because we update the key!
+        // for (SuppliersFieldsDTO field : dataObject.getFields()) {
+        // suppliersFieldsDAO.update(field);
+        // }
         // update all contacts of the supplier
         for (ContactDTO contact : dataObject.getContacts()) {
             contactDAO.update(contact);

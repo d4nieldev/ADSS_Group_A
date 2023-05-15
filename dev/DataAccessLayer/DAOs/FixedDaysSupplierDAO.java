@@ -29,7 +29,9 @@ public class FixedDaysSupplierDAO extends DAO<FixedDaysSupplierDTO> {
 
     @Override
     public void insert(FixedDaysSupplierDTO dataObject) throws SQLException {
-        supplierDAO.insert(dataObject.getSuper());
+        // insert super only if does not exist already
+        if (supplierDAO.getById(dataObject.getSuper().getId()) == null)
+            supplierDAO.insert(dataObject.getSuper());
         super.insert(dataObject);
     }
 

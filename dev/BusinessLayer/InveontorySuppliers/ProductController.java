@@ -60,7 +60,10 @@ public class ProductController {
         supplierIdToProductAgreements.computeIfAbsent(supplierId, k -> new ArrayList<>()).add(productAgreement);
     }
 
-    private void addProductAgreementFromDTO(ProductAgreementDTO dto) {
+    private void addProductAgreementFromDTO(ProductAgreementDTO dto) throws SuppliersException {
+        if (dto == null) {
+            throw new SuppliersException("ProductAgreementDTO in null and cannot add product agreement from DTO");
+        }
         int supplierId = dto.getSupplierId();
         int productId = dto.getProductDTO().getId();
 

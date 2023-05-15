@@ -6,10 +6,7 @@ import BusinessLayer.InveontorySuppliers.Discount;
 import BusinessLayer.InveontorySuppliers.Product;
 import BusinessLayer.InveontorySuppliers.ProductController;
 import DataAccessLayer.DAOs.CategoryDAO;
-import DataAccessLayer.DTOs.CategoryDTO;
-import DataAccessLayer.DTOs.ProductBranchDTO;
-import DataAccessLayer.DTOs.ProductDTO;
-import DataAccessLayer.DTOs.SpecificProductDTO;
+import DataAccessLayer.DTOs.*;
 
 
 import java.sql.SQLException;
@@ -84,8 +81,8 @@ public class ProductService {
 //        ProductBranch productBranchKoteg = new ProductBranch(productBranchDTO2);
 //        branch.addNewProductBranch(productBranchDTO1);
 //        branch.addNewProductBranch(productBranchDTO2);
-        ProductBranch productBranchMilk = branchController.getBranchById(1).addNewProductBranch(productBranchDTO1);
-        ProductBranch productBranchKoteg = branchController.getBranchById(1).addNewProductBranch(productBranchDTO2);
+        ProductBranch productBranchMilk = branchController.addNewProductBranch(1,productBranchDTO1);
+        ProductBranch productBranchKoteg = branchController.addNewProductBranch(1,productBranchDTO2);
 
         branch.reportFlawProduct(1,1,"FlowProduct!!!");
     }
@@ -123,8 +120,10 @@ public class ProductService {
 
     }
     public void setDiscountByCategories(int branchId,List<Integer> categories, Discount discount) throws Exception {
-    branchController.setDiscountOnCategories(branchId,categories,discount);
-
+    List<ProductBranch> result = branchController.setDiscountOnCategories(branchId,categories,discount);
+//    for (ProductBranch productBranch : result){
+//        ProductBranchDiscountDTO  productBranchDiscountDTO = new ProductBranchDiscountDTO(productBranch.getCode(),branchId,)
+    }
     }
 
 
@@ -135,4 +134,4 @@ public class ProductService {
 
 
 
-}
+

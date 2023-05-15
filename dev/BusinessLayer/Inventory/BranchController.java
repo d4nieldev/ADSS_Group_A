@@ -213,13 +213,14 @@ public class BranchController {
         Branch branch = allBranches.get(branchId);
         // return a list of all products who the new discount on them been changed
         List<ProductBranch> productsToDiscount = branch.getProductsByCode(products);
-        List<ProductBranch> changeDiscount = branch.setDiscountOnProducts(productsToDiscount, discount);
+        List<ProductBranch> changeDiscount = branch.setDiscountOnProducts(productsToDiscount, discount,discountDTO);
 
         // add the discount to the product and update the discount DTO on PRODUCT
         for (ProductBranch productBranch : changeDiscount) {
             ProductBranchDTO productBranchDTO = productBranchDAO.getByProductAndBranchId(productBranch.getCode(),
                     branchId);
-            productBranchDAO.update(productBranchDTO);
+            productBranchDAO.delete(productBranchDTO);
+            productBranchDAO.insert(productBranchDTO);
             ProductBranchDiscountDTO productBranchDiscountDTO = new ProductBranchDiscountDTO(productBranch.getCode(),
                     branchId, discountDTO);
             productBranchDiscountsDAO.insert(productBranchDiscountDTO);
@@ -235,7 +236,7 @@ public class BranchController {
      * @param branchId
      * @throws Exception
      */
-    public void setDiscountOnCategories(int branchId, List<Integer> categoriesToDiscount, Discount discount)
+    public List<ProductBranch> setDiscountOnCategories(int branchId, List<Integer> categoriesToDiscount, Discount discount)
             throws Exception {
 
         Branch branch = checkBranchExist(branchId);
@@ -245,6 +246,7 @@ public class BranchController {
         List<ProductBranch> productsToDiscount = branch.getProductsByCategories(allSubCategories);
         List<Integer> productsToCode = branch.getCodeByProducts(productsToDiscount);
         setDiscountOnProducts(branchId, productsToCode, discount);
+        return productsToDiscount;
     }
 
     // public void setDiscountOnCategories(List<Category> categoriesToDiscount,

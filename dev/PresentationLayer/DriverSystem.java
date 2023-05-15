@@ -73,7 +73,7 @@ public class DriverSystem {
                 System.out.print("Please choose again: \n");
                 System.out.println(getMenu() + "\n");
                 option = sc.nextLine();
-            }
+            } 
         }
 
         employeeService.logOut(loginId);

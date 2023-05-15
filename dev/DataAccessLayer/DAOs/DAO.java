@@ -28,51 +28,62 @@ public abstract class DAO<T extends DTO> {
      */
     public abstract T makeDTO(ResultSet rs) throws SQLException;
 
-//    private Map<String, String> getColumnNameToType() throws SQLException {
-//        Connection conn = Repository.getInstance().connect();
-//
-//        Statement stmt = conn.createStatement();
-//
-//        ResultSet rs = stmt.executeQuery("SELECT * FROM " + tableName);
-//
-//        ResultSetMetaData meta = rs.getMetaData();
-//
-//        Map<String, String> nameToType = new HashMap<>();
-//        int numColumns = meta.getColumnCount();
-//        for (int i = 1; i <= numColumns; i++) {
-//            String columnName = meta.getColumnName(i);
-//            String columnType = meta.getColumnTypeName(i);
-//            nameToType.put(columnName, columnType);
-//        }
-//        rs.close();
-//        stmt.close();
-//        Repository.getInstance().closeConnection(conn);
-//
-//        return nameToType;
-//    }
-private Map<String, String> getColumnNameToType() throws SQLException {
-    Connection conn = Repository.getInstance().connect();
+    protected List<T> makeDTOs(ResultSet rs) throws SQLException {
+        List<T> output = new ArrayList<>();
+        T dto;
+        do {
+            dto = makeDTO(rs);
+            output.add(dto);
+        } while (dto != null);
 
-    Statement stmt = conn.createStatement();
-
-    ResultSet rs = stmt.executeQuery("SELECT * FROM " + tableName);
-
-    ResultSetMetaData meta = rs.getMetaData();
-
-    Map<String, String> nameToType = new LinkedHashMap<>();
-    int numColumns = meta.getColumnCount();
-    for (int i = 1; i <= numColumns; i++) {
-        String columnName = meta.getColumnName(i);
-        String columnType = meta.getColumnTypeName(i);
-        nameToType.put(columnName, columnType);
+        return output.subList(0, output.size() - 1);
     }
 
-    rs.close();
-    stmt.close();
-    Repository.getInstance().closeConnection(conn);
+    // private Map<String, String> getColumnNameToType() throws SQLException {
+    // Connection conn = Repository.getInstance().connect();
+    //
+    // Statement stmt = conn.createStatement();
+    //
+    // ResultSet rs = stmt.executeQuery("SELECT * FROM " + tableName);
+    //
+    // ResultSetMetaData meta = rs.getMetaData();
+    //
+    // Map<String, String> nameToType = new HashMap<>();
+    // int numColumns = meta.getColumnCount();
+    // for (int i = 1; i <= numColumns; i++) {
+    // String columnName = meta.getColumnName(i);
+    // String columnType = meta.getColumnTypeName(i);
+    // nameToType.put(columnName, columnType);
+    // }
+    // rs.close();
+    // stmt.close();
+    // Repository.getInstance().closeConnection(conn);
+    //
+    // return nameToType;
+    // }
+    private Map<String, String> getColumnNameToType() throws SQLException {
+        Connection conn = Repository.getInstance().connect();
 
-    return nameToType;
-}
+        Statement stmt = conn.createStatement();
+
+        ResultSet rs = stmt.executeQuery("SELECT * FROM " + tableName);
+
+        ResultSetMetaData meta = rs.getMetaData();
+
+        Map<String, String> nameToType = new LinkedHashMap<>();
+        int numColumns = meta.getColumnCount();
+        for (int i = 1; i <= numColumns; i++) {
+            String columnName = meta.getColumnName(i);
+            String columnType = meta.getColumnTypeName(i);
+            nameToType.put(columnName, columnType);
+        }
+
+        rs.close();
+        stmt.close();
+        Repository.getInstance().closeConnection(conn);
+
+        return nameToType;
+    }
 
     private List<String> getPKColumns() throws SQLException {
         Connection conn = Repository.getInstance().connect();
@@ -113,13 +124,13 @@ private Map<String, String> getColumnNameToType() throws SQLException {
         }
     }
 
-    private String getQuery(Map<String,String> nameToType,String name){
+    private String getQuery(Map<String, String> nameToType, String name) {
         // Get the column names and types
 
         List<String> columnNames = new ArrayList<>(nameToType.keySet());
         List<String> columnTypes = new ArrayList<>(nameToType.values());
 
-// Construct the INSERT query
+        // Construct the INSERT query
         String tableName = name;
         StringBuilder sb = new StringBuilder();
         sb.append("INSERT INTO ").append(tableName).append(" (");
@@ -140,6 +151,7 @@ private Map<String, String> getColumnNameToType() throws SQLException {
         String insertQuery = sb.toString();
         return insertQuery;
     }
+
     public void insert(T dataObject) throws SQLException {
         Connection con = Repository.getInstance().connect();
 
@@ -148,7 +160,7 @@ private Map<String, String> getColumnNameToType() throws SQLException {
         query.append("(" + String.join(", ", nameToType.keySet()) + ")\n");
         query.append(
                 " VALUES (" + String.join(", ", Collections.nCopies(nameToType.size(), "?")) + ");");
-//        String query = getQuery(nameToType,this.tableName);
+        // String query = getQuery(nameToType,this.tableName);
         PreparedStatement statement = con.prepareStatement(query.toString());
 
         Map<String, String> nameToVal = dataObject.getNameToVal();
@@ -157,7 +169,7 @@ private Map<String, String> getColumnNameToType() throws SQLException {
             String val = nameToVal.get(colName);
             String type = nameToType.get(colName);
             setValInStatement(statement, val, type, i++);
-         }
+        }
 
         statement.executeUpdate();
         statement.close();
@@ -168,7 +180,7 @@ private Map<String, String> getColumnNameToType() throws SQLException {
         Connection con = Repository.getInstance().connect();
         Map<String, String> nameToVal = newDataObject.getNameToVal();
 
-        StringBuilder query = new StringBuilder("UPDATE " + this.tableName + " SET (");
+        StringBuilder query = new StringBuilder("UPDATE " + this.tableName + " SET ");
 
         List<String> pks = getPKColumns();
         List<String> assignments = new ArrayList<>();
@@ -177,7 +189,7 @@ private Map<String, String> getColumnNameToType() throws SQLException {
                 assignments.add(colName + " = ?");
         query.append(String.join(", ", assignments));
 
-        query.append(") WHERE ");
+        query.append(" WHERE ");
         List<String> searchConditions = new ArrayList<>();
         for (String colName : pks)
             searchConditions.add(colName + " = ?");

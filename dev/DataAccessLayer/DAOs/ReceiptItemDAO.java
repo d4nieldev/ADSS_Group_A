@@ -42,10 +42,7 @@ public class ReceiptItemDAO extends DAO<ReceiptItemDTO> {
     public List<ReceiptItemDTO> getReceiptOfReservation(int reservationId) throws SQLException {
         ResultSet rs = repo.executeQuery("SELECT * FROM " + tableName + " WHERE reservationId = ?;", reservationId);
 
-        List<ReceiptItemDTO> receipt = new ArrayList<>();
-        while (rs.next())
-            receipt.add(makeDTO(rs));
-
+        List<ReceiptItemDTO> receipt = makeDTOs(rs);
         rs.close();
 
         return receipt;

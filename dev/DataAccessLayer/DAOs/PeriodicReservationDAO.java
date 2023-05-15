@@ -96,10 +96,10 @@ public class PeriodicReservationDAO extends DAO<PeriodicReservationDTO> {
         String query = "SELECT * FROM " + tableName + " WHERE supplierId = ?;";
         ResultSet rs = repo.executeQuery(query, supplierId);
 
+        List<PeriodicReservationDTO> dtos = makeDTOs(rs);
         Map<Integer, PeriodicReservationDTO> supplierPeriodicReservations = new HashMap<>();
-        while (rs.next()) {
-            PeriodicReservationDTO PRDTO = makeDTO(rs);
-            supplierPeriodicReservations.put(PRDTO.getBranchId(), PRDTO);
+        for (PeriodicReservationDTO dto : dtos) {
+            supplierPeriodicReservations.put(dto.getBranchId(), dto);
         }
 
         rs.close();

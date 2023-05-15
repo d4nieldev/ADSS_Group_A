@@ -67,12 +67,10 @@ public class ReservationDTO implements DTO {
         Map<String, String> nameToVal = new HashMap<>();
         nameToVal.put("id", "" + id);
         nameToVal.put("supplierId", "" + supplierId);
-        if (date == null)
-            nameToVal.put("rDate", null);
-        else
-            nameToVal.put("rDate", date.toString());
+        nameToVal.put("rDate", date.toString());
         nameToVal.put("status", "" + status.toString());
         nameToVal.put("destinationBranch", "" + destinationBranchId);
+        nameToVal.put("contactPhone", "" + contact.getPhone());
         return nameToVal;
     }
 

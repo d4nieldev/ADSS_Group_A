@@ -29,7 +29,7 @@ public class SupplierAmountToDiscountDAO extends DAO<SupplierAmountToDiscountDTO
     @Override
     public SupplierAmountToDiscountDTO makeDTO(ResultSet rs) throws SQLException {
         if (!rs.next())
-            throw new SQLException("Can't make DTO from nothing!");
+            return null;
 
         int supplierId = rs.getInt("supplierId");
         int amount = rs.getInt("amount");

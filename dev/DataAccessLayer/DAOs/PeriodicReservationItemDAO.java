@@ -56,11 +56,7 @@ public class PeriodicReservationItemDAO extends DAO<PeriodicReservationItemDTO> 
     public List<PeriodicReservationItemDTO> getBySupplierAndBrunchId(int supplierId, int branchId) throws SQLException {
         String query = "SELECT * FROM PeriodicReservationItem WHERE supplierId= ? AND branchId= ?;";
         ResultSet rs = repo.executeQuery(query, supplierId, branchId);
-        List<PeriodicReservationItemDTO> periodicReservationItemDTOS = new ArrayList<>();
-        while (rs.next()) {
-            PeriodicReservationItemDTO dto = makeDTO(rs);
-            periodicReservationItemDTOS.add(dto);
-        }
+        List<PeriodicReservationItemDTO> periodicReservationItemDTOS = makeDTOs(rs);
         rs.close();
         return periodicReservationItemDTOS;
     }

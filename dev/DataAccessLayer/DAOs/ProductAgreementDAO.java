@@ -82,17 +82,6 @@ public class ProductAgreementDAO extends DAO<ProductAgreementDTO> {
                 productSupplierId, amountToDiscount);
     }
 
-    private List<ProductAgreementDTO> makeDTOs(ResultSet rs) throws SQLException {
-        List<ProductAgreementDTO> output = new ArrayList<>();
-        ProductAgreementDTO dto;
-        do {
-            dto = makeDTO(rs);
-            output.add(dto);
-        } while (dto != null);
-
-        return output.subList(0, output.size() - 1);
-    }
-
     public Collection<ProductAgreementDTO> getAgreementsOfProduct(int productId) throws SQLException {
         String query = "SELECT * FROM " + tableName + " WHERE productId = ?;";
         ResultSet rs = repo.executeQuery(query, productId);

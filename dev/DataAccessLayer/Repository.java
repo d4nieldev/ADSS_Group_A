@@ -35,7 +35,7 @@ public class Repository {
         try {
             Class.forName("org.sqlite.JDBC");
             String url = "jdbc:sqlite:database.db";
-//            String url = "jdbc:sqlite::memory:";
+            // String url = "jdbc:sqlite::memory:";
             conn = DriverManager.getConnection(url);
         } catch (SQLException e) {
             e.printStackTrace();
@@ -175,8 +175,9 @@ public class Repository {
                 ------------------ Branches ------------------------
 
                 CREATE TABLE IF NOT EXISTS Branches (
-                    id   INTEGER NOT NULL,
-                    name TEXT    NOT NULL,
+                    id        INTEGER NOT NULL,
+                    name      TEXT    NOT NULL,
+                    minAmount INTEGER NOT NULL,
 
                     PRIMARY KEY (id)
                 );
@@ -283,7 +284,7 @@ public class Repository {
                     destinationBranch INTEGER,
                     contactPhone      INTEGER,
 
-                    CHECK(status IN ('NotReady', 'Ready', 'Closed', 'Aborted')),
+                    CHECK(status IN ('NOTREADY', 'READY', 'CLOSED', 'ABORTED')),
 
                     FOREIGN KEY (supplierId)               REFERENCES Suppliers(id)               ON DELETE SET NULL,
                     FOREIGN KEY (destinationBranch)        REFERENCES Branches(id)                  ON DELETE SET NULL,

@@ -27,7 +27,7 @@ public class SuppliersFieldsDAO extends DAO<SuppliersFieldsDTO> {
     @Override
     public SuppliersFieldsDTO makeDTO(ResultSet rs) throws SQLException {
         if (!rs.next())
-            throw new SQLException("Can't make DTO from nothing!");
+            return null;
 
         int supplierId = rs.getInt("supplierId");
         String fieldName = rs.getString("fieldName");
@@ -37,11 +37,7 @@ public class SuppliersFieldsDAO extends DAO<SuppliersFieldsDTO> {
 
     public List<SuppliersFieldsDTO> getFieldsOfSupplier(int supplierId) throws SQLException {
         ResultSet rs = repo.executeQuery("SELECT * FROM " + tableName + " WHERE supplierId = ?;", supplierId);
-        List<SuppliersFieldsDTO> fields = new ArrayList<>();
-        while (rs.next()) {
-            SuppliersFieldsDTO field = makeDTO(rs);
-            fields.add(field);
-        }
+        List<SuppliersFieldsDTO> fields = makeDTOs(rs);
         rs.close();
         return fields;
     }

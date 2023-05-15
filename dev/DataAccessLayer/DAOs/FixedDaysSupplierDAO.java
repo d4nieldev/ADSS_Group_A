@@ -73,18 +73,12 @@ public class FixedDaysSupplierDAO extends DAO<FixedDaysSupplierDTO> {
     }
 
     public List<FixedDaysSupplierDTO> getById(int supplierId) throws SQLException {
-        List<FixedDaysSupplierDTO> fixedDaysSupplierDTOs = new ArrayList<FixedDaysSupplierDTO>();
         Connection con = Repository.getInstance().connect();
         String query = "SELECT * FROM FixedDaysSuppliers WHERE supplierId= ?;";
         PreparedStatement statement = con.prepareStatement(query);
         statement.setInt(1, supplierId);
         ResultSet supRS = statement.executeQuery();
-        while (supRS.next()) {
-            fixedDaysSupplierDTOs.add(makeDTO(supRS));
-        }
-        // statement.close();
-        // supRS.close();
-        // con.close();
+        List<FixedDaysSupplierDTO> fixedDaysSupplierDTOs = makeDTOs(supRS);
 
         if (fixedDaysSupplierDTOs.size() == 0)
             return null;

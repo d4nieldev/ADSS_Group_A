@@ -466,7 +466,7 @@ public class SupplierController {
      *         of names
      */
     private List<Contact> makeContactList(List<String> contactPhones, List<String> contactNames, int supplierId) {
-        List<Contact> contactList = new LinkedList<Contact>();
+        List<Contact> contactList = new ArrayList<>();
         for (int i = 0; i < contactPhones.size(); i++) {
             ContactDTO cDTO = new ContactDTO(supplierId, contactPhones.get(i), contactNames.get(i));
             Contact c = new Contact(cDTO);

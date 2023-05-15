@@ -4,6 +4,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.HashMap;
+import java.util.List;
 
 import BusinessLayer.Inventory.ProductStatus;
 import DataAccessLayer.Repository;
@@ -53,15 +54,10 @@ public class SpecificProductDAO extends DAO<SpecificProductDTO> {
 
     public HashMap<Integer, SpecificProductDTO> getByGeneralId(int productId, int branchId) throws SQLException {
         String query = "SELECT * FROM SpecificProduct WHERE specificId= ? AND generalId= ?;";
-<<<<<<< HEAD
         ResultSet rs = repo.executeQuery(query, productId, branchId);
-=======
-        ResultSet rs = repo.executeQuery(query, productId,branchId);
->>>>>>> 21cc1af1193d9a018d6658273f5a1fd477f26f87
+        List<SpecificProductDTO> dtos = makeDTOs(rs);
         HashMap<Integer, SpecificProductDTO> resultMap = new HashMap<>();
-
-        while (rs.next()) {
-            SpecificProductDTO dto = makeDTO(rs);
+        for (SpecificProductDTO dto : dtos) {
             resultMap.put(dto.getSpecificId(), dto);
         }
 

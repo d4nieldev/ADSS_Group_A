@@ -51,18 +51,14 @@ public class ReservationDAO extends DAO<ReservationDTO> {
 
     public List<ReservationDTO> getFullReservation(int reservationId) throws SQLException {
         ResultSet rs = repo.executeQuery("SELECT * FROM " + tableName + " WHERE id = ?;", reservationId);
-        List<ReservationDTO> res = new ArrayList<>();
-        while (rs.next())
-            res.add(makeDTO(rs));
+        List<ReservationDTO> res = makeDTOs(rs);
         rs.close();
         return res;
     }
 
     public List<ReservationDTO> getSupplierReservations(int supplierId) throws SQLException {
         ResultSet rs = repo.executeQuery("SELECT * FROM " + tableName + " WHERE supplierId = ?;", supplierId);
-        List<ReservationDTO> res = new ArrayList<>();
-        while (rs.next())
-            res.add(makeDTO(rs));
+        List<ReservationDTO> res = makeDTOs(rs);
         rs.close();
         return res;
     }
@@ -82,7 +78,7 @@ public class ReservationDAO extends DAO<ReservationDTO> {
     }
 
     public int getLastId() throws SQLException {
-//        String query = "SELECT Max(id) FROM Reservations;";
+        // String query = "SELECT Max(id) FROM Reservations;";
         String query = "SELECT * FROM Reservations WHERE id=(SELECT MAX(id) FROM Reservations)";
         ResultSet rs = repo.executeQuery(query);
         ReservationDTO dto = makeDTO(rs);

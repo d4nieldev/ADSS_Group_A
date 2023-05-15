@@ -11,28 +11,25 @@ public class SupplierSystem {
     private static SupplierService ss = SupplierService.create();
 
     public static void help() {
-        String manual = "";
-        manual += "===========================================================================================\n";
-        manual += "addSupplier = Adds a new supplier to the system. Enter the information that the system will ask you to about the supplier you want to add.\n";
-        manual += "deleteSupplier [supplier_id] = Deletes an existing supplier from the system.\n";
-        manual += "editSupplier [supplier_id] = After typing this command, you can edit the supplier information with the following commands: \n";
-        manual += "                              updateName [new_name]\n";
-        manual += "                              updateBankAccount [new_bankAccount]\n";
-        manual += "                              addField [new_field]\n";
-        manual += "                              removeField [field_to_remove]\n";
-        manual += "                              updatePaymentCondition [new_paymentCondition]\n";
-        // manual += " updateAmountDiscount = The system will ask you to enter an amount
-        // and discount (decimal)\n";
-        // manual += " in this format \"[amount] [discount]\" until typing 'done' \n";
-        // TODO: add an update agreement command
-        manual += "                              addContact [contact_phone] [contact_name]\n";
-        manual += "                              deleteContact [contact_phone] [contact_name]\n";
-        manual += "addAgreement [product_id] [supplier_id] = Adds a new product agreement with a supplier. The system will ask you about information needed to this action.\n";
-        manual += "                                           If an agreement already exist, the system will update it to the new one.\n";
-        manual += "getCard [supplier_id] = Information about the supplier will be presented.\n";
-        manual += "**All the commands will return an informative message about the command's success/failure.**\n";
-        manual += "===========================================================================================";
-        System.out.println(manual);
+        System.out.println(
+                "addSupplier = Adds a new supplier to the system. Enter the information that the system will ask you to about the supplier you want to add.");
+        System.out.println("deleteSupplier [supplier_id] = Deletes an existing supplier from the system.");
+        System.out.println(
+                "editSupplier [supplier_id] = After typing this command, you can edit the supplier information with the following commands: ");
+        System.out.println("                              updateName [new_name]");
+        System.out.println("                              updateBankAccount [new_bankAccount]");
+        System.out.println("                              addField [new_field]");
+        System.out.println("                              removeField [field_to_remove]");
+        System.out.println("                              updatePaymentCondition [new_paymentCondition]");
+        System.out.println("                              addContact [contact_phone] [contact_name]");
+        System.out.println("                              deleteContact [contact_phone] [contact_name]");
+        System.out.println(
+                "addAgreement [product_id] [supplier_id] = Adds a new product agreement with a supplier. The system will ask you about information needed to this action.");
+        System.out.println(
+                "                                           If an agreement already exist, the system will update it to the new one.");
+        System.out.println("getCard [supplier_id] = Information about the supplier will be presented.");
+        System.out.println(
+                "**All the commands will return an informative message about the command's success/failure.**");
     }
 
     /**
@@ -361,8 +358,7 @@ public class SupplierSystem {
                 "Enter total amount to discount in format of [amount] [discount] pairs (enter 'done' to finish): ");
         System.out.println("**Notice that there are two types of discounts: 1 - By precentage , 2 - By fixed price**");
         System.out.println(
-                "**For precentage please type a float between (0-1) and '%'. For example: to have 10% you need to type 0.01%.**");
-        // TODO: we make 10% form.
+                "**For precentage type a float between (0-100) and '%'. For example: to have 10% you need to type 10%.**");
         System.out.println("**For fixed price it could be any price**");
         TreeMap<Integer, String> amountTodiscountMap = new TreeMap<Integer, String>();
         String input;

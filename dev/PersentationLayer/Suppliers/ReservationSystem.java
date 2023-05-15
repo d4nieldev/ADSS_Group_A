@@ -11,22 +11,20 @@ public class ReservationSystem {
     private static ReservationService rs = ReservationService.create();
 
     public static void help() {
-        String manual = "";
-        manual += "===========================================================================================";
-        manual += "makereservation [branch] = open the reservation menu.\n";
-        manual += "    enter lines in the format of \"[supplier_id] [product_id] [amount]\"\n";
-        manual += "    for changing amount of product type the line again with the updated amount\n";
-        manual += "    for closing the reservation menu enter \"done\"\n";
-        manual += "    for aborting the reservation enter \"abort\"\n";
-        manual += "    after completing the reservation. You will get a response with the reservation id if was successful\n";
-        manual += "cancelreservation [reservation_id] = cancel the reservation\n";
-        manual += "readyreservation [reservation_id] = make the reservation ready\n";
-        manual += "closereservation [reservation_id] = close the reservation\n";
-        manual += "addPeriodicReservation [supplier_id] [branch_id] [week_day] = add a new periodic reservation for the supplier and branch\n";
-        manual += "receipt [reservation_id] = show all items, amounts, and prices for this reservation\n";
-        manual += "reservations [supplier_id] = show all reservations history with the supplier\n";
-        manual += "===========================================================================================";
-        System.out.println(manual);
+        System.out.println("makereservation [branch] = open the reservation menu.");
+        System.out.println("    enter lines in the format of \"[supplier_id] [product_id] [amount]\"");
+        System.out.println("    for changing amount of product type the line again with the updated amount");
+        System.out.println("    for closing the reservation menu enter \"done\"");
+        System.out.println("    for aborting the reservation enter \"abort\"");
+        System.out.println(
+                "    after completing the reservation. You will get a response with the reservation id if was successful\n");
+        System.out.println("cancelreservation [reservation_id] = cancel the reservation");
+        System.out.println("readyreservation [reservation_id] = make the reservation ready");
+        System.out.println("closereservation [reservation_id] = close the reservation");
+        System.out.println(
+                "addPeriodicReservation [supplier_id] [branch_id] [week_day] = add a new periodic reservation for the supplier and branch");
+        System.out.println("receipt [reservation_id] = show all items, amounts, and prices for this reservation");
+        System.out.println("reservations [supplier_id] = show all reservations history with the supplier");
     }
 
     public static void makereservation(String[] commandTokens, Scanner scanner) {

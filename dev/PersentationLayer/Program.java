@@ -1,13 +1,16 @@
-package PersentationLayer.Suppliers;
+package PersentationLayer;
 
 import java.util.Scanner;
 
-import DataAccessLayer.Repository;
+import PersentationLayer.Suppliers.ReservationSystem;
+import PersentationLayer.Suppliers.SupplierSystem;
+import PersentationLayer.inventory.ProductSystem;
+import PersentationLayer.inventory.ReportSystem;
 
 public class Program {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
-        Repository.getInstance();
+
         while (true) {
             System.out.print("> ");
             String[] commandTokens = scanner.nextLine().split(" ");
@@ -53,6 +56,50 @@ public class Program {
                     break;
                 case "exit":
                     return;
+                case "1":
+                    ProductSystem.addNewProduct();
+                    break;
+                case "2":
+                    ProductSystem.addNewCategory();
+                    break;
+                case "3":
+                    ProductSystem.sellProduct();
+                    break;
+                case "4":
+                    ProductSystem.setDiscountByCategories();
+                    break;
+                case "5":
+                    ProductSystem.setDiscountByProducts();
+                    break;
+                case "6":
+                    ProductSystem.reportFlawProduct();
+                    break;
+
+                // Dealing with reports
+                // =========================s====================================
+                case "7":
+                    ReportSystem.importInventoryReport();
+                    break;
+                case "8":
+                    ReportSystem.importExpiredAndFlawsReport();
+                    break;
+                case "9":
+                    ReportSystem.importDeficientReport();
+                    break;
+                case "10":
+                    ReportSystem.importInventoryReportByCategories();
+                    break;
+                case "11":
+                    ReportSystem.importReportByReportId();
+                    break;
+                case "12":
+                    ReportSystem.importProductReport();
+                    break;
+
+                case "13":
+                    ProductSystem.addPeriodicReservation();
+                case "14":
+                    // TODO:Change periodic Reservation
                 default:
                     System.out.println("Unknown command - \"" + commandTokens[0] + "\"");
                     break;
@@ -61,12 +108,13 @@ public class Program {
     }
 
     private static void help() {
-        System.out.println("This is the manual for how to use the system:");
         System.out.println("help = show the manual");
+        System.out.println("========== Suppliers Menu ==========");
         ReservationSystem.help();
         SupplierSystem.help();
+        System.out.println("========== Inventory menu ==========");
+        ProductSystem.getMenu();
         System.out.println("exit = exit the program");
         // Bdika
     }
-
 }

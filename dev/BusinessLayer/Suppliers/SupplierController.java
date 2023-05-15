@@ -390,34 +390,30 @@ public class SupplierController {
      * 
      **/
     public void addSupplierProductAgreement(int supplierId, int productShopId, int productSupplierId, int stockAmount,
-            double basePrice, TreeMap<Integer, String> amountToDiscount) throws SuppliersException {
-        try {
-            if (supplierId < 0) {
-                throw new SuppliersException("Supplier id cannot be negative.");
-            }
-            // just to load if it doesn't exist in presistence.
-            getSupplierById(supplierId);
-
-            if (stockAmount < 0) {
-                throw new SuppliersException("Stock amount cannot be negative.");
-            }
-            if (basePrice < 0) {
-                throw new SuppliersException("Base price cannot be negative.");
-            }
-
-            Product product = ProductController.getInstance().getProductById(productShopId);
-            // first we add to database
-            TreeMap<Integer, DiscountDTO> discountDTOMap = makeDiscountDTOMap(amountToDiscount);
-            ProductAgreementDTO dto = new ProductAgreementDTO(supplierId, product.getDTO(), stockAmount, basePrice,
-                    productSupplierId, discountDTOMap);
-            productAgreementDAO.insert(dto);
-
-            // now we add to presistence
-            ProductAgreement pa = new ProductAgreement(dto);
-            ProductController.getInstance().addProductAgreement(supplierId, productShopId, pa);
-        } catch (Exception e) {
-            throw new SuppliersException("A error occurred while adding agreement to supplier with id: " + supplierId);
+            double basePrice, TreeMap<Integer, String> amountToDiscount) throws SuppliersException, SQLException {
+        if (supplierId < 0) {
+            throw new SuppliersException("Supplier id cannot be negative.");
         }
+        // just to load if it doesn't exist in presistence.
+        getSupplierById(supplierId);
+
+        if (stockAmount < 0) {
+            throw new SuppliersException("Stock amount cannot be negative.");
+        }
+        if (basePrice < 0) {
+            throw new SuppliersException("Base price cannot be negative.");
+        }
+
+        Product product = ProductController.getInstance().getProductById(productShopId);
+        // first we add to database
+        TreeMap<Integer, DiscountDTO> discountDTOMap = makeDiscountDTOMap(amountToDiscount);
+        ProductAgreementDTO dto = new ProductAgreementDTO(supplierId, product.getDTO(), stockAmount, basePrice,
+                productSupplierId, discountDTOMap);
+        productAgreementDAO.insert(dto);
+
+        // now we add to presistence
+        ProductAgreement pa = new ProductAgreement(dto);
+        ProductController.getInstance().addProductAgreement(supplierId, productShopId, pa);
 
     }
 

@@ -148,15 +148,15 @@ public class ProductController {
             throw new SuppliersException("A product with id " + id + " already exists");
 
         CategoryDTO categoryDTO = CategoryDAO.getInstance().getById(categoryId);
-        ProductDTO productDTO = new ProductDTO(categoryId, name, manufacturer, categoryDTO);
+        ProductDTO productDTO = new ProductDTO(id, name, manufacturer, categoryDTO);
         productsDAO.insert(productDTO);
         Product product = new Product(productDTO);
         products.put(productDTO.getId(), product);
     }
 
     public void addNewProduct(ProductDTO productDTO) throws SQLException {
-        if(products.containsKey(productDTO.getId()))
-            throw new SuppliersException( "this Product is already exist . product id is: " + productDTO.getName());
+        if (products.containsKey(productDTO.getId()))
+            throw new SuppliersException("this Product is already exist . product id is: " + productDTO.getName());
         productsDAO.insert(productDTO);
         Product product = new Product(productDTO);
         products.put(product.getId(), product);

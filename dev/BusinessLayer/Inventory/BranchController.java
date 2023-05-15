@@ -313,4 +313,8 @@ public class BranchController {
         return allBranches.get(branchId).addNewProductBranch(productBranchDTO);
     }
 
+    public void clearData(){
+        allBranches.clear();
+    }
+
 }

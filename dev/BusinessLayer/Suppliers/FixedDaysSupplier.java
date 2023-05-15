@@ -2,6 +2,7 @@ package BusinessLayer.Suppliers;
 
 import java.time.DayOfWeek;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import DataAccessLayer.DTOs.FixedDaysSupplierDTO;
@@ -21,6 +22,7 @@ class FixedDaysSupplier extends Supplier {
     public FixedDaysSupplier(List<FixedDaysSupplierDTO> fixedDaysSupplierDTOs){
         super(fixedDaysSupplierDTOs.get(0).getSupplierDTO());
         this.fixedDaysSupplierDTOs = fixedDaysSupplierDTOs;
+        this.days = new ArrayList<>();
         for(FixedDaysSupplierDTO fixedDaysSupplierDTO: fixedDaysSupplierDTOs){
             days.add(getDay(fixedDaysSupplierDTO.getDayOfSupply()));
         }

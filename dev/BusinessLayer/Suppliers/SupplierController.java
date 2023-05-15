@@ -171,6 +171,7 @@ public class SupplierController {
             FixedDaysSupplierDTO dto = new FixedDaysSupplierDTO(supDTO, day);
             // now we insert to the proper DAO
             fixedDaysSupplierDAO.insert(dto);
+            dtos.add(dto);
         }
         // now we insert to business layer
         FixedDaysSupplier fds = new FixedDaysSupplier(dtos);
@@ -238,7 +239,7 @@ public class SupplierController {
     }
 
     // Update supplier name
-    public void setSupplierName(int supplierId, String supplierName) throws SuppliersException {
+    public void setSupplierName(int supplierId, String supplierName) {
         try {
             Supplier s = getSupplierById(supplierId);
             // try to set the dto and update in database
@@ -247,14 +248,13 @@ public class SupplierController {
             supplierDAO.update(sDTO);
             // now update in presistence
             s.setName(supplierName);
-        } catch (Exception e) {
-            throw new SuppliersException(
-                    "A database error occurred while changing name of supplier with id: " + supplierId);
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
     }
 
     // Update supplier bank account
-    public void setSupplierBankAccount(int supplierId, String supplierBankAccount) throws SuppliersException {
+    public void setSupplierBankAccount(int supplierId, String supplierBankAccount) {
         try {
             Supplier s = getSupplierById(supplierId);
             // try to set the dto and update in database
@@ -263,14 +263,13 @@ public class SupplierController {
             supplierDAO.update(sDTO);
             // now update in presistence
             s.setBankAcc(supplierBankAccount);
-        } catch (Exception e) {
-            throw new SuppliersException(
-                    "A database error occurred while changing bank account of supplier with id: " + supplierId);
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
     }
 
     // Update supplier payment condition
-    public void setSupplierPaymentCondition(int supplierId, String paymentCondition) throws SuppliersException {
+    public void setSupplierPaymentCondition(int supplierId, String paymentCondition) {
         try {
             Supplier s = getSupplierById(supplierId);
             // try to set the dto and update in database
@@ -279,14 +278,13 @@ public class SupplierController {
             supplierDAO.update(sDTO);
             // now update in presistence
             s.setPaymentCondition(paymentCondition);
-        } catch (Exception e) {
-            throw new SuppliersException(
-                    "A database error occurred while changing payment condition of supplier with id: " + supplierId);
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
     }
 
     // Add supplier field
-    public void addSupplierField(int supplierId, String field) throws SuppliersException {
+    public void addSupplierField(int supplierId, String field) {
         try {
             Supplier s = getSupplierById(supplierId);
             // try to make new dto and add to database;
@@ -298,14 +296,13 @@ public class SupplierController {
 
             // now update in presistence
             s.addField(field);
-        } catch (Exception e) {
-            throw new SuppliersException(
-                    "A database error occurred while adding field of supplier with id: " + supplierId);
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
     }
 
     // Remove supplier field
-    public void removeSupplierField(int supplierId, String field) throws SuppliersException {
+    public void removeSupplierField(int supplierId, String field) {
         try {
             Supplier s = getSupplierById(supplierId);
             if (!s.getFields().contains(field)) {
@@ -320,14 +317,13 @@ public class SupplierController {
 
             // now update in presistence
             s.removeField(field);
-        } catch (Exception e) {
-            throw new SuppliersException(
-                    "A database error occurred while removing field from supplier with id: " + supplierId);
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
     }
 
     // Add supplier contact
-    public void addSupplierContact(int supplierId, String contactPhone, String contactName) throws Exception {
+    public void addSupplierContact(int supplierId, String contactPhone, String contactName) throws SuppliersException {
         try {
             Supplier s = getSupplierById(supplierId);
             // try to make new dto and add to database;
@@ -340,14 +336,14 @@ public class SupplierController {
             // now update in presistence
             Contact c = new Contact(cDTO);
             s.addContact(c);
-        } catch (Exception e) {
-            throw new SuppliersException(
-                    "A database error occurred while adding contact for supplier with id: " + supplierId);
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
     }
 
     // Delete supplier contact
-    public void deleteSupplierContact(int supplierId, String contactPhone, String contactName) throws Exception {
+    public void deleteSupplierContact(int supplierId, String contactPhone, String contactName)
+            throws SuppliersException {
         try {
             if (contactName.equals("Office")) {
                 throw new SuppliersException("Cannot delete the Office contact");
@@ -361,14 +357,10 @@ public class SupplierController {
             // try to delete from database first.
             ContactDTO cDTO = c.getContactDTO();
             contactDAO.delete(cDTO);
-            SupplierDTO sDTO = s.getDTO();
-            sDTO.removeContact(cDTO);
-
             // now update in presistence
             s.deleteContact(c);
-        } catch (Exception e) {
-            throw new SuppliersException(
-                    "A database error occurred while removing contact from supplier with id: " + supplierId);
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
     }
 

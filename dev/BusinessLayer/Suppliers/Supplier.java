@@ -8,6 +8,7 @@ import java.util.TreeMap;
 import BusinessLayer.InveontorySuppliers.Discount;
 import BusinessLayer.InveontorySuppliers.DiscountFixed;
 import BusinessLayer.InveontorySuppliers.DiscountPercentage;
+import BusinessLayer.exceptions.SuppliersException;
 import DataAccessLayer.DTOs.ContactDTO;
 import DataAccessLayer.DTOs.DiscountDTO;
 import DataAccessLayer.DTOs.SupplierDTO;
@@ -134,25 +135,19 @@ public abstract class Supplier {
     }
 
     // Add a new contact
-    public void addContact(Contact contact) throws Exception {
+    public void addContact(Contact contact) throws SuppliersException {
         if (this.contacts.contains(contact)) {
-            throw new Exception("Contact already exists");
-        }
-
-        for (Contact c : contacts) {
-            if (c.getPhone().equals(contact.getPhone())) {
-                throw new Exception("Contact with this phone number already exists");
-            }
+            throw new SuppliersException("Contact already exists");
         }
         this.contacts.add(contact);
     }
 
     // Delete a contact
-    public void deleteContact(Contact contact) throws Exception {
+    public void deleteContact(Contact contact) throws SuppliersException {
         if (!this.contacts.contains(contact)) {
-            throw new Exception("Contact not exists");
+            throw new SuppliersException("Contact not exists");
         }
-
+        this.supplierDTO.getContacts().remove(contact.getContactDTO());
         this.contacts.remove(contact);
     }
 

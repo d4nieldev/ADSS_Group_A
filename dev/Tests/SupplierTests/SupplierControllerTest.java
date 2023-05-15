@@ -155,8 +155,7 @@ public class SupplierControllerTest {
         List<String> contactPhones = createList("0525869525");
         List<Integer> days = createList(2, 4);
         try {
-            sc.addFixedDaysSupplierBaseAgreement(name, phone, bankAccount, fields,
-                    paymentCondition,
+            sc.addFixedDaysSupplierBaseAgreement(name, phone, bankAccount, fields, paymentCondition,
                     amountToDiscount, contactNames, contactPhones, days);
             Supplier s = sc.getSupplierById(1);
             assertEquals(1, s.getId());
@@ -175,7 +174,7 @@ public class SupplierControllerTest {
         String phone = "0507164588";
         String bankAccount = "09-319-158988";
         List<String> fields = createList("Meat", "Sweet drinks");
-        String paymentCondition = "net 45 EOM";
+        String paymentCondition = "net 30 EOM";
         TreeMap<Integer, String> amountToDiscount = new TreeMap<>();
         amountToDiscount.put(50, "0.015%");
         amountToDiscount.put(90, "0.02%");
@@ -203,7 +202,7 @@ public class SupplierControllerTest {
         String phone = "0507164588";
         String bankAccount = "09-319-158988";
         List<String> fields = createList("Meat", "Sweet drinks");
-        String paymentCondition = "net 45 EOM";
+        String paymentCondition = "net 60 EOM";
         TreeMap<Integer, String> amountToDiscount = new TreeMap<>();
         amountToDiscount.put(50, "0.015%");
         amountToDiscount.put(90, "0.02%");

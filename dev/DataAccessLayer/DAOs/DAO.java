@@ -19,9 +19,11 @@ import DataAccessLayer.DTOs.DTO;
 
 public abstract class DAO<T extends DTO> {
     protected String tableName;
+    protected Repository repo;
 
     protected DAO(String tableName) {
         this.tableName = tableName;
+        this.repo = Repository.getInstance();
     }
 
     /**
@@ -33,7 +35,7 @@ public abstract class DAO<T extends DTO> {
     public abstract T makeDTO(ResultSet rs) throws SQLException;
 
     private Map<String, String> getColumnNameToType() throws SQLException {
-        Connection conn = Repository.getInstance().connect();
+        Connection conn = repo.connect();
 
         Statement stmt = conn.createStatement();
 
@@ -51,13 +53,13 @@ public abstract class DAO<T extends DTO> {
 
         rs.close();
         stmt.close();
-        Repository.getInstance().closeConnection(conn);
+        repo.closeConnection(conn);
 
         return nameToType;
     }
 
     private List<String> getPKColumns() throws SQLException {
-        Connection conn = Repository.getInstance().connect();
+        Connection conn = repo.connect();
 
         DatabaseMetaData meta = conn.getMetaData();
 
@@ -70,7 +72,7 @@ public abstract class DAO<T extends DTO> {
         }
 
         pk.close();
-        Repository.getInstance().closeConnection(conn);
+        repo.closeConnection(conn);
 
         return pks;
     }
@@ -96,7 +98,7 @@ public abstract class DAO<T extends DTO> {
     }
 
     public void insert(T dataObject) throws SQLException {
-        Connection con = Repository.getInstance().connect();
+        Connection con = repo.connect();
 
         Map<String, String> nameToType = getColumnNameToType();
         StringBuilder query = new StringBuilder("INSERT INTO " + this.tableName);
@@ -115,14 +117,14 @@ public abstract class DAO<T extends DTO> {
 
         statement.executeUpdate();
         statement.close();
-        Repository.getInstance().closeConnection(con);
+        repo.closeConnection(con);
     }
 
     public void update(T newDataObject) throws SQLException {
-        Connection con = Repository.getInstance().connect();
+        Connection con = repo.connect();
         Map<String, String> nameToVal = newDataObject.getNameToVal();
 
-        StringBuilder query = new StringBuilder("UPDATE " + this.tableName + " SET (");
+        StringBuilder query = new StringBuilder("UPDATE " + this.tableName + " SET ");
 
         List<String> pks = getPKColumns();
         List<String> assignments = new ArrayList<>();
@@ -131,7 +133,7 @@ public abstract class DAO<T extends DTO> {
                 assignments.add(colName + " = ?");
         query.append(String.join(", ", assignments));
 
-        query.append(") WHERE ");
+        query.append(" WHERE ");
         List<String> searchConditions = new ArrayList<>();
         for (String colName : pks)
             searchConditions.add(colName + " = ?");
@@ -157,7 +159,7 @@ public abstract class DAO<T extends DTO> {
 
         statement.executeUpdate();
         statement.close();
-        Repository.getInstance().closeConnection(con);
+        repo.closeConnection(con);
     }
 
     /**
@@ -168,7 +170,7 @@ public abstract class DAO<T extends DTO> {
      * @return the number of the deleted rows.
      */
     public void delete(T dataObject) throws SQLException {
-        Connection con = Repository.getInstance().connect();
+        Connection con = repo.connect();
 
         StringBuilder query = new StringBuilder("DELETE FROM " + tableName + " WHERE ");
 
@@ -191,7 +193,7 @@ public abstract class DAO<T extends DTO> {
         statement.executeUpdate();
 
         statement.close();
-        Repository.getInstance().closeConnection(con);
+        repo.closeConnection(con);
     }
 
     /**
@@ -201,7 +203,7 @@ public abstract class DAO<T extends DTO> {
      *         of a table.
      */
     public List<T> selectAll() throws SQLException {
-        Connection conn = Repository.getInstance().connect();
+        Connection conn = repo.connect();
 
         String query = "SELECT * FROM " + tableName + ";";
 
@@ -212,7 +214,7 @@ public abstract class DAO<T extends DTO> {
         while (rs.next())
             output.add(makeDTO(rs));
 
-        Repository.getInstance().closeConnection(conn);
+        repo.closeConnection(conn);
         return output;
     }
 

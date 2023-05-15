@@ -2,6 +2,7 @@ package PersentationLayer;
 
 import java.util.Scanner;
 
+import PersentationLayer.InventorySuppliers.BranchSystem;
 import PersentationLayer.Suppliers.ReservationSystem;
 import PersentationLayer.Suppliers.SupplierSystem;
 import PersentationLayer.inventory.ProductSystem;
@@ -53,6 +54,12 @@ public class Program {
                     break;
                 case "getCard":
                     SupplierSystem.getSupplierCard(commandTokens);
+                    break;
+                case "addBranch":
+                    BranchSystem.addNewBranch(scanner);
+                    break;
+                case "addProductBranch":
+                    BranchSystem.addNewProductBranch(scanner);
                     break;
                 case "exit":
                     return;
@@ -113,6 +120,7 @@ public class Program {
         ReservationSystem.help();
         SupplierSystem.help();
         System.out.println("========== Inventory menu ==========");
+        BranchSystem.help();
         ProductSystem.getMenu();
         System.out.println("exit = exit the program");
         // Bdika

@@ -198,7 +198,7 @@ public class ShiftFacade {
             Shift s = createNewShiftFromShiftDTO(shiftDTO);
             shifts.add(s);
             return s;
-        }
+        } 
 
         throw new Error("No such a shift in this system by the address " + address + " and date " + date + "and time MORNING");
     }

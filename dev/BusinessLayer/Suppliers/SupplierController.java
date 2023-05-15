@@ -498,7 +498,7 @@ public class SupplierController {
         if (value.indexOf('%') != -1) {
             // means that the discount is of percentage type
             double disVal = tryParseDouble((value.substring(0, value.length() - 1)), Double.MIN_VALUE);
-            if (disVal == Double.MIN_VALUE || disVal < 0 || disVal > 1) {
+            if (disVal == Double.MIN_VALUE || disVal < 0 || disVal > 100) {
                 throw new SuppliersException("Invalid precentage discount value: " + value);
             }
             DiscountDTO dto = new DiscountDTO(nextDiscountIdInSystem++, LocalDate.now(), null,

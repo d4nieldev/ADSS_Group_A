@@ -1,16 +1,21 @@
 package TestEmployee;
 
-/*
+import BussinessLayer.TransPortLayer.Destination;
+import BussinessLayer.TransPortLayer.Transport;
+import BussinessLayer.TransPortLayer.TransportFacade;
+
 public class UnitTest {
 
-    private DriverFacade driverFacade;
+    //private DriverFacade driverFacade;
+    
 
     @BeforeEach
     public void setUp() {
-        driverFacade = new DriverFacade();
-        driverFacade.getDrivers().put(1, new Driver(1, "rotem", "ABC123"));
-        driverFacade.getDrivers().put(2, new Driver(2, "kfir", "DEF456"));
+        //driverFacade = new DriverFacade();
+       // driverFacade.getDrivers().put(1, new Driver(1, "rotem", "ABC123"));
+        //driverFacade.getDrivers().put(2, new Driver(2, "kfir", "DEF456"));
     }
+    /* 
 
     @Test
     public void testDriverExist() {
@@ -76,6 +81,7 @@ public class UnitTest {
         List<Driver> availableDrivers = facade.getAvailableDrivers();
         assertEquals(0, availableDrivers.size());
     }
+    */
 
     @Test
     void testDeliveryPrint() {
@@ -183,4 +189,3 @@ public class UnitTest {
 
 
 }
-*/

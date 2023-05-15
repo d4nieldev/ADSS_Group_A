@@ -32,7 +32,7 @@ public class InventoryReportEntryDAO extends DAO<InventoryReportEntryDTO> {
         if (!rs.next())
             return null;
 
-        int reportId = rs.getInt("reportId");
+        int reportId = rs.getInt("entryId");
         int productId = rs.getInt("productId");
         int shelfAmount = rs.getInt("shelfAmount");
         int storageAmount = rs.getInt("storageAmount");

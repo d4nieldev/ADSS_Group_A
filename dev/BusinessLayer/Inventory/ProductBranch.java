@@ -7,7 +7,11 @@ import java.util.HashMap;
 import java.util.List;
 
 import BusinessLayer.InveontorySuppliers.*;
+<<<<<<< HEAD
 import DataAccessLayer.DTOs.DiscountDTO;
+=======
+import DataAccessLayer.DAOs.SpecificProductDAO;
+>>>>>>> 21cc1af1193d9a018d6658273f5a1fd477f26f87
 import DataAccessLayer.DTOs.ProductBranchDTO;
 import DataAccessLayer.DTOs.SpecificProductDTO;
 
@@ -50,10 +54,12 @@ public class ProductBranch {
             SpecificProductDTO dto = dtos.get(index);
             SpecificProduct specificProduct = new SpecificProduct(dto);
             specificProductMap.put(index, specificProduct);
+            SpecificProductDAO.getInstance().insert(dto);
         }
 
         this.allSpecificProducts = specificProductMap;
         DiscountController discountController = DiscountController.getInstance();
+<<<<<<< HEAD
         DiscountDTO disDTO = productBranchDTO.getDiscountDTO();
         if (disDTO == null) {
             this.discount = null;
@@ -61,6 +67,11 @@ public class ProductBranch {
             this.discount = discountController.getDiscountById(disDTO.getId());
         }
 
+=======
+
+//        this.discount = discountController.getDiscountById(productBranchDTO.getDiscountDTO().getId());
+        this.discount = null;
+>>>>>>> 21cc1af1193d9a018d6658273f5a1fd477f26f87
         this.totalAmount = productBranchDTO.getAllSpecificProducts().size();
         this.discountsHistory = new ArrayList<>();
         this.productBranchDTO = productBranchDTO;
@@ -306,6 +317,9 @@ public class ProductBranch {
 
     public Category getCategory() {
         return product.getCategory();
+    }
+    public String getCategoryName() {
+        return product.getCategoryName();
     }
 
     public int getCategoryId() {

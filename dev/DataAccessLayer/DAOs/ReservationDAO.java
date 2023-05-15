@@ -82,7 +82,8 @@ public class ReservationDAO extends DAO<ReservationDTO> {
     }
 
     public int getLastId() throws SQLException {
-        String query = "SELECT Max(id) FROM Reservations;";
+//        String query = "SELECT Max(id) FROM Reservations;";
+        String query = "SELECT * FROM Reservations WHERE id=(SELECT MAX(id) FROM Reservations)";
         ResultSet rs = repo.executeQuery(query);
         ReservationDTO dto = makeDTO(rs);
         if (dto == null) {

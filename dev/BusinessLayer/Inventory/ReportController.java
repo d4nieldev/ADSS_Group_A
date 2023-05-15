@@ -105,12 +105,12 @@ public class ReportController {
 //    }
 
     public ExpiredAndFlawReport importExpiredAndFlawReport(int branchId) throws Exception {
-        Branch branch = BranchController.getInstance().getBranchById(branchId);
+        BranchController branchController = BranchController.getInstance();
         int reportID = Global.getNewReportId();
         ReportDTO repDTO = new ReportDTO(reportID, branchId, LocalDate.now());
         reportDAO.insert(repDTO);
 
-        HashMap<Integer, List<SpecificProduct>> productSpecificsExpired = branch.getExpiredProducts();
+        HashMap<Integer, List<SpecificProduct>> productSpecificsExpired = branchController.getBranchExpired(branchId);
         for (Integer productCode : productSpecificsExpired.keySet()) {
             for (SpecificProduct specificProduct : productSpecificsExpired.get(productCode)) {
                 int specificId = specificProduct.getSpecificId();
@@ -132,12 +132,12 @@ public class ReportController {
 //    }
 
     public DeficientReport importDeficientReport(int branchId) throws Exception {
-        Branch branch = BranchController.getInstance().getBranchById(branchId);
+        BranchController branchController= BranchController.getInstance();
         int reportID = Global.getNewReportId();
         ReportDTO repDTO = new ReportDTO(reportID, branchId, LocalDate.now());
         reportDAO.insert(repDTO);
 
-        HashMap<Integer, ProductBranch> deficiencyProductsBranch = branch.getAllDeficiencyProductsBranch();
+        HashMap<Integer, ProductBranch> deficiencyProductsBranch = branchController.getBranchDeficiencyProducts(branchId);
         for (Integer productCode : deficiencyProductsBranch.keySet()) {
             ProductBranch deficiencyProduct = deficiencyProductsBranch.get(productCode);
             int missingAmount = deficiencyProduct.getMinQuantity() - deficiencyProduct.getTotalAmount();

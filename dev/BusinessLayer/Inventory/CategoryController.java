@@ -34,7 +34,7 @@ public class CategoryController {
     }
 
     public int addNewCategory(String name, Category parentCategory) throws SQLException {
-        CategoryDTO CatDTO = new CategoryDTO(name, parentCategory.getCategoryDTO());
+        CategoryDTO CatDTO = new CategoryDTO(Global.getNewCategoryid(),name, parentCategory.getCategoryDTO());
         categoryDAO.insert(CatDTO);
         Category category = new Category(CatDTO);
         allCategories.add(category);

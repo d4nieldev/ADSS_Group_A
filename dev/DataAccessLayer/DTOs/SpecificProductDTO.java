@@ -61,7 +61,7 @@ public class SpecificProductDTO implements DTO {
         Map<String, String> nameToVal = new HashMap<>();
         nameToVal.put("specificId", "" + specificId);
         nameToVal.put("generalId", "" + generalId);
-        nameToVal.put("branchDTO", "" + branchId);
+        nameToVal.put("branchId", "" + branchId);
         nameToVal.put("buyPrice", "" + buyPrice);
         nameToVal.put("sellPrice", "" + sellPrice);
         nameToVal.put("status", status.toString());
@@ -119,5 +119,9 @@ public class SpecificProductDTO implements DTO {
 
     public void updateDescription(String flawDescription) {
         this.flaw = flawDescription;
+    }
+
+    public void updateStatus(ProductStatus.status updateStatus) {
+        this.status = updateStatus;
     }
 }

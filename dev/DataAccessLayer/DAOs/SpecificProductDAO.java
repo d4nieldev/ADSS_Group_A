@@ -53,7 +53,11 @@ public class SpecificProductDAO extends DAO<SpecificProductDTO> {
 
     public HashMap<Integer, SpecificProductDTO> getByGeneralId(int productId, int branchId) throws SQLException {
         String query = "SELECT * FROM SpecificProduct WHERE specificId= ? AND generalId= ?;";
+<<<<<<< HEAD
         ResultSet rs = repo.executeQuery(query, productId, branchId);
+=======
+        ResultSet rs = repo.executeQuery(query, productId,branchId);
+>>>>>>> 21cc1af1193d9a018d6658273f5a1fd477f26f87
         HashMap<Integer, SpecificProductDTO> resultMap = new HashMap<>();
 
         while (rs.next()) {

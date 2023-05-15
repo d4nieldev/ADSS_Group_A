@@ -8,22 +8,16 @@ import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Types;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import DataAccessLayer.Repository;
 import DataAccessLayer.DTOs.DTO;
 
 public abstract class DAO<T extends DTO> {
     protected String tableName;
-    protected Repository repo;
 
     protected DAO(String tableName) {
         this.tableName = tableName;
-        this.repo = Repository.getInstance();
     }
 
     /**
@@ -34,32 +28,54 @@ public abstract class DAO<T extends DTO> {
      */
     public abstract T makeDTO(ResultSet rs) throws SQLException;
 
-    private Map<String, String> getColumnNameToType() throws SQLException {
-        Connection conn = repo.connect();
+//    private Map<String, String> getColumnNameToType() throws SQLException {
+//        Connection conn = Repository.getInstance().connect();
+//
+//        Statement stmt = conn.createStatement();
+//
+//        ResultSet rs = stmt.executeQuery("SELECT * FROM " + tableName);
+//
+//        ResultSetMetaData meta = rs.getMetaData();
+//
+//        Map<String, String> nameToType = new HashMap<>();
+//        int numColumns = meta.getColumnCount();
+//        for (int i = 1; i <= numColumns; i++) {
+//            String columnName = meta.getColumnName(i);
+//            String columnType = meta.getColumnTypeName(i);
+//            nameToType.put(columnName, columnType);
+//        }
+//        rs.close();
+//        stmt.close();
+//        Repository.getInstance().closeConnection(conn);
+//
+//        return nameToType;
+//    }
+private Map<String, String> getColumnNameToType() throws SQLException {
+    Connection conn = Repository.getInstance().connect();
 
-        Statement stmt = conn.createStatement();
+    Statement stmt = conn.createStatement();
 
-        ResultSet rs = stmt.executeQuery("SELECT * FROM " + tableName);
+    ResultSet rs = stmt.executeQuery("SELECT * FROM " + tableName);
 
-        ResultSetMetaData meta = rs.getMetaData();
+    ResultSetMetaData meta = rs.getMetaData();
 
-        Map<String, String> nameToType = new HashMap<>();
-        int numColumns = meta.getColumnCount();
-        for (int i = 1; i <= numColumns; i++) {
-            String columnName = meta.getColumnName(i);
-            String columnType = meta.getColumnTypeName(i);
-            nameToType.put(columnName, columnType);
-        }
-
-        rs.close();
-        stmt.close();
-        repo.closeConnection(conn);
-
-        return nameToType;
+    Map<String, String> nameToType = new LinkedHashMap<>();
+    int numColumns = meta.getColumnCount();
+    for (int i = 1; i <= numColumns; i++) {
+        String columnName = meta.getColumnName(i);
+        String columnType = meta.getColumnTypeName(i);
+        nameToType.put(columnName, columnType);
     }
 
+    rs.close();
+    stmt.close();
+    Repository.getInstance().closeConnection(conn);
+
+    return nameToType;
+}
+
     private List<String> getPKColumns() throws SQLException {
-        Connection conn = repo.connect();
+        Connection conn = Repository.getInstance().connect();
 
         DatabaseMetaData meta = conn.getMetaData();
 
@@ -72,7 +88,7 @@ public abstract class DAO<T extends DTO> {
         }
 
         pk.close();
-        repo.closeConnection(conn);
+        Repository.getInstance().closeConnection(conn);
 
         return pks;
     }
@@ -97,14 +113,42 @@ public abstract class DAO<T extends DTO> {
         }
     }
 
+    private String getQuery(Map<String,String> nameToType,String name){
+        // Get the column names and types
+
+        List<String> columnNames = new ArrayList<>(nameToType.keySet());
+        List<String> columnTypes = new ArrayList<>(nameToType.values());
+
+// Construct the INSERT query
+        String tableName = name;
+        StringBuilder sb = new StringBuilder();
+        sb.append("INSERT INTO ").append(tableName).append(" (");
+        for (int i = 0; i < columnNames.size(); i++) {
+            sb.append(columnNames.get(i)).append(".").append(columnTypes.get(i));
+            if (i < columnNames.size() - 1) {
+                sb.append(", ");
+            }
+        }
+        sb.append(") VALUES (");
+        for (int i = 0; i < columnNames.size(); i++) {
+            sb.append("?");
+            if (i < columnNames.size() - 1) {
+                sb.append(", ");
+            }
+        }
+        sb.append(")");
+        String insertQuery = sb.toString();
+        return insertQuery;
+    }
     public void insert(T dataObject) throws SQLException {
-        Connection con = repo.connect();
+        Connection con = Repository.getInstance().connect();
 
         Map<String, String> nameToType = getColumnNameToType();
         StringBuilder query = new StringBuilder("INSERT INTO " + this.tableName);
         query.append("(" + String.join(", ", nameToType.keySet()) + ")\n");
         query.append(
                 " VALUES (" + String.join(", ", Collections.nCopies(nameToType.size(), "?")) + ");");
+//        String query = getQuery(nameToType,this.tableName);
         PreparedStatement statement = con.prepareStatement(query.toString());
 
         Map<String, String> nameToVal = dataObject.getNameToVal();
@@ -113,18 +157,18 @@ public abstract class DAO<T extends DTO> {
             String val = nameToVal.get(colName);
             String type = nameToType.get(colName);
             setValInStatement(statement, val, type, i++);
-        }
+         }
 
         statement.executeUpdate();
         statement.close();
-        repo.closeConnection(con);
+        Repository.getInstance().closeConnection(con);
     }
 
     public void update(T newDataObject) throws SQLException {
-        Connection con = repo.connect();
+        Connection con = Repository.getInstance().connect();
         Map<String, String> nameToVal = newDataObject.getNameToVal();
 
-        StringBuilder query = new StringBuilder("UPDATE " + this.tableName + " SET ");
+        StringBuilder query = new StringBuilder("UPDATE " + this.tableName + " SET (");
 
         List<String> pks = getPKColumns();
         List<String> assignments = new ArrayList<>();
@@ -133,7 +177,7 @@ public abstract class DAO<T extends DTO> {
                 assignments.add(colName + " = ?");
         query.append(String.join(", ", assignments));
 
-        query.append(" WHERE ");
+        query.append(") WHERE ");
         List<String> searchConditions = new ArrayList<>();
         for (String colName : pks)
             searchConditions.add(colName + " = ?");
@@ -159,7 +203,7 @@ public abstract class DAO<T extends DTO> {
 
         statement.executeUpdate();
         statement.close();
-        repo.closeConnection(con);
+        Repository.getInstance().closeConnection(con);
     }
 
     /**
@@ -170,7 +214,7 @@ public abstract class DAO<T extends DTO> {
      * @return the number of the deleted rows.
      */
     public void delete(T dataObject) throws SQLException {
-        Connection con = repo.connect();
+        Connection con = Repository.getInstance().connect();
 
         StringBuilder query = new StringBuilder("DELETE FROM " + tableName + " WHERE ");
 
@@ -193,7 +237,7 @@ public abstract class DAO<T extends DTO> {
         statement.executeUpdate();
 
         statement.close();
-        repo.closeConnection(con);
+        Repository.getInstance().closeConnection(con);
     }
 
     /**
@@ -203,7 +247,7 @@ public abstract class DAO<T extends DTO> {
      *         of a table.
      */
     public List<T> selectAll() throws SQLException {
-        Connection conn = repo.connect();
+        Connection conn = Repository.getInstance().connect();
 
         String query = "SELECT * FROM " + tableName + ";";
 
@@ -214,7 +258,7 @@ public abstract class DAO<T extends DTO> {
         while (rs.next())
             output.add(makeDTO(rs));
 
-        repo.closeConnection(conn);
+        Repository.getInstance().closeConnection(conn);
         return output;
     }
 

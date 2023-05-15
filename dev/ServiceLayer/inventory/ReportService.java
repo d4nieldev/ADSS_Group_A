@@ -129,7 +129,7 @@ public class ReportService {
         for (Integer productCode : products.keySet()) {
             HashMap<Integer, String> flowProducts = codeToSpecificDescription.get(productCode);
             for (int id : flowProducts.keySet()) {
-                System.out.format("%-10d%-20s%-15s%-20d%-25s%-25s%n", index++, products.get(productCode).getName(), products.get(productCode).getCategory(), id, flowProducts.get(id),"X");
+                System.out.format("%-10d%-20s%-15s%-20d%-25s%-25s%n", index++, products.get(productCode).getName(), products.get(productCode).getCategoryName(), id, flowProducts.get(id),"X");
             }
         }
 
@@ -137,7 +137,7 @@ public class ReportService {
         for (Integer productCode : products.keySet()) {
             HashMap<Integer, LocalDate> expiredDate = idToExpiredSpecificIdAndDate.get(productCode);
             for (int id : expiredDate.keySet()) {
-                System.out.format("%-10d%-20s%-15s%-20d%-25s%-25s%n", index++, products.get(productCode).getName(), products.get(productCode).getCategory(), id, "X","Expired at: " + expiredDate.get(id));
+                System.out.format("%-10d%-20s%-15s%-20d%-25s%-25s%n", index++, products.get(productCode).getName(), products.get(productCode).getCategoryName(), id, "X","Expired at: " + expiredDate.get(id));
             }
         }
 

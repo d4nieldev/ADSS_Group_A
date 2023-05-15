@@ -52,8 +52,32 @@ public class BranchController {
         HashMap<Integer, List<SpecificProduct>> result = new HashMap<>();
         Branch branch = allBranches.get(branchId);
         result = branch.getExpiredProducts();
+        updateExpiredProducts(result);
         return result;
     }
+    public HashMap<Integer, ProductBranch> getBranchDeficiencyProducts(int branchId) throws SQLException {
+        return allBranches.get(branchId).getAllDeficiencyProductsBranch();
+    }
+    private void updateExpiredProducts(HashMap<Integer, List<SpecificProduct>> result) throws SQLException {
+        for(Integer productCode : result.keySet()){
+            for (SpecificProduct specificProduct : result.get(productCode)){
+                SpecificProductDTO specificProductDTO = specificProductDAO.getById(specificProduct.getSpecificId());
+                specificProductDTO.updateStatus(ProductStatus.status.EXPIRED);
+                specificProductDAO.delete(specificProductDTO);
+                specificProductDAO.insert(specificProductDTO);
+            }
+        }
+    }
+//    private void updateDeficiencyProducts(HashMap<Integer, ProductBranch> result, int branchId) throws SQLException {
+//        for(Integer productCode : result.keySet()){
+//                ProductBranchDTO productBranchDTO = productBranchDAO.getByProductAndBranchId(productCode,branchId);
+//                productBranchDTO.
+//                specificProductDTO.updateStatus(ProductStatus.status.EXPIRED);
+//                specificProductDAO.delete(specificProductDTO);
+//                specificProductDAO.insert(specificProductDTO);
+//            }
+//        }
+//    }
 
     public void addBranch(int branchId, String branchName, int minAmount) throws SQLException {
         List<PeriodicReservationDTO> allBranchReservations = new ArrayList<>();
@@ -176,10 +200,10 @@ public class BranchController {
         DiscountDTO discountDTO = null;
         if (discount instanceof DiscountFixed) {
             discountDTO = new DiscountDTO(discount.getDiscountId(), discount.getStart_date(), discount.getEnd_date(),
-                    discount.getDiscountValue(), "fixed Discount");
+                    discount.getDiscountValue(), "Fixed");
         } else {
             discountDTO = new DiscountDTO(discount.getDiscountId(), discount.getStart_date(), discount.getEnd_date(),
-                    discount.getDiscountValue(), "Percentage discount");
+                    discount.getDiscountValue(), "Precentage");
         }
         discountDAO.insert(discountDTO);
         Branch branch = allBranches.get(branchId);
@@ -276,6 +300,10 @@ public class BranchController {
         BranchDTO branchDTO = branch.getBranchDTO();
         branchDAO.update(branchDTO);
 
+    }
+    public ProductBranch addNewProductBranch(int branchId, ProductBranchDTO productBranchDTO) throws SQLException {
+        productBranchDAO.insert(productBranchDTO);
+        return allBranches.get(branchId).addNewProductBranch(productBranchDTO);
     }
 
 }

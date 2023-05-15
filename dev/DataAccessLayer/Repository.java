@@ -35,6 +35,7 @@ public class Repository {
         try {
             Class.forName("org.sqlite.JDBC");
             String url = "jdbc:sqlite:database.db";
+//            String url = "jdbc:sqlite::memory:";
             conn = DriverManager.getConnection(url);
         } catch (SQLException e) {
             e.printStackTrace();
@@ -226,14 +227,15 @@ public class Repository {
                 );
 
                 CREATE TABLE IF NOT EXISTS SpecificProduct (
-                    specificId INTEGER NOT NULL,
-                    generalId  INTEGER NOT NULL,
-                    branchId   INTEGER NOT NULL,
-                    buyPrice   REAL    NOT NULL,
-                    sellPrice  REAL,
-                    status     TEXT,
-                    flaw       TEXT,
-                    expDate    TEXT    NOT NULL,
+                    specificId     INTEGER NOT NULL,
+                    generalId      INTEGER NOT NULL,
+                    branchId       INTEGER NOT NULL,
+                    buyPrice       REAL    NOT NULL,
+                    sellPrice      REAL,
+                    status         TEXT,
+                    flaw           TEXT,
+                    expDate        TEXT    NOT NULL,
+                    arrivedDate    TEXT    NOT NULL,
 
                     CHECK (buyPrice >= 0 AND status IN ('SOLD', 'ON_SHELF', 'ON_STORAGE', 'EXPIRED')),
 

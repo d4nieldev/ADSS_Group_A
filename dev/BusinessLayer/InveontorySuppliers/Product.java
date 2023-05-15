@@ -66,4 +66,8 @@ public class Product {
         return this.dto;
     }
 
+    public String getCategoryName() {
+        CategoryController categoryController = CategoryController.getInstance();
+        return categoryController.getCategoryById(categoryId).getName();
+    }
 }

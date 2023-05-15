@@ -24,7 +24,8 @@ public class Driver extends Employee {
     
     public Driver(DriverDTO driverDTO) {
         super(driverDTO.firstName, driverDTO.lastName, driverDTO.id, driverDTO.password, driverDTO.bankNum, driverDTO.bankBranch, driverDTO.bankAccount, driverDTO.salary, 0, driverDTO.startDate,
-        driverDTO.tempsEmployment, driverDTO.roles.get(0), 0);
+        driverDTO.tempsEmployment, driverDTO.role, 0);
+        this.driverLicense = driverDTO.driverLicense;
         this.availableShiftDates = driverDTO.availableShiftDates;
         this.workedDates = driverDTO.workedDates;
     }
@@ -65,7 +66,7 @@ public class Driver extends Employee {
     
     public DriverDTO driverToDTO() {
         return new DriverDTO(getId(), getFirstName(), getLastName(), getPassword(), getBankNum(), getBankBranch(),
-		getBankAccount(), getSalary(), getBonus(), getStartDate(), getTempsEmployment(), getRoles(), 
+		getBankAccount(), getSalary(), getBonus(), getStartDate(), getTempsEmployment(), getRoles().get(0), 
         getIsLoggedIn(), getSuperBranch(), this.driverLicense, this.availableShiftDates, this.workedDates);
     }
 

@@ -23,49 +23,63 @@ public class TransportSystem
     }
 
     public void run(int loginId) {
-
         System.out.println("Welcome to the Transport System!");
-
+        List<Destination> dests=null ;
+        List<Destination> sources= null ;
+        List<Delivery> deliveries =null;
+    
         Scanner sc = new Scanner(System.in);
-        // makeSomeDrivers();
-        makeSomeTrucks();
-        List<Destination> dests = makeSomeDestinations();
-        List<Destination> sources = makeSomeSources();
-        List<Delivery> deliveries = transportService.createDeliveries(sources, dests);
-
-        transportService.createTransports(loginId, deliveries);
-        transportService.runTheTransports();
-
+    
         boolean continueChoosing = true;
         while (continueChoosing) {
-            System.out.println("\nWhat would you like to change?");
-            System.out.println("1. none");
-            System.out.println("2. Trucks");
-            System.out.println("3. Transports");
-            System.out.println("4. Exit");
-
+            System.out.println("\nWhat would you like to do?");
+            System.out.println("1. Make Trucks");
+            System.out.println("2. Make Sources and dests");
+            System.out.println("3. Make Deliveries");
+            System.out.println("4. Create Transport");
+            System.out.println("5. Run Transports");
+            System.out.println("6. Change Trucks");
+            System.out.println("7. Change Transports");
+            System.out.println("8. Exit");
+    
             int choice = sc.nextInt();
             sc.nextLine(); // consume the newline character
-
+    
             switch (choice) {
                 case 1:
+                    makeSomeTrucks();
                     break;
                 case 2:
-                    changeTruckService();
+                dests = makeSomeDestinations();
+                sources = makeSomeSources();
+                
                     break;
                 case 3:
-                    changeTransportService();
+                    deliveries = transportService.createDeliveries(sources, dests);
                     break;
                 case 4:
+                    transportService.createTransports(loginId, deliveries);
+                    break;
+                case 5:
+                    transportService.runTheTransports();
+                    break;
+                case 6:
+                    changeTruckService();
+                    break;
+                case 7:
+                    changeTransportService();
+                    break;
+                case 8:
                     continueChoosing = false;
                     break;
                 default:
                     System.out.println("Invalid choice. Please try again.");
             }
         }
-
+    
         System.out.println("Thank you for using the Transport System!");
     }
+    
 
     private static void changeTruckService() {
         Scanner scanner = new Scanner(System.in);
@@ -349,11 +363,11 @@ public class TransportSystem
                 }
             }
         } else {
-            System.out.println(truckService.addTruck("aaaa", "a", 200, 250));
+            System.out.println(truckService.addTruck("aaaa", "b", 200, 250));
             System.out.println(truckService.addTruck("bbbb", "b", 200, 1000));
             System.out.println(truckService.addTruck("cccc", "c", 200, 1000));
-            System.out.println(truckService.addTruck("dddd", "d", 200, 1000));
-            System.out.println(truckService.addTruck("eeee", "a", 200, 1000));
+            System.out.println(truckService.addTruck("dddd", "b", 200, 1000));
+            System.out.println(truckService.addTruck("eeee", "null", 200, 1000));
         }
 
     }

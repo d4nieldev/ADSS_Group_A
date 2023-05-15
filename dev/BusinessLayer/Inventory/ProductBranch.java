@@ -252,6 +252,7 @@ public class ProductBranch {
         return sp;
     }
 
+
     private void UpdateSellPrice(SpecificProduct sp) {
         double sellPrice = getPrice();
         sp.setSellPrice(sellPrice);

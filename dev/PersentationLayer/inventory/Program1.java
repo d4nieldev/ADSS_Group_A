@@ -8,6 +8,8 @@ public class Program1 {
 
     public static void main(String[] args) throws Exception {
         ProductSystem.getStart();
+        applyData.setup();
+
 
         Scanner scanner = new Scanner(System.in);
 

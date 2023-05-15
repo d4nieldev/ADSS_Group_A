@@ -39,6 +39,18 @@ public class CategoryDAO extends DAO<CategoryDTO> {
         }
         return new CategoryDTO(id, name, parenCategoryDTO);
     }
+//    public CategoryDTO makeDTO(Map<String, Object> row) throws SQLException {
+//        int id = (int) row.get("id");
+//        String name = (String) row.get("name");
+//        String categoryParentId = (String) row.get("parent");
+//        CategoryDTO parenCategoryDTO;
+//        if (categoryParentId == null) {
+//            parenCategoryDTO = null;
+//        } else {
+//            parenCategoryDTO = getById(Integer.parseInt(categoryParentId));
+//        }
+//        return new CategoryDTO(id, name, parenCategoryDTO);
+//    }
 
     public CategoryDTO getById(int categoryId) throws SQLException {
         List<Map<String, Object>> rows = repo.executeQuery("SELECT * FROM Categories WHERE id= ?;", categoryId);

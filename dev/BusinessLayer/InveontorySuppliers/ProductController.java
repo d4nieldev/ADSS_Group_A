@@ -153,14 +153,21 @@ public class ProductController {
         Product product = new Product(productDTO);
         products.put(productDTO.getId(), product);
     }
-
-    public void addNewProduct(ProductDTO productDTO) throws SQLException {
-        if (products.containsKey(productDTO.getId()))
-            throw new SuppliersException("this Product is already exist . product id is: " + productDTO.getName());
-        productsDAO.insert(productDTO);
-        Product product = new Product(productDTO);
-        products.put(product.getId(), product);
+    public void addProduct(ProductDTO productDTO) throws SQLException {
+        int id = productDTO.getId();
+        String name = productDTO.getName();
+        String manufacturer = productDTO.getManufacturer();
+        int categoryId = productDTO.getCategory().getId();
+        addProduct(id,name,manufacturer,categoryId);
     }
+
+//    public void addNewProduct(ProductDTO productDTO) throws SQLException {
+//        if (products.containsKey(productDTO.getId()))
+//            throw new SuppliersException("this Product is already exist . product id is: " + productDTO.getName());
+//        productsDAO.insert(productDTO);
+//        Product product = new Product(productDTO);
+//        products.put(product.getId(), product);
+//    }
 
     public Product getProductById(int productId) throws SQLException {
         if (products.containsKey(productId))

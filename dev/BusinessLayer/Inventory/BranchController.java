@@ -282,7 +282,7 @@ public class BranchController {
     public void sellProduct(int branchId, int productCode, int specificId) throws Exception {
         Branch branch = allBranches.get(branchId);
         SpecificProduct sp = branch.sellProduct(productCode, specificId);
-        SpecificProductDTO specificProductDTO = specificProductDAO.getById(specificId);
+        SpecificProductDTO specificProductDTO = sp.getSpecificProductDTO();
         specificProductDAO.update(specificProductDTO);
 
     }

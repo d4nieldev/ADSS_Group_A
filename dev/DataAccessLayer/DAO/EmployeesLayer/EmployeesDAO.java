@@ -6,6 +6,7 @@ import DataAccessLayer.DTO.EmployeeLayer.*;
 
 import java.sql.*;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.LinkedList;
 
 public class EmployeesDAO extends DAO<EmployeeDTO> {
@@ -14,6 +15,7 @@ public class EmployeesDAO extends DAO<EmployeeDTO> {
     public EmployeesDAO() {
         this.tableName = "Employees";
         employeeRoleDAO = new EmployeesRolesDAO();
+
     }
 
     @Override
@@ -89,16 +91,18 @@ public class EmployeesDAO extends DAO<EmployeeDTO> {
         try {
             Integer id = RS.getInt(1); // the first column is ID
             LinkedList<Integer> roles = getRolesList(id, conn);
+            LinkedList<Integer> branches = getBranchesList(id, conn);
             if (roles == null) {
                 return null;
             }
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
             output = new EmployeeDTO(/* Id */RS.getInt(1), /* first name */RS.getString(2),
                     /* last name */RS.getString(3), /* password */RS.getString(4),
                     /* bank number */RS.getInt(5), /* bank branch number */RS.getInt(6),
                     /* bank account number */RS.getInt(7), /* salary */RS.getInt(8),
-                    /* bonus */ RS.getInt(9), /* start date */ LocalDate.parse(RS.getString(10)),
+                    /* bonus */ RS.getInt(9), /* start date */ LocalDate.parse(RS.getString(10), formatter),
                     /* temps employment */ RS.getString(11), roles,
-                    /* is logged in */ RS.getBoolean(13), /* super branch */ RS.getInt(14));
+                    /* is logged in */ RS.getBoolean(12), /* super branch */ RS.getInt(13), branches);
         } catch (Exception e) {
             output = null;
         } finally {
@@ -127,4 +131,65 @@ public class EmployeesDAO extends DAO<EmployeeDTO> {
     public int removeRole(int empID, Integer roleToRemove) {
         return employeeRoleDAO.removeRole(empID, roleToRemove);
     }
+
+    public EmployeeDTO getEmployeeById(int id) {
+        Connection conn = Repository.getInstance().connect();
+        ResultSet res = get(tableName, "ID", id, conn);
+        EmployeeDTO emp = null;
+
+        try {
+            if (!res.next()){
+                return null;
+            }
+            emp = makeDTO(res);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        finally {
+            Repository.getInstance().closeConnection(conn);
+        }
+
+        return emp;
+    }
+
+    public void getShiftList(Integer id, Connection conn) {
+
+    }
+
+    public LinkedList<Integer> getBranchesList(Integer id, Connection conn) {
+        LinkedList<Integer> ans = new LinkedList<>();
+        ResultSet rs = get("EmployeesBranches", "EmployeeID", id, conn);
+        try {
+            while (rs.next()) {
+                ans.add(rs.getInt(2));
+            }
+        } catch (Exception e) {
+            return null;
+        }
+        return ans;
+    }
+
+    public void removeAllRolesForEmployee (int employeeId, LinkedList<Integer> employeeRoles) {
+        for (Integer roleId : employeeRoles) {
+            removeRole(employeeId, roleId);
+        }
+    }
+
+    // private List<Integer> getAllRolesForEmployee(int id, Connection conn) {
+    //     String statement = "SELECT * FROM " + "EmployeesRoles" + " WHERE EmployeeID = " + id + ";";
+    //     ResultSet RS = null;
+    //     List<Integer> output = new LinkedList<>();
+    //     try {
+    //         Statement S = conn.createStatement();
+    //         RS = S.executeQuery(statement);
+    //         while (RS.next()){
+    //             output.add(RS.getInt(2));
+    //         }    
+    //     } catch (Exception e) {
+    //         System.out.println(e.getMessage());
+    //     } finally {
+    //         Repository.getInstance().closeConnection(conn);
+    //     }
+    //     return output;
+    // }
 }

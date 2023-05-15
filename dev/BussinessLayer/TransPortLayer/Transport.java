@@ -1,11 +1,14 @@
 package BussinessLayer.TransPortLayer;
 
+import DataAccessLayer.DTO.TransportLayer.TransportDTO;
+
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.*;
 
 public class Transport {
     private int id;
-    private String date;
+    private LocalDate date;
     private String leavingTime;
     private String truckNumber;
     private String driverName;
@@ -20,7 +23,7 @@ public class Transport {
 
 
 
-    public Transport(int id, String date, String leavingTime, String truckNumber, String driverName, int driverId, String source,
+    public Transport(int id, LocalDate date, String leavingTime, String truckNumber, String driverName, int driverId, String source,
                      List<Destination> destinationList, List<Delivery> deliveryList, int truckWeightNeto, int truckWeightMax)
     {
         this.id = id;
@@ -38,6 +41,21 @@ public class Transport {
         this.currentWeight= truckWeightNeto;
     }
 
+    /*public TransportDTO toDTO(){
+        return new TransportDTO(this.id = id,
+        this.date = date,
+        this.leavingTime = leavingTime,
+        this.truckNumber = truckNumber,
+        this.driverName = driverName,
+        this.driverId = driverId,
+        this.source = source,
+        this.destinationList=destinationList,
+        this.deliveryList=deliveryList,
+        this.truckWeightNeto=truckWeightNeto,
+        this.truckWeightMax=truckWeightMax,
+        this.loadedItems= new ArrayList<String>(),
+        this.currentWeight= truckWeightNeto);
+    }*/
     public void addDestination(Destination destination) {
         destinationList.add(destination);
     }
@@ -60,11 +78,11 @@ public class Transport {
         this.id = id;
     }
 
-    public String getDate() {
+    public LocalDate getDate() {
         return date;
     }
 
-    public void setDate(String date) {
+    public void setDate(LocalDate date) {
         this.date = date;
     }
 
@@ -267,4 +285,15 @@ public class Transport {
     public void setLoadedItems(List<String> loadedItems) {
         this.loadedItems=loadedItems;
     }
+
+    public List<String> getDestinationBranches() {
+        List<String> branches = new ArrayList<String>();
+        for (Destination destination : destinationList) {
+            if (destination.getType() == DestinationType.DESTINATION) {
+                branches.add(destination.getAddress());
+            }
+        }
+        return branches;
+    }
+
 }

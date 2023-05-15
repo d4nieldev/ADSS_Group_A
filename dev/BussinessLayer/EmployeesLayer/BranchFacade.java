@@ -2,8 +2,10 @@ package BussinessLayer.EmployeesLayer;
 import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.List;
 
 import DataAccessLayer.DAO.EmployeesLayer.BranchesDAO;
+import DataAccessLayer.DTO.EmployeeLayer.BranchDTO;
 import Misc.*;
 
 public class BranchFacade {
@@ -17,12 +19,12 @@ public class BranchFacade {
         this.employeeFacade = employeeFacade;
         this.shiftFacade = shiftFacade;
         branchs = new LinkedList<>();
-        branchs.add(new Branch(0, "BGU", Location.SOUTH));
         branchesDAO = new BranchesDAO();
+        //addBranchForStartUpTheSystem(0, "BGU", Location.SOUTH);
     }
     
     public void addBranch(int managerId, String address, Location location) {
-        employeeFacade.checkHrManager(managerId);
+        employeeFacade.checkManager(managerId);
         Branch newBranch = new Branch(branchIdConuter, address, location);
         branchs.add(newBranch);
         branchIdConuter++;
@@ -47,12 +49,12 @@ public class BranchFacade {
         employeeFacade.addDriver(managerId, firstName, lastName, id, password, bankNum, bankBranch, bankAccount, salary,
         InitializeBonus, startDate, tempsEmployment, driverLicense);
         Branch branch = getBranchById(0);
-        Employee employee = employeeFacade.getEmployeeById(id);
-        branch.addNewEmployee(employee);
+        Driver driver = employeeFacade.getDriverById(id);
+        branch.addNewEmployee(driver);
     }
     
     public void addForeignEmployee(int managerId, int idEmployee, int branchId){
-        employeeFacade.checkHrManager(managerId);  // only HR manager
+        employeeFacade.checkManager(managerId);  // only HR manager
         Employee employee = employeeFacade.getEmployeeById(idEmployee);
         Branch branch = getBranchById(branchId);
         employee.addBranch(branchId); // check not exists already here
@@ -61,7 +63,7 @@ public class BranchFacade {
     }
 
     public void addNotAllowEmployees(int managerId, int idEmployee, int branchId){
-        employeeFacade.checkHrManager(managerId);  // only HR manager
+        employeeFacade.checkManager(managerId);  // only HR manager
         Employee employee = employeeFacade.getEmployeeById(idEmployee);
         Branch branch = getBranchById(branchId);
         employee.removeBranch(branchId); // check not removed already here
@@ -71,8 +73,12 @@ public class BranchFacade {
 
     // delete/remove employee from the system.
     public void deleteEmployee(int managerId, int id){
-        employeeFacade.checkHrManager(managerId);  // only HR manager
+        employeeFacade.checkManager(managerId);  // only HR manager
         Employee employeeToRemove = employeeFacade.getEmployeeById(id);
+        employeeFacade.removeAllRolesForEmployeeFromDB(id, employeeToRemove.getRoles());
+        shiftFacade.removeAllConstraintsForEmployee(employeeToRemove);
+        shiftFacade.removeAllFinalShiftForEmployee(employeeToRemove);
+        
         for (int branchId : employeeToRemove.getAllBranches()) {
             getBranchById(branchId).removeEmployeeFromSystem(employeeToRemove, branchesDAO);
         }
@@ -80,14 +86,14 @@ public class BranchFacade {
     }
 
     public void addShift(int managerId, int branchId, LocalDate date, int startHour, int endHour, ShiftTime time, HashMap<Integer, Integer> numEmployeesForRole){
-        employeeFacade.checkHrManager(managerId);  // only HR manager
+        employeeFacade.checkManager(managerId);  // only HR manager
         int shiftID = shiftFacade.getShiftIdConuter();
         Branch branch = getBranchById(branchId);
         // check there is shift manager  in each shift
         if(!numEmployeesForRole.keySet().contains(employeeFacade.getRoleClassInstance().getRoleByName("SHIFTMANAGER").getId())
             ||numEmployeesForRole.get(employeeFacade.getRoleClassInstance().getRoleByName("SHIFTMANAGER").getId()) < 1 )
             throw new Error("You have to role at least one SHIFTMANAGER for each shift.");
-        Shift newShift = new Shift(shiftID, branch, date, startHour, endHour, time, numEmployeesForRole);
+        Shift newShift = new Shift(shiftID, branch.getBranchId(), date, startHour, endHour, time, numEmployeesForRole);
         shiftFacade.addShift(newShift);
     }
     
@@ -130,7 +136,7 @@ public class BranchFacade {
 
     // aprove function for the HR manager to a final shift
     public void approveFinalShift(int managerID, int shiftID, int branchID, HashMap<Integer, Integer> hrAssigns){
-        employeeFacade.checkHrManager(managerID);
+        employeeFacade.checkManager(managerID);
         Branch branch = getBranchById(branchID);
         Shift shift = shiftFacade.getShift(shiftID);
         if(shift.getSuperBranchId() != branchID) {
@@ -147,7 +153,7 @@ public class BranchFacade {
             // check: exist branch for all employees
             branch.checkEmployeeInBranch(employee);
             // check: no employee have a shift on the same day
-            employeeFacade.checkShiftInDate(employee.getId(), shift.getDate());
+            checkShiftInDate(employee.getId(), shift.getDate());
             // check: all the role are existing in the employees that needed
             employeeFacade.checkRoleInEmployee(employee.getId(), hrAssigns.get(employee.getId()));
         }
@@ -160,26 +166,79 @@ public class BranchFacade {
         String res = "";
         employeeFacade.checkEmployee(employeeId);
         employeeFacade.checkLoggedIn(employeeId);
-        LinkedList<Integer> branchesEmployee = employeeFacade.getEmployeeById(employeeId).getAllBranches();
+        Employee emp = employeeFacade.getEmployeeById(employeeId);
+        LinkedList<Integer> branchesEmployee = emp.getAllBranches();
         LinkedList<Shift> shiftsOnDate = shiftFacade.getShiftsByDate(date);
         for (Integer branchId : branchesEmployee) {
             for (Shift shiftOnDate : shiftsOnDate) {
-                if(shiftOnDate.getSuperBranchId() == branchId && !shiftOnDate.getIsFinishSettingShift()) 
-                    {res += shiftOnDate.toString() + "\n";}
+                if(shiftOnDate.getSuperBranchId() == branchId && !shiftOnDate.getIsFinishSettingShift() && needEmployee(emp, shiftOnDate)) 
+                    {
+                        res += shiftOnDate.getShiftDetails() + "\n";
+                    }
             }
         }
         return res;
+    }
+
+    private Boolean needEmployee(Employee employee, Shift shift) {
+        for (Integer roleId : employee.getRoles()) {
+            if(shift.getNumEmployeesForRole().keySet().contains(roleId)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public String printAllBranches(int managerId){
         String res = "";
         employeeFacade.checkEmployee(managerId);
         employeeFacade.checkLoggedIn(managerId);
+        List<BranchDTO> branchsDTO = branchesDAO.getAll();
+        branchs = new LinkedList<>();
+        for (BranchDTO branchDTO : branchsDTO) {
+            createNewBranchFromBranchDTO(branchDTO);
+        }
         for (Branch branch : branchs) {
-            res += branch.toString() + "\n";
+            res += branch.ToString() + "\n";
         }
         return res;
     }
+
+    public LinkedList<Employee> convertIdsListToObject(LinkedList<Integer> lstId) {
+        LinkedList<Employee> res = new LinkedList<>();
+        for (Integer id : lstId) {
+            if(employeeFacade.isEmployeeExistsAndLoadEmployee(id)){
+                Employee emp = employeeFacade.getEmployeeById(id);
+                res.add(emp);
+            }           
+        } 
+        return res;
+    }
+
+    // check if the employee have a shift in some date
+	// do not throw an error if the employee is avalible in this date = does not have a shift on that day
+    public void checkShiftInDate(int idEmployee, LocalDate date) {
+        employeeFacade.checkEmployee(idEmployee);
+        Employee employee = employeeFacade.getEmployeeById(idEmployee);
+        for (int shiftId : employee.getHistoryShift()) {
+            if(shiftFacade.getShift(shiftId).getDate() == (date)){
+				throw new Error("The employee " + toString() + " already has a shift on the date " + date.toString());
+			}
+        }
+    }
+
+    // calculate the salary for month
+	public int sumSalaryToMonth(int employeeId, int month, int year){
+		int countHours = 0;
+        Employee employee = employeeFacade.getEmployeeById(employeeId);
+		for (int shiftId : employee.getHistoryShift()) {
+            Shift shift = shiftFacade.getShift(shiftId);
+			if(shift.getDate().getDayOfMonth() == month && shift.getDate().getYear() == year){
+				countHours += shift.getDuration();
+			}
+		}
+		return countHours * employee.getSalary();
+	}
 
     //-------------------------------------Help Functions--------------------------------------------------------
     private Branch getBranchById(int branchId){
@@ -187,7 +246,22 @@ public class BranchFacade {
             if (branch.getBranchId() == branchId)
                 return branch;
         }
-        throw new Error("The branch id " + branchId + "is not in the system. Please try again");
+        BranchDTO bra = branchesDAO.getBranchById(branchId);
+        if (bra != null) {
+            return createNewBranchFromBranchDTO(bra);
+        }
+        throw new Error("The branch id " + branchId + " is not in the system. Please try again");
+    }
+    public Branch getBranchByAddress(String address){
+        for (Branch branch : branchs) {
+            if (branch.getBranchAddress() == address)
+                return branch;
+        }
+        BranchDTO bra = branchesDAO.getBranchByAddress(address);
+        if (bra != null) {
+            return createNewBranchFromBranchDTO(bra);
+        }
+        throw new Error("The branch address " + address + " is not in the system. Please try again");
     }
 
     private void checkShiftManagerExist( HashMap<Employee, Integer> hashMapEmployees){
@@ -199,5 +273,20 @@ public class BranchFacade {
             }
         }
         if(!foundManager){throw new Error("A shift have to contain at least one Shift Manager");}
+    }
+
+    private void addBranchForStartUpTheSystem(int id, String address, Location location) {
+        Branch b = new Branch(0, "BGU", Location.SOUTH);
+        branchs.add(b);
+        branchesDAO.insert(b.toDTO());
+    }
+
+    private Branch createNewBranchFromBranchDTO(BranchDTO branchDTO) {
+        LinkedList<Employee> originEmployees = convertIdsListToObject(branchDTO.originEmployees);
+        LinkedList<Employee> foreignEmployees = convertIdsListToObject(branchDTO.foreignEmployees);
+        LinkedList<Employee> notAllowEmployees = convertIdsListToObject(branchDTO.notAllowEmployees);
+        Branch b = new Branch(branchDTO, originEmployees, foreignEmployees, notAllowEmployees);
+        branchs.add(b);
+        return b;
     }
 }

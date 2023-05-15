@@ -3,6 +3,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import DataAccessLayer.DAO.EmployeesLayer.*;
+import DataAccessLayer.DTO.EmployeeLayer.RoleDTO;
 
 //import javax.management.relation.RoleList;
 
@@ -16,6 +17,7 @@ public class Role {
     public Role(){
         roles = new ArrayList<instanceRole>();
         rolesDAO = new RolesDAO();
+        loadAllRolesFromDB();
     }
     
     public void addRole(String nameRole){
@@ -40,5 +42,14 @@ public class Role {
             if(instanceRole.getName().equals(name)){return instanceRole;}
         }
         throw new Error("Not found a role in the system with that name.");
+    }
+
+    private void loadAllRolesFromDB(){
+        List<RoleDTO> rolesDTO = rolesDAO.getAll();
+        for (RoleDTO roleDTO : rolesDTO) {
+            instanceRole newRole = new instanceRole(roleDTO.roleId, roleDTO.roleName);
+            roles.add(newRole);
+            counterRoles++;
+        }
     }
 }

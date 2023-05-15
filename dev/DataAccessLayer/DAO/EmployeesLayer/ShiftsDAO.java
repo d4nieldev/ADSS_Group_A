@@ -9,6 +9,7 @@ import java.sql.*;
 import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.List;
 
 public class ShiftsDAO extends DAO<ShiftDTO> {
     private EmployeesShiftsContraintsDAO employeeShiftContraintDAO;
@@ -23,6 +24,7 @@ public class ShiftsDAO extends DAO<ShiftDTO> {
         numEmployeesForRolesDAO = new NumEmployeesForRolesDAO();
         employeeShiftFinalDAO = new EmployeesShiftsFinalsDAO();
         shiftsCancellationsDAO = new ShiftsCancellationsDAO();
+        driversInShiftsDAO = new DriversInShiftsDAO();
     }
 
     @Override
@@ -46,6 +48,7 @@ public class ShiftsDAO extends DAO<ShiftDTO> {
                 ans = 0;
             }
         } catch (Exception e) {
+            System.out.println(e.getMessage());
             ans = 0;
         } finally {
             Repository.getInstance().closeConnection(conn);
@@ -181,11 +184,30 @@ public class ShiftsDAO extends DAO<ShiftDTO> {
                     /* duration */RS.getInt(7), /* is finish setting shift */RS.getBoolean(8),
                     constraints, numEmployeesForRole, finalShift, cancellations, driversInShift);
         } catch (Exception e) {
+            System.out.println(e.getMessage());
             output = null;
         } finally {
             Repository.getInstance().closeConnection(conn);
         }
         return output;
+    }
+
+    public int getMaxShiftIdPlusOne() {
+        int output = 0;
+
+        Connection conn = Repository.getInstance().connect();
+        String SELECT_SQL = String.format("SELECT MAX(\"%s\") FROM \"%s\"","ShiftID", tableName);
+        ResultSet res = null;
+        try {
+            Statement stmt = conn.createStatement();
+            res = stmt.executeQuery(SELECT_SQL);
+            output = res.getInt(1);
+        } catch (Exception e) {
+            output = -1;
+        } finally {
+            Repository.getInstance().closeConnection(conn);
+        }
+        return output + 1;
     }
 
     public HashMap<Integer, LinkedList<Integer>> getConstraintsList(Integer id, Connection conn) {
@@ -267,11 +289,66 @@ public class ShiftsDAO extends DAO<ShiftDTO> {
         return ans;
     }
 
+    public ShiftDTO getShiftById(int id) {
+        Connection conn = Repository.getInstance().connect();
+        ResultSet res = get(tableName, "ShiftID", id, conn);
+        ShiftDTO shift = null;
+        try {
+            if (!res.next()){
+                return null;
+            }
+            shift = makeDTO(res);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        finally {
+            Repository.getInstance().closeConnection(conn);
+        }
+
+        return shift;
+    }
+
+    public List<ShiftDTO> getShiftsByDate(LocalDate date) {
+        List<ShiftDTO> shifts = getAll("Date", date);
+        return shifts;
+    }
+
+    public ShiftDTO getShiftsByDateTimeBranchId(int branchId, String time, LocalDate date) {  
+        String SELECT_SQL = String.format("SELECT * FROM %s WHERE \"%s\"=\"%d\" AND \"%s\"=\"%s\" AND \"%s\"=\"%s\"", tableName, "SuperBranch", branchId, "Date", date, "ShiftTime", time);
+        Connection conn = Repository.getInstance().connect();
+        ResultSet rs = null;
+        try {
+            Statement stmt = conn.createStatement();
+            rs = stmt.executeQuery(SELECT_SQL);
+        } catch (SQLException e) {}
+        ShiftDTO output = null;
+        try {
+            if (!rs.next()){
+                return null;
+            }
+            output = makeDTO(rs);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        finally {
+            Repository.getInstance().closeConnection(conn);
+        }
+        return output;
+    }
+
     public int addConstraint(int empID, int shiftID) {
         return employeeShiftContraintDAO.addConstraint(empID, shiftID);
     }
     public int removeConstraint(int empID, int shiftID) {
         return employeeShiftContraintDAO.removeConstraint(empID, shiftID);
+    }
+
+    public int removeAllConstraints(int empID) {
+        return employeeShiftContraintDAO.removeAllConstraints(empID);
+    }
+
+    public int removeAllFromFinalShift(int empID) {
+        return employeeShiftFinalDAO.removeAllFromFinalShift(empID);
     }
     
     public int addNumEmployeeForRole(int shiftID, int roleID, int numberNedded) {

@@ -149,8 +149,9 @@ public class Repository {
                 "\t\"EmployeeID\"\tINTEGER,\n" +
                 "\t\"EmployeeRole\"\tINTEGER,\n" +
                 "\tPRIMARY KEY(\"EmployeeID\",\"ShiftID\"),\n" +
-                "\tFOREIGN KEY(\"EmployeeID\") REFERENCES \"Employees\"(\"ID\") ON DELETE CASCADE\n" +
-                "\tFOREIGN KEY(\"ShiftID\") REFERENCES \"Shifts\"(\"ShiftID\") ON DELETE CASCADE\n" +
+                "\tFOREIGN KEY(\"EmployeeID\") REFERENCES \"Employees\"(\"ID\") ON DELETE CASCADE,\n" +
+                "\tFOREIGN KEY(\"ShiftID\") REFERENCES \"Shifts\"(\"ShiftID\") ON DELETE CASCADE,\n" +
+                "\tFOREIGN KEY(\"EmployeeRole\") REFERENCES \"Roles\"(\"RoleID\") ON DELETE CASCADE\n" +
                 ");";
         String ShiftsCancellationsTable = "CREATE TABLE IF NOT EXISTS \"ShiftsCancellations\" (\n" +
                 "\t\"ShiftID\"\tINTEGER,\n" +
@@ -173,6 +174,16 @@ public class Repository {
                 
         // --------------------------------------------------------------------------------------------
         // Transports Layer Tables
+        String TransportDriverTable = "CREATE TABLE IF NOT EXIST \"TransportDriver\" (\n" +
+                "\t\"DriverID\"\tINTEGER,\n" +
+                "\t\"TransportID\"\tINTEGER,\n" +
+                "\tPRIMARY KEY(\"DriverID\",\"TransportID\"),\n" +
+                "\tFOREIGN KEY(\"DriverID\") REFERENCES \"Drivers\"(\"ID\") ON DELETE CASCADE\n" +
+                "\tFOREIGN KEY(\"TransportID\") REFERENCES \"Transport\"(\"ID\") ON DELETE CASCADE\n" +
+                ");";
+
+
+
         String TruckTable = "CREATE TABLE IF NOT EXISTS \"Trucks\" (\n" +
                 "\t\"PlateNumber\"\tTEXT PRIMARY KEY,\n" +
                 "\t\"Model\"\tTEXT,\n" +

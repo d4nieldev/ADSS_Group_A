@@ -24,6 +24,19 @@ public class DriversAvailableShiftDatesDAO {
             return 0;
         }
     }
+    public ResultSet getAll(Connection conn, String colName,LocalDate date) {
+        String SELECT_SQL = String.format("SELECT * FROM %s WHERE \"%s\"=\"%s\"", "DriversAvailableShiftDates", colName, date);
+
+        ResultSet RS = null;
+        try {
+            Statement S = conn.createStatement();
+            RS = S.executeQuery(SELECT_SQL);
+
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        } 
+        return RS;
+    }
     
     public int removeAvailableShiftDates(int empID, LocalDate dateToRemove)
     {
@@ -31,7 +44,7 @@ public class DriversAvailableShiftDatesDAO {
         String updateString;
         if(dateToRemove == null) return 0;
         updateString= String.format("DELETE FROM %s \n" +
-                "WHERE %d=\"%d\" AND %s=\"%s\";", "DriversAvailableShiftDates", "DriverID", empID,"Date" ,dateToRemove);
+                "WHERE %s=\"%d\" AND %s=\"%s\";", "DriversAvailableShiftDates", "DriverID", empID,"Date" ,dateToRemove);
         Statement s;
         try
         {

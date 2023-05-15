@@ -105,8 +105,8 @@ public class applyData {
 //        ProductBranch productBranchKoteg = new ProductBranch(productBranchDTO2);
 //        branch.addNewProductBranch(productBranchDTO1);
 //        branch.addNewProductBranch(productBranchDTO2);
-        ProductBranch productBranchMilk = branchController.addNewProductBranch(1,productBranchDTO1);
-        ProductBranch productBranchKoteg = branchController.addNewProductBranch(1,productBranchDTO2);
+//        ProductBranch productBranchMilk = branchController.addNewProductBranch(1,productBranchDTO1);
+//        ProductBranch productBranchKoteg = branchController.addNewProductBranch(1,productBranchDTO2);
 
 //        branch.reportFlawProduct(1,1,"FlowProduct!!!");
     }
@@ -200,7 +200,7 @@ public class applyData {
         hashMilk.put(specificProductDTO2.getSpecificId(),specificProductDTO2);
         hashMilk.put(specificProductDTO3.getSpecificId(),specificProductDTO3);
         ProductBranchDTO productBranchDTO1 = new ProductBranchDTO(p1,0,20,10,50,hashMilk);
-        BranchController.getInstance().addNewProductBranch(0,productBranchDTO1);
+//        BranchController.getInstance().addNewProductBranch(0,productBranchDTO1);
         // TODO: how we add product branch??
     }
 

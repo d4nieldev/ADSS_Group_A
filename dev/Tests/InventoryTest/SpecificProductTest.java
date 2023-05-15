@@ -5,13 +5,12 @@ import BusinessLayer.Inventory.ProductBranch;
 import BusinessLayer.Inventory.ProductStatus;
 import BusinessLayer.Inventory.SpecificProduct;
 import BusinessLayer.InveontorySuppliers.Branch;
-import BusinessLayer.InveontorySuppliers.Product;
+
 import BusinessLayer.InveontorySuppliers.ProductController;
 import DataAccessLayer.DTOs.CategoryDTO;
 import DataAccessLayer.DTOs.ProductBranchDTO;
 import DataAccessLayer.DTOs.ProductDTO;
 import DataAccessLayer.DTOs.SpecificProductDTO;
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 

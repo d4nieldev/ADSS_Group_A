@@ -312,6 +312,29 @@ public class ShiftsDAO extends DAO<ShiftDTO> {
         return shifts;
     }
 
+    public ShiftDTO getShiftsByDateTimeBranchId(int branchId, String time, LocalDate date) {  
+        String SELECT_SQL = String.format("SELECT * FROM %s WHERE \"%s\"=\"%d\" AND \"%s\"=\"%s\" AND \"%s\"=\"%s\"", tableName, "SuperBranch", branchId, "Date", date, "ShiftTime", time);
+        Connection conn = Repository.getInstance().connect();
+        ResultSet rs = null;
+        try {
+            Statement stmt = conn.createStatement();
+            rs = stmt.executeQuery(SELECT_SQL);
+        } catch (SQLException e) {}
+        ShiftDTO output = null;
+        try {
+            if (!rs.next()){
+                return null;
+            }
+            output = makeDTO(rs);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        finally {
+            Repository.getInstance().closeConnection(conn);
+        }
+        return output;
+    }
+
     public int addConstraint(int empID, int shiftID) {
         return employeeShiftContraintDAO.addConstraint(empID, shiftID);
     }

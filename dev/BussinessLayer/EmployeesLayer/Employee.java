@@ -119,6 +119,35 @@ public class Employee{
 		+ ", start date: " + startDate + ", roles: " + roles.toString() + "]";
 	}
 
+	public String newToString() {
+		String horizontalLine = "+----------------------------------+";
+		String nameLine = String.format("| Employee Name: %-20s", firstName + " " + lastName);
+		String idLine = String.format("| ID: %-28d", id);
+		String bankLine = String.format("| Bank Number: %-20d", bankNum);
+		String salaryLine = String.format("| Salary: %-24d", salary);
+		String startLine = String.format("| Start Date: %-21s", startDate.toString());
+		String rolesLine = String.format("| Roles: %-24s", roles.toString());
+	
+		StringBuilder sb = new StringBuilder();
+		sb.append(horizontalLine).append("\n")
+			.append(nameLine).append("\n")
+			.append(horizontalLine).append("\n")
+			.append(idLine).append("\n")
+			.append(horizontalLine).append("\n")
+			.append(bankLine).append("\n")
+			.append(horizontalLine).append("\n")
+			.append(salaryLine).append("\n")
+			.append(horizontalLine).append("\n")
+			.append(startLine).append("\n")
+			.append(horizontalLine).append("\n")
+			.append(rolesLine).append("\n")
+			.append(horizontalLine).append("\n")
+			.append(horizontalLine.replaceAll("[-]", "="));
+	
+		return sb.toString();
+	}
+	
+
     public EmployeeDTO toDTO() {
         return new EmployeeDTO(this.id, this.firstName, this.lastName, this.password, this.bankNum, this.bankBranch,
 		this.bankAccount, this.salary, this.bonus, this.startDate, this.tempsEmployment,

@@ -81,9 +81,11 @@ public class ShiftFacade {
     public void checkAssignFinalShift(int managerID, Shift shift, HashMap<Employee, Integer> hrAssign){
         shift.checkAssignFinalShift(hrAssign);
         // if succedded - save the final shift
-        shift.assignFinalShift(hrAssign);
+        shift.assignFinalShift(hrAssign); 
         // save in Database
-        shiftsDAO.addShiftFinal(managerID, shift.getID());
+        for (Employee emp : hrAssign.keySet()) {
+            shiftsDAO.addShiftFinal(emp.getId(), shift.getID());   
+        }
     }
 
     public String missingStaffToRole(int employeeId, int shiftId){
@@ -93,11 +95,12 @@ public class ShiftFacade {
         return getShift(shiftId).missingStaffToRole().toString();
     }
 
-    public boolean checkstorekeeperInShift(int shiftId, String address, LocalDate date){
+    public boolean checkstorekeeperInShift(Branch branch, String address, LocalDate date){
         boolean res = false;
-        Shift shift = getShift(shiftId);
-        res = shift.isShiftContainStorekeeper(employeeFacade.getRoleClassInstance().getRoleByName("STOREKEEPER").getId()) 
-                && shift.isShiftContainStorekeeper(employeeFacade.getRoleClassInstance().getRoleByName("STOREKEEPER").getId());
+        Shift shiftMorning = getShiftByAddressDateMorning(branch, address, date);
+        Shift shiftEvening = getShiftByAddressDateEvening(branch, address, date);
+        res = shiftMorning.isShiftContainStorekeeper(employeeFacade.getRoleClassInstance().getRoleByName("STOREKEEPER").getId()) 
+                && shiftEvening.isShiftContainStorekeeper(employeeFacade.getRoleClassInstance().getRoleByName("STOREKEEPER").getId());
         return res;
     }
     
@@ -184,21 +187,37 @@ public class ShiftFacade {
         return s;
     }
 
-    // public Shift getShiftByAddressDateMorning(String address, LocalDate date){
-    //     for (Shift shift : shifts) {
-    //         if(shift.getSuperBranchAddress().equals(address) && shift.getDate().equals(date) && shift.getShiftTime().equals(ShiftTime.MORNING))
-    //             return shift;
-    //     }
-    //     return null;
-    // }
+    public Shift getShiftByAddressDateMorning(Branch branch, String address, LocalDate date){
+        for (Shift shift : shifts) {
+            if(branch.getBranchAddress().equals(address) && shift.getDate().equals(date) && shift.getShiftTime().equals(ShiftTime.MORNING))
+                return shift;
+        }
+        int branchId = branch.getBranchId();
+        ShiftDTO shiftDTO = shiftsDAO.getShiftsByDateTimeBranchId(branchId, "MORNING", date);
+        if(shiftDTO != null){
+            Shift s = createNewShiftFromShiftDTO(shiftDTO);
+            shifts.add(s);
+            return s;
+        } 
 
-    // public Shift getShiftByAddressDateEvening(String address, LocalDate date){
-    //     for (Shift shift : shifts) {
-    //         if(shift.getSuperBranchAddress().equals(address) && shift.getDate().equals(date) && shift.getShiftTime().equals(ShiftTime.EVENING))
-    //             return shift;
-    //     }
-    //     return null;
-    // }
+        throw new Error("No such a shift in this system by the address " + address + " and date " + date + "and time MORNING");
+    }
+
+    public Shift getShiftByAddressDateEvening(Branch branch, String address, LocalDate date){
+        for (Shift shift : shifts) {
+            if(branch.getBranchAddress().equals(address) && shift.getDate().equals(date) && shift.getShiftTime().equals(ShiftTime.EVENING))
+                return shift;
+        }
+        int branchId = branch.getBranchId();
+        ShiftDTO shiftDTO = shiftsDAO.getShiftsByDateTimeBranchId(branchId, "EVENING", date);
+        if(shiftDTO != null){
+            Shift s = createNewShiftFromShiftDTO(shiftDTO);
+            shifts.add(s);
+            return s;
+        }
+
+        throw new Error("No such a shift in this system by the address " + address + " and date " + date + "and time EVENING");
+    }
 
     public LinkedList<Shift> getShiftsByDate(LocalDate date){
         LinkedList<Shift> res = new LinkedList<>();

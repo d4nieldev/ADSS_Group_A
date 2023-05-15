@@ -3,6 +3,7 @@ package DataAccessLayer.DAO.EmployeesLayer;
 import java.sql.*;
 import java.time.LocalDate;
 import java.util.LinkedList;
+import java.util.List;
 
 import DataAccessLayer.Repository;
 import DataAccessLayer.DAO.DAO;
@@ -213,6 +214,11 @@ public class DriversDAO extends DAO<DriverDTO> {
         return driver;
     }
     
+    public List<DriverDTO> getDriversByDate(LocalDate date) {
+        List<DriverDTO> drivers = getAll("Date", date);
+        return drivers;
+    }
+
     public int addAvailableShiftDates(int empID, LocalDate dateToAdd) {
         return driversAvailableShiftDatesDAO.addAvailableShiftDates(empID, dateToAdd);
     }

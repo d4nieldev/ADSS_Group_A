@@ -116,7 +116,7 @@ public class Shift{
     public void checkAssignFinalShift(HashMap<Employee, Integer> hrAssign){
         for (Employee currAssignEmployee : hrAssign.keySet()) {
             Integer currRole = hrAssign.get(currAssignEmployee);
-            if(helpMapForAssign.get(currRole) == null){
+            if(!helpMapForAssign.containsKey(currRole)){
                 boolean foundRole = false;
                 for (Integer checkRole : numEmployeesForRole.keySet()) {
                     if(checkRole.equals(currRole)){
@@ -127,7 +127,7 @@ public class Shift{
                 if(!foundRole){
                     throw new Error("The role " + currRole.toString() + " is not needed in this shift. Please add this role or try again without this role.");
                 }
-                helpMapForAssign.put(currRole, 1);
+                helpMapForAssign.put(currRole, 0);
             }
             else if(helpMapForAssign.get(currRole) == numEmployeesForRole.get(currRole)){
                 throw new Error("The role " + currRole.toString() + " is full (" + numEmployeesForRole.get(currRole) + " employees already) for this shift. Change the number of employees needed or remove some from this shift.");
@@ -184,6 +184,37 @@ public class Shift{
         ", start hour: " + startHour + ", end hour: " + endHour  + ", duration: " + duration + "]";
     }
     
+    public String getShiftDetails() {
+        String horizontalLine = "+----------------------+";
+        String idShiftLine = String.format("| ID Shift: %-11d ", idShift);
+        String superBranchLine = String.format("| Super Branch: %-8d ", superBranch);
+        String dateLine = String.format("| Date: %-16s ", date.toString());
+        String timeLine = String.format("| Time: %-16s ", time.toString());
+        String startHourLine = String.format("| Start Hour: %-11d ", startHour);
+        String endHourLine = String.format("| End Hour: %-13d ", endHour);
+        String durationLine = String.format("| Duration: %-13d ", duration);
+        
+        StringBuilder sb = new StringBuilder();
+        sb.append(horizontalLine).append("\n")
+          .append(idShiftLine).append("\n")
+          .append(horizontalLine).append("\n")
+          .append(superBranchLine).append("\n")
+          .append(horizontalLine).append("\n")
+          .append(dateLine).append("\n")
+          .append(horizontalLine).append("\n")
+          .append(timeLine).append("\n")
+          .append(horizontalLine).append("\n")
+          .append(startHourLine).append("\n")
+          .append(horizontalLine).append("\n")
+          .append(endHourLine).append("\n")
+          .append(horizontalLine).append("\n")
+          .append(durationLine).append("\n")
+          .append(horizontalLine).append("\n")
+          .append(horizontalLine.replaceAll("[-]", "="));
+    
+        return sb.toString();
+    }        
+
     public ShiftDTO toDTO() {
         HashMap<Integer, LinkedList<Integer>> constraintsToDTO = new HashMap<>();
         for (Employee employeeConstraints : constraints.keySet()) {

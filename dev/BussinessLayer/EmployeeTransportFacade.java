@@ -6,6 +6,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Scanner;
 
+import BussinessLayer.EmployeesLayer.Branch;
 import BussinessLayer.EmployeesLayer.BranchFacade;
 import BussinessLayer.EmployeesLayer.Driver;
 import BussinessLayer.EmployeesLayer.Employee;
@@ -22,7 +23,7 @@ public class EmployeeTransportFacade {
     private ShiftFacade shiftFacade;
 
     // privates for transport moudle
-    private TransportFacade transportFacade =TransportFacade.getInstance();
+    private TransportFacade transportFacade = TransportFacade.getInstance();
     private TruckFacade truckFacade = TruckFacade.getInstance();
 
     public EmployeeTransportFacade(EmployeeFacade employeeFacade, BranchFacade branchFacade, ShiftFacade shiftFacade){
@@ -59,15 +60,16 @@ public class EmployeeTransportFacade {
         employeeFacade.checkLoggedIn(idEmployee);
         employeeFacade.checkEmployee(idEmployee);
         Employee employee = employeeFacade.getEmployeeById(idEmployee);
-        employee.checkRoleInEmployee(employeeFacade.getRoleClassInstance().getRoleByName("TRANSPOERMANAGER").getId());
+        employee.checkRoleInEmployee(employeeFacade.getRoleClassInstance().getRoleByName("TRANSPORTMANAGER").getId());
         if(date.compareTo(LocalDate.now()) <= 0) {return employeeFacade.getDayDriversPast(date);}
         else {return employeeFacade.getDayDriversFuture(date);}
     }
 
-    public boolean checkstorekeeperInShift(int shiftId, String address, LocalDate date){
-        return shiftFacade.checkstorekeeperInShift(shiftId, address, date);
+    public boolean checkstorekeeperInShift(String address, LocalDate date){
+        Branch branch = branchFacade.getBranchByAddress(address);
+        return shiftFacade.checkstorekeeperInShift(branch, address, date);
     }
-    public void createTransports(List<Delivery> deliveries)
+    public void createTransports(int managerId, List<Delivery> deliveries)
     {
         Scanner scanner = new Scanner(System.in);
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
@@ -76,7 +78,7 @@ public class EmployeeTransportFacade {
         LocalDate transportDate = LocalDate.parse(input, formatter);
 
         transportFacade.letTheUserMatch(transportDate,deliveries,getDayDrivers(
-                employeeFacade.getRoleClassInstance().getRoleByName("TRANSPORTMANAGER").getId(),transportDate),
+                managerId, transportDate),
                 truckFacade.getAvailableTrucks());
 
         List<Integer> driversIds = transportFacade.getDriversByDate(transportDate);

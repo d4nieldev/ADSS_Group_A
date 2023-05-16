@@ -54,7 +54,7 @@ public class ProductBranchDiscountsDAO extends DAO<ProductBranchDiscountDTO> {
     }
 
     public List<ProductBranchDiscountDTO> selectAllById(int id) throws SQLException {
-        String query = "SELECT * FROM ProductBranchDiscounts Where generalId= ?;";
+        String query = "SELECT * FROM ProductBranchDiscounts Where productId= ?;";
         return makeDTOs(repo.executeQuery(query, id));
     }
 }

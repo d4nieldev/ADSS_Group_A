@@ -314,4 +314,10 @@ public class ReservationControllerTest {
             fail(e.getMessage());
         }
     }
+
+    @Test
+    public void testPeriodicReservation(){
+        //Supplier s =SupplierController.getInstance().getSupplierById(0);
+
+    }
 }

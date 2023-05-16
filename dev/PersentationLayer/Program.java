@@ -42,6 +42,9 @@ public class Program {
                 case "addPeriodicReservation":
                     ReservationSystem.addPeriodicReservation(scanner, commandTokens);
                     break;
+                case "updatePeriodicReservation":
+                    ReservationSystem.updatePeriodicReservation(scanner, commandTokens);
+                    break;
                 case "addSupplier":
                     SupplierSystem.addSupplier(scanner);
                     break;
@@ -104,10 +107,6 @@ public class Program {
                 case "12":
                     ReportSystem.importProductReport();
                     break;
-                case "13":
-                    ProductSystem.addPeriodicReservation();
-                case "14":
-                    // TODO:Change periodic Reservation
                 default:
                     System.out.println("Unknown command - \"" + commandTokens[0] + "\"");
                     break;

@@ -29,12 +29,8 @@ public class CategoryController {
         return instance;
     }
 
-    public Category getCategoryById(int id) {
-        return categoryDic.get(id);
-    }
-
     public int addNewCategory(String name, Category parentCategory) throws SQLException {
-        CategoryDTO CatDTO = new CategoryDTO(Global.getNewCategoryid(),name, parentCategory.getCategoryDTO());
+        CategoryDTO CatDTO = new CategoryDTO(Global.getNewCategoryid(), name, parentCategory.getCategoryDTO());
         categoryDAO.insert(CatDTO);
         Category category = new Category(CatDTO);
         allCategories.add(category);
@@ -43,16 +39,15 @@ public class CategoryController {
     }
 
     public int addNewCategory(String name) throws SQLException {
-        CategoryDTO CatDTO = new CategoryDTO( name);
+        CategoryDTO CatDTO = new CategoryDTO(name);
         categoryDAO.insert(CatDTO);
-
         Category category = new Category(CatDTO);
         allCategories.add(category);
         categoryDic.put(category.getId(), category);
         return category.getId();
     }
 
-    public void clearData(){
+    public void clearData() {
         allCategories.clear();
         categoryDic.clear();
     }
@@ -114,11 +109,35 @@ public class CategoryController {
         return result;
     }
 
-    public boolean ExistCategory(int id) {
-        return allCategories.contains(id);
+    public Category getCategoryById(int id) throws Exception {
+        if (id < 0)
+            throw new Exception("Category with negative id is illegal in the system.");
+        if (categoryDic.containsKey(id)) {
+            return categoryDic.get(id);
+        } else {
+            Category c;
+            try {
+                c = LoadCategoryFromData(id);
+            } catch (SQLException e) {
+                throw new Exception("A database error occurred while loading category " + id);
+            }
+            if (c != null) {
+                return c;
+            } else {
+                throw new Exception("There is no category with id " + id + " in the system.");
+            }
+        }
     }
 
-    public List<Category> getCategoriesByIds(List<Integer> ids) {
+    private Category LoadCategoryFromData(int id) throws SQLException {
+        CategoryDTO res = categoryDAO.getById(id);
+        if (res != null) {
+            return new Category(res);
+        }
+        return null;
+    }
+
+    public List<Category> getCategoriesByIds(List<Integer> ids) throws Exception {
         List<Category> result = new ArrayList<>();
         for (int id : ids) {
             Category category = getCategoryById(id);
@@ -127,7 +146,7 @@ public class CategoryController {
         return result;
     }
 
-    public List<Category> getListAllSubCategoriesByIds(List<Integer> categoriesIds) {
+    public List<Category> getListAllSubCategoriesByIds(List<Integer> categoriesIds) throws Exception {
         List<Category> categoryList = getCategoriesByIds(categoriesIds);
         return getListAllSubCategories(categoryList);
     }
@@ -142,6 +161,5 @@ public class CategoryController {
         result.addAll(set);
         return result;
     }
-
 
 }

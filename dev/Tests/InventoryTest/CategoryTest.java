@@ -59,10 +59,6 @@ public class CategoryTest {
     ids.add(1);
     ids.add(3);
 
-//    List<Category> expected = new ArrayList<>();
-//    expected.add(CategoryController.getCategoryDic().get(1));
-//    expected.add(CategoryController.getCategoryDic().get(3));
-
     List<Category> actual = categoryController.getCategoriesByIds(ids);
 
     assertEquals(ids.size(), actual.size());

@@ -74,7 +74,7 @@ public class SpecificProductDAO extends DAO<SpecificProductDTO> {
     }
 
     public int getLastId() throws SQLException {
-        String query = "SELECT * FROM SpecificProduct WHERE id = (SELECT Max(id) FROM SpecificProduct);";
+        String query = "SELECT * FROM SpecificProduct WHERE specificId = (SELECT Max(specificId) FROM SpecificProduct);";
         List<Map<String, Object>> rows = repo.executeQuery(query);
         if (rows.size() > 0)
             return makeDTO(rows.get(0)).getSpecificId();

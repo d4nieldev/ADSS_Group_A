@@ -5,8 +5,7 @@ import DataAccessLayer.DAOs.*;
 import java.sql.SQLException;
 
 public class Global {
-    public static int Productid = 0;
-    private static boolean isInitialProduct =false;
+
     public static int Categoryid = 0;
     private static boolean isInitialCategory =false;
     public static int SpecificId = 0;
@@ -18,16 +17,7 @@ public class Global {
     private static boolean isInitialPeriodic =false;
     public static int discountId = 0;
     private static boolean isInitialDiscount =false;
-
-    public static int getNewProductid() throws SQLException {
-        if(!isInitialProduct && Productid == 0 ) {
-            Productid = ProductsDAO.getInstance().getLastId();
-            isInitialProduct = true;
-        }
-
-        return Productid++;
-
-    }
+//
 
     public static int getNewCategoryid() throws SQLException {
 
@@ -38,7 +28,7 @@ public class Global {
             return Categoryid;
         }
 
-        return Categoryid++;
+        return ++Categoryid;
     }
 
     /**
@@ -51,9 +41,10 @@ public class Global {
         {
             SpecificId = SpecificProductDAO.getInstance().getLastId();
             isInitialSpecific = true;
-            return ++SpecificId;
+            SpecificId += 1;
+            return SpecificId;
         }
-        return SpecificId++;
+        return ++SpecificId;
     }
 
     public static int getNewReportId() throws SQLException {
@@ -78,9 +69,10 @@ public class Global {
         if(!isInitialDiscount && discountId == 0) {
             discountId = DiscountDAO.getInstance().getLastId();
             isInitialDiscount = true;
-            return ++discountId;
+            discountId += 1;
+            return discountId;
         }
-        return discountId++;
+        return ++discountId;
     }
 
 }

@@ -24,7 +24,7 @@ public class ProductBranchTest {
     ProductController productController;
     CategoryController categoryController;
     Branch branch;
-
+//.
     @Before
     public void setUp() throws Exception {
         branchController = BranchController.getInstance();

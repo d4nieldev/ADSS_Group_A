@@ -10,7 +10,6 @@ import DataAccessLayer.DTOs.CategoryDTO;
 import DataAccessLayer.DTOs.ProductBranchDTO;
 import DataAccessLayer.DTOs.ProductDTO;
 import DataAccessLayer.DTOs.SpecificProductDTO;
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -31,6 +30,7 @@ public class SpecificProductTest {
     public void setUp() throws Exception {
 
         branchController = BranchController.getInstance();
+        productController = ProductController.getInstance();
         BranchController.getInstance().addBranch(0, "Ashkelon", 0);
         branch = branchController.getBranchById(0);
         CategoryController.getInstance().addNewCategory("Cat1");
@@ -46,6 +46,12 @@ public class SpecificProductTest {
         branchController.receiveSupply(0,5,15,LocalDate.now().minusDays(2),0);
      }
 
+    @After
+    public void tearDown() {
+        branchController.clearData();
+        productController.clearData();
+        Repository.getInstance().DELETE_ALL_DATA();
+    }
 
     @Test
     public void testSetFlawDescription() throws Exception {
@@ -54,7 +60,6 @@ public class SpecificProductTest {
         sp.setFlawDescription(description);
         assertEquals(description, sp.getFlawDescription());
     }
-    @After
 
     @Test
     public void testSetStatus() throws Exception {

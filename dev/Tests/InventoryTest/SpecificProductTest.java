@@ -1,17 +1,15 @@
 package Tests.InventoryTest;
 
-import BusinessLayer.Inventory.BranchController;
-import BusinessLayer.Inventory.ProductBranch;
-import BusinessLayer.Inventory.ProductStatus;
-import BusinessLayer.Inventory.SpecificProduct;
+import BusinessLayer.Inventory.*;
 import BusinessLayer.InveontorySuppliers.Branch;
+
 import BusinessLayer.InveontorySuppliers.Product;
 import BusinessLayer.InveontorySuppliers.ProductController;
+import DataAccessLayer.DAOs.ProductsDAO;
 import DataAccessLayer.DTOs.CategoryDTO;
 import DataAccessLayer.DTOs.ProductBranchDTO;
 import DataAccessLayer.DTOs.ProductDTO;
 import DataAccessLayer.DTOs.SpecificProductDTO;
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -30,38 +28,37 @@ public class SpecificProductTest {
 
     @Before
     public void setUp() throws Exception {
+
         branchController = BranchController.getInstance();
-        productController = ProductController.getInstance();
-        branchController.addBranch(1,"testBranch",300);
-        branch = branchController.getBranchById(branch.getId());
-        CategoryDTO categoryDTO = new CategoryDTO("Milks products");
-        ProductDTO productDTO = new ProductDTO(1,"Milk","Tnuva",categoryDTO);
-//        productController.addProduct(productDTO);
-        SpecificProductDTO specificProductDTO1 = new SpecificProductDTO(1,1,1,10,"", LocalDate.parse("2023-11-11"));
-        SpecificProductDTO specificProductDTO2 = new SpecificProductDTO(2,1,1,10,"", LocalDate.parse("2023-01-11"));
-        SpecificProductDTO specificProductDTO3 = new SpecificProductDTO(3,1,1,10,"", LocalDate.parse("2023-11-11"));
-        HashMap<Integer,SpecificProductDTO> allSpecific = new HashMap<>();
-        allSpecific.put(1,specificProductDTO1);
-        allSpecific.put(2,specificProductDTO2);
-        allSpecific.put(3,specificProductDTO3);
-        ProductBranchDTO productBranchDTO = new ProductBranchDTO(productDTO,branch.getId(),15,50,100,allSpecific);
-        ProductBranch productBranch = new ProductBranch(productBranchDTO);
-    }
+        BranchController.getInstance().addBranch(0, "Ashkelon", 0);
+        branch = branchController.getBranchById(0);
+        CategoryController.getInstance().addNewCategory("Cat1");
+        Category category = CategoryController.getInstance().getCategoryById(0);
+        CategoryController.getInstance().addNewCategory("Cat2",category);
+        ProductController.getInstance().addProduct(0, "Product 0", "Manufacturer 0", 0);
+        ProductController.getInstance().addProduct(1, "Product 1", "Manufacturer 1", 1);
+        ProductDTO p1 = ProductsDAO.getInstance().getById(0);
+        ProductDTO p2 = ProductsDAO.getInstance().getById(1);
+        ProductBranch productBranch01 =branchController.addNewProductBranch(0,0,null,20,5,50);
+        ProductBranch productBranch02 =branchController.addNewProductBranch(1,0,null,20,5,50);
+        branchController.receiveSupply(0,5,15,LocalDate.now().plusDays(2),0);
+        branchController.receiveSupply(0,5,15,LocalDate.now().minusDays(2),0);
+     }
 
 
     @Test
     public void testSetFlawDescription() throws Exception {
-        SpecificProduct sp = branch.getProductByCode(1).getSpecificById(1);
+        SpecificProduct sp = branch.getProductByCode(0).getSpecificById(1);
         String description = "Minor flaw";
         sp.setFlawDescription(description);
         assertEquals(description, sp.getFlawDescription());
     }
 
     @Test
-    void testSetStatus() throws Exception {
-        SpecificProduct sp = branch.getProductByCode(1).getSpecificById(1);
+    public void testSetStatus() throws Exception {
+        SpecificProduct sp = branch.getProductByCode(0).getSpecificById(1);
         ProductStatus.status status = ProductStatus.status.ON_SHELF;
         sp.setStatus(status);
-        assertEquals(status, sp.getFlawDescription());
+        assertEquals(status, sp.getStatus());
     }
 }

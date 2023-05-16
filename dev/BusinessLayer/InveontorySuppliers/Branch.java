@@ -122,6 +122,7 @@ public class Branch {
         return toDao;
     }
 
+
     public SpecificProduct sellProduct(int code, int specificId) throws Exception {
         ProductBranch productBranch = allProductBranches.get(code);
         if (productBranch == null)

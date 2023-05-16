@@ -16,16 +16,17 @@ public class SpecificProduct {
     private SpecificProductDTO specificProductDTO;
 
 //
-//    public SpecificProduct(int generalId, double buyPrice, LocalDate expiredDate) {
-//        this.generalId = generalId;
-//        this.specificId = Global.getNewSpecificId();
-//        this.buyPrice = buyPrice;
-//        this.sellPrice = -1;
-//        this.status = ProductStatus.status.ON_STORAGE;
-//        this.expiredDate = expiredDate;
-//        this.flawDescription = "";
-//        this.arrivedDate = LocalDate.now();
-//    }
+    public SpecificProduct(int generalId, double buyPrice, LocalDate expiredDate, int branchId) {
+        this.generalId = generalId;
+        this.specificId = Global.getNewSpecificId();
+        this.buyPrice = buyPrice;
+        this.sellPrice = -1;
+        this.status = ProductStatus.status.ON_STORAGE;
+        this.expiredDate = expiredDate;
+        this.flawDescription = "";
+        this.arrivedDate = LocalDate.now();
+        this.specificProductDTO = new SpecificProductDTO(specificId,generalId,branchId,buyPrice,sellPrice, status,flawDescription,expiredDate,arrivedDate);
+    }
 
     public SpecificProduct(SpecificProductDTO specificProductDTO) {
         this.generalId = specificProductDTO.getGeneralId();

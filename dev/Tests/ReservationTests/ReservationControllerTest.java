@@ -318,12 +318,12 @@ public class ReservationControllerTest {
     }
 
     @Test
-    public void testaddPeriodicReservation() throws SQLException {
-        //we add product branch and periodic reservation to this product.
+    public void addPeriodicReservationTest() throws SQLException {
+        // we add product branch and periodic reservation to this product.
         Map<Integer, Integer> productToAmount = new HashMap<Integer, Integer>();
         BranchController.getInstance().addNewProductBranch(0, 0, null, 5.9, 100, 200);
         productToAmount.put(0, 100);
         rc.addPeriodicReservation(0, 0, DayOfWeek.WEDNESDAY, productToAmount);
-        assertTrue("Periodic Reservation doesnt exist!", rc.periodicReservationExists(0,0));
+        assertTrue("Periodic Reservation doesnt exist!", rc.periodicReservationExists(0, 0));
     }
 }

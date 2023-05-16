@@ -550,10 +550,10 @@ public class SupplierController {
         for (ReceiptItem item : items)
             amount += item.getAmount();
 
-        Integer keyAmount = idToSupplier.get(supplierId).getAmountToDiscount().floorKey(amount);
+        Integer keyAmount = getSupplierById(supplierId).getAmountToDiscount().floorKey(amount);
         Discount discount = null;
         if (keyAmount != null)
-            discount = idToSupplier.get(supplierId).getAmountToDiscount().get(keyAmount);
+            discount = getSupplierById(supplierId).getAmountToDiscount().get(keyAmount);
 
         for (ReceiptItem item : items) {
             double priceAfterDiscount = item.getPricePerUnitAfterDiscount();

@@ -11,7 +11,6 @@ import PersentationLayer.inventory.applyData;
 public class Program {
     public static void main(String[] args) throws Exception {
         Scanner scanner = new Scanner(System.in);
-        applyData.setup();
         while (true) {
             System.out.print("> ");
             String[] commandTokens = scanner.nextLine().split(" ");
@@ -64,8 +63,6 @@ public class Program {
                 case "addProductBranch":
                     BranchSystem.addNewProductBranch(scanner);
                     break;
-                case "exit":
-                    return;
                 case "1":
                     ProductSystem.addNewProduct();
                     break;
@@ -105,6 +102,8 @@ public class Program {
                 case "12":
                     ReportSystem.importProductReport();
                     break;
+                case "exit":
+                    return;
                 default:
                     System.out.println("Unknown command - \"" + commandTokens[0] + "\"");
                     break;

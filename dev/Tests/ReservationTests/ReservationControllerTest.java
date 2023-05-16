@@ -316,7 +316,7 @@ public class ReservationControllerTest {
     public void addPeriodicReservationTest() throws SQLException {
         // we add product branch and periodic reservation to this product.
         Map<Integer, Integer> productToAmount = new HashMap<Integer, Integer>();
-        BranchController.getInstance().addNewProductBranch(0, 0, null, 5.9, 100, 200);
+        BranchController.getInstance().addNewProductBranch(0, 0, null, null, 0, false, 5.9, 100, 200);
         productToAmount.put(0, 100);
         rc.addPeriodicReservation(0, 0, DayOfWeek.WEDNESDAY, productToAmount);
         assertTrue("Periodic Reservation doesnt exist!", rc.periodicReservationExists(0, 0));

@@ -1,5 +1,7 @@
 package PersentationLayer.InventorySuppliers;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeParseException;
 import java.util.Scanner;
 
 import ServiceLayer.InventorySuppliers.BranchService;
@@ -50,12 +52,34 @@ public class BranchSystem {
             answer = scanner.nextLine();
         } while (!answer.equals("Y") && !answer.equals("N"));
 
-        Integer discountId = null;
+        LocalDate discountStartDate = null;
+        LocalDate discountEndDate = null;
+        boolean isDiscountPrecentage = false;
+        double discountVal = -1;
+
         if (answer.equals("Y")) {
             do {
-                System.out.print("Enter discount Id: ");
-                discountId = tryParseInt(scanner.nextLine(), Integer.MIN_VALUE);
-            } while (branchId == Integer.MIN_VALUE);
+                System.out.print("Enter discount start date (YYYY-MM-DD): ");
+                discountStartDate = tryParseLocalDate(scanner.nextLine(), null);
+            } while (discountStartDate == null);
+
+            do {
+                System.out.print("Enter discount end date (YYYY-MM-DD): ");
+                discountEndDate = tryParseLocalDate(scanner.nextLine(), null);
+            } while (discountEndDate == null);
+
+            do {
+                System.out.print("Enter discount value (followed by % for precentage, and nothing for fixed): ");
+                String input = scanner.nextLine();
+                if (input.indexOf('%') != -1) {
+                    isDiscountPrecentage = true;
+                    discountVal = tryParseInt(input.substring(0, input.length() - 1), -1);
+                } else {
+                    isDiscountPrecentage = false;
+                    discountVal = tryParseInt(input, -1);
+                }
+            } while (discountVal < 0);
+
         }
 
         double price;
@@ -77,7 +101,8 @@ public class BranchSystem {
         } while (price == Integer.MIN_VALUE);
 
         System.out.println(
-                branchService.addProductBranch(productId, branchId, discountId, price, minQuantity, idealQuantity));
+                branchService.addProductBranch(productId, branchId, discountStartDate, discountEndDate, discountVal,
+                        isDiscountPrecentage, price, minQuantity, idealQuantity));
     }
 
     public static int tryParseInt(String s, int defaultValue) {
@@ -92,6 +117,14 @@ public class BranchSystem {
         try {
             return Double.parseDouble(s);
         } catch (NumberFormatException e) {
+            return defaultValue;
+        }
+    }
+
+    public static LocalDate tryParseLocalDate(String s, LocalDate defaultValue) {
+        try {
+            return LocalDate.parse(s);
+        } catch (DateTimeParseException e) {
             return defaultValue;
         }
     }

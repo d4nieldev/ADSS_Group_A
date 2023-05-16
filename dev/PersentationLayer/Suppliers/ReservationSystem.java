@@ -35,7 +35,7 @@ public class ReservationSystem {
             return;
         }
 
-        int destinationBranch = tryParseInt(commandTokens[2], Integer.MIN_VALUE);
+        int destinationBranch = tryParseInt(commandTokens[1], Integer.MIN_VALUE);
         if (destinationBranch == Integer.MIN_VALUE) {
             System.out.println("destination branch id must be an integer");
             return;
@@ -60,12 +60,12 @@ public class ReservationSystem {
                 continue;
             }
             int supplierId = tryParseInt(command[0], Integer.MIN_VALUE);
-            if (supplierId <= 0) {
+            if (supplierId < 0) {
                 System.out.println("supplier id must be a non negative integer. Please try again.\n");
                 continue;
             }
             int productId = tryParseInt(command[1], Integer.MIN_VALUE);
-            if (productId <= 0) {
+            if (productId < 0) {
                 System.out.println("product id must be a non negative integer. Please try again.\n");
                 continue;
             }
@@ -184,12 +184,12 @@ public class ReservationSystem {
                 continue;
             }
             int productId = tryParseInt(command[0], Integer.MIN_VALUE);
-            if (productId <= 0) {
+            if (productId < 0) {
                 System.out.println("supplier id must be a non negative integer. Please try again.\n");
                 continue;
             }
             int amount = tryParseInt(command[1], Integer.MIN_VALUE);
-            if (amount <= 0) {
+            if (amount < 0) {
                 System.out.println("product id must be a non negative integer. Please try again.\n");
                 continue;
             }
@@ -241,12 +241,12 @@ public class ReservationSystem {
                 continue;
             }
             int productId = tryParseInt(command[0], Integer.MIN_VALUE);
-            if (productId <= 0) {
+            if (productId < 0) {
                 System.out.println("supplier id must be a non negative integer. Please try again.\n");
                 continue;
             }
             int amount = tryParseInt(command[1], Integer.MIN_VALUE);
-            if (amount <= 0) {
+            if (amount < 0) {
                 System.out.println("product id must be a non negative integer. Please try again.\n");
                 continue;
             }

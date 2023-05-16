@@ -116,8 +116,8 @@ public class applyData {
         // ProductBranch productBranchKoteg = new ProductBranch(productBranchDTO2);
         // branch.addNewProductBranch(productBranchDTO1);
         // branch.addNewProductBranch(productBranchDTO2);
-        ProductBranch productBranch01 = branchController.addNewProductBranch(0, 0, null, 20, 5, 50);
-        ProductBranch productBranch02 = branchController.addNewProductBranch(1, 0, null, 20, 5, 50);
+        ProductBranch productBranch01 = branchController.addNewProductBranch(0, 0, null, null, 0, false, 20, 5, 50);
+        ProductBranch productBranch02 = branchController.addNewProductBranch(1, 0, null, null, 0, false, 20, 5, 50);
         // productBranch01.receiveSupply(1,15,LocalDate.now().plusMonths(1),1);
         branchController.receiveSupply(0, 5, 15, LocalDate.now().plusDays(2), 0);
         branchController.receiveSupply(0, 5, 15, LocalDate.now().minusDays(2), 0);

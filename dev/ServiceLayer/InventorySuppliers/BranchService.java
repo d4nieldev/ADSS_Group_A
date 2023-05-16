@@ -1,6 +1,7 @@
 package ServiceLayer.InventorySuppliers;
 
 import java.sql.SQLException;
+import java.time.LocalDate;
 
 import BusinessLayer.Inventory.BranchController;
 
@@ -22,10 +23,12 @@ public class BranchService {
         }
     }
 
-    public String addProductBranch(int productId, int branchId, Integer discountId, double price, int minQuantity,
+    public String addProductBranch(int productId, int branchId, LocalDate discountStartDate, LocalDate discountEndDate,
+            double discountVal, boolean isDiscountPrecentage, double price, int minQuantity,
             int idealQuantity) {
         try {
-            branchController.addNewProductBranch(productId, branchId, discountId, price, minQuantity, idealQuantity);
+            branchController.addNewProductBranch(productId, branchId, discountStartDate, discountEndDate, discountVal,
+                    isDiscountPrecentage, price, minQuantity, idealQuantity);
             return "Success";
         } catch (SQLException e) {
             return e.getMessage();

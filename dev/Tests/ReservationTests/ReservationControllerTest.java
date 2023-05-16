@@ -173,14 +173,9 @@ public class ReservationControllerTest {
      */
     @Before
     public void setup() throws Exception {
-        try {
-            createProducts();
-            createSupplier0();
-            createSupplier1();
-        } catch (Exception e) {
-            System.out.println("Could not setup environment");
-            e.printStackTrace();
-        }
+        createProducts();
+        createSupplier0();
+        createSupplier1();
     }
 
     @After

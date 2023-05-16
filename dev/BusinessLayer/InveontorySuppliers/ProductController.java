@@ -132,10 +132,12 @@ public class ProductController {
      * 
      * @param supplierId the supplier id
      */
-    public void deleteAllSupplierAgreements(int supplierId) {
+    public void deleteAllSupplierAgreements(int supplierId) throws SQLException {
         for (Integer productId : productIdToSupplierProducts.keySet()) {
             for (Integer supId : productIdToSupplierProducts.get(productId).keySet()) {
                 if (supId == supplierId) {
+                    ProductAgreementDTO dto = productIdToSupplierProducts.get(productId).get(supId).getDto();
+                    productAgreementDAO.delete(dto);
                     productIdToSupplierProducts.get(productId).remove(supId);
                 }
             }
@@ -143,6 +145,7 @@ public class ProductController {
         if (supplierIdToProductAgreements.containsKey(supplierId)) {
             supplierIdToProductAgreements.get(supplierId).clear();
         }
+
     }
 
     public void addProduct(int id, String name, String manufacturer, int categoryId)
@@ -156,21 +159,23 @@ public class ProductController {
         Product product = new Product(productDTO);
         products.put(productDTO.getId(), product);
     }
+
     public void addProduct(ProductDTO productDTO) throws SQLException {
         int id = productDTO.getId();
         String name = productDTO.getName();
         String manufacturer = productDTO.getManufacturer();
         int categoryId = productDTO.getCategory().getId();
-        addProduct(id,name,manufacturer,categoryId);
+        addProduct(id, name, manufacturer, categoryId);
     }
 
-//    public void addNewProduct(ProductDTO productDTO) throws SQLException {
-//        if (products.containsKey(productDTO.getId()))
-//            throw new SuppliersException("this Product is already exist . product id is: " + productDTO.getName());
-//        productsDAO.insert(productDTO);
-//        Product product = new Product(productDTO);
-//        products.put(product.getId(), product);
-//    }
+    // public void addNewProduct(ProductDTO productDTO) throws SQLException {
+    // if (products.containsKey(productDTO.getId()))
+    // throw new SuppliersException("this Product is already exist . product id is:
+    // " + productDTO.getName());
+    // productsDAO.insert(productDTO);
+    // Product product = new Product(productDTO);
+    // products.put(product.getId(), product);
+    // }
 
     public Product getProductById(int productId) throws SQLException {
         if (products.containsKey(productId))

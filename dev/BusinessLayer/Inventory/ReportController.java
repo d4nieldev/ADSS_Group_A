@@ -189,9 +189,13 @@ public class ReportController {
         HashMap<Integer, ProductBranch> allProductsOfBranch = BranchController.getInstance()
                 .getBranchById(dto.getBranchId()).getAllProductBranches();
         Map<Integer, ProductBranch> products = new HashMap<>();
-        for (Integer productId : allProductsOfBranch.keySet())
-            if (dto.getExpiredProducts().contains(productId) || dto.getFlawProducts().contains(productId))
+        for (Integer productId : allProductsOfBranch.keySet()) {
+            boolean isExpired = dto.getExpiredProducts().stream().filter(sp -> sp.getGeneralId() == productId)
+                    .count() > 0;
+            boolean isFlaw = dto.getFlawProducts().stream().filter(sp -> sp.getGeneralId() == productId).count() > 0;
+            if (isExpired || isFlaw)
                 products.put(productId, allProductsOfBranch.get(productId));
+        }
 
         ExpiredAndFlawReport report = new ExpiredAndFlawReport(dto, products);
 

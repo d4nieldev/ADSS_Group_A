@@ -1,7 +1,6 @@
 package PersentationLayer;
 
 import java.util.Scanner;
-
 import PersentationLayer.InventorySuppliers.BranchSystem;
 import PersentationLayer.Suppliers.ReservationSystem;
 import PersentationLayer.Suppliers.SupplierSystem;
@@ -13,7 +12,6 @@ public class Program {
     public static void main(String[] args) throws Exception {
         Scanner scanner = new Scanner(System.in);
         applyData.setup();
-
         while (true) {
             System.out.print("> ");
             String[] commandTokens = scanner.nextLine().split(" ");

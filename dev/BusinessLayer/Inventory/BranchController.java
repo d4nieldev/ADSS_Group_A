@@ -327,13 +327,16 @@ public HashMap<Integer, List<SpecificProduct>> getBranchExpired(int branchId) th
     // setDiscountOnProducts(productsFromCategory, discount,branchId);
     // }
 
-    public void receiveSupply(int code,int amount, double buyPrice, LocalDate expiredDate, int branchId) throws Exception {
-        List<SpecificProduct> specificProducts = allBranches.get(branchId).getProductByCode(code).receiveSupply(amount,buyPrice,expiredDate,branchId);
-        for(SpecificProduct specificProduct : specificProducts){
+    public void receiveSupply(int code, int amount, double buyPrice, LocalDate expiredDate, int branchId)
+            throws Exception {
+        List<SpecificProduct> specificProducts = allBranches.get(branchId).getProductByCode(code).receiveSupply(amount,
+                buyPrice, expiredDate, branchId);
+        for (SpecificProduct specificProduct : specificProducts) {
             SpecificProductDTO specificProductDTO = specificProduct.getSpecificProductDTO();
             specificProductDAO.insert(specificProductDTO);
         }
     }
+
     /***
      * private method for receving the product of branch by categories
      *
@@ -341,7 +344,8 @@ public HashMap<Integer, List<SpecificProduct>> getBranchExpired(int branchId) th
      * @param branchId
      * @return
      */
-    private List<ProductBranch> getProductsByCategories(List<Category> allSubCategories, int branchId) throws Exception {
+    private List<ProductBranch> getProductsByCategories(List<Category> allSubCategories, int branchId)
+            throws SQLException {
         Branch branch = allBranches.get(branchId);
         List<ProductBranch> productFromCategories = branch.getProductsByCategories(allSubCategories);
         return productFromCategories;

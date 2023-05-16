@@ -18,7 +18,7 @@ public class CategoryTest {
   CategoryController categoryController;
 
   @Before
-  public void setUp() throws Exception {
+  public void setUp() throws SQLException,Exception {
     this.productController = ProductController.getInstance();
     this.categoryController = CategoryController.getInstance();
     // create sample categories and add them to the dictionary

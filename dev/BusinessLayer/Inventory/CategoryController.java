@@ -6,6 +6,8 @@ import DataAccessLayer.DTOs.CategoryDTO;
 import java.sql.SQLException;
 import java.util.*;
 
+import BusinessLayer.exceptions.InventoryException;
+
 public class CategoryController {
     private List<Category> allCategories;
     private Hashtable<Integer, Category> categoryDic;
@@ -109,9 +111,9 @@ public class CategoryController {
         return result;
     }
 
-    public Category getCategoryById(int id) throws Exception {
+    public Category getCategoryById(int id) throws SQLException, InventoryException {
         if (id < 0)
-            throw new Exception("Category with negative id is illegal in the system.");
+            throw new InventoryException("Category with negative id is illegal in the system.");
         if (categoryDic.containsKey(id)) {
             return categoryDic.get(id);
         } else {
@@ -119,12 +121,12 @@ public class CategoryController {
             try {
                 c = LoadCategoryFromData(id);
             } catch (SQLException e) {
-                throw new Exception("A database error occurred while loading category " + id);
+                throw new InventoryException("A database error occurred while loading category " + id);
             }
             if (c != null) {
                 return c;
             } else {
-                throw new Exception("There is no category with id " + id + " in the system.");
+                throw new InventoryException("There is no category with id " + id + " in the system.");
             }
         }
     }

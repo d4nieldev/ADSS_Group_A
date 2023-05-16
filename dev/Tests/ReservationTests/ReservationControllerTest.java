@@ -2,9 +2,11 @@ package Tests.ReservationTests;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThrows;
+import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import java.sql.SQLException;
+import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -316,8 +318,12 @@ public class ReservationControllerTest {
     }
 
     @Test
-    public void testPeriodicReservation(){
-        //Supplier s =SupplierController.getInstance().getSupplierById(0);
-
+    public void testaddPeriodicReservation() throws SQLException {
+        //we add product branch and periodic reservation to this product.
+        Map<Integer, Integer> productToAmount = new HashMap<Integer, Integer>();
+        BranchController.getInstance().addNewProductBranch(0, 0, null, 5.9, 100, 200);
+        productToAmount.put(0, 100);
+        rc.addPeriodicReservation(0, 0, DayOfWeek.WEDNESDAY, productToAmount);
+        assertTrue("Periodic Reservation doesnt exist!", rc.periodicReservationExists(0,0));
     }
 }

@@ -26,9 +26,10 @@ public class PeriodicReservationDTO implements DTO {
         Map<String, String> nameToVal = new HashMap<>();
         nameToVal.put("supplierId", "" + supplierId);
         nameToVal.put("branchId", "" + branchId);
-        nameToVal.put("dayOfOrder", dayOfOrder.toString());
+        nameToVal.put("dayOfOrder", "" +dayOfOrder.getValue());
         return nameToVal;
     }
+
 
     public int getSupplierId() {
         return supplierId;

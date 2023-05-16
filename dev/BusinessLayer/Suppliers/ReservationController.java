@@ -109,7 +109,7 @@ public class ReservationController {
         }
     }
 
-    private boolean periodicReservationExists(int supplierId, int branchId) {
+    public boolean periodicReservationExists(int supplierId, int branchId) {
         return supplierToBranchToPeriodicReservations.containsKey(supplierId)
                 && supplierToBranchToPeriodicReservations.get(supplierId).containsKey(branchId);
     }
@@ -427,4 +427,5 @@ public class ReservationController {
         readyReservations.clear();
         lastId = 0;
     }
+
 }

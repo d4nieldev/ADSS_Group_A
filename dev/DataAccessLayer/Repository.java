@@ -250,7 +250,7 @@ public class Repository {
                     minQuantity INTEGER NOT NULL,
                     idealQuantity INTEGER NOT NULL,
 
-                    CHECK (minQuantity > 0 AND price >= 0),
+                    CHECK (minQuantity >= 0 AND price >= 0),
 
                     FOREIGN KEY (productId) REFERENCES Products(id) ON DELETE CASCADE,
                     FOREIGN KEY (branchId)  REFERENCES Branches(id)  ON DELETE CASCADE,

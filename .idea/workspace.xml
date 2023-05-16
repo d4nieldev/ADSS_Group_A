@@ -1,13 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="ArtifactsWorkspaceSettings">
+    <artifacts-to-build>
+      <artifact name="ADSS_Group_A:jar" />
+    </artifacts-to-build>
+  </component>
   <component name="AutoImportSettings">
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
     <list default="true" id="a2472df3-0b1c-47fc-bcd6-f26fc4f0a51c" name="Changes" comment="inventory report categories">
+      <change afterPath="$PROJECT_DIR$/.idea/artifacts/ADSS_Group_A_jar.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/dev/META-INF/MANIFEST.MF" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/database.db" beforeDir="false" afterPath="$PROJECT_DIR$/database.db" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dev/Tests/InventoryTest/ProductBranchTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/Tests/InventoryTest/ProductBranchTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dev/DataAccessLayer/Repository.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/DataAccessLayer/Repository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dev/Tests/InventoryTest/GeneralProductTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dev/Tests/InventoryTest/ProductController1Test.java" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -54,7 +63,11 @@
     "Downloaded.Files.Path.Enabled": "false",
     "Repository.Attach.Annotations": "false",
     "Repository.Attach.JavaDocs": "false",
-    "Repository.Attach.Sources": "false"
+    "Repository.Attach.Sources": "false",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "project.structure.last.edited": "Artifacts",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.2"
   }
 }]]></component>
   <component name="RecentsManager">
@@ -73,78 +86,82 @@
       <recent name="Tests.InventoryTest" />
     </key>
   </component>
-  <component name="RunManager" selected="JUnit.ProductBranchTest.reportFlawProductsTest">
-    <configuration name="Program" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="PersentationLayer.Program" />
+  <component name="RunManager" selected="JUnit.SupplierControllerTest.getRandomContactOfTest">
+    <configuration name="SupplierControllerTest.addSupplierProductAgreementTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="ADSS_Group_A" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="PersentationLayer.*" />
+          <option name="PATTERN" value="Tests.SupplierTests.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="BranchTest.testGetAllProductBranches" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="ADSS_Group_A" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="Tests.InventoryTest.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="Tests.InventoryTest" />
-      <option name="MAIN_CLASS_NAME" value="Tests.InventoryTest.BranchTest" />
-      <option name="METHOD_NAME" value="testGetAllProductBranches" />
+      <option name="PACKAGE_NAME" value="Tests.SupplierTests" />
+      <option name="MAIN_CLASS_NAME" value="Tests.SupplierTests.SupplierControllerTest" />
+      <option name="METHOD_NAME" value="addSupplierProductAgreementTest" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="CategoryTest.testGetCategoriesByIds" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="SupplierControllerTest.calculateSupplierDiscountTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="ADSS_Group_A" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="Tests.InventoryTest.*" />
+          <option name="PATTERN" value="Tests.SupplierTests.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
-      <option name="PACKAGE_NAME" value="Tests.InventoryTest" />
-      <option name="MAIN_CLASS_NAME" value="Tests.InventoryTest.CategoryTest" />
-      <option name="METHOD_NAME" value="testGetCategoriesByIds" />
+      <option name="PACKAGE_NAME" value="Tests.SupplierTests" />
+      <option name="MAIN_CLASS_NAME" value="Tests.SupplierTests.SupplierControllerTest" />
+      <option name="METHOD_NAME" value="calculateSupplierDiscountTest" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="ProductBranchTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="SupplierControllerTest.getRandomContactOfTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="ADSS_Group_A" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="Tests.InventoryTest.*" />
+          <option name="PATTERN" value="Tests.SupplierTests.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
-      <option name="PACKAGE_NAME" value="Tests.InventoryTest" />
-      <option name="MAIN_CLASS_NAME" value="Tests.InventoryTest.ProductBranchTest" />
-      <option name="TEST_OBJECT" value="class" />
+      <option name="PACKAGE_NAME" value="Tests.SupplierTests" />
+      <option name="MAIN_CLASS_NAME" value="Tests.SupplierTests.SupplierControllerTest" />
+      <option name="METHOD_NAME" value="getRandomContactOfTest" />
+      <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="ProductBranchTest.reportFlawProductsTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="SupplierControllerTest.setSupplierBankAccountTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="ADSS_Group_A" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="Tests.InventoryTest.*" />
+          <option name="PATTERN" value="Tests.SupplierTests.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
-      <option name="PACKAGE_NAME" value="Tests.InventoryTest" />
-      <option name="MAIN_CLASS_NAME" value="Tests.InventoryTest.ProductBranchTest" />
-      <option name="METHOD_NAME" value="reportFlawProductsTest" />
+      <option name="PACKAGE_NAME" value="Tests.SupplierTests" />
+      <option name="MAIN_CLASS_NAME" value="Tests.SupplierTests.SupplierControllerTest" />
+      <option name="METHOD_NAME" value="setSupplierBankAccountTest" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="SupplierControllerTest.tryTodeleteOfficeContact" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="ADSS_Group_A" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="Tests.SupplierTests.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="Tests.SupplierTests" />
+      <option name="MAIN_CLASS_NAME" value="Tests.SupplierTests.SupplierControllerTest" />
+      <option name="METHOD_NAME" value="tryTodeleteOfficeContact" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -152,11 +169,11 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="JUnit.ProductBranchTest.reportFlawProductsTest" />
-        <item itemvalue="JUnit.ProductBranchTest" />
-        <item itemvalue="JUnit.CategoryTest.testGetCategoriesByIds" />
-        <item itemvalue="JUnit.BranchTest.testGetAllProductBranches" />
-        <item itemvalue="Application.Program" />
+        <item itemvalue="JUnit.SupplierControllerTest.getRandomContactOfTest" />
+        <item itemvalue="JUnit.SupplierControllerTest.calculateSupplierDiscountTest" />
+        <item itemvalue="JUnit.SupplierControllerTest.addSupplierProductAgreementTest" />
+        <item itemvalue="JUnit.SupplierControllerTest.tryTodeleteOfficeContact" />
+        <item itemvalue="JUnit.SupplierControllerTest.setSupplierBankAccountTest" />
       </list>
     </recent_temporary>
   </component>
@@ -386,7 +403,14 @@
       <option name="project" value="LOCAL" />
       <updated>1684264955043</updated>
     </task>
-    <option name="localTasksCounter" value="32" />
+    <task id="LOCAL-00032" summary="inventory report categories">
+      <created>1684266751752</created>
+      <option name="number" value="00032" />
+      <option name="presentableId" value="LOCAL-00032" />
+      <option name="project" value="LOCAL" />
+      <updated>1684266751752</updated>
+    </task>
+    <option name="localTasksCounter" value="33" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -430,11 +454,6 @@
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/dev/DataAccessLayer/DAOs/ReservationDAO.java</url>
-          <line>38</line>
-          <option name="timeStamp" value="17" />
-        </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/dev/PersentationLayer/inventory/ProductSystem.java</url>
           <line>50</line>
@@ -666,14 +685,14 @@
           <option name="timeStamp" value="210" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/dev/BusinessLayer/Inventory/ProductBranch.java</url>
-          <line>50</line>
-          <option name="timeStamp" value="211" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/dev/BusinessLayer/InveontorySuppliers/Branch.java</url>
           <line>65</line>
           <option name="timeStamp" value="212" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/dev/Tests/ReservationTests/ReservationControllerTest.java</url>
+          <line>212</line>
+          <option name="timeStamp" value="218" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-method">
           <url>file://$PROJECT_DIR$/dev/BusinessLayer/Inventory/BranchController.java</url>

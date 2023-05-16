@@ -591,19 +591,6 @@ public class SupplierController {
         nextSupplierIdInSystem = 0;
     }
 
-    // public PeriodicReservation addNewPeriodicReservation(PeriodicReservationDTO
-    // periodicReservationDTO) {
-    // // TODO : create new PeriodicReservation and return the object. (MAKE SURE
-    // WITH
-    // // DANIEL)
-    // PeriodicReservation periodicReservation = new
-    // PeriodicReservation(periodicReservationDTO);
-    // Supplier s = getSupplierById(periodicReservation.getSupplierId());
-    // s.putPeriodicReservation(periodicReservation.getBranchId(),
-    // periodicReservation);
-    // return periodicReservation;
-    // }
-
     public Contact getContactOfSupplier(int supplierId, String phone) {
         return getContactByPhone(getSupplierById(supplierId), phone);
     }

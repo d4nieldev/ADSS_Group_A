@@ -23,6 +23,8 @@ public class ReservationSystem {
         System.out.println("closereservation [reservation_id] = close the reservation");
         System.out.println(
                 "addPeriodicReservation [supplier_id] [branch_id] [week_day] = add a new periodic reservation for the supplier and branch");
+        System.out.println(
+                "updatePeriodicReservation [supplier_id] [branch_id] [week_day] = update an existing periodic reservation for the supplier and branch");
         System.out.println("receipt [reservation_id] = show all items, amounts, and prices for this reservation");
         System.out.println("reservations [supplier_id] = show all reservations history with the supplier");
     }
@@ -45,7 +47,7 @@ public class ReservationSystem {
     private static void makeManualReservation(Scanner scanner, int destinationBranch) {
         Map<Integer, Map<Integer, Integer>> supplierToproductToAmount = new HashMap<>();
         String line;
-
+        System.out.println("Enter input of format [supplier_id] [product_id] [amount] (enter 'done' to finish): ");
         while (true) {
             line = scanner.nextLine();
             if (line.equals("done") || line.equals("abort"))
@@ -150,17 +152,17 @@ public class ReservationSystem {
             return;
         }
 
-        int supplierId = tryParseInt(commandTokens[0], Integer.MIN_VALUE);
+        int supplierId = tryParseInt(commandTokens[1], Integer.MIN_VALUE);
         if (supplierId == Integer.MIN_VALUE) {
             System.out.println("supplier id must be an integer. Please try again.\n");
             return;
         }
-        int branchId = tryParseInt(commandTokens[1], Integer.MIN_VALUE);
+        int branchId = tryParseInt(commandTokens[2], Integer.MIN_VALUE);
         if (branchId == Integer.MIN_VALUE) {
             System.out.println("branch id must be an integer. Please try again.\n");
             return;
         }
-        int day = tryParseInt(commandTokens[2], Integer.MIN_VALUE);
+        int day = tryParseInt(commandTokens[3], Integer.MIN_VALUE);
         DayOfWeek dayOfWeek = intToDayOfWeek(day);
         if (dayOfWeek == null) {
             System.out.println("day of week must be an integer between 1 and 7. Please try again.\n");
@@ -170,6 +172,7 @@ public class ReservationSystem {
         Map<Integer, Integer> productToAmount = new HashMap<>();
 
         String line;
+        System.out.println("Enter input of format [product_id] [amount] (enter 'done' to finish): ");
         while (true) {
             line = scanner.nextLine();
             if (line.equals("done") || line.equals("abort"))
@@ -196,6 +199,63 @@ public class ReservationSystem {
 
         if (line.equals("done") && productToAmount.size() > 0)
             System.out.println(rs.addPeriodicReservation(supplierId, branchId, dayOfWeek, productToAmount));
+        else
+            System.out.println("aborted");
+    }
+
+    public static void updatePeriodicReservation(Scanner scanner, String[] commandTokens) {
+        if (commandTokens.length != 4) {
+            System.out.println("updatePeriodicReservation command requires 4 arguments!");
+            return;
+        }
+
+        int supplierId = tryParseInt(commandTokens[1], Integer.MIN_VALUE);
+        if (supplierId == Integer.MIN_VALUE) {
+            System.out.println("supplier id must be an integer. Please try again.\n");
+            return;
+        }
+        int branchId = tryParseInt(commandTokens[2], Integer.MIN_VALUE);
+        if (branchId == Integer.MIN_VALUE) {
+            System.out.println("branch id must be an integer. Please try again.\n");
+            return;
+        }
+        int day = tryParseInt(commandTokens[3], Integer.MIN_VALUE);
+        DayOfWeek dayOfWeek = intToDayOfWeek(day);
+        if (dayOfWeek == null) {
+            System.out.println("day of week must be an integer between 1 and 7. Please try again.\n");
+            return;
+        }
+
+        Map<Integer, Integer> productToAmount = new HashMap<>();
+
+        String line;
+        System.out.println("Enter input of format [product_id] [amount] (enter 'done' to finish): ");
+        while (true) {
+            line = scanner.nextLine();
+            if (line.equals("done") || line.equals("abort"))
+                break;
+
+            String[] command = line.split(" ");
+            if (command.length != 2) {
+                System.out.println("The format of the command is \"[product_id] [amount]\". Please try again.\n");
+                continue;
+            }
+            int productId = tryParseInt(command[0], Integer.MIN_VALUE);
+            if (productId <= 0) {
+                System.out.println("supplier id must be a non negative integer. Please try again.\n");
+                continue;
+            }
+            int amount = tryParseInt(command[1], Integer.MIN_VALUE);
+            if (amount <= 0) {
+                System.out.println("product id must be a non negative integer. Please try again.\n");
+                continue;
+            }
+
+            productToAmount.put(productId, amount);
+        }
+
+        if (line.equals("done") && productToAmount.size() > 0)
+            System.out.println(rs.updatePeriodicReservation(supplierId, branchId, dayOfWeek, productToAmount));
         else
             System.out.println("aborted");
     }

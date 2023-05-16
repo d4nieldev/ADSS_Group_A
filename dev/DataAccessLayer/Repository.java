@@ -349,7 +349,7 @@ public class Repository {
                 CREATE TABLE IF NOT EXISTS PeriodicReservation (
                     supplierId INTEGER NOT NULL,
                     branchId   INTEGER NOT NULL,
-                    dayOfOrder INTEGER NOT NULL,
+                    dayOfOrder INTEGER NOT NULL, 
 
                     CHECK(dayOfOrder BETWEEN 1 AND 7),
 

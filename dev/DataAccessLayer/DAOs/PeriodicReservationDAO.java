@@ -48,7 +48,9 @@ public class PeriodicReservationDAO extends DAO<PeriodicReservationDTO> {
     public PeriodicReservationDTO makeDTO(Map<String, Object> row) throws SQLException {
         int supplierId = (int) row.get("supplierId");
         int branchId = (int) row.get("branchId");
-        DayOfWeek dayOfOrder = stringToStatus((String) row.get("dayOfOrder"));
+
+        // TODO: i changed to Integer.
+        DayOfWeek dayOfOrder = intToStatus((Integer) row.get("dayOfOrder"));
         List<PeriodicReservationItemDTO> allItems = periodicReservationItemDAO.getBySupplierAndBrunchId(supplierId,
                 branchId);
 
@@ -82,6 +84,10 @@ public class PeriodicReservationDAO extends DAO<PeriodicReservationDTO> {
                 return DayOfWeek.SATURDAY;
         }
         return null;
+    }
+
+    private DayOfWeek intToStatus(Integer status) {
+        return DayOfWeek.of(status);
     }
 
     public Map<Integer, PeriodicReservationDTO> getSupplierPeriodicReservations(int supplierId) throws SQLException {

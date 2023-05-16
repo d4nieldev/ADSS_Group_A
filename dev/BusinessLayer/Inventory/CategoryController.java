@@ -100,15 +100,30 @@ public class CategoryController {
         return result;
     }
 
-    public List<Category> getAllSubCategories(Category category) {
+    public List<Category> getAllSubCategories(Category category) throws SQLException {
         List<Category> result = new ArrayList<>();
         result.add(category);
+        if(allCategories.isEmpty()){
+            loadAllCategories();
+        }
         for (Category cat : allCategories) {
             List<Category> allParent = getAllParentCategories(cat);
-            if (allParent.contains(category))
-                result.add(cat);
+//            if (allParent.contains(category))
+//                result.add(cat);
+            for(Category category1 : allParent){
+                if(category1.getId() == category.getId())
+                    result.add(cat);
+            }
         }
         return result;
+    }
+
+    private void loadAllCategories() throws SQLException {
+        List<CategoryDTO> categoryDTOS = categoryDAO.selectAll();
+        for (CategoryDTO categoryDTO : categoryDTOS){
+            Category category = new Category(categoryDTO);
+            allCategories.add(category);
+        }
     }
 
     public Category getCategoryById(int id) throws SQLException, InventoryException {
@@ -153,7 +168,7 @@ public class CategoryController {
         return getListAllSubCategories(categoryList);
     }
 
-    public List<Category> getListAllSubCategories(List<Category> categories) {
+    public List<Category> getListAllSubCategories(List<Category> categories) throws SQLException {
         List<Category> result = new ArrayList<>();
         Set<Category> set = new HashSet<>();
         for (Category category : categories) {

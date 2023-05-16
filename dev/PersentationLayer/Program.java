@@ -11,7 +11,7 @@ import PersentationLayer.inventory.applyData;
 public class Program {
     public static void main(String[] args) throws Exception {
         Scanner scanner = new Scanner(System.in);
-        applyData.setup();
+//        applyData.setup();
         while (true) {
             System.out.print("> ");
             String[] commandTokens = scanner.nextLine().split(" ");
@@ -85,8 +85,8 @@ public class Program {
                     ProductSystem.reportFlawProduct();
                     break;
 
-                // Dealing with reports
-                // =========================s====================================
+                //Dealing with reports
+                //=========================s====================================
                 case "7":
                     ReportSystem.importInventoryReport();
                     break;

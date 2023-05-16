@@ -56,6 +56,8 @@ public class ProductBranch {
                 specificProductMap.put(specificProduct.getSpecificId(), specificProduct);
 //                SpecificProductDAO.getInstance().insert(dto);
             }
+//            this.allSpecificProducts = specificProductMap;
+
         }
 
         this.allSpecificProducts = specificProductMap;
@@ -63,7 +65,7 @@ public class ProductBranch {
 
 //        this.discount = discountController.getDiscountById(productBranchDTO.getDiscountDTO().getId());
         this.discount = null;
-        this.totalAmount = productBranchDTO.getAllSpecificProducts().size();
+        this.totalAmount = allSpecificProducts.size();
         this.discountsHistory = new ArrayList<>();
         this.productBranchDTO = productBranchDTO;
     }
@@ -355,7 +357,7 @@ public class ProductBranch {
     public boolean existInCategories(List<Category> allSubCategories) throws SQLException, InventoryException {
         boolean result = false;
         for (Category category : allSubCategories) {
-            if (product.getCategory() == category) {
+            if (product.getCategory().getId() == category.getId()) {
                 result = true;
                 break;
             }

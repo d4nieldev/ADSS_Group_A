@@ -101,7 +101,6 @@ public class ReportService {
         int index = 1;
         for (Integer productCode : productsCode) {
             System.out.printf("%-5d%-20s%-20d%-20d%-20d%n", index, codeToName.get(productCode), productCode, shelfAmount.get(productCode), storageAmount.get(productCode));
-
             index++;
         }
 

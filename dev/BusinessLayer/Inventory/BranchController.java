@@ -6,6 +6,7 @@ import DataAccessLayer.DAOs.*;
 import DataAccessLayer.DTOs.*;
 
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -41,21 +42,55 @@ public class BranchController {
         return instance;
     }
 
-    public HashMap<Integer, List<SpecificProduct>> getBranchFlaws(int branchId) {
+    public HashMap<Integer, List<SpecificProduct>> getBranchFlaws(int branchId) throws Exception {
         HashMap<Integer, List<SpecificProduct>> allFlaws = new HashMap<>();
-        Branch branch = allBranches.get(branchId);
-        allFlaws = branch.getBranchFlaws();
+        if (allBranches.containsKey(branchId)) {
+            Branch branch = allBranches.get(branchId);
+            allFlaws = branch.getBranchFlaws();
+            return allFlaws;
+        } else {
+            try {
+                Branch branch;
+
+                branch = LoadBranchFromData(branchId);
+                if (branch != null) {
+                    allFlaws = branch.getBranchFlaws();
+                    return allFlaws;
+                }
+            } catch (Exception e) {
+                throw new Exception("failed to import from data");
+            }
+        }
         return allFlaws;
     }
 
-    public HashMap<Integer, List<SpecificProduct>> getBranchExpired(int branchId) throws SQLException {
-        HashMap<Integer, List<SpecificProduct>> result = new HashMap<>();
-        Branch branch = allBranches.get(branchId);
-        result = branch.getExpiredProducts();
-        updateExpiredProducts(result);
-        return result;
+    private Branch LoadBranchFromData(int branchId) throws SQLException {
+        BranchDTO branchDTO = branchDAO.getAll(branchId);
+        Branch branch = new Branch(branchDTO);
+        allBranches.put(branch.getId(), branch);
+        return branch;
     }
 
+    public HashMap<Integer, List<SpecificProduct>> getBranchExpired(int branchId) throws Exception {
+        HashMap<Integer, List<SpecificProduct>> result = new HashMap<>();
+
+        if (allBranches.containsKey(branchId)) {
+            Branch branch = allBranches.get(branchId);
+            result = branch.getExpiredProducts();
+            updateExpiredProducts(result);
+            return result;
+        } else {try{
+            Branch branch;
+            branch = LoadBranchFromData(branchId);
+                result = branch.getExpiredProducts();
+                updateExpiredProducts(result);
+                return result;
+            }
+            catch (Exception e) {
+                throw new Exception("failed to import from data");
+            }
+        }
+    }
     public HashMap<Integer, ProductBranch> getBranchDeficiencyProducts(int branchId) throws SQLException {
         return allBranches.get(branchId).getAllDeficiencyProductsBranch();
     }
@@ -141,7 +176,10 @@ public class BranchController {
             }
             BranchDTO branchDTO = branch.getBranchDTO();
             branchDAO.update(branchDTO);
+
+
         }
+        System.out.println("======================================== \n New reservation has arrived to branch: " + reservation.getDestination() + "\n ======================================== " );
     }
 
     /***
@@ -259,6 +297,13 @@ public class BranchController {
     // setDiscountOnProducts(productsFromCategory, discount,branchId);
     // }
 
+    public void receiveSupply(int code,int amount, double buyPrice, LocalDate expiredDate, int branchId) throws Exception {
+        List<SpecificProduct> specificProducts = allBranches.get(branchId).getProductByCode(code).receiveSupply(amount,buyPrice,expiredDate,branchId);
+        for(SpecificProduct specificProduct : specificProducts){
+            SpecificProductDTO specificProductDTO = specificProduct.getSpecificProductDTO();
+            specificProductDAO.insert(specificProductDTO);
+        }
+    }
     /***
      * private method for receving the product of branch by categories
      *
@@ -302,6 +347,7 @@ public class BranchController {
         ProductBranch productBranch = branch.reportFlawProduct(productCode, specificId, description);
         SpecificProductDTO specificProductDTO = productBranch.getSpecificById(specificId).getSpecificProductDTO();
         specificProductDAO.update(specificProductDTO);
+
         ProductBranchDTO productBranchDTO = productBranch.getProductBranchDTO();
         productBranchDAO.update(productBranchDTO);
         BranchDTO branchDTO = branch.getBranchDTO();
@@ -312,6 +358,7 @@ public class BranchController {
     public ProductBranch addNewProductBranch(int productId, int branchId, Integer discountId, double price,
             int minQuantity, int idealQuantity) throws SQLException {
         getBranchById(branchId); // just to check if exists
+//        if(ProductController.getInstance().productExists(productId))
         ProductDTO productDTO = ProductController.getInstance().getProductById(productId).getDTO();
         DiscountDTO discountDTO = null;
         if (discountId != null)

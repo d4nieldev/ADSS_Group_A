@@ -173,9 +173,5 @@ public class ReportController {
         return (DeficientReport) allReports.get(reportId);
     }
 
-    public void clearData(){
-        allReports.clear();
-    }
-
 
 }

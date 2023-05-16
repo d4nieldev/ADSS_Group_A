@@ -278,7 +278,7 @@ public class Repository {
                     expDate        TEXT    NOT NULL,
                     arrivedDate    TEXT    NOT NULL,
 
-                    CHECK (buyPrice >= 0 AND status IN ('SOLD', 'ON_SHELF', 'ON_STORAGE', 'EXPIRED')),
+                    CHECK (buyPrice >= 0 AND status IN ('SOLD', 'ON_SHELF', 'ON_STORAGE', 'EXPIRED', 'IS_FLAW')),
 
                     FOREIGN KEY (generalId, branchId) REFERENCES ProductBranch(productId, branchId) ON DELETE SET NULL,
                     PRIMARY KEY (specificId)

@@ -47,17 +47,17 @@ public class SupplierControllerTest {
         }
     }
 
-    @After
-    public void clearController() throws SQLException {
-        ProductController.getInstance().clearData();
-        ReservationController.getInstance().clearData();
-        BranchController.getInstance().clearData();
-        CategoryController.getInstance().clearData();
-        DiscountController.getInstance().clearData();
-        ReportController.getInstance().clearData();
-        sc.clearData();
-        Repository.getInstance().DELETE_ALL_DATA();
-    }
+//    @After
+//    public void clearController() throws SQLException {
+//        ProductController.getInstance().clearData();
+//        ReservationController.getInstance().clearData();
+//        BranchController.getInstance().clearData();
+//        CategoryController.getInstance().clearData();
+//        DiscountController.getInstance().clearData();
+//        ReportController.getInstance().clearData();
+//        sc.clearData();
+//        Repository.getInstance().DELETE_ALL_DATA();
+//    }
 
     private static <T> List<T> createList(T... args) {
         List<T> lst = new ArrayList<>();

@@ -1,10 +1,13 @@
 package DataAccessLayer.DAOs;
 
 import java.sql.SQLException;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import BusinessLayer.InveontorySuppliers.Branch;
 import DataAccessLayer.DTOs.BranchDTO;
+import DataAccessLayer.DTOs.ContactDTO;
 import DataAccessLayer.DTOs.PeriodicReservationDTO;
 
 public class BranchDAO extends DAO<BranchDTO> {
@@ -46,4 +49,11 @@ public class BranchDAO extends DAO<BranchDTO> {
         return null;
     }
 
+    public BranchDTO getAll(int branchId) throws SQLException {
+        List<Map<String, Object>> rows = repo.executeQuery("SELECT * FROM Branches WHERE id= ?;",branchId);
+        if (rows.size() > 0)
+            return makeDTO(rows.get(0));
+
+        return null;
+    }
 }

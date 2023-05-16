@@ -4,13 +4,14 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a2472df3-0b1c-47fc-bcd6-f26fc4f0a51c" name="Changes" comment="fix global ids">
+    <list default="true" id="a2472df3-0b1c-47fc-bcd6-f26fc4f0a51c" name="Changes" comment="minor changes">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/database.db" beforeDir="false" afterPath="$PROJECT_DIR$/database.db" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dev/BusinessLayer/Inventory/Category.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/BusinessLayer/Inventory/Category.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dev/BusinessLayer/Inventory/BranchController.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/BusinessLayer/Inventory/BranchController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/dev/BusinessLayer/Inventory/ProductBranch.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/BusinessLayer/Inventory/ProductBranch.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/dev/BusinessLayer/InveontorySuppliers/Branch.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/BusinessLayer/InveontorySuppliers/Branch.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dev/ServiceLayer/inventory/ReportService.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/ServiceLayer/inventory/ReportService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dev/BusinessLayer/InveontorySuppliers/Product.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/BusinessLayer/InveontorySuppliers/Product.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dev/Tests/InventoryTest/CategoryTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/Tests/InventoryTest/CategoryTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -355,7 +356,14 @@
       <option name="project" value="LOCAL" />
       <updated>1684250839895</updated>
     </task>
-    <option name="localTasksCounter" value="27" />
+    <task id="LOCAL-00027" summary="minor changes">
+      <created>1684253578074</created>
+      <option name="number" value="00027" />
+      <option name="presentableId" value="LOCAL-00027" />
+      <option name="project" value="LOCAL" />
+      <updated>1684253578074</updated>
+    </task>
+    <option name="localTasksCounter" value="28" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -382,7 +390,6 @@
     <MESSAGE value="add the service" />
     <MESSAGE value="add some tests" />
     <MESSAGE value="delete unnecessary test folder" />
-    <MESSAGE value="minor changes" />
     <MESSAGE value="format change" />
     <MESSAGE value="start debugging -&gt; 1-6 works the reports not" />
     <MESSAGE value=" fix issues" />
@@ -391,7 +398,8 @@
     <MESSAGE value="start making load functions" />
     <MESSAGE value="continue fix bugs after load operations" />
     <MESSAGE value="fix global ids" />
-    <option name="LAST_COMMIT_MESSAGE" value="fix global ids" />
+    <MESSAGE value="minor changes" />
+    <option name="LAST_COMMIT_MESSAGE" value="minor changes" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

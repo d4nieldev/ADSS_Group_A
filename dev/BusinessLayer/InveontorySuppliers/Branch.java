@@ -140,6 +140,7 @@ public class Branch {
         return null;
     }
 
+
     public SpecificProduct sellProduct(int code, int specificId) throws Exception {
         ProductBranch productBranch = loadProductBranch(code);
         if (productBranch == null)
@@ -153,7 +154,7 @@ public class Branch {
     public void CheckForDeficiencyReservation() throws SQLException {
         boolean overCapacity = getTotalDeficiencyAmount() > minAmountForDeficiencyReservation;
         if (overCapacity) {
-            // makeDeficiencyReservation();
+//            makeDeficiencyReservation();
         }
     }
 
@@ -184,10 +185,10 @@ public class Branch {
 
     private void loadAllProductBranch() throws SQLException {
         List<ProductBranchDTO> load = ProductBranchDAO.getInstance().selectAll();
-        for (ProductBranchDTO productBranchDTO : load) {
-            if (!allProductBranches.containsKey(productBranchDTO.getProductDTO().getId())) {
+        for (ProductBranchDTO productBranchDTO : load){
+            if(!allProductBranches.containsKey(productBranchDTO.getProductDTO().getId())) {
                 ProductBranch productBranch = new ProductBranch(productBranchDTO);
-                allProductBranches.put(productBranch.getCode(), productBranch);
+                allProductBranches.put(productBranch.getCode(),productBranch);
             }
         }
     }
@@ -325,30 +326,26 @@ public class Branch {
 
         for (ProductBranch productBranch : productsToDiscount) {
             ProductBranch productBranch1 = loadProductBranch(productBranch.getCode());
-            // if (!allProductBranches.containsKey(productBranch.getCode())) {
-            // throw new Exception("this product not fount on this branch");
-            // }
-            // boolean ans = productBranch.applyDiscount(discount);
+//            if (!allProductBranches.containsKey(productBranch.getCode())) {
+//                throw new Exception("this product not fount on this branch");
+//            }
+//            boolean ans = productBranch.applyDiscount(discount);
             boolean ans = productBranch1.applyDiscount(discount);
             if (ans) {
                 productToDiscount.add(productBranch);
-                // ProductBranchDiscountDTO productBranchDiscountDTO = new
-                // ProductBranchDiscountDTO(productBranch.getCode(),branchId,discountDTO);
-                // ProductBranchDiscountsDAO.getInstance().insert(productBranchDiscountDTO);
+//                ProductBranchDiscountDTO productBranchDiscountDTO = new ProductBranchDiscountDTO(productBranch.getCode(),branchId,discountDTO);
+//                ProductBranchDiscountsDAO.getInstance().insert(productBranchDiscountDTO);
             }
 
         }
         return productToDiscount;
     }
 
-    // public void setDiscountOnCategories(List<Category> categoriesToDiscount,
-    // Discount discount) throws Exception {
-    // List<Category> allSubCategories =
-    // categoryController.getListAllSubCategories(categoriesToDiscount);
-    // List<ProductBranch> productsFromCategory =
-    // getProductsByCategories(allSubCategories);
-    // setDiscountOnProducts(productsFromCategory, discount,discoun);
-    // }
+//    public void setDiscountOnCategories(List<Category> categoriesToDiscount, Discount discount) throws Exception {
+//        List<Category> allSubCategories = categoryController.getListAllSubCategories(categoriesToDiscount);
+//        List<ProductBranch> productsFromCategory = getProductsByCategories(allSubCategories);
+//        setDiscountOnProducts(productsFromCategory, discount,discoun);
+//    }
 
     public List<ProductBranch> getProductsByCategories(List<Category> allSubCategories)
             throws SQLException, InventoryException {

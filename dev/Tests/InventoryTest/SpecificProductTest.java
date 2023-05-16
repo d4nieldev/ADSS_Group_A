@@ -26,8 +26,7 @@ public class SpecificProductTest {
     BranchController branchController;
     ProductController productController;
     Branch branch;
-//    ProductBranch productBranch;
-
+    // ProductBranch productBranch;
 
     @Before
     public void setUp() throws Exception {
@@ -38,16 +37,16 @@ public class SpecificProductTest {
         branch = branchController.getBranchById(0);
         CategoryController.getInstance().addNewCategory("Cat1");
         Category category = CategoryController.getInstance().getCategoryById(0);
-        CategoryController.getInstance().addNewCategory("Cat2",category);
+        CategoryController.getInstance().addNewCategory("Cat2", category);
         ProductController.getInstance().addProduct(0, "Product 0", "Manufacturer 0", 0);
         ProductController.getInstance().addProduct(1, "Product 1", "Manufacturer 1", 1);
         ProductDTO p1 = ProductsDAO.getInstance().getById(0);
         ProductDTO p2 = ProductsDAO.getInstance().getById(1);
-        ProductBranch productBranch01 =branchController.addNewProductBranch(0,0,null,20,5,50);
-        ProductBranch productBranch02 =branchController.addNewProductBranch(1,0,null,20,5,50);
-        branchController.receiveSupply(0,5,15,LocalDate.now().plusDays(2),0);
-        branchController.receiveSupply(0,5,15,LocalDate.now().minusDays(2),0);
-     }
+        ProductBranch productBranch01 = branchController.addNewProductBranch(0, 0, null, 20, 5, 50);
+        ProductBranch productBranch02 = branchController.addNewProductBranch(1, 0, null, 20, 5, 50);
+        branchController.receiveSupply(0, 5, 15, LocalDate.now().plusDays(2), 0);
+        branchController.receiveSupply(0, 5, 15, LocalDate.now().minusDays(2), 0);
+    }
 
     @After
     public void tearDown() {

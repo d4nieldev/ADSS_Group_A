@@ -8,6 +8,8 @@ import BusinessLayer.exceptions.InventoryException;
 import DataAccessLayer.DTOs.CategoryDTO;
 import DataAccessLayer.DTOs.ProductDTO;
 
+import java.sql.SQLException;
+
 public class Product {
     private int id;
     private String name;

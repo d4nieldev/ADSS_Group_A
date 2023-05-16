@@ -51,10 +51,11 @@ public class Global {
         if(!isInitialReport && reportId == 0) {
             reportId = ReportDAO.getInstance().getLastId();
             isInitialReport = true;
-            return  ++reportId;
+            reportId += 1;
+            return  reportId;
         }
 
-        return reportId++;
+        return ++reportId;
     }
 
     public static int getNewPeriodicId() {

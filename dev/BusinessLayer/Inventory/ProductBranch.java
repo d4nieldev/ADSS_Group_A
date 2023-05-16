@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import BusinessLayer.InveontorySuppliers.*;
+import BusinessLayer.exceptions.InventoryException;
 import DataAccessLayer.DAOs.DiscountDAO;
 import DataAccessLayer.DAOs.SpecificProductDAO;
 import DataAccessLayer.DTOs.DiscountDTO;

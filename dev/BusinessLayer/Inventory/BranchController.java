@@ -1,6 +1,7 @@
 package BusinessLayer.Inventory;
 
 import BusinessLayer.InveontorySuppliers.*;
+import BusinessLayer.exceptions.InventoryException;
 import BusinessLayer.exceptions.SuppliersException;
 import DataAccessLayer.DAOs.*;
 import DataAccessLayer.DTOs.*;
@@ -345,7 +346,7 @@ public HashMap<Integer, List<SpecificProduct>> getBranchExpired(int branchId) th
      * @return
      */
     private List<ProductBranch> getProductsByCategories(List<Category> allSubCategories, int branchId)
-            throws SQLException {
+            throws SQLException, InventoryException {
         Branch branch = allBranches.get(branchId);
         List<ProductBranch> productFromCategories = branch.getProductsByCategories(allSubCategories);
         return productFromCategories;

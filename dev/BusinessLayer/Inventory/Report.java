@@ -29,4 +29,8 @@ public abstract class Report {
     public LocalDate getCreationDate() {
         return creationDate;
     }
+
+    public ReportDTO getReportDTO() {
+        return reportDTO;
+    }
 }

@@ -1,12 +1,26 @@
 package BusinessLayer.Inventory;
 
-import BusinessLayer.InveontorySuppliers.Branch;
-import DataAccessLayer.DAOs.*;
-import DataAccessLayer.DTOs.*;
-
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
+import BusinessLayer.InveontorySuppliers.Branch;
+import BusinessLayer.InveontorySuppliers.ProductController;
+import BusinessLayer.exceptions.InventoryException;
+import DataAccessLayer.DAOs.DeficiencyReportEntryDAO;
+import DataAccessLayer.DAOs.ExpiredAndFlawReportEntryDAO;
+import DataAccessLayer.DAOs.InventoryReportEntryDAO;
+import DataAccessLayer.DAOs.ReportDAO;
+import DataAccessLayer.DTOs.DeficiencyReportDTO;
+import DataAccessLayer.DTOs.DeficiencyReportEntryDTO;
+import DataAccessLayer.DTOs.ExpiredAndFlawReportDTO;
+import DataAccessLayer.DTOs.ExpiredAndFlawReportEntryDTO;
+import DataAccessLayer.DTOs.InventoryReportDTO;
+import DataAccessLayer.DTOs.InventoryReportEntryDTO;
+import DataAccessLayer.DTOs.ProductBranchDTO;
+import DataAccessLayer.DTOs.ReportDTO;
 
 public class ReportController {
     private HashMap<Integer, Report> allReports;
@@ -37,22 +51,24 @@ public class ReportController {
         return this.allReports;
     }
 
-//    public InventoryReport importInventoryReport(int branchId, List<Category> categoryList) {
-//        Branch branch = BranchController.getInstance().getBranchById(branchId);
-//        InventoryReport report = new InventoryReport(branch, categoryList);
-//        allReports.put(report.getId(), report);
-//        return report;
-//    }
+    // public InventoryReport importInventoryReport(int branchId, List<Category>
+    // categoryList) {
+    // Branch branch = BranchController.getInstance().getBranchById(branchId);
+    // InventoryReport report = new InventoryReport(branch, categoryList);
+    // allReports.put(report.getId(), report);
+    // return report;
+    // }
 
-    //TODO: importInventroyReport- regular one without categories filter
-//    public InventoryReport importInventoryReport(int branchId) throws SQLException {
-//        Branch branch = BranchController.getInstance().getBranchById(branchId);
-//        int reportID = Global.getNewReportId();
-//        ReportDTO repDTO = new ReportDTO(reportID, branchId, LocalDate.now());
-//        reportDAO.insert(repDTO);
-//
-//    }
-    public InventoryReport importInventoryReport(int branchId, List<Category> categoryList) throws Exception {
+    // TODO: importInventroyReport- regular one without categories filter
+    // public InventoryReport importInventoryReport(int branchId) throws
+    // SQLException {
+    // Branch branch = BranchController.getInstance().getBranchById(branchId);
+    // int reportID = Global.getNewReportId();
+    // ReportDTO repDTO = new ReportDTO(reportID, branchId, LocalDate.now());
+    // reportDAO.insert(repDTO);
+    //
+    // }
+    public InventoryReport importInventoryReport(int branchId, List<Category> categoryList) throws SQLException {
         Branch branch = BranchController.getInstance().getBranchById(branchId);
         int reportID = Global.getNewReportId();
         ReportDTO repDTO = new ReportDTO(reportID, branchId, LocalDate.now());
@@ -63,7 +79,8 @@ public class ReportController {
             int shelfAmount = productBranch.getOnShelfProduct().size();
             int storageAmount = productBranch.getTotalAmount() - productBranch.getOnShelfProduct().size();
 
-            InventoryReportEntryDTO invRepEnDTO = new InventoryReportEntryDTO(reportID, code, shelfAmount, storageAmount);
+            InventoryReportEntryDTO invRepEnDTO = new InventoryReportEntryDTO(reportID, code, shelfAmount,
+                    storageAmount);
             inventoryReportEntryDAO.insert(invRepEnDTO);
         }
 
@@ -71,8 +88,12 @@ public class ReportController {
         HashMap<Integer, String> idsToName = branch.getIdsToNameByCategories(categoryList);
 
         InventoryReport report = new InventoryReport(invRepDTO, idsToName);
-        allReports.put(report.getId(), report);
+        saveReport(report);
         return report;
+    }
+
+    private void saveReport(Report report) throws SQLException {
+        allReports.put(report.getId(), report);
     }
 
     public InventoryReport importInventoryReport(int branchId) throws Exception {
@@ -86,23 +107,14 @@ public class ReportController {
             int shelfAmount = productBranch.getOnShelfProduct().size();
             int storageAmount = productBranch.getTotalAmount() - productBranch.getOnShelfProduct().size();
 
-            InventoryReportEntryDTO invRepEnDTO = new InventoryReportEntryDTO(reportID, code, shelfAmount, storageAmount);
+            InventoryReportEntryDTO invRepEnDTO = new InventoryReportEntryDTO(reportID, code, shelfAmount,
+                    storageAmount);
             inventoryReportEntryDAO.insert(invRepEnDTO);
         }
 
-        InventoryReportDTO invRepDTO = inventoryReportEntryDAO.getFullReportById(reportID);
-        HashMap<Integer, String> idsToName = branch.getIdsToNameForAllegories();
-
-        InventoryReport report = new InventoryReport(invRepDTO, idsToName);
-        allReports.put(report.getId(), report);
+        InventoryReport report = getInventoryReport(reportID);
         return report;
     }
-
-//    public ExpiredAndFlawReport importExpiredAndFlawReport(int branchId) {
-//        ExpiredAndFlawReport report = new ExpiredAndFlawReport(branchId);
-//        allReports.put(report.getId(), report);
-//        return report;
-//    }
 
     public ExpiredAndFlawReport importExpiredAndFlawReport(int branchId) throws Exception {
         BranchController branchController = BranchController.getInstance();
@@ -118,60 +130,95 @@ public class ReportController {
                 expiredAndFlawReportEntryDAO.insert(expAndFlawEntDTO);
             }
         }
-        ExpiredAndFlawReportDTO expAndFlawDTO = expiredAndFlawReportEntryDAO.getFullReportById(reportID);
-
-        ExpiredAndFlawReport report = new ExpiredAndFlawReport(expAndFlawDTO);
-        allReports.put(report.getId(), report);
+        ExpiredAndFlawReport report = getExpiredAndFlawReport(reportID);
         return report;
     }
 
-//    public DeficientReport importDeficientReport(int branchId) {
-//        DeficientReport report = new DeficientReport(branchId);
-//        allReports.put(report.getId(), report);
-//        return report;
-//    }
-
     public DeficientReport importDeficientReport(int branchId) throws Exception {
-        BranchController branchController= BranchController.getInstance();
+        BranchController branchController = BranchController.getInstance();
         int reportID = Global.getNewReportId();
         ReportDTO repDTO = new ReportDTO(reportID, branchId, LocalDate.now());
         reportDAO.insert(repDTO);
 
-        HashMap<Integer, ProductBranch> deficiencyProductsBranch = branchController.getBranchDeficiencyProducts(branchId);
-        for (Integer productCode : deficiencyProductsBranch.keySet()) {
-            ProductBranch deficiencyProduct = deficiencyProductsBranch.get(productCode);
+        HashMap<Integer, ProductBranch> deficiencyProductsBranch = branchController
+                .getBranchDeficiencyProducts(branchId);
+        for (Integer productId : deficiencyProductsBranch.keySet()) {
+            ProductBranch deficiencyProduct = deficiencyProductsBranch.get(productId);
             int missingAmount = deficiencyProduct.getMinQuantity() - deficiencyProduct.getTotalAmount();
-            DeficiencyReportEntryDTO defEntDTO = new DeficiencyReportEntryDTO(reportID, deficiencyProduct.getCode(), missingAmount);
+            DeficiencyReportEntryDTO defEntDTO = new DeficiencyReportEntryDTO(reportID, deficiencyProduct.getCode(),
+                    missingAmount);
             deficiencyReportEntryDAO.insert(defEntDTO);
         }
-        DeficiencyReportDTO defDTO = deficiencyReportEntryDAO.getFullReportById(reportID);
 
-        DeficientReport report = new DeficientReport(defDTO);
-        allReports.put(report.getId(), report);
+        DeficientReport report = getDeficientReport(reportID);
         return report;
     }
 
-    public InventoryReport getInventoryReport(int reportId) throws Exception {
+    public InventoryReport getInventoryReport(int reportId) throws InventoryException, SQLException {
+        if (allReports.containsKey(reportId) && allReports.get(reportId) instanceof InventoryReport)
+            return (InventoryReport) allReports.get(reportId);
+        else if (allReports.containsKey(reportId) && !(allReports.get(reportId) instanceof InventoryReport))
+            throw new InventoryException("this is not Inventory Report");
 
-        if (allReports.get(reportId) == null || !(allReports.get(reportId) instanceof InventoryReport))
-            throw new Exception("this is not Inventory Report");
+        InventoryReportDTO dto = inventoryReportEntryDAO.getFullReportById(reportId);
+        if (dto == null)
+            throw new InventoryException("this is not Inventory Report");
 
-        return (InventoryReport) allReports.get(reportId);
+        Map<Integer, String> idsToNames = new HashMap<>();
+        for (Integer productId : dto.getIdToShopAmount().keySet()) {
+            String name = ProductController.getInstance().getProductById(productId).getName();
+            idsToNames.put(productId, name);
+        }
+
+        InventoryReport report = new InventoryReport(dto, idsToNames);
+        saveReport(report);
+        return report;
     }
 
-    public ExpiredAndFlawReport getExpiredAndFlawReport(int reportId) throws Exception {
-        if (allReports.get(reportId) == null || !(allReports.get(reportId) instanceof ExpiredAndFlawReport))
-            throw new Exception("this is not Expired and flaws Report");
+    public ExpiredAndFlawReport getExpiredAndFlawReport(int reportId) throws InventoryException, SQLException {
+        if (allReports.containsKey(reportId) && allReports.get(reportId) instanceof ExpiredAndFlawReport)
+            return (ExpiredAndFlawReport) allReports.get(reportId);
+        else if (allReports.containsKey(reportId) && !(allReports.get(reportId) instanceof InventoryReport))
+            throw new InventoryException("this is not Expired And Flaw Report");
 
-        return (ExpiredAndFlawReport) allReports.get(reportId);
+        ExpiredAndFlawReportDTO dto = expiredAndFlawReportEntryDAO.getFullReportById(reportId);
+        if (dto == null)
+            throw new InventoryException("this is not Inventory Report");
+
+        HashMap<Integer, ProductBranch> allProductsOfBranch = BranchController.getInstance()
+                .getBranchById(dto.getBranchId()).getAllProductBranches();
+        Map<Integer, ProductBranch> products = new HashMap<>();
+        for (Integer productId : allProductsOfBranch.keySet())
+            if (dto.getExpiredProducts().contains(productId) || dto.getFlawProducts().contains(productId))
+                products.put(productId, allProductsOfBranch.get(productId));
+
+        ExpiredAndFlawReport report = new ExpiredAndFlawReport(dto, products);
+
+        saveReport(report);
+        return report;
     }
 
-    public DeficientReport getDeficientReport(int reportId) throws Exception {
-        if (allReports.get(reportId) == null || !(allReports.get(reportId) instanceof DeficientReport))
-            throw new Exception("this is not Expired and flaws Report");
+    public DeficientReport getDeficientReport(int reportId) throws InventoryException, SQLException {
+        if (allReports.containsKey(reportId) && allReports.get(reportId) instanceof DeficientReport)
+            return (DeficientReport) allReports.get(reportId);
+        else if (allReports.containsKey(reportId) && !(allReports.get(reportId) instanceof DeficientReport))
+            throw new InventoryException("this is not Deficient Report");
 
-        return (DeficientReport) allReports.get(reportId);
+        DeficiencyReportDTO dto = deficiencyReportEntryDAO.getFullReportById(reportId);
+        if (dto == null)
+            throw new InventoryException("this is not Inventory Report");
+
+        HashMap<Integer, ProductBranch> allProductsOfBranch = BranchController.getInstance()
+                .getBranchById(dto.getBranchId()).getAllProductBranches();
+        Map<Integer, ProductBranchDTO> productsDTOs = dto.getIdToProductBranch();
+        Map<Integer, ProductBranch> products = new HashMap<>();
+        for (Integer productId : productsDTOs.keySet())
+            products.put(productId, allProductsOfBranch.get(productId));
+
+        DeficientReport report = new DeficientReport(dto, products);
+
+        saveReport(report);
+        return report;
     }
-
 
 }

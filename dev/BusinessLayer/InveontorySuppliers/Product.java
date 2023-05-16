@@ -1,5 +1,7 @@
 package BusinessLayer.InveontorySuppliers;
 
+import java.sql.SQLException;
+
 import BusinessLayer.Inventory.Category;
 import BusinessLayer.Inventory.CategoryController;
 import BusinessLayer.exceptions.InventoryException;

@@ -1,7 +1,6 @@
 package BusinessLayer.Inventory;
 
 import BusinessLayer.InveontorySuppliers.*;
-import BusinessLayer.exceptions.InventoryException;
 import BusinessLayer.exceptions.SuppliersException;
 import DataAccessLayer.DAOs.*;
 import DataAccessLayer.DTOs.*;

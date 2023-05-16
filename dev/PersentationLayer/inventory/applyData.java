@@ -22,7 +22,7 @@ import java.util.TreeMap;
 
 public class applyData {
     private static ProductController productController = ProductController.getInstance();
-    private static CategoryController categoryController =CategoryController.getInstance();
+    private static CategoryController categoryController = CategoryController.getInstance();
     private static BranchController branchController = BranchController.getInstance();
 
     /**
@@ -55,69 +55,80 @@ public class applyData {
             createSupplier1();
         } catch (Exception e) {
             System.out.println("Could not setup environment");
-//            e.printStackTrace();
+            e.printStackTrace();
+            // e.printStackTrace();
         }
     }
+
     private static void initial() throws Exception {
 
-//        addSuppliers();
-        branchController.addBranch(1,"branch1",0);
+        // addSuppliers();
+        branchController.addBranch(1, "branch1", 0);
         Branch branch = branchController.getBranchById(1);
 
         categoryController.addNewCategory("Tnuva"); // id -
-//        Category tnuva = categoryController.getCategoryById(0);
-//        categoryController.addNewCategory("Milks drinks",tnuva); // id -1
-//        Category milkDrinks =categoryController.getCategoryById(1);
-//        CategoryDTO categoryDTO0 = CategoryDAO.getInstance().getById(0);
-//        CategoryDTO categoryDTO1 = CategoryDAO.getInstance().getById(1);
-//
-//        ProductDTO p1DTO = new ProductDTO(1,"Milk","Tnuva",categoryDTO1);
-//        ProductDTO p2DTO = new ProductDTO(2,"Koteg","Tnuva",categoryDTO0);
-////        Product p1 = new Product(p1DTO);
-////        Product p2 = new Product(p2DTO);
-//        productController.addProduct(p1DTO); // milk
-//        productController.addProduct(p2DTO); // koteg
-//
-//
-//
-//        SpecificProductDTO specificProductDTO1 = new SpecificProductDTO(1,0,1,15, LocalDate.now().plusDays(2)); //Flow
-//        SpecificProductDTO specificProductDTO2 = new SpecificProductDTO(2,0,1,15, LocalDate.now().plusDays(2));
-//        SpecificProductDTO specificProductDTO3 = new SpecificProductDTO(3,0,1,15, LocalDate.now().minusDays(2));
-//
-//        HashMap<Integer,SpecificProductDTO> hashMilk = new HashMap<>();
-//        hashMilk.put(specificProductDTO1.getSpecificId(),specificProductDTO1);
-//        hashMilk.put(specificProductDTO2.getSpecificId(),specificProductDTO2);
-//        hashMilk.put(specificProductDTO3.getSpecificId(),specificProductDTO3);
-//        ProductBranchDTO productBranchDTO1 = new ProductBranchDTO(p1DTO,1,20,3,100,hashMilk); //milk
-//
-//
-//        SpecificProductDTO specificProductDTO11 = new SpecificProductDTO(4,1,1,5, LocalDate.now().plusDays(2));
-//        SpecificProductDTO specificProductDTO22 = new SpecificProductDTO(5,1,1,5, LocalDate.now().plusDays(2));
-//        SpecificProductDTO specificProductDTO33 = new SpecificProductDTO(6,1,1,5, LocalDate.now().minusDays(2));
-//
-//        HashMap<Integer,SpecificProductDTO> hashKoteg = new HashMap<>();
-//
-//        hashKoteg.put(specificProductDTO11.getSpecificId(),specificProductDTO11);
-//        hashKoteg.put(specificProductDTO22.getSpecificId(),specificProductDTO22);
-//        hashKoteg.put(specificProductDTO33.getSpecificId(),specificProductDTO33);
-//        ProductBranchDTO productBranchDTO2 = new ProductBranchDTO(p2DTO,1,5,5,100,hashKoteg);
-//
-//        ProductBranch productBranchMilk = new ProductBranch(productBranchDTO1);
-//        ProductBranch productBranchKoteg = new ProductBranch(productBranchDTO2);
-//        branch.addNewProductBranch(productBranchDTO1);
-//        branch.addNewProductBranch(productBranchDTO2);
-        ProductBranch productBranch01 =branchController.addNewProductBranch(0,0,null,20,5,50);
-        ProductBranch productBranch02 =branchController.addNewProductBranch(1,0,null,20,5,50);
-//        productBranch01.receiveSupply(1,15,LocalDate.now().plusMonths(1),1);
-        branchController.receiveSupply(0,5,15,LocalDate.now().plusDays(2),0);
-        branchController.receiveSupply(0,5,15,LocalDate.now().minusDays(2),0);
+        // Category tnuva = categoryController.getCategoryById(0);
+        // categoryController.addNewCategory("Milks drinks",tnuva); // id -1
+        // Category milkDrinks =categoryController.getCategoryById(1);
+        // CategoryDTO categoryDTO0 = CategoryDAO.getInstance().getById(0);
+        // CategoryDTO categoryDTO1 = CategoryDAO.getInstance().getById(1);
+        //
+        // ProductDTO p1DTO = new ProductDTO(1,"Milk","Tnuva",categoryDTO1);
+        // ProductDTO p2DTO = new ProductDTO(2,"Koteg","Tnuva",categoryDTO0);
+        //// Product p1 = new Product(p1DTO);
+        //// Product p2 = new Product(p2DTO);
+        // productController.addProduct(p1DTO); // milk
+        // productController.addProduct(p2DTO); // koteg
+        //
+        //
+        //
+        // SpecificProductDTO specificProductDTO1 = new SpecificProductDTO(1,0,1,15,
+        // LocalDate.now().plusDays(2)); //Flow
+        // SpecificProductDTO specificProductDTO2 = new SpecificProductDTO(2,0,1,15,
+        // LocalDate.now().plusDays(2));
+        // SpecificProductDTO specificProductDTO3 = new SpecificProductDTO(3,0,1,15,
+        // LocalDate.now().minusDays(2));
+        //
+        // HashMap<Integer,SpecificProductDTO> hashMilk = new HashMap<>();
+        // hashMilk.put(specificProductDTO1.getSpecificId(),specificProductDTO1);
+        // hashMilk.put(specificProductDTO2.getSpecificId(),specificProductDTO2);
+        // hashMilk.put(specificProductDTO3.getSpecificId(),specificProductDTO3);
+        // ProductBranchDTO productBranchDTO1 = new
+        // ProductBranchDTO(p1DTO,1,20,3,100,hashMilk); //milk
+        //
+        //
+        // SpecificProductDTO specificProductDTO11 = new SpecificProductDTO(4,1,1,5,
+        // LocalDate.now().plusDays(2));
+        // SpecificProductDTO specificProductDTO22 = new SpecificProductDTO(5,1,1,5,
+        // LocalDate.now().plusDays(2));
+        // SpecificProductDTO specificProductDTO33 = new SpecificProductDTO(6,1,1,5,
+        // LocalDate.now().minusDays(2));
+        //
+        // HashMap<Integer,SpecificProductDTO> hashKoteg = new HashMap<>();
+        //
+        // hashKoteg.put(specificProductDTO11.getSpecificId(),specificProductDTO11);
+        // hashKoteg.put(specificProductDTO22.getSpecificId(),specificProductDTO22);
+        // hashKoteg.put(specificProductDTO33.getSpecificId(),specificProductDTO33);
+        // ProductBranchDTO productBranchDTO2 = new
+        // ProductBranchDTO(p2DTO,1,5,5,100,hashKoteg);
+        //
+        // ProductBranch productBranchMilk = new ProductBranch(productBranchDTO1);
+        // ProductBranch productBranchKoteg = new ProductBranch(productBranchDTO2);
+        // branch.addNewProductBranch(productBranchDTO1);
+        // branch.addNewProductBranch(productBranchDTO2);
+        ProductBranch productBranch01 = branchController.addNewProductBranch(0, 0, null, 20, 5, 50);
+        ProductBranch productBranch02 = branchController.addNewProductBranch(1, 0, null, 20, 5, 50);
+        // productBranch01.receiveSupply(1,15,LocalDate.now().plusMonths(1),1);
+        branchController.receiveSupply(0, 5, 15, LocalDate.now().plusDays(2), 0);
+        branchController.receiveSupply(0, 5, 15, LocalDate.now().minusDays(2), 0);
 
-//        ProductBranch productBranchMilk = branchController.addNewProductBranch(1,productBranchDTO1);
-//        ProductBranch productBranchKoteg = branchController.addNewProductBranch(1,productBranchDTO2);
+        // ProductBranch productBranchMilk =
+        // branchController.addNewProductBranch(1,productBranchDTO1);
+        // ProductBranch productBranchKoteg =
+        // branchController.addNewProductBranch(1,productBranchDTO2);
 
-//        branch.reportFlawProduct(1,1,"FlowProduct!!!");
+        // branch.reportFlawProduct(1,1,"FlowProduct!!!");
     }
-
 
     private static void createSupplier0() throws Exception {
         String name = "Supplier 0";
@@ -156,6 +167,7 @@ public class applyData {
                 stockAmount, basePrice, amountToDiscount);
 
     }
+
     private static void createSupplier1() throws Exception {
         String name = "Supplier 1";
         String phone = "1234567890";
@@ -190,29 +202,38 @@ public class applyData {
         SupplierController.getInstance().addSupplierProductAgreement(supplierId, productShopId, productSupplierId,
                 stockAmount, basePrice, amountToDiscount);
     }
+
     private static void createProducts() throws Exception {
         BranchController.getInstance().addBranch(0, "Ashkelon", 0);
         CategoryController.getInstance().addNewCategory("Cat1");
         Category category = categoryController.getCategoryById(0);
-        CategoryController.getInstance().addNewCategory("Cat2",category);
+        CategoryController.getInstance().addNewCategory("Cat2", category);
         ProductController.getInstance().addProduct(0, "Product 0", "Manufacturer 0", 0);
         ProductController.getInstance().addProduct(1, "Product 1", "Manufacturer 1", 1);
         ProductDTO p1 = ProductsDAO.getInstance().getById(0);
         ProductDTO p2 = ProductsDAO.getInstance().getById(1);
 
-//        SpecificProduct specificProduct1 = new SpecificProduct(Global.getNewSpecificId(),15,LocalDate.now().plusDays(2),0);
-//        SpecificProduct specificProduct2 = new SpecificProduct(Global.getNewSpecificId(),15,LocalDate.now().plusDays(2),0);
-//        SpecificProduct specificProduct3 = new SpecificProduct(Global.getNewSpecificId(),15,LocalDate.now().minusDays(2),0);
-//
-//        SpecificProductDTO specificProductDTO2 = new SpecificProductDTO(Global.getNewSpecificId(),0,0,15, LocalDate.now().plusDays(2));
-//        SpecificProductDTO specificProductDTO3 = new SpecificProductDTO(Global.getNewSpecificId(),0,0,15, LocalDate.now().minusDays(2));
+        // SpecificProduct specificProduct1 = new
+        // SpecificProduct(Global.getNewSpecificId(),15,LocalDate.now().plusDays(2),0);
+        // SpecificProduct specificProduct2 = new
+        // SpecificProduct(Global.getNewSpecificId(),15,LocalDate.now().plusDays(2),0);
+        // SpecificProduct specificProduct3 = new
+        // SpecificProduct(Global.getNewSpecificId(),15,LocalDate.now().minusDays(2),0);
+        //
+        // SpecificProductDTO specificProductDTO2 = new
+        // SpecificProductDTO(Global.getNewSpecificId(),0,0,15,
+        // LocalDate.now().plusDays(2));
+        // SpecificProductDTO specificProductDTO3 = new
+        // SpecificProductDTO(Global.getNewSpecificId(),0,0,15,
+        // LocalDate.now().minusDays(2));
 
-        HashMap<Integer,SpecificProductDTO> hashMilk = new HashMap<>();
-//        hashMilk.put(specificProductDTO1.getSpecificId(),specificProductDTO1);
-//        hashMilk.put(specificProductDTO2.getSpecificId(),specificProductDTO2);
-//        hashMilk.put(specificProductDTO3.getSpecificId(),specificProductDTO3);
-//        ProductBranchDTO productBranchDTO1 = new ProductBranchDTO(p1,0,20,10,50,hashMilk);
-//        BranchController.getInstance().addNewProductBranch(0,productBranchDTO1);
+        HashMap<Integer, SpecificProductDTO> hashMilk = new HashMap<>();
+        // hashMilk.put(specificProductDTO1.getSpecificId(),specificProductDTO1);
+        // hashMilk.put(specificProductDTO2.getSpecificId(),specificProductDTO2);
+        // hashMilk.put(specificProductDTO3.getSpecificId(),specificProductDTO3);
+        // ProductBranchDTO productBranchDTO1 = new
+        // ProductBranchDTO(p1,0,20,10,50,hashMilk);
+        // BranchController.getInstance().addNewProductBranch(0,productBranchDTO1);
         // TODO: how we add product branch??
     }
 

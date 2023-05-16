@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import BusinessLayer.InveontorySuppliers.*;
+import BusinessLayer.exceptions.InventoryException;
 import DataAccessLayer.DAOs.DiscountDAO;
 import DataAccessLayer.DAOs.SpecificProductDAO;
 import DataAccessLayer.DTOs.DiscountDTO;
@@ -342,6 +343,7 @@ public class ProductBranch {
     public Category getCategory() throws Exception {
         return product.getCategory();
     }
+
     public String getCategoryName() throws Exception {
         return product.getCategoryName();
     }
@@ -350,7 +352,7 @@ public class ProductBranch {
         return product.getCategoryId();
     }
 
-    public boolean existInCategories(List<Category> allSubCategories) throws Exception {
+    public boolean existInCategories(List<Category> allSubCategories) throws SQLException, InventoryException {
         boolean result = false;
         for (Category category : allSubCategories) {
             if (product.getCategory() == category) {

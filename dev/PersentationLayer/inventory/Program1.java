@@ -99,6 +99,5 @@ public class Program1 {
             choose = scanner.nextInt();
         }
         // test
-
     }
 }

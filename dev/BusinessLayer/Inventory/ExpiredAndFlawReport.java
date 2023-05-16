@@ -2,53 +2,55 @@ package BusinessLayer.Inventory;
 
 import BusinessLayer.InveontorySuppliers.Branch;
 import DataAccessLayer.DTOs.ExpiredAndFlawReportDTO;
+import DataAccessLayer.DTOs.SpecificProductDTO;
 
 import java.time.LocalDate;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class ExpiredAndFlawReport extends Report {
-    private HashMap<Integer, HashMap<Integer, LocalDate>> idToExpiredSpecificIdAndDate; // maps between productBranch to
+    private Map<Integer, Map<Integer, LocalDate>> idToExpiredSpecificIdAndDate; // maps between productBranch to
     // map specific and ExpireDate
-    private HashMap<Integer, HashMap<Integer, String>> codeToSpecificDescription; // maps between product code to map of
+    private Map<Integer, Map<Integer, String>> codeToSpecificDescription; // maps between product code to map of
     // specificId and flaw description all// its specificProducts that flaws
-    private HashMap<Integer, ProductBranch> products;
+    private Map<Integer, ProductBranch> products;
 
-    private BranchController branchController;
-//    private HashMap<Integer, String> codeToCategory;
-//    private HashMap<Integer, String> idsToName;
+    public ExpiredAndFlawReport(ExpiredAndFlawReportDTO expiredAndFlawReportDTO, Map<Integer, ProductBranch> products) {
+        super(expiredAndFlawReportDTO.getId(), expiredAndFlawReportDTO.getBranchId(), LocalDate.now(),
+                expiredAndFlawReportDTO.getReportDTO());
 
+        List<SpecificProductDTO> expiredProducts = expiredAndFlawReportDTO.getExpiredProducts();
+        this.idToExpiredSpecificIdAndDate = new HashMap<>();
+        for (SpecificProductDTO specificDTO : expiredProducts) {
+            int productId = specificDTO.getGeneralId();
+            int specificId = specificDTO.getSpecificId();
+            LocalDate expiryDate = specificDTO.getExpDate();
+            idToExpiredSpecificIdAndDate.computeIfAbsent(productId, k -> new HashMap<>()).put(specificId, expiryDate);
+        }
 
-    public ExpiredAndFlawReport(ExpiredAndFlawReportDTO expiredAndFlawReportDTO) throws Exception {
-        super(expiredAndFlawReportDTO.getId(), expiredAndFlawReportDTO.getBranchId(), LocalDate.now(), expiredAndFlawReportDTO.getReportDTO());
+        List<SpecificProductDTO> flawProducts = expiredAndFlawReportDTO.getFlawProducts();
+        this.codeToSpecificDescription = new HashMap<>();
+        for (SpecificProductDTO specificDTO : flawProducts) {
+            int productId = specificDTO.getGeneralId();
+            int specificId = specificDTO.getSpecificId();
+            String flaw = specificDTO.getFlaw();
+            codeToSpecificDescription.computeIfAbsent(productId, k -> new HashMap<>()).put(specificId, flaw);
+        }
 
-        this.branchController = BranchController.getInstance();
-        Branch branch = branchController.getBranchById(expiredAndFlawReportDTO.getBranchId());
-        this.idToExpiredSpecificIdAndDate = branch.getBranchesExpiredBySpecificProductList(expiredAndFlawReportDTO.getExpiredProducts());
-        this.codeToSpecificDescription = branch.getBranchFlawsIdsToDescription();
-        this.products = branch.getAllProductBranches();
-//        this.idsToName = branch.getIdsToName();
-//        this.codeToCategory = branch.getCodeToCategory();
+        this.products = products;
     }
 
-    public HashMap<Integer, HashMap<Integer, LocalDate>> getIdToExpiredSpecificIdAndDate() {
+    public Map<Integer, Map<Integer, LocalDate>> getIdToExpiredSpecificIdAndDate() {
         return idToExpiredSpecificIdAndDate;
     }
 
-    public HashMap<Integer, HashMap<Integer, String>> getCodeToSpecificDescription() {
+    public Map<Integer, Map<Integer, String>> getCodeToSpecificDescription() {
         return codeToSpecificDescription;
     }
 
-    public HashMap<Integer, ProductBranch> getProducts() {
+    public Map<Integer, ProductBranch> getProducts() {
         return products;
     }
-
-//    public HashMap<Integer, String> getIdsToName() {
-//
-//        return idsToName;
-//    }
-//
-//    public HashMap<Integer, String> getCodeToCategory() {
-//        return codeToCategory;
-//    }
 
 }

@@ -5,6 +5,7 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
 
+import DataAccessLayer.DTOs.InventoryReportDTO;
 import DataAccessLayer.DTOs.ReportDTO;
 
 public class ReportDAO extends DAO<ReportDTO> {

@@ -131,6 +131,15 @@ public class ReportController {
                 expiredAndFlawReportEntryDAO.insert(expAndFlawEntDTO);
             }
         }
+        HashMap<Integer, List<SpecificProduct>> productFlaws = branchController.getBranchFlaws(branchId);
+        for (Integer productCode : productFlaws.keySet()) {
+            for (SpecificProduct specificProduct : productFlaws.get(productCode)) {
+                int specificId = specificProduct.getSpecificId();
+                ExpiredAndFlawReportEntryDTO expAndFlawEntDTO = new ExpiredAndFlawReportEntryDTO(reportID, specificId);
+                expiredAndFlawReportEntryDAO.insert(expAndFlawEntDTO);
+            }
+        }
+
         ExpiredAndFlawReport report = getExpiredAndFlawReport(reportID);
         return report;
     }

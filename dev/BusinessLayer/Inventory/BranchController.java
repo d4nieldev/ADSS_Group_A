@@ -1,6 +1,7 @@
 package BusinessLayer.Inventory;
 
 import BusinessLayer.InveontorySuppliers.*;
+import BusinessLayer.exceptions.InventoryException;
 import BusinessLayer.exceptions.SuppliersException;
 import DataAccessLayer.DAOs.*;
 import DataAccessLayer.DTOs.*;
@@ -150,7 +151,8 @@ public HashMap<Integer, List<SpecificProduct>> getBranchExpired(int branchId) th
            allBranches.put(branchId, newBranch);
        }
        catch (Exception e){
-           throw new Exception("already exist");
+//           throw new Exception("already exist");
+           System.out.println();
        }
 
     }
@@ -335,6 +337,20 @@ public HashMap<Integer, List<SpecificProduct>> getBranchExpired(int branchId) th
             SpecificProductDTO specificProductDTO = specificProduct.getSpecificProductDTO();
             specificProductDAO.insert(specificProductDTO);
         }
+    }
+
+    /***
+     * private method for receving the product of branch by categories
+     *
+     * @param allSubCategories
+     * @param branchId
+     * @return
+     */
+    private List<ProductBranch> getProductsByCategories(List<Category> allSubCategories, int branchId)
+            throws SQLException, InventoryException {
+        Branch branch = allBranches.get(branchId);
+        List<ProductBranch> productFromCategories = branch.getProductsByCategories(allSubCategories);
+        return productFromCategories;
     }
 
     /**

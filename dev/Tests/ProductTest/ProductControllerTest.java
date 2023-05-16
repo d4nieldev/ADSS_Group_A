@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.TreeMap;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -22,23 +23,13 @@ public class ProductControllerTest {
 
     @Before
     public void setUp() throws Exception {
-        try {
-            createSupplierWithTwoProductAgreements();
-        } catch (Exception e) {
-            System.out.println("Could not setup environment");
-            e.printStackTrace();
-        }
-
+        createSupplierWithTwoProductAgreements();
     }
 
     private void createSupplierWithTwoProductAgreements() throws Exception {
-        try {
-            createSupplier0();
-            createTwoProducts();
-            addTwoAgreementsToSupplier();
-        } catch (Exception e) {
-            throw e;
-        }
+        createSupplier0();
+        createTwoProducts();
+        addTwoAgreementsToSupplier();
     }
 
     private void createSupplier0() throws SuppliersException, SQLException {

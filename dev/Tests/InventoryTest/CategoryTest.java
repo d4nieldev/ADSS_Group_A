@@ -18,7 +18,7 @@ public class CategoryTest {
   CategoryController categoryController;
 
   @Before
-  public void setUp() throws SQLException {
+  public void setUp() throws Exception {
     this.productController = ProductController.getInstance();
     this.categoryController = CategoryController.getInstance();
     // create sample categories and add them to the dictionary
@@ -39,7 +39,7 @@ public class CategoryTest {
   }
 
   @Test
-  public void testGetAllParenCategories() {
+  public void testGetAllParenCategories() throws Exception {
       // Arrange
     Category category1 = categoryController.getCategoryById(0); // get the sample category with ID 3
     Category category2 = categoryController.getCategoryById(2); // get the sample category with ID 3
@@ -54,7 +54,7 @@ public class CategoryTest {
   }
 
   @Test
-  public void testGetCategoriesByIds() {
+  public void testGetCategoriesByIds() throws Exception {
     List<Integer> ids = new ArrayList<>();
     ids.add(1);
     ids.add(3);

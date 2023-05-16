@@ -16,9 +16,9 @@ import BusinessLayer.Inventory.ProductBranch;
 import BusinessLayer.Inventory.ProductStatus;
 import BusinessLayer.Inventory.SpecificProduct;
 import BusinessLayer.Suppliers.ReservationController;
+import BusinessLayer.exceptions.InventoryException;
 import DataAccessLayer.DAOs.DiscountDAO;
 import DataAccessLayer.DAOs.ProductBranchDAO;
-import DataAccessLayer.DAOs.ProductBranchDiscountsDAO;
 import DataAccessLayer.DAOs.ProductsDAO;
 import DataAccessLayer.DTOs.*;
 
@@ -125,21 +125,20 @@ public class Branch {
     }
 
     private ProductBranch loadProductBranch(int id) {
-    ProductBranch productBranch = null;
-     try {
-         ProductBranchDTO productBranchDTO = ProductBranchDAO.getInstance().getByProductAndBranchId(id,branchId);
-         if(productBranchDTO != null) {
-              productBranch = new ProductBranch(productBranchDTO);
-             allProductBranches.put(productBranch.getCode() , productBranch);
-             productBranch.loadSpecific();
-             return productBranch;
-         }
-     } catch (Exception e) {
-         throw new RuntimeException(e);
-     }
-     return null;
+        ProductBranch productBranch = null;
+        try {
+            ProductBranchDTO productBranchDTO = ProductBranchDAO.getInstance().getByProductAndBranchId(id, branchId);
+            if (productBranchDTO != null) {
+                productBranch = new ProductBranch(productBranchDTO);
+                allProductBranches.put(productBranch.getCode(), productBranch);
+                productBranch.loadSpecificByProductId(productBranch.getCode());
+                return productBranch;
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        return null;
     }
-
 
     public SpecificProduct sellProduct(int code, int specificId) throws Exception {
         ProductBranch productBranch = loadProductBranch(code);
@@ -154,7 +153,7 @@ public class Branch {
     public void CheckForDeficiencyReservation() throws SQLException {
         boolean overCapacity = getTotalDeficiencyAmount() > minAmountForDeficiencyReservation;
         if (overCapacity) {
-//            makeDeficiencyReservation();
+            // makeDeficiencyReservation();
         }
     }
 
@@ -185,10 +184,10 @@ public class Branch {
 
     private void loadAllProductBranch() throws SQLException {
         List<ProductBranchDTO> load = ProductBranchDAO.getInstance().selectAll();
-        for (ProductBranchDTO productBranchDTO : load){
-            if(!allProductBranches.containsKey(productBranchDTO.getProductDTO().getId())) {
+        for (ProductBranchDTO productBranchDTO : load) {
+            if (!allProductBranches.containsKey(productBranchDTO.getProductDTO().getId())) {
                 ProductBranch productBranch = new ProductBranch(productBranchDTO);
-                allProductBranches.put(productBranch.getCode(),productBranch);
+                allProductBranches.put(productBranch.getCode(), productBranch);
             }
         }
     }
@@ -318,35 +317,41 @@ public class Branch {
      * @return
      * @throws Exception
      */
-    public List<ProductBranch> setDiscountOnProducts(List<ProductBranch> productsToDiscount, Discount discount,DiscountDTO discountDTO)
+    public List<ProductBranch> setDiscountOnProducts(List<ProductBranch> productsToDiscount, Discount discount,
+            DiscountDTO discountDTO)
             throws Exception {
         HashMap<ProductBranch, DiscountDTO> changeDiscount = new HashMap<>();
         List<ProductBranch> productToDiscount = new ArrayList<>();
 
         for (ProductBranch productBranch : productsToDiscount) {
             ProductBranch productBranch1 = loadProductBranch(productBranch.getCode());
-//            if (!allProductBranches.containsKey(productBranch.getCode())) {
-//                throw new Exception("this product not fount on this branch");
-//            }
-//            boolean ans = productBranch.applyDiscount(discount);
+            // if (!allProductBranches.containsKey(productBranch.getCode())) {
+            // throw new Exception("this product not fount on this branch");
+            // }
+            // boolean ans = productBranch.applyDiscount(discount);
             boolean ans = productBranch1.applyDiscount(discount);
             if (ans) {
                 productToDiscount.add(productBranch);
-//                ProductBranchDiscountDTO productBranchDiscountDTO = new ProductBranchDiscountDTO(productBranch.getCode(),branchId,discountDTO);
-//                ProductBranchDiscountsDAO.getInstance().insert(productBranchDiscountDTO);
+                // ProductBranchDiscountDTO productBranchDiscountDTO = new
+                // ProductBranchDiscountDTO(productBranch.getCode(),branchId,discountDTO);
+                // ProductBranchDiscountsDAO.getInstance().insert(productBranchDiscountDTO);
             }
 
         }
         return productToDiscount;
     }
 
-//    public void setDiscountOnCategories(List<Category> categoriesToDiscount, Discount discount) throws Exception {
-//        List<Category> allSubCategories = categoryController.getListAllSubCategories(categoriesToDiscount);
-//        List<ProductBranch> productsFromCategory = getProductsByCategories(allSubCategories);
-//        setDiscountOnProducts(productsFromCategory, discount,discoun);
-//    }
+    // public void setDiscountOnCategories(List<Category> categoriesToDiscount,
+    // Discount discount) throws Exception {
+    // List<Category> allSubCategories =
+    // categoryController.getListAllSubCategories(categoriesToDiscount);
+    // List<ProductBranch> productsFromCategory =
+    // getProductsByCategories(allSubCategories);
+    // setDiscountOnProducts(productsFromCategory, discount,discoun);
+    // }
 
-    public List<ProductBranch> getProductsByCategories(List<Category> allSubCategories) throws SQLException {
+    public List<ProductBranch> getProductsByCategories(List<Category> allSubCategories)
+            throws SQLException, InventoryException {
         List<ProductBranch> result = new ArrayList<>();
         loadAllProductBranch();
         for (ProductBranch productBranch : allProductBranches.values()) {
@@ -505,7 +510,7 @@ public class Branch {
         return result;
     }
 
-    public HashMap<Integer, String> getCodeToCategory() {
+    public HashMap<Integer, String> getCodeToCategory() throws SQLException, Exception {
         HashMap<Integer, String> result = new HashMap<>();
         for (ProductBranch productBranch : allProductBranches.values()) {
             int code = productBranch.getCode();
@@ -516,7 +521,8 @@ public class Branch {
         return result;
     }
 
-    public HashMap<Integer, String> getIdsToNameByCategories(List<Category> categoryList) throws SQLException {
+    public HashMap<Integer, String> getIdsToNameByCategories(List<Category> categoryList)
+            throws SQLException, InventoryException {
         HashMap<Integer, String> idsToName = new HashMap<>();
         List<ProductBranch> productsByCategories = getProductsByCategories(categoryList);
 
@@ -542,7 +548,8 @@ public class Branch {
         return idsToName;
     }
 
-    public HashMap<Integer, Integer> getIdsTOShelfAmountByCategories(List<Category> categoryList) throws SQLException {
+    public HashMap<Integer, Integer> getIdsTOShelfAmountByCategories(List<Category> categoryList)
+            throws SQLException, Exception {
         List<ProductBranch> productsByCategories = getProductsByCategories(categoryList);
         HashMap<Integer, Integer> idsToShelfAmount = new HashMap<>();
         for (ProductBranch productBranch : productsByCategories) {
@@ -553,7 +560,8 @@ public class Branch {
         return idsToShelfAmount;
     }
 
-    public HashMap<Integer, Integer> getIdsTOStorageAmountByCategories(List<Category> categoryList) throws SQLException {
+    public HashMap<Integer, Integer> getIdsTOStorageAmountByCategories(List<Category> categoryList)
+            throws SQLException, Exception {
         List<ProductBranch> productsByCategories = getProductsByCategories(categoryList);
         HashMap<Integer, Integer> idsToStorageAmount = new HashMap<>();
         for (ProductBranch productBranch : productsByCategories) {

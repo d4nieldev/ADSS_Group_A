@@ -340,8 +340,12 @@ public class BranchController {
      * @param branchId
      * @return
      */
+<<<<<<< HEAD
     private List<ProductBranch> getProductsByCategories(List<Category> allSubCategories, int branchId)
             throws SQLException {
+=======
+    private List<ProductBranch> getProductsByCategories(List<Category> allSubCategories, int branchId) throws SQLException, Exception {
+>>>>>>> 629a525c80ebf34a56f875341ae1d02cd7861572
         Branch branch = allBranches.get(branchId);
         List<ProductBranch> productFromCategories = branch.getProductsByCategories(allSubCategories);
         return productFromCategories;

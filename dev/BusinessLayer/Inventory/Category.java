@@ -14,13 +14,15 @@ public class Category {
     public Category(CategoryDTO categoryDTO) {
         this.id = categoryDTO.getId();
         this.name = categoryDTO.getName();
-        CategoryController catCon = CategoryController.getInstance();
-        if (categoryDTO.getParentCategoryDTO() != null)
-            this.parentCategory = catCon.getCategoryById(categoryDTO.getParentCategoryDTO().getId());
-        else
+        CategoryDTO parentDTO = categoryDTO.getParentCategoryDTO();
+        if (parentDTO == null) {
             this.parentCategory = null;
+        } else {
+            this.parentCategory = new Category(parentDTO);
+        }
         this.categoryDTO = categoryDTO;
     }
+
     public int getId() {
         return id;
     }
@@ -43,12 +45,6 @@ public class Category {
 
     public void setParentCategorie(Category parentCategory) {
         this.parentCategory = parentCategory;
-    }
-
-    public String getParentparentCategoryId() {
-        if (parentCategory == null)
-            return "NULL";
-        return "" + parentCategory.getId();
     }
 
     public List<Category> getAllParentCategories() {

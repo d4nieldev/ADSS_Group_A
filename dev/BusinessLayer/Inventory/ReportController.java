@@ -68,7 +68,8 @@ public class ReportController {
     // reportDAO.insert(repDTO);
     //
     // }
-    public InventoryReport importInventoryReport(int branchId, List<Category> categoryList) throws SQLException {
+    public InventoryReport importInventoryReport(int branchId, List<Category> categoryList)
+            throws SQLException, InventoryException {
         Branch branch = BranchController.getInstance().getBranchById(branchId);
         int reportID = Global.getNewReportId();
         ReportDTO repDTO = new ReportDTO(reportID, branchId, LocalDate.now());

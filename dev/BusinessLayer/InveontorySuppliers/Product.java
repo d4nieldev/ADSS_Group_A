@@ -1,7 +1,10 @@
 package BusinessLayer.InveontorySuppliers;
 
+import java.sql.SQLException;
+
 import BusinessLayer.Inventory.Category;
 import BusinessLayer.Inventory.CategoryController;
+import BusinessLayer.exceptions.InventoryException;
 import DataAccessLayer.DTOs.CategoryDTO;
 import DataAccessLayer.DTOs.ProductDTO;
 
@@ -53,7 +56,7 @@ public class Product {
         return categoryId;
     }
 
-    public Category getCategory() {
+    public Category getCategory() throws SQLException, InventoryException {
         CategoryController categoryController = CategoryController.getInstance();
         return categoryController.getCategoryById(categoryId);
     }
@@ -66,7 +69,7 @@ public class Product {
         return this.dto;
     }
 
-    public String getCategoryName() {
+    public String getCategoryName() throws Exception{
         CategoryController categoryController = CategoryController.getInstance();
         return categoryController.getCategoryById(categoryId).getName();
     }

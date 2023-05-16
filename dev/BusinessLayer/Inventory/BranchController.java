@@ -1,6 +1,7 @@
 package BusinessLayer.Inventory;
 
 import BusinessLayer.InveontorySuppliers.*;
+import BusinessLayer.exceptions.InventoryException;
 import BusinessLayer.exceptions.SuppliersException;
 import DataAccessLayer.DAOs.*;
 import DataAccessLayer.DTOs.*;
@@ -150,7 +151,8 @@ public HashMap<Integer, List<SpecificProduct>> getBranchExpired(int branchId) th
            allBranches.put(branchId, newBranch);
        }
        catch (Exception e){
-           throw new Exception("already exist");
+//           throw new Exception("already exist");
+           System.out.println();
        }
 
     }

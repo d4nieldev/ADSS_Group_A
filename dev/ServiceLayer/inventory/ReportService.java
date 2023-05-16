@@ -131,6 +131,7 @@ public class ReportService {
         // Iterate through each general product and print its flow products
         for (Integer productCode : products.keySet()) {
             Map<Integer, String> flowProducts = codeToSpecificDescription.get(productCode);
+            if(flowProducts != null)
             for (int id : flowProducts.keySet()) {
                 System.out.format("%-10d%-20s%-15s%-20d%-25s%-25s%n", index++, products.get(productCode).getName(),
                         products.get(productCode).getCategoryName(), id, flowProducts.get(id), "X");

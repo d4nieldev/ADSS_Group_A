@@ -10,6 +10,7 @@ import DataAccessLayer.DTOs.CategoryDTO;
 import DataAccessLayer.DTOs.ProductBranchDTO;
 import DataAccessLayer.DTOs.ProductDTO;
 import DataAccessLayer.DTOs.SpecificProductDTO;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -53,6 +54,7 @@ public class SpecificProductTest {
         sp.setFlawDescription(description);
         assertEquals(description, sp.getFlawDescription());
     }
+    @After
 
     @Test
     public void testSetStatus() throws Exception {

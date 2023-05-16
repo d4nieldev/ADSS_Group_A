@@ -8,9 +8,12 @@
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/database.db" beforeDir="false" afterPath="$PROJECT_DIR$/database.db" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/dev/BusinessLayer/Inventory/BranchController.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/BusinessLayer/Inventory/BranchController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dev/BusinessLayer/Inventory/ProductBranch.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/BusinessLayer/Inventory/ProductBranch.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dev/BusinessLayer/InveontorySuppliers/Branch.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/BusinessLayer/InveontorySuppliers/Branch.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dev/BusinessLayer/InveontorySuppliers/Product.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/BusinessLayer/InveontorySuppliers/Product.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dev/BusinessLayer/Inventory/Global.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/BusinessLayer/Inventory/Global.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dev/BusinessLayer/Inventory/ReportController.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/BusinessLayer/Inventory/ReportController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dev/PersentationLayer/inventory/Program1.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/PersentationLayer/inventory/Program1.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dev/ServiceLayer/inventory/ReportService.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/ServiceLayer/inventory/ReportService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dev/Tests/InventoryTest/BranchTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/Tests/InventoryTest/BranchTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dev/Tests/InventoryTest/SpecificProductTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/Tests/InventoryTest/SpecificProductTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -106,38 +109,6 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="ProductBranchTest.testGetOnStorage" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="ADSS_Group_A" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="Tests.InventoryTest.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="Tests.InventoryTest" />
-      <option name="MAIN_CLASS_NAME" value="Tests.InventoryTest.ProductBranchTest" />
-      <option name="METHOD_NAME" value="testGetOnStorage" />
-      <option name="TEST_OBJECT" value="method" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="ProductBranchTest.testReceiveSupply" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="ADSS_Group_A" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="Tests.InventoryTest.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="Tests.InventoryTest" />
-      <option name="MAIN_CLASS_NAME" value="Tests.InventoryTest.ProductBranchTest" />
-      <option name="METHOD_NAME" value="testReceiveSupply" />
-      <option name="TEST_OBJECT" value="method" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
     <configuration name="SpecificProductTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="ADSS_Group_A" />
       <extension name="coverage">
@@ -153,13 +124,45 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="SpecificProductTest.testSetFlawDescription" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="ADSS_Group_A" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="Tests.InventoryTest.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="Tests.InventoryTest" />
+      <option name="MAIN_CLASS_NAME" value="Tests.InventoryTest.SpecificProductTest" />
+      <option name="METHOD_NAME" value="testSetFlawDescription" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="SpecificProductTest.testSetStatus" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="ADSS_Group_A" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="Tests.InventoryTest.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="Tests.InventoryTest" />
+      <option name="MAIN_CLASS_NAME" value="Tests.InventoryTest.SpecificProductTest" />
+      <option name="METHOD_NAME" value="testSetStatus" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <recent_temporary>
       <list>
         <item itemvalue="Application.Program1" />
+        <item itemvalue="JUnit.SpecificProductTest.testSetStatus" />
+        <item itemvalue="JUnit.SpecificProductTest.testSetFlawDescription" />
         <item itemvalue="JUnit.SpecificProductTest" />
         <item itemvalue="JUnit.CategoryTest.testGetCategoriesByIds" />
-        <item itemvalue="JUnit.ProductBranchTest.testGetOnStorage" />
-        <item itemvalue="JUnit.ProductBranchTest.testReceiveSupply" />
       </list>
     </recent_temporary>
   </component>
@@ -368,7 +371,14 @@
       <option name="project" value="LOCAL" />
       <updated>1684254601044</updated>
     </task>
-    <option name="localTasksCounter" value="29" />
+    <task id="LOCAL-00029" summary="fix expiredAndFlaws">
+      <created>1684256527143</created>
+      <option name="number" value="00029" />
+      <option name="presentableId" value="LOCAL-00029" />
+      <option name="project" value="LOCAL" />
+      <updated>1684256527143</updated>
+    </task>
+    <option name="localTasksCounter" value="30" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -442,7 +452,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/dev/BusinessLayer/Inventory/BranchController.java</url>
-          <line>309</line>
+          <line>310</line>
           <option name="timeStamp" value="48" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
@@ -452,17 +462,17 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/dev/ServiceLayer/inventory/ReportService.java</url>
-          <line>198</line>
+          <line>199</line>
           <option name="timeStamp" value="79" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/dev/BusinessLayer/Inventory/ReportController.java</url>
-          <line>152</line>
+          <line>161</line>
           <option name="timeStamp" value="80" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/dev/BusinessLayer/Inventory/ReportController.java</url>
-          <line>143</line>
+          <line>152</line>
           <option name="timeStamp" value="81" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
@@ -477,7 +487,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/dev/BusinessLayer/Inventory/ReportController.java</url>
-          <line>153</line>
+          <line>162</line>
           <option name="timeStamp" value="84" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
@@ -507,7 +517,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/dev/BusinessLayer/Inventory/BranchController.java</url>
-          <line>363</line>
+          <line>364</line>
           <option name="timeStamp" value="124" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
@@ -527,17 +537,17 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/dev/Tests/InventoryTest/BranchTest.java</url>
-          <line>60</line>
+          <line>213</line>
           <option name="timeStamp" value="135" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/dev/Tests/InventoryTest/SpecificProductTest.java</url>
-          <line>50</line>
+          <line>51</line>
           <option name="timeStamp" value="139" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/dev/Tests/InventoryTest/SpecificProductTest.java</url>
-          <line>58</line>
+          <line>60</line>
           <option name="timeStamp" value="140" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
@@ -572,13 +582,8 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/dev/BusinessLayer/Inventory/BranchController.java</url>
-          <line>289</line>
+          <line>290</line>
           <option name="timeStamp" value="169" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/dev/BusinessLayer/Inventory/ReportController.java</url>
-          <line>101</line>
-          <option name="timeStamp" value="170" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/dev/ServiceLayer/inventory/ReportService.java</url>
@@ -587,7 +592,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/dev/ServiceLayer/inventory/ReportService.java</url>
-          <line>134</line>
+          <line>135</line>
           <option name="timeStamp" value="192" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
@@ -600,9 +605,34 @@
           <line>123</line>
           <option name="timeStamp" value="194" />
         </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/dev/ServiceLayer/inventory/ReportService.java</url>
+          <line>126</line>
+          <option name="timeStamp" value="195" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/dev/BusinessLayer/Inventory/ExpiredAndFlawReport.java</url>
+          <line>31</line>
+          <option name="timeStamp" value="196" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/dev/BusinessLayer/Inventory/ReportController.java</url>
+          <line>133</line>
+          <option name="timeStamp" value="198" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/dev/BusinessLayer/InveontorySuppliers/Branch.java</url>
+          <line>383</line>
+          <option name="timeStamp" value="200" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/dev/BusinessLayer/InveontorySuppliers/Branch.java</url>
+          <line>382</line>
+          <option name="timeStamp" value="201" />
+        </line-breakpoint>
         <line-breakpoint enabled="true" type="java-method">
           <url>file://$PROJECT_DIR$/dev/BusinessLayer/Inventory/BranchController.java</url>
-          <line>270</line>
+          <line>271</line>
           <properties class="BusinessLayer.Inventory.BranchController" method="setDiscountOnProducts">
             <option name="EMULATED" value="true" />
             <option name="WATCH_EXIT" value="false" />

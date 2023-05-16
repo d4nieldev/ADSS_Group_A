@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import BusinessLayer.InveontorySuppliers.*;
+import DataAccessLayer.DAOs.DiscountDAO;
 import DataAccessLayer.DAOs.ProductBranchDiscountsDAO;
 import DataAccessLayer.DAOs.SpecificProductDAO;
 import DataAccessLayer.DTOs.DiscountDTO;
@@ -83,7 +84,7 @@ public class ProductBranch {
         return allSpecificProducts;
     }
 
-    public double getPrice() {
+    public double getPrice() throws SQLException {
         this.discount = getCurrentMaxDiscount();
         if (discount != null) {
             return discount.getPriceWithDiscount(price);
@@ -141,7 +142,7 @@ public class ProductBranch {
         this.minQuantity = newMinQuantity;
     }
 
-    public Discount getCurrentMaxDiscount() {
+    public Discount getCurrentMaxDiscount() throws SQLException {
         if(discountsHistory.isEmpty()){
             loadDiscountHistory();
         }
@@ -168,7 +169,22 @@ public class ProductBranch {
     }
 
     private void loadDiscountHistory() throws SQLException {
-        List<> currentDiscount = ProductBranchDiscountsDAO.getInstance().selectAllById(product.getId());
+        List<DiscountDTO> allProductDiscount = DiscountDAO.getInstance().selectAllById(product.getId());
+
+        if(allProductDiscount != null ){
+            for (DiscountDTO discountDTO : allProductDiscount) {
+                String type = discountDTO.getdType();
+                if (type == "Fixed"){
+                     DiscountFixed discount1 = new DiscountFixed(discountDTO);
+                     discountsHistory.add(discount1);
+                }
+                else{
+                     DiscountPercentage discount2 = new DiscountPercentage(discountDTO);
+                     discountsHistory.add(discount2);
+                }
+
+            }
+        }
     }
 
     public List<SpecificProduct> getAllExpired() throws SQLException {
@@ -275,7 +291,7 @@ public class ProductBranch {
     }
 
 
-    private void UpdateSellPrice(SpecificProduct sp) {
+    private void UpdateSellPrice(SpecificProduct sp) throws SQLException {
         double sellPrice = getPrice();
         sp.setSellPrice(sellPrice);
     }

@@ -18,6 +18,7 @@ import BusinessLayer.Inventory.SpecificProduct;
 import BusinessLayer.Suppliers.ReservationController;
 import DataAccessLayer.DAOs.DiscountDAO;
 import DataAccessLayer.DAOs.ProductBranchDAO;
+import DataAccessLayer.DAOs.ProductBranchDiscountsDAO;
 import DataAccessLayer.DAOs.ProductsDAO;
 import DataAccessLayer.DTOs.*;
 
@@ -61,7 +62,8 @@ public class Branch {
         return this.branchName;
     }
 
-    public HashMap<Integer, ProductBranch> getAllProductBranches() {
+    public HashMap<Integer, ProductBranch> getAllProductBranches() throws SQLException {
+        loadAllProductBranch();
         return allProductBranches;
     }
 
@@ -171,6 +173,7 @@ public class Branch {
 
     public HashMap<Integer, List<SpecificProduct>> getExpiredProducts() throws SQLException {
         HashMap<Integer, List<SpecificProduct>> allExpiredProducts = new HashMap<>();
+        loadAllProductBranch();
         for (ProductBranch productBranch : allProductBranches.values()) {
             List<SpecificProduct> expiredProducts = productBranch.getAllExpired();
             allExpiredProducts.put(productBranch.getCode(), expiredProducts);
@@ -180,8 +183,18 @@ public class Branch {
         return allExpiredProducts;
     }
 
+    private void loadAllProductBranch() throws SQLException {
+        List<ProductBranchDTO> load = ProductBranchDAO.getInstance().selectAll();
+        for (ProductBranchDTO productBranchDTO : load){
+            if(!allProductBranches.containsKey(productBranchDTO.getProductDTO().getId())) {
+                ProductBranch productBranch = new ProductBranch(productBranchDTO);
+                allProductBranches.put(productBranch.getCode(),productBranch);
+            }
+        }
+    }
+
     public ProductBranch reportFlawProduct(int productCode, int specificId, String description) throws Exception {
-        ProductBranch productBranch = allProductBranches.get(productCode);
+        ProductBranch productBranch = loadProductBranch(productCode);
         if (productBranch == null)
             throw new Exception("this product doesn't exist in the branch");
         productBranch.reportFlawProduct(specificId, description);
@@ -206,8 +219,9 @@ public class Branch {
 
     }
 
-    public HashMap<Integer, List<SpecificProduct>> getFlawsProducts() {
+    public HashMap<Integer, List<SpecificProduct>> getFlawsProducts() throws SQLException {
         HashMap<Integer, List<SpecificProduct>> allFlawsProducts = new HashMap<>();
+
         for (ProductBranch productBranch : allProductBranches.values()) {
             List<SpecificProduct> flawProducts = productBranch.getAllFlaws();
             allFlawsProducts.put(productBranch.getCode(), flawProducts);
@@ -225,7 +239,7 @@ public class Branch {
     }
 
     public void updateMinQuantityForProductBranch(int code, int newMinQuantity) {
-        ProductBranch product = allProductBranches.get(code);
+        ProductBranch product = loadProductBranch(code);
         product.setMinQuantity(newMinQuantity);
 
     }
@@ -310,14 +324,18 @@ public class Branch {
         List<ProductBranch> productToDiscount = new ArrayList<>();
 
         for (ProductBranch productBranch : productsToDiscount) {
-            if (!allProductBranches.containsKey(productBranch.getCode())) {
-                throw new Exception("this product not fount on this branch");
-            }
-            boolean ans = productBranch.applyDiscount(discount);
+            ProductBranch productBranch1 = loadProductBranch(productBranch.getCode());
+//            if (!allProductBranches.containsKey(productBranch.getCode())) {
+//                throw new Exception("this product not fount on this branch");
+//            }
+//            boolean ans = productBranch.applyDiscount(discount);
+            boolean ans = productBranch1.applyDiscount(discount);
             if (ans) {
                 productToDiscount.add(productBranch);
-                ProductBranchDiscountDTO productBranchDiscountDTO = new ProductBranchDiscountDTO(productBranch.getCode(),branchId,discountDTO);
+//                ProductBranchDiscountDTO productBranchDiscountDTO = new ProductBranchDiscountDTO(productBranch.getCode(),branchId,discountDTO);
+//                ProductBranchDiscountsDAO.getInstance().insert(productBranchDiscountDTO);
             }
+
         }
         return productToDiscount;
     }
@@ -328,8 +346,9 @@ public class Branch {
 //        setDiscountOnProducts(productsFromCategory, discount,discoun);
 //    }
 
-    public List<ProductBranch> getProductsByCategories(List<Category> allSubCategories) {
+    public List<ProductBranch> getProductsByCategories(List<Category> allSubCategories) throws SQLException {
         List<ProductBranch> result = new ArrayList<>();
+        loadAllProductBranch();
         for (ProductBranch productBranch : allProductBranches.values()) {
             boolean check = productBranch.existInCategories(allSubCategories);
             if (check)
@@ -351,8 +370,9 @@ public class Branch {
      *
      * @return
      */
-    public HashMap<Integer, List<SpecificProduct>> getBranchFlaws() {
+    public HashMap<Integer, List<SpecificProduct>> getBranchFlaws() throws SQLException {
         HashMap<Integer, List<SpecificProduct>> result = new HashMap<>();
+        loadAllProductBranch();
         for (ProductBranch productBranch : allProductBranches.values()) {
             int code = productBranch.getCode();
             List<SpecificProduct> allFlaws = productBranch.getAllFlaws();
@@ -470,7 +490,7 @@ public class Branch {
         return expiredProductBranchCodes;
     }
 
-    public HashMap<Integer, HashMap<Integer, String>> getBranchFlawsIdsToDescription() {
+    public HashMap<Integer, HashMap<Integer, String>> getBranchFlawsIdsToDescription() throws SQLException {
         HashMap<Integer, HashMap<Integer, String>> result = new HashMap<>();
         HashMap<Integer, List<SpecificProduct>> branchFlows = getBranchFlaws();
         for (Integer productCode : branchFlows.keySet()) {
@@ -496,9 +516,10 @@ public class Branch {
         return result;
     }
 
-    public HashMap<Integer, String> getIdsToNameByCategories(List<Category> categoryList) {
+    public HashMap<Integer, String> getIdsToNameByCategories(List<Category> categoryList) throws SQLException {
         HashMap<Integer, String> idsToName = new HashMap<>();
         List<ProductBranch> productsByCategories = getProductsByCategories(categoryList);
+
         for (ProductBranch productBranch : productsByCategories) {
             int code = productBranch.getCode();
             String name = productBranch.getName();
@@ -507,7 +528,7 @@ public class Branch {
         return idsToName;
     }
 
-    public HashMap<Integer, String> getIdsToNameForAllegories() {
+    public HashMap<Integer, String> getIdsToNameForAllegories() throws SQLException {
         HashMap<Integer, String> idsToName = new HashMap<>();
         List<ProductBranch> productsForAllegories = new ArrayList<>();
         for (Integer productBrancheCode : getAllProductBranches().keySet()) {
@@ -521,7 +542,7 @@ public class Branch {
         return idsToName;
     }
 
-    public HashMap<Integer, Integer> getIdsTOShelfAmountByCategories(List<Category> categoryList) {
+    public HashMap<Integer, Integer> getIdsTOShelfAmountByCategories(List<Category> categoryList) throws SQLException {
         List<ProductBranch> productsByCategories = getProductsByCategories(categoryList);
         HashMap<Integer, Integer> idsToShelfAmount = new HashMap<>();
         for (ProductBranch productBranch : productsByCategories) {
@@ -532,7 +553,7 @@ public class Branch {
         return idsToShelfAmount;
     }
 
-    public HashMap<Integer, Integer> getIdsTOStorageAmountByCategories(List<Category> categoryList) {
+    public HashMap<Integer, Integer> getIdsTOStorageAmountByCategories(List<Category> categoryList) throws SQLException {
         List<ProductBranch> productsByCategories = getProductsByCategories(categoryList);
         HashMap<Integer, Integer> idsToStorageAmount = new HashMap<>();
         for (ProductBranch productBranch : productsByCategories) {
@@ -544,8 +565,9 @@ public class Branch {
 
     }
 
-    public List<ProductBranch> getProductsByCode(List<Integer> lst) {
+    public List<ProductBranch> getProductsByCode(List<Integer> lst) throws SQLException {
         List<ProductBranch> result = new ArrayList<>();
+        loadAllProductBranch();
         for (ProductBranch productBranch : allProductBranches.values()) {
             if (lst.contains(productBranch.getCode()))
                 result.add(productBranch);
@@ -554,7 +576,7 @@ public class Branch {
     }
 
     public ProductBranch getProductByCode(int productCode) throws Exception {
-        ProductBranch productBranch = allProductBranches.get(productCode);
+        ProductBranch productBranch = loadProductBranch(productCode);
         if (productBranch == null)
             throw new Exception("this product doesn't exist in the branch");
         return productBranch;
@@ -594,8 +616,9 @@ public class Branch {
     }
 
     public HashMap<Integer, ProductBranch> getDeficiencyProductBranches(
-            Map<Integer, ProductBranchDTO> idToProductBranch) {
+            Map<Integer, ProductBranchDTO> idToProductBranch) throws SQLException {
         HashMap<Integer, ProductBranch> deficiencyProductBranches = new HashMap<>();
+        loadAllProductBranch();
         for (Integer productCode : idToProductBranch.keySet()) {
             ProductBranchDTO productBranchDTO = idToProductBranch.get(productCode);
             ProductBranch productBranch = allProductBranches.get(productBranchDTO.getProductDTO().getId());
@@ -605,9 +628,10 @@ public class Branch {
     }
 
     public HashMap<Integer, HashMap<Integer, LocalDate>> getBranchesExpiredBySpecificProductList(
-            List<SpecificProductDTO> expiredProducts) {
+            List<SpecificProductDTO> expiredProducts) throws SQLException {
         HashMap<Integer, HashMap<Integer, LocalDate>> result = new HashMap<>();
         Set<Integer> expiredProductBranchCodes = expiredProductBranchCode(expiredProducts);
+        loadAllProductBranch();
         for (Integer expiredProductBranchCode : expiredProductBranchCodes) {
             HashMap<Integer, LocalDate> expired = new HashMap<>();
             for (SpecificProductDTO specificProductDTO : expiredProducts) {

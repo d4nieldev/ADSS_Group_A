@@ -71,26 +71,48 @@ public class BranchController {
         return branch;
     }
 
-    public HashMap<Integer, List<SpecificProduct>> getBranchExpired(int branchId) throws Exception {
-        HashMap<Integer, List<SpecificProduct>> result = new HashMap<>();
-
-        if (allBranches.containsKey(branchId)) {
-            Branch branch = allBranches.get(branchId);
-            result = branch.getExpiredProducts();
-            updateExpiredProducts(result);
-            return result;
-        } else {try{
-            Branch branch;
-            branch = LoadBranchFromData(branchId);
-                result = branch.getExpiredProducts();
-                updateExpiredProducts(result);
-                return result;
-            }
-            catch (Exception e) {
-                throw new Exception("failed to import from data");
-            }
-        }
-    }
+//    public HashMap<Integer, List<SpecificProduct>> getBranchExpired(int branchId) throws Exception {
+//        HashMap<Integer, List<SpecificProduct>> result = new HashMap<>();
+//        if (allBranches.containsKey(branchId)) {
+//            Branch branch = allBranches.get(branchId);
+//            result = branch.getExpiredProducts();
+//            updateExpiredProducts(result);
+//            return result;
+//        } else {try{
+//            Branch branch;
+//            branch = LoadBranchFromData(branchId);
+//                result = branch.getExpiredProducts();
+//                updateExpiredProducts(result);
+//                return result;
+//            }
+//            catch (Exception e) {
+//                throw new Exception("failed to import from data");
+//            }
+//        }
+//    }
+public HashMap<Integer, List<SpecificProduct>> getBranchExpired(int branchId) throws Exception {
+    HashMap<Integer, List<SpecificProduct>> result = new HashMap<>();
+    Branch branch = getBranchById(branchId);
+    result = branch.getExpiredProducts();
+    updateExpiredProducts(result);
+    return result;
+//    if (allBranches.containsKey(branchId)) {
+//        Branch branch = allBranches.get(branchId);
+//        result = branch.getExpiredProducts();
+//        updateExpiredProducts(result);
+//        return result;
+//    } else {try{
+//        Branch branch;
+//        branch = LoadBranchFromData(branchId);
+//        result = branch.getExpiredProducts();
+//        updateExpiredProducts(result);
+//        return result;
+//    }
+//    catch (Exception e) {
+//        throw new Exception("failed to import from data");
+//    }
+//    }
+}
     public HashMap<Integer, ProductBranch> getBranchDeficiencyProducts(int branchId) throws SQLException {
         return allBranches.get(branchId).getAllDeficiencyProductsBranch();
     }
@@ -100,8 +122,9 @@ public class BranchController {
             for (SpecificProduct specificProduct : result.get(productCode)) {
                 SpecificProductDTO specificProductDTO = specificProductDAO.getById(specificProduct.getSpecificId());
                 specificProductDTO.updateStatus(ProductStatus.status.EXPIRED);
-                specificProductDAO.delete(specificProductDTO);
-                specificProductDAO.insert(specificProductDTO);
+//                specificProductDAO.delete(specificProductDTO);
+//                specificProductDAO.insert(specificProductDTO);
+                specificProductDAO.update(specificProductDTO);
             }
         }
     }
@@ -254,7 +277,7 @@ public class BranchController {
                     discount.getDiscountValue(), "Precentage");
         }
         discountDAO.insert(discountDTO);
-        Branch branch = allBranches.get(branchId);
+        Branch branch = getBranchById(branchId);
         // return a list of all products who the new discount on them been changed
         List<ProductBranch> productsToDiscount = branch.getProductsByCode(products);
         List<ProductBranch> changeDiscount = branch.setDiscountOnProducts(productsToDiscount, discount, discountDTO);
@@ -284,7 +307,8 @@ public class BranchController {
             Discount discount)
             throws Exception {
 
-        Branch branch = checkBranchExist(branchId);
+//        Branch branch = checkBranchExist(branchId);
+        Branch branch = getBranchById(branchId);
         CategoryController categoryController = CategoryController.getInstance();
         List<Category> allCategories = categoryController.getCategoriesByIds(categoriesToDiscount);
         List<Category> allSubCategories = categoryController.getListAllSubCategories(allCategories);
@@ -317,7 +341,7 @@ public class BranchController {
      * @param branchId
      * @return
      */
-    private List<ProductBranch> getProductsByCategories(List<Category> allSubCategories, int branchId) {
+    private List<ProductBranch> getProductsByCategories(List<Category> allSubCategories, int branchId) throws SQLException {
         Branch branch = allBranches.get(branchId);
         List<ProductBranch> productFromCategories = branch.getProductsByCategories(allSubCategories);
         return productFromCategories;

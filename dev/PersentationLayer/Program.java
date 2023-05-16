@@ -7,10 +7,12 @@ import PersentationLayer.Suppliers.ReservationSystem;
 import PersentationLayer.Suppliers.SupplierSystem;
 import PersentationLayer.inventory.ProductSystem;
 import PersentationLayer.inventory.ReportSystem;
+import PersentationLayer.inventory.applyData;
 
 public class Program {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception {
         Scanner scanner = new Scanner(System.in);
+        applyData.setup();
 
         while (true) {
             System.out.print("> ");

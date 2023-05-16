@@ -82,3 +82,8 @@ Metar Bachar 206892317 Assaf Mishael 318359734
 **13** Import shortage report
 
 **exit** = exit the program
+
+## Tools
+
+- **junit-4.13.2** for the tests
+- **sqlite-jdbc-3.41.2.1** for the database

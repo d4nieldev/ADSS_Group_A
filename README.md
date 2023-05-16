@@ -8,7 +8,7 @@ Metar Bachar 206892317 Assaf Mishael 318359734
 
 **help** = show the manual
 
-===================================== Suppliers Menu =====================================
+### Suppliers Menu
 
 **makereservation** [branch] = open the reservation menu.
 
@@ -49,7 +49,8 @@ Metar Bachar 206892317 Assaf Mishael 318359734
 
 **getCard** [supplier_id] = Information about the supplier will be presented.
 
-===================================== Inventory menu =====================================
+### Inventory menu
+
 **addBranch** = adds a new branch to the system
 
 **addProductBranch** = adds a new product to an existing branch

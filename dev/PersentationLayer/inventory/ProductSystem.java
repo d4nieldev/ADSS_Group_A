@@ -244,7 +244,6 @@ public class ProductSystem {
     public static void getMenu() {
         System.out.println("1.  Add new product");
         System.out.println("2.  Add Category");
-        // System.out.println("3. Receive supply");
         System.out.println("3.  Sell product");
         System.out.println("4.  Set discount - categories");
         System.out.println("5.  Set discount - product");
@@ -255,9 +254,6 @@ public class ProductSystem {
         System.out.println("10. Import inventory report by categories");
         System.out.println("11. Import report by report id");
         System.out.println("12. Import product report");
-        System.out.println("13. Import shortage report");
-        // System.out.println("14. Import future expired products");
-        // System.out.println("-1. close the program");
     }
 
     public static void getStart() {

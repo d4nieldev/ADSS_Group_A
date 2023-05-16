@@ -6,7 +6,6 @@ import PersentationLayer.Suppliers.ReservationSystem;
 import PersentationLayer.Suppliers.SupplierSystem;
 import PersentationLayer.inventory.ProductSystem;
 import PersentationLayer.inventory.ReportSystem;
-import PersentationLayer.inventory.applyData;
 
 public class Program {
     public static void main(String[] args) throws Exception {

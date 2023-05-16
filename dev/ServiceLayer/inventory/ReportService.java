@@ -135,7 +135,8 @@ public class ReportService {
         // Iterate through all expired products and print the same details, with "EXPIRED" as the flow description
         for (Integer productCode : products.keySet()) {
             HashMap<Integer, LocalDate> expiredDate = idToExpiredSpecificIdAndDate.get(productCode);
-            for (int id : expiredDate.keySet()) {
+            if(expiredDate !=null)
+            for (Integer id : expiredDate.keySet()) {
                 System.out.format("%-10d%-20s%-15s%-20d%-25s%-25s%n", index++, products.get(productCode).getName(), products.get(productCode).getCategoryName(), id, "X","Expired at: " + expiredDate.get(id));
             }
         }

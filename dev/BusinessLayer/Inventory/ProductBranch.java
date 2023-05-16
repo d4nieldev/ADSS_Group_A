@@ -8,7 +8,6 @@ import java.util.List;
 
 import BusinessLayer.InveontorySuppliers.*;
 import DataAccessLayer.DAOs.DiscountDAO;
-import DataAccessLayer.DAOs.ProductBranchDiscountsDAO;
 import DataAccessLayer.DAOs.SpecificProductDAO;
 import DataAccessLayer.DTOs.DiscountDTO;
 import DataAccessLayer.DTOs.ProductBranchDTO;
@@ -190,7 +189,7 @@ public class ProductBranch {
     public List<SpecificProduct> getAllExpired() throws SQLException {
         if(allSpecificProducts.isEmpty())
         {
-            loadSpecific();
+            loadSpecificByProductId(product.getId());
         }
         List<SpecificProduct> allExpired = new ArrayList<>();
         for (SpecificProduct sp : allSpecificProducts.values()) {
@@ -211,7 +210,7 @@ public class ProductBranch {
     public List<SpecificProduct> getAllFlaws() throws SQLException {
         if(allSpecificProducts.isEmpty())
         {
-            loadSpecific();
+            loadSpecificByProductId(getCode());
         }
         List<SpecificProduct> allFlaws = new ArrayList<>();
         for (SpecificProduct sp : allSpecificProducts.values()) {
@@ -246,7 +245,7 @@ public class ProductBranch {
 
     private List<SpecificProduct> getOnStorageProducts() throws SQLException {
         if(allSpecificProducts.size() == 0){
-            loadSpecific();
+            loadSpecificByProductId(getCode());
         }
         List<SpecificProduct> onStorageProducts = new ArrayList<>();
         for (SpecificProduct sp : allSpecificProducts.values()) {
@@ -363,9 +362,9 @@ public class ProductBranch {
         return result;
     }
 
-    public void loadSpecific() throws SQLException {
+    public void loadSpecificByProductId(int id) throws SQLException {
         if(this.allSpecificProducts. size() == 0){
-            List<SpecificProductDTO> all = SpecificProductDAO.getInstance().selectAll();
+            List<SpecificProductDTO> all = SpecificProductDAO.getInstance().selectAllById(id);
             if(all != null){
                 for (SpecificProductDTO specificProductDTO : all){
                     SpecificProduct specificProduct = new SpecificProduct(specificProductDTO);

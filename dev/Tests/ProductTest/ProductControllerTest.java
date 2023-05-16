@@ -50,8 +50,8 @@ public class ProductControllerTest {
         TreeMap<Integer, String> amountToDiscount = new TreeMap<>();
         amountToDiscount.put(100, "0.025%");
         amountToDiscount.put(500, "0.03%");
-        List<String> contactNames = List.of("Dana Grinberg", "Roni Katz");
-        List<String> contactPhones = List.of("0525948325", "0535669897");
+        List<String> contactNames = createList("Dana Grinberg", "Roni Katz");
+        List<String> contactPhones = createList("0525948325", "0535669897");
         int maxSupplyDays = 4;
 
         SupplierController.getInstance().addOnOrderSupplierBaseAgreement(name, phone, bankAccount, fields,

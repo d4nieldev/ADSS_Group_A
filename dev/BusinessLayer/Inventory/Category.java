@@ -45,7 +45,7 @@ public class Category {
         this.parentCategory = parentCategory;
     }
 
-    public String getParentparentCategoryId() {
+    public String getParentCategoryId() {
         if (parentCategory == null)
             return "NULL";
         return "" + parentCategory.getId();

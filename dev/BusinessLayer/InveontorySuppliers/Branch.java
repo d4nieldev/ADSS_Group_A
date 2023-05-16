@@ -18,7 +18,6 @@ import BusinessLayer.Inventory.SpecificProduct;
 import BusinessLayer.Suppliers.ReservationController;
 import DataAccessLayer.DAOs.DiscountDAO;
 import DataAccessLayer.DAOs.ProductBranchDAO;
-import DataAccessLayer.DAOs.ProductBranchDiscountsDAO;
 import DataAccessLayer.DAOs.ProductsDAO;
 import DataAccessLayer.DTOs.*;
 
@@ -131,7 +130,7 @@ public class Branch {
          if(productBranchDTO != null) {
               productBranch = new ProductBranch(productBranchDTO);
              allProductBranches.put(productBranch.getCode() , productBranch);
-             productBranch.loadSpecific();
+             productBranch.loadSpecificByProductId(productBranch.getCode());
              return productBranch;
          }
      } catch (Exception e) {

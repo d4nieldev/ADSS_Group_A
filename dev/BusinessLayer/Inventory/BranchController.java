@@ -341,7 +341,7 @@ public HashMap<Integer, List<SpecificProduct>> getBranchExpired(int branchId) th
      * @param branchId
      * @return
      */
-    private List<ProductBranch> getProductsByCategories(List<Category> allSubCategories, int branchId) throws SQLException {
+    private List<ProductBranch> getProductsByCategories(List<Category> allSubCategories, int branchId) throws SQLException, Exception {
         Branch branch = allBranches.get(branchId);
         List<ProductBranch> productFromCategories = branch.getProductsByCategories(allSubCategories);
         return productFromCategories;

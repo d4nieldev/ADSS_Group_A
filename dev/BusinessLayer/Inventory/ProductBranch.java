@@ -340,10 +340,10 @@ public class ProductBranch {
         return product.getManufacturer();
     }
 
-    public Category getCategory() {
+    public Category getCategory() throws Exception {
         return product.getCategory();
     }
-    public String getCategoryName() {
+    public String getCategoryName() throws Exception {
         return product.getCategoryName();
     }
 
@@ -351,7 +351,7 @@ public class ProductBranch {
         return product.getCategoryId();
     }
 
-    public boolean existInCategories(List<Category> allSubCategories) {
+    public boolean existInCategories(List<Category> allSubCategories) throws Exception {
         boolean result = false;
         for (Category category : allSubCategories) {
             if (product.getCategory() == category) {

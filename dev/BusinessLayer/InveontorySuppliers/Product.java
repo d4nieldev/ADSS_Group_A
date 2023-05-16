@@ -53,7 +53,7 @@ public class Product {
         return categoryId;
     }
 
-    public Category getCategory() {
+    public Category getCategory() throws Exception {
         CategoryController categoryController = CategoryController.getInstance();
         return categoryController.getCategoryById(categoryId);
     }
@@ -66,7 +66,7 @@ public class Product {
         return this.dto;
     }
 
-    public String getCategoryName() {
+    public String getCategoryName() throws Exception{
         CategoryController categoryController = CategoryController.getInstance();
         return categoryController.getCategoryById(categoryId).getName();
     }

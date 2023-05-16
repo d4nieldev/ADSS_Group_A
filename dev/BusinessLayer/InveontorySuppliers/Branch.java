@@ -346,7 +346,7 @@ public class Branch {
 //        setDiscountOnProducts(productsFromCategory, discount,discoun);
 //    }
 
-    public List<ProductBranch> getProductsByCategories(List<Category> allSubCategories) throws SQLException {
+    public List<ProductBranch> getProductsByCategories(List<Category> allSubCategories) throws SQLException, Exception {
         List<ProductBranch> result = new ArrayList<>();
         loadAllProductBranch();
         for (ProductBranch productBranch : allProductBranches.values()) {
@@ -505,7 +505,7 @@ public class Branch {
         return result;
     }
 
-    public HashMap<Integer, String> getCodeToCategory() {
+    public HashMap<Integer, String> getCodeToCategory() throws SQLException,Exception{
         HashMap<Integer, String> result = new HashMap<>();
         for (ProductBranch productBranch : allProductBranches.values()) {
             int code = productBranch.getCode();
@@ -516,7 +516,7 @@ public class Branch {
         return result;
     }
 
-    public HashMap<Integer, String> getIdsToNameByCategories(List<Category> categoryList) throws SQLException {
+    public HashMap<Integer, String> getIdsToNameByCategories(List<Category> categoryList) throws SQLException, Exception {
         HashMap<Integer, String> idsToName = new HashMap<>();
         List<ProductBranch> productsByCategories = getProductsByCategories(categoryList);
 
@@ -542,7 +542,7 @@ public class Branch {
         return idsToName;
     }
 
-    public HashMap<Integer, Integer> getIdsTOShelfAmountByCategories(List<Category> categoryList) throws SQLException {
+    public HashMap<Integer, Integer> getIdsTOShelfAmountByCategories(List<Category> categoryList) throws SQLException , Exception{
         List<ProductBranch> productsByCategories = getProductsByCategories(categoryList);
         HashMap<Integer, Integer> idsToShelfAmount = new HashMap<>();
         for (ProductBranch productBranch : productsByCategories) {
@@ -553,7 +553,7 @@ public class Branch {
         return idsToShelfAmount;
     }
 
-    public HashMap<Integer, Integer> getIdsTOStorageAmountByCategories(List<Category> categoryList) throws SQLException {
+    public HashMap<Integer, Integer> getIdsTOStorageAmountByCategories(List<Category> categoryList) throws SQLException, Exception {
         List<ProductBranch> productsByCategories = getProductsByCategories(categoryList);
         HashMap<Integer, Integer> idsToStorageAmount = new HashMap<>();
         for (ProductBranch productBranch : productsByCategories) {

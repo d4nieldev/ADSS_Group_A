@@ -65,10 +65,26 @@ public class SpecificProductDAO extends DAO<SpecificProductDTO> {
                 return ProductStatus.status.IS_FLAW;
             case "EXPIRED":
                 return ProductStatus.status.EXPIRED;
-            case "ABORTED":
+            case "ON_STORAGE":
                 return ProductStatus.status.ON_STORAGE;
+            case "ON_SHELF":
+                return ProductStatus.status.ON_SHELF;
         }
         return null;
+    }
+
+    public int getLastId() throws SQLException {
+        String query = "SELECT * FROM SpecificProduct WHERE id = (SELECT Max(id) FROM SpecificProduct);";
+        List<Map<String, Object>> rows = repo.executeQuery(query);
+        if (rows.size() > 0)
+            return makeDTO(rows.get(0)).getSpecificId();
+
+        return -1;
+    }
+
+    public List<SpecificProductDTO> selectAllById(int id) throws SQLException {
+        String query = "SELECT * FROM SpecificProduct Where generalId= ?;";
+        return makeDTOs(repo.executeQuery(query ,id));
     }
 
 }

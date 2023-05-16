@@ -2,6 +2,7 @@ package DataAccessLayer.DTOs;
 
 import BusinessLayer.Inventory.Global;
 
+import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -16,7 +17,7 @@ public class CategoryDTO implements DTO {
         this.parentCategoryDTO = parentCategoryDTO;
     }
 
-    public CategoryDTO(String name) {
+    public CategoryDTO(String name) throws SQLException {
         this.id = Global.getNewCategoryid();
         this.name = name;
         this.parentCategoryDTO = null;

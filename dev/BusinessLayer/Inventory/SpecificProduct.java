@@ -2,6 +2,7 @@ package BusinessLayer.Inventory;
 
 import DataAccessLayer.DTOs.SpecificProductDTO;
 
+import java.sql.SQLException;
 import java.time.LocalDate;
 
 public class SpecificProduct {
@@ -16,7 +17,7 @@ public class SpecificProduct {
     private SpecificProductDTO specificProductDTO;
 
 //
-    public SpecificProduct(int generalId, double buyPrice, LocalDate expiredDate, int branchId) {
+    public SpecificProduct(int generalId, double buyPrice, LocalDate expiredDate, int branchId) throws SQLException {
         this.generalId = generalId;
         this.specificId = Global.getNewSpecificId();
         this.buyPrice = buyPrice;

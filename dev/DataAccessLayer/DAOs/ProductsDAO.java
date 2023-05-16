@@ -41,4 +41,12 @@ public class ProductsDAO extends DAO<ProductDTO> {
         return null;
     }
 
+    public int getLastId() throws SQLException {
+        String query = "SELECT * FROM Products WHERE id = (SELECT Max(id) FROM Products);";
+        List<Map<String, Object>> rows = repo.executeQuery(query);
+        if (rows.size() > 0)
+            return makeDTO(rows.get(0)).getId();
+
+        return -1;
+    }
 }

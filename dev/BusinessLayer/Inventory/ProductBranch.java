@@ -7,7 +7,9 @@ import java.util.HashMap;
 import java.util.List;
 
 import BusinessLayer.InveontorySuppliers.*;
+import DataAccessLayer.DAOs.ProductBranchDiscountsDAO;
 import DataAccessLayer.DAOs.SpecificProductDAO;
+import DataAccessLayer.DTOs.DiscountDTO;
 import DataAccessLayer.DTOs.ProductBranchDTO;
 import DataAccessLayer.DTOs.SpecificProductDTO;
 
@@ -45,12 +47,14 @@ public class ProductBranch {
         this.minQuantity = productBranchDTO.getMinQuantity();
 
         HashMap<Integer, SpecificProduct> specificProductMap = new HashMap<>();
-        HashMap<Integer, SpecificProductDTO> dtos = productBranchDTO.getAllSpecificProducts();
-        for (Integer index : dtos.keySet()) {
-            SpecificProductDTO dto = dtos.get(index);
-            SpecificProduct specificProduct = new SpecificProduct(dto);
-            specificProductMap.put(index, specificProduct);
-            SpecificProductDAO.getInstance().insert(dto);
+        List<SpecificProductDTO> specificProductDTOS = SpecificProductDAO.getInstance().selectAllById(product.getId());
+//        HashMap<Integer, SpecificProductDTO> dtos = productBranchDTO.getAllSpecificProducts();
+        if(specificProductDTOS != null) {
+            for (SpecificProductDTO specificProductDTO: specificProductDTOS) {
+                SpecificProduct specificProduct = new SpecificProduct(specificProductDTO);
+                specificProductMap.put(specificProduct.getSpecificId(), specificProduct);
+//                SpecificProductDAO.getInstance().insert(dto);
+            }
         }
 
         this.allSpecificProducts = specificProductMap;
@@ -138,6 +142,9 @@ public class ProductBranch {
     }
 
     public Discount getCurrentMaxDiscount() {
+        if(discountsHistory.isEmpty()){
+            loadDiscountHistory();
+        }
         Discount maxDiscount = null;
         double currentPrice = price;
         for (Discount dis : discountsHistory) {
@@ -160,7 +167,15 @@ public class ProductBranch {
         return maxDiscount;
     }
 
-    public List<SpecificProduct> getAllExpired() {
+    private void loadDiscountHistory() throws SQLException {
+        List<> currentDiscount = ProductBranchDiscountsDAO.getInstance().selectAllById(product.getId());
+    }
+
+    public List<SpecificProduct> getAllExpired() throws SQLException {
+        if(allSpecificProducts.isEmpty())
+        {
+            loadSpecific();
+        }
         List<SpecificProduct> allExpired = new ArrayList<>();
         for (SpecificProduct sp : allSpecificProducts.values()) {
             if (sp.getIsExpired()) {
@@ -177,7 +192,11 @@ public class ProductBranch {
         return allExpired;
     }
 
-    public List<SpecificProduct> getAllFlaws() {
+    public List<SpecificProduct> getAllFlaws() throws SQLException {
+        if(allSpecificProducts.isEmpty())
+        {
+            loadSpecific();
+        }
         List<SpecificProduct> allFlaws = new ArrayList<>();
         for (SpecificProduct sp : allSpecificProducts.values()) {
             if (sp.getStatus() == ProductStatus.status.IS_FLAW) {
@@ -187,7 +206,7 @@ public class ProductBranch {
         return allFlaws;
     }
 
-    public List<SpecificProduct> receiveSupply(int amount, double buyPrice, LocalDate expiredDate, int branchId) {
+    public List<SpecificProduct> receiveSupply(int amount, double buyPrice, LocalDate expiredDate, int branchId) throws SQLException {
         List<SpecificProduct> addedSpecific = new ArrayList<>();
         for (int i = 0; i < amount; i++) {
             SpecificProductDTO specificProductDTO = new SpecificProductDTO(Global.getNewSpecificId(), getCode(),
@@ -200,7 +219,7 @@ public class ProductBranch {
         return addedSpecific;
     }
 
-    public void transferToShop(int amount) {
+    public void transferToShop(int amount) throws SQLException {
         List<SpecificProduct> onStorageProducts = getOnStorageProducts();
         if (amount > onStorageProducts.size())
             amount = onStorageProducts.size();
@@ -209,7 +228,10 @@ public class ProductBranch {
         }
     }
 
-    private List<SpecificProduct> getOnStorageProducts() {
+    private List<SpecificProduct> getOnStorageProducts() throws SQLException {
+        if(allSpecificProducts.size() == 0){
+            loadSpecific();
+        }
         List<SpecificProduct> onStorageProducts = new ArrayList<>();
         for (SpecificProduct sp : allSpecificProducts.values()) {
             if (sp.getStatus() == ProductStatus.status.ON_STORAGE)
@@ -323,5 +345,17 @@ public class ProductBranch {
         }
 
         return result;
+    }
+
+    public void loadSpecific() throws SQLException {
+        if(this.allSpecificProducts. size() == 0){
+            List<SpecificProductDTO> all = SpecificProductDAO.getInstance().selectAll();
+            if(all != null){
+                for (SpecificProductDTO specificProductDTO : all){
+                    SpecificProduct specificProduct = new SpecificProduct(specificProductDTO);
+                    allSpecificProducts.put(specificProduct.getSpecificId(),specificProduct);
+                }
+            }
+        }
     }
 }

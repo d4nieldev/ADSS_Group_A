@@ -38,4 +38,12 @@ public class ReportDAO extends DAO<ReportDTO> {
         return null;
     }
 
+    public int getLastId() throws SQLException {
+        String query = "SELECT * FROM Reports WHERE id = (SELECT Max(id) FROM Reports);";
+        List<Map<String, Object>> rows = repo.executeQuery(query);
+        if (rows.size() > 0)
+            return makeDTO(rows.get(0)).getId();
+
+        return -1;
+    }
 }

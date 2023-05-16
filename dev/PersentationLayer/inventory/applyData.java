@@ -55,7 +55,7 @@ public class applyData {
             createSupplier1();
         } catch (Exception e) {
             System.out.println("Could not setup environment");
-            e.printStackTrace();
+//            e.printStackTrace();
         }
     }
     private static void initial() throws Exception {
@@ -190,7 +190,7 @@ public class applyData {
         SupplierController.getInstance().addSupplierProductAgreement(supplierId, productShopId, productSupplierId,
                 stockAmount, basePrice, amountToDiscount);
     }
-    private static void createProducts() throws SQLException {
+    private static void createProducts() throws Exception {
         BranchController.getInstance().addBranch(0, "Ashkelon", 0);
         CategoryController.getInstance().addNewCategory("Cat1");
         Category category = categoryController.getCategoryById(0);

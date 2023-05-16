@@ -17,7 +17,7 @@ import BusinessLayer.Inventory.ProductStatus;
 import BusinessLayer.Inventory.SpecificProduct;
 import BusinessLayer.Suppliers.ReservationController;
 import DataAccessLayer.DAOs.DiscountDAO;
-import DataAccessLayer.DAOs.ProductBranchDiscountsDAO;
+import DataAccessLayer.DAOs.ProductBranchDAO;
 import DataAccessLayer.DAOs.ProductsDAO;
 import DataAccessLayer.DTOs.*;
 
@@ -26,7 +26,6 @@ public class Branch {
     private String branchName;
     private HashMap<Integer, ProductBranch> allProductBranches;// maps between productBranch generalId to its object
     // private List<PeriodicReservation> periodicReservations;
-
     private HashMap<Integer, PeriodicReservation> supplierToPeriodicReservations;
     private CategoryController categoryController;
     private HashMap<Integer, Integer> productToAmount; // maps between product to amount for deficiency quantity
@@ -101,6 +100,7 @@ public class Branch {
             Product product = ri.getProduct();
             LocalDate expiredDate = ri.getExpiredDate();
             int id = product.getId();
+            loadProductBranch(id);
             if (!allProductBranches.containsKey(id)) {
                 int idealQuantity = 100;
                 int minQuantity = 50;
@@ -122,9 +122,25 @@ public class Branch {
         return toDao;
     }
 
+    private ProductBranch loadProductBranch(int id) {
+    ProductBranch productBranch = null;
+     try {
+         ProductBranchDTO productBranchDTO = ProductBranchDAO.getInstance().getByProductAndBranchId(id,branchId);
+         if(productBranchDTO != null) {
+              productBranch = new ProductBranch(productBranchDTO);
+             allProductBranches.put(productBranch.getCode() , productBranch);
+             productBranch.loadSpecific();
+             return productBranch;
+         }
+     } catch (Exception e) {
+         throw new RuntimeException(e);
+     }
+     return null;
+    }
+
 
     public SpecificProduct sellProduct(int code, int specificId) throws Exception {
-        ProductBranch productBranch = allProductBranches.get(code);
+        ProductBranch productBranch = loadProductBranch(code);
         if (productBranch == null)
             throw new Exception("this product doesn't exist");
         SpecificProduct sp = productBranch.sellProduct(specificId);
@@ -136,7 +152,7 @@ public class Branch {
     public void CheckForDeficiencyReservation() throws SQLException {
         boolean overCapacity = getTotalDeficiencyAmount() > minAmountForDeficiencyReservation;
         if (overCapacity) {
-            makeDeficiencyReservation();
+//            makeDeficiencyReservation();
         }
     }
 

@@ -118,12 +118,18 @@ public class BranchController {
     // }
     // }
 
-    public void addBranch(int branchId, String branchName, int minAmount) throws SQLException {
-        List<PeriodicReservationDTO> allBranchReservations = new ArrayList<>();
-        BranchDTO branchDTO = new BranchDTO(branchId, branchName, minAmount, allBranchReservations);
-        branchDAO.insert(branchDTO);
-        Branch newBranch = new Branch(branchDTO);
-        allBranches.put(branchId, newBranch);
+    public void addBranch(int branchId, String branchName, int minAmount) throws Exception {
+       try {
+           List<PeriodicReservationDTO> allBranchReservations = new ArrayList<>();
+           BranchDTO branchDTO = new BranchDTO(branchId, branchName, minAmount, allBranchReservations);
+           branchDAO.insert(branchDTO);
+           Branch newBranch = new Branch(branchDTO);
+           allBranches.put(branchId, newBranch);
+       }
+       catch (Exception e){
+           throw new Exception("already exist");
+       }
+
     }
 
     public Branch getBranchById(int branchId) throws SuppliersException, SQLException {
@@ -326,7 +332,7 @@ public class BranchController {
      * @throws Exception
      */
     public void sellProduct(int branchId, int productCode, int specificId) throws Exception {
-        Branch branch = allBranches.get(branchId);
+        Branch branch = getBranchById(branchId);
         SpecificProduct sp = branch.sellProduct(productCode, specificId);
         SpecificProductDTO specificProductDTO = sp.getSpecificProductDTO();
         specificProductDAO.update(specificProductDTO);

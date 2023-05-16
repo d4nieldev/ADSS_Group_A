@@ -17,6 +17,8 @@ public class BranchService {
             return "Success";
         } catch (SQLException e) {
             return e.getMessage();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         }
     }
 

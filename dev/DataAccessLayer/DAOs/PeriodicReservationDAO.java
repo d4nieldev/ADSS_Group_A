@@ -116,4 +116,14 @@ public class PeriodicReservationDAO extends DAO<PeriodicReservationDTO> {
 
         return allBranchReservations;
     }
+
+
+//    public int getLastId() throws SQLException {
+//        String query = "SELECT * FROM PeriodicReservation WHERE id = (SELECT Max(id) FROM PeriodicReservation);";
+//        List<Map<String, Object>> rows = repo.executeQuery(query);
+//        if (rows.size() > 0)
+//            return makeDTO(rows.get(0)).();
+//
+//        return -1;
+//    }
 }

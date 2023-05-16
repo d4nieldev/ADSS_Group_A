@@ -2,11 +2,13 @@ package DataAccessLayer.DAOs;
 
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
 import DataAccessLayer.DTOs.DiscountDTO;
+import DataAccessLayer.DTOs.ProductBranchDiscountDTO;
 
 public class DiscountDAO extends DAO<DiscountDTO> {
     private static DiscountDAO instance = null;
@@ -59,6 +61,18 @@ public class DiscountDAO extends DAO<DiscountDTO> {
             return makeDTO(rows.get(0)).getId();
 
         return -1;
+    }
+    public List<DiscountDTO> selectAllById(int code) throws SQLException {
+        List<DiscountDTO> result = new ArrayList<>();
+        List<ProductBranchDiscountDTO> productBranchDiscountDTOS = ProductBranchDiscountsDAO.getInstance().selectAllById(code);
+        if(productBranchDiscountDTOS != null)
+        {
+            for (ProductBranchDiscountDTO productBranchDiscountDTO: productBranchDiscountDTOS){
+                DiscountDTO discountDTO= productBranchDiscountDTO.getDiscount();
+                result.add(discountDTO);
+            }
+        }
+        return result;
     }
 
 }

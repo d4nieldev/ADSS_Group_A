@@ -6,6 +6,7 @@ import java.util.Map;
 
 import DataAccessLayer.DTOs.DiscountDTO;
 import DataAccessLayer.DTOs.ProductBranchDiscountDTO;
+import DataAccessLayer.DTOs.SpecificProductDTO;
 
 public class ProductBranchDiscountsDAO extends DAO<ProductBranchDiscountDTO> {
     private DiscountDAO discountDAO;
@@ -50,5 +51,10 @@ public class ProductBranchDiscountsDAO extends DAO<ProductBranchDiscountDTO> {
         }
 
         return discountDTO;
+    }
+
+    public List<ProductBranchDiscountDTO> selectAllById(int id) throws SQLException {
+        String query = "SELECT * FROM ProductBranchDiscounts Where generalId= ?;";
+        return makeDTOs(repo.executeQuery(query, id));
     }
 }

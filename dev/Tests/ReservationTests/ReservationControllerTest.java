@@ -29,7 +29,7 @@ import DataAccessLayer.Repository;
 public class ReservationControllerTest {
     ReservationController rc = ReservationController.getInstance();
 
-    private void createProducts() throws SuppliersException, SQLException {
+    private void createProducts() throws Exception {
         BranchController.getInstance().addBranch(0, "Ashkelon", 80);
         CategoryController.getInstance().addNewCategory("Cat1");
         CategoryController.getInstance().addNewCategory("Cat2");

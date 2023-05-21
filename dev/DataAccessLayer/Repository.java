@@ -174,24 +174,37 @@ public class Repository {
                 
         // --------------------------------------------------------------------------------------------
         // Transports Layer Tables
-        String TransportDriverTable = "CREATE TABLE IF NOT EXIST \"TransportDriver\" (\n" +
+        String TransportsDriversTable = "CREATE TABLE IF NOT EXISTS \"TransportsDrivers\" (\n" +
                 "\t\"DriverID\"\tINTEGER,\n" +
                 "\t\"TransportID\"\tINTEGER,\n" +
                 "\tPRIMARY KEY(\"DriverID\",\"TransportID\"),\n" +
                 "\tFOREIGN KEY(\"DriverID\") REFERENCES \"Drivers\"(\"ID\") ON DELETE CASCADE\n" +
                 "\tFOREIGN KEY(\"TransportID\") REFERENCES \"Transport\"(\"ID\") ON DELETE CASCADE\n" +
                 ");";
-
-
-
-        String TruckTable = "CREATE TABLE IF NOT EXISTS \"Trucks\" (\n" +
+        String TrucksTable = "CREATE TABLE IF NOT EXISTS \"Trucks\" (\n" +
                 "\t\"PlateNumber\"\tTEXT PRIMARY KEY,\n" +
                 "\t\"Model\"\tTEXT,\n" +
                 "\t\"WeightNeto\"\tINTEGER,\n" +
                 "\t\"WeightMax\"\tINTEGER,\n" +
                 "\t\"IsAvailable\"\tBOOLEAN\n" +
                 ");";
-        String TransportTable = "CREATE TABLE IF NOT EXISTS \"Transport\" (\n" +
+        String DestinationsTable = "CREATE TABLE IF NOT EXISTS \"Destinations\" (\n" +
+                "\t\"Address\"\tTEXT PRIMARY KEY,\n" +
+                "\t\"PhoneNumber\"\tTEXT,\n" +
+                "\t\"ContactName\"\tTEXT,\n" +
+                "\t\"location\"\tTEXT,\n" +
+                "\t\"destinationType\"\tTEXT\n" +
+                ");";
+        String DeliveriesTable = "CREATE TABLE IF NOT EXISTS \"Deliveries\" (\n" +
+                "\t\"ID\"\tINTEGER PRIMARY KEY,\n" +
+                "\t\"Source\"\tTEXT,\n" +
+                "\t\"Destination\"\tTEXT,\n" +
+                "\t\"Status\"\tTEXT,\n" +
+                "\t\"Weight\"\tINTEGER,\n" +
+                "\tFOREIGN KEY(\"Source\") REFERENCES \"Destinations\"(\"Address\") ON DELETE CASCADE,\n" +   
+                "\tFOREIGN KEY(\"Destination\") REFERENCES \"Destinations\"(\"Address\") ON DELETE CASCADE\n" +   
+                ");";
+        String TransportsTable = "CREATE TABLE IF NOT EXISTS \"Transports\" (\n" +
                 "\t\"ID\"\tINTEGER PRIMARY KEY,\n" +
                 "\t\"Date\"\tTEXT,\n" +
                 "\t\"LeavingTime\"\tTEXT,\n" +
@@ -201,8 +214,9 @@ public class Repository {
                 "\t\"Source\"\tTEXT,\n" +
                 "\t\"TruckWeightNeto\"\tINTEGER,\n" +
                 "\t\"TruckWeightMax\"\tINTEGER,\n" +
-                "\t\"LoadedItems\"\tTEXT,\n" +
-                "\t\"CurrentWeight\"\tINTEGER\n" +
+                "\t\"CurrentWeight\"\tINTEGER,\n" +
+                "\tFOREIGN KEY(\"DriverID\") REFERENCES \"Drivers\"(\"ID\") ON DELETE CASCADE,\n" +   
+                "\tFOREIGN KEY(\"TruckNumber\") REFERENCES \"Trucks\"(\"PlateNumber\") ON DELETE CASCADE\n" +   
                 ");";
 
 
@@ -229,8 +243,11 @@ public class Repository {
             stmt.execute(DriversInShiftsTable);
 
             // Transports Layer tables ------------------------------------------
-            stmt.execute(TransportTable);
-            stmt.execute(TruckTable);
+            stmt.execute(TransportsDriversTable);
+            stmt.execute(TrucksTable);
+            stmt.execute(DestinationsTable);
+            stmt.execute(DeliveriesTable);
+            stmt.execute(TransportsTable);
 
         } catch (SQLException exception) {
             exception.printStackTrace();

@@ -39,6 +39,7 @@ public class DestinationDTO {
     }
 
     public String fieldsToString() {
-        return String.format("(\"%s\",\"%s\",\"%s\",\"%s\",\"%s\")", this.address, this.phoneNumber, this.contactName, this.location, this.destinationType);
+        return String.format("(\"%s\",\"%s\",\"%s\",\"%s\",\"%s\")",
+         this.address, this.phoneNumber, this.contactName, this.location, this.destinationType);
     }
 }

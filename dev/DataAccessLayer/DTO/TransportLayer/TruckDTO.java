@@ -57,6 +57,7 @@ public class TruckDTO {
         this.isAvailable = isAvailable;
     }
     public String fieldsToString() {
-        return String.format("(%s,\"%s\",\"%d\",%d,%b)",this.plateNumber, this.model, this.weightNeto, this.weightMax, this.isAvailable);
+        return String.format("(\"%s\",\"%s\",\"%d\",\"%d\",\"%b\")",
+        this.plateNumber, this.model, this.weightNeto, this.weightMax, this.isAvailable);
     }
 }

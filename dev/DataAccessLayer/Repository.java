@@ -229,6 +229,7 @@ public class Repository {
             stmt.execute(DriversInShiftsTable);
 
             // Transports Layer tables ------------------------------------------
+            stmt.execute(TransportDriverTable)
             stmt.execute(TransportTable);
             stmt.execute(TruckTable);
 

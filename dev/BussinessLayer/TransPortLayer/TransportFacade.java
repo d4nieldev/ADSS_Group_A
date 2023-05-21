@@ -42,7 +42,6 @@ public class TransportFacade {
         System.out.println("The id of transport is:"+ id);
         addTransport(id , shipment);
         id++;
-
     }
 
     /**
@@ -50,6 +49,7 @@ public class TransportFacade {
      */
     public void addTransport(int id, Transport transport) {
         transportMap.put(id, transport);
+        transportDAO.insert(transport.toDTO());
     }
 
     /**

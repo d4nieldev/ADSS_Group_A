@@ -93,9 +93,8 @@ public class TransportDTO {
     }
 
     public String fieldsToString() {
-        return String.format("(\"%s\",\"%s\",\"%s\",\"%s\",\"%s\",\"%s\",\"%s\",\"%s\",\"%s\",\"%s\",\"%s\",\"%s\",\"%s\")",
+        return String.format("(\"%d\",\"%s\",\"%s\",\"%s\",\"%s\",\"%d\",\"%s\",\"%d\",\"%d\",\"%d\")",
                 this.id, this.date, this.leavingTime, this.truckNumber, this.driverName, this.driverId, this.source,
-                this.destinationList, this.deliveryList, this.truckWeightNeto, this.truckWeightMax, this.loadedItems,
-                this.currentWeight);
+                this.truckWeightNeto, this.truckWeightMax, this.currentWeight);
     }
 }

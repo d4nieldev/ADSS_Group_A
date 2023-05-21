@@ -102,7 +102,7 @@ public class EmployeesDAO extends DAO<EmployeeDTO> {
                     /* bank account number */RS.getInt(7), /* salary */RS.getInt(8),
                     /* bonus */ RS.getInt(9), /* start date */ LocalDate.parse(RS.getString(10), formatter),
                     /* temps employment */ RS.getString(11), roles,
-                    /* is logged in */ true, /* super branch */ RS.getInt(13), branches);
+                    /* is logged in */ RS.getBoolean(12), /* super branch */ RS.getInt(13), branches);
         } catch (Exception e) {
             output = null;
         } finally {

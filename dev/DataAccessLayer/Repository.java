@@ -174,7 +174,7 @@ public class Repository {
                 
         // --------------------------------------------------------------------------------------------
         // Transports Layer Tables
-        String TransportsDriversTable = "CREATE TABLE IF NOT EXIST \"TransportsDrivers\" (\n" +
+        String TransportsDriversTable = "CREATE TABLE IF NOT EXISTS \"TransportsDrivers\" (\n" +
                 "\t\"DriverID\"\tINTEGER,\n" +
                 "\t\"TransportID\"\tINTEGER,\n" +
                 "\tPRIMARY KEY(\"DriverID\",\"TransportID\"),\n" +

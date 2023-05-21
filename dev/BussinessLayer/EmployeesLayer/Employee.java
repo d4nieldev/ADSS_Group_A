@@ -58,7 +58,7 @@ public class Employee{
 		this.startDate = DTO.startDate;
 		this.tempsEmployment = DTO.tempsEmployment;
 		this.roles = DTO.roles;
-		this.isLoggedIn = DTO.isLoggedIn;
+		this.isLoggedIn = true;
 		this.historyShift = DTO.historyShift;
 		this.superBranch = DTO.superBranch;
 		this.branchs = DTO.branchs;

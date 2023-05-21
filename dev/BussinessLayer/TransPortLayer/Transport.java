@@ -6,6 +6,8 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.*;
 
+import javax.swing.text.html.parser.DTD;
+
 public class Transport {
     private int id;
     private LocalDate date;
@@ -41,14 +43,44 @@ public class Transport {
         this.currentWeight= truckWeightNeto;
     }
 
-    public TransportDTO toDTO(){
-        return new TransportDTO(id,date.toString(),leavingTime,truckNumber,driverName,driverId,source,truckWeightNeto,truckWeightMax,"dhdhd",currentWeight);
+    public Transport(Transport DTO){
+        this.id = DTO.id;
+        this.date = DTO.date;
+        this.leavingTime = DTO.leavingTime;
+        this.truckNumber = DTO.truckNumber;
+        this.driverName = DTO.driverName;
+        this.driverId = DTO.driverId;
+        this.source = DTO.source;
+        this.destinationList = DTO.destinationList;
+        this.deliveryList = DTO.deliveryList;
+        this.truckWeightNeto = DTO.truckWeightNeto;
+        this.truckWeightMax = DTO.truckWeightMax;
+        this.loadedItems = DTO.loadedItems;
+        this.currentWeight = DTO.currentWeight;
     }
+
+    public TransportDTO toDTO(){
+        return new TransportDTO(this.id = id,
+        this.date = date,
+        this.leavingTime = leavingTime,
+        this.truckNumber = truckNumber,
+        this.driverName = driverName,
+        this.driverId = driverId,
+        this.source = source,
+        this.destinationList=destinationList,
+        this.deliveryList=deliveryList,
+        this.truckWeightNeto=truckWeightNeto,
+        this.truckWeightMax=truckWeightMax,
+        this.loadedItems= new ArrayList<String>(),
+        this.currentWeight= truckWeightNeto);
+    }
+
     public void addDestination(Destination destination) {
         destinationList.add(destination);
     }
 
     public void removeDestination(String destinationName) {
+        destinationList.remove(destinationName);
     }
 
     public Destination getDestination(int i)
@@ -241,6 +273,7 @@ public class Transport {
         System.out.println("Date: " + date);
         System.out.println("Leaving Time: " + leavingTime);
         System.out.println("Truck Number: " + truckNumber);
+        System.out.println("Driver Name: " + driverName);
         System.out.println("Driver ID: " + driverId);
         System.out.println("Source: " + source);
 
@@ -281,7 +314,5 @@ public class Transport {
         }
         return branches;
     }
-
-
 
 }

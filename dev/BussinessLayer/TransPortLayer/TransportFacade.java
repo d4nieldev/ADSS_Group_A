@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 
 import BussinessLayer.EmployeeTransportFacade;
 import BussinessLayer.EmployeesLayer.Driver;
+import DataAccessLayer.DAO.TransportLayer.DestinationDAO;
 import DataAccessLayer.DAO.TransportLayer.TransportDAO;
 import DataAccessLayer.DAO.TransportLayer.TruckDAO;
 
@@ -15,6 +16,7 @@ public class TransportFacade {
     private TransportDAO transportDAO;
     private TruckDAO truckDAO;
     private EmployeeTransportFacade employeeTransportFacade=null;
+    private DestinationDAO destinationDAO;
 
     int id=0;
     private static TransportFacade instance = null;
@@ -23,6 +25,7 @@ public class TransportFacade {
         transportMap = new HashMap<Integer, Transport>();
         transportDAO = new TransportDAO();
         truckDAO = new TruckDAO();
+        destinationDAO= new DestinationDAO();
 
     }
 
@@ -433,7 +436,9 @@ public class TransportFacade {
      * @return
      */
     public Destination addDestination(String address, String phoneNumber, String contactName, Location location,DestinationType destinationType){
-        return new Destination(address, phoneNumber, contactName, location, destinationType);
+        Destination destination = new Destination(address, phoneNumber, contactName, location, destinationType);
+        destinationDAO.insert(destination.toDTO());
+        return destination;
     }
 
 

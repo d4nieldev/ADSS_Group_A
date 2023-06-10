@@ -39,17 +39,17 @@ public class EmployeeFacade {
         // roleClass.addRole("CLEANER"); 10
         // roleClass.addRole("SECURITY"); 11
 
-//        // Adding Hr manager manualy to the system.
-//        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
-//        LocalDate localDate = LocalDate.parse("01-02-1980", formatter);
-//        addHRManagerForStartUpTheSystem("Rami", "Arnon", 123456789, "abc", 0, 0,
-//                0, 50000, 30000, localDate, "free terms of employment", null,
-//                roleClass.getRoleByName("HRMANAGER").getId(), 0);
+        // // Adding Hr manager manualy to the system.
+        // DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+        // LocalDate localDate = LocalDate.parse("01-02-1980", formatter);
+        // addHRManagerForStartUpTheSystem("Rami", "Arnon", 123456789, "abc", 0, 0,
+        //         0, 50000, 30000, localDate, "free terms of employment", null,
+        //         roleClass.getRoleByName("HRMANAGER").getId(), 0);
 
-//        // Adding Transport manager manualy to the system.
-//        addTransportManagerForStartUpTheSystem("Kfir", "Rotem", 987654321, "abc", 0, 0,
-//                0, 0, 0, localDate, "free terms of employment", null,
-//                roleClass.getRoleByName("TRANSPORTMANAGER").getId(), 0);
+        // // Adding Transport manager manualy to the system.
+        // addTransportManagerForStartUpTheSystem("Kfir", "Rotem", 987654321, "abc", 0, 0,
+        //         0, 0, 0, localDate, "free terms of employment", null,
+        //         roleClass.getRoleByName("TRANSPORTMANAGER").getId(), 0);
     }
 
     // commit log in for employee, if exsist
@@ -76,7 +76,7 @@ public class EmployeeFacade {
 
     // commit log out for employee, if exsist
     public void logOut(int id) {
-        if ( isEmployeeLoggedIn(id)) {
+        if (isEmployeeExistsAndLoadEmployee(id) && isEmployeeLoggedIn(id)) {
             Employee e = getEmployeeById(id);
             e.SetIsLoggedInToFalse();
             if (isEmployeeDriver(id)) {
@@ -97,7 +97,7 @@ public class EmployeeFacade {
             int bankBranch, int bankAccount, int salary, int InitializeBonus, LocalDate startDate,
             String tempsEmployment, String role, int branch) {
         if (isEmployeeExistsAndLoadEmployee(managerId) && isEmployeeLoggedIn(managerId) && !isEmployeeExistsAndLoadEmployee(id)) {
-            checkManager(managerId);
+            checkHrManager(managerId);
             Integer roleInt = roleClass.getRoleByName(role.toUpperCase()).getId();
             Employee employee = new Employee(firstName, lastName, id, password, bankNum,
                     bankBranch, bankAccount, salary, InitializeBonus, startDate, tempsEmployment, roleInt, branch);
@@ -117,7 +117,7 @@ public class EmployeeFacade {
             int bankAccount, int salary, int InitializeBonus, LocalDate startDate, String tempsEmployment,
             License driverLicense) {
         if (isEmployeeExistsAndLoadEmployee(managerId) && isEmployeeLoggedIn(managerId) && !isEmployeeExistsAndLoadEmployee(id)) {
-            checkManager(managerId);
+            checkHrManager(managerId);
             Driver driver = new Driver(firstName, lastName, id, password, bankNum, bankBranch, bankAccount, salary,
                     InitializeBonus, startDate, tempsEmployment, roleClass.getRoleByName("DRIVER").getId(),
                     driverLicense);
@@ -140,7 +140,7 @@ public class EmployeeFacade {
     // delete/remove driver from the system.
     public void deleteDriver(int managerId, int id) {
         driversDAO.delete("ID", id);
-        checkManager(managerId); // only HR manager
+        checkHrManager(managerId); // only HR manager
         Driver driverToRemove = getDriverById(id);
         drivers.remove(driverToRemove);
     }
@@ -149,7 +149,7 @@ public class EmployeeFacade {
     // only if its HR manager.
     public String printAllEmployees(int managerId) {
         String strPrint = "";
-        checkManager(managerId);
+        checkHrManager(managerId);
         List<EmployeeDTO> employeesDTO = employeesDAO.getAll();
         employees = new LinkedList<>();
         for (EmployeeDTO employeeDTO : employeesDTO) {
@@ -157,7 +157,6 @@ public class EmployeeFacade {
         }
         for (Employee employee : employees) {
             strPrint += employee.newToString() + "\n";
-            if(employee.getId() == managerId) {employee.SetIsLoggedInToTrue();}
         }
         return strPrint;
     }
@@ -181,14 +180,14 @@ public class EmployeeFacade {
     
 
     public void addRoleToEmployee(int managerId, int idEmployee, Integer role) {
-        checkManager(managerId);
+        checkHrManager(managerId);
         checkEmployee(idEmployee);
         getEmployeeById(idEmployee).addRole(role);
         employeesDAO.addRole(idEmployee, role);
     }
 
     public void removeRoleFromEmployee(int managerId, int idEmployee, Integer role) {
-        checkManager(managerId);
+        checkHrManager(managerId);
         checkEmployee(idEmployee);
         getEmployeeById(idEmployee).removeRole(role);
         employeesDAO.removeRole(idEmployee, role);
@@ -205,7 +204,7 @@ public class EmployeeFacade {
     // }
 
     public void addRoleToSystem(int managerHR, String role) {
-        checkManager(managerHR);
+        checkHrManager(managerHR);
         roleClass.addRole(role.toUpperCase());
     }
 
@@ -256,7 +255,6 @@ public class EmployeeFacade {
         for (DriverDTO driverDTO : driversDTO) {
             Driver d = new Driver(driverDTO);
             drivers.add(d);
-            d.getWorkedDates().contains(date);
             returnDrivers.add(d);
         }
         return returnDrivers;
@@ -273,7 +271,6 @@ public class EmployeeFacade {
         for (DriverDTO driverDTO : driversDTO) {
             Driver d = new Driver(driverDTO);
             drivers.add(d);
-            d.getAvailableShiftDates().contains(date);
             returnDrivers.add(d);
         }
         return returnDrivers;
@@ -292,7 +289,7 @@ public class EmployeeFacade {
     }
 
     public void changeFirstName(int managerId, int idEmployee, String firstName) {
-        checkManager(managerId);
+        checkHrManager(managerId);
         checkEmployee(idEmployee);
         Employee employee = getEmployeeById(idEmployee);
         employee.setFirstName(firstName);
@@ -304,7 +301,7 @@ public class EmployeeFacade {
     }
 
     public void changeLastName(int managerId, int idEmployee, String lastName) {
-        checkManager(managerId);
+        checkHrManager(managerId);
         checkEmployee(idEmployee);
         Employee employee = getEmployeeById(idEmployee);
         employee.setLastName(lastName);
@@ -316,7 +313,7 @@ public class EmployeeFacade {
     }
 
     public void changePassword(int managerId, int idEmployee, String password) {
-        checkManager(managerId);
+        checkHrManager(managerId);
         checkEmployee(idEmployee);
         Employee employee = getEmployeeById(idEmployee);
         employee.setPassword(password);
@@ -328,7 +325,7 @@ public class EmployeeFacade {
     }
 
     public void changeBankNum(int managerId, int idEmployee, int bankNum) {
-        checkManager(managerId);
+        checkHrManager(managerId);
         checkEmployee(idEmployee);
         Employee employee = getEmployeeById(idEmployee);
         employee.setBankNum(bankNum);
@@ -340,7 +337,7 @@ public class EmployeeFacade {
     }
 
     public void changeBankBranch(int managerId, int idEmployee, int bankBranch) {
-        checkManager(managerId);
+        checkHrManager(managerId);
         checkEmployee(idEmployee);
         Employee employee = getEmployeeById(idEmployee);
         employee.setBankBranch(bankBranch);
@@ -352,7 +349,7 @@ public class EmployeeFacade {
     }
 
     public void changeBankAccount(int managerId, int idEmployee, int bankAccount) {
-        checkManager(managerId);
+        checkHrManager(managerId);
         checkEmployee(idEmployee);
         Employee employee = getEmployeeById(idEmployee);
         employee.setBankAccount(bankAccount);
@@ -364,7 +361,7 @@ public class EmployeeFacade {
     }
 
     public void changeSalary(int managerId, int idEmployee, int salary) {
-        checkManager(managerId);
+        checkHrManager(managerId);
         checkEmployee(idEmployee);
         Employee employee = getEmployeeById(idEmployee);
         employee.setSalary(salary);
@@ -376,7 +373,7 @@ public class EmployeeFacade {
     }
 
     public void changeStartDate(int managerId, int idEmployee, LocalDate stastDate) {
-        checkManager(managerId);
+        checkHrManager(managerId);
         checkEmployee(idEmployee);
         Employee employee = getEmployeeById(idEmployee);
         employee.setStartDate(stastDate);
@@ -388,7 +385,7 @@ public class EmployeeFacade {
     }
 
     public void changeDriverLicence(int managerId, int idEmployee, License licene) {
-        checkManager(managerId);
+        checkHrManager(managerId);
         checkEmployee(idEmployee);
         Driver employee = getDriverById(idEmployee);
         employee.setDriverLicense(licene);
@@ -508,16 +505,16 @@ public class EmployeeFacade {
 
     // check if the employee is a HRmanager and is sign in to the system
     // throw an error if something went wrong
-    // public void checkHrManager(int managerId) {
-    //     if (!isEmployeeExistsAndLoadEmployee(managerId) || !isEmployeeHRManager(managerId) || !isEmployeeLoggedIn(managerId)) {
-    //         throw new Error("You must be logged in, and be an HR manager in order to do that action.");
-    //     }
-    // }
+    public void checkHrManager(int managerId) {
+        if (!isEmployeeExistsAndLoadEmployee(managerId) || !isEmployeeHRManager(managerId) || !isEmployeeLoggedIn(managerId)) {
+            throw new Error("You must be logged in, and be an HR manager in order to do that action.");
+        }
+    }
 
     // check if the employee is a manager and is sign in to the system
     // throw an error if something went wrong
     public void checkManager(int managerId) {
-        if (!isEmployeeExistsAndLoadEmployee(managerId)
+        if (!isEmployeeExistsAndLoadEmployee(managerId) || !isEmployeeLoggedIn(managerId)
                 || !(isEmployeeHRManager(managerId) || isEmployeeTranpostManager(managerId))) {
             throw new Error("You must be logged in, and be an HR or Transport manager in order to do that action.");
         }

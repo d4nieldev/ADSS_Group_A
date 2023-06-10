@@ -214,42 +214,37 @@ class HRSystem {
                     System.out.print("Now enter the number of employees for each role. ");
                     System.out.print("Branch Manager: ");
                     int branchManagerNum = Integer.parseInt(sc.nextLine());
-                    numEmployeesForRole.put(5, branchManagerNum);
+                    numEmployeesForRole.put(4, branchManagerNum);
                     System.out.println("");
 
                     System.out.print("Shift Manager: ");
                     int shiftManagerNum = Integer.parseInt(sc.nextLine());
-                    numEmployeesForRole.put(6, shiftManagerNum);
+                    numEmployeesForRole.put(5, shiftManagerNum);
                     System.out.println("");
 
                     System.out.print("Cashier: ");
                     int chahierNum = Integer.parseInt(sc.nextLine());
-                    numEmployeesForRole.put(7, chahierNum);
+                    numEmployeesForRole.put(6, chahierNum);
                     System.out.println("");
 
                     System.out.print("Storekeeper: ");
                     int storeeeperNum = Integer.parseInt(sc.nextLine());
-                    numEmployeesForRole.put(8, storeeeperNum);
+                    numEmployeesForRole.put(7, storeeeperNum);
                     System.out.println("");
 
-                    System.out.print("Driver: ");
-                    int driverNum = Integer.parseInt(sc.nextLine());
-                    numEmployeesForRole.put(9, driverNum);
-                    System.out.println("");
-
-                    System.out.println("Generral");
+                    System.out.print("Generral: ");
                     int generralNum = Integer.parseInt(sc.nextLine());
-                    numEmployeesForRole.put(10, generralNum);
+                    numEmployeesForRole.put(9, generralNum);
                     System.out.println("");
 
-                    System.out.println("Cleaner");
+                    System.out.print("Cleaner: ");
                     int cleanerNum = Integer.parseInt(sc.nextLine());
-                    numEmployeesForRole.put(11, cleanerNum);
+                    numEmployeesForRole.put(10, cleanerNum);
                     System.out.println("");
 
-                    System.out.println("Security");
+                    System.out.print("Security: ");
                     int securityNum = Integer.parseInt(sc.nextLine());
-                    numEmployeesForRole.put(12, securityNum);
+                    numEmployeesForRole.put(11, securityNum);
                     System.out.println("");
 
                     branchService.addShift(loginId, branchId, localDate, startHour, endHour, morningEvningShiftTime,

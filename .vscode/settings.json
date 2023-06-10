@@ -1,6 +1,9 @@
 {
     "java.project.referencedLibraries": [
         "lib/**/*.jar",
-        "dev/lib/sqlite-jdbc-3.41.2.1.jar"
+        "dev/lib/sqlite-jdbc-3.41.2.1.jar",
+        "dev/lib/junit-4.13.2-javadoc.jar",
+        "dev/lib/hamcrest-core-2.2-javadoc.jar",
+        "dev/lib/junit-jupiter-api-5.9.2.jar"
     ]
 }

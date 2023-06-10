@@ -4,8 +4,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
+<<<<<<< Updated upstream
     <list default="true" id="a2472df3-0b1c-47fc-bcd6-f26fc4f0a51c" name="Changes" comment="Changes">
       <change beforePath="$PROJECT_DIR$/dev/BussinessLayer/EmployeesLayer/EmployeeFacade.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/BussinessLayer/EmployeesLayer/EmployeeFacade.java" afterDir="false" />
+=======
+    <list default="true" id="0da135cd-14b8-4d39-8673-f7b9152761ed" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+>>>>>>> Stashed changes
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -91,12 +96,18 @@
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="a2472df3-0b1c-47fc-bcd6-f26fc4f0a51c" name="Changes" comment="" />
+      <changelist id="0da135cd-14b8-4d39-8673-f7b9152761ed" name="Changes" comment="" />
       <created>1680005362759</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1680005362759</updated>
       <workItem from="1682600820798" duration="1371000" />
+<<<<<<< Updated upstream
+=======
+      <workItem from="1684175940486" duration="3396000" />
+      <workItem from="1684183511601" duration="405000" />
+      <workItem from="1685715960504" duration="586000" />
+>>>>>>> Stashed changes
     </task>
     <servers />
   </component>

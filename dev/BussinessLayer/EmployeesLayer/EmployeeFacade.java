@@ -210,7 +210,7 @@ public class EmployeeFacade {
 
     public void AddConstraintDriver(int driverId, LocalDate date) {
         checkEmployee(driverId);
-        checkLoggedIn(driverId);
+        //checkLoggedIn(driverId);
         getDriverById(driverId).AddConstraintDriver(date);
         driversDAO.addAvailableShiftDates(driverId, date);
     }

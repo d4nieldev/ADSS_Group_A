@@ -6,6 +6,8 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.*;
 
+import javax.swing.text.html.parser.DTD;
+
 public class Transport {
     private int id;
     private LocalDate date;
@@ -41,7 +43,23 @@ public class Transport {
         this.currentWeight= truckWeightNeto;
     }
 
-    /*public TransportDTO toDTO(){
+    public Transport(Transport DTO){
+        this.id = DTO.id;
+        this.date = DTO.date;
+        this.leavingTime = DTO.leavingTime;
+        this.truckNumber = DTO.truckNumber;
+        this.driverName = DTO.driverName;
+        this.driverId = DTO.driverId;
+        this.source = DTO.source;
+        this.destinationList = DTO.destinationList;
+        this.deliveryList = DTO.deliveryList;
+        this.truckWeightNeto = DTO.truckWeightNeto;
+        this.truckWeightMax = DTO.truckWeightMax;
+        this.loadedItems = DTO.loadedItems;
+        this.currentWeight = DTO.currentWeight;
+    }
+
+    public TransportDTO toDTO(){
         return new TransportDTO(this.id = id,
         this.date = date,
         this.leavingTime = leavingTime,
@@ -55,7 +73,8 @@ public class Transport {
         this.truckWeightMax=truckWeightMax,
         this.loadedItems= new ArrayList<String>(),
         this.currentWeight= truckWeightNeto);
-    }*/
+    }
+
     public void addDestination(Destination destination) {
         destinationList.add(destination);
     }

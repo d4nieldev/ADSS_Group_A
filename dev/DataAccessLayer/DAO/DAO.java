@@ -17,7 +17,7 @@ public abstract class DAO<T> {
 
     public abstract int update(T updatedOb);
 
-    public List<T> getAll() {
+    public  List<T> getAll() {
         String statement = "SELECT * FROM " + tableName + ";";
         Connection conn = Repository.getInstance().connect();
         ResultSet RS = null;

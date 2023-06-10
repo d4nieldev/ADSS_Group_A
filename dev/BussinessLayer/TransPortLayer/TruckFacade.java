@@ -1,9 +1,11 @@
 package BussinessLayer.TransPortLayer;
 
 import DataAccessLayer.DAO.TransportLayer.TruckDAO;
+import DataAccessLayer.DTO.TransportLayer.TruckDTO;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -71,14 +73,35 @@ public class TruckFacade {
      */
     public List<Truck> getAvailableTrucks()
     {
+        //todo
+        List<Truck> trucksNew = getAllTrucks();
+        for (Truck truck : trucksNew) {
+            trucks.put(truck.getPlateNumber(), truck);
+        }
+
+
         List<Truck> availableTrucks = new ArrayList<>();
         for (Truck truck : trucks.values()) {
-            if (truck.isAvailable()) {
+            if (!truck.isAvailable()) {
                 availableTrucks.add(truck);
             }
         }
         return availableTrucks;
     }
+
+
+    public List<Truck>  getAllTrucks() {
+        List<TruckDTO> trucksDTO = truckDAO.getAll();
+        List<Truck> trucks = new LinkedList<>();
+        for (TruckDTO truckDTO : trucksDTO) {
+            trucks.add(new Truck(truckDTO));
+        }
+        return trucks;
+    }
+    
+
+
+
 
     public void setTruckAvailability(String truckNumber,boolean isAvailable) {
         if(hasTruck(truckNumber))

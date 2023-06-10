@@ -14,7 +14,15 @@ public class Truck {
         this.model = model;
         this.weightNeto = weightNeto;
         this.weightMax = weightMax;
-        this.isAvailable = true;
+        this.isAvailable = false;
+    }
+
+    public Truck(TruckDTO truckDTO) {
+        this.plateNumber=truckDTO.getPlateNumber();
+        this.model= truckDTO.getModel();
+        this.weightNeto= truckDTO.getWeightNeto();
+        this.weightMax = truckDTO.getWeightMax();
+        this.isAvailable= truckDTO.isAvailable();
     }
 
     public TruckDTO toDTO(){

@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 
 import BussinessLayer.EmployeeTransportFacade;
 import BussinessLayer.EmployeesLayer.Driver;
+import DataAccessLayer.DAO.TransportLayer.DeliveryDAO;
 import DataAccessLayer.DAO.TransportLayer.DestinationDAO;
 import DataAccessLayer.DAO.TransportLayer.TransportDAO;
 import DataAccessLayer.DAO.TransportLayer.TruckDAO;
@@ -17,6 +18,7 @@ public class TransportFacade {
     private TruckDAO truckDAO;
     private EmployeeTransportFacade employeeTransportFacade=null;
     private DestinationDAO destinationDAO;
+    private DeliveryDAO deliveryDAO;
 
     int id=0;
     private static TransportFacade instance = null;
@@ -26,6 +28,7 @@ public class TransportFacade {
         transportDAO = new TransportDAO();
         truckDAO = new TruckDAO();
         destinationDAO= new DestinationDAO();
+        deliveryDAO = new DeliveryDAO();
 
     }
 
@@ -428,7 +431,16 @@ public class TransportFacade {
             System.out.println("Invalid choice.");
         }
 
+        insertDeliveries(deliveries);
         return deliveries;
+    }
+
+    private void insertDeliveries(List<Delivery> deliveries){
+
+        for(Delivery delivery : deliveries)
+        {
+            deliveryDAO.insert(delivery.toDTO());
+        }
     }
 
     /**

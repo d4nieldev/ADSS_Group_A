@@ -19,8 +19,21 @@ public class DeliveryDAO extends DAO<DeliveryDTO> {
 
     @Override
     public int insert(DeliveryDTO Ob) {
-        // TODO: Implement insert method
-        return 0;
+        int ans = 0;
+        Connection conn = Repository.getInstance().connect();
+        if (Ob == null) return 0;
+        String toInsertDestination = Ob.fieldsToString();
+        Statement s;
+        try {
+            s = conn.createStatement();
+            s.executeUpdate(InsertStatement(toInsertDestination));
+            ans = 1;
+        } catch (Exception e) {
+            ans = 0;
+        } finally {
+            Repository.getInstance().closeConnection(conn);
+        }
+        return ans;
     }
 
     @Override

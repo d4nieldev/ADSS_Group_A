@@ -9,7 +9,15 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a2472df3-0b1c-47fc-bcd6-f26fc4f0a51c" name="Changes" comment="remove comment" />
+    <list default="true" id="a2472df3-0b1c-47fc-bcd6-f26fc4f0a51c" name="Changes" comment="create branch for GUI">
+      <change afterPath="$PROJECT_DIR$/dev/PersentationLayer/inventory/GuiMain.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/dev/PersentationLayer/inventory/MangeStorageFrame.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/dev/PersentationLayer/inventory/OrderSupplyFrame.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/dev/PersentationLayer/inventory/StorekeeperFrame.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/dev/PersentationLayer/inventory/test.form" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/dev/PersentationLayer/inventory/test.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -18,19 +26,24 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="Class" />
         <option value="JUnit4 Test Class" />
+        <option value="Class" />
       </list>
     </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="vlad_dan_debugging" />
+        <entry key="$PROJECT_DIR$" value="322404559_206892317_322126350_318359734" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;
+  }
+}</component>
   <component name="GithubPullRequestsUISettings">
     <option name="selectedUrlAndAccountId">
       <UrlAndAccount>
@@ -59,7 +72,7 @@
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
     &quot;last_opened_file_path&quot;: &quot;/Users/Metar/Documents/GitHub/ADSS_Group_A&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;Artifacts&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;SDKs&quot;,
     &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
     &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;
   }
@@ -81,7 +94,20 @@
       <recent name="Tests.InventoryTest" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.Program">
+  <component name="RunManager" selected="Application.GuiMain">
+    <configuration name="GuiMain" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="PersentationLayer.inventory.GuiMain" />
+      <module name="ADSS_Group_A" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="PersentationLayer.inventory.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="Program" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="PersentationLayer.Program" />
       <module name="ADSS_Group_A" />
@@ -124,22 +150,6 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="SupplierControllerTest.calculateSupplierDiscountTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="ADSS_Group_A" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="Tests.SupplierTests.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="Tests.SupplierTests" />
-      <option name="MAIN_CLASS_NAME" value="Tests.SupplierTests.SupplierControllerTest" />
-      <option name="METHOD_NAME" value="calculateSupplierDiscountTest" />
-      <option name="TEST_OBJECT" value="method" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
     <configuration name="SupplierControllerTest.getRandomContactOfTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="ADSS_Group_A" />
       <extension name="coverage">
@@ -158,11 +168,11 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Application.GuiMain" />
         <item itemvalue="Application.Program" />
         <item itemvalue="Application.Program1" />
         <item itemvalue="JUnit.ProductBranchTest.reportFlawProductsTest" />
         <item itemvalue="JUnit.SupplierControllerTest.getRandomContactOfTest" />
-        <item itemvalue="JUnit.SupplierControllerTest.calculateSupplierDiscountTest" />
       </list>
     </recent_temporary>
   </component>
@@ -413,7 +423,14 @@
       <option name="project" value="LOCAL" />
       <updated>1686557948324</updated>
     </task>
-    <option name="localTasksCounter" value="35" />
+    <task id="LOCAL-00035" summary="create branch for GUI">
+      <created>1686592163137</created>
+      <option name="number" value="00035" />
+      <option name="presentableId" value="LOCAL-00035" />
+      <option name="project" value="LOCAL" />
+      <updated>1686592163137</updated>
+    </task>
+    <option name="localTasksCounter" value="36" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -429,7 +446,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-    <MESSAGE value="PeriodicReservation DAO+DTO" />
     <MESSAGE value="implement SpecificProduct, ProductBranch, Branch , BranchController" />
     <MESSAGE value="add PeriodicReservationItemDAO +DTO and arrange all what related to these" />
     <MESSAGE value="arrange the service" />
@@ -454,7 +470,8 @@
     <MESSAGE value="inventory report categories" />
     <MESSAGE value="final commit - added jar file" />
     <MESSAGE value="remove comment" />
-    <option name="LAST_COMMIT_MESSAGE" value="remove comment" />
+    <MESSAGE value="create branch for GUI" />
+    <option name="LAST_COMMIT_MESSAGE" value="create branch for GUI" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

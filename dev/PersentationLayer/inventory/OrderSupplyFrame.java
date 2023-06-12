@@ -17,16 +17,20 @@ public class OrderSupplyFrame {
         label.setFont(new Font(null, Font.PLAIN, 20));
         label.setVisible(true);
 
-        frame = new JFrame();
-        frame.setTitle("Order supply");
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setResizable(true);
-        frame.setSize(420, 420);
+        JButton button = new JButton("back");
 
-        frame.setLayout(new BorderLayout()); // Set the layout manager for the frame
+        JPanel contentPane = new JPanel();
+        contentPane.setLayout(new BorderLayout());
 
-// Add label at the top center
-        frame.add(label, BorderLayout.NORTH);
+        JPanel buttonPanel = new JPanel();
+        buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.LINE_AXIS));
+        buttonPanel.add(Box.createHorizontalStrut(10));
+        buttonPanel.add(button);
+
+        contentPane.add(buttonPanel, BorderLayout.NORTH);
+        contentPane.add(label, BorderLayout.CENTER);
+
+        frame.setContentPane(contentPane);
         frame.setVisible(true);
     }
 

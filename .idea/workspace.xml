@@ -10,9 +10,17 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="a2472df3-0b1c-47fc-bcd6-f26fc4f0a51c" name="Changes" comment="open main window and 2 other windows, for each case">
+      <change afterPath="$PROJECT_DIR$/database.db" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/dev/PersentationLayer/GUI/Tasks/AddNewProductFrame.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/dev/PersentationLayer/GUI/Tasks/FlawProductFrame.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dev/PersentationLayer/inventory/MangeStorageFrame.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/PersentationLayer/inventory/MangeStorageFrame.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dev/PersentationLayer/inventory/OrderSupplyFrame.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/PersentationLayer/inventory/OrderSupplyFrame.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/database.sqbpro" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dev/PersentationLayer/inventory/GuiMain.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/PersentationLayer/GUI/GuiMain.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dev/PersentationLayer/inventory/MangeStorageFrame.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/PersentationLayer/GUI/MangeStorageFrame.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dev/PersentationLayer/inventory/OrderSupplyFrame.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/PersentationLayer/GUI/OrderSupplyFrame.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dev/PersentationLayer/inventory/StorekeeperFrame.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/PersentationLayer/GUI/StorekeeperFrame.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dev/PersentationLayer/inventory/test.form" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dev/PersentationLayer/inventory/test.java" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -59,20 +67,21 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Downloaded.Files.Path.Enabled&quot;: &quot;false&quot;,
-    &quot;Repository.Attach.Annotations&quot;: &quot;false&quot;,
-    &quot;Repository.Attach.JavaDocs&quot;: &quot;false&quot;,
-    &quot;Repository.Attach.Sources&quot;: &quot;false&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;/Users/Metar/Documents/GitHub/ADSS_Group_A&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;SDKs&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Downloaded.Files.Path.Enabled": "false",
+    "Repository.Attach.Annotations": "false",
+    "Repository.Attach.JavaDocs": "false",
+    "Repository.Attach.Sources": "false",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "last_opened_file_path": "/Users/Metar/Documents/GitHub/ADSS_Group_A",
+    "project.structure.last.edited": "SDKs",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.2",
+    "settings.editor.selected.configurable": "preferences.lookFeel"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/dev/Tests" />
@@ -92,11 +101,11 @@
   </component>
   <component name="RunManager" selected="Application.GuiMain">
     <configuration name="GuiMain" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="PersentationLayer.inventory.GuiMain" />
+      <option name="MAIN_CLASS_NAME" value="PersentationLayer.GUI.GuiMain" />
       <module name="ADSS_Group_A" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="PersentationLayer.inventory.*" />
+          <option name="PATTERN" value="PersentationLayer.GUI.Tasks.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -122,7 +131,7 @@
       <module name="ADSS_Group_A" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="PersentationLayer.inventory.*" />
+          <option name="PATTERN" value="PersentationLayer.GUI.Tasks.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -162,6 +171,13 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <list>
+      <item itemvalue="Application.GuiMain" />
+      <item itemvalue="Application.Program" />
+      <item itemvalue="Application.Program1" />
+      <item itemvalue="JUnit.ProductBranchTest.reportFlawProductsTest" />
+      <item itemvalue="JUnit.SupplierControllerTest.getRandomContactOfTest" />
+    </list>
     <recent_temporary>
       <list>
         <item itemvalue="Application.GuiMain" />
@@ -433,7 +449,14 @@
       <option name="project" value="LOCAL" />
       <updated>1686602129077</updated>
     </task>
-    <option name="localTasksCounter" value="37" />
+    <task id="LOCAL-00037" summary="open main window and 2 other windows, for each case">
+      <created>1686602973768</created>
+      <option name="number" value="00037" />
+      <option name="presentableId" value="LOCAL-00037" />
+      <option name="project" value="LOCAL" />
+      <updated>1686602973768</updated>
+    </task>
+    <option name="localTasksCounter" value="38" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">

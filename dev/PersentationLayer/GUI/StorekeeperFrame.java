@@ -1,4 +1,4 @@
-package PersentationLayer.inventory;
+package PersentationLayer.GUI;
 
 import javax.swing.*;
 import java.awt.*;
@@ -6,7 +6,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class StorekeeperFrame implements ActionListener {
-    JFrame frame=new JFrame();
+    JFrame frame;
     JTextField textField;
     JButton button1;
     JButton button2;
@@ -63,7 +63,13 @@ public class StorekeeperFrame implements ActionListener {
         if (e.getSource() == button2){
             frame.dispose();
             //open new OrderSupply Window
-            OrderSupplyFrame orderSupplyFrame = new OrderSupplyFrame();
+            OrderSupplyFrame orderSupplyFrame = new OrderSupplyFrame(this);
         }
+    }
+
+    public void goBack() {
+        frame.dispose();
+        // Open new StorekeeperFrame
+        StorekeeperFrame storekeeperFrame = new StorekeeperFrame();
     }
 }

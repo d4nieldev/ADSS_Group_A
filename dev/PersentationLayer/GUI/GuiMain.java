@@ -1,6 +1,4 @@
-package PersentationLayer.inventory;
-
-import javax.swing.*;
+package PersentationLayer.GUI;
 
 public class GuiMain {
     public static void main(String[] args) throws Exception {

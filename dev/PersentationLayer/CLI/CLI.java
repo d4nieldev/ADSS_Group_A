@@ -7,8 +7,8 @@ import PersentationLayer.CLI.Suppliers.SupplierSystem;
 import PersentationLayer.CLI.inventory.ProductSystem;
 import PersentationLayer.CLI.inventory.ReportSystem;
 
-public class Program {
-    public static void main(String[] args) throws Exception {
+public class CLI {
+    public static void activate(String role) {
         Scanner scanner = new Scanner(System.in);
         while (true) {
             System.out.print("> ");

@@ -1,4 +1,4 @@
-package PersentationLayer.InventorySuppliers;
+package PersentationLayer.CLI.InventorySuppliers;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;

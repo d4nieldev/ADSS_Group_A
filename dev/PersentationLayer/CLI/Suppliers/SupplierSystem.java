@@ -1,4 +1,4 @@
-package PersentationLayer.Suppliers;
+package PersentationLayer.CLI.Suppliers;
 
 import java.util.ArrayList;
 import java.util.List;

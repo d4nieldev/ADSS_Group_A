@@ -1,11 +1,11 @@
-package PersentationLayer;
+package PersentationLayer.CLI;
 
 import java.util.Scanner;
-import PersentationLayer.InventorySuppliers.BranchSystem;
-import PersentationLayer.Suppliers.ReservationSystem;
-import PersentationLayer.Suppliers.SupplierSystem;
-import PersentationLayer.inventory.ProductSystem;
-import PersentationLayer.inventory.ReportSystem;
+import PersentationLayer.CLI.InventorySuppliers.BranchSystem;
+import PersentationLayer.CLI.Suppliers.ReservationSystem;
+import PersentationLayer.CLI.Suppliers.SupplierSystem;
+import PersentationLayer.CLI.inventory.ProductSystem;
+import PersentationLayer.CLI.inventory.ReportSystem;
 
 public class Program {
     public static void main(String[] args) throws Exception {

@@ -1,4 +1,4 @@
-package PersentationLayer.inventory;
+package PersentationLayer.CLI.inventory;
 
 import DataAccessLayer.Repository;
 

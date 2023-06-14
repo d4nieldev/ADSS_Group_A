@@ -55,7 +55,7 @@ public class MangeStorageFrame implements ActionListener {
         button1.addActionListener(this);
         button2 = new JButton("Add new product");
         button2.addActionListener(this);
-        button3 = new JButton("Task 3");
+        button3 = new JButton("Set Discount on Categories");
         button3.addActionListener(this);
 
 // Configure panel for back button, label, and tasks panel

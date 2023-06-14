@@ -1,6 +1,7 @@
 package PersentationLayer.GUI.Tasks;
 
 import BusinessLayer.InveontorySuppliers.Branch;
+import PersentationLayer.GUI.MangeStorageFrame;
 import PersentationLayer.GUI.StorekeeperFrame;
 import ServiceLayer.InventorySuppliers.BranchService;
 import ServiceLayer.inventory.ProductService;
@@ -208,6 +209,12 @@ public class AddNewProductFrame implements ActionListener {
     }
 
     public void actionPerformed(ActionEvent e) {
+        //back to tasks view window
+        if (e.getSource() == backButton) {
+            frame.dispose();
+            MangeStorageFrame mangeStorageFrame = new MangeStorageFrame();
+        }
+
         if (e.getSource() == submitButton) {
             String branchIdText = branchIdTextField.getText().trim();
             String productCodeText = productCodeTextField.getText().trim();

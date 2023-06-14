@@ -2,8 +2,11 @@ package BusinessLayer.Suppliers;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.TreeMap;
+import java.util.stream.Collectors;
 
 import BusinessLayer.InveontorySuppliers.Discount;
 import BusinessLayer.InveontorySuppliers.DiscountFixed;
@@ -191,6 +194,30 @@ public abstract class Supplier {
 
     public void removeField(String field) {
         this.fields.remove(field);
+    }
+
+    public Map<String, Object> getMap() {
+        Map<String, Object> map = new HashMap<>();
+
+        map.put("name", name);
+        map.put("bankAcc", bankAcc);
+        map.put("fields", fields);
+        map.put("paymentCondition", paymentCondition);
+        map.put("phone", getPhone());
+
+        Map<String, String> myAmountToDiscount = new HashMap<>();
+        for (Integer amount : amountToDiscount.keySet())
+            myAmountToDiscount.put("" + amount, amountToDiscount.get(amount).toString());
+        map.put("amountToDiscount", myAmountToDiscount);
+
+        Map<String, String> myContacts = new HashMap<>();
+        for (Contact contact : contacts) {
+            if (!contact.getName().equals(getOffice().getName()))
+                myContacts.put(contact.getPhone(), contact.getName());
+        }
+        map.put("contacts", myContacts);
+
+        return map;
     }
 
 }

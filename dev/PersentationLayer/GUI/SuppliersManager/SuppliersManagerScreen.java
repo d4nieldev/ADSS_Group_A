@@ -52,9 +52,7 @@ public class SuppliersManagerScreen extends JFrame {
         });
 
         editSupplierButton.addActionListener((ActionEvent e) -> {
-            // Edit supplier button action
-            // Implement the desired functionality here
-            JOptionPane.showMessageDialog(null, "Edit Supplier button clicked!");
+            new EditSupplierScreen();
         });
 
         deleteSupplierButton.addActionListener((ActionEvent e) -> {

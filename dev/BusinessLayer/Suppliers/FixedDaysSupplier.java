@@ -5,6 +5,8 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
+
 import DataAccessLayer.DTOs.FixedDaysSupplierDTO;
 
 class FixedDaysSupplier extends Supplier {
@@ -12,18 +14,21 @@ class FixedDaysSupplier extends Supplier {
     private List<FixedDaysSupplierDTO> fixedDaysSupplierDTOs;
 
     // // Copy constructor
-    // public FixedDaysSupplier(int id, String name, String phone, String bankAcc, List<String> fields,
-    //                          String paymentCondition,
-    //                          TreeMap<Integer, Discount> amountToDiscount, List<Contact> contacts, List<Integer> days) {
-    //     super(id, name, phone, bankAcc, fields, paymentCondition, amountToDiscount, contacts);
-    //     this.days = makeDaysList(days);
+    // public FixedDaysSupplier(int id, String name, String phone, String bankAcc,
+    // List<String> fields,
+    // String paymentCondition,
+    // TreeMap<Integer, Discount> amountToDiscount, List<Contact> contacts,
+    // List<Integer> days) {
+    // super(id, name, phone, bankAcc, fields, paymentCondition, amountToDiscount,
+    // contacts);
+    // this.days = makeDaysList(days);
     // }
 
-    public FixedDaysSupplier(List<FixedDaysSupplierDTO> fixedDaysSupplierDTOs){
+    public FixedDaysSupplier(List<FixedDaysSupplierDTO> fixedDaysSupplierDTOs) {
         super(fixedDaysSupplierDTOs.get(0).getSupplierDTO());
         this.fixedDaysSupplierDTOs = fixedDaysSupplierDTOs;
         this.days = new ArrayList<>();
-        for(FixedDaysSupplierDTO fixedDaysSupplierDTO: fixedDaysSupplierDTOs){
+        for (FixedDaysSupplierDTO fixedDaysSupplierDTO : fixedDaysSupplierDTOs) {
             days.add(getDay(fixedDaysSupplierDTO.getDayOfSupply()));
         }
     }
@@ -73,6 +78,16 @@ class FixedDaysSupplier extends Supplier {
             closestDay = closestDay.plusDays(1);
 
         return closestDay;
+    }
+
+    @Override
+    public Map<String, Object> getMap() {
+        Map<String, Object> map = super.getMap();
+        List<Integer> myDays = new ArrayList<>();
+        for (DayOfWeek day : days)
+            myDays.add(day.getValue());
+        map.put("days", myDays);
+        return map;
     }
 
 }

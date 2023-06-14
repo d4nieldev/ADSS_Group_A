@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.TreeMap;
 
 import BusinessLayer.InveontorySuppliers.Discount;
@@ -565,18 +566,19 @@ public class SupplierController {
     }
 
     /**
+     * A map that contains the data about the supplier
      * 
      * @param supplierId the id of the supplier
      * @return information about the supplier
      * @throws SuppliersException
      */
-    public String getSupplierCard(int supplierId) throws SuppliersException {
+    public Map<String, Object> getSupplierCard(int supplierId) throws SuppliersException {
         try {
             Supplier s = getSupplierById(supplierId);
             if (supplierId < 0) {
                 throw new Exception("Supplier id cannot be negative.");
             }
-            return s.toString();
+            return s.getMap();
         } catch (Exception e) {
             throw new SuppliersException("Error occurred while getting supplier card with id: " + supplierId);
         }

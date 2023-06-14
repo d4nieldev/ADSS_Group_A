@@ -183,6 +183,8 @@ public class ProductController {
         else {
             // load from tables, save and return
             ProductDTO productDTO = productsDAO.getById(productId);
+            if(productDTO == null)
+                throw new SQLException("this product doesn't exist on supplier");
             Product product = new Product(productDTO);
             products.put(productId, product);
             return product;

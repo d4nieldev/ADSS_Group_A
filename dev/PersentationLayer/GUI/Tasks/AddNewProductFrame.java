@@ -9,6 +9,10 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 
 public class AddNewProductFrame implements ActionListener {
     JFrame frame;
@@ -218,7 +222,7 @@ public class AddNewProductFrame implements ActionListener {
             String idealQuantityText = idealQuantityTextField.getText().trim();
 
             boolean isValid = true;
-            StringBuilder errorMessage = new StringBuilder("Invalid input(s):");
+            StringBuilder errorMessage = new StringBuilder("Invalid input:");
 
             int branchId ;
             int productCode;
@@ -255,7 +259,23 @@ public class AddNewProductFrame implements ActionListener {
                 return;
             }
 
-            // Validate discountValue
+            //Validate discount start date
+            try {
+                LocalDate discountStartDate = LocalDate.parse(discountStart, DateTimeFormatter.ISO_LOCAL_DATE);
+            } catch (DateTimeParseException ex) {
+                invalidInputLabel.setText("Invalid Discount Start Date - The Format Is : YYYY-MM-DD");
+                invalidInputLabel.setVisible(true);
+                return;
+            }
+            //Validate discount End date
+            try {
+                LocalDate discountEndDate = LocalDate.parse(discountEnd, DateTimeFormatter.ISO_LOCAL_DATE);
+            } catch (DateTimeParseException ex) {
+                invalidInputLabel.setText("Invalid Discount End Date - The Format Is : YYYY-MM-DD");
+                invalidInputLabel.setVisible(true);
+                return;
+            }
+
 
             try {
                 price = Double.parseDouble(priceText);
@@ -282,24 +302,46 @@ public class AddNewProductFrame implements ActionListener {
             }
 
             boolean isDiscountPercentage = discountTypeComboBox.getSelectedItem().equals("DiscountPercentage");
-
-            try {
-                branchService.addProductBranch(productCode,branchId,discountStart,discountEnd,discountValue,isDiscountPercentage,price,minQuantity,idealQuantity);
+            String res = "";
+            try{
+                 res =  branchService.addProductBranch(productCode,branchId, LocalDate.parse(discountStart),LocalDate.parse(discountEnd),discountValue,isDiscountPercentage,price,minQuantity,idealQuantity);
             } catch (Exception ex) {
-                invalidInputLabel.setText(ex.getMessage());
-                invalidInputLabel.setVisible(true);
+                String keyword = "this";
+                int startIndex = ex.getMessage().toLowerCase().indexOf(keyword.toLowerCase());
+                if (startIndex != -1) {
+                    String trimmedString = ex.getMessage().substring(startIndex, ex.getMessage().length());
+                    invalidInputLabel.setText(trimmedString);
+                    invalidInputLabel.setVisible(true);
+                    return;
+                }
             }
+
+            if(res!="Success")
+                {
+                    invalidInputLabel.setText(res);
+                    invalidInputLabel.setVisible(true);
+                    return;
+                }
             invalidInputLabel.setText("operation succeed");
             invalidInputLabel.setForeground(Color.green);
             invalidInputLabel.setVisible(true);
             //clear the textBox data
             branchIdTextField.setText("");
             productCodeTextField.setText("");
+            discountValueTextField.setText("");
+            discountStartTextField.setText("");
+            discountEndTextField.setText("");
+            priceTextField.setText("");
+            minQuantityTextField.setText("");
+            idealQuantityTextField.setText("");
+
+
+
 
         }
 
 
         }
     }
-}
+
 

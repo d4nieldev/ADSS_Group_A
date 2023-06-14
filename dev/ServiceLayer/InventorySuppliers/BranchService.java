@@ -24,8 +24,8 @@ public class BranchService {
     }
 
     public String addProductBranch(int productId, int branchId, LocalDate discountStartDate, LocalDate discountEndDate,
-            double discountVal, boolean isDiscountPrecentage, double price, int minQuantity,
-            int idealQuantity) {
+                                   double discountVal, boolean isDiscountPrecentage, double price, int minQuantity,
+                                   int idealQuantity)  {
         try {
             branchController.addNewProductBranch(productId, branchId, discountStartDate, discountEndDate, discountVal,
                     isDiscountPrecentage, price, minQuantity, idealQuantity);

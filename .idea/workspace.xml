@@ -9,7 +9,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a2472df3-0b1c-47fc-bcd6-f26fc4f0a51c" name="Changes" comment="minor change" />
+    <list default="true" id="a2472df3-0b1c-47fc-bcd6-f26fc4f0a51c" name="Changes" comment="done with add new product">
+      <change afterPath="$PROJECT_DIR$/dev/PersentationLayer/GUI/Tasks/SetDiscountOnCategoriesFrame.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dev/PersentationLayer/GUI/MangeStorageFrame.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/PersentationLayer/GUI/MangeStorageFrame.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dev/PersentationLayer/GUI/Tasks/AddNewProductFrame.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/PersentationLayer/GUI/Tasks/AddNewProductFrame.java" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -26,11 +31,16 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="Metar-GUI" />
+        <entry key="$PROJECT_DIR$" value="322404559_206892317_322126350_318359734" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;
+  }
+}</component>
   <component name="GithubPullRequestsUISettings">
     <option name="selectedUrlAndAccountId">
       <UrlAndAccount>
@@ -50,6 +60,21 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Downloaded.Files.Path.Enabled": "false",
+    "Repository.Attach.Annotations": "false",
+    "Repository.Attach.JavaDocs": "false",
+    "Repository.Attach.Sources": "false",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "last_opened_file_path": "/Users/Metar/Documents/GitHub/ADSS_Group_A",
+    "project.structure.last.edited": "SDKs",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.2",
+    "settings.editor.selected.configurable": "preferences.lookFeel"
+  }
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/dev/Tests" />
@@ -149,11 +174,11 @@
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="JUnit.SupplierControllerTest.getRandomContactOfTest" />
-        <item itemvalue="JUnit.ProductBranchTest.reportFlawProductsTest" />
-        <item itemvalue="Application.Program1" />
-        <item itemvalue="Application.Program" />
         <item itemvalue="Application.GuiMain" />
+        <item itemvalue="Application.Program" />
+        <item itemvalue="Application.Program1" />
+        <item itemvalue="JUnit.ProductBranchTest.reportFlawProductsTest" />
+        <item itemvalue="JUnit.SupplierControllerTest.getRandomContactOfTest" />
       </list>
     </recent_temporary>
   </component>
@@ -453,14 +478,7 @@
       <option name="project" value="LOCAL" />
       <updated>1686757672018</updated>
     </task>
-    <task id="LOCAL-00042" summary="minor change">
-      <created>1686758549241</created>
-      <option name="number" value="00042" />
-      <option name="presentableId" value="LOCAL-00042" />
-      <option name="project" value="LOCAL" />
-      <updated>1686758549241</updated>
-    </task>
-    <option name="localTasksCounter" value="43" />
+    <option name="localTasksCounter" value="42" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -476,6 +494,7 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
+    <MESSAGE value="add function for test" />
     <MESSAGE value="change presentation + product service" />
     <MESSAGE value="add tests to product branch" />
     <MESSAGE value="add the service" />
@@ -500,8 +519,7 @@
     <MESSAGE value="create add product and report flaw product" />
     <MESSAGE value="flaw product works, and presentation for add product done" />
     <MESSAGE value="done with add new product" />
-    <MESSAGE value="minor change" />
-    <option name="LAST_COMMIT_MESSAGE" value="minor change" />
+    <option name="LAST_COMMIT_MESSAGE" value="done with add new product" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

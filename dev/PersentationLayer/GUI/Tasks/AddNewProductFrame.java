@@ -1,6 +1,8 @@
 package PersentationLayer.GUI.Tasks;
 
+import BusinessLayer.InveontorySuppliers.Branch;
 import PersentationLayer.GUI.StorekeeperFrame;
+import ServiceLayer.InventorySuppliers.BranchService;
 import ServiceLayer.inventory.ProductService;
 
 import javax.swing.*;
@@ -12,30 +14,34 @@ public class AddNewProductFrame implements ActionListener {
     JFrame frame;
     JLabel label;
     JButton button;
-    StorekeeperFrame storekeeperFrame ;
+    StorekeeperFrame storekeeperFrame;
     JPanel tasksPanel;
-    JButton button1 ;
-    JButton button2 ;
-    JButton button3 ;
+    JButton button1;
+    JButton button2;
+    JButton button3;
+    JButton submitButton;
     JTextField branchIdTextField;
     JTextField productCodeTextField;
-    JTextField DiscountValueTextField;
-    JTextField DiscountStartTextField;
-    JTextField DiscountEndTextField;
-    JTextField PriceTextField;
-    JTextField MinQuantityTextField;
+    JTextField discountValueTextField;
+    JTextField discountStartTextField;
+    JTextField discountEndTextField;
+    JTextField priceTextField;
+    JTextField minQuantityTextField;
     JTextField idealQuantityTextField;
-    JButton submitButton;
     JLabel invalidInputLabel;
     JButton backButton;
-    ProductService productService = new ProductService();
+    BranchService branchService = new BranchService();
+    JComboBox<String> discountTypeComboBox; // Added ComboBox
 
-    public AddNewProductFrame(){
+
+    public AddNewProductFrame() {
         frame = new JFrame();
         frame.setTitle("Add new Product");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(420, 300);
+        frame.setSize(500, 550);
         frame.setLocationRelativeTo(null); // Center the frame on the screen
+        invalidInputLabel = new JLabel();
+        invalidInputLabel.setVisible(false);
 
         // Create the top panel with BorderLayout
         JPanel topPanel = new JPanel(new BorderLayout());
@@ -55,34 +61,48 @@ public class AddNewProductFrame implements ActionListener {
         JPanel mainPanel = new JPanel();
         mainPanel.setLayout(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
-        gbc.insets = new Insets(5, 5, 5, 5); // Add spacing around components
+        gbc.insets = new Insets(10, 10, 10, 10); // Add spacing around components
 
         // Create the text boxes with labels
         JLabel branchIdLabel = new JLabel("Branch ID");
         branchIdTextField = new JTextField(20);
+        branchIdTextField.setPreferredSize(new Dimension(200, 25)); // Set preferred size
+
 
         JLabel productCodeLabel = new JLabel("Product Code");
         productCodeTextField = new JTextField(20);
+        productCodeTextField.setPreferredSize(new Dimension(200, 25)); // Set preferred size
 
-        JLabel DiscountValueLabel = new JLabel("discount value");
-        DiscountValueTextField = new JTextField(20);
+        JLabel discountValueLabel = new JLabel("Discount Value");
+        discountValueTextField = new JTextField(20);
+        discountValueTextField.setPreferredSize(new Dimension(200, 25)); // Set preferred size1
 
-        JLabel DiscountStartLabel = new JLabel("discount start date");
-        DiscountStartTextField = new JTextField(20);
+        JLabel discountStartLabel = new JLabel("Discount Start Date");
+        discountStartTextField = new JTextField(20);
+        discountValueTextField.setPreferredSize(new Dimension(200, 25)); // Set preferred size
+        discountStartTextField.setText("2024-11-11");
 
-        JLabel DiscountEndLabel = new JLabel("discount end date");
-        DiscountEndTextField = new JTextField(20);
+        JLabel discountEndLabel = new JLabel("Discount End Date");
+        discountEndTextField = new JTextField(20);
+        discountEndTextField.setPreferredSize(new Dimension(200, 25)); // Set preferred size
+        discountEndTextField.setText("2024-11-11");
 
-        JLabel PriceLabel = new JLabel("price");
-        PriceTextField = new JTextField(20);
 
-        JLabel MinQuantityLabel = new JLabel("Min Quantity");
-        MinQuantityTextField = new JTextField(20);
+        JLabel priceLabel = new JLabel("Price");
+        priceTextField = new JTextField(20);
+        priceTextField.setPreferredSize(new Dimension(200, 25)); // Set preferred size
 
-        JLabel idealQuantityLabel = new JLabel("ideal Quantity");
+        JLabel minQuantityLabel = new JLabel("Min Quantity");
+        minQuantityTextField = new JTextField(20);
+        minQuantityTextField.setPreferredSize(new Dimension(200, 25)); // Set preferred size
+
+        JLabel idealQuantityLabel = new JLabel("Ideal Quantity");
         idealQuantityTextField = new JTextField(20);
+        idealQuantityTextField.setPreferredSize(new Dimension(200, 25)); // Set preferred size
 
-
+        // Create the discount type combo box
+        JLabel discountTypeLabel = new JLabel("Discount Type");
+        discountTypeComboBox = new JComboBox<>(new String[]{"DiscountPercentage", "DiscountFix"});
 
         // Add the labels and text fields to the main panel
         gbc.gridx = 0;
@@ -103,43 +123,43 @@ public class AddNewProductFrame implements ActionListener {
 
         gbc.gridx = 0;
         gbc.gridy = 2;
-        mainPanel.add(DiscountValueLabel, gbc);
+        mainPanel.add(discountValueLabel, gbc);
 
         gbc.gridx = 1;
         gbc.gridy = 2;
-        mainPanel.add(DiscountValueTextField, gbc);
+        mainPanel.add(discountValueTextField, gbc);
 
         gbc.gridx = 0;
         gbc.gridy = 3;
-        mainPanel.add(DiscountStartLabel, gbc);
+        mainPanel.add(discountStartLabel, gbc);
 
         gbc.gridx = 1;
         gbc.gridy = 3;
-        mainPanel.add(DiscountStartTextField, gbc);
+        mainPanel.add(discountStartTextField, gbc);
 
         gbc.gridx = 0;
         gbc.gridy = 4;
-        mainPanel.add(DiscountEndLabel, gbc);
+        mainPanel.add(discountEndLabel, gbc);
 
         gbc.gridx = 1;
         gbc.gridy = 4;
-        mainPanel.add(DiscountEndTextField, gbc);
+        mainPanel.add(discountEndTextField, gbc);
 
         gbc.gridx = 0;
         gbc.gridy = 5;
-        mainPanel.add(PriceLabel, gbc);
+        mainPanel.add(priceLabel, gbc);
 
         gbc.gridx = 1;
         gbc.gridy = 5;
-        mainPanel.add(PriceTextField, gbc);
+        mainPanel.add(priceTextField, gbc);
 
         gbc.gridx = 0;
         gbc.gridy = 6;
-        mainPanel.add(MinQuantityLabel, gbc);
+        mainPanel.add(minQuantityLabel, gbc);
 
         gbc.gridx = 1;
         gbc.gridy = 6;
-        mainPanel.add(MinQuantityTextField, gbc);
+        mainPanel.add(minQuantityTextField, gbc);
 
         gbc.gridx = 0;
         gbc.gridy = 7;
@@ -149,11 +169,21 @@ public class AddNewProductFrame implements ActionListener {
         gbc.gridy = 7;
         mainPanel.add(idealQuantityTextField, gbc);
 
+
+        // Add the discount type label and combo box to the main panel
+        gbc.gridx = 0;
+        gbc.gridy = 8;
+        mainPanel.add(discountTypeLabel, gbc);
+
+        gbc.gridx = 1;
+        gbc.gridy = 8;
+        mainPanel.add(discountTypeComboBox, gbc);
+
         // Create the submit button
         submitButton = new JButton("Submit");
         submitButton.addActionListener(this);
         gbc.gridx = 1;
-        gbc.gridy = 4;
+        gbc.gridy = 9;
         gbc.anchor = GridBagConstraints.EAST; // Align the button to the right
         mainPanel.add(submitButton, gbc);
 
@@ -162,10 +192,11 @@ public class AddNewProductFrame implements ActionListener {
         invalidInputLabel.setForeground(Color.RED);
         invalidInputLabel.setVisible(false);
         gbc.gridx = 0;
-        gbc.gridy = 5;
+        gbc.gridy = 10;
         gbc.gridwidth = 2;
         gbc.anchor = GridBagConstraints.CENTER;
         mainPanel.add(invalidInputLabel, gbc);
+
 
         // Add the top panel and main panel to the frame's content pane
         frame.getContentPane().setLayout(new BorderLayout());
@@ -174,8 +205,101 @@ public class AddNewProductFrame implements ActionListener {
 
         frame.setVisible(true);
     }
-    @Override
-    public void actionPerformed(ActionEvent e) {
 
+    public void actionPerformed(ActionEvent e) {
+        if (e.getSource() == submitButton) {
+            String branchIdText = branchIdTextField.getText().trim();
+            String productCodeText = productCodeTextField.getText().trim();
+            String discountValueText = discountValueTextField.getText().trim();
+            String discountStart = discountStartTextField.getText().trim();
+            String discountEnd = discountEndTextField.getText().trim();
+            String priceText = priceTextField.getText().trim();
+            String minQuantityText = minQuantityTextField.getText().trim();
+            String idealQuantityText = idealQuantityTextField.getText().trim();
+
+            boolean isValid = true;
+            StringBuilder errorMessage = new StringBuilder("Invalid input(s):");
+
+            int branchId ;
+            int productCode;
+            double discountValue ;
+            double price ;
+            int minQuantity ;
+            int idealQuantity ;
+
+            try {
+                branchId = Integer.parseInt(branchIdTextField.getText());
+            } catch (NumberFormatException ex) {
+                invalidInputLabel.setText("");
+                invalidInputLabel.setText("Branch ID is invalid");
+                invalidInputLabel.setVisible(true);
+                return;
+            }
+
+            try {
+                productCode = Integer.parseInt(productCodeTextField.getText());
+            } catch (NumberFormatException ex) {
+                invalidInputLabel.setText("Product Code is invalid");
+                invalidInputLabel.setVisible(true);
+                return;
+            }
+
+
+            // Validate discountValue
+
+            try {
+                discountValue = Double.parseDouble(discountValueText);
+            } catch (NumberFormatException ex) {
+                invalidInputLabel.setText("Invalid Discount Value");
+                invalidInputLabel.setVisible(true);
+                return;
+            }
+
+            // Validate discountValue
+
+            try {
+                price = Double.parseDouble(priceText);
+            } catch (NumberFormatException ex) {
+                invalidInputLabel.setText("Invalid Price");
+                invalidInputLabel.setVisible(true);
+                return;
+            }
+
+            try {
+                minQuantity = Integer.parseInt(minQuantityText);
+            } catch (NumberFormatException ex) {
+                invalidInputLabel.setText("Invalid Min Quantity");
+                invalidInputLabel.setVisible(true);
+                return;
+            }
+
+            try {
+                idealQuantity = Integer.parseInt(minQuantityText);
+            } catch (NumberFormatException ex) {
+                invalidInputLabel.setText("Invalid ideal Quantity");
+                invalidInputLabel.setVisible(true);
+                return;
+            }
+
+            boolean isDiscountPercentage = discountTypeComboBox.getSelectedItem().equals("DiscountPercentage");
+
+            try {
+                branchService.addProductBranch(productCode,branchId,discountStart,discountEnd,discountValue,isDiscountPercentage,price,minQuantity,idealQuantity);
+            } catch (Exception ex) {
+                invalidInputLabel.setText(ex.getMessage());
+                invalidInputLabel.setVisible(true);
+            }
+            invalidInputLabel.setText("operation succeed");
+            invalidInputLabel.setForeground(Color.green);
+            invalidInputLabel.setVisible(true);
+            //clear the textBox data
+            branchIdTextField.setText("");
+            productCodeTextField.setText("");
+
+        }
+
+
+        }
     }
 }
+

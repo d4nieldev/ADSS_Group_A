@@ -9,18 +9,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a2472df3-0b1c-47fc-bcd6-f26fc4f0a51c" name="Changes" comment="open main window and 2 other windows, for each case">
-      <change afterPath="$PROJECT_DIR$/database.db" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/dev/PersentationLayer/GUI/Tasks/AddNewProductFrame.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/dev/PersentationLayer/GUI/Tasks/FlawProductFrame.java" afterDir="false" />
+    <list default="true" id="a2472df3-0b1c-47fc-bcd6-f26fc4f0a51c" name="Changes" comment="create add product and report flaw product">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/database.sqbpro" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/dev/PersentationLayer/inventory/GuiMain.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/PersentationLayer/GUI/GuiMain.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dev/PersentationLayer/inventory/MangeStorageFrame.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/PersentationLayer/GUI/MangeStorageFrame.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dev/PersentationLayer/inventory/OrderSupplyFrame.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/PersentationLayer/GUI/OrderSupplyFrame.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dev/PersentationLayer/inventory/StorekeeperFrame.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/PersentationLayer/GUI/StorekeeperFrame.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dev/PersentationLayer/inventory/test.form" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/dev/PersentationLayer/inventory/test.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dev/PersentationLayer/GUI/Tasks/AddNewProductFrame.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/PersentationLayer/GUI/Tasks/AddNewProductFrame.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -456,7 +447,14 @@
       <option name="project" value="LOCAL" />
       <updated>1686602973768</updated>
     </task>
-    <option name="localTasksCounter" value="38" />
+    <task id="LOCAL-00038" summary="create add product and report flaw product">
+      <created>1686677278549</created>
+      <option name="number" value="00038" />
+      <option name="presentableId" value="LOCAL-00038" />
+      <option name="project" value="LOCAL" />
+      <updated>1686677278549</updated>
+    </task>
+    <option name="localTasksCounter" value="39" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -472,7 +470,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-    <MESSAGE value="add PeriodicReservationItemDAO +DTO and arrange all what related to these" />
     <MESSAGE value="arrange the service" />
     <MESSAGE value="add update productBranch option on recevice reservation" />
     <MESSAGE value="add function for test" />
@@ -497,7 +494,8 @@
     <MESSAGE value="remove comment" />
     <MESSAGE value="create branch for GUI" />
     <MESSAGE value="open main window and 2 other windows, for each case" />
-    <option name="LAST_COMMIT_MESSAGE" value="open main window and 2 other windows, for each case" />
+    <MESSAGE value="create add product and report flaw product" />
+    <option name="LAST_COMMIT_MESSAGE" value="create add product and report flaw product" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -516,6 +514,11 @@
           <url>file://$PROJECT_DIR$/dev/BusinessLayer/Suppliers/ReservationController.java</url>
           <line>58</line>
           <option name="timeStamp" value="13" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/dev/PersentationLayer/GUI/Tasks/AddNewProductFrame.java</url>
+          <line>283</line>
+          <option name="timeStamp" value="17" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

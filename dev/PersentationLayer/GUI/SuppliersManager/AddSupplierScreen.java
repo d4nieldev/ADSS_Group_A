@@ -22,7 +22,7 @@ public class AddSupplierScreen extends JFrame {
     public AddSupplierScreen() {
         supplierService = SupplierService.create();
         setTitle("Add Supplier");
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
         // Create buttons
         JButton onOrderSupplierButton = new JButton("On Order Supplier");

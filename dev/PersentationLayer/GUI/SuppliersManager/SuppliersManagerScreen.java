@@ -48,6 +48,7 @@ public class SuppliersManagerScreen extends JFrame {
 
         // Add action listeners to the buttons
         addSupplierButton.addActionListener((ActionEvent e) -> {
+            dispose();
             new AddSupplierScreen();
         });
 
@@ -58,9 +59,8 @@ public class SuppliersManagerScreen extends JFrame {
         });
 
         deleteSupplierButton.addActionListener((ActionEvent e) -> {
-            // Delete supplier button action
-            // Implement the desired functionality here
-            JOptionPane.showMessageDialog(null, "Delete Supplier button clicked!");
+            dispose();
+            new DeleteSupplierScreen(this);
         });
 
         viewSuppliersButton.addActionListener((ActionEvent e) -> {

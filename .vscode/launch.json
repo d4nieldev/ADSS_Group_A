@@ -6,6 +6,14 @@
   "configurations": [
     {
       "type": "java",
+      "name": "Program",
+      "request": "launch",
+      "mainClass": "PersentationLayer.Program",
+      "projectName": "ADSS_Group_A-Work2_b971df50",
+      "args": "GUI SuppliersManager"
+    },
+    {
+      "type": "java",
       "name": "Current File",
       "request": "launch",
       "mainClass": "${file}"

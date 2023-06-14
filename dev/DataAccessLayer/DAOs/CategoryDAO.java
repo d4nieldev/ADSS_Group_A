@@ -60,6 +60,7 @@ public class CategoryDAO extends DAO<CategoryDTO> {
         return null;
     }
 
+
     public int getLastId() throws SQLException {
         String query = "SELECT * FROM Categories WHERE id = (SELECT Max(id) FROM Categories);";
         List<Map<String, Object>> rows = repo.executeQuery(query);

@@ -3,9 +3,10 @@ package PersentationLayer.GUI.Tasks;
 import BusinessLayer.Inventory.Category;
 import BusinessLayer.Inventory.CategoryController;
 import BusinessLayer.Inventory.Global;
-import BusinessLayer.InveontorySuppliers.Discount;
 import BusinessLayer.InveontorySuppliers.DiscountFixed;
 import BusinessLayer.InveontorySuppliers.DiscountPercentage;
+import BusinessLayer.InveontorySuppliers.Product;
+import BusinessLayer.InveontorySuppliers.ProductController;
 import DataAccessLayer.DTOs.DiscountDTO;
 import PersentationLayer.GUI.MangeStorageFrame;
 import PersentationLayer.GUI.StorekeeperFrame;
@@ -21,10 +22,9 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
-public class SetDiscountOnCategoriesFrame implements ActionListener {
+public class SetDiscountOnProductsFrame implements ActionListener {
     JFrame frame;
     JLabel label;
     JButton button;
@@ -44,11 +44,10 @@ public class SetDiscountOnCategoriesFrame implements ActionListener {
     JButton backButton;
     BranchService branchService = new BranchService();
     JComboBox<String> discountTypeComboBox; // Added ComboBox
-    List<Category> categoryList;
+    List<Product> productList;
     List<JCheckBox> checkBoxList;
     ProductService productService = new ProductService();
-
-    public SetDiscountOnCategoriesFrame() {
+    public SetDiscountOnProductsFrame(){
         frame = new JFrame();
         frame.setTitle("Set Discount by Categories");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -101,22 +100,22 @@ public class SetDiscountOnCategoriesFrame implements ActionListener {
         discountTypeComboBox = new JComboBox<>(new String[]{"Discount Percentage", "Discount Fixed"});
 
         try {
-            categoryList = CategoryController.getInstance().getAllCategories();
+            productList = ProductController.getInstance().getAllProducts();
         } catch (SQLException exception) {
             invalidInputLabel.setText(exception.getMessage());
             invalidInputLabel.setVisible(true);
         }
 
         // Create the desired categories label
-        JLabel desiredCategoriesLabel = new JLabel("Desired Categories");
+        JLabel desiredCategoriesLabel = new JLabel("Desired Products");
 
         // Create a panel to hold the checkbox list
         JPanel categoriesPanel = new JPanel(new GridLayout(0, 1)); // Use GridLayout for vertical layout
 
         // Create checkboxes for each category
         checkBoxList = new ArrayList<>(); // Store checkboxes in a list
-        for (Category category : categoryList) {
-            String checkboxText = category.getId() + " - " + category.getName();
+        for (Product product : productList) {
+            String checkboxText = product.getId() + " - " + product.getName();
             JCheckBox checkBox = new JCheckBox(checkboxText);
             checkBoxList.add(checkBox); // Add the checkbox to the list
             categoriesPanel.add(checkBox);
@@ -202,7 +201,6 @@ public class SetDiscountOnCategoriesFrame implements ActionListener {
 
         frame.setVisible(true);
     }
-
     @Override
     public void actionPerformed(ActionEvent e) {
         //back to tasks view window
@@ -218,7 +216,7 @@ public class SetDiscountOnCategoriesFrame implements ActionListener {
             String discountEnd = discountEndTextField.getText().trim();
             String selectedDiscountType = (String) discountTypeComboBox.getSelectedItem();
 
-            List<Integer> selectedCategoryIds = new ArrayList<>();
+            List<Integer> selectedProductsIds = new ArrayList<>();
 
             // Iterate over the checkbox list
             for (JCheckBox checkBox : checkBoxList) {
@@ -226,16 +224,16 @@ public class SetDiscountOnCategoriesFrame implements ActionListener {
                     // Extract the category ID from the checkbox label
                     String checkboxText = checkBox.getText();
                     int categoryId = Integer.parseInt(checkboxText.split(" - ")[0]); // Extract the ID portion
-                    selectedCategoryIds.add(categoryId);
+                    selectedProductsIds.add(categoryId);
                 }
             }
-                try {
-                    List<Category> categories = CategoryController.getInstance().getCategoriesByIds(selectedCategoryIds);
-                }
-                catch (Exception exception){
-                    invalidInputLabel.setText(exception.getMessage());
-                    invalidInputLabel.setVisible(true);
-                }
+            try {
+                List<Category> categories = CategoryController.getInstance().getCategoriesByIds(selectedProductsIds);
+            }
+            catch (Exception exception){
+                invalidInputLabel.setText(exception.getMessage());
+                invalidInputLabel.setVisible(true);
+            }
 
 
             boolean isValid = true;
@@ -282,11 +280,11 @@ public class SetDiscountOnCategoriesFrame implements ActionListener {
                 return;
             }
 
-           //create discount object
+            //create discount object
             if(selectedDiscountType == "Discount Percentage"){
                 try {
-                DiscountPercentage discountPercentage = new DiscountPercentage(new DiscountDTO(Global.getNewDiscountId(),LocalDate.parse(discountStart),LocalDate.parse(discountEnd),discountValue,"Precentage"));
-                  productService.setDiscountByCategories(branchId,selectedCategoryIds,discountPercentage);
+                    DiscountPercentage discountPercentage = new DiscountPercentage(new DiscountDTO(Global.getNewDiscountId(),LocalDate.parse(discountStart),LocalDate.parse(discountEnd),discountValue,"Precentage"));
+                    productService.setDiscountByProducts(branchId,selectedProductsIds,discountPercentage);
                 } catch (Exception ex) {
                     String keyword = "this";
                     int startIndex = ex.getMessage().toLowerCase().indexOf(keyword.toLowerCase());
@@ -300,8 +298,8 @@ public class SetDiscountOnCategoriesFrame implements ActionListener {
             }
             else {
                 try{
-                DiscountFixed discountFixed = new DiscountFixed(new DiscountDTO(Global.getNewDiscountId(),LocalDate.parse(discountStart),LocalDate.parse(discountEnd),discountValue,"Fixed"));
-                    productService.setDiscountByCategories(branchId,selectedCategoryIds,discountFixed);
+                    DiscountFixed discountFixed = new DiscountFixed(new DiscountDTO(Global.getNewDiscountId(),LocalDate.parse(discountStart),LocalDate.parse(discountEnd),discountValue,"Fixed"));
+                    productService.setDiscountByProducts(branchId,selectedProductsIds,discountFixed);
                 } catch (Exception ex) {
                     String keyword = "this";
                     int startIndex = ex.getMessage().toLowerCase().indexOf(keyword.toLowerCase());
@@ -324,7 +322,7 @@ public class SetDiscountOnCategoriesFrame implements ActionListener {
             invalidInputLabel.setText("operation succeed");
             invalidInputLabel.setForeground(Color.green);
             invalidInputLabel.setVisible(true);
-           // clear the textBox data
+            // clear the textBox data
             branchIdTextField.setText("");
             discountValueTextField.setText("");
             discountStartTextField.setText("");
@@ -339,4 +337,3 @@ public class SetDiscountOnCategoriesFrame implements ActionListener {
         }
     }
 }
-

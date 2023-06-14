@@ -9,6 +9,7 @@ public abstract class Discount {
     private LocalDate start_date;
     private LocalDate end_date;
     double val;
+
     protected DiscountDTO dto;
 
     public Discount(DiscountDTO dto) {

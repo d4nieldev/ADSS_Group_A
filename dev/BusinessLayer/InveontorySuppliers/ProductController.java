@@ -208,4 +208,23 @@ public class ProductController {
         return getAgreement(productId, supplierId) != null;
     }
 
+    public List<Product> getAllProducts() throws SQLException {
+        if(products.size() == 0){
+            loadProducts();
+        }
+        List<Product> res = new ArrayList<>();
+        for(Product product : products.values()){
+            res.add(product);
+        }
+        return res;
+    }
+
+    private void loadProducts() throws SQLException {
+        List<ProductDTO> productsDTOs = ProductsDAO.getInstance().getaAllProducts();
+    for(ProductDTO productDTO : productsDTOs){
+        Product product = new Product(productDTO);
+        products.put(product.getId(),product);
+    }
+    }
+
 }

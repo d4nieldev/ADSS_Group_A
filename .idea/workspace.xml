@@ -9,13 +9,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a2472df3-0b1c-47fc-bcd6-f26fc4f0a51c" name="Changes" comment="flaw product works, and presentation for add product done">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/database.db" beforeDir="false" afterPath="$PROJECT_DIR$/database.db" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dev/BusinessLayer/InveontorySuppliers/ProductController.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/BusinessLayer/InveontorySuppliers/ProductController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dev/PersentationLayer/GUI/Tasks/AddNewProductFrame.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/PersentationLayer/GUI/Tasks/AddNewProductFrame.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dev/ServiceLayer/InventorySuppliers/BranchService.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/ServiceLayer/InventorySuppliers/BranchService.java" afterDir="false" />
-    </list>
+    <list default="true" id="a2472df3-0b1c-47fc-bcd6-f26fc4f0a51c" name="Changes" comment="minor change" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -32,16 +26,11 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="322404559_206892317_322126350_318359734" />
+        <entry key="$PROJECT_DIR$" value="Metar-GUI" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="GitHubPullRequestSearchHistory">{
-  &quot;lastFilter&quot;: {
-    &quot;state&quot;: &quot;OPEN&quot;
-  }
-}</component>
   <component name="GithubPullRequestsUISettings">
     <option name="selectedUrlAndAccountId">
       <UrlAndAccount>
@@ -61,21 +50,6 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Downloaded.Files.Path.Enabled": "false",
-    "Repository.Attach.Annotations": "false",
-    "Repository.Attach.JavaDocs": "false",
-    "Repository.Attach.Sources": "false",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "last_opened_file_path": "/Users/Metar/Documents/GitHub/ADSS_Group_A",
-    "project.structure.last.edited": "SDKs",
-    "project.structure.proportion": "0.15",
-    "project.structure.side.proportion": "0.2",
-    "settings.editor.selected.configurable": "preferences.lookFeel"
-  }
-}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/dev/Tests" />
@@ -83,6 +57,7 @@
       <recent name="$PROJECT_DIR$/dev" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/images" />
       <recent name="$PROJECT_DIR$" />
       <recent name="$PROJECT_DIR$/dev" />
     </key>
@@ -174,11 +149,11 @@
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Application.GuiMain" />
-        <item itemvalue="Application.Program" />
-        <item itemvalue="Application.Program1" />
-        <item itemvalue="JUnit.ProductBranchTest.reportFlawProductsTest" />
         <item itemvalue="JUnit.SupplierControllerTest.getRandomContactOfTest" />
+        <item itemvalue="JUnit.ProductBranchTest.reportFlawProductsTest" />
+        <item itemvalue="Application.Program1" />
+        <item itemvalue="Application.Program" />
+        <item itemvalue="Application.GuiMain" />
       </list>
     </recent_temporary>
   </component>
@@ -464,7 +439,28 @@
       <option name="project" value="LOCAL" />
       <updated>1686732878084</updated>
     </task>
-    <option name="localTasksCounter" value="40" />
+    <task id="LOCAL-00040" summary="done with add new product">
+      <created>1686735589625</created>
+      <option name="number" value="00040" />
+      <option name="presentableId" value="LOCAL-00040" />
+      <option name="project" value="LOCAL" />
+      <updated>1686735589625</updated>
+    </task>
+    <task id="LOCAL-00041" summary="done with add new product">
+      <created>1686757672018</created>
+      <option name="number" value="00041" />
+      <option name="presentableId" value="LOCAL-00041" />
+      <option name="project" value="LOCAL" />
+      <updated>1686757672018</updated>
+    </task>
+    <task id="LOCAL-00042" summary="minor change">
+      <created>1686758549241</created>
+      <option name="number" value="00042" />
+      <option name="presentableId" value="LOCAL-00042" />
+      <option name="project" value="LOCAL" />
+      <updated>1686758549241</updated>
+    </task>
+    <option name="localTasksCounter" value="43" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -480,8 +476,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-    <MESSAGE value="add update productBranch option on recevice reservation" />
-    <MESSAGE value="add function for test" />
     <MESSAGE value="change presentation + product service" />
     <MESSAGE value="add tests to product branch" />
     <MESSAGE value="add the service" />
@@ -505,7 +499,9 @@
     <MESSAGE value="open main window and 2 other windows, for each case" />
     <MESSAGE value="create add product and report flaw product" />
     <MESSAGE value="flaw product works, and presentation for add product done" />
-    <option name="LAST_COMMIT_MESSAGE" value="flaw product works, and presentation for add product done" />
+    <MESSAGE value="done with add new product" />
+    <MESSAGE value="minor change" />
+    <option name="LAST_COMMIT_MESSAGE" value="minor change" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -532,7 +528,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/dev/PersentationLayer/GUI/Tasks/AddNewProductFrame.java</url>
-          <line>307</line>
+          <line>311</line>
           <option name="timeStamp" value="19" />
         </line-breakpoint>
       </breakpoints>

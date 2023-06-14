@@ -4,6 +4,8 @@ import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 
+import ServiceLayer.Suppliers.SupplierService;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -13,26 +15,27 @@ import java.util.TreeMap;
 import java.util.Vector;
 
 public class AddSupplierScreen extends JFrame {
-    private JButton onOrderSupplierButton;
-    private JButton fixedDaysSupplierButton;
-    private JButton selfPickupSupplierButton;
     private JFrame currentFrame;
     private int y = 0;
+    private SupplierService supplierService;
 
     public AddSupplierScreen() {
+        supplierService = SupplierService.create();
         setTitle("Add Supplier");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         // Create buttons
-        onOrderSupplierButton = new JButton("On Order Supplier");
-        fixedDaysSupplierButton = new JButton("Fixed Days Supplier");
-        selfPickupSupplierButton = new JButton("Self Pickup Supplier");
+        JButton onOrderSupplierButton = new JButton("On Order Supplier");
+        JButton fixedDaysSupplierButton = new JButton("Fixed Days Supplier");
+        JButton selfPickupSupplierButton = new JButton("Self Pickup Supplier");
+        JButton goBackButton = new JButton("Go Back");
 
         // Set button sizes
         Dimension buttonSize = new Dimension(200, 30);
         onOrderSupplierButton.setPreferredSize(buttonSize);
         fixedDaysSupplierButton.setPreferredSize(buttonSize);
         selfPickupSupplierButton.setPreferredSize(buttonSize);
+        goBackButton.setPreferredSize(buttonSize);
 
         // Set layout manager
         setLayout(new FlowLayout());
@@ -41,6 +44,7 @@ public class AddSupplierScreen extends JFrame {
         add(onOrderSupplierButton);
         add(fixedDaysSupplierButton);
         add(selfPickupSupplierButton);
+        add(goBackButton);
 
         // Add action listeners to the buttons
         onOrderSupplierButton.addActionListener(new ActionListener() {
@@ -62,6 +66,12 @@ public class AddSupplierScreen extends JFrame {
                 // Self Pickup Supplier button action
                 openSelfPickupSupplierWindow();
             }
+        });
+
+        goBackButton.addActionListener((ActionEvent e) -> {
+            // Go Back button action
+            // Implement the desired functionality here
+            dispose(); // Close the current window
         });
 
         // Set the frame size and make it visible
@@ -119,13 +129,13 @@ public class AddSupplierScreen extends JFrame {
 
         fieldsPanel.add(new JLabel("Supply Days:"), constraints);
 
+        JCheckBox sundayCheckBox = new JCheckBox("Sunday");
         JCheckBox mondayCheckBox = new JCheckBox("Monday");
         JCheckBox tuesdayCheckBox = new JCheckBox("Tuesday");
         JCheckBox wednesdayCheckBox = new JCheckBox("Wednesday");
         JCheckBox thursdayCheckBox = new JCheckBox("Thursday");
         JCheckBox fridayCheckBox = new JCheckBox("Friday");
         JCheckBox saturdayCheckBox = new JCheckBox("Saturday");
-        JCheckBox sundayCheckBox = new JCheckBox("Sunday");
 
         constraints.gridx = 1;
         constraints.fill = GridBagConstraints.BOTH;
@@ -230,7 +240,7 @@ public class AddSupplierScreen extends JFrame {
         fieldsPanel.add(new JLabel("Payment Condition:"), constraints);
 
         constraints.gridx = 1;
-        String[] paymentConditions = { "NET 30 EOM", "NET 60 EOM" };
+        String[] paymentConditions = { "net 30 EOM", "net 60 EOM" };
         JComboBox<String> paymentConditionComboBox = new JComboBox<>(paymentConditions);
         fieldsPanel.add(paymentConditionComboBox, constraints);
 
@@ -366,18 +376,55 @@ public class AddSupplierScreen extends JFrame {
             System.out.println(contactsNames);
             System.out.println(amountToDiscount);
 
+            String response = null;
+            switch (supplierType) {
+                case "On Order Supplier":
+                    Integer maxSupplyDays = Integer.parseInt(((JTextField) fieldsPanel.getComponent(15)).getText());
+                    response = supplierService.addOnOrderSupplierBaseAgreement(supplierName, supplierPhone, bankAccount,
+                            fields, paymentCondition, amountToDiscount, contactsNames, contactsPhones, maxSupplyDays);
+
+                    break;
+                case "Fixed Days Supplier":
+                    boolean[] isDay = new boolean[] {
+                            ((JCheckBox) fieldsPanel.getComponent(15)).isSelected(),
+                            ((JCheckBox) fieldsPanel.getComponent(16)).isSelected(),
+                            ((JCheckBox) fieldsPanel.getComponent(17)).isSelected(),
+                            ((JCheckBox) fieldsPanel.getComponent(18)).isSelected(),
+                            ((JCheckBox) fieldsPanel.getComponent(19)).isSelected(),
+                            ((JCheckBox) fieldsPanel.getComponent(20)).isSelected(),
+                            ((JCheckBox) fieldsPanel.getComponent(21)).isSelected()
+                    };
+                    List<Integer> days = new ArrayList<>();
+                    for (int i = 0; i < isDay.length; i++)
+                        if (isDay[i])
+                            days.add(i + 1);
+                    response = supplierService.addFixedDaysSupplierBaseAgreement(supplierName, supplierPhone,
+                            bankAccount, fields, paymentCondition, amountToDiscount, contactsNames, contactsPhones,
+                            days);
+                    break;
+                case "Self Pickup Supplier":
+                    String address = ((JTextField) fieldsPanel.getComponent(15)).getText();
+                    Integer maxPreperationDays = Integer
+                            .parseInt(((JTextField) fieldsPanel.getComponent(17)).getText());
+                    response = supplierService.addSelfPickupSupplierBaseAgreement(supplierName, supplierPhone,
+                            bankAccount, fields, paymentCondition, amountToDiscount, contactsNames, contactsPhones,
+                            address, maxPreperationDays);
+                    break;
+                default:
+                    response = "Unknown supplier type";
+                    break;
+            }
+
             // Add Supplier button action
             // Implement the desired functionality here
-            // JOptionPane.showMessageDialog(frame, "Supplier added successfully!");
+            JOptionPane.showMessageDialog(frame, response);
             frame.dispose(); // Close the current window
         });
 
-        goBackButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                // Go Back button action
-                // Implement the desired functionality here
-                frame.dispose(); // Close the current window
-            }
+        goBackButton.addActionListener((ActionEvent e) -> {
+            // Go Back button action
+            // Implement the desired functionality here
+            frame.dispose(); // Close the current window
         });
 
         buttonsPanel.add(addButton);

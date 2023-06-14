@@ -50,7 +50,7 @@ public class SupplierService {
             supplierController.addFixedDaysSupplierBaseAgreement(supplierName, supplierPhone, supplierBankAccount,
                     supplierFields,
                     paymentCondition, amountToDiscount, contactNames, contactPhones, days);
-            return "Supplier of type: 'Fixed days' added successfully";
+            return "Successfully added supplier " + supplierName + " of type 'Fixed Days'.";
         } catch (Exception e) {
             return e.getMessage();
         }
@@ -75,9 +75,8 @@ public class SupplierService {
             List<String> contactNames, List<String> contactPhones, int maxSupplyDays) {
         try {
             supplierController.addOnOrderSupplierBaseAgreement(supplierName, supplierPhone, supplierBankAccount,
-                    supplierFields,
-                    paymentCondition, amountToDiscount, contactNames, contactPhones, maxSupplyDays);
-            return "Supplier of type: 'On Order' added successfully";
+                    supplierFields, paymentCondition, amountToDiscount, contactNames, contactPhones, maxSupplyDays);
+            return "Successfully added supplier " + supplierName + " of type 'On Order'.";
         } catch (Exception e) {
             return e.getMessage();
         }
@@ -105,7 +104,7 @@ public class SupplierService {
             supplierController.addSelfPickupSupplierBaseAgreement(supplierName, supplierPhone, supplierBankAccount,
                     supplierFields,
                     paymentCondition, amountToDiscount, contactNames, contactPhones, address, maxPreparationDays);
-            return "Supplier of type: 'Self Pickup' added successfully";
+            return "Successfully added supplier " + supplierName + " of type 'Self Pickup'.";
         } catch (Exception e) {
             return e.getMessage();
         }

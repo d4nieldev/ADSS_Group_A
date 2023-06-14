@@ -9,12 +9,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a2472df3-0b1c-47fc-bcd6-f26fc4f0a51c" name="Changes" comment="flaw product works, and presentation for add product done">
+    <list default="true" id="a2472df3-0b1c-47fc-bcd6-f26fc4f0a51c" name="Changes" comment="done with add new product">
+      <change afterPath="$PROJECT_DIR$/images/backButton.jpeg" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/database.db" beforeDir="false" afterPath="$PROJECT_DIR$/database.db" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dev/BusinessLayer/InveontorySuppliers/ProductController.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/BusinessLayer/InveontorySuppliers/ProductController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/dev/PersentationLayer/GUI/Tasks/AddNewProductFrame.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/PersentationLayer/GUI/Tasks/AddNewProductFrame.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dev/ServiceLayer/InventorySuppliers/BranchService.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/ServiceLayer/InventorySuppliers/BranchService.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -83,6 +81,7 @@
       <recent name="$PROJECT_DIR$/dev" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/images" />
       <recent name="$PROJECT_DIR$" />
       <recent name="$PROJECT_DIR$/dev" />
     </key>
@@ -464,7 +463,14 @@
       <option name="project" value="LOCAL" />
       <updated>1686732878084</updated>
     </task>
-    <option name="localTasksCounter" value="40" />
+    <task id="LOCAL-00040" summary="done with add new product">
+      <created>1686735589625</created>
+      <option name="number" value="00040" />
+      <option name="presentableId" value="LOCAL-00040" />
+      <option name="project" value="LOCAL" />
+      <updated>1686735589625</updated>
+    </task>
+    <option name="localTasksCounter" value="41" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -480,7 +486,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-    <MESSAGE value="add update productBranch option on recevice reservation" />
     <MESSAGE value="add function for test" />
     <MESSAGE value="change presentation + product service" />
     <MESSAGE value="add tests to product branch" />
@@ -505,7 +510,8 @@
     <MESSAGE value="open main window and 2 other windows, for each case" />
     <MESSAGE value="create add product and report flaw product" />
     <MESSAGE value="flaw product works, and presentation for add product done" />
-    <option name="LAST_COMMIT_MESSAGE" value="flaw product works, and presentation for add product done" />
+    <MESSAGE value="done with add new product" />
+    <option name="LAST_COMMIT_MESSAGE" value="done with add new product" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -532,7 +538,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/dev/PersentationLayer/GUI/Tasks/AddNewProductFrame.java</url>
-          <line>307</line>
+          <line>304</line>
           <option name="timeStamp" value="19" />
         </line-breakpoint>
       </breakpoints>

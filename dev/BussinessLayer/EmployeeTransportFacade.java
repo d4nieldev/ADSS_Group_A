@@ -15,6 +15,7 @@ import BussinessLayer.EmployeesLayer.Shift;
 import BussinessLayer.EmployeesLayer.ShiftFacade;
 import BussinessLayer.TransPortLayer.Delivery;
 import BussinessLayer.TransPortLayer.TransportFacade;
+import BussinessLayer.TransPortLayer.Truck;
 import BussinessLayer.TransPortLayer.TruckFacade;
 
 public class EmployeeTransportFacade {
@@ -69,14 +70,8 @@ public class EmployeeTransportFacade {
         Branch branch = branchFacade.getBranchByAddress(address);
         return shiftFacade.checkstorekeeperInShift(branch, address, date);
     }
-    public void createTransports(int managerId, List<Delivery> deliveries)
+    public void createTransports(int managerId, List<Delivery> deliveries, LocalDate transportDate)
     {
-        Scanner scanner = new Scanner(System.in);
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-        System.out.println("What date would you like to make transports? (dd/MM/yyyy)");
-        String input = scanner.nextLine();
-        LocalDate transportDate = LocalDate.parse(input, formatter);
-
         transportFacade.letTheUserMatch(transportDate,deliveries,getDayDrivers(
                 managerId, transportDate),
                 truckFacade.getAvailableTrucks());
@@ -111,5 +106,11 @@ public class EmployeeTransportFacade {
     public Driver getDriverById(int driverId)
     {
         return employeeFacade.getDriverById(driverId);
+    }
+
+
+
+    public List<Truck> getAvailableTrucks() {
+        return truckFacade.getAvailableTrucks();
     }
 }

@@ -1,11 +1,13 @@
 package ServiceLayer.TransportLayer;
 
 import BussinessLayer.EmployeeTransportFacade;
+import BussinessLayer.EmployeesLayer.Driver;
 import BussinessLayer.TransPortLayer.Delivery;
 import BussinessLayer.TransPortLayer.Destination;
 import BussinessLayer.TransPortLayer.DestinationType;
 import BussinessLayer.TransPortLayer.Location;
 import BussinessLayer.TransPortLayer.TransportFacade;
+import BussinessLayer.TransPortLayer.Truck;
 import BussinessLayer.TransPortLayer.TruckFacade;
 
 import java.time.LocalDate;
@@ -180,8 +182,29 @@ public class TransportService {
     }
 
 
-    public void createTransports(int managerId, List<Delivery> deliveries) {
-        employeeTransportFacade.createTransports(managerId, deliveries);
+    public void createTransports(int managerId, List<Delivery> deliveries, LocalDate transportDate) {
+        employeeTransportFacade.createTransports(managerId, deliveries,transportDate);
+    }
+
+
+
+    public List<Truck> getAvailableTrucks() {
+        return employeeTransportFacade.getAvailableTrucks();
+    }
+
+
+
+    public List<Driver> getDayDrivers(int loginId, LocalDate transportDate) {
+       return employeeTransportFacade.getDayDrivers( loginId, transportDate);
+    }
+
+
+
+    public void createTransports(LocalDate transportDate, String hour, String plateNumber, String firstName, int id,
+            String address, List<Destination> destinationList, List<Delivery> matchedDeliveries, int weightNeto,
+            int weightMax)
+    {
+        transportFacade.createTransport(transportDate, plateNumber, firstName, address, id, hour, destinationList, matchedDeliveries, weightNeto, weightMax);
     }
 }
 

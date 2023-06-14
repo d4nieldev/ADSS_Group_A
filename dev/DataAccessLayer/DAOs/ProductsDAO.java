@@ -6,6 +6,7 @@ import java.util.Map;
 
 import DataAccessLayer.DTOs.CategoryDTO;
 import DataAccessLayer.DTOs.ProductDTO;
+import DataAccessLayer.DTOs.ReservationDTO;
 
 public class ProductsDAO extends DAO<ProductDTO> {
     private static ProductsDAO instance = null;
@@ -48,5 +49,11 @@ public class ProductsDAO extends DAO<ProductDTO> {
             return makeDTO(rows.get(0)).getId();
 
         return -1;
+    }
+    public List<ProductDTO> getaAllProducts() throws SQLException {
+        String query = "SELECT * FROM " + tableName ;
+        List<Map<String, Object>> rows = repo.executeQuery(query);
+        List<ProductDTO> res = makeDTOs(rows);
+        return res;
     }
 }

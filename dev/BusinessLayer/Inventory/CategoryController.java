@@ -18,9 +18,12 @@ public class CategoryController {
         this.allCategories = new ArrayList<>();
         this.categoryDic = new Hashtable<>();
         this.categoryDAO = CategoryDAO.getInstance();
+
     }
 
-    public List<Category> getAllCategories() {
+    public List<Category> getAllCategories() throws SQLException {
+        if(allCategories.size() == 0)
+            loadAllCategories();
         return allCategories;
     }
 

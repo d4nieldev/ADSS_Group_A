@@ -10,47 +10,75 @@ public class StorekeeperFrame implements ActionListener {
     JTextField textField;
     JButton button1;
     JButton button2;
+    JButton button3;
     JLabel label;
     JPanel panel;
-//    String textLabel="<html><br><br><br>You Wrote: </html>";// ATENTION: THE TEXT BOX ACCEPT HTML TAGS
-    public StorekeeperFrame(){
-        label = new JLabel();
-        label.setVisible(true);
-        label.setText("Welcome StoreKeeper");
-        label.setHorizontalAlignment(JLabel.CENTER);
-        label.setVerticalAlignment(JLabel.NORTH);
-        label.setForeground(Color.BLACK);
-        label.setFont(new Font(null, Font.PLAIN, 20));
-        label.setVisible(true);
 
+    public StorekeeperFrame(){
         frame = new JFrame();
         frame.setTitle("JFrame title is here");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setResizable(true);
-        frame.setSize(420, 420);
+        frame.setSize(450, 300);
+        frame.setLocationRelativeTo(null); // Center the frame on the screen
 
-        frame.setLayout(new BorderLayout()); // Set the layout manager for the frame
+        // Create the top panel with BorderLayout
+        JPanel topPanel = new JPanel(new BorderLayout());
+        topPanel.setBackground(new Color(59, 89, 152)); // Blue color
 
-// Add label at the top center
-        frame.add(label, BorderLayout.NORTH);
+        // Create the label
+        JLabel label = new JLabel("Welcome StoreKeeper");
+        label.setHorizontalAlignment(JLabel.CENTER);
+        label.setVerticalAlignment(JLabel.NORTH);
+        label.setForeground(Color.WHITE);
+        label.setFont(new Font(null, Font.PLAIN, 20));
+        label.setVisible(true);
+        topPanel.add(label, BorderLayout.CENTER);
 
+        // Create the main panel for buttons
+        JPanel mainPanel = new JPanel();
+        mainPanel.setBackground(Color.lightGray);
+        mainPanel.setLayout(new BorderLayout());
+        mainPanel.setBorder(BorderFactory.createEmptyBorder(50, 0, 0, 0)); // Add space above the components
+
+        // Create the "Choose your action" label
+        JLabel chooseActionLabel = new JLabel("Choose your action");
+        chooseActionLabel.setHorizontalAlignment(JLabel.CENTER);
+        chooseActionLabel.setFont(new Font(null, Font.PLAIN, 18));
+
+        // Create a sub-panel for the buttons
+        JPanel buttonPanel = new JPanel();
+        buttonPanel.setBackground(Color.lightGray);
+
+        // Create the buttons
         button1 = new JButton("Manage storage");
         button1.addActionListener(this);
+        button1.setPreferredSize(new Dimension(200, 50)); // Set button size
 
         button2 = new JButton("Order supply");
         button2.addActionListener(this);
+        button2.setPreferredSize(new Dimension(200, 50)); // Set button size
 
-        JPanel panel = new JPanel();
-        panel.setPreferredSize(new Dimension(250, 250));
-        panel.setBackground(Color.lightGray);
-        panel.setLayout(new FlowLayout());
+        button3 = new JButton("Reports");
+        button3.addActionListener(this);
+        button3.setPreferredSize(new Dimension(200, 50)); // Set button size
 
-        panel.add(button1);
-        panel.add(button2);
-        frame.add(panel, BorderLayout.CENTER); // Add the panel to the center region
+        // Add the buttons to the button panel
+        buttonPanel.add(button1);
+        buttonPanel.add(button2);
+        buttonPanel.add(button3);
+
+        // Add the "Choose your action" label and button panel to the main panel
+        mainPanel.add(chooseActionLabel, BorderLayout.NORTH);
+        mainPanel.add(buttonPanel, BorderLayout.CENTER);
+
+        // Add the top panel and main panel to the frame's content pane
+        frame.getContentPane().setLayout(new BorderLayout());
+        frame.getContentPane().setBackground(Color.WHITE);
+        frame.getContentPane().add(topPanel, BorderLayout.NORTH);
+        frame.getContentPane().add(mainPanel, BorderLayout.CENTER);
 
         frame.setVisible(true);
-
     }
 
     @Override
@@ -64,6 +92,12 @@ public class StorekeeperFrame implements ActionListener {
             frame.dispose();
             //open new OrderSupply Window
             OrderSupplyFrame orderSupplyFrame = new OrderSupplyFrame(this);
+        }
+
+        if (e.getSource() == button3){
+            frame.dispose();
+            //open new OrderSupply Window
+            StoreMangerFrame storeMangerFrame = new StoreMangerFrame();
         }
     }
 

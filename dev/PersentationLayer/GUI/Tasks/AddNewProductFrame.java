@@ -51,11 +51,11 @@ public class AddNewProductFrame implements ActionListener {
 
         // Create the top panel with BorderLayout
         JPanel topPanel = new JPanel(new BorderLayout());
-        topPanel.setBackground(new Color(132, 136, 168)); // Apple blue color
+        topPanel.setBackground(new Color(59, 89, 152)); // Blue color
 
         backButton = new JButton("Back");
         backButton.addActionListener(this);
-        backButton.setBackground(new Color(0, 122, 255)); // Apple blue color
+        backButton.setBackground(new Color(0, 122, 255)); // Blue color
         backButton.setForeground(Color.WHITE);
         backButton.setBorderPainted(false); // Remove button border
         backButton.setFocusPainted(false); // Remove button focus border

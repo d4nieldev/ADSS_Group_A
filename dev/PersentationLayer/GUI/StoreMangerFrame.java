@@ -1,18 +1,15 @@
 package PersentationLayer.GUI;
 
-import PersentationLayer.GUI.Tasks.*;
+import PersentationLayer.GUI.Tasks.ReportByCategoriesFrame;
+import PersentationLayer.GUI.Tasks.ReportsByBranchIdFrame;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
 
+public class StoreMangerFrame implements ActionListener {
 
-public class MangeStorageFrame implements ActionListener {
     JFrame frame;
     JLabel label;
     JButton backButton;
@@ -21,19 +18,17 @@ public class MangeStorageFrame implements ActionListener {
     JButton button3 ;
     JButton button4 ;
     JButton button5 ;
-
-
-    public MangeStorageFrame(){
+    public StoreMangerFrame(){
         // Configure the frame
         frame = new JFrame();
-        frame.setTitle("Manage Storage");
+        frame.setTitle("Store Manager");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(600, 420);
+        frame.setSize(820, 410);
         frame.setLocationRelativeTo(null); // Center the frame on the screen
 
         // Configure the main label
         label = new JLabel();
-        label.setText("Manage Storage Window");
+        label.setText("Store manager window");
         label.setHorizontalAlignment(JLabel.CENTER);
         label.setVerticalAlignment(JLabel.TOP);
         label.setForeground(Color.WHITE);
@@ -54,15 +49,15 @@ public class MangeStorageFrame implements ActionListener {
         backButton.setFocusPainted(false); // Remove button focus border
 
         // Configure tasks buttons
-        button1 = new JButton("Report Flaw Product");
+        button1 = new JButton("import inventoryReport");
         button1.addActionListener(this);
-        button2 = new JButton("Add New Product");
+        button2 = new JButton("import inventory report by categories");
         button2.addActionListener(this);
-        button3 = new JButton("Set Discount on Categories");
+        button3 = new JButton("import report by report id");
         button3.addActionListener(this);
-        button4 = new JButton("Set Discount on Products");
+        button4 = new JButton("import product report");
         button4.addActionListener(this);
-        button5 = new JButton("Add New Category");
+        button5 = new JButton("button5");
         button5.addActionListener(this);
 
         // Configure panel for back button and label
@@ -125,34 +120,16 @@ public class MangeStorageFrame implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == backButton) {
             frame.dispose();
-            // Go back to StorekeeperFrame
             StorekeeperFrame storekeeperFrame = new StorekeeperFrame();
         }
-
         if (e.getSource() == button1) {
             frame.dispose();
-            FlawProductFrame flawProductFrame = new FlawProductFrame();
+            ReportsByBranchIdFrame inventoryReportFrame = new ReportsByBranchIdFrame();
         }
-
         if (e.getSource() == button2) {
             frame.dispose();
-            AddNewProductFrame addNewProductFrame = new AddNewProductFrame();
+            ReportByCategoriesFrame reportByCategoriesFrame = new ReportByCategoriesFrame();
         }
-        if (e.getSource() == button3) {
-            frame.dispose();
-            SetDiscountOnCategoriesFrame setDiscountOnCategoriesFrame = new SetDiscountOnCategoriesFrame();
-        }
-        if (e.getSource() == button4) {
-            frame.dispose();
-            SetDiscountOnProductsFrame setDiscountOnProductsFrame = new SetDiscountOnProductsFrame();
-        }
-        if (e.getSource() == button5) {
-            frame.dispose();
-            AddCategoryFrame addCategoryFrame = new AddCategoryFrame();
-        }
-
 
     }
-
-
 }

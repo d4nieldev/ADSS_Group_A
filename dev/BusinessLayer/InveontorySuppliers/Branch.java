@@ -246,7 +246,7 @@ public class Branch {
 
     private void makeDeficiencyReservation() throws SQLException {
         ReservationController reservationController = ReservationController.getInstance();
-        reservationController.makeDeficiencyReservation(productToAmount, this.branchId);
+//        reservationController.makeDeficiencyReservation(productToAmount, this.branchId);
     }
 
     // Dealing with periodic Reservation
@@ -609,8 +609,10 @@ public class Branch {
         return res;
     }
 
-    public HashMap<Integer, ProductBranch> getAllDeficiencyProductsBranch() {
+    public HashMap<Integer, ProductBranch> getAllDeficiencyProductsBranch() throws SQLException {
         HashMap<Integer, ProductBranch> allDeficiencyProducts = new HashMap<>();
+        if(allProductBranches.size() == 0)
+            loadAllProductBranch();
         for (ProductBranch productBranch : allProductBranches.values()) {
             boolean check = productBranch.checkForDeficiency();
             if (check) {

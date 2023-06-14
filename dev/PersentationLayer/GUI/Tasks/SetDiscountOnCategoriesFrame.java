@@ -178,12 +178,18 @@ public class SetDiscountOnCategoriesFrame implements ActionListener {
         // Create the submit button
         submitButton = new JButton("Submit");
         submitButton.addActionListener(this);
-        submitButton.setPreferredSize(new Dimension(100, 30)); // Set preferred size for smaller button
+        Dimension buttonSize = new Dimension(80, 25);
+        submitButton.setMaximumSize(buttonSize); // Set the maximum size for the button
+        submitButton.setPreferredSize(buttonSize); // Set the preferred size for the button
         gbc.gridx = 1;
         gbc.gridy = 6;
         gbc.anchor = GridBagConstraints.LINE_END; // Align the button to the right
-        gbc.insets = new Insets(10, 0, 0, 10); // Adjust insets for spacing
+        gbc.fill = GridBagConstraints.NONE; // Prevent the button from expanding
+        gbc.weightx = 0.0; // Reset the horizontal weight
         mainPanel.add(submitButton, gbc);
+
+
+
 
         // Create the invalid input label
         invalidInputLabel = new JLabel("Invalid input");

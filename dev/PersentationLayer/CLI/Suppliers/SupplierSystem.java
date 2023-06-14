@@ -216,7 +216,7 @@ public class SupplierSystem {
             System.out.println("supplier id must be an integer!");
             return;
         }
-        String msg = ss.getSupplierCard(supId);
+        String msg = ss.getSupplierCard(supId).toString();
         System.out.println(msg);
     }
 

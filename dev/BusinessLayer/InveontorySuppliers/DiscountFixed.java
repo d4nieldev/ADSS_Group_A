@@ -18,4 +18,9 @@ public class DiscountFixed extends Discount {
     public double getPriceWithDiscount(double price) {
         return Math.max(0, price - val);
     }
+
+    @Override
+    public String toString() {
+        return "" + val;
+    }
 }

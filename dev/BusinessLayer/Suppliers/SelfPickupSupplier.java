@@ -1,8 +1,10 @@
 package BusinessLayer.Suppliers;
+
 import DataAccessLayer.DTOs.DTO;
 import DataAccessLayer.DTOs.SelfPickUpSupplierDTO;
 
 import java.time.LocalDate;
+import java.util.Map;
 
 class SelfPickupSupplier extends Supplier {
 
@@ -39,6 +41,12 @@ class SelfPickupSupplier extends Supplier {
         return LocalDate.now().plusDays(maxPreperationDays);
     }
 
-    
+    @Override
+    public Map<String, Object> getMap() {
+        Map<String, Object> map = super.getMap();
+        map.put("address", address);
+        map.put("maxPreperationDays", maxPreperationDays);
+        return map;
+    }
 
 }

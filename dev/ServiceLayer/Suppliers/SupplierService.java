@@ -1,7 +1,9 @@
 package ServiceLayer.Suppliers;
 
 import java.sql.SQLException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.TreeMap;
 
 import javax.management.RuntimeErrorException;
@@ -228,15 +230,28 @@ public class SupplierService {
     }
 
     /**
+     * a map that contains: name, bankAcc, fields, paymentCondition, phone,
+     * amountToDiscount (map), contacts (map) for each supplier.
+     * 
+     * if the supplier is of type on order: the map also contains maxSupplyDays
+     * (integer)
+     * 
+     * if the supplier is of type fixed days: the map also contains days (list of
+     * integers - monday = 1, sunday = 7)
+     * 
+     * if the supplier is of type self pickup: the map also contains address and
+     * maxPreperationDays (integer)
      * 
      * @param supplierId
      * @return infromation about the supplier
      */
-    public String getSupplierCard(int supplierId) {
+    public Map<String, Object> getSupplierCard(int supplierId) {
         try {
             return supplierController.getSupplierCard(supplierId);
         } catch (Exception e) {
-            return e.getMessage();
+            Map<String, Object> map = new HashMap<String, Object>();
+            map.put("error", e.getMessage());
+            return map;
         }
     }
 

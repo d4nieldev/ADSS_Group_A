@@ -154,17 +154,18 @@ public class SupplierController {
     }
 
     // Add 'Fixed days' supplier to the system
-    public void addFixedDaysSupplierBaseAgreement(String supplierName, String supplierPhone, String supplierBankAccount,
+    public void addFixedDaysSupplierBaseAgreement(int supplierId, String supplierName, String supplierPhone,
+            String supplierBankAccount,
             List<String> supplierFields, String paymentCondition, TreeMap<Integer, String> amountToDiscount,
             List<String> contactNames, List<String> contactPhones, List<Integer> days)
             throws SuppliersException, SQLException {
         // we add the office contact
         addOfficeContact(contactNames, contactPhones, supplierPhone);
         // first we try to make the supplier DTO
-        SupplierDTO supDTO = new SupplierDTO(nextSupplierIdInSystem, supplierName, supplierBankAccount,
+        SupplierDTO supDTO = new SupplierDTO(supplierId, supplierName, supplierBankAccount,
                 paymentCondition,
-                makeFieldsDTOList(nextSupplierIdInSystem, supplierFields),
-                makeContactDTOList(makeContactList(contactPhones, contactNames, nextSupplierIdInSystem)),
+                makeFieldsDTOList(supplierId, supplierFields),
+                makeContactDTOList(makeContactList(contactPhones, contactNames, supplierId)),
                 makeDiscountDTOMap(amountToDiscount), new HashMap<Integer, PeriodicReservationDTO>());
         // now we make fixedDaysSupplierDtosList
         List<FixedDaysSupplierDTO> dtos = new LinkedList<>();
@@ -176,13 +177,19 @@ public class SupplierController {
         }
         // now we insert to business layer
         FixedDaysSupplier fds = new FixedDaysSupplier(dtos);
-        idToSupplier.put(nextSupplierIdInSystem, fds);
-        nextSupplierIdInSystem++;
+        idToSupplier.put(supplierId, fds);
+    }
 
+    public void addFixedDaysSupplierBaseAgreement(String supplierName, String supplierPhone, String supplierBankAccount,
+            List<String> supplierFields, String paymentCondition, TreeMap<Integer, String> amountToDiscount,
+            List<String> contactNames, List<String> contactPhones, List<Integer> days)
+            throws SuppliersException, SQLException {
+        addFixedDaysSupplierBaseAgreement(nextSupplierIdInSystem++, supplierName, supplierPhone, supplierBankAccount,
+                supplierFields, paymentCondition, amountToDiscount, contactNames, contactPhones, days);
     }
 
     // Add 'On Order' supplier to the system
-    public void addOnOrderSupplierBaseAgreement(String supplierName, String supplierPhone,
+    public void addOnOrderSupplierBaseAgreement(int supplierId, String supplierName, String supplierPhone,
             String supplierBankAccount,
             List<String> supplierFields, String paymentCondition, TreeMap<Integer, String> amountToDiscount,
             List<String> contactNames, List<String> contactPhones, int maxSupplyDays)
@@ -191,22 +198,29 @@ public class SupplierController {
         addOfficeContact(contactNames, contactPhones, supplierPhone);
         // first we try to make the DTO
         OnOrderSuppliersDTO dto = new OnOrderSuppliersDTO(
-                new SupplierDTO(nextSupplierIdInSystem, supplierName, supplierBankAccount, paymentCondition,
-                        makeFieldsDTOList(nextSupplierIdInSystem, supplierFields),
-                        makeContactDTOList(makeContactList(contactPhones, contactNames, nextSupplierIdInSystem)),
+                new SupplierDTO(supplierId, supplierName, supplierBankAccount, paymentCondition,
+                        makeFieldsDTOList(supplierId, supplierFields),
+                        makeContactDTOList(makeContactList(contactPhones, contactNames, supplierId)),
                         makeDiscountDTOMap(amountToDiscount), new HashMap<Integer, PeriodicReservationDTO>()),
                 maxSupplyDays);
         // now we insert to the proper DAO
         onOrderSuppliersDAO.insert(dto);
         // now we insert to business layer
         OnOrderSupplier oos = new OnOrderSupplier(dto);
-        idToSupplier.put(nextSupplierIdInSystem, oos);
-        nextSupplierIdInSystem++;
+        idToSupplier.put(supplierId, oos);
+    }
 
+    public void addOnOrderSupplierBaseAgreement(String supplierName, String supplierPhone,
+            String supplierBankAccount,
+            List<String> supplierFields, String paymentCondition, TreeMap<Integer, String> amountToDiscount,
+            List<String> contactNames, List<String> contactPhones, int maxSupplyDays)
+            throws SuppliersException, SQLException {
+        addOnOrderSupplierBaseAgreement(nextDiscountIdInSystem++, supplierName, supplierPhone, supplierBankAccount,
+                supplierFields, paymentCondition, amountToDiscount, contactNames, contactPhones, maxSupplyDays);
     }
 
     // Add 'Self Pickup' supplier to the system
-    public void addSelfPickupSupplierBaseAgreement(String supplierName, String supplierPhone,
+    public void addSelfPickupSupplierBaseAgreement(int supplierId, String supplierName, String supplierPhone,
             String supplierBankAccount,
             List<String> supplierFields, String paymentCondition, TreeMap<Integer, String> amountToDiscount,
             List<String> contactNames, List<String> contactPhones, String address, int maxPreperationDays)
@@ -215,9 +229,9 @@ public class SupplierController {
         addOfficeContact(contactNames, contactPhones, supplierPhone);
         // first we try to make the DTO
         SelfPickUpSupplierDTO dto = new SelfPickUpSupplierDTO(
-                new SupplierDTO(nextSupplierIdInSystem, supplierName, supplierBankAccount, paymentCondition,
-                        makeFieldsDTOList(nextSupplierIdInSystem, supplierFields),
-                        makeContactDTOList(makeContactList(contactPhones, contactNames, nextSupplierIdInSystem)),
+                new SupplierDTO(supplierId, supplierName, supplierBankAccount, paymentCondition,
+                        makeFieldsDTOList(supplierId, supplierFields),
+                        makeContactDTOList(makeContactList(contactPhones, contactNames, supplierId)),
                         makeDiscountDTOMap(amountToDiscount), new HashMap<Integer, PeriodicReservationDTO>()),
                 address, maxPreperationDays);
         try {
@@ -225,12 +239,21 @@ public class SupplierController {
             selfPickupSupplierDAO.insert(dto);
             // now we insert to business layer
             SelfPickupSupplier sps = new SelfPickupSupplier(dto);
-            idToSupplier.put(nextSupplierIdInSystem, sps);
-            nextSupplierIdInSystem++;
+            idToSupplier.put(supplierId, sps);
         } catch (SQLException e) {
             e.printStackTrace();
         }
 
+    }
+
+    public void addSelfPickupSupplierBaseAgreement(String supplierName, String supplierPhone,
+            String supplierBankAccount,
+            List<String> supplierFields, String paymentCondition, TreeMap<Integer, String> amountToDiscount,
+            List<String> contactNames, List<String> contactPhones, String address, int maxPreperationDays)
+            throws SuppliersException {
+        addSelfPickupSupplierBaseAgreement(nextSupplierIdInSystem++, supplierName, supplierPhone, supplierBankAccount,
+                supplierFields, paymentCondition, amountToDiscount, contactNames, contactPhones, address,
+                maxPreperationDays);
     }
 
     // Add office contact for the begining of the list of contacts
@@ -595,6 +618,32 @@ public class SupplierController {
 
     public Contact getContactOfSupplier(int supplierId, String phone) {
         return getContactByPhone(getSupplierById(supplierId), phone);
+    }
+
+    public void editOnOrderSupplier(int supplierId, String name, String phone, String bankAcc, List<String> fields,
+            String paymentCondition, TreeMap<Integer, String> amountToDiscount, List<String> contactNames,
+            List<String> contactPhones, int maxSupplyDays) throws Exception {
+        deleteSupplier(supplierId);
+        addOnOrderSupplierBaseAgreement(supplierId, name, phone, bankAcc, fields, paymentCondition, amountToDiscount,
+                contactNames,
+                contactPhones, maxSupplyDays);
+    }
+
+    public void editFixedDaysSupplier(int supplierId, String name, String phone, String bankAcc, List<String> fields,
+            String paymentCondition, TreeMap<Integer, String> amountToDiscount, List<String> contactNames,
+            List<String> contactPhones, List<Integer> days) throws Exception {
+        deleteSupplier(supplierId);
+        addFixedDaysSupplierBaseAgreement(supplierId, name, phone, bankAcc, fields, paymentCondition, amountToDiscount,
+                contactNames, contactPhones, days);
+
+    }
+
+    public void editSelfPickupSupplier(int supplierId, String name, String phone, String bankAcc, List<String> fields,
+            String paymentCondition, TreeMap<Integer, String> amountToDiscount, List<String> contactNames,
+            List<String> contactPhones, int maxPreperationDays, String address) throws Exception {
+        deleteSupplier(supplierId);
+        addSelfPickupSupplierBaseAgreement(supplierId, name, phone, bankAcc, fields, paymentCondition, amountToDiscount,
+                contactNames, contactPhones, address, maxPreperationDays);
     }
 
 }

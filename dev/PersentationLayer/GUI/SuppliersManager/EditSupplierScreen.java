@@ -6,6 +6,7 @@ import java.awt.event.ActionEvent;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
 import ServiceLayer.Suppliers.SupplierService;
@@ -17,9 +18,11 @@ public class EditSupplierScreen extends JFrame {
 
         JTextField idField = new JTextField(20);
         JButton gotoEditScreenButton = new JButton("Edit");
+        JButton goBackButton = new JButton("Go back");
 
         Dimension buttonSize = new Dimension(200, 30);
         gotoEditScreenButton.setPreferredSize(buttonSize);
+        goBackButton.setPreferredSize(buttonSize);
 
         // Set layout manager
         setLayout(new FlowLayout());
@@ -27,9 +30,19 @@ public class EditSupplierScreen extends JFrame {
         // Add buttons to the frame
         add(idField);
         add(gotoEditScreenButton);
+        add(goBackButton);
 
         gotoEditScreenButton.addActionListener((ActionEvent e) -> {
+            String idString = idField.getText();
+            if (!idString.matches("^[0-9]+$")) {
+                JOptionPane.showMessageDialog(this, "id must not be empty and a non-negative number", null, 0);
+                return;
+            }
             new SupplierEditorScreen(Integer.parseInt(idField.getText()));
+        });
+
+        goBackButton.addActionListener((ActionEvent e) -> {
+            dispose(); // Close the current window
         });
 
         // Set the frame size and make it visible

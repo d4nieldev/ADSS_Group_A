@@ -154,7 +154,7 @@ public class SupplierController {
     }
 
     // Add 'Fixed days' supplier to the system
-    public void addFixedDaysSupplierBaseAgreement(int supplierId, String supplierName, String supplierPhone,
+    private void addFixedDaysSupplierBaseAgreement(int supplierId, String supplierName, String supplierPhone,
             String supplierBankAccount,
             List<String> supplierFields, String paymentCondition, TreeMap<Integer, String> amountToDiscount,
             List<String> contactNames, List<String> contactPhones, List<Integer> days)
@@ -189,7 +189,7 @@ public class SupplierController {
     }
 
     // Add 'On Order' supplier to the system
-    public void addOnOrderSupplierBaseAgreement(int supplierId, String supplierName, String supplierPhone,
+    private void addOnOrderSupplierBaseAgreement(int supplierId, String supplierName, String supplierPhone,
             String supplierBankAccount,
             List<String> supplierFields, String paymentCondition, TreeMap<Integer, String> amountToDiscount,
             List<String> contactNames, List<String> contactPhones, int maxSupplyDays)
@@ -220,7 +220,7 @@ public class SupplierController {
     }
 
     // Add 'Self Pickup' supplier to the system
-    public void addSelfPickupSupplierBaseAgreement(int supplierId, String supplierName, String supplierPhone,
+    private void addSelfPickupSupplierBaseAgreement(int supplierId, String supplierName, String supplierPhone,
             String supplierBankAccount,
             List<String> supplierFields, String paymentCondition, TreeMap<Integer, String> amountToDiscount,
             List<String> contactNames, List<String> contactPhones, String address, int maxPreperationDays)

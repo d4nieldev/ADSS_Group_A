@@ -1,33 +1,17 @@
 package PersentationLayer.GUI.SuppliersManager;
 
-import java.awt.*;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
-import java.util.ArrayList;
-import java.util.TreeMap;
-import java.util.Vector;
 
 import javax.swing.JButton;
-import javax.swing.JCheckBox;
-import javax.swing.JComboBox;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
 import javax.swing.JTextField;
-import javax.swing.JViewport;
-import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableModel;
 
 import ServiceLayer.Suppliers.SupplierService;
 
 public class EditSupplierScreen extends JFrame {
-    private SupplierService supplierService;
-    private JFrame editor;
-
     public EditSupplierScreen() {
-        supplierService = SupplierService.create();
         setTitle("Edit Supplier");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 

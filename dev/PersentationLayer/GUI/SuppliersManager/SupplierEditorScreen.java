@@ -48,10 +48,26 @@ public class SupplierEditorScreen extends JFrame {
     private final Map<String, String> init_contacts;
     private final int init_id;
 
-    private final String actionType;
+    private String actionType;
+    private boolean editable = true;
+    private JFrame previousFrame;
+    private int supplierId;
+    private String response;
 
-    public SupplierEditorScreen(int supplierId) {
-        actionType = "Edit";
+    public SupplierEditorScreen(int supplierId, String actionType, JFrame previousFrame) {
+        this.previousFrame = previousFrame;
+        this.supplierId = supplierId;
+        switch (actionType) {
+            case "Edit":
+                editable = true;
+                break;
+            case "Delete":
+                editable = false;
+                break;
+            case "View":
+                editable = false;
+                break;
+        }
         init_id = supplierId;
         supplierService = SupplierService.create();
         init_supplierCard = supplierService.getSupplierCard(supplierId);
@@ -87,9 +103,11 @@ public class SupplierEditorScreen extends JFrame {
 
             JOptionPane.showMessageDialog(this, init_supplierCard.get("error"), null, 0);
         }
+
     }
 
-    public SupplierEditorScreen(String supplierType) {
+    public SupplierEditorScreen(String supplierType, JFrame previousFrame) {
+        this.previousFrame = previousFrame;
         actionType = "Add";
         init_id = -1;
         supplierService = SupplierService.create();
@@ -125,7 +143,7 @@ public class SupplierEditorScreen extends JFrame {
         onOrderSupplierFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         onOrderSupplierFrame.setLayout(new BorderLayout());
 
-        JPanel fieldsPanel = createFieldsPanel();
+        JPanel fieldsPanel = createFieldsPanel(editable);
         GridBagConstraints constraints = new GridBagConstraints();
         constraints.fill = GridBagConstraints.HORIZONTAL;
         constraints.gridx = 0;
@@ -139,6 +157,7 @@ public class SupplierEditorScreen extends JFrame {
         constraints.gridx = 1;
         String maxSupplyDaysInitialString = init_maxSupplyDays == null ? "" : init_maxSupplyDays.toString();
         JTextField maxSupplyDaysField = new JTextField(maxSupplyDaysInitialString, 20);
+        maxSupplyDaysField.setEditable(editable);
         fieldsPanel.add(maxSupplyDaysField, constraints);
 
         JPanel buttonsPanel = createButtonsPanel();
@@ -158,7 +177,7 @@ public class SupplierEditorScreen extends JFrame {
         fixedDaysSupplierFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         fixedDaysSupplierFrame.setLayout(new BorderLayout());
 
-        JPanel fieldsPanel = createFieldsPanel();
+        JPanel fieldsPanel = createFieldsPanel(editable);
         GridBagConstraints constraints = new GridBagConstraints();
         constraints.fill = GridBagConstraints.HORIZONTAL;
         constraints.gridx = 0;
@@ -208,7 +227,7 @@ public class SupplierEditorScreen extends JFrame {
         selfPickupSupplierFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         selfPickupSupplierFrame.setLayout(new BorderLayout());
 
-        JPanel fieldsPanel = createFieldsPanel();
+        JPanel fieldsPanel = createFieldsPanel(editable);
         GridBagConstraints constraints = new GridBagConstraints();
         constraints.fill = GridBagConstraints.HORIZONTAL;
         constraints.gridx = 0;
@@ -242,7 +261,7 @@ public class SupplierEditorScreen extends JFrame {
         selfPickupSupplierFrame.setVisible(true);
     }
 
-    private JPanel createFieldsPanel() {
+    private JPanel createFieldsPanel(boolean editable) {
         JPanel fieldsPanel = new JPanel(new GridBagLayout());
         GridBagConstraints constraints = new GridBagConstraints();
         constraints.fill = GridBagConstraints.HORIZONTAL;
@@ -256,6 +275,7 @@ public class SupplierEditorScreen extends JFrame {
 
         constraints.gridx = 1;
         JTextField supplierNameField = new JTextField(init_name, 20);
+        supplierNameField.setEditable(editable);
         fieldsPanel.add(supplierNameField, constraints);
 
         constraints.gridx = 0;
@@ -264,6 +284,7 @@ public class SupplierEditorScreen extends JFrame {
 
         constraints.gridx = 1;
         JTextField supplierPhoneField = new JTextField(init_phone, 20);
+        supplierPhoneField.setEditable(editable);
         fieldsPanel.add(supplierPhoneField, constraints);
 
         constraints.gridx = 0;
@@ -272,6 +293,7 @@ public class SupplierEditorScreen extends JFrame {
 
         constraints.gridx = 1;
         JTextField bankAccountField = new JTextField(init_bankAcc, 20);
+        bankAccountField.setEditable(editable);
         fieldsPanel.add(bankAccountField, constraints);
 
         constraints.gridx = 0;
@@ -282,6 +304,7 @@ public class SupplierEditorScreen extends JFrame {
         String[] paymentConditions = { "net 30 EOM", "net 60 EOM" };
         JComboBox<String> paymentConditionComboBox = new JComboBox<>(paymentConditions);
         paymentConditionComboBox.setSelectedItem(init_paymentCondition);
+        paymentConditionComboBox.setEditable(editable);
         fieldsPanel.add(paymentConditionComboBox, constraints);
 
         constraints.gridx = 0;
@@ -295,6 +318,7 @@ public class SupplierEditorScreen extends JFrame {
         List<String[]> fieldsTableData = init_fields.stream().map((field) -> new String[] { field })
                 .collect(Collectors.toList());
         JPanel fieldsField = createTablePanel(new String[] { "Field" }, fieldsTableData);
+        fieldsField.setEnabled(editable);
         fieldsPanel.add(fieldsField, constraints);
 
         constraints.gridx = 0;
@@ -307,6 +331,7 @@ public class SupplierEditorScreen extends JFrame {
         List<String[]> fieldsContactData = init_contacts.keySet().stream()
                 .map((phone) -> new String[] { init_contacts.get(phone), phone }).collect(Collectors.toList());
         JPanel contactsTablePanel = createTablePanel(new String[] { "Name", "Phone" }, fieldsContactData);
+        contactsTablePanel.setEnabled(editable);
         fieldsPanel.add(contactsTablePanel, constraints);
 
         constraints.gridx = 0;
@@ -321,6 +346,7 @@ public class SupplierEditorScreen extends JFrame {
                 .collect(Collectors.toList());
         JPanel amountToDiscountTablePanel = createTablePanel(new String[] { "Amount", "Discount" },
                 amountToDiscountTableData);
+        amountToDiscountTablePanel.setEnabled(editable);
         fieldsPanel.add(amountToDiscountTablePanel, constraints);
 
         return fieldsPanel;
@@ -347,29 +373,33 @@ public class SupplierEditorScreen extends JFrame {
         JTable contactsTable = new JTable(tableModel);
         JScrollPane contactsScrollPane = new JScrollPane(contactsTable);
 
-        // Create the buttons for adding and deleting rows
-        JButton addRowButton = new JButton("Add Row");
-        JButton deleteRowButton = new JButton("Delete Row");
+        if (editable) {
+            // Create the buttons for adding and deleting rows
+            JButton addRowButton = new JButton("Add Row");
+            JButton deleteRowButton = new JButton("Delete Row");
 
-        JPanel buttonsPanel = new JPanel();
-        buttonsPanel.add(addRowButton);
-        buttonsPanel.add(deleteRowButton);
+            JPanel buttonsPanel = new JPanel();
+            buttonsPanel.add(addRowButton);
+            buttonsPanel.add(deleteRowButton);
+
+            // Add the buttons to the fields panel
+            tablePanel.add(buttonsPanel, BorderLayout.SOUTH);
+
+            // Add action listeners for the add and delete row buttons
+            addRowButton.addActionListener((ActionEvent e) -> {
+                tableModel.addRow(new Vector<>());
+            });
+
+            deleteRowButton.addActionListener((ActionEvent e) -> {
+                int selectedRow = contactsTable.getSelectedRow();
+                if (selectedRow != -1) {
+                    tableModel.removeRow(selectedRow);
+                }
+            });
+        }
 
         // Add the table and buttons to the fields panel
         tablePanel.add(contactsScrollPane, BorderLayout.CENTER);
-        tablePanel.add(buttonsPanel, BorderLayout.SOUTH);
-
-        // Add action listeners for the add and delete row buttons
-        addRowButton.addActionListener((ActionEvent e) -> {
-            tableModel.addRow(new Vector<>());
-        });
-
-        deleteRowButton.addActionListener((ActionEvent e) -> {
-            int selectedRow = contactsTable.getSelectedRow();
-            if (selectedRow != -1) {
-                tableModel.removeRow(selectedRow);
-            }
-        });
 
         return tablePanel;
     }
@@ -394,8 +424,35 @@ public class SupplierEditorScreen extends JFrame {
 
     private JPanel createButtonsPanel() {
         JPanel buttonsPanel = new JPanel();
-        JButton commitButton = new JButton("Commit Changes");
+
         JButton goBackButton = new JButton("Go Back");
+        goBackButton.addActionListener((ActionEvent e) -> {
+            // Go Back button action
+            previousFrame.setVisible(true);
+            currentFrame.dispose(); // Close the current window
+        });
+        switch (actionType) {
+            case "Delete":
+                JButton deleteButton = new JButton("Delete");
+                deleteButton.addActionListener((ActionEvent e) -> {
+                    int dialogResult = JOptionPane.showConfirmDialog(currentFrame,
+                            "Are you sure you want to delete this supplier?",
+                            "Confirmation", JOptionPane.YES_NO_OPTION);
+                    if (dialogResult == JOptionPane.YES_OPTION) {
+                        response = supplierService.deleteSupplierBaseAgreement(supplierId);
+                        JOptionPane.showMessageDialog(currentFrame, response, "Success", 1);
+                    } else {
+                        return;
+                    }
+                });
+                buttonsPanel.add(deleteButton);
+                buttonsPanel.add(goBackButton);
+                return buttonsPanel;
+            case "View":
+                buttonsPanel.add(goBackButton);
+                return buttonsPanel;
+        }
+        JButton commitButton = new JButton("Commit Changes");
 
         commitButton.addActionListener((ActionEvent e) -> {
             String supplierType = currentFrame.getTitle();
@@ -430,7 +487,6 @@ public class SupplierEditorScreen extends JFrame {
                 amountToDiscount.put(amount, discount);
             }
 
-            String response = null;
             switch (supplierType) {
                 case "On Order Supplier":
                     String maxSupplyDaysRaw = ((JTextField) fieldsPanel.getComponent(15)).getText();
@@ -504,15 +560,8 @@ public class SupplierEditorScreen extends JFrame {
             currentFrame.dispose(); // Close the current window
         });
 
-        goBackButton.addActionListener((ActionEvent e) -> {
-            // Go Back button action
-            // Implement the desired functionality here
-            currentFrame.dispose(); // Close the current window
-        });
-
         buttonsPanel.add(commitButton);
         buttonsPanel.add(goBackButton);
-
         return buttonsPanel;
     }
 

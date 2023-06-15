@@ -38,7 +38,7 @@ public class EditSupplierScreen extends JFrame {
                 JOptionPane.showMessageDialog(this, "id must not be empty and a non-negative number", null, 0);
                 return;
             }
-            new SupplierEditorScreen(Integer.parseInt(idField.getText()));
+            new SupplierEditorScreen(Integer.parseInt(idField.getText()), "Edit", this);
         });
 
         goBackButton.addActionListener((ActionEvent e) -> {

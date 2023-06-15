@@ -15,12 +15,10 @@ import java.util.TreeMap;
 import java.util.Vector;
 
 public class AddSupplierScreen extends JFrame {
-    private SupplierEditorScreen currentFrame;
-    private int y = 0;
-    private SupplierService supplierService;
+    private JFrame currentFrame;
 
     public AddSupplierScreen() {
-        supplierService = SupplierService.create();
+        currentFrame = this;
         setTitle("Add Supplier");
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
@@ -50,21 +48,21 @@ public class AddSupplierScreen extends JFrame {
         onOrderSupplierButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 // On Order Supplier button action
-                new SupplierEditorScreen("On Order");
+                new SupplierEditorScreen("On Order", currentFrame);
             }
         });
 
         fixedDaysSupplierButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 // Fixed Days Supplier button action
-                new SupplierEditorScreen("Fixed Days");
+                new SupplierEditorScreen("Fixed Days", currentFrame);
             }
         });
 
         selfPickupSupplierButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 // Self Pickup Supplier button action
-                new SupplierEditorScreen("Self Pickup");
+                new SupplierEditorScreen("Self Pickup", currentFrame);
             }
         });
 

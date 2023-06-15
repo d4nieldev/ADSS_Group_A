@@ -46,11 +46,13 @@ public class SupplierEditorScreen extends JFrame {
     private final String init_paymentCondition;
     private final Map<String, String> init_amountToDiscount;
     private final Map<String, String> init_contacts;
+    private final int init_id;
 
     private final String actionType;
 
     public SupplierEditorScreen(int supplierId) {
         actionType = "Edit";
+        init_id = supplierId;
         supplierService = SupplierService.create();
         init_supplierCard = supplierService.getSupplierCard(supplierId);
         init_name = (String) init_supplierCard.get("name");
@@ -74,6 +76,7 @@ public class SupplierEditorScreen extends JFrame {
 
     public SupplierEditorScreen(String supplierType) {
         actionType = "Add";
+        init_id = -1;
         supplierService = SupplierService.create();
         init_supplierCard = new HashMap<>();
         init_name = "";
@@ -425,8 +428,9 @@ public class SupplierEditorScreen extends JFrame {
                                 bankAccount, fields, paymentCondition, amountToDiscount, contactsNames, contactsPhones,
                                 maxSupplyDays);
                     else if (actionType.equals("Edit")) {
-
-                        // handle edit on order supplier
+                        response = supplierService.editOnOrderSupplier(init_id, supplierName, supplierPhone,
+                                bankAccount, fields,
+                                paymentCondition, amountToDiscount, contactsNames, contactsPhones, maxSupplyDays);
                     }
 
                     break;
@@ -450,7 +454,9 @@ public class SupplierEditorScreen extends JFrame {
                                 bankAccount, fields, paymentCondition, amountToDiscount, contactsNames, contactsPhones,
                                 days);
                     else if (actionType.equals("Edit")) {
-                        // handle edit fixed days supplier
+                        response = supplierService.editFixedDaysSupplier(init_id, supplierName, supplierPhone,
+                                bankAccount, fields,
+                                paymentCondition, amountToDiscount, contactsNames, contactsPhones, days);
                     }
                     break;
                 case "Self Pickup Supplier":
@@ -466,7 +472,10 @@ public class SupplierEditorScreen extends JFrame {
                                 bankAccount, fields, paymentCondition, amountToDiscount, contactsNames, contactsPhones,
                                 address, maxPreperationDays);
                     else if (actionType.equals("Edit")) {
-                        // handle edit fixed days supplier
+                        response = supplierService.editSelfPickupSupplier(init_id, supplierName, supplierPhone,
+                                bankAccount, fields,
+                                paymentCondition, amountToDiscount, contactsNames, contactsPhones, maxPreperationDays,
+                                address);
                     }
                     break;
                 default:

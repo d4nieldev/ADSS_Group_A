@@ -262,4 +262,40 @@ public class SupplierService {
             return e.getMessage();
         }
     }
+
+    public String editOnOrderSupplier(int supplierId, String name, String phone, String bankAcc, List<String> fields,
+            String paymentCondition, TreeMap<Integer, String> amountToDiscount, List<String> contactNames,
+            List<String> contactPhones, int maxSupplyDays) {
+        try {
+            supplierController.editOnOrderSupplier(supplierId, name, phone, bankAcc, fields, paymentCondition,
+                    amountToDiscount, contactNames, contactPhones, maxSupplyDays);
+            return "Edited supplier " + name + " (id: " + supplierId + ") successfully";
+        } catch (Exception e) {
+            return e.getMessage();
+        }
+    }
+
+    public String editFixedDaysSupplier(int supplierId, String name, String phone, String bankAcc, List<String> fields,
+            String paymentCondition, TreeMap<Integer, String> amountToDiscount, List<String> contactNames,
+            List<String> contactPhones, List<Integer> days) {
+        try {
+            supplierController.editFixedDaysSupplier(supplierId, name, phone, bankAcc, fields, paymentCondition,
+                    amountToDiscount, contactNames, contactPhones, days);
+            return "Edited supplier " + name + " (id: " + supplierId + ") successfully";
+        } catch (Exception e) {
+            return e.getMessage();
+        }
+    }
+
+    public String editSelfPickupSupplier(int supplierId, String name, String phone, String bankAcc, List<String> fields,
+            String paymentCondition, TreeMap<Integer, String> amountToDiscount, List<String> contactNames,
+            List<String> contactPhones, int maxPreperationDays, String address) {
+        try {
+            supplierController.editSelfPickupSupplier(supplierId, name, phone, bankAcc, fields, paymentCondition,
+                    amountToDiscount, contactNames, contactPhones, maxPreperationDays, address);
+            return "Edited supplier " + name + " (id: " + supplierId + ") successfully";
+        } catch (Exception e) {
+            return e.getMessage();
+        }
+    }
 }

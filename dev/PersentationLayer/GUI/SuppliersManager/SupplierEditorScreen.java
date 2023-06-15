@@ -55,22 +55,37 @@ public class SupplierEditorScreen extends JFrame {
         init_id = supplierId;
         supplierService = SupplierService.create();
         init_supplierCard = supplierService.getSupplierCard(supplierId);
-        init_name = (String) init_supplierCard.get("name");
-        init_bankAcc = (String) init_supplierCard.get("bankAcc");
-        init_fields = (List<String>) init_supplierCard.get("fields");
-        init_phone = (String) init_supplierCard.get("phone");
-        init_paymentCondition = (String) init_supplierCard.get("paymentCondition");
-        init_amountToDiscount = (Map<String, String>) init_supplierCard.get("amountToDiscount");
-        init_contacts = (Map<String, String>) init_supplierCard.get("contacts");
 
-        if (init_supplierCard.containsKey("maxSupplyDays")) {
-            openOnOrderSupplierWindow();
-        } else if (init_supplierCard.containsKey("days")) {
-            openFixedDaysSupplierWindow();
-        } else if (init_supplierCard.containsKey("address") && init_supplierCard.containsKey("maxPreperationDays")) {
-            openSelfPickupSupplierWindow();
+        if (!init_supplierCard.containsKey("error")) {
+            init_name = (String) init_supplierCard.get("name");
+            init_bankAcc = (String) init_supplierCard.get("bankAcc");
+            init_fields = (List<String>) init_supplierCard.get("fields");
+            init_phone = (String) init_supplierCard.get("phone");
+            init_paymentCondition = (String) init_supplierCard.get("paymentCondition");
+            init_amountToDiscount = (Map<String, String>) init_supplierCard.get("amountToDiscount");
+            init_contacts = (Map<String, String>) init_supplierCard.get("contacts");
+
+            if (init_supplierCard.containsKey("maxSupplyDays")) {
+                openOnOrderSupplierWindow();
+            } else if (init_supplierCard.containsKey("days")) {
+                openFixedDaysSupplierWindow();
+            } else if (init_supplierCard.containsKey("address")
+                    && init_supplierCard.containsKey("maxPreperationDays")) {
+                openSelfPickupSupplierWindow();
+            } else {
+                // handle invalid
+            }
         } else {
-            // handle invalid
+            // to prevent error
+            init_name = "";
+            init_bankAcc = "";
+            init_fields = new ArrayList<>();
+            init_phone = "";
+            init_paymentCondition = "";
+            init_amountToDiscount = new HashMap<>();
+            init_contacts = new HashMap<>();
+
+            JOptionPane.showMessageDialog(this, init_supplierCard.get("error"), null, 0);
         }
     }
 
@@ -485,7 +500,7 @@ public class SupplierEditorScreen extends JFrame {
 
             // Add Supplier button action
             // Implement the desired functionality here
-            JOptionPane.showMessageDialog(currentFrame, response);
+            JOptionPane.showMessageDialog(currentFrame, response, "Success", 1);
             currentFrame.dispose(); // Close the current window
         });
 
@@ -505,35 +520,39 @@ public class SupplierEditorScreen extends JFrame {
             List<String> fields, List<String> contactPhones, List<String> contactNames, List<String> amountsList,
             List<String> discountsList) {
         if (!supplierName.matches("[a-zA-Z]+")) {
-            JOptionPane.showMessageDialog(currentFrame, "Name must not be empty and contain only letters");
+            JOptionPane.showMessageDialog(currentFrame, "Name must not be empty and contain only letters",
+                    "Validation Warning", 2);
             return false;
         } else if (!supplierPhone.matches("^05[0-9]{8}$")) {
             JOptionPane.showMessageDialog(currentFrame,
-                    "Phone must not be empty and in the format 05... and 8 digits following");
+                    "Phone must not be empty and in the format 05... and 8 digits following", "Validation Warning", 2);
             return false;
         } else if (!bankAccount.matches("^[0-9]{9}$")) {
-            JOptionPane.showMessageDialog(currentFrame, "Bank account must not be empty and of 9 digits");
+            JOptionPane.showMessageDialog(currentFrame, "Bank account must not be empty and of 9 digits",
+                    "Validation Warning", 2);
             return false;
         } else if (fields.stream().anyMatch((field) -> field.isBlank())) {
-            JOptionPane.showMessageDialog(currentFrame, "All the fields must not be empty");
+            JOptionPane.showMessageDialog(currentFrame, "All the fields must not be empty", "Validation Warning", 2);
             return false;
         } else if (contactPhones.size() != contactNames.size()) {
-            JOptionPane.showMessageDialog(currentFrame, "Name and phone must be specified for each contact");
+            JOptionPane.showMessageDialog(currentFrame, "Name and phone must be specified for each contact",
+                    "Validation Warning", 2);
             return false;
         } else if (contactNames.stream().anyMatch((contactName) -> contactName.isBlank())) {
-            JOptionPane.showMessageDialog(currentFrame, "Contact name must not be empty");
+            JOptionPane.showMessageDialog(currentFrame, "Contact name must not be empty", "Validation Warning", 2);
             return false;
         } else if (contactPhones.stream().anyMatch((contactPhone) -> !contactPhone.matches("^05[0-9]{8}$"))) {
             JOptionPane.showMessageDialog(currentFrame,
-                    "Contact phone must not be empty and in the format 05... and 8 digits following");
+                    "Contact phone must not be empty and in the format 05... and 8 digits following",
+                    "Validation Warning", 2);
             return false;
         } else if (contactPhones.stream()
                 .anyMatch((phoneNumber) -> Collections.frequency(contactPhones, phoneNumber) > 1)) {
-            JOptionPane.showMessageDialog(currentFrame, "All contacts phones must be unique");
+            JOptionPane.showMessageDialog(currentFrame, "All contacts phones must be unique", "Validation Warning", 2);
             return false;
         } else if (amountsList.size() != discountsList.size()) {
             JOptionPane.showMessageDialog(currentFrame,
-                    "Amount and discount must be specified for each amount to discount pair");
+                    "Amount and discount must be specified for each amount to discount pair", "Validation Warning", 2);
             return false;
         } else if (amountsList.stream().anyMatch((amount) -> !amount.matches("^[0-9]+$"))) {
             JOptionPane.showMessageDialog(currentFrame,
@@ -542,7 +561,8 @@ public class SupplierEditorScreen extends JFrame {
         } else if (discountsList.stream()
                 .anyMatch((discount) -> !discount.matches("^[0-9]{1,2}(\\.[0-9]+)?%|100%|[0-9]+(\\.[0-9]+)?$"))) {
             JOptionPane.showMessageDialog(currentFrame,
-                    "Discount must not be empty and a non-negative precentage value with '%' at the end (max 100%), or a non-negative fixed number");
+                    "Discount must not be empty and a non-negative precentage value with '%' at the end (max 100%), or a non-negative fixed number",
+                    "Validation Warning", 2);
             return false;
         }
 

@@ -16,7 +16,7 @@ import java.util.Vector;
 
 public class AddSupplierScreen extends JFrame {
     private JFrame currentFrame;
-    private int y = 0;
+    private static int y = 0;
     private SupplierService supplierService;
 
     public AddSupplierScreen() {

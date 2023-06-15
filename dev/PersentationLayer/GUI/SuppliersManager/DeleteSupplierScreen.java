@@ -52,7 +52,7 @@ public class DeleteSupplierScreen extends JFrame {
 
         deleteButton.addActionListener((ActionEvent e)->{
             dispose();
-            //new supplierCardScreen(true); //true - because we want to show before deletion.
+            new SupplierCardScreen(this, true, Integer.parseInt(idInsertField.getText())); //true - because we want to show before deletion.
         });
     }
 

@@ -9,25 +9,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a2472df3-0b1c-47fc-bcd6-f26fc4f0a51c" name="Changes" comment="add more frames">
-      <change afterPath="$PROJECT_DIR$/dev/PersentationLayer/GUI/StoreMangerFrame.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/dev/PersentationLayer/GUI/Tasks/ActualReportByCategories.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/dev/PersentationLayer/GUI/Tasks/AddCategoryFrame.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/dev/PersentationLayer/GUI/Tasks/DeficiencyReportFrame.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/dev/PersentationLayer/GUI/Tasks/ExpiredAndFlawsReportFrame.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/dev/PersentationLayer/GUI/Tasks/InventoryReportFrame.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/dev/PersentationLayer/GUI/Tasks/ReportByCategoriesFrame.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/dev/PersentationLayer/GUI/Tasks/ReportsByBranchIdFrame.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/dev/PersentationLayer/GUI/Tasks/productReportFrame.java" afterDir="false" />
+    <list default="true" id="a2472df3-0b1c-47fc-bcd6-f26fc4f0a51c" name="Changes" comment="done with manage storage and start the Storage manager">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/database.db" beforeDir="false" afterPath="$PROJECT_DIR$/database.db" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dev/BusinessLayer/Inventory/BranchController.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/BusinessLayer/Inventory/BranchController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dev/BusinessLayer/InveontorySuppliers/Branch.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/BusinessLayer/InveontorySuppliers/Branch.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dev/PersentationLayer/GUI/MangeStorageFrame.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/PersentationLayer/GUI/MangeStorageFrame.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dev/PersentationLayer/GUI/StorekeeperFrame.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/PersentationLayer/GUI/StorekeeperFrame.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dev/PersentationLayer/GUI/Tasks/AddNewProductFrame.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/PersentationLayer/GUI/Tasks/AddNewProductFrame.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dev/PersentationLayer/GUI/Tasks/SetDiscountOnCategoriesFrame.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/PersentationLayer/GUI/Tasks/SetDiscountOnCategoriesFrame.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dev/ServiceLayer/inventory/ProductService.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/ServiceLayer/inventory/ProductService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dev/PersentationLayer/GUI/Tasks/ReportByCategoriesFrame.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/PersentationLayer/GUI/Tasks/ReportByCategoriesFrame.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dev/PersentationLayer/GUI/Tasks/ReportsByBranchIdFrame.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/PersentationLayer/GUI/Tasks/ReportsByBranchIdFrame.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -499,7 +485,14 @@
       <option name="project" value="LOCAL" />
       <updated>1686774362571</updated>
     </task>
-    <option name="localTasksCounter" value="43" />
+    <task id="LOCAL-00043" summary="done with manage storage and start the Storage manager">
+      <created>1686787137580</created>
+      <option name="number" value="00043" />
+      <option name="presentableId" value="LOCAL-00043" />
+      <option name="project" value="LOCAL" />
+      <updated>1686787137580</updated>
+    </task>
+    <option name="localTasksCounter" value="44" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -515,7 +508,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-    <MESSAGE value="change presentation + product service" />
     <MESSAGE value="add tests to product branch" />
     <MESSAGE value="add the service" />
     <MESSAGE value="add some tests" />
@@ -540,7 +532,8 @@
     <MESSAGE value="flaw product works, and presentation for add product done" />
     <MESSAGE value="done with add new product" />
     <MESSAGE value="add more frames" />
-    <option name="LAST_COMMIT_MESSAGE" value="add more frames" />
+    <MESSAGE value="done with manage storage and start the Storage manager" />
+    <option name="LAST_COMMIT_MESSAGE" value="done with manage storage and start the Storage manager" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -607,8 +600,18 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/dev/PersentationLayer/GUI/Tasks/ReportByCategoriesFrame.java</url>
-          <line>157</line>
+          <line>158</line>
           <option name="timeStamp" value="39" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/dev/PersentationLayer/GUI/Tasks/ReportByCategoriesFrame.java</url>
+          <line>139</line>
+          <option name="timeStamp" value="40" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/dev/PersentationLayer/GUI/Tasks/ExpiredAndFlawsReportFrame.java</url>
+          <line>113</line>
+          <option name="timeStamp" value="41" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

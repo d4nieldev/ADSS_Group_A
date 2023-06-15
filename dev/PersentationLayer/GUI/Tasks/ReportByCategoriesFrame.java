@@ -3,6 +3,7 @@ package PersentationLayer.GUI.Tasks;
 import BusinessLayer.Inventory.Category;
 import BusinessLayer.Inventory.CategoryController;
 import PersentationLayer.GUI.MangeStorageFrame;
+import PersentationLayer.GUI.StoreMangerFrame;
 import ServiceLayer.inventory.ProductService;
 
 import javax.swing.*;
@@ -138,7 +139,7 @@ public class ReportByCategoriesFrame implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == backButton) {
             frame.dispose();
-            MangeStorageFrame mangeStorageFrame = new MangeStorageFrame();
+            StoreMangerFrame storeMangerFrame = new StoreMangerFrame();
         }
 
         if (e.getSource() == submitButton) {

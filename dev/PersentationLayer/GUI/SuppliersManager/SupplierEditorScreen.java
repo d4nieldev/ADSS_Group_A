@@ -8,6 +8,8 @@ import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
@@ -45,7 +47,10 @@ public class SupplierEditorScreen extends JFrame {
     private final Map<String, String> init_amountToDiscount;
     private final Map<String, String> init_contacts;
 
+    private final String actionType;
+
     public SupplierEditorScreen(int supplierId) {
+        actionType = "Edit";
         supplierService = SupplierService.create();
         init_supplierCard = supplierService.getSupplierCard(supplierId);
         init_name = (String) init_supplierCard.get("name");
@@ -61,6 +66,33 @@ public class SupplierEditorScreen extends JFrame {
         } else if (init_supplierCard.containsKey("days")) {
             openFixedDaysSupplierWindow();
         } else if (init_supplierCard.containsKey("address") && init_supplierCard.containsKey("maxPreperationDays")) {
+            openSelfPickupSupplierWindow();
+        } else {
+            // handle invalid
+        }
+    }
+
+    public SupplierEditorScreen(String supplierType) {
+        actionType = "Add";
+        supplierService = SupplierService.create();
+        init_supplierCard = new HashMap<>();
+        init_name = "";
+        init_bankAcc = "";
+        init_fields = new ArrayList<>();
+        init_phone = "";
+        init_paymentCondition = "";
+        init_amountToDiscount = new HashMap<>();
+        init_contacts = new HashMap<>();
+
+        if (supplierType.equals("On Order")) {
+            init_supplierCard.put("maxSupplyDays", null);
+            openOnOrderSupplierWindow();
+        } else if (supplierType.equals("Fixed Days")) {
+            init_supplierCard.put("days", new ArrayList<>());
+            openFixedDaysSupplierWindow();
+        } else if (supplierType.equals("Self Pickup")) {
+            init_supplierCard.put("address", "");
+            init_supplierCard.put("maxPreperationDays", null);
             openSelfPickupSupplierWindow();
         } else {
             // handle invalid
@@ -87,10 +119,11 @@ public class SupplierEditorScreen extends JFrame {
         fieldsPanel.add(new JLabel("Max Supply Days:"), constraints);
 
         constraints.gridx = 1;
-        JTextField maxSupplyDaysField = new JTextField(init_maxSupplyDays.toString(), 20);
+        String maxSupplyDaysInitialString = init_maxSupplyDays == null ? "" : init_maxSupplyDays.toString();
+        JTextField maxSupplyDaysField = new JTextField(maxSupplyDaysInitialString, 20);
         fieldsPanel.add(maxSupplyDaysField, constraints);
 
-        JPanel buttonsPanel = createButtonsPanel(onOrderSupplierFrame);
+        JPanel buttonsPanel = createButtonsPanel();
 
         onOrderSupplierFrame.add(fieldsPanel, BorderLayout.CENTER);
         onOrderSupplierFrame.add(buttonsPanel, BorderLayout.SOUTH);
@@ -138,7 +171,7 @@ public class SupplierEditorScreen extends JFrame {
             fieldsPanel.add(dayCheckBox, constraints);
         }
 
-        JPanel buttonsPanel = createButtonsPanel(fixedDaysSupplierFrame);
+        JPanel buttonsPanel = createButtonsPanel();
 
         fixedDaysSupplierFrame.add(fieldsPanel, BorderLayout.CENTER);
         fixedDaysSupplierFrame.add(buttonsPanel, BorderLayout.SOUTH);
@@ -177,10 +210,12 @@ public class SupplierEditorScreen extends JFrame {
         fieldsPanel.add(new JLabel("Max Preparation Days:"), constraints);
 
         constraints.gridx = 1;
-        JTextField maxPreparationDaysField = new JTextField(init_maxPreperationDays.toString(), 20);
+        String maxPreperationDaysInitialString = init_maxPreperationDays == null ? ""
+                : init_maxPreperationDays.toString();
+        JTextField maxPreparationDaysField = new JTextField(maxPreperationDaysInitialString, 20);
         fieldsPanel.add(maxPreparationDaysField, constraints);
 
-        JPanel buttonsPanel = createButtonsPanel(selfPickupSupplierFrame);
+        JPanel buttonsPanel = createButtonsPanel();
 
         selfPickupSupplierFrame.add(fieldsPanel, BorderLayout.CENTER);
         selfPickupSupplierFrame.add(buttonsPanel, BorderLayout.SOUTH);
@@ -329,20 +364,22 @@ public class SupplierEditorScreen extends JFrame {
         List<List<String>> data = new ArrayList<>();
         for (int j = 0; j < tableModel.getColumnCount(); j++) {
             List<String> colList = new ArrayList<>();
-            for (int i = 0; i < tableModel.getRowCount(); i++)
-                colList.add(tableModel.getValueAt(i, j).toString());
+            for (int i = 0; i < tableModel.getRowCount(); i++) {
+                Object value = tableModel.getValueAt(i, j);
+                colList.add(value == null ? "" : value.toString());
+            }
             data.add(colList);
         }
 
         return data;
     }
 
-    private JPanel createButtonsPanel(JFrame frame) {
+    private JPanel createButtonsPanel() {
         JPanel buttonsPanel = new JPanel();
-        JButton addButton = new JButton("Add Supplier");
+        JButton commitButton = new JButton("Commit Changes");
         JButton goBackButton = new JButton("Go Back");
 
-        addButton.addActionListener((ActionEvent e) -> {
+        commitButton.addActionListener((ActionEvent e) -> {
             String supplierType = currentFrame.getTitle();
 
             JPanel fieldsPanel = (JPanel) currentFrame.getContentPane().getComponent(0);
@@ -356,8 +393,8 @@ public class SupplierEditorScreen extends JFrame {
 
             JPanel contactsPanel = (JPanel) fieldsPanel.getComponent(11);
             List<List<String>> contacts = getDataFromTablePanel(contactsPanel);
-            List<String> contactsPhones = contacts.get(0);
-            List<String> contactsNames = contacts.get(1);
+            List<String> contactsNames = contacts.get(0);
+            List<String> contactsPhones = contacts.get(1);
 
             JPanel amountToDiscountPanel = (JPanel) fieldsPanel.getComponent(13);
             List<List<String>> amountToDiscountList = getDataFromTablePanel(amountToDiscountPanel);
@@ -365,27 +402,32 @@ public class SupplierEditorScreen extends JFrame {
             List<String> discountsList = amountToDiscountList.get(1);
 
             TreeMap<Integer, String> amountToDiscount = new TreeMap<>();
+            if (!isValidInput(supplierName, supplierPhone, bankAccount, fields, contactsPhones, contactsNames,
+                    amountsList, discountsList))
+                return;
+
             for (int i = 0; i < amountsList.size(); i++) {
                 Integer amount = Integer.parseInt(amountsList.get(i));
                 String discount = discountsList.get(i);
                 amountToDiscount.put(amount, discount);
             }
 
-            System.out.println(supplierType);
-            System.out.println(supplierName);
-            System.out.println(supplierPhone);
-            System.out.println(bankAccount);
-            System.out.println(paymentCondition);
-            System.out.println(contactsPhones);
-            System.out.println(contactsNames);
-            System.out.println(amountToDiscount);
-
             String response = null;
             switch (supplierType) {
                 case "On Order Supplier":
-                    Integer maxSupplyDays = Integer.parseInt(((JTextField) fieldsPanel.getComponent(15)).getText());
-                    response = supplierService.addOnOrderSupplierBaseAgreement(supplierName, supplierPhone, bankAccount,
-                            fields, paymentCondition, amountToDiscount, contactsNames, contactsPhones, maxSupplyDays);
+                    String maxSupplyDaysRaw = ((JTextField) fieldsPanel.getComponent(15)).getText();
+                    if (!isValidInputOnOrder(maxSupplyDaysRaw))
+                        return;
+
+                    int maxSupplyDays = Integer.parseInt(maxSupplyDaysRaw);
+                    if (actionType.equals("Add"))
+                        response = supplierService.addOnOrderSupplierBaseAgreement(supplierName, supplierPhone,
+                                bankAccount, fields, paymentCondition, amountToDiscount, contactsNames, contactsPhones,
+                                maxSupplyDays);
+                    else if (actionType.equals("Edit")) {
+
+                        // handle edit on order supplier
+                    }
 
                     break;
                 case "Fixed Days Supplier":
@@ -402,17 +444,30 @@ public class SupplierEditorScreen extends JFrame {
                     for (int i = 0; i < isDay.length; i++)
                         if (isDay[i])
                             days.add(i + 1);
-                    response = supplierService.addFixedDaysSupplierBaseAgreement(supplierName, supplierPhone,
-                            bankAccount, fields, paymentCondition, amountToDiscount, contactsNames, contactsPhones,
-                            days);
+
+                    if (actionType.equals("Add"))
+                        response = supplierService.addFixedDaysSupplierBaseAgreement(supplierName, supplierPhone,
+                                bankAccount, fields, paymentCondition, amountToDiscount, contactsNames, contactsPhones,
+                                days);
+                    else if (actionType.equals("Edit")) {
+                        // handle edit fixed days supplier
+                    }
                     break;
                 case "Self Pickup Supplier":
+                    String maxPreperationDaysRaw = ((JTextField) fieldsPanel.getComponent(17)).getText();
                     String address = ((JTextField) fieldsPanel.getComponent(15)).getText();
-                    Integer maxPreperationDays = Integer
-                            .parseInt(((JTextField) fieldsPanel.getComponent(17)).getText());
-                    response = supplierService.addSelfPickupSupplierBaseAgreement(supplierName, supplierPhone,
-                            bankAccount, fields, paymentCondition, amountToDiscount, contactsNames, contactsPhones,
-                            address, maxPreperationDays);
+
+                    if (!isValidInputSelfPickup(maxPreperationDaysRaw, address))
+                        return;
+
+                    Integer maxPreperationDays = Integer.parseInt(maxPreperationDaysRaw);
+                    if (actionType.equals("Add"))
+                        response = supplierService.addSelfPickupSupplierBaseAgreement(supplierName, supplierPhone,
+                                bankAccount, fields, paymentCondition, amountToDiscount, contactsNames, contactsPhones,
+                                address, maxPreperationDays);
+                    else if (actionType.equals("Edit")) {
+                        // handle edit fixed days supplier
+                    }
                     break;
                 default:
                     response = "Unknown supplier type";
@@ -421,19 +476,89 @@ public class SupplierEditorScreen extends JFrame {
 
             // Add Supplier button action
             // Implement the desired functionality here
-            JOptionPane.showMessageDialog(frame, response);
-            frame.dispose(); // Close the current window
+            JOptionPane.showMessageDialog(currentFrame, response);
+            currentFrame.dispose(); // Close the current window
         });
 
         goBackButton.addActionListener((ActionEvent e) -> {
             // Go Back button action
             // Implement the desired functionality here
-            frame.dispose(); // Close the current window
+            currentFrame.dispose(); // Close the current window
         });
 
-        buttonsPanel.add(addButton);
+        buttonsPanel.add(commitButton);
         buttonsPanel.add(goBackButton);
 
         return buttonsPanel;
+    }
+
+    private boolean isValidInput(String supplierName, String supplierPhone, String bankAccount,
+            List<String> fields, List<String> contactPhones, List<String> contactNames, List<String> amountsList,
+            List<String> discountsList) {
+        if (!supplierName.matches("[a-zA-Z]+")) {
+            JOptionPane.showMessageDialog(currentFrame, "Name must not be empty and contain only letters");
+            return false;
+        } else if (!supplierPhone.matches("^05[0-9]{8}$")) {
+            JOptionPane.showMessageDialog(currentFrame,
+                    "Phone must not be empty and in the format 05... and 8 digits following");
+            return false;
+        } else if (!bankAccount.matches("^[0-9]{9}$")) {
+            JOptionPane.showMessageDialog(currentFrame, "Bank account must not be empty and of 9 digits");
+            return false;
+        } else if (fields.stream().anyMatch((field) -> field.isBlank())) {
+            JOptionPane.showMessageDialog(currentFrame, "All the fields must not be empty");
+            return false;
+        } else if (contactPhones.size() != contactNames.size()) {
+            JOptionPane.showMessageDialog(currentFrame, "Name and phone must be specified for each contact");
+            return false;
+        } else if (contactNames.stream().anyMatch((contactName) -> contactName.isBlank())) {
+            JOptionPane.showMessageDialog(currentFrame, "Contact name must not be empty");
+            return false;
+        } else if (contactPhones.stream().anyMatch((contactPhone) -> !contactPhone.matches("^05[0-9]{8}$"))) {
+            JOptionPane.showMessageDialog(currentFrame,
+                    "Contact phone must not be empty and in the format 05... and 8 digits following");
+            return false;
+        } else if (contactPhones.stream()
+                .anyMatch((phoneNumber) -> Collections.frequency(contactPhones, phoneNumber) > 1)) {
+            JOptionPane.showMessageDialog(currentFrame, "All contacts phones must be unique");
+            return false;
+        } else if (amountsList.size() != discountsList.size()) {
+            JOptionPane.showMessageDialog(currentFrame,
+                    "Amount and discount must be specified for each amount to discount pair");
+            return false;
+        } else if (amountsList.stream().anyMatch((amount) -> !amount.matches("^[0-9]+$"))) {
+            JOptionPane.showMessageDialog(currentFrame,
+                    "Amount must not be empty and a non-negative integer");
+            return false;
+        } else if (discountsList.stream()
+                .anyMatch((discount) -> !discount.matches("^[0-9]{1,2}(\\.[0-9]+)?%|100%|[0-9]+(\\.[0-9]+)?$"))) {
+            JOptionPane.showMessageDialog(currentFrame,
+                    "Discount must not be empty and a non-negative precentage value with '%' at the end (max 100%), or a non-negative fixed number");
+            return false;
+        }
+
+        return true;
+    }
+
+    private boolean isValidInputOnOrder(String maxSupplyDays) {
+        if (!maxSupplyDays.matches("^[0-9]+$")) {
+            JOptionPane.showMessageDialog(currentFrame,
+                    "Max supply days must be a non-negative number");
+            return false;
+        }
+        return true;
+    }
+
+    private boolean isValidInputSelfPickup(String maxPreperationDays, String address) {
+        if (!maxPreperationDays.matches("^[0-9]+$")) {
+            JOptionPane.showMessageDialog(currentFrame,
+                    "Max preperation days must be a non-negative number");
+            return false;
+        } else if (address.isBlank()) {
+            JOptionPane.showMessageDialog(currentFrame,
+                    "Address must not be blank");
+            return false;
+        }
+        return true;
     }
 }

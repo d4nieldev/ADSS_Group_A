@@ -4,7 +4,13 @@
     // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
     "version": "0.2.0",
     "configurations": [
-    
+        {
+            "type": "java",
+            "name": "Program",
+            "request": "launch",
+            "mainClass": "PresentationLayer.Program",
+            "projectName": "ADSS_Group_A_bab3ec06"
+        },
         {
             "type": "java",
             "name": "MainV2",

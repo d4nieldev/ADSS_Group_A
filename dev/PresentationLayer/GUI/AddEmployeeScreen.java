@@ -5,6 +5,8 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
@@ -16,6 +18,7 @@ import javax.swing.JButton;
 import javax.swing.JFormattedTextField;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.text.AbstractDocument;
@@ -23,8 +26,15 @@ import javax.swing.text.AbstractDocument;
 import PresentationLayer.GUI.Fields.DateField;
 import PresentationLayer.GUI.Filters.CharFilter;
 import PresentationLayer.GUI.Filters.IntFilter;
+import ServiceLayer.EmployeesLayer.BranchService;
+import ServiceLayer.EmployeesLayer.EmployeeService;
+import ServiceLayer.EmployeesLayer.ServiceFactory;
+import ServiceLayer.EmployeesLayer.ShiftService;
 
 public class AddEmployeeScreen extends JFrame {
+    EmployeeService employeeService;
+    ShiftService shiftService;
+    BranchService branchService;
 
     JPanel panel;
     JTextField firstNameField;
@@ -54,22 +64,30 @@ public class AddEmployeeScreen extends JFrame {
     JLabel roleLabel;
     JLabel superBranchLabel;
     JButton submitButton;
+    JButton backButton;
 
-    public AddEmployeeScreen() {
+    public AddEmployeeScreen(ServiceFactory serviceFactory) {
+        // Set the services
+        employeeService = serviceFactory.getEmployeeService();
+        shiftService = serviceFactory.getShiftService();
+        branchService = serviceFactory.getBranchService();
+
         // Defualt frame settings
         setTitle("Add Employee Screen");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setLayout(new BorderLayout(1,13));
+        setLayout(new BorderLayout());
         // setSize(400, 200);
         setLocationRelativeTo(null);
         setResizable(false);
 
         // Create a panel
         panel = new JPanel();
-        panel.setLayout(new GridLayout(14, 1));
+        panel.setLayout(new GridLayout(13, 1));
 
-        // Create a buttom
+        // Create buttoms
         submitButton = new JButton("Submit");
+        submitButton.setEnabled(false);
+        backButton = new JButton("Back");
 
         ImageIcon image = new ImageIcon("dev\\PresentationLayer\\GUI\\MainLogo.png");
         setIconImage(image.getImage());
@@ -86,7 +104,7 @@ public class AddEmployeeScreen extends JFrame {
         bankAccountField = new JTextField();
         salaryField = new JTextField();
         startDateField = new DateField(formatter);
-        bounsField = new JTextField();
+        //bounsField = new JTextField();
         termsField = new JTextField();
         roleField = new JTextField();
         superBranchField = new JTextField();
@@ -105,24 +123,96 @@ public class AddEmployeeScreen extends JFrame {
         bankAccountField.setPreferredSize(fieldSize);
         salaryField.setPreferredSize(fieldSize);
         startDateField.setPreferredSize(fieldSize);
-        bounsField.setPreferredSize(fieldSize);
+        //bounsField.setPreferredSize(fieldSize);
         termsField.setPreferredSize(fieldSize);
         roleField.setPreferredSize(fieldSize);
         superBranchField.setPreferredSize(fieldSize);
 
-        // Set fields filters
-        ((AbstractDocument)firstNameField.getDocument()).setDocumentFilter(new CharFilter());
-        ((AbstractDocument)lastNameField.getDocument()).setDocumentFilter(new CharFilter());
-        ((AbstractDocument)idField.getDocument()).setDocumentFilter(new IntFilter());
-        ((AbstractDocument)bankNumberField.getDocument()).setDocumentFilter(new IntFilter());
-        ((AbstractDocument)bankBranchField.getDocument()).setDocumentFilter(new IntFilter());
-        ((AbstractDocument)bankAccountField.getDocument()).setDocumentFilter(new IntFilter());
-        ((AbstractDocument)salaryField.getDocument()).setDocumentFilter(new IntFilter());
-        ((AbstractDocument)bounsField.getDocument()).setDocumentFilter(new IntFilter());
-        ((AbstractDocument)termsField.getDocument()).setDocumentFilter(new CharFilter());
-        ((AbstractDocument)roleField.getDocument()).setDocumentFilter(new CharFilter());
-        ((AbstractDocument)superBranchField.getDocument()).setDocumentFilter(new IntFilter());
+        // Add key listener to the fields
+        firstNameField.addKeyListener(new KeyAdapter() {
+            public void keyReleased(KeyEvent e) {
+                checkButton();
+            }
+        });
 
+        lastNameField.addKeyListener(new KeyAdapter() {
+            public void keyReleased(KeyEvent e) {
+                checkButton();
+            }
+        });
+
+        idField.addKeyListener(new KeyAdapter() {
+            public void keyReleased(KeyEvent e) {
+                checkButton();
+            }
+        });
+
+        passwordField.addKeyListener(new KeyAdapter() {
+            public void keyReleased(KeyEvent e) {
+                checkButton();
+            }
+        });
+
+        bankNumberField.addKeyListener(new KeyAdapter() {
+            public void keyReleased(KeyEvent e) {
+                checkButton();
+            }
+        });
+
+        bankBranchField.addKeyListener(new KeyAdapter() {
+            public void keyReleased(KeyEvent e) {
+                checkButton();
+            }
+        });
+
+        bankAccountField.addKeyListener(new KeyAdapter() {
+            public void keyReleased(KeyEvent e) {
+                checkButton();
+            }
+        });
+
+        salaryField.addKeyListener(new KeyAdapter() {
+            public void keyReleased(KeyEvent e) {
+                checkButton();
+            }
+        });
+
+        // bounsField.addKeyListener(new KeyAdapter() {
+        //     public void keyReleased(KeyEvent e) {
+        //         checkButton();
+        //     }
+        // });
+
+        termsField.addKeyListener(new KeyAdapter() {
+            public void keyReleased(KeyEvent e) {
+                checkButton();
+            }
+        });
+
+        roleField.addKeyListener(new KeyAdapter() {
+            public void keyReleased(KeyEvent e) {
+                checkButton();
+            }
+        });
+
+        superBranchField.addKeyListener(new KeyAdapter() {
+            public void keyReleased(KeyEvent e) {
+                checkButton();
+            }
+        });
+
+        // Set fields filters
+        ((AbstractDocument) firstNameField.getDocument()).setDocumentFilter(new CharFilter());
+        ((AbstractDocument) lastNameField.getDocument()).setDocumentFilter(new CharFilter());
+        ((AbstractDocument) idField.getDocument()).setDocumentFilter(new IntFilter());
+        ((AbstractDocument) bankNumberField.getDocument()).setDocumentFilter(new IntFilter());
+        ((AbstractDocument) bankBranchField.getDocument()).setDocumentFilter(new IntFilter());
+        ((AbstractDocument) bankAccountField.getDocument()).setDocumentFilter(new IntFilter());
+        ((AbstractDocument) salaryField.getDocument()).setDocumentFilter(new IntFilter());
+        //((AbstractDocument) bounsField.getDocument()).setDocumentFilter(new IntFilter());
+        ((AbstractDocument) termsField.getDocument()).setDocumentFilter(new CharFilter());
+        ((AbstractDocument) roleField.getDocument()).setDocumentFilter(new CharFilter());
+        ((AbstractDocument) superBranchField.getDocument()).setDocumentFilter(new IntFilter());
 
         // Create labels
         firstNameLabel = new JLabel("First Name");
@@ -134,7 +224,7 @@ public class AddEmployeeScreen extends JFrame {
         bankAccountLabel = new JLabel("Bank Account Number");
         salaryLabel = new JLabel("Salary");
         startDateLabel = new JLabel("Start Date");
-        bounsLabel = new JLabel("Bouns");
+        //bounsLabel = new JLabel("Bouns");
         termsLabel = new JLabel("Terms");
         roleLabel = new JLabel("Role");
         superBranchLabel = new JLabel("Super Branch");
@@ -158,8 +248,8 @@ public class AddEmployeeScreen extends JFrame {
         panel.add(salaryField);
         panel.add(startDateLabel);
         panel.add(startDateField);
-        panel.add(bounsLabel);
-        panel.add(bounsField);
+        //panel.add(bounsLabel);
+        //panel.add(bounsField);
         panel.add(termsLabel);
         panel.add(termsField);
         panel.add(roleLabel);
@@ -171,27 +261,58 @@ public class AddEmployeeScreen extends JFrame {
         submitButton.addActionListener((ActionEvent e) -> {
             String firstName = firstNameField.getText();
             String lastName = lastNameField.getText();
-            String id = idField.getText();
+            int id = Integer.parseInt(idField.getText());
             String password = passwordField.getText();
-            String bankNumber = bankNumberField.getText();
-            String bankBranch = bankBranchField.getText();
-            String bankAccount = bankAccountField.getText();
-            String salary = salaryField.getText();
-            String startDate = startDateField.getText();
-            String bouns = bounsField.getText();
+            int bankNumber = Integer.parseInt(bankNumberField.getText());
+            int bankBranch = Integer.parseInt(bankBranchField.getText());
+            int bankAccount = Integer.parseInt(bankAccountField.getText());
+            int salary = Integer.parseInt(salaryField.getText());
+            LocalDate startDate = LocalDate.parse(startDateField.getText(), formatter);
+            //int bouns = Integer.parseInt(bounsField.getText());
             String terms = termsField.getText();
             String role = roleField.getText();
-            String superBranch = superBranchField.getText();
+            int superBranch = Integer.parseInt(superBranchField.getText());
+            
+            try {
+                branchService.addNewEmployee(123456789, firstName, lastName, id, password, bankNumber,
+                            bankBranch, bankAccount, salary, salary, startDate, terms, role,
+                            superBranch);
+                JOptionPane.showMessageDialog(null, "Employee added successfully", "Success", JOptionPane.INFORMATION_MESSAGE);
+            }
+            catch (Error ex) {
+                JOptionPane.showMessageDialog(null, ex.getMessage(), "ERROR", JOptionPane.ERROR_MESSAGE);
+            }
+            
         });
 
-        // Add the button to the panel
+        backButton.addActionListener((ActionEvent e) -> {
+            dispose();
+            HRManagerScreen previousWindow = new HRManagerScreen(serviceFactory);
+            previousWindow.setVisible(true);
+        });
+
+        // Add the buttons to the panel
         panel.add(submitButton);
+        panel.add(backButton);
 
         // Add the panel to the frame
         add(panel, BorderLayout.CENTER);
-        
+
         pack();
         setVisible(true);
+    }
+
+    public void checkButton() { // watch for key strokes
+        if (firstNameField.getText().length() == 0 || lastNameField.getText().length() == 0
+                || idField.getText().length() == 0 || passwordField.getText().length() == 0
+                || bankNumberField.getText().length() == 0 || bankBranchField.getText().length() == 0
+                || bankAccountField.getText().length() == 0 || salaryField.getText().length() == 0
+                || startDateField.getText().length() == 0 || termsField.getText().length() == 0 
+                || roleField.getText().length() == 0 || superBranchField.getText().length() == 0)
+            submitButton.setEnabled(false);
+        else {
+            submitButton.setEnabled(true);
+        }
     }
 
 }

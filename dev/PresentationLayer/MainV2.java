@@ -1,12 +1,12 @@
 package PresentationLayer;
 
-import ServiceLayer.EmployeesLayer.serviceFactory;
+import ServiceLayer.EmployeesLayer.ServiceFactory;
 
 import java.util.Scanner;
 
 class MainV2 {
 
-    private static serviceFactory serviceFactory = new serviceFactory();
+    private static ServiceFactory serviceFactory = new ServiceFactory();
     private static HRSystem hrSystem;
     private static MemberSystem memberSystem;
     private static TransportSystem transportSystem;

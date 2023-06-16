@@ -7,7 +7,7 @@ import BussinessLayer.EmployeesLayer.ShiftFacade;
 import ServiceLayer.TransportLayer.TransportService;
 import ServiceLayer.TransportLayer.TruckService;
 
-public class serviceFactory {
+public class ServiceFactory {
     ////////// HR/////////////////
     private EmployeeFacade employeeFacade;
     private ShiftFacade shiftFacade;
@@ -20,7 +20,7 @@ public class serviceFactory {
     private TruckService truckService;
     private TransportService transportService;
 
-    public serviceFactory() {
+    public ServiceFactory() {
         ////////// HR/////////////////
         employeeFacade = new EmployeeFacade();
         shiftFacade = new ShiftFacade(employeeFacade);

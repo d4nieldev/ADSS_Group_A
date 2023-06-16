@@ -12,6 +12,8 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
+import ServiceLayer.EmployeesLayer.ServiceFactory;
+
 public class HRManagerScreen extends JFrame {
     private JButton addEmployeeButton;
     private JButton addDriverButton;
@@ -19,7 +21,7 @@ public class HRManagerScreen extends JFrame {
     private JButton submitShift;
     private JButton deleteEmployee;
 
-    public HRManagerScreen() {
+    public HRManagerScreen(ServiceFactory serviceFactory) {
         setTitle("HR Manager Screen");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
@@ -51,7 +53,7 @@ public class HRManagerScreen extends JFrame {
         // Add action listeners to the buttons
         addEmployeeButton.addActionListener((ActionEvent e) -> {
             dispose();
-            new AddEmployeeScreen();
+            new AddEmployeeScreen(serviceFactory);
         });
 
         addDriverButton.addActionListener((ActionEvent e) -> {

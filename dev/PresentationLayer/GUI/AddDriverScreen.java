@@ -2,20 +2,16 @@ package PresentationLayer.GUI;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
-import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JFormattedTextField;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -23,6 +19,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.text.AbstractDocument;
 
+import Misc.License;
 import PresentationLayer.GUI.Fields.DateField;
 import PresentationLayer.GUI.Filters.CharFilter;
 import PresentationLayer.GUI.Filters.IntFilter;
@@ -31,7 +28,7 @@ import ServiceLayer.EmployeesLayer.EmployeeService;
 import ServiceLayer.EmployeesLayer.ServiceFactory;
 import ServiceLayer.EmployeesLayer.ShiftService;
 
-public class AddEmployeeScreen extends JFrame {
+public class AddDriverScreen extends JFrame {
     EmployeeService employeeService;
     ShiftService shiftService;
     BranchService branchService;
@@ -48,8 +45,7 @@ public class AddEmployeeScreen extends JFrame {
     DateField startDateField;
     JTextField bounsField;
     JTextField termsField;
-    JTextField roleField;
-    JTextField superBranchField;
+    JTextField licenseField;
     JLabel firstNameLabel;
     JLabel lastNameLabel;
     JLabel idLabel;
@@ -61,19 +57,18 @@ public class AddEmployeeScreen extends JFrame {
     JLabel startDateLabel;
     JLabel bounsLabel;
     JLabel termsLabel;
-    JLabel roleLabel;
-    JLabel superBranchLabel;
+    JLabel licenseLabel;;
     JButton submitButton;
     JButton backButton;
 
-    public AddEmployeeScreen(ServiceFactory serviceFactory) {
+    public AddDriverScreen(ServiceFactory serviceFactory) {
         // Set the services
         employeeService = serviceFactory.getEmployeeService();
         shiftService = serviceFactory.getShiftService();
         branchService = serviceFactory.getBranchService();
 
         // Defualt frame settings
-        setTitle("Add Employee Screen");
+        setTitle("Add Driver Screen");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLayout(new BorderLayout());
         // setSize(400, 200);
@@ -82,7 +77,7 @@ public class AddEmployeeScreen extends JFrame {
 
         // Create a panel
         panel = new JPanel();
-        panel.setLayout(new GridLayout(14, 1));
+        panel.setLayout(new GridLayout(13, 1));
 
         // Create buttoms
         submitButton = new JButton("Submit");
@@ -110,8 +105,7 @@ public class AddEmployeeScreen extends JFrame {
         startDateField = new DateField(formatter);
         bounsField = new JTextField();
         termsField = new JTextField();
-        roleField = new JTextField();
-        superBranchField = new JTextField();
+        licenseField = new JTextField();
 
         startDateField.setValue(LocalDate.now(ZoneId.systemDefault()));
 
@@ -129,8 +123,7 @@ public class AddEmployeeScreen extends JFrame {
         startDateField.setPreferredSize(fieldSize);
         bounsField.setPreferredSize(fieldSize);
         termsField.setPreferredSize(fieldSize);
-        roleField.setPreferredSize(fieldSize);
-        superBranchField.setPreferredSize(fieldSize);
+        licenseField.setPreferredSize(fieldSize);
 
         // Add key listener to the fields
         firstNameField.addKeyListener(new KeyAdapter() {
@@ -193,13 +186,7 @@ public class AddEmployeeScreen extends JFrame {
             }
         });
 
-        roleField.addKeyListener(new KeyAdapter() {
-            public void keyReleased(KeyEvent e) {
-                checkButton();
-            }
-        });
-
-        superBranchField.addKeyListener(new KeyAdapter() {
+        licenseField.addKeyListener(new KeyAdapter() {
             public void keyReleased(KeyEvent e) {
                 checkButton();
             }
@@ -215,8 +202,7 @@ public class AddEmployeeScreen extends JFrame {
         ((AbstractDocument) salaryField.getDocument()).setDocumentFilter(new IntFilter());
         ((AbstractDocument) bounsField.getDocument()).setDocumentFilter(new IntFilter());
         ((AbstractDocument) termsField.getDocument()).setDocumentFilter(new CharFilter());
-        ((AbstractDocument) roleField.getDocument()).setDocumentFilter(new CharFilter());
-        ((AbstractDocument) superBranchField.getDocument()).setDocumentFilter(new IntFilter());
+        ((AbstractDocument) licenseField.getDocument()).setDocumentFilter(new CharFilter());
 
         // Create labels
         firstNameLabel = new JLabel("First Name");
@@ -230,8 +216,7 @@ public class AddEmployeeScreen extends JFrame {
         startDateLabel = new JLabel("Start Date");
         bounsLabel = new JLabel("Bouns");
         termsLabel = new JLabel("Terms");
-        roleLabel = new JLabel("Role");
-        superBranchLabel = new JLabel("Super Branch");
+        licenseLabel = new JLabel("License");
 
         // Add the fields an the labels to the panel
         panel.add(firstNameLabel);
@@ -256,10 +241,8 @@ public class AddEmployeeScreen extends JFrame {
         panel.add(bounsField);
         panel.add(termsLabel);
         panel.add(termsField);
-        panel.add(roleLabel);
-        panel.add(roleField);
-        panel.add(superBranchLabel);
-        panel.add(superBranchField);
+        panel.add(licenseLabel);
+        panel.add(licenseField);
 
         // Add action listener to the button
         submitButton.addActionListener((ActionEvent e) -> {
@@ -274,19 +257,24 @@ public class AddEmployeeScreen extends JFrame {
             LocalDate startDate = LocalDate.parse(startDateField.getText(), formatter);
             int bouns = Integer.parseInt(bounsField.getText());
             String terms = termsField.getText();
-            String role = roleField.getText();
-            int superBranch = Integer.parseInt(superBranchField.getText());
-            
-            try {
-                branchService.addNewEmployee(123456789, firstName, lastName, id, password, bankNumber,
-                            bankBranch, bankAccount, salary, bouns, startDate, terms, role,
-                            superBranch);
-                JOptionPane.showMessageDialog(null, "Employee added successfully", "Success", JOptionPane.INFORMATION_MESSAGE);
+            License driverLicense = null;
+            try{
+                driverLicense = License.valueOf(licenseField.getText().toUpperCase());
             }
-            catch (Error ex) {
-                JOptionPane.showMessageDialog(null, ex.getMessage(), "ERROR", JOptionPane.ERROR_MESSAGE);
+            catch (Exception ex) {
+                JOptionPane.showMessageDialog(null, "Invalid license - It musy be B,C OR NULL", "ERROR", JOptionPane.ERROR_MESSAGE);
+                licenseField.setText("");
             }
-            
+            if (driverLicense != null) {
+                try {
+                    branchService.addNewDriver(123456789, firstName, lastName, id, password, bankNumber,
+                            bankBranch, bankAccount, salary, bouns, startDate, terms, driverLicense);
+                    JOptionPane.showMessageDialog(null, "Driver added successfully", "Success", JOptionPane.INFORMATION_MESSAGE);
+                }
+                catch (Error ex) {
+                    JOptionPane.showMessageDialog(null, ex.getMessage(), "ERROR", JOptionPane.ERROR_MESSAGE);
+                }
+            }            
         });
 
         backButton.addActionListener((ActionEvent e) -> {
@@ -312,12 +300,10 @@ public class AddEmployeeScreen extends JFrame {
                 || bankNumberField.getText().length() == 0 || bankBranchField.getText().length() == 0
                 || bankAccountField.getText().length() == 0 || salaryField.getText().length() == 0
                 || bounsField.getText().length() == 0 || startDateField.getText().length() == 0 
-                || termsField.getText().length() == 0 || roleField.getText().length() == 0 
-                || superBranchField.getText().length() == 0)
+                || termsField.getText().length() == 0 || licenseField.getText().length() == 0)
             submitButton.setEnabled(false);
         else {
             submitButton.setEnabled(true);
         }
     }
-
 }

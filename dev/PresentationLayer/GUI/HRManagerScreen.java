@@ -40,6 +40,13 @@ public class HRManagerScreen extends JFrame {
         submitShift.setPreferredSize(buttonSize);
         deleteEmployee.setPreferredSize(buttonSize);
 
+        // Set button focusability to false
+        addEmployeeButton.setFocusable(false);
+        addDriverButton.setFocusable(false);
+        addEmptyShift.setFocusable(false);
+        submitShift.setFocusable(false);
+        deleteEmployee.setFocusable(false);
+
         // Set layout manager
         setLayout(new FlowLayout());
 
@@ -57,7 +64,8 @@ public class HRManagerScreen extends JFrame {
         });
 
         addDriverButton.addActionListener((ActionEvent e) -> {
-            // new EditSupplierScreen();
+            dispose();
+            new AddDriverScreen(serviceFactory);
         });
 
         addEmptyShift.addActionListener((ActionEvent e) -> {

@@ -72,6 +72,7 @@ public class SuppliersManagerScreen extends JFrame {
         });
 
         editAgreementButton.addActionListener((e) -> {
+            dispose();
             new EditAgreementScreen();
         });
 

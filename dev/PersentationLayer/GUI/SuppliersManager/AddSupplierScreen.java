@@ -16,8 +16,10 @@ import java.util.Vector;
 
 public class AddSupplierScreen extends JFrame {
     private JFrame currentFrame;
+    private JFrame previousFrame;
 
-    public AddSupplierScreen() {
+    public AddSupplierScreen(JFrame previousFrame) {
+        this.previousFrame = previousFrame;
         currentFrame = this;
         setTitle("Add Supplier");
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -49,6 +51,7 @@ public class AddSupplierScreen extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 // On Order Supplier button action
                 new SupplierEditorScreen("On Order", currentFrame);
+                dispose();
             }
         });
 
@@ -56,6 +59,7 @@ public class AddSupplierScreen extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 // Fixed Days Supplier button action
                 new SupplierEditorScreen("Fixed Days", currentFrame);
+                dispose();
             }
         });
 
@@ -63,12 +67,14 @@ public class AddSupplierScreen extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 // Self Pickup Supplier button action
                 new SupplierEditorScreen("Self Pickup", currentFrame);
+                dispose();
             }
         });
 
         goBackButton.addActionListener((ActionEvent e) -> {
             // Go Back button action
             // Implement the desired functionality here
+            previousFrame.setVisible(true);
             dispose(); // Close the current window
         });
 

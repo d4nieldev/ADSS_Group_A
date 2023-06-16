@@ -57,6 +57,7 @@ public class SupplierEditorScreen extends JFrame {
     public SupplierEditorScreen(int supplierId, String actionType, JFrame previousFrame) {
         this.previousFrame = previousFrame;
         this.supplierId = supplierId;
+        this.actionType = actionType;
         switch (actionType) {
             case "Edit":
                 editable = true;
@@ -373,6 +374,9 @@ public class SupplierEditorScreen extends JFrame {
         JTable contactsTable = new JTable(tableModel);
         JScrollPane contactsScrollPane = new JScrollPane(contactsTable);
 
+        // Add the table and buttons to the fields panel
+        tablePanel.add(contactsScrollPane, BorderLayout.CENTER);
+
         if (editable) {
             // Create the buttons for adding and deleting rows
             JButton addRowButton = new JButton("Add Row");
@@ -398,13 +402,12 @@ public class SupplierEditorScreen extends JFrame {
             });
         }
 
-        // Add the table and buttons to the fields panel
-        tablePanel.add(contactsScrollPane, BorderLayout.CENTER);
-
         return tablePanel;
     }
 
     private List<List<String>> getDataFromTablePanel(JPanel tablePanel) {
+        System.out.println(tablePanel.getComponent(0).getClass().getName());
+        System.out.println(editable);
         JScrollPane scrollPane = (JScrollPane) tablePanel.getComponent(0);
         JViewport vp = (JViewport) scrollPane.getComponent(0);
         TableModel tableModel = ((JTable) vp.getComponent(0)).getModel();

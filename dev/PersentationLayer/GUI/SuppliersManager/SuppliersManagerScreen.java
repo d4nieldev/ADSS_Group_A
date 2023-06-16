@@ -49,11 +49,12 @@ public class SuppliersManagerScreen extends JFrame {
         // Add action listeners to the buttons
         addSupplierButton.addActionListener((ActionEvent e) -> {
             dispose();
-            new AddSupplierScreen();
+            new AddSupplierScreen(this);
         });
 
         editSupplierButton.addActionListener((ActionEvent e) -> {
-            new EditSupplierScreen();
+            dispose();
+            new EditSupplierScreen(this);
         });
 
         deleteSupplierButton.addActionListener((ActionEvent e) -> {

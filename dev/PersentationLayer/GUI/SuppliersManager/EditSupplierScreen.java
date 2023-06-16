@@ -12,7 +12,10 @@ import javax.swing.JTextField;
 import ServiceLayer.Suppliers.SupplierService;
 
 public class EditSupplierScreen extends JFrame {
-    public EditSupplierScreen() {
+    private JFrame previousFrame;
+
+    public EditSupplierScreen(JFrame previousFrame) {
+        this.previousFrame = previousFrame;
         setTitle("Edit Supplier");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
@@ -42,6 +45,7 @@ public class EditSupplierScreen extends JFrame {
         });
 
         goBackButton.addActionListener((ActionEvent e) -> {
+            previousFrame.setVisible(true);
             dispose(); // Close the current window
         });
 

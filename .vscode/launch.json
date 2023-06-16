@@ -4,27 +4,27 @@
   // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
   "version": "0.2.0",
   "configurations": [
-    {
-      "type": "java",
-      "name": "Program",
-      "request": "launch",
-      "mainClass": "PersentationLayer.Program",
-      "projectName": "ADSS_Group_A-Work2_b971df50",
-      "args": "GUI SuppliersManager"
-    },
+    // {
+    //   "type": "java",
+    //   "name": "Program",
+    //   "request": "launch",
+    //   "mainClass": "PersentationLayer.Program",
+    //   "projectName": "ADSS_Group_A-Work2_b971df50",
+    //   "args": "GUI SuppliersManager"
+    // },
     {
       "type": "java",
       "name": "Current File",
       "request": "launch",
       "mainClass": "${file}"
     },
-    {
-      "type": "java",
-      "name": "Program1",
-      "request": "launch",
-      "mainClass": "PersentationLayer.CLI.inventory.Program1",
-      "projectName": "ADSS_Group_A_90ab346e"
-    },
+    // {
+    //   "type": "java",
+    //   "name": "Program1",
+    //   "request": "launch",
+    //   "mainClass": "PersentationLayer.CLI.inventory.Program1",
+    //   "projectName": "ADSS_Group_A_90ab346e"
+    // },
     {
       "type": "java",
       "name": "Program",

@@ -11,9 +11,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="a2472df3-0b1c-47fc-bcd6-f26fc4f0a51c" name="Changes" comment="Changes">
-      <change afterPath="$PROJECT_DIR$/.idea/artifacts/adss2023_v02_jar.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/dev/PresentationLayer/GUITransport/mainTransportGUI.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dev/META-INF/MANIFEST.MF" beforeDir="false" afterPath="$PROJECT_DIR$/dev/META-INF/MANIFEST.MF" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -46,21 +45,31 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">
-    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
-    <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/dev/lib/sqlite-jdbc-3.41.2.1.jar" />
-    <property name="project.structure.last.edited" value="Artifacts" />
-    <property name="project.structure.proportion" value="0.15" />
-    <property name="project.structure.side.proportion" value="0.2" />
-  </component>
-  <component name="RunManager" selected="JUnit.EmployeeControllerTest">
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.ShowReadmeOnStart": "true"
+  }
+}]]></component>
+  <component name="RunManager" selected="Application.mainTransportGUI">
     <configuration name="java" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="ALTERNATIVE_JRE_PATH" value="17" />
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
       <option name="MAIN_CLASS_NAME" value="PresentationLayer.MainV2" />
       <module name="ADSS_Group_A" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/dev/PresentationLayer" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="mainTransportGUI" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="PresentationLayer.GUITransport.mainTransportGUI" />
+      <module name="ADSS_Group_A" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="PresentationLayer.GUITransport.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -98,6 +107,7 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Application.mainTransportGUI" />
         <item itemvalue="JUnit.EmployeeControllerTest" />
         <item itemvalue="Application.java" />
         <item itemvalue="JUnit.EmployeeControllerTest.logIn" />

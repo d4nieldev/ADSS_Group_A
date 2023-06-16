@@ -6,30 +6,18 @@ import java.awt.LayoutManager;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
-public class HRManagerScreen extends JFrame{
+public class HRManagerScreen extends JFrame {
     private JButton addEmployeeButton;
     private JButton addDriverButton;
     private JButton addEmptyShift;
     private JButton submitShift;
     private JButton deleteEmployee;
-
-    String horizontalLine = "+-------------------------------------------------------+";
-    String option1 = "| 0 - Go back                                                  |";
-    String option2 = "| 1 - Add employee (not driver).                               |";
-    String option3 = "| 2 - Add driver.                                              |";
-    String option4 = "| 3 - Print all branches.                                      |";
-    String option5 = "| 4 - Print all employees (drivers not included).              |";
-    String option6 = "| 5 - Print all drivers.                                       |";
-    String option7 = "| 6 - Add empty shift.                                         |";
-    String option8 = "| 7 - Submit a shift.                                          |";
-    String option9 = "| 8 - Add constraint for some Employee to Shift.               |";
-    String option10 = "| 9 - Edit employee.                                          |";
-    String option11 = "| 10 - Delete an employee.                                    |";
-    String bottomLine = "+-----------------------------------------------------------+";
 
     public HRManagerScreen() {
         setTitle("HR Manager Screen");
@@ -62,11 +50,12 @@ public class HRManagerScreen extends JFrame{
 
         // Add action listeners to the buttons
         addEmployeeButton.addActionListener((ActionEvent e) -> {
-            //new AddSupplierScreen();
+            dispose();
+            new AddEmployeeScreen();
         });
 
         addDriverButton.addActionListener((ActionEvent e) -> {
-            //new EditSupplierScreen();
+            // new EditSupplierScreen();
         });
 
         addEmptyShift.addActionListener((ActionEvent e) -> {
@@ -90,6 +79,15 @@ public class HRManagerScreen extends JFrame{
         // Set the frame size and make it visible
         setSize(400, 200);
         setLocationRelativeTo(null);
+        setResizable(false);
+
+        ImageIcon image = new ImageIcon("dev\\PresentationLayer\\GUI\\MainLogo.png");
+        setIconImage(image.getImage());
+
+        // JLabel myLabel = new JLabel(image);
+        // myLabel.setSize(400, 200);
+        // add(myLabel);
+
         setVisible(true);
     }
 }

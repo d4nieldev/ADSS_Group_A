@@ -528,25 +528,25 @@ public class EmployeeFacade {
         }
     }
 
-    // help function that create HR manager to start up the system
-    private void addHRManagerForStartUpTheSystem(String firstName, String lastName, int id, String password,
-            int bankNum,
-            int bankBranch, int bankAccount, int salary, int bonus, LocalDate startDate, String tempsEmployment,
-            License driverLicense, Integer role, int branch) {
-        Employee e = new Employee(firstName, lastName, id, password, bankNum,
-                bankBranch, bankAccount, salary, bonus, startDate, tempsEmployment, role, branch);
-        employees.add(e);
-        this.employeesDAO.insert(e.toDTO());
-    }
+    // // help function that create HR manager to start up the system
+    // private void addHRManagerForStartUpTheSystem(String firstName, String lastName, int id, String password,
+    //         int bankNum,
+    //         int bankBranch, int bankAccount, int salary, int bonus, LocalDate startDate, String tempsEmployment,
+    //         License driverLicense, Integer role, int branch) {
+    //     Employee e = new Employee(firstName, lastName, id, password, bankNum,
+    //             bankBranch, bankAccount, salary, bonus, startDate, tempsEmployment, role, branch);
+    //     employees.add(e);
+    //     this.employeesDAO.insert(e.toDTO());
+    // }
 
-    // help function that create HR manager to start up the system
-    private void addTransportManagerForStartUpTheSystem(String firstName, String lastName, int id, String password,
-            int bankNum,
-            int bankBranch, int bankAccount, int salary, int bonus, LocalDate startDate, String tempsEmployment,
-            License driverLicense, Integer role, int branch) {
-        Employee e = new Employee(firstName, lastName, id, password, bankNum,
-                bankBranch, bankAccount, salary, bonus, startDate, tempsEmployment, role, branch);
-        employees.add(e);
-        this.employeesDAO.insert(e.toDTO());
-    }
+    // // help function that create HR manager to start up the system
+    // private void addTransportManagerForStartUpTheSystem(String firstName, String lastName, int id, String password,
+    //         int bankNum,
+    //         int bankBranch, int bankAccount, int salary, int bonus, LocalDate startDate, String tempsEmployment,
+    //         License driverLicense, Integer role, int branch) {
+    //     Employee e = new Employee(firstName, lastName, id, password, bankNum,
+    //             bankBranch, bankAccount, salary, bonus, startDate, tempsEmployment, role, branch);
+    //     employees.add(e);
+    //     this.employeesDAO.insert(e.toDTO());
+    // }
 }

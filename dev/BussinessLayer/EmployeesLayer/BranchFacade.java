@@ -275,11 +275,11 @@ public class BranchFacade {
         if(!foundManager){throw new Error("A shift have to contain at least one Shift Manager");}
     }
 
-    private void addBranchForStartUpTheSystem(int id, String address, Location location) {
-        Branch b = new Branch(0, "BGU", Location.SOUTH);
-        branchs.add(b);
-        branchesDAO.insert(b.toDTO());
-    }
+    // private void addBranchForStartUpTheSystem(int id, String address, Location location) {
+    //     Branch b = new Branch(0, "BGU", Location.SOUTH);
+    //     branchs.add(b);
+    //     branchesDAO.insert(b.toDTO());
+    // }
 
     private Branch createNewBranchFromBranchDTO(BranchDTO branchDTO) {
         LinkedList<Employee> originEmployees = convertIdsListToObject(branchDTO.originEmployees);

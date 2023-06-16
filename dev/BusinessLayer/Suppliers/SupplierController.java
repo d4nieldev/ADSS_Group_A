@@ -646,4 +646,25 @@ public class SupplierController {
                 contactNames, contactPhones, address, maxPreperationDays);
     }
 
+    public List<String> getSomeSuppliersIds(int numOfSuppliers, List<Integer> alreadyHave) throws SQLException{
+        List<String> res = new ArrayList<>();
+        int max = supplierDAO.getLastId();
+        int count = 0;
+        int i=0;
+        while(count < numOfSuppliers && i<=max){
+            if(alreadyHave.contains(i)){
+                i++;
+                continue;
+            }else{
+                res.add(""+i);
+                count++;
+            }
+            i++;
+        }
+        if(res.size()!=numOfSuppliers || i==max+1){
+            res.add("done");
+        }
+        return res;
+    }
+
 }

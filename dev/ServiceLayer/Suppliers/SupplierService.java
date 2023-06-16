@@ -316,4 +316,15 @@ public class SupplierService {
             return e.getMessage();
         }
     }
+
+    public List<String> getSomeSuppliersIds(int numOfSuppliers, List<Integer> alreadyHave){
+        try{
+            List<String> ids = supplierController.getSomeSuppliersIds(numOfSuppliers, alreadyHave);
+            return ids;
+        }catch(Exception e){
+            List<String> error = new ArrayList<String>();
+            error.add(e.getMessage());
+            return error;
+        }
+    }
 }

@@ -52,6 +52,7 @@ public class SupplierEditorScreen extends JFrame {
     private JFrame previousFrame;
     private int supplierId;
     private String response;
+    private JFrame openedChild;
 
     public SupplierEditorScreen(int supplierId, String actionType, JFrame previousFrame) {
         this.previousFrame = previousFrame;
@@ -138,6 +139,7 @@ public class SupplierEditorScreen extends JFrame {
     private void openOnOrderSupplierWindow() {
         final Integer init_maxSupplyDays = (Integer) init_supplierCard.get("maxSupplyDays");
         JFrame onOrderSupplierFrame = new JFrame("On Order Supplier");
+        this.openedChild = onOrderSupplierFrame;
         this.currentFrame = onOrderSupplierFrame;
         onOrderSupplierFrame.setPreferredSize(new Dimension(800, 800));
         onOrderSupplierFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -160,6 +162,18 @@ public class SupplierEditorScreen extends JFrame {
         maxSupplyDaysField.setEditable(editable);
         fieldsPanel.add(maxSupplyDaysField, constraints);
 
+        if(!editable){
+        constraints.gridy = y++;
+        constraints.gridx = 0;
+        //we add the supplier id too
+        fieldsPanel.add(new JLabel("Supplier id:"), constraints);
+
+        constraints.gridx = 1;
+        JTextField supplierIdField = new JTextField(""+supplierId, 10);
+        supplierIdField.setEditable(false);
+        fieldsPanel.add(supplierIdField, constraints);
+        }
+
         JPanel buttonsPanel = createButtonsPanel();
 
         onOrderSupplierFrame.add(fieldsPanel, BorderLayout.CENTER);
@@ -172,6 +186,7 @@ public class SupplierEditorScreen extends JFrame {
     private void openFixedDaysSupplierWindow() {
         final List<Integer> init_days = (List<Integer>) init_supplierCard.get("days");
         JFrame fixedDaysSupplierFrame = new JFrame("Fixed Days Supplier");
+        this.openedChild = fixedDaysSupplierFrame;
         this.currentFrame = fixedDaysSupplierFrame;
         fixedDaysSupplierFrame.setPreferredSize(new Dimension(800, 800));
         fixedDaysSupplierFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -205,7 +220,20 @@ public class SupplierEditorScreen extends JFrame {
             if (init_days.contains(1 + (i + 6) % 7))
                 dayCheckBox.setSelected(true);
             constraints.gridy = y++;
+            dayCheckBox.setEnabled(editable);
             fieldsPanel.add(dayCheckBox, constraints);
+        }
+
+        if(!editable){
+        constraints.gridy = y++;
+        constraints.gridx = 0;
+        //we add the supplier id too
+        fieldsPanel.add(new JLabel("Supplier id:"), constraints);
+
+        constraints.gridx = 1;
+        JTextField supplierIdField = new JTextField(""+supplierId, 10);
+        supplierIdField.setEditable(false);
+        fieldsPanel.add(supplierIdField, constraints);
         }
 
         JPanel buttonsPanel = createButtonsPanel();
@@ -222,6 +250,7 @@ public class SupplierEditorScreen extends JFrame {
         final Integer init_maxPreperationDays = (Integer) init_supplierCard.get("maxPreperationDays");
 
         JFrame selfPickupSupplierFrame = new JFrame("Self Pickup Supplier");
+        this.openedChild = selfPickupSupplierFrame;
         this.currentFrame = selfPickupSupplierFrame;
         selfPickupSupplierFrame.setPreferredSize(new Dimension(800, 800));
         selfPickupSupplierFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -240,6 +269,7 @@ public class SupplierEditorScreen extends JFrame {
 
         constraints.gridx = 1;
         JTextField addressField = new JTextField(init_address, 20);
+        addressField.setEditable(editable);
         fieldsPanel.add(addressField, constraints);
 
         constraints.gridy = y++;
@@ -250,7 +280,20 @@ public class SupplierEditorScreen extends JFrame {
         String maxPreperationDaysInitialString = init_maxPreperationDays == null ? ""
                 : init_maxPreperationDays.toString();
         JTextField maxPreparationDaysField = new JTextField(maxPreperationDaysInitialString, 20);
+        maxPreparationDaysField.setEditable(editable);
         fieldsPanel.add(maxPreparationDaysField, constraints);
+
+        if(!editable){
+        constraints.gridy = y++;
+        constraints.gridx = 0;
+        //we add the supplier id too
+        fieldsPanel.add(new JLabel("Supplier id:"), constraints);
+
+        constraints.gridx = 1;
+        JTextField supplierIdField = new JTextField(""+supplierId, 10);
+        supplierIdField.setEditable(false);
+        fieldsPanel.add(supplierIdField, constraints);
+        }
 
         JPanel buttonsPanel = createButtonsPanel();
 
@@ -304,7 +347,9 @@ public class SupplierEditorScreen extends JFrame {
         String[] paymentConditions = { "net 30 EOM", "net 60 EOM" };
         JComboBox<String> paymentConditionComboBox = new JComboBox<>(paymentConditions);
         paymentConditionComboBox.setSelectedItem(init_paymentCondition);
+        System.out.println(editable);
         paymentConditionComboBox.setEditable(editable);
+        paymentConditionComboBox.setEnabled(editable);
         fieldsPanel.add(paymentConditionComboBox, constraints);
 
         constraints.gridx = 0;
@@ -317,7 +362,7 @@ public class SupplierEditorScreen extends JFrame {
         constraints.fill = GridBagConstraints.BOTH;
         List<String[]> fieldsTableData = init_fields.stream().map((field) -> new String[] { field })
                 .collect(Collectors.toList());
-        JPanel fieldsField = createTablePanel(new String[] { "Field" }, fieldsTableData);
+        JPanel fieldsField = createTablePanel(new String[] { "Field" }, fieldsTableData, editable);
         fieldsField.setEnabled(editable);
         fieldsPanel.add(fieldsField, constraints);
 
@@ -330,7 +375,7 @@ public class SupplierEditorScreen extends JFrame {
         constraints.fill = GridBagConstraints.BOTH;
         List<String[]> fieldsContactData = init_contacts.keySet().stream()
                 .map((phone) -> new String[] { init_contacts.get(phone), phone }).collect(Collectors.toList());
-        JPanel contactsTablePanel = createTablePanel(new String[] { "Name", "Phone" }, fieldsContactData);
+        JPanel contactsTablePanel = createTablePanel(new String[] { "Name", "Phone" }, fieldsContactData ,editable);
         contactsTablePanel.setEnabled(editable);
         fieldsPanel.add(contactsTablePanel, constraints);
 
@@ -345,7 +390,7 @@ public class SupplierEditorScreen extends JFrame {
                 .map((amount) -> new String[] { amount, init_amountToDiscount.get(amount) })
                 .collect(Collectors.toList());
         JPanel amountToDiscountTablePanel = createTablePanel(new String[] { "Amount", "Discount" },
-                amountToDiscountTableData);
+                amountToDiscountTableData, editable);
         amountToDiscountTablePanel.setEnabled(editable);
         fieldsPanel.add(amountToDiscountTablePanel, constraints);
 
@@ -360,7 +405,7 @@ public class SupplierEditorScreen extends JFrame {
      *                    the table
      * @return
      */
-    private JPanel createTablePanel(String[] columnNames, List<String[]> data) {
+    private JPanel createTablePanel(String[] columnNames, List<String[]> data, boolean editable) {
         JPanel tablePanel = new JPanel(new BorderLayout());
         // tablePanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
@@ -371,6 +416,7 @@ public class SupplierEditorScreen extends JFrame {
 
         // Create the table with the model
         JTable contactsTable = new JTable(tableModel);
+        contactsTable.setEnabled(editable);
         JScrollPane contactsScrollPane = new JScrollPane(contactsTable);
 
         // Add the table and buttons to the fields panel
@@ -443,6 +489,8 @@ public class SupplierEditorScreen extends JFrame {
                     if (dialogResult == JOptionPane.YES_OPTION) {
                         response = supplierService.deleteSupplierBaseAgreement(supplierId);
                         JOptionPane.showMessageDialog(currentFrame, response, "Success", 1);
+                        currentFrame.dispose();
+                        previousFrame.setVisible(true);
                     } else {
                         return;
                     }
@@ -560,6 +608,7 @@ public class SupplierEditorScreen extends JFrame {
             // Implement the desired functionality here
             JOptionPane.showMessageDialog(currentFrame, response, "Success", 1);
             currentFrame.dispose(); // Close the current window
+            previousFrame.setVisible(true);
         });
 
         buttonsPanel.add(commitButton);
@@ -640,5 +689,8 @@ public class SupplierEditorScreen extends JFrame {
             return false;
         }
         return true;
+    }
+    public JFrame getChild(){
+        return this.openedChild;
     }
 }

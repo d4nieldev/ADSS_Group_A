@@ -30,7 +30,7 @@
       "name": "Program",
       "request": "launch",
       "mainClass": "PersentationLayer.Program",
-      "projectName": "ADSS_Group_A_2e33c4b8",
+      "projectName": "ADSS_Group_A_a34f05f1",
       "args": "GUI SuppliersManager"
     }
   ]

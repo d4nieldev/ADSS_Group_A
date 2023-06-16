@@ -60,15 +60,14 @@ public class SuppliersManagerScreen extends JFrame {
         });
 
         viewSuppliersButton.addActionListener((e) -> {
-            // View suppliers button action
-            // Implement the desired functionality here
-            JOptionPane.showMessageDialog(null, "View Suppliers button clicked!");
+            dispose();
+            new ViewSuppliersScreen(this);
+            
         });
 
         viewSupplierButton.addActionListener((e) -> {
-            // View supplier button action
-            // Implement the desired functionality here
-            JOptionPane.showMessageDialog(null, "View Supplier button clicked!");
+            dispose();
+            new ViewSupplierScreen(this);
         });
 
         editAgreementButton.addActionListener((e) -> {

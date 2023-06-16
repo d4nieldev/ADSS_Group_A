@@ -11,22 +11,17 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
 public class SuppliersManagerScreen extends JFrame {
-    private JButton addSupplierButton;
-    private JButton editSupplierButton;
-    private JButton deleteSupplierButton;
-    private JButton viewSuppliersButton;
-    private JButton viewSupplierButton;
-
     public SuppliersManagerScreen() {
         setTitle("Suppliers Manager Screen");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         // Create buttons
-        addSupplierButton = new JButton("Add Supplier");
-        editSupplierButton = new JButton("Edit Supplier");
-        deleteSupplierButton = new JButton("Delete Supplier");
-        viewSuppliersButton = new JButton("View Suppliers");
-        viewSupplierButton = new JButton("View Supplier");
+        JButton addSupplierButton = new JButton("Add Supplier");
+        JButton editSupplierButton = new JButton("Edit Supplier");
+        JButton deleteSupplierButton = new JButton("Delete Supplier");
+        JButton viewSuppliersButton = new JButton("View Suppliers");
+        JButton viewSupplierButton = new JButton("View Supplier");
+        JButton editAgreementButton = new JButton("Edit Agreement");
 
         // Set button sizes
         Dimension buttonSize = new Dimension(150, 30);
@@ -35,6 +30,7 @@ public class SuppliersManagerScreen extends JFrame {
         deleteSupplierButton.setPreferredSize(buttonSize);
         viewSuppliersButton.setPreferredSize(buttonSize);
         viewSupplierButton.setPreferredSize(buttonSize);
+        editAgreementButton.setPreferredSize(buttonSize);
 
         // Set layout manager
         setLayout(new FlowLayout());
@@ -45,6 +41,7 @@ public class SuppliersManagerScreen extends JFrame {
         add(deleteSupplierButton);
         add(viewSuppliersButton);
         add(viewSupplierButton);
+        add(editAgreementButton);
 
         // Add action listeners to the buttons
         addSupplierButton.addActionListener((ActionEvent e) -> {
@@ -62,16 +59,20 @@ public class SuppliersManagerScreen extends JFrame {
             new DeleteSupplierScreen(this);
         });
 
-        viewSuppliersButton.addActionListener((ActionEvent e) -> {
+        viewSuppliersButton.addActionListener((e) -> {
             // View suppliers button action
             // Implement the desired functionality here
             JOptionPane.showMessageDialog(null, "View Suppliers button clicked!");
         });
 
-        viewSupplierButton.addActionListener((ActionEvent e) -> {
+        viewSupplierButton.addActionListener((e) -> {
             // View supplier button action
             // Implement the desired functionality here
             JOptionPane.showMessageDialog(null, "View Supplier button clicked!");
+        });
+
+        editAgreementButton.addActionListener((e) -> {
+            new EditAgreementScreen();
         });
 
         // Set the frame size and make it visible

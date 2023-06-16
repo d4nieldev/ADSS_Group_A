@@ -7,7 +7,6 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -608,7 +607,7 @@ public class SupplierEditorScreen extends JFrame {
             return false;
         } else if (amountsList.stream().anyMatch((amount) -> !amount.matches("^[0-9]+$"))) {
             JOptionPane.showMessageDialog(currentFrame,
-                    "Amount must not be empty and a non-negative integer");
+                    "Amount must not be empty and a non-negative integer", "Validation Warning", 2);
             return false;
         } else if (discountsList.stream()
                 .anyMatch((discount) -> !discount.matches("^[0-9]{1,2}(\\.[0-9]+)?%|100%|[0-9]+(\\.[0-9]+)?$"))) {

@@ -1,6 +1,7 @@
 package ServiceLayer.Suppliers;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -9,6 +10,7 @@ import java.util.TreeMap;
 import javax.management.RuntimeErrorException;
 
 import BusinessLayer.InveontorySuppliers.ProductController;
+import BusinessLayer.Suppliers.ProductAgreement;
 import BusinessLayer.Suppliers.SupplierController;
 
 public class SupplierService {
@@ -255,9 +257,25 @@ public class SupplierService {
         }
     }
 
-    public String getSupplierProductAgreements(int supplierId) {
+    public List<Map<String, Object>> getSupplierProductAgreements(int supplierId) {
+        List<Map<String, Object>> list = new ArrayList<>();
         try {
-            return productController.getProductAgreementsOfSupplier(supplierId).toString();
+            for (ProductAgreement pa : productController.getProductAgreementsOfSupplier(supplierId))
+                list.add(pa.getMap());
+
+            return list;
+        } catch (Exception e) {
+            Map<String, Object> map = new HashMap<String, Object>();
+            map.put("error", e.getMessage());
+            list.add(map);
+            return list;
+        }
+    }
+
+    public String deleteSupplierAgreement(int supplierId) {
+        try {
+            productController.deleteAllSupplierAgreements(supplierId);
+            return "Supplier agreement deleted successfully";
         } catch (Exception e) {
             return e.getMessage();
         }

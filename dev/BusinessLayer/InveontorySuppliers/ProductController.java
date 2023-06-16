@@ -9,10 +9,12 @@ import java.util.Map;
 import java.util.TreeMap;
 
 import BusinessLayer.Suppliers.ProductAgreement;
+import BusinessLayer.Suppliers.SupplierController;
 import BusinessLayer.exceptions.SuppliersException;
 import DataAccessLayer.DAOs.CategoryDAO;
 import DataAccessLayer.DAOs.ProductAgreementDAO;
 import DataAccessLayer.DAOs.ProductsDAO;
+import DataAccessLayer.DAOs.SupplierDAO;
 import DataAccessLayer.DTOs.CategoryDTO;
 import DataAccessLayer.DTOs.DiscountDTO;
 import DataAccessLayer.DTOs.ProductAgreementDTO;
@@ -97,6 +99,10 @@ public class ProductController {
 
     public List<ProductAgreement> getProductAgreementsOfSupplier(int supplierId)
             throws SuppliersException, SQLException {
+        // check if supplier exists
+        SupplierController.getInstance().getSupplierById(supplierId);
+
+        // get his agreement
         Collection<ProductAgreementDTO> dtos = ProductAgreementDAO.getInstance().getAgreementsOfSupplier(supplierId);
         List<ProductAgreement> output = new ArrayList<>();
         for (ProductAgreementDTO dto : dtos) {
@@ -183,6 +189,8 @@ public class ProductController {
         else {
             // load from tables, save and return
             ProductDTO productDTO = productsDAO.getById(productId);
+            if (productDTO == null)
+                throw new SuppliersException("Product " + productId + " not found.");
             Product product = new Product(productDTO);
             products.put(productId, product);
             return product;

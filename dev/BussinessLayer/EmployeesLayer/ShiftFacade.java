@@ -79,8 +79,8 @@ public class ShiftFacade {
     }
 
     public void checkAssignFinalShift(int managerID, Shift shift, HashMap<Employee, Integer> hrAssign){
-        shift.checkAssignFinalShiftEmployees(hrAssign);
-        shift.checkAssignFinalShiftRoles(hrAssign);
+        shift.checkAssignFinalShift_Employees(hrAssign);
+        shift.checkAssignFinalShift_Roles(hrAssign);
         // if succedded - save the final shift
         shift.assignFinalShift(hrAssign); 
         // save in Database

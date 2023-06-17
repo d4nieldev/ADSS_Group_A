@@ -217,7 +217,7 @@ public class EmployeeFacade {
 
     public void RemoveConstraintDriver(int driverId, LocalDate date) {
         checkEmployee(driverId);
-        checkLoggedIn(driverId);
+        //checkLoggedIn(driverId);
         getDriverById(driverId).RemoveConstraintDriver(date);
         driversDAO.removeAvailableShiftDates(driverId, date);
     }

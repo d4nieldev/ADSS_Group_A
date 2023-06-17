@@ -165,7 +165,7 @@ public class BranchFacade {
     public String printAvailableShiftForEmployee(int employeeId, LocalDate date){
         String res = "";
         employeeFacade.checkEmployee(employeeId);
-        employeeFacade.checkLoggedIn(employeeId);
+        //employeeFacade.checkLoggedIn(employeeId);
         Employee emp = employeeFacade.getEmployeeById(employeeId);
         LinkedList<Integer> branchesEmployee = emp.getAllBranches();
         LinkedList<Shift> shiftsOnDate = shiftFacade.getShiftsByDate(date);

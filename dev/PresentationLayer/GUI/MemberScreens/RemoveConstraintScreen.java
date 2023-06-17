@@ -1,4 +1,4 @@
-package PresentationLayer.GUI;
+package PresentationLayer.GUI.MemberScreens;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
@@ -6,7 +6,6 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.util.HashMap;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -23,30 +22,26 @@ import ServiceLayer.EmployeesLayer.EmployeeService;
 import ServiceLayer.EmployeesLayer.ServiceFactory;
 import ServiceLayer.EmployeesLayer.ShiftService;
 
-public class SubmitShiftScreen extends JFrame {
+public class RemoveConstraintScreen extends JFrame {
     EmployeeService employeeService;
     ShiftService shiftService;
     BranchService branchService;
 
-    HashMap<Integer, Integer> employees;
-
     JPanel panel;
-    JTextField shiftIdField;
+    JTextField memberIdField;
     JTextField branchIdField;
-    JLabel shiftIdLabel;
+    JTextField shiftIdField;
+    JLabel memberIdLabel;
     JLabel branchIdLabel;
-    JButton addEmployeeButton;
-    JButton submitAllButton;
+    JLabel shiftIdLabel;
+    JButton addConstraintButton;
     JButton backButton;
 
-    public SubmitShiftScreen(ServiceFactory serviceFactory, int shiftId, int branchId,
-            HashMap<Integer, Integer> employees) {
+    public RemoveConstraintScreen(ServiceFactory serviceFactory) {
         // Set the services
         employeeService = serviceFactory.getEmployeeService();
         shiftService = serviceFactory.getShiftService();
         branchService = serviceFactory.getBranchService();
-
-        this.employees = employees;
 
         // Defualt frame settings
         setTitle("Add Empty Screen");
@@ -61,39 +56,30 @@ public class SubmitShiftScreen extends JFrame {
         panel.setLayout(new GridLayout(4, 1));
 
         // Create buttoms
-        submitAllButton = new JButton("Submit");
-        if (employees.size() == 0) {
-            submitAllButton.setEnabled(false);
-        } else {
-            submitAllButton.setEnabled(true);
-        }
+        addConstraintButton = new JButton("Remove Constraint");
         backButton = new JButton("Back");
-        addEmployeeButton = new JButton("Add Employee");
 
         // Set button focusability to false
-        submitAllButton.setFocusable(false);
+        addConstraintButton.setFocusable(false);
         backButton.setFocusable(false);
-        addEmployeeButton.setFocusable(false);
 
         ImageIcon image = new ImageIcon("dev\\PresentationLayer\\GUI\\super li.png");
         setIconImage(image.getImage());
 
         // Create the fields
-        shiftIdField = new JTextField();
+        memberIdField = new JTextField();
         branchIdField = new JTextField();
+        shiftIdField = new JTextField();
 
         Dimension fieldSize = new Dimension(150, 30);
 
         // Set fields sizes
-        shiftIdField.setPreferredSize(fieldSize);
+        memberIdField.setPreferredSize(fieldSize);
         branchIdField.setPreferredSize(fieldSize);
-
-        // Add values to the fields
-        shiftIdField.setText(Integer.toString(shiftId));
-        branchIdField.setText(Integer.toString(branchId));
+        shiftIdField.setPreferredSize(fieldSize);
 
         // Add key listener to the fields
-        shiftIdField.addKeyListener(new KeyAdapter() {
+        memberIdField.addKeyListener(new KeyAdapter() {
             public void keyReleased(KeyEvent e) {
                 checkButton();
             }
@@ -105,28 +91,38 @@ public class SubmitShiftScreen extends JFrame {
             }
         });
 
+        shiftIdField.addKeyListener(new KeyAdapter() {
+            public void keyReleased(KeyEvent e) {
+                checkButton();
+            }
+        });
+
         // Set fields filters
-        ((AbstractDocument) shiftIdField.getDocument()).setDocumentFilter(new IntFilter());
+        ((AbstractDocument) memberIdField.getDocument()).setDocumentFilter(new IntFilter());
         ((AbstractDocument) branchIdField.getDocument()).setDocumentFilter(new IntFilter());
+        ((AbstractDocument) shiftIdField.getDocument()).setDocumentFilter(new IntFilter());
 
         // Create labels
-        shiftIdLabel = new JLabel("Shift ID");
+        memberIdLabel = new JLabel("Your ID");
         branchIdLabel = new JLabel("Branch ID");
+        shiftIdLabel = new JLabel("Shift ID");
 
         // Add the fields an the labels to the panel
-        panel.add(shiftIdLabel);
-        panel.add(shiftIdField);
+        panel.add(memberIdLabel);
+        panel.add(memberIdField);
         panel.add(branchIdLabel);
         panel.add(branchIdField);
+        panel.add(shiftIdLabel);
+        panel.add(shiftIdField);
 
         // Add action listener to the button
-        submitAllButton.addActionListener((ActionEvent e) -> {
-            int newShiftId = Integer.parseInt(shiftIdField.getText());
-            int newBranchId = Integer.parseInt(branchIdField.getText());
-
+        addConstraintButton.addActionListener((ActionEvent e) -> {
+            int memberId = Integer.parseInt(memberIdField.getText());
+            int branchId = Integer.parseInt(branchIdField.getText());
+            int shiftId = Integer.parseInt(shiftIdField.getText());
             try {
-                branchService.approveFinalShift(123456789, newShiftId, newBranchId, this.employees);
-                JOptionPane.showMessageDialog(null, "Shift was submitted successfully", "Success",
+                branchService.removeConstraint(branchId, memberId, shiftId);
+                JOptionPane.showMessageDialog(null, "Constraint removed successfully", "Success",
                         JOptionPane.INFORMATION_MESSAGE);
             } catch (Error ex) {
                 JOptionPane.showMessageDialog(null, ex.getMessage(), "ERROR", JOptionPane.ERROR_MESSAGE);
@@ -136,25 +132,12 @@ public class SubmitShiftScreen extends JFrame {
 
         backButton.addActionListener((ActionEvent e) -> {
             dispose();
-            HRManagerScreen previousWindow = new HRManagerScreen(serviceFactory);
+            MemberScreen previousWindow = new MemberScreen(serviceFactory);
             previousWindow.setVisible(true);
         });
 
-        addEmployeeButton.addActionListener((ActionEvent e) -> {
-            dispose();
-            if (shiftIdField.getText().length() == 0 || branchIdField.getText().length() == 0) {
-                JOptionPane.showMessageDialog(null, "Please fill all the fields before adding employees", "ERROR",
-                        JOptionPane.ERROR_MESSAGE);
-                return;
-            }
-            AddEmployeeToShiftScreen addEmployeeToShift = new AddEmployeeToShiftScreen(serviceFactory,
-                    Integer.parseInt(shiftIdField.getText()), Integer.parseInt(branchIdField.getText()), employees);
-            addEmployeeToShift.setVisible(true);
-        });
-
         // Add the buttons to the panel
-        panel.add(addEmployeeButton);
-        panel.add(submitAllButton);
+        panel.add(addConstraintButton);
         panel.add(backButton);
 
         // Add the panel to the frame
@@ -165,11 +148,10 @@ public class SubmitShiftScreen extends JFrame {
     }
 
     public void checkButton() { // watch for key strokes
-        if (shiftIdField.getText().length() == 0 || branchIdField.getText().length() == 0
-                || this.employees.size() == 0)
-            submitAllButton.setEnabled(false);
+        if (memberIdLabel.getText().length() == 0 || shiftIdField.getText().length() == 0 || branchIdField.getText().length() == 0)
+            addConstraintButton.setEnabled(false);
         else {
-            submitAllButton.setEnabled(true);
+            addConstraintButton.setEnabled(true);
         }
     }
 }

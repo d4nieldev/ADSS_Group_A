@@ -69,7 +69,7 @@ public class EmployeesDAO extends DAO<EmployeeDTO> {
         String updateString = String.format("UPDATE %s" +
                 " SET \"FirstName\"= \"%s\", \"LastName\"= \"%s\", \"Password\"= \"%s\", \"BankNumber\"= \"%d\" " +
                 ", \"BankBranchNumber\"=\"%d\", \"BankAccountNumber\"=%d,  \"Salary\"=\"%d\", \"Bonus\"=\"%d\" " +
-                ", \"startDate\"=\"%s\", \"TempsEmployment\"=%s,  \"IsLoggedIn\"=\"%b\", \"SuperBranch\"=\"%d\" " +
+                ", \"startDate\"=\"%s\", \"TempsEmployment\"=\"%s\",  \"IsLoggedIn\"=\"%b\", \"SuperBranch\"=\"%d\" " +
                 "WHERE \"ID\" = \"%d\";",
                 tableName, updatedOb.firstName, updatedOb.lastName, updatedOb.password, updatedOb.bankNum,
                 updatedOb.bankBranch, updatedOb.bankAccount,
@@ -80,6 +80,7 @@ public class EmployeesDAO extends DAO<EmployeeDTO> {
             s = conn.createStatement();
             return s.executeUpdate(updateString);
         } catch (Exception e) {
+            System.out.println(e.getMessage());
             return 0;
         }
     }
@@ -104,6 +105,7 @@ public class EmployeesDAO extends DAO<EmployeeDTO> {
                     /* temps employment */ RS.getString(11), roles,
                     /* is logged in */ RS.getBoolean(12), /* super branch */ RS.getInt(13), branches);
         } catch (Exception e) {
+            System.out.println(e.getMessage());
             output = null;
         } finally {
             Repository.getInstance().closeConnection(conn);

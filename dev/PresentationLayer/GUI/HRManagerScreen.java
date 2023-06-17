@@ -19,7 +19,7 @@ public class HRManagerScreen extends JFrame {
     private JButton addDriverButton;
     private JButton addEmptyShift;
     private JButton submitShift;
-    private JButton deleteEmployee;
+    private JButton editEmployee;
 
     public HRManagerScreen(ServiceFactory serviceFactory) {
         setTitle("HR Manager Screen");
@@ -30,7 +30,7 @@ public class HRManagerScreen extends JFrame {
         addDriverButton = new JButton("Add Driver");
         addEmptyShift = new JButton("Add Empty Shift");
         submitShift = new JButton("Submit A Shift");
-        deleteEmployee = new JButton("Delete An Employee");
+        editEmployee = new JButton("Edit An Employee");
 
         // Set button sizes
         Dimension buttonSize = new Dimension(150, 30);
@@ -38,14 +38,14 @@ public class HRManagerScreen extends JFrame {
         addDriverButton.setPreferredSize(buttonSize);
         addEmptyShift.setPreferredSize(buttonSize);
         submitShift.setPreferredSize(buttonSize);
-        deleteEmployee.setPreferredSize(buttonSize);
+        editEmployee.setPreferredSize(buttonSize);
 
         // Set button focusability to false
         addEmployeeButton.setFocusable(false);
         addDriverButton.setFocusable(false);
         addEmptyShift.setFocusable(false);
         submitShift.setFocusable(false);
-        deleteEmployee.setFocusable(false);
+        editEmployee.setFocusable(false);
 
         // Set layout manager
         setLayout(new FlowLayout());
@@ -55,7 +55,7 @@ public class HRManagerScreen extends JFrame {
         add(addDriverButton);
         add(addEmptyShift);
         add(submitShift);
-        add(deleteEmployee);
+        add(editEmployee);
 
         // Add action listeners to the buttons
         addEmployeeButton.addActionListener((ActionEvent e) -> {
@@ -75,13 +75,12 @@ public class HRManagerScreen extends JFrame {
 
         submitShift.addActionListener((ActionEvent e) -> {
             dispose();
-            new SubmitShiftScreen(serviceFactory,0, 0, new java.util.HashMap<Integer, Integer>());
+            new SubmitShiftScreen(serviceFactory, 0, 0, new java.util.HashMap<Integer, Integer>());
         });
 
-        deleteEmployee.addActionListener((ActionEvent e) -> {
-            // View supplier button action
-            // Implement the desired functionality here
-            JOptionPane.showMessageDialog(null, "View Supplier button clicked!");
+        editEmployee.addActionListener((ActionEvent e) -> {
+            dispose();
+            new EditEmployeeScreen(serviceFactory);
         });
 
         // Set the frame size and make it visible

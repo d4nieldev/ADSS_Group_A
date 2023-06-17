@@ -33,7 +33,7 @@ import ServiceLayer.EmployeesLayer.EmployeeService;
 import ServiceLayer.EmployeesLayer.ServiceFactory;
 import ServiceLayer.EmployeesLayer.ShiftService;
 
-public class AddEmptyShift extends JFrame{
+public class AddEmptyShiftScreen extends JFrame{
     EmployeeService employeeService;
     ShiftService shiftService;
     BranchService branchService;
@@ -66,7 +66,7 @@ public class AddEmptyShift extends JFrame{
     JButton submitButton;
     JButton backButton;
 
-    public AddEmptyShift(ServiceFactory serviceFactory) {
+    public AddEmptyShiftScreen(ServiceFactory serviceFactory) {
         // Set the services
         employeeService = serviceFactory.getEmployeeService();
         shiftService = serviceFactory.getShiftService();

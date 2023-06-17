@@ -70,13 +70,12 @@ public class HRManagerScreen extends JFrame {
 
         addEmptyShift.addActionListener((ActionEvent e) -> {
             dispose();
-            new AddEmptyShift(serviceFactory);
+            new AddEmptyShiftScreen(serviceFactory);
         });
 
         submitShift.addActionListener((ActionEvent e) -> {
-            // View suppliers button action
-            // Implement the desired functionality here
-            JOptionPane.showMessageDialog(null, "View Suppliers button clicked!");
+            dispose();
+            new SubmitShiftScreen(serviceFactory,0, 0, new java.util.HashMap<Integer, Integer>());
         });
 
         deleteEmployee.addActionListener((ActionEvent e) -> {

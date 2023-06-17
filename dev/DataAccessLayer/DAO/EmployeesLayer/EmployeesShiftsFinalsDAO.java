@@ -13,7 +13,7 @@ public class EmployeesShiftsFinalsDAO {
         String updateString;
         if(empID < 0 || shiftID < 0) return 0;
         updateString= String.format("INSERT INTO %s \n" +
-                "VALUES (\"%d\",\"%d\");", "EmployeesShiftsFinals", "EmployeesShiftsFinals", empID, shiftID);
+                "VALUES (\"%d\",\"%d\");", "EmployeesShiftsFinals", empID, shiftID);
         Statement s;
         try
         {

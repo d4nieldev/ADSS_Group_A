@@ -359,6 +359,7 @@ public class ShiftsDAO extends DAO<ShiftDTO> {
     }
     
     public int addShiftFinal(int empID, int shiftID) {
+        System.out.println(empID + " " + shiftID);
         return employeeShiftFinalDAO.addShiftFinal(empID, shiftID);
     }
     public int removeShiftFinal(int empID, int shiftID) {

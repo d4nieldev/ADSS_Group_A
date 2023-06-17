@@ -111,9 +111,19 @@ public class Shift{
     }
 
     // HR manager done checking the employees in the shift in the controller
+    // System check if the HR instert an employee that doesnot asked to work on this shift
+    public void checkAssignFinalShiftEmployees(HashMap<Employee, Integer> hrAssign){
+        for (Employee currAssignEmployee : hrAssign.keySet()) {
+            if(!constraints.containsKey(currAssignEmployee)){
+                throw new Error("The employee " + currAssignEmployee.getId() + " did not asked to work on this shift id "+ this.getID());
+            }
+        }
+    }
+
+    // HR manager done checking the employees in the shift in the controller
     // System check if any role is missing and notify the HR manager
     // set the final shift
-    public void checkAssignFinalShift(HashMap<Employee, Integer> hrAssign){
+    public void checkAssignFinalShiftRoles(HashMap<Employee, Integer> hrAssign){
         for (Employee currAssignEmployee : hrAssign.keySet()) {
             Integer currRole = hrAssign.get(currAssignEmployee);
             if(!helpMapForAssign.containsKey(currRole)){

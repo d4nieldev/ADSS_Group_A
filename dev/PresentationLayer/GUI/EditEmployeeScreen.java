@@ -210,6 +210,20 @@ public class EditEmployeeScreen extends JFrame {
             }
         });
 
+        employeeIdField.addKeyListener(new KeyAdapter() {
+            public void keyReleased(KeyEvent e) {
+                checkButton(firstNameField, firstNameButton);
+                checkButton(lastNameField, lastNameButton);
+                checkButton(passwordField, passwordButton);
+                checkButton(bankNumberField, bankNumberButton);
+                checkButton(bankBranchField, bankBranchButton);
+                checkButton(bankAccountField, bankAccountButton);
+                checkButton(salaryField, salaryButton);
+                checkButton(startDateField, startDateButton);
+                checkButton(licenseField, licenseButton);
+            }
+        });
+
         // Set fields filters
         ((AbstractDocument) employeeIdField.getDocument()).setDocumentFilter(new IntFilter());
         ((AbstractDocument) firstNameField.getDocument()).setDocumentFilter(new CharFilter());

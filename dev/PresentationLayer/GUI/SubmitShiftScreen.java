@@ -71,7 +71,12 @@ public class SubmitShiftScreen extends JFrame {
 
         // Create buttoms
         submitAllButton = new JButton("Submit");
-        submitAllButton.setEnabled(false);
+        if (employees.size() == 0) {
+            submitAllButton.setEnabled(false);
+        }
+        else {
+            submitAllButton.setEnabled(true);
+        }
         backButton = new JButton("Back");
         addEmployeeButton = new JButton("Add Employee");
 

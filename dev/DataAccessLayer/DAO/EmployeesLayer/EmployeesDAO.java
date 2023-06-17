@@ -97,11 +97,18 @@ public class EmployeesDAO extends DAO<EmployeeDTO> {
                 return null;
             }
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+            String str = RS.getString(10);
+            if (str.charAt(2) != '-') {
+                DateTimeFormatter inputFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+                LocalDate date = LocalDate.parse(str, inputFormatter);
+                DateTimeFormatter outputFormatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+                str = date.format(outputFormatter);
+            }
             output = new EmployeeDTO(/* Id */RS.getInt(1), /* first name */RS.getString(2),
                     /* last name */RS.getString(3), /* password */RS.getString(4),
                     /* bank number */RS.getInt(5), /* bank branch number */RS.getInt(6),
                     /* bank account number */RS.getInt(7), /* salary */RS.getInt(8),
-                    /* bonus */ RS.getInt(9), /* start date */ LocalDate.parse(RS.getString(10), formatter),
+                    /* bonus */ RS.getInt(9), /* start date */ LocalDate.parse(str, formatter),
                     /* temps employment */ RS.getString(11), roles,
                     /* is logged in */ RS.getBoolean(12), /* super branch */ RS.getInt(13), branches);
         } catch (Exception e) {

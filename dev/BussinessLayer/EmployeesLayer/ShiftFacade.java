@@ -84,7 +84,7 @@ public class ShiftFacade {
         shift.assignFinalShift(hrAssign); 
         // save in Database
         for (Employee emp : hrAssign.keySet()) {
-            shiftsDAO.addShiftFinal(emp.getId(), shift.getID());   
+            shiftsDAO.addShiftFinal(emp.getId(), shift.getID(), hrAssign.get(emp));   
         }
     }
 

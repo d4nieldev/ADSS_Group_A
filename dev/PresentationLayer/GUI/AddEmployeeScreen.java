@@ -181,6 +181,12 @@ public class AddEmployeeScreen extends JFrame {
             }
         });
 
+        startDateField.addKeyListener(new KeyAdapter() {
+            public void keyReleased(KeyEvent e) {
+                checkButton();
+            }
+        });
+
         bounsField.addKeyListener(new KeyAdapter() {
             public void keyReleased(KeyEvent e) {
                 checkButton();

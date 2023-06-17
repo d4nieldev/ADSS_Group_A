@@ -69,9 +69,8 @@ public class HRManagerScreen extends JFrame {
         });
 
         addEmptyShift.addActionListener((ActionEvent e) -> {
-            // Delete supplier button action
-            // Implement the desired functionality here
-            JOptionPane.showMessageDialog(null, "Delete Supplier button clicked!");
+            dispose();
+            new AddEmptyShift(serviceFactory);
         });
 
         submitShift.addActionListener((ActionEvent e) -> {

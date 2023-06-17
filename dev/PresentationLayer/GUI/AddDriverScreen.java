@@ -174,6 +174,12 @@ public class AddDriverScreen extends JFrame {
             }
         });
 
+        startDateField.addKeyListener(new KeyAdapter() {
+            public void keyReleased(KeyEvent e) {
+                checkButton();
+            }
+        });
+
         bounsField.addKeyListener(new KeyAdapter() {
             public void keyReleased(KeyEvent e) {
                 checkButton();
@@ -264,6 +270,7 @@ public class AddDriverScreen extends JFrame {
             catch (Exception ex) {
                 JOptionPane.showMessageDialog(null, "Invalid license - It musy be B,C OR NULL", "ERROR", JOptionPane.ERROR_MESSAGE);
                 licenseField.setText("");
+                submitButton.setEnabled(false);
             }
             if (driverLicense != null) {
                 try {

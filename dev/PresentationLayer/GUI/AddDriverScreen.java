@@ -88,7 +88,7 @@ public class AddDriverScreen extends JFrame {
         submitButton.setFocusable(false);
         backButton.setFocusable(false);
 
-        ImageIcon image = new ImageIcon("dev\\PresentationLayer\\GUI\\MainLogo.png");
+        ImageIcon image = new ImageIcon("dev\\PresentationLayer\\GUI\\super li.png");
         setIconImage(image.getImage());
 
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");

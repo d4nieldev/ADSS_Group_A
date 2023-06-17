@@ -75,7 +75,7 @@ public class SubmitShiftScreen extends JFrame {
         backButton.setFocusable(false);
         addEmployeeButton.setFocusable(false);
 
-        ImageIcon image = new ImageIcon("dev\\PresentationLayer\\GUI\\MainLogo.png");
+        ImageIcon image = new ImageIcon("dev\\PresentationLayer\\GUI\\super li.png");
         setIconImage(image.getImage());
 
         // Create the fields

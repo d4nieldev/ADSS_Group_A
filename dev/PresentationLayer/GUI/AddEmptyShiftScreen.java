@@ -2,13 +2,10 @@ package PresentationLayer.GUI;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
-import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
@@ -16,7 +13,6 @@ import java.util.HashMap;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JFormattedTextField;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -33,7 +29,7 @@ import ServiceLayer.EmployeesLayer.EmployeeService;
 import ServiceLayer.EmployeesLayer.ServiceFactory;
 import ServiceLayer.EmployeesLayer.ShiftService;
 
-public class AddEmptyShiftScreen extends JFrame{
+public class AddEmptyShiftScreen extends JFrame {
     EmployeeService employeeService;
     ShiftService shiftService;
     BranchService branchService;
@@ -93,7 +89,7 @@ public class AddEmptyShiftScreen extends JFrame{
         submitButton.setFocusable(false);
         backButton.setFocusable(false);
 
-        ImageIcon image = new ImageIcon("dev\\PresentationLayer\\GUI\\MainLogo.png");
+        ImageIcon image = new ImageIcon("dev\\PresentationLayer\\GUI\\super li.png");
         setIconImage(image.getImage());
 
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
@@ -264,15 +260,15 @@ public class AddEmptyShiftScreen extends JFrame{
             int endHour = Integer.parseInt(endHourField.getText());
 
             ShiftTime shiftTime = null;
-            try{
+            try {
                 shiftTime = ShiftTime.valueOf(shiftTimeField.getText().toUpperCase());
-            }
-            catch (Exception ex){
-                JOptionPane.showMessageDialog(null, "Shift time must be 'Morning' or 'Evening'", "ERROR", JOptionPane.ERROR_MESSAGE);
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(null, "Shift time must be 'Morning' or 'Evening'", "ERROR",
+                        JOptionPane.ERROR_MESSAGE);
                 shiftTimeField.setText("");
                 submitButton.setEnabled(false);
             }
-            
+
             int branchManager = Integer.parseInt(branchManagerField.getText());
             int shiftManager = Integer.parseInt(shiftManagerField.getText());
             int cashier = Integer.parseInt(cashierField.getText());
@@ -289,17 +285,17 @@ public class AddEmptyShiftScreen extends JFrame{
             numEmployeesForRole.put(9, generral);
             numEmployeesForRole.put(10, cleaner);
             numEmployeesForRole.put(11, security);
-            
+
             if (shiftTime != null) {
                 try {
                     branchService.addShift(123456789, branchId, shiftDate, startHour, endHour, shiftTime,
                             numEmployeesForRole);
-                    JOptionPane.showMessageDialog(null, "Shift added successfully", "Success", JOptionPane.INFORMATION_MESSAGE);
-                }
-                catch(Error ex) {
+                    JOptionPane.showMessageDialog(null, "Shift added successfully", "Success",
+                            JOptionPane.INFORMATION_MESSAGE);
+                } catch (Error ex) {
                     JOptionPane.showMessageDialog(null, ex.getMessage(), "ERROR", JOptionPane.ERROR_MESSAGE);
                 }
-            }   
+            }
         });
 
         backButton.addActionListener((ActionEvent e) -> {
@@ -324,7 +320,7 @@ public class AddEmptyShiftScreen extends JFrame{
                 || startHourField.getText().length() == 0 || endHourField.getText().length() == 0
                 || shiftTimeField.getText().length() == 0 || branchManagerField.getText().length() == 0
                 || shiftManagerField.getText().length() == 0 || cashierField.getText().length() == 0
-                || storekeeperField.getText().length() == 0 || generralField.getText().length() == 0 
+                || storekeeperField.getText().length() == 0 || generralField.getText().length() == 0
                 || cleanerField.getText().length() == 0 || securityField.getText().length() == 0)
             submitButton.setEnabled(false);
         else {

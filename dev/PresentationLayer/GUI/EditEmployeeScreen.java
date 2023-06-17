@@ -2,20 +2,16 @@ package PresentationLayer.GUI;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
-import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JFormattedTextField;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -122,7 +118,7 @@ public class EditEmployeeScreen extends JFrame {
         licenseButton.setFocusable(false);
         backButton.setFocusable(false);
 
-        ImageIcon image = new ImageIcon("dev\\PresentationLayer\\GUI\\MainLogo.png");
+        ImageIcon image = new ImageIcon("dev\\PresentationLayer\\GUI\\super li.png");
         setIconImage(image.getImage());
 
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
@@ -283,9 +279,9 @@ public class EditEmployeeScreen extends JFrame {
             String firstName = firstNameField.getText();
             try {
                 employeeService.changeFirstName(123456789, idToEdit, firstName);
-                JOptionPane.showMessageDialog(null, "First name changed successfully", "Success", JOptionPane.INFORMATION_MESSAGE);
-            }
-            catch (Error ex) {
+                JOptionPane.showMessageDialog(null, "First name changed successfully", "Success",
+                        JOptionPane.INFORMATION_MESSAGE);
+            } catch (Error ex) {
                 JOptionPane.showMessageDialog(null, ex.getMessage(), "ERROR", JOptionPane.ERROR_MESSAGE);
             }
         });
@@ -295,9 +291,9 @@ public class EditEmployeeScreen extends JFrame {
             String lastName = lastNameField.getText();
             try {
                 employeeService.changeLastName(123456789, idToEdit, lastName);
-                JOptionPane.showMessageDialog(null, "Last name changed successfully", "Success", JOptionPane.INFORMATION_MESSAGE);
-            }
-            catch (Error ex) {
+                JOptionPane.showMessageDialog(null, "Last name changed successfully", "Success",
+                        JOptionPane.INFORMATION_MESSAGE);
+            } catch (Error ex) {
                 JOptionPane.showMessageDialog(null, ex.getMessage(), "ERROR", JOptionPane.ERROR_MESSAGE);
             }
         });
@@ -307,21 +303,21 @@ public class EditEmployeeScreen extends JFrame {
             String password = passwordField.getText();
             try {
                 employeeService.changePassword(123456789, idToEdit, password);
-                JOptionPane.showMessageDialog(null, "Password changed successfully", "Success", JOptionPane.INFORMATION_MESSAGE);
-            }
-            catch (Error ex) {
+                JOptionPane.showMessageDialog(null, "Password changed successfully", "Success",
+                        JOptionPane.INFORMATION_MESSAGE);
+            } catch (Error ex) {
                 JOptionPane.showMessageDialog(null, ex.getMessage(), "ERROR", JOptionPane.ERROR_MESSAGE);
             }
         });
-        
+
         bankNumberButton.addActionListener((ActionEvent e) -> {
             int idToEdit = Integer.parseInt(employeeIdField.getText());
             int bankNumber = Integer.parseInt(bankNumberField.getText());
             try {
                 employeeService.changeBankNum(123456789, idToEdit, bankNumber);
-                JOptionPane.showMessageDialog(null, "Bank number changed successfully", "Success", JOptionPane.INFORMATION_MESSAGE);
-            }
-            catch (Error ex) {
+                JOptionPane.showMessageDialog(null, "Bank number changed successfully", "Success",
+                        JOptionPane.INFORMATION_MESSAGE);
+            } catch (Error ex) {
                 JOptionPane.showMessageDialog(null, ex.getMessage(), "ERROR", JOptionPane.ERROR_MESSAGE);
             }
         });
@@ -331,9 +327,9 @@ public class EditEmployeeScreen extends JFrame {
             int bankBranch = Integer.parseInt(bankBranchField.getText());
             try {
                 employeeService.changeBankBranch(123456789, idToEdit, bankBranch);
-                JOptionPane.showMessageDialog(null, "Bank branch changed successfully", "Success", JOptionPane.INFORMATION_MESSAGE);
-            }
-            catch (Error ex) {
+                JOptionPane.showMessageDialog(null, "Bank branch changed successfully", "Success",
+                        JOptionPane.INFORMATION_MESSAGE);
+            } catch (Error ex) {
                 JOptionPane.showMessageDialog(null, ex.getMessage(), "ERROR", JOptionPane.ERROR_MESSAGE);
             }
         });
@@ -343,9 +339,9 @@ public class EditEmployeeScreen extends JFrame {
             int bankAccount = Integer.parseInt(bankAccountField.getText());
             try {
                 employeeService.changeBankAccount(123456789, idToEdit, bankAccount);
-                JOptionPane.showMessageDialog(null, "Bank account changed successfully", "Success", JOptionPane.INFORMATION_MESSAGE);
-            }
-            catch (Error ex) {
+                JOptionPane.showMessageDialog(null, "Bank account changed successfully", "Success",
+                        JOptionPane.INFORMATION_MESSAGE);
+            } catch (Error ex) {
                 JOptionPane.showMessageDialog(null, ex.getMessage(), "ERROR", JOptionPane.ERROR_MESSAGE);
             }
         });
@@ -355,9 +351,9 @@ public class EditEmployeeScreen extends JFrame {
             int salary = Integer.parseInt(salaryField.getText());
             try {
                 employeeService.changeSalary(123456789, idToEdit, salary);
-                JOptionPane.showMessageDialog(null, "Salary changed successfully", "Success", JOptionPane.INFORMATION_MESSAGE);
-            }
-            catch (Error ex) {
+                JOptionPane.showMessageDialog(null, "Salary changed successfully", "Success",
+                        JOptionPane.INFORMATION_MESSAGE);
+            } catch (Error ex) {
                 JOptionPane.showMessageDialog(null, ex.getMessage(), "ERROR", JOptionPane.ERROR_MESSAGE);
             }
         });
@@ -367,9 +363,9 @@ public class EditEmployeeScreen extends JFrame {
             LocalDate startDate = LocalDate.parse(startDateField.getText(), formatter);
             try {
                 employeeService.changeStartDate(123456789, idToEdit, startDate);
-                JOptionPane.showMessageDialog(null, "Start date changed successfully", "Success", JOptionPane.INFORMATION_MESSAGE);
-            }
-            catch (Error ex) {
+                JOptionPane.showMessageDialog(null, "Start date changed successfully", "Success",
+                        JOptionPane.INFORMATION_MESSAGE);
+            } catch (Error ex) {
                 JOptionPane.showMessageDialog(null, ex.getMessage(), "ERROR", JOptionPane.ERROR_MESSAGE);
             }
         });
@@ -377,23 +373,23 @@ public class EditEmployeeScreen extends JFrame {
         licenseButton.addActionListener((ActionEvent e) -> {
             int idToEdit = Integer.parseInt(employeeIdField.getText());
             License driverLicense = null;
-            try{
+            try {
                 driverLicense = License.valueOf(licenseField.getText().toUpperCase());
-            }
-            catch (Exception ex) {
-                JOptionPane.showMessageDialog(null, "Invalid license - It musy be B,C OR NULL", "ERROR", JOptionPane.ERROR_MESSAGE);
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(null, "Invalid license - It musy be B,C OR NULL", "ERROR",
+                        JOptionPane.ERROR_MESSAGE);
                 licenseField.setText("");
                 licenseButton.setEnabled(false);
             }
             if (driverLicense != null) {
                 try {
                     employeeService.changeDriverLicence(123456789, idToEdit, driverLicense);
-                    JOptionPane.showMessageDialog(null, "License changed successfully", "Success", JOptionPane.INFORMATION_MESSAGE);
-                }
-                catch (Error ex) {
+                    JOptionPane.showMessageDialog(null, "License changed successfully", "Success",
+                            JOptionPane.INFORMATION_MESSAGE);
+                } catch (Error ex) {
                     JOptionPane.showMessageDialog(null, ex.getMessage(), "ERROR", JOptionPane.ERROR_MESSAGE);
                 }
-            }        
+            }
         });
 
         backButton.addActionListener((ActionEvent e) -> {

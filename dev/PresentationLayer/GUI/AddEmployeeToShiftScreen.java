@@ -2,21 +2,14 @@ package PresentationLayer.GUI;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
-import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.time.ZoneId;
-import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JFormattedTextField;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -24,9 +17,6 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.text.AbstractDocument;
 
-import Misc.ShiftTime;
-import PresentationLayer.GUI.Fields.DateField;
-import PresentationLayer.GUI.Filters.CharFilter;
 import PresentationLayer.GUI.Filters.IntFilter;
 import ServiceLayer.EmployeesLayer.BranchService;
 import ServiceLayer.EmployeesLayer.EmployeeService;
@@ -77,7 +67,7 @@ public class AddEmployeeToShiftScreen extends JFrame{
         addEmployeeButton.setFocusable(false);
         backButton.setFocusable(false);
         
-        ImageIcon image = new ImageIcon("dev\\PresentationLayer\\GUI\\MainLogo.png");
+        ImageIcon image = new ImageIcon("dev\\PresentationLayer\\GUI\\super li.png");
         setIconImage(image.getImage());
 
         // Create the fields

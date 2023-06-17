@@ -2,15 +2,11 @@ package PresentationLayer.GUI;
 
 import java.awt.Dimension;
 import java.awt.FlowLayout;
-import java.awt.LayoutManager;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 
 import ServiceLayer.EmployeesLayer.ServiceFactory;
 
@@ -88,7 +84,7 @@ public class HRManagerScreen extends JFrame {
         setLocationRelativeTo(null);
         setResizable(false);
 
-        ImageIcon image = new ImageIcon("dev\\PresentationLayer\\GUI\\MainLogo.png");
+        ImageIcon image = new ImageIcon("dev\\PresentationLayer\\GUI\\super li.png");
         setIconImage(image.getImage());
 
         // JLabel myLabel = new JLabel(image);

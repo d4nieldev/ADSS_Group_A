@@ -89,6 +89,78 @@ public class InventoryReportFrame {
         frame.setVisible(true);
     }
 
+    public InventoryReportFrame(InventoryReport inventoryReporte){
+        frame = new JFrame();
+        frame.setTitle("Inventory Report");
+        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        frame.setSize(500, 300);
+        frame. setLocationRelativeTo(null); // Center the frame on the screen
+
+        JPanel panel = new JPanel(new BorderLayout());
+
+        // Create the table model with column names
+        DefaultTableModel model = new DefaultTableModel();
+        model.addColumn("NO.");
+        model.addColumn("Product Name");
+        model.addColumn("Code");
+        model.addColumn("Shop Amount");
+        model.addColumn("Storage Amount");
+
+        InventoryReport inventoryReport;
+        try {
+            // Retrieve the inventory report data
+            inventoryReport = inventoryReporte;
+            Set<Integer> productsCode = inventoryReport.getIdToName().keySet();
+            Map<Integer, String> codeToName = inventoryReport.getIdToName();
+            Map<Integer, Integer> shelfAmount = inventoryReport.getIdToShelfAmount();
+            Map<Integer, Integer> storageAmount = inventoryReport.getIdToStorageAmount();
+            int index = 1;
+
+            // Add the data to the table model
+            for (Integer productCode : productsCode) {
+                Object[] row = new Object[5];
+                row[0] = index;
+                row[1] = codeToName.get(productCode);
+                row[2] = productCode;
+                row[3] = shelfAmount.get(productCode);
+                row[4] = storageAmount.get(productCode);
+                model.addRow(row);
+                index++;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            // Handle exception if necessary
+        }
+
+        // Create the table and set the table model
+        table = new JTable(model);
+        JScrollPane scrollPane = new JScrollPane(table);
+
+        // Add the table to the panel
+        panel.add(scrollPane, BorderLayout.CENTER);
+
+        // Create the "Save Report" button
+        JButton saveButton = new JButton("Save Report");
+        saveButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    saveReportToCSV(model);
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                    // Handle exception if necessary
+                }
+            }
+        });
+
+        // Add the "Save Report" button to the panel
+        panel.add(saveButton, BorderLayout.SOUTH);
+
+        // Add the panel to the frame's content pane
+        frame.getContentPane().add(panel);
+        frame.setVisible(true);
+    }
+
 
     private void saveReportToCSV(DefaultTableModel model) throws IOException {
         JFileChooser fileChooser = new JFileChooser();

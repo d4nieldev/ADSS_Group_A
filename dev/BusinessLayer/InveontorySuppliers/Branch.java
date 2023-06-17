@@ -64,6 +64,7 @@ public class Branch {
 
     public HashMap<Integer, ProductBranch> getAllProductBranches() throws SQLException {
         loadAllProductBranch();
+
         return allProductBranches;
     }
 
@@ -184,7 +185,7 @@ public class Branch {
     }
 
     private void loadAllProductBranch() throws SQLException {
-        List<ProductBranchDTO> load = ProductBranchDAO.getInstance().selectAll();
+        List<ProductBranchDTO> load = ProductBranchDAO.getInstance().selectAllbyId(branchId);
         for (ProductBranchDTO productBranchDTO : load){
             if(!allProductBranches.containsKey(productBranchDTO.getProductDTO().getId())) {
                 ProductBranch productBranch = new ProductBranch(productBranchDTO);

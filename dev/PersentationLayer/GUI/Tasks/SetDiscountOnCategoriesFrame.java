@@ -3,7 +3,6 @@ package PersentationLayer.GUI.Tasks;
 import BusinessLayer.Inventory.Category;
 import BusinessLayer.Inventory.CategoryController;
 import BusinessLayer.Inventory.Global;
-import BusinessLayer.InveontorySuppliers.Discount;
 import BusinessLayer.InveontorySuppliers.DiscountFixed;
 import BusinessLayer.InveontorySuppliers.DiscountPercentage;
 import DataAccessLayer.DTOs.DiscountDTO;
@@ -21,7 +20,6 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 public class SetDiscountOnCategoriesFrame implements ActionListener {

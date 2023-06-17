@@ -1,24 +1,27 @@
 package PersentationLayer.GUI.Tasks;
 
+import BusinessLayer.Inventory.DeficientReport;
+import BusinessLayer.Inventory.ExpiredAndFlawReport;
+import BusinessLayer.Inventory.InventoryReport;
+import BusinessLayer.Inventory.ReportController;
+import BusinessLayer.exceptions.InventoryException;
 import PersentationLayer.GUI.ReportsFrame;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
 
-public class ReportsByBranchIdFrame implements ActionListener {
+public class ReportByReportIdFrame implements ActionListener {
     JButton backButton;
     JFrame frame;
-    JTextField branchIdTextField;
+    JTextField reportIdTextField;
     JButton inventoryButton;
-    JButton expiredButton;
-    JButton deficiencyButton;
     JLabel invalidInputLabel;
+    ReportController reportController = ReportController.getInstance();
 
-
-
-    public ReportsByBranchIdFrame(){
+    public ReportByReportIdFrame() {
         frame = new JFrame();
         frame.setTitle("Import Selected Report");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -36,7 +39,7 @@ public class ReportsByBranchIdFrame implements ActionListener {
         backButton.setFocusPainted(false);
         topPanel.add(backButton, BorderLayout.WEST);
 
-        JLabel label = new JLabel("Import Report by Branch");
+        JLabel label = new JLabel("Import Report by Branch Id");
         label.setHorizontalAlignment(JLabel.CENTER);
         label.setFont(new Font("Arial", Font.BOLD, 24));
         label.setForeground(Color.WHITE);
@@ -56,30 +59,23 @@ public class ReportsByBranchIdFrame implements ActionListener {
         gbc.anchor = GridBagConstraints.CENTER;
         mainPanel.add(chooseReportLabel, gbc);
 
-        JPanel branchIdPanel = new JPanel(new BorderLayout());
-        branchIdPanel.add(new JLabel("Branch ID"), BorderLayout.WEST);
-        branchIdTextField = new JTextField(20);
-        branchIdPanel.add(branchIdTextField, BorderLayout.CENTER);
+        JPanel reportIdPanel = new JPanel(new BorderLayout());
+        reportIdPanel.add(new JLabel("report ID"), BorderLayout.WEST);
+        reportIdTextField = new JTextField(20);
+        reportIdPanel.add(reportIdTextField, BorderLayout.CENTER);
 
         gbc.gridx = 0;
         gbc.gridy = 1;
         gbc.gridwidth = 1;
         gbc.anchor = GridBagConstraints.CENTER;
-        mainPanel.add(branchIdPanel, gbc);
+        mainPanel.add(reportIdPanel, gbc);
 
         JPanel reportPanel = new JPanel(new GridLayout(3, 1, 10, 10));
 
-        inventoryButton = new JButton("Inventory Report");
+        inventoryButton = new JButton("import report");
         inventoryButton.addActionListener(this);
         reportPanel.add(inventoryButton);
 
-        expiredButton = new JButton("Expired and Flaws Report");
-        expiredButton.addActionListener(this);
-        reportPanel.add(expiredButton);
-
-        deficiencyButton = new JButton("Deficiency Report");
-        deficiencyButton.addActionListener(this);
-        reportPanel.add(deficiencyButton);
 
         gbc.gridx = 0;
         gbc.gridy = 2;
@@ -100,54 +96,52 @@ public class ReportsByBranchIdFrame implements ActionListener {
         frame.getContentPane().add(mainPanel, BorderLayout.CENTER);
 
         frame.setVisible(true);
-
     }
+
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == backButton) {
             frame.dispose();
-            ReportsFrame storeMangerFrame = new ReportsFrame();
+            ReportsFrame reportsFrame = new ReportsFrame();
         }
 
         if (e.getSource() == inventoryButton) {
-            String branchIdText = branchIdTextField.getText().trim();
-            int branchId ;
+
+            String reportIdText = reportIdTextField.getText().trim();
+            int reportId;
             try {
-                branchId = Integer.parseInt(branchIdTextField.getText());
+                reportId = Integer.parseInt(reportIdTextField.getText());
             } catch (NumberFormatException ex) {
                 invalidInputLabel.setText("");
-                invalidInputLabel.setText("Branch ID is invalid");
+                invalidInputLabel.setText("Report ID is invalid");
                 invalidInputLabel.setVisible(true);
                 return;
             }
-            InventoryReportFrame inventoryReportActualFrame = new InventoryReportFrame(branchId);
-        }
 
-        if (e.getSource() == expiredButton) {
-            int branchId ;
-            try {
-                branchId = Integer.parseInt(branchIdTextField.getText());
-            } catch (NumberFormatException ex) {
-                invalidInputLabel.setText("");
-                invalidInputLabel.setText("Branch ID is invalid");
-                invalidInputLabel.setVisible(true);
-                return;
+
+//            if (!(reportController.getAllReports().containsKey(reportId))) {
+
+//            } else
+            if (reportController.getAllReports().get(reportId) instanceof InventoryReport) {
+                try {
+                    InventoryReport inventoryReport = reportController.getInventoryReport(reportId);
+                    InventoryReportFrame inventoryReportFrame = new InventoryReportFrame(inventoryReport);
+                } catch (InventoryException ex) {
+                    throw new RuntimeException(ex);
+                } catch (SQLException ex) {
+                    throw new RuntimeException(ex);
+                }
+
+//            } else if (reportController.getAllReports().get(reportId) instanceof ExpiredAndFlawReport) {
+//                importExpiredAndFlawsReportByReportId(reportId);
+//            } else if (reportController.getAllReports().get(reportId) instanceof DeficientReport) {
+//                importDeficientReportByReportId(reportId);
+//            }
+
+//                InventoryReportFrame inventoryReportActualFrame = new InventoryReportFrame(branchId);
+
             }
-            ExpiredAndFlawsReportFrame expiredAndFlawsReportFrame = new ExpiredAndFlawsReportFrame(branchId);
-        }
-        if (e.getSource() == deficiencyButton) {
-            int branchId ;
-            try {
-                branchId = Integer.parseInt(branchIdTextField.getText());
-            } catch (NumberFormatException ex) {
-                invalidInputLabel.setText("");
-                invalidInputLabel.setText("Branch ID is invalid");
-                invalidInputLabel.setVisible(true);
-                return;
-            }
-            DeficiencyReportFrame deficiencyReport = new DeficiencyReportFrame(branchId);
-        }
 
-
+        }
     }
 }

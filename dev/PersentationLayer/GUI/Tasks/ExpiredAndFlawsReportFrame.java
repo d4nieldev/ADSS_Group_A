@@ -115,6 +115,7 @@ public class ExpiredAndFlawsReportFrame {
 
     }
 
+
     private void saveReportToCSV(DefaultTableModel model) throws IOException {
         JFileChooser fileChooser = new JFileChooser();
         int option = fileChooser.showSaveDialog(frame);

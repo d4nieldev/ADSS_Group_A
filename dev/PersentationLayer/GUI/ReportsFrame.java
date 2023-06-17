@@ -1,5 +1,6 @@
 package PersentationLayer.GUI;
 
+import PersentationLayer.GUI.Tasks.ProductReportFrame;
 import PersentationLayer.GUI.Tasks.ReportByCategoriesFrame;
 import PersentationLayer.GUI.Tasks.ReportsByBranchIdFrame;
 
@@ -8,7 +9,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class StoreMangerFrame implements ActionListener {
+public class ReportsFrame implements ActionListener {
 
     JFrame frame;
     JLabel label;
@@ -16,9 +17,8 @@ public class StoreMangerFrame implements ActionListener {
     JButton button1 ;
     JButton button2 ;
     JButton button3 ;
-    JButton button4 ;
     JButton button5 ;
-    public StoreMangerFrame(){
+    public ReportsFrame(){
         // Configure the frame
         frame = new JFrame();
         frame.setTitle("Store Manager");
@@ -28,7 +28,7 @@ public class StoreMangerFrame implements ActionListener {
 
         // Configure the main label
         label = new JLabel();
-        label.setText("Store manager window");
+        label.setText("reports");
         label.setHorizontalAlignment(JLabel.CENTER);
         label.setVerticalAlignment(JLabel.TOP);
         label.setForeground(Color.WHITE);
@@ -49,16 +49,14 @@ public class StoreMangerFrame implements ActionListener {
         backButton.setFocusPainted(false); // Remove button focus border
 
         // Configure tasks buttons
-        button1 = new JButton("import inventoryReport");
+        button1 = new JButton("import reports by branchId");
         button1.addActionListener(this);
         button2 = new JButton("import inventory report by categories");
         button2.addActionListener(this);
-        button3 = new JButton("import report by report id");
+        button3 = new JButton("import product report");
         button3.addActionListener(this);
-        button4 = new JButton("import product report");
-        button4.addActionListener(this);
-        button5 = new JButton("button5");
-        button5.addActionListener(this);
+//        button5 = new JButton("button5");
+//        button5.addActionListener(this);
 
         // Configure panel for back button and label
         JPanel topPanel = new JPanel(new BorderLayout());
@@ -80,27 +78,24 @@ public class StoreMangerFrame implements ActionListener {
         tasksPanel.add(chooseActionLabel, gbc);
 
         JPanel buttonContainer = new JPanel();
-        buttonContainer.setLayout(new GridLayout(2, 3, 10, 10));
+        buttonContainer.setLayout(new GridLayout(1, 3, 10, 10));
         buttonContainer.setBackground(Color.WHITE);
         buttonContainer.add(button1);
         buttonContainer.add(button2);
         buttonContainer.add(button3);
-        buttonContainer.add(button4);
-        buttonContainer.add(button5);
 
         // Adjust button size dynamically based on the preferred size of the button text
         Font buttonFont = button1.getFont();
         FontMetrics fontMetrics = button1.getFontMetrics(buttonFont);
         int maxButtonWidth = Math.max(
                 Math.max(fontMetrics.stringWidth(button1.getText()), fontMetrics.stringWidth(button2.getText())),
-                Math.max(fontMetrics.stringWidth(button3.getText()), fontMetrics.stringWidth(button4.getText()))
+                Math.max(fontMetrics.stringWidth(button3.getText()), fontMetrics.stringWidth(button3.getText()))
         );
         Dimension buttonSize = new Dimension(maxButtonWidth + 20, 50); // Add padding to the button width
         button1.setPreferredSize(buttonSize);
         button2.setPreferredSize(buttonSize);
         button3.setPreferredSize(buttonSize);
-        button4.setPreferredSize(buttonSize);
-        button5.setPreferredSize(buttonSize);
+//        button5.setPreferredSize(buttonSize);
 
         gbc.gridx = 0;
         gbc.gridy = 1;
@@ -120,7 +115,7 @@ public class StoreMangerFrame implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == backButton) {
             frame.dispose();
-            StorekeeperFrame storekeeperFrame = new StorekeeperFrame();
+            StoreManagerFrame storeManagerFrame = new StoreManagerFrame();
         }
         if (e.getSource() == button1) {
             frame.dispose();
@@ -129,6 +124,10 @@ public class StoreMangerFrame implements ActionListener {
         if (e.getSource() == button2) {
             frame.dispose();
             ReportByCategoriesFrame reportByCategoriesFrame = new ReportByCategoriesFrame();
+        }
+        if (e.getSource() == button3) {
+            frame.dispose();
+            ProductReportFrame productReportFrame = new ProductReportFrame();
         }
 
     }

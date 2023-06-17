@@ -2,8 +2,7 @@ package PersentationLayer.GUI.Tasks;
 
 import BusinessLayer.Inventory.Category;
 import BusinessLayer.Inventory.CategoryController;
-import PersentationLayer.GUI.MangeStorageFrame;
-import PersentationLayer.GUI.StoreMangerFrame;
+import PersentationLayer.GUI.ReportsFrame;
 import ServiceLayer.inventory.ProductService;
 
 import javax.swing.*;
@@ -139,7 +138,7 @@ public class ReportByCategoriesFrame implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == backButton) {
             frame.dispose();
-            StoreMangerFrame storeMangerFrame = new StoreMangerFrame();
+            ReportsFrame storeMangerFrame = new ReportsFrame();
         }
 
         if (e.getSource() == submitButton) {
@@ -155,8 +154,9 @@ public class ReportByCategoriesFrame implements ActionListener {
                     selectedCategoryIds.add(categoryId);
                 }
             }
+            List<Category> categories = new ArrayList<>();
             try {
-                List<Category> categories = CategoryController.getInstance().getCategoriesByIds(selectedCategoryIds);
+                categories = CategoryController.getInstance().getCategoriesByIds(selectedCategoryIds);
             } catch (Exception exception) {
                 invalidInputLabel.setText(exception.getMessage());
                 invalidInputLabel.setVisible(true);
@@ -172,7 +172,7 @@ public class ReportByCategoriesFrame implements ActionListener {
                 return;
             }
             List<Integer> categoriesIds = new ArrayList<>();
-            for (Category category : categoryList){
+            for (Category category : categories){
                 categoriesIds.add(category.getId());
             }
             ActualReportByCategories actualReportByCategories = new ActualReportByCategories(branchId,categoriesIds);

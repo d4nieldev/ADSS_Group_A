@@ -5,19 +5,19 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class StorekeeperFrame implements ActionListener {
+public class StoreManagerFrame implements ActionListener
+{
     JFrame frame;
     JTextField textField;
     JButton button1;
     JButton button2;
     JButton button3;
-    JButton backButton;
+    JButton button4;
     JLabel label;
     JPanel panel;
-
-    public StorekeeperFrame(){
+    public StoreManagerFrame() {
         frame = new JFrame();
-        frame.setTitle("JFrame title is here");
+        frame.setTitle("store manager");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setResizable(true);
         frame.setSize(450, 300);
@@ -26,21 +26,9 @@ public class StorekeeperFrame implements ActionListener {
         // Create the top panel with BorderLayout
         JPanel topPanel = new JPanel(new BorderLayout());
         topPanel.setBackground(new Color(59, 89, 152)); // Blue color
-        // Configure back button
-        backButton = new JButton("Back");
-        backButton.addActionListener(this);
-        backButton.setFont(new Font("Arial", Font.PLAIN, 14));
-        backButton.setBackground(new Color(0, 122, 255)); // Blue color
-        backButton.setForeground(Color.WHITE);
-        backButton.setBorderPainted(false); // Remove button border
-        backButton.setFocusPainted(false); // Remove button focus border
-        backButton.setVisible(false);
-
-        // Configure panel for back button and label
-        topPanel.add(backButton, BorderLayout.WEST);
 
         // Create the label
-        JLabel label = new JLabel("Welcome Store keeper");
+        JLabel label = new JLabel("Welcome Store Manager-main");
         label.setHorizontalAlignment(JLabel.CENTER);
         label.setVerticalAlignment(JLabel.NORTH);
         label.setForeground(Color.WHITE);
@@ -68,15 +56,19 @@ public class StorekeeperFrame implements ActionListener {
         button1.addActionListener(this);
         button1.setPreferredSize(new Dimension(200, 50)); // Set button size
 
-        button2 = new JButton("Manage suppliers order");
+        button2 = new JButton("Manage suppliers");
         button2.addActionListener(this);
         button2.setPreferredSize(new Dimension(200, 50)); // Set button size
 
+        button3 = new JButton("Reports");
+        button3.addActionListener(this);
+        button3.setPreferredSize(new Dimension(200, 50)); // Set button size
 
 
         // Add the buttons to the button panel
         buttonPanel.add(button1);
         buttonPanel.add(button2);
+        buttonPanel.add(button3);
 
         // Add the "Choose your action" label and button panel to the main panel
         mainPanel.add(chooseActionLabel, BorderLayout.NORTH);
@@ -89,6 +81,7 @@ public class StorekeeperFrame implements ActionListener {
         frame.getContentPane().add(mainPanel, BorderLayout.CENTER);
 
         frame.setVisible(true);
+
     }
 
     @Override
@@ -96,19 +89,21 @@ public class StorekeeperFrame implements ActionListener {
         if (e.getSource() == button1){
             frame.dispose();
             //open new ManageStorage Window
-            MangeStorageFrame mangeStorageFrame = new MangeStorageFrame();
+            StorekeeperFrame storekeeperFrame = new StorekeeperFrame();
+            storekeeperFrame.backButton.setVisible(true);
         }
+        //manageSuppliers frame
         if (e.getSource() == button2){
             frame.dispose();
             //open new OrderSupply Window
-            OrderSupplyFrame orderSupplyFrame = new OrderSupplyFrame();
+//            OrderSupplyFrame orderSupplyFrame = new OrderSupplyFrame(this);
         }
-        if (e.getSource() == backButton){
+
+        if (e.getSource() == button3){
             frame.dispose();
-            //open new OrderSupply Window
-            StoreManagerFrame storeManagerFrame = new StoreManagerFrame();
-
+            //open new Reports Window
+            ReportsFrame reportsFrame = new ReportsFrame();
         }
-
     }
+
 }

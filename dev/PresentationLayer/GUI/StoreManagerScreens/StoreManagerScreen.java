@@ -8,47 +8,58 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 
+import PresentationLayer.GUI.DriverScreens.DriverScreen;
 import PresentationLayer.GUI.HRManagerScreens.HRManagerScreen;
 import PresentationLayer.GUI.MemberScreens.MemberScreen;
 import ServiceLayer.EmployeesLayer.ServiceFactory;
 
 public class StoreManagerScreen extends JFrame {
-    private JButton HRManagerButton;
-    private JButton MemberButton;
+    private JButton hRManagerButton;
+    private JButton memberButton;
+    private JButton driverButton;
 
     public StoreManagerScreen(ServiceFactory serviceFactory) {
         setTitle("StoreManager Screen");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         // Create buttons
-        HRManagerButton = new JButton("HR Manager Screen");
-        MemberButton = new JButton("Member Screen");
+        hRManagerButton = new JButton("HR Manager Screen");
+        memberButton = new JButton("Member Screen");
+        driverButton = new JButton("Driver Screen");
 
         // Set button sizes
         Dimension buttonSize = new Dimension(250, 30);
-        HRManagerButton.setPreferredSize(buttonSize);
-        MemberButton.setPreferredSize(buttonSize);
+        hRManagerButton.setPreferredSize(buttonSize);
+        memberButton.setPreferredSize(buttonSize);
+        driverButton.setPreferredSize(buttonSize);
 
         // Set button focusability to false
-        HRManagerButton.setFocusable(false);
-        MemberButton.setFocusable(false);
+        hRManagerButton.setFocusable(false);
+        memberButton.setFocusable(false);
+        driverButton.setFocusable(false);
 
         // Set layout manager
         setLayout(new FlowLayout());
 
         // Add buttons to the frame
-        add(HRManagerButton);
-        add(MemberButton);
+        add(hRManagerButton);
+        add(memberButton);
+        add(driverButton);
 
         // Add action listeners to the buttons
-        HRManagerButton.addActionListener((ActionEvent e) -> {
+        hRManagerButton.addActionListener((ActionEvent e) -> {
             dispose();
             new HRManagerScreen(serviceFactory);
         });
 
-        MemberButton.addActionListener((ActionEvent e) -> {
+        memberButton.addActionListener((ActionEvent e) -> {
             dispose();
             new MemberScreen(serviceFactory);
+        });
+
+        driverButton.addActionListener((ActionEvent e) -> {
+            dispose();
+            new DriverScreen(serviceFactory);
         });
 
 

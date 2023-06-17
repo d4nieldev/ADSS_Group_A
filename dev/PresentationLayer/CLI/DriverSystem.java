@@ -1,4 +1,4 @@
-package PresentationLayer;
+package PresentationLayer.CLI;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;

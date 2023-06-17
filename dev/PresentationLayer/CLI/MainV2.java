@@ -1,4 +1,4 @@
-package PresentationLayer;
+package PresentationLayer.CLI;
 
 import ServiceLayer.EmployeesLayer.ServiceFactory;
 
@@ -9,21 +9,25 @@ import java.util.Scanner;
 
 class MainV2 {
 
-    private static ServiceFactory serviceFactory = new ServiceFactory();
+    private ServiceFactory serviceFactory;
     private static HRSystem hrSystem;
     private static MemberSystem memberSystem;
     private static TransportSystem transportSystem;
     private static DriverSystem driverSystem;
+    private static StoreManagerSystem storeManagerSystem;
 
-    public static void main(String[] args) {
+    public MainV2(ServiceFactory serviceFactory) {
+        this.serviceFactory = serviceFactory;
+    }
+    public void run(String role) {
 
         hrSystem = new HRSystem(serviceFactory);
         memberSystem = new MemberSystem(serviceFactory);
         transportSystem = new TransportSystem(serviceFactory);
         driverSystem = new DriverSystem(serviceFactory);
+        storeManagerSystem = new StoreManagerSystem(hrSystem, memberSystem, transportSystem, driverSystem);
 
         Scanner sc = new Scanner(System.in);
-
         while (true) {
 
             // System.out.println("1 - Exit the system\n2 - Login to the system\n");
@@ -41,8 +45,16 @@ class MainV2 {
                 while (true) {
                     try {
                         hrSystem.employeeService.logIn(loginId, loginPassword);
-                        System.out.println("");
-                        break;
+                        String managerRole = hrSystem.employeeService.getManagerType(loginId);
+                        if (managerRole.equals(role) || role.equals("MEMBER")) {
+                            break;
+                        }
+                        else {
+                            System.out.println("You are not authorized to login to this system, please try again.\n");
+                            System.out.println("");
+                            hrSystem.employeeService.logOut(loginId);
+                            throw new Error("You are not authorized to login to this system, please try again.\n");
+                        }
                     } catch (Error e) {
                         System.out.println(e.toString());
                         System.out.println();
@@ -73,6 +85,16 @@ class MainV2 {
 
                     case ("DRIVER"): {
                         driverSystem.run(loginId);
+                        break;
+                    }
+
+                    case ("BRANCHMANAGER"): {
+                        System.out.println("What menu would you like to enter?\n");
+                        System.out.println("1 - HR\n2 - Member\n3 - Transport\n4 - Driver\n");
+                    
+                        int menu = Integer.parseInt(sc.nextLine());
+                        System.out.println("");
+                        storeManagerSystem.run(loginId, menu);
                         break;
                     }
 

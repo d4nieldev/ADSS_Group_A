@@ -1,4 +1,4 @@
-package PresentationLayer.GUI.MemberScreens;
+package PresentationLayer.GUI.DriverScreens;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
@@ -22,12 +22,13 @@ import javax.swing.text.AbstractDocument;
 import PresentationLayer.GUI.Fields.DateField;
 import PresentationLayer.GUI.Filters.CharFilter;
 import PresentationLayer.GUI.Filters.IntFilter;
+import PresentationLayer.GUI.MemberScreens.MemberScreen;
 import ServiceLayer.EmployeesLayer.BranchService;
 import ServiceLayer.EmployeesLayer.EmployeeService;
 import ServiceLayer.EmployeesLayer.ServiceFactory;
 import ServiceLayer.EmployeesLayer.ShiftService;
 
-public class ShowShiftsScreen extends JFrame {
+public class AddConstraintDriverScreen extends JFrame {
     EmployeeService employeeService;
     ShiftService shiftService;
     BranchService branchService;
@@ -37,17 +38,17 @@ public class ShowShiftsScreen extends JFrame {
     DateField dateField;
     JLabel memberIdLabel;
     JLabel dateLabel;
-    JButton showAllButton;
+    JButton addConstraintButton;
     JButton backButton;
 
-    public ShowShiftsScreen(ServiceFactory serviceFactory) {
+    public AddConstraintDriverScreen(ServiceFactory serviceFactory) {
         // Set the services
         employeeService = serviceFactory.getEmployeeService();
         shiftService = serviceFactory.getShiftService();
         branchService = serviceFactory.getBranchService();
 
         // Defualt frame settings
-        setTitle("Add Empty Screen");
+        setTitle("Add Driver Constraint Screen");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLayout(new BorderLayout());
         // setSize(400, 200);
@@ -56,22 +57,21 @@ public class ShowShiftsScreen extends JFrame {
 
         // Create a panel
         panel = new JPanel();
-        panel.setLayout(new GridLayout(3, 1));
+        panel.setLayout(new GridLayout(4, 1));
 
         // Create buttoms
-        showAllButton = new JButton("Show Shifts");
+        addConstraintButton = new JButton("Add Constraint");
         backButton = new JButton("Back");
 
         // Set buttoms to disabled
-        showAllButton.setEnabled(false);
+        addConstraintButton.setEnabled(false);
 
         // Set button focusability to false
-        showAllButton.setFocusable(false);
+        addConstraintButton.setFocusable(false);
         backButton.setFocusable(false);
 
         ImageIcon image = new ImageIcon("dev\\PresentationLayer\\GUI\\super li.png");
         setIconImage(image.getImage());
-
 
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
 
@@ -79,14 +79,13 @@ public class ShowShiftsScreen extends JFrame {
         memberIdField = new JTextField();
         dateField = new DateField(formatter);
 
+        dateField.setValue(LocalDate.now(ZoneId.systemDefault()));
+
         Dimension fieldSize = new Dimension(150, 30);
 
         // Set fields sizes
         memberIdField.setPreferredSize(fieldSize);
         dateField.setPreferredSize(fieldSize);
-
-        // Add values to the fields
-        dateField.setValue(LocalDate.now(ZoneId.systemDefault()));
 
         // Add key listener to the fields
         memberIdField.addKeyListener(new KeyAdapter() {
@@ -104,7 +103,6 @@ public class ShowShiftsScreen extends JFrame {
         // Set fields filters
         ((AbstractDocument) memberIdField.getDocument()).setDocumentFilter(new IntFilter());
         ((AbstractDocument) dateField.getDocument()).setDocumentFilter(new CharFilter());
-
         // Create labels
         memberIdLabel = new JLabel("Your ID");
         dateLabel = new JLabel("Date");
@@ -116,12 +114,12 @@ public class ShowShiftsScreen extends JFrame {
         panel.add(dateField);
 
         // Add action listener to the button
-        showAllButton.addActionListener((ActionEvent e) -> {
+        addConstraintButton.addActionListener((ActionEvent e) -> {
             int memberId = Integer.parseInt(memberIdField.getText());
             LocalDate date = LocalDate.parse(dateField.getText(), formatter);
             try {
-                String str = branchService.printAvailableShiftForEmployee(memberId, date);
-                JOptionPane.showMessageDialog(null, str, "Success",
+                employeeService.AddConstraintDriver(memberId, date);
+                JOptionPane.showMessageDialog(null, "Constraint added successfully", "Success",
                         JOptionPane.INFORMATION_MESSAGE);
             } catch (Error ex) {
                 JOptionPane.showMessageDialog(null, ex.getMessage(), "ERROR", JOptionPane.ERROR_MESSAGE);
@@ -131,12 +129,12 @@ public class ShowShiftsScreen extends JFrame {
 
         backButton.addActionListener((ActionEvent e) -> {
             dispose();
-            MemberScreen previousWindow = new MemberScreen(serviceFactory);
+            DriverScreen previousWindow = new DriverScreen(serviceFactory);
             previousWindow.setVisible(true);
         });
 
         // Add the buttons to the panel
-        panel.add(showAllButton);
+        panel.add(addConstraintButton);
         panel.add(backButton);
 
         // Add the panel to the frame
@@ -148,9 +146,9 @@ public class ShowShiftsScreen extends JFrame {
 
     public void checkButton() { // watch for key strokes
         if (memberIdLabel.getText().length() == 0 || dateField.getText().length() == 0)
-            showAllButton.setEnabled(false);
+            addConstraintButton.setEnabled(false);
         else {
-            showAllButton.setEnabled(true);
+            addConstraintButton.setEnabled(true);
         }
     }
 }

@@ -59,6 +59,9 @@ public class AddConstraintScreen extends JFrame {
         addConstraintButton = new JButton("Add Constraint");
         backButton = new JButton("Back");
 
+        // Set buttoms to disabled
+        addConstraintButton.setEnabled(false);
+
         // Set button focusability to false
         addConstraintButton.setFocusable(false);
         backButton.setFocusable(false);

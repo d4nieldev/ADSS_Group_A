@@ -34,7 +34,7 @@ public class RemoveConstraintScreen extends JFrame {
     JLabel memberIdLabel;
     JLabel branchIdLabel;
     JLabel shiftIdLabel;
-    JButton addConstraintButton;
+    JButton removeConstraintButton;
     JButton backButton;
 
     public RemoveConstraintScreen(ServiceFactory serviceFactory) {
@@ -56,11 +56,14 @@ public class RemoveConstraintScreen extends JFrame {
         panel.setLayout(new GridLayout(4, 1));
 
         // Create buttoms
-        addConstraintButton = new JButton("Remove Constraint");
+        removeConstraintButton = new JButton("Remove Constraint");
         backButton = new JButton("Back");
 
+        // Set buttoms to disabled
+        removeConstraintButton.setEnabled(false);
+
         // Set button focusability to false
-        addConstraintButton.setFocusable(false);
+        removeConstraintButton.setFocusable(false);
         backButton.setFocusable(false);
 
         ImageIcon image = new ImageIcon("dev\\PresentationLayer\\GUI\\super li.png");
@@ -116,7 +119,7 @@ public class RemoveConstraintScreen extends JFrame {
         panel.add(shiftIdField);
 
         // Add action listener to the button
-        addConstraintButton.addActionListener((ActionEvent e) -> {
+        removeConstraintButton.addActionListener((ActionEvent e) -> {
             int memberId = Integer.parseInt(memberIdField.getText());
             int branchId = Integer.parseInt(branchIdField.getText());
             int shiftId = Integer.parseInt(shiftIdField.getText());
@@ -137,7 +140,7 @@ public class RemoveConstraintScreen extends JFrame {
         });
 
         // Add the buttons to the panel
-        panel.add(addConstraintButton);
+        panel.add(removeConstraintButton);
         panel.add(backButton);
 
         // Add the panel to the frame
@@ -149,9 +152,9 @@ public class RemoveConstraintScreen extends JFrame {
 
     public void checkButton() { // watch for key strokes
         if (memberIdLabel.getText().length() == 0 || shiftIdField.getText().length() == 0 || branchIdField.getText().length() == 0)
-            addConstraintButton.setEnabled(false);
+            removeConstraintButton.setEnabled(false);
         else {
-            addConstraintButton.setEnabled(true);
+            removeConstraintButton.setEnabled(true);
         }
     }
 }

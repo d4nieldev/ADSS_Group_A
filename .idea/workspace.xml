@@ -11,12 +11,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="a2472df3-0b1c-47fc-bcd6-f26fc4f0a51c" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/artifacts/adss2023_v02_jar.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/dev/TestEmployee/test3.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/database.db" beforeDir="false" afterPath="$PROJECT_DIR$/database.db" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dev/META-INF/MANIFEST.MF" beforeDir="false" afterPath="$PROJECT_DIR$/dev/META-INF/MANIFEST.MF" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ADSS_Group_A/PresentationLayer/database.db" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dev/PresentationLayer/Program.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/PresentationLayer/Program.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -134,6 +130,7 @@
       <workItem from="1682600820798" duration="1371000" />
       <workItem from="1684175940486" duration="3396000" />
       <workItem from="1684183511601" duration="405000" />
+      <workItem from="1687039784490" duration="2000" />
     </task>
     <servers />
   </component>

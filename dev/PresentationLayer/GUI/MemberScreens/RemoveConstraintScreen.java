@@ -6,9 +6,6 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.time.LocalDate;
-import java.time.ZoneId;
-import java.time.format.DateTimeFormatter;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -19,28 +16,28 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.text.AbstractDocument;
 
-import PresentationLayer.GUI.Fields.DateField;
-import PresentationLayer.GUI.Filters.CharFilter;
 import PresentationLayer.GUI.Filters.IntFilter;
 import ServiceLayer.EmployeesLayer.BranchService;
 import ServiceLayer.EmployeesLayer.EmployeeService;
 import ServiceLayer.EmployeesLayer.ServiceFactory;
 import ServiceLayer.EmployeesLayer.ShiftService;
 
-public class ShowShiftsScreen extends JFrame {
+public class RemoveConstraintScreen extends JFrame {
     EmployeeService employeeService;
     ShiftService shiftService;
     BranchService branchService;
 
     JPanel panel;
     JTextField memberIdField;
-    DateField dateField;
+    JTextField branchIdField;
+    JTextField shiftIdField;
     JLabel memberIdLabel;
-    JLabel dateLabel;
-    JButton showAllButton;
+    JLabel branchIdLabel;
+    JLabel shiftIdLabel;
+    JButton addConstraintButton;
     JButton backButton;
 
-    public ShowShiftsScreen(ServiceFactory serviceFactory) {
+    public RemoveConstraintScreen(ServiceFactory serviceFactory) {
         // Set the services
         employeeService = serviceFactory.getEmployeeService();
         shiftService = serviceFactory.getShiftService();
@@ -56,34 +53,30 @@ public class ShowShiftsScreen extends JFrame {
 
         // Create a panel
         panel = new JPanel();
-        panel.setLayout(new GridLayout(3, 1));
+        panel.setLayout(new GridLayout(4, 1));
 
         // Create buttoms
-        showAllButton = new JButton("Show Shifts");
+        addConstraintButton = new JButton("Remove Constraint");
         backButton = new JButton("Back");
 
         // Set button focusability to false
-        showAllButton.setFocusable(false);
+        addConstraintButton.setFocusable(false);
         backButton.setFocusable(false);
 
         ImageIcon image = new ImageIcon("dev\\PresentationLayer\\GUI\\super li.png");
         setIconImage(image.getImage());
 
-
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
-
         // Create the fields
         memberIdField = new JTextField();
-        dateField = new DateField(formatter);
+        branchIdField = new JTextField();
+        shiftIdField = new JTextField();
 
         Dimension fieldSize = new Dimension(150, 30);
 
         // Set fields sizes
         memberIdField.setPreferredSize(fieldSize);
-        dateField.setPreferredSize(fieldSize);
-
-        // Add values to the fields
-        dateField.setValue(LocalDate.now(ZoneId.systemDefault()));
+        branchIdField.setPreferredSize(fieldSize);
+        shiftIdField.setPreferredSize(fieldSize);
 
         // Add key listener to the fields
         memberIdField.addKeyListener(new KeyAdapter() {
@@ -92,7 +85,13 @@ public class ShowShiftsScreen extends JFrame {
             }
         });
 
-        dateField.addKeyListener(new KeyAdapter() {
+        branchIdField.addKeyListener(new KeyAdapter() {
+            public void keyReleased(KeyEvent e) {
+                checkButton();
+            }
+        });
+
+        shiftIdField.addKeyListener(new KeyAdapter() {
             public void keyReleased(KeyEvent e) {
                 checkButton();
             }
@@ -100,25 +99,30 @@ public class ShowShiftsScreen extends JFrame {
 
         // Set fields filters
         ((AbstractDocument) memberIdField.getDocument()).setDocumentFilter(new IntFilter());
-        ((AbstractDocument) dateField.getDocument()).setDocumentFilter(new CharFilter());
+        ((AbstractDocument) branchIdField.getDocument()).setDocumentFilter(new IntFilter());
+        ((AbstractDocument) shiftIdField.getDocument()).setDocumentFilter(new IntFilter());
 
         // Create labels
         memberIdLabel = new JLabel("Your ID");
-        dateLabel = new JLabel("Date");
+        branchIdLabel = new JLabel("Branch ID");
+        shiftIdLabel = new JLabel("Shift ID");
 
         // Add the fields an the labels to the panel
         panel.add(memberIdLabel);
         panel.add(memberIdField);
-        panel.add(dateLabel);
-        panel.add(dateField);
+        panel.add(branchIdLabel);
+        panel.add(branchIdField);
+        panel.add(shiftIdLabel);
+        panel.add(shiftIdField);
 
         // Add action listener to the button
-        showAllButton.addActionListener((ActionEvent e) -> {
+        addConstraintButton.addActionListener((ActionEvent e) -> {
             int memberId = Integer.parseInt(memberIdField.getText());
-            LocalDate date = LocalDate.parse(dateField.getText(), formatter);
+            int branchId = Integer.parseInt(branchIdField.getText());
+            int shiftId = Integer.parseInt(shiftIdField.getText());
             try {
-                String str = branchService.printAvailableShiftForEmployee(memberId, date);
-                JOptionPane.showMessageDialog(null, str, "Success",
+                branchService.removeConstraint(branchId, memberId, shiftId);
+                JOptionPane.showMessageDialog(null, "Constraint removed successfully", "Success",
                         JOptionPane.INFORMATION_MESSAGE);
             } catch (Error ex) {
                 JOptionPane.showMessageDialog(null, ex.getMessage(), "ERROR", JOptionPane.ERROR_MESSAGE);
@@ -133,7 +137,7 @@ public class ShowShiftsScreen extends JFrame {
         });
 
         // Add the buttons to the panel
-        panel.add(showAllButton);
+        panel.add(addConstraintButton);
         panel.add(backButton);
 
         // Add the panel to the frame
@@ -144,10 +148,10 @@ public class ShowShiftsScreen extends JFrame {
     }
 
     public void checkButton() { // watch for key strokes
-        if (memberIdLabel.getText().length() == 0 || dateField.getText().length() == 0)
-            showAllButton.setEnabled(false);
+        if (memberIdLabel.getText().length() == 0 || shiftIdField.getText().length() == 0 || branchIdField.getText().length() == 0)
+            addConstraintButton.setEnabled(false);
         else {
-            showAllButton.setEnabled(true);
+            addConstraintButton.setEnabled(true);
         }
     }
 }

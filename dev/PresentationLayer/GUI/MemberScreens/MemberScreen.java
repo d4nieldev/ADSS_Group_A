@@ -49,15 +49,15 @@ public class MemberScreen extends JFrame {
             new ShowShiftsScreen(serviceFactory);
         });
 
-        // addDriverButton.addActionListener((ActionEvent e) -> {
-        //     dispose();
-        //     new AddConstraintScreen(serviceFactory);
-        // });
+        addDriverButton.addActionListener((ActionEvent e) -> {
+            dispose();
+            new AddConstraintScreen(serviceFactory);
+        });
 
-        // addEmptyShift.addActionListener((ActionEvent e) -> {
-        //     dispose();
-        //     new RemoveConstraintScreen(serviceFactory);
-        // });
+        addEmptyShift.addActionListener((ActionEvent e) -> {
+            dispose();
+            new RemoveConstraintScreen(serviceFactory);
+        });
 
         // Set the frame size and make it visible
         setSize(400, 200);

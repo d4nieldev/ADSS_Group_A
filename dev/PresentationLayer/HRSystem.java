@@ -9,7 +9,7 @@ import Misc.*;
 import ServiceLayer.EmployeesLayer.BranchService;
 import ServiceLayer.EmployeesLayer.EmployeeService;
 import ServiceLayer.EmployeesLayer.ShiftService;
-import ServiceLayer.EmployeesLayer.serviceFactory;
+import ServiceLayer.EmployeesLayer.ServiceFactory;
 
 class HRSystem {
 
@@ -17,7 +17,7 @@ class HRSystem {
     ShiftService shiftService;
     BranchService branchService;
 
-    public HRSystem(serviceFactory serviceFactory) {
+    public HRSystem(ServiceFactory serviceFactory) {
         employeeService = serviceFactory.getEmployeeService();
         shiftService = serviceFactory.getShiftService();
         branchService = serviceFactory.getBranchService();

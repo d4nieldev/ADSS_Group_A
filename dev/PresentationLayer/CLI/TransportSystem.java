@@ -1,4 +1,4 @@
-package PresentationLayer;
+package PresentationLayer.CLI;
 
 import BussinessLayer.TransPortLayer.Delivery;
 import BussinessLayer.TransPortLayer.Destination;

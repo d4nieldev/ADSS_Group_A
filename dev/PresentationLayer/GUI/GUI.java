@@ -8,8 +8,10 @@ public class GUI {
     public static void activate(String role, ServiceFactory serviceFactory) {
         if (role.equals("StoreManager"))
             new StoreManagerScreen();
-        else if (role.equals("HRManager"))
+        else if (role.equals("HRManager")) {
+            serviceFactory.getEmployeeService().logIn(123456789, "HRmanager");
             new HRManagerScreen(serviceFactory);
+        }           
         else if (role.equals("Member"))
             new MemberScreen(serviceFactory);
         else

@@ -20,12 +20,12 @@ public class MemberScreen extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         // Create buttons
-        addEmployeeButton = new JButton("Show ALL Shifts");
+        addEmployeeButton = new JButton("Show All Shifts");
         addDriverButton = new JButton("Add Constraint For A Shift");
         addEmptyShift = new JButton("Remove Constraint From A Shift");
 
         // Set button sizes
-        Dimension buttonSize = new Dimension(150, 30);
+        Dimension buttonSize = new Dimension(250, 30);
         addEmployeeButton.setPreferredSize(buttonSize);
         addDriverButton.setPreferredSize(buttonSize);
         addEmptyShift.setPreferredSize(buttonSize);

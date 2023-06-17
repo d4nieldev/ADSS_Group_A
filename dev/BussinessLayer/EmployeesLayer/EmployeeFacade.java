@@ -493,7 +493,8 @@ public class EmployeeFacade {
     private boolean isEmployeeHRManager(int id) {
         Employee employee = getEmployeeById(id);
         List<Integer> managerRoles = employee.getRoles();
-        return managerRoles.contains(roleClass.getRoleByName("HRMANAGER").getId());
+        return (managerRoles.contains(roleClass.getRoleByName("HRMANAGER").getId()) || 
+        managerRoles.contains(roleClass.getRoleByName("BRANCHMANAGER").getId()));
     }
 
     // return true if the employee is transport manager

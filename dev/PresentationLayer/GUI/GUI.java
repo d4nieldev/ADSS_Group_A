@@ -7,8 +7,10 @@ import ServiceLayer.EmployeesLayer.ServiceFactory;
 
 public class GUI {
     public static void activate(String role, ServiceFactory serviceFactory) {
-        if (role.equals("StoreManager"))
+        if (role.equals("StoreManager")){
+            serviceFactory.getEmployeeService().logIn(123456789, "HRmanager");
             new StoreManagerScreen(serviceFactory);
+        }
         else if (role.equals("HRManager")) {
             serviceFactory.getEmployeeService().logIn(123456789, "HRmanager");
             new HRManagerScreen(serviceFactory);

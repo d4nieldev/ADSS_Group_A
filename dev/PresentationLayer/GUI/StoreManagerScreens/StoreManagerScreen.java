@@ -17,7 +17,7 @@ public class StoreManagerScreen extends JFrame {
     private JButton MemberButton;
 
     public StoreManagerScreen(ServiceFactory serviceFactory) {
-        setTitle("Member Screen");
+        setTitle("StoreManager Screen");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         // Create buttons

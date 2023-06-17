@@ -2,21 +2,14 @@ package PresentationLayer.GUI;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
-import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.time.ZoneId;
-import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JFormattedTextField;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -24,9 +17,6 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.text.AbstractDocument;
 
-import Misc.ShiftTime;
-import PresentationLayer.GUI.Fields.DateField;
-import PresentationLayer.GUI.Filters.CharFilter;
 import PresentationLayer.GUI.Filters.IntFilter;
 import ServiceLayer.EmployeesLayer.BranchService;
 import ServiceLayer.EmployeesLayer.EmployeeService;
@@ -49,7 +39,8 @@ public class SubmitShiftScreen extends JFrame {
     JButton submitAllButton;
     JButton backButton;
 
-    public SubmitShiftScreen(ServiceFactory serviceFactory, int shiftId, int branchId, HashMap<Integer, Integer> employees) {
+    public SubmitShiftScreen(ServiceFactory serviceFactory, int shiftId, int branchId,
+            HashMap<Integer, Integer> employees) {
         // Set the services
         employeeService = serviceFactory.getEmployeeService();
         shiftService = serviceFactory.getShiftService();
@@ -73,8 +64,7 @@ public class SubmitShiftScreen extends JFrame {
         submitAllButton = new JButton("Submit");
         if (employees.size() == 0) {
             submitAllButton.setEnabled(false);
-        }
-        else {
+        } else {
             submitAllButton.setEnabled(true);
         }
         backButton = new JButton("Back");
@@ -134,11 +124,11 @@ public class SubmitShiftScreen extends JFrame {
             int newShiftId = Integer.parseInt(shiftIdField.getText());
             int newBranchId = Integer.parseInt(branchIdField.getText());
 
-            try{
+            try {
                 branchService.approveFinalShift(123456789, newShiftId, newBranchId, this.employees);
-                JOptionPane.showMessageDialog(null, "Shift was submitted successfully", "Success", JOptionPane.INFORMATION_MESSAGE);
-            }
-            catch(Error ex){
+                JOptionPane.showMessageDialog(null, "Shift was submitted successfully", "Success",
+                        JOptionPane.INFORMATION_MESSAGE);
+            } catch (Error ex) {
                 JOptionPane.showMessageDialog(null, ex.getMessage(), "ERROR", JOptionPane.ERROR_MESSAGE);
             }
 
@@ -157,7 +147,8 @@ public class SubmitShiftScreen extends JFrame {
                         JOptionPane.ERROR_MESSAGE);
                 return;
             }
-            AddEmployeeToShiftScreen addEmployeeToShift = new AddEmployeeToShiftScreen(serviceFactory, Integer.parseInt(shiftIdField.getText()), Integer.parseInt(branchIdField.getText()), employees);
+            AddEmployeeToShiftScreen addEmployeeToShift = new AddEmployeeToShiftScreen(serviceFactory,
+                    Integer.parseInt(shiftIdField.getText()), Integer.parseInt(branchIdField.getText()), employees);
             addEmployeeToShift.setVisible(true);
         });
 

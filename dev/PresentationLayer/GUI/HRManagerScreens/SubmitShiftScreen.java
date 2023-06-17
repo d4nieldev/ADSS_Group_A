@@ -1,4 +1,4 @@
-package PresentationLayer.GUI;
+package PresentationLayer.GUI.HRManagerScreens;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;

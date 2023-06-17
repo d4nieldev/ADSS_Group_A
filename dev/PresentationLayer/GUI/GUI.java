@@ -1,5 +1,7 @@
 package PresentationLayer.GUI;
 
+import PresentationLayer.GUI.HRManagerScreens.HRManagerScreen;
+import PresentationLayer.GUI.MemberScreens.MemberScreen;
 import ServiceLayer.EmployeesLayer.ServiceFactory;
 
 public class GUI {
@@ -8,6 +10,8 @@ public class GUI {
             new StoreManagerScreen();
         else if (role.equals("HRManager"))
             new HRManagerScreen(serviceFactory);
+        else if (role.equals("Member"))
+            new MemberScreen(serviceFactory);
         else
             throw new IllegalArgumentException("Unknown role: " + role);
     }

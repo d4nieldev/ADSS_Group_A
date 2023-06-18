@@ -67,7 +67,7 @@ public class ProductAgreementDAO extends DAO<ProductAgreementDTO> {
         double minQuantity = (double) row.get("basePrice");
         int productSupplierId = (int) row.get("productSupplierId");
         TreeMap<Integer, DiscountDTO> amountToDiscount = agreementAmountToDiscountDAO
-                .getAgreementAmountToDiscount(productSupplierId, productId);
+                .getAgreementAmountToDiscount(supplierId, productId);
 
         return new ProductAgreementDTO(supplierId, productDAO.getById(productId), stockAmount, minQuantity,
                 productSupplierId, amountToDiscount);

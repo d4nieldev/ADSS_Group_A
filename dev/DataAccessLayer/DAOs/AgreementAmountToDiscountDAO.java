@@ -40,6 +40,8 @@ public class AgreementAmountToDiscountDAO extends DAO<AgreementAmountToDiscountD
         String query = "SELECT * FROM " + tableName + " WHERE supplierId = ? AND productId = ?;";
         List<Map<String, Object>> rs = repo.executeQuery(query, supplierId, productId);
 
+        System.out.println(rs);
+
         TreeMap<Integer, DiscountDTO> amountToDiscount = new TreeMap<>();
         for (Map<String, Object> row : rs) {
             int amount = (int) row.get("amount");

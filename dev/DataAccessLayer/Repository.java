@@ -267,11 +267,9 @@ public class Repository {
                 CREATE TABLE IF NOT EXISTS ProductBranchDiscounts (
                     productId  INTEGER NOT NULL,
                     branchId   INTEGER NOT NULL,
-                    discountId INTEGER NOT NULL,
 
                     FOREIGN KEY (branchId, productId) REFERENCES ProductBranch(branchId, productId) ON DELETE CASCADE,
-                    FOREIGN KEY (discountId)          REFERENCES Discounts(id)                      ON DELETE SET NULL,
-                    PRIMARY KEY (productId,branchId,discountId)
+                    PRIMARY KEY (productId,branchId)
                 );
 
                 CREATE TABLE IF NOT EXISTS SpecificProduct (

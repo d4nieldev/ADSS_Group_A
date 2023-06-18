@@ -238,7 +238,7 @@ public class BranchController {
             } else {
                 discountDTO = DiscountDAO.getInstance().getById(d.getDiscountId());
             }
-            ProductBranchDTO result = new ProductBranchDTO(productDTO, discountDTO, branchId, productBranch.getPrice(),
+            ProductBranchDTO result = new ProductBranchDTO(productDTO, branchId, productBranch.getPrice(),
                     productBranch.getMinQuantity(), productBranch.getIdealQuantity(), null);
             productBranchDAO.insert(result);
         }
@@ -383,20 +383,20 @@ public class BranchController {
         getBranchById(branchId); // just to check if exists
         // if(ProductController.getInstance().productExists(productId))
         ProductDTO productDTO = ProductController.getInstance().getProductById(productId).getDTO();
+
+        ProductBranchDTO productBranchDTO = new ProductBranchDTO(productDTO, branchId, price, minQuantity,
+                idealQuantity, new HashMap<>());
+        productBranchDAO.insert(productBranchDTO);
+
         DiscountDTO discountDTO = null;
         if (discountStartDate != null) {
             int discountId = Global.getNewDiscountId();
             discountDTO = new DiscountDTO(discountId, discountStartDate, discountEndDate,
                     discountVal, isDiscountPrecentage ? "Precentage" : "Fixed");
             discountDAO.insert(discountDTO);
+            ProductBranchDiscountDTO branchDiscountDTO = new ProductBranchDiscountDTO(productId, branchId, discountDTO);
+            productBranchDiscountsDAO.insert(branchDiscountDTO);
         }
-
-        ProductBranchDTO productBranchDTO = new ProductBranchDTO(productDTO, discountDTO, branchId, price, minQuantity,
-                idealQuantity, new HashMap<>());
-        productBranchDAO.insert(productBranchDTO);
-
-        ProductBranchDiscountDTO branchDiscountDTO = new ProductBranchDiscountDTO(productId, branchId, discountDTO);
-        productBranchDiscountsDAO.insert(branchDiscountDTO);
 
         return allBranches.get(branchId).addNewProductBranch(productBranchDTO);
     }

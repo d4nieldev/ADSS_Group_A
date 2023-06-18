@@ -8,6 +8,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
+import java.util.stream.Collectors;
 
 import BusinessLayer.InveontorySuppliers.Discount;
 import BusinessLayer.InveontorySuppliers.DiscountFixed;
@@ -646,24 +647,10 @@ public class SupplierController {
                 contactNames, contactPhones, address, maxPreperationDays);
     }
 
-    public List<String> getSomeSuppliersIds(int numOfSuppliers, List<Integer> alreadyHave) throws SQLException{
-        List<String> res = new ArrayList<>();
-        int max = supplierDAO.getLastId();
-        int count = 0;
-        int i=0;
-        while(count < numOfSuppliers && i<=max){
-            if(alreadyHave.contains(i)){
-                i++;
-                continue;
-            }else{
-                res.add(""+i);
-                count++;
-            }
-            i++;
-        }
-        if(res.size()!=numOfSuppliers || i==max+1){
-            res.add("done");
-        }
+    public List<String> getSomeSuppliersIds(int numOfSuppliers, List<Integer> alreadyHave) throws SQLException {
+        List<SupplierDTO> suppliers = supplierDAO.selectAll();
+        List<String> res = suppliers.stream().map(sup -> "" + sup.getId()).collect(Collectors.toList());
+        res.add("done");
         return res;
     }
 

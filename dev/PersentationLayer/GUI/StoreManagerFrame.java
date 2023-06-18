@@ -91,8 +91,8 @@ public class StoreManagerFrame implements ActionListener {
         if (e.getSource() == button1) {
             frame.dispose();
             // open new ManageStorage Window
-            StorekeeperFrame storekeeperFrame = new StorekeeperFrame();
-            storekeeperFrame.backButton.setVisible(true);
+            new StorekeeperFrame();
+            // storekeeperFrame.backButton.setVisible(true);
         }
         // manageSuppliers frame
         if (e.getSource() == button2) {

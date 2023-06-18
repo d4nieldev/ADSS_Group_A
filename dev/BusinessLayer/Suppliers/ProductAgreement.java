@@ -29,9 +29,9 @@ public class ProductAgreement {
         this.amountToDiscount = new TreeMap<>();
         for (Integer amount : dto.getAmountToDiscount().keySet()) {
             DiscountDTO discountDTO = dto.getAmountToDiscount().get(amount);
-            if (discountDTO.getdType() == "Fixed")
+            if (discountDTO.getdType().equals("Fixed"))
                 amountToDiscount.put(amount, new DiscountFixed(discountDTO));
-            else if (discountDTO.getdType() == "Precentage")
+            else if (discountDTO.getdType().equals("Precentage"))
                 amountToDiscount.put(amount, new DiscountPercentage(discountDTO));
         }
     }
@@ -110,7 +110,7 @@ public class ProductAgreement {
         map.put("stockAmount", stockAmount);
         map.put("productId", productId);
 
-        Map<String, String> myAmountToDiscount = new HashMap<>();
+        Map<String, String> myAmountToDiscount = new TreeMap<>();
         for (Integer amount : amountToDiscount.keySet())
             myAmountToDiscount.put("" + amount, amountToDiscount.get(amount).toString());
         map.put("amountToDiscount", myAmountToDiscount);

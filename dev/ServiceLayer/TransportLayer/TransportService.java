@@ -11,7 +11,10 @@ import BussinessLayer.TransPortLayer.Truck;
 import BussinessLayer.TransPortLayer.TruckFacade;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
+
+import javax.xml.transform.Source;
 
 public class TransportService {
     private TransportFacade transportFacade = TransportFacade.getInstance();
@@ -206,5 +209,54 @@ public class TransportService {
     {
         transportFacade.createTransport(transportDate, plateNumber, firstName, address, id, hour, destinationList, matchedDeliveries, weightNeto, weightMax);
     }
+
+
+
+    public List<Delivery> getDeliveries(String date) {
+        List<Destination> sources = new ArrayList<>();
+        List<Destination> dests = new ArrayList<>();
+
+        dests = makeSomeDestinations();
+        sources = makeSomeSources();
+        return transportFacade.createDeliveries(sources, dests);
+    }
+
+
+
+    private List<Destination> makeSomeSources() {
+        List<Destination> sources = new ArrayList<>(); // Initialize to empty list
+
+        sources.add(this.addDestination("Tel Aviv", "555-1234", "John Smith", Location.NORTH, DestinationType.DESTINATION));
+        sources.add(this.addDestination("Yafo", "555-5678", "Jane Doe", Location.SOUTH, DestinationType.DESTINATION));
+        sources.add(this.addDestination("Haifa", "555-5678", "Jane Doe", Location.NORTH, DestinationType.DESTINATION));
+        return sources;
+    }
+
+    private List<Destination> makeSomeDestinations() {
+        List<Destination> dests = new ArrayList<>(); // Initialize to empty list
+
+        dests.add(this.addDestination("cola", "555-1234", "John Smith", Location.NORTH, DestinationType.SOURCE));
+        dests.add(this.addDestination("osem", "555-5678", "Jane Doe", Location.SOUTH, DestinationType.SOURCE));
+        dests.add(this.addDestination("tnuva", "555-9012", "Bob Johnson", Location.CENTER, DestinationType.SOURCE));
+        return dests;
+    }
+
+
+
+
+    public List<Truck> getTrucks(String date) {
+        return this.getAvailableTrucks();
+    }
+
+
+
+public List<Driver> getDrivers(String date) {
+    // Convert the date string to LocalDate
+    LocalDate transportDate = LocalDate.parse(date);
+
+    // Call the getDayDrivers() method with the converted date and ID
+    return employeeTransportFacade.getDayDrivers(987654321, transportDate);
+}
+
 }
 

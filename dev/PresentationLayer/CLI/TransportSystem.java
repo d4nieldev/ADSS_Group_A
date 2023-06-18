@@ -1,4 +1,4 @@
-package PresentationLayer;
+package PresentationLayer.CLI;
 
 import BussinessLayer.EmployeesLayer.Driver;
 import BussinessLayer.TransPortLayer.Delivery;
@@ -7,7 +7,7 @@ import BussinessLayer.TransPortLayer.DestinationType;
 import BussinessLayer.TransPortLayer.Location;
 import BussinessLayer.TransPortLayer.Status;
 import BussinessLayer.TransPortLayer.Truck;
-import ServiceLayer.EmployeesLayer.serviceFactory;
+import ServiceLayer.EmployeesLayer.ServiceFactory;
 import ServiceLayer.TransportLayer.TransportService;
 import ServiceLayer.TransportLayer.TruckService;
 
@@ -23,7 +23,7 @@ public class TransportSystem
     private static TransportService transportService;
     private static TruckService truckService;
 
-    public TransportSystem(serviceFactory serviceFactory) {
+    public TransportSystem(ServiceFactory serviceFactory) {
         transportService = serviceFactory.getTransportService();
         truckService = serviceFactory.getTruckService();
     }

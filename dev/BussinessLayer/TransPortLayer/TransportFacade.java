@@ -375,10 +375,29 @@ public class TransportFacade {
      */
     public List<Delivery> createDeliveries(List<Destination> sources, List<Destination> dests) {
         List<Delivery> deliveries = new ArrayList<>();
+            List<String> firstList = Arrays.asList("pepsi", "diet", "zero");
+            List<String> secondList = Arrays.asList("bamba", "bisli");
+            List<String> thirdList = Arrays.asList("cheese", "milk", "butter", "milki");
+
+            Delivery delivery1 = new Delivery(1, sources.get(0), dests.get(0), Status.PENDING, firstList);
+            Delivery delivery2 = new Delivery(2, sources.get(0), dests.get(1), Status.PENDING, firstList);
+            Delivery delivery3 = new Delivery(3, sources.get(1), dests.get(0), Status.PENDING, secondList);
+            Delivery delivery4 = new Delivery(4, sources.get(1), dests.get(1), Status.PENDING, secondList);
+            Delivery delivery5 = new Delivery(5, sources.get(2), dests.get(0), Status.PENDING, thirdList);
+            Delivery delivery6 = new Delivery(6, sources.get(2), dests.get(1), Status.PENDING, thirdList);
+
+            deliveries.add(delivery1);
+            deliveries.add(delivery2);
+            deliveries.add(delivery3);
+            deliveries.add(delivery4);
+            deliveries.add(delivery5);
+            deliveries.add(delivery6);
+            /* 
 
         Scanner scanner = new Scanner(System.in);
         System.out.println("Enter '1' to enter deliveries manually, or '2' to use default values:");
         int choice = scanner.nextInt();
+        
 
         if (choice == 2) {
             List<String> firstList = Arrays.asList("pepsi", "diet", "zero");
@@ -430,6 +449,7 @@ public class TransportFacade {
         } else {
             System.out.println("Invalid choice.");
         }
+        */
 
         insertDeliveries(deliveries);
         return deliveries;

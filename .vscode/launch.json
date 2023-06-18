@@ -9,6 +9,13 @@
             "name": "Program",
             "request": "launch",
             "mainClass": "PresentationLayer.Program",
+            "projectName": "ADSS_Group_A_48ceeda7"
+        },
+        {
+            "type": "java",
+            "name": "Program",
+            "request": "launch",
+            "mainClass": "PresentationLayer.Program",
             "projectName": "ADSS_Group_A_a5407a9a"
         },
         {

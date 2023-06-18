@@ -6,11 +6,19 @@
   "configurations": [
     {
       "type": "java",
-      "name": "Program",
+      "name": "GUI Manager",
       "request": "launch",
       "mainClass": "PersentationLayer.Program",
       "projectName": "ADSS_Group_A_90ab346e",
       "args": "GUI StoreManager"
+    },
+    {
+      "type": "java",
+      "name": "CLI Manager",
+      "request": "launch",
+      "mainClass": "PersentationLayer.Program",
+      "projectName": "ADSS_Group_A_90ab346e",
+      "args": "CLI StoreManager"
     }
   ]
 }

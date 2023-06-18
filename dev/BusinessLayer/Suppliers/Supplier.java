@@ -64,6 +64,7 @@ public abstract class Supplier {
     }
 
     private TreeMap<Integer, Discount> makeDiscountMap(TreeMap<Integer, DiscountDTO> amountToDiscountDTO) {
+        System.out.println(amountToDiscountDTO);
         TreeMap<Integer, Discount> res = new TreeMap<>();
         for (Integer key : amountToDiscountDTO.keySet()) {
             // we need to add

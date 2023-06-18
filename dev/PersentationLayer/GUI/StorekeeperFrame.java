@@ -15,7 +15,7 @@ public class StorekeeperFrame implements ActionListener {
     JLabel label;
     JPanel panel;
 
-    public StorekeeperFrame(){
+    public StorekeeperFrame() {
         frame = new JFrame();
         frame.setTitle("JFrame title is here");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -34,7 +34,6 @@ public class StorekeeperFrame implements ActionListener {
         backButton.setForeground(Color.WHITE);
         backButton.setBorderPainted(false); // Remove button border
         backButton.setFocusPainted(false); // Remove button focus border
-        backButton.setVisible(false);
 
         // Configure panel for back button and label
         topPanel.add(backButton, BorderLayout.WEST);
@@ -72,8 +71,6 @@ public class StorekeeperFrame implements ActionListener {
         button2.addActionListener(this);
         button2.setPreferredSize(new Dimension(200, 50)); // Set button size
 
-
-
         // Add the buttons to the button panel
         buttonPanel.add(button1);
         buttonPanel.add(button2);
@@ -93,19 +90,19 @@ public class StorekeeperFrame implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        if (e.getSource() == button1){
+        if (e.getSource() == button1) {
             frame.dispose();
-            //open new ManageStorage Window
+            // open new ManageStorage Window
             MangeStorageFrame mangeStorageFrame = new MangeStorageFrame();
         }
-        if (e.getSource() == button2){
+        if (e.getSource() == button2) {
             frame.dispose();
-            //open new OrderSupply Window
+            // open new OrderSupply Window
             OrderSupplyFrame orderSupplyFrame = new OrderSupplyFrame();
         }
-        if (e.getSource() == backButton){
+        if (e.getSource() == backButton) {
             frame.dispose();
-            //open new OrderSupply Window
+            // open new OrderSupply Window
             StoreManagerFrame storeManagerFrame = new StoreManagerFrame();
 
         }

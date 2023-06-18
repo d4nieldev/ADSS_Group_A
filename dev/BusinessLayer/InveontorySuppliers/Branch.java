@@ -112,7 +112,7 @@ public class Branch {
                 // TODO: chack if the product belong to some discount -> if yes add the
                 // discount's dto ' else should be null
                 ProductBranchDTO productBranchDTO = new ProductBranchDTO(productsDAO.getById(id),
-                        discountDAO.getById(-1), reservation.getDestination(), buyPrice, minQuantity, idealQuantity,
+                        reservation.getDestination(), buyPrice, minQuantity, idealQuantity,
                         new HashMap<Integer, SpecificProductDTO>());
                 ProductBranch newProductBranch = new ProductBranch(productBranchDTO);
                 addNewProductBranch(productBranchDTO);
@@ -140,7 +140,6 @@ public class Branch {
         }
         return null;
     }
-
 
     public SpecificProduct sellProduct(int code, int specificId) throws Exception {
         ProductBranch productBranch = loadProductBranch(code);
@@ -186,10 +185,10 @@ public class Branch {
 
     private void loadAllProductBranch() throws SQLException {
         List<ProductBranchDTO> load = ProductBranchDAO.getInstance().selectAllbyId(branchId);
-        for (ProductBranchDTO productBranchDTO : load){
-            if(!allProductBranches.containsKey(productBranchDTO.getProductDTO().getId())) {
+        for (ProductBranchDTO productBranchDTO : load) {
+            if (!allProductBranches.containsKey(productBranchDTO.getProductDTO().getId())) {
                 ProductBranch productBranch = new ProductBranch(productBranchDTO);
-                allProductBranches.put(productBranch.getCode(),productBranch);
+                allProductBranches.put(productBranch.getCode(), productBranch);
             }
         }
     }
@@ -247,7 +246,8 @@ public class Branch {
 
     private void makeDeficiencyReservation() throws SQLException {
         ReservationController reservationController = ReservationController.getInstance();
-//        reservationController.makeDeficiencyReservation(productToAmount, this.branchId);
+        // reservationController.makeDeficiencyReservation(productToAmount,
+        // this.branchId);
     }
 
     // Dealing with periodic Reservation
@@ -327,26 +327,30 @@ public class Branch {
 
         for (ProductBranch productBranch : productsToDiscount) {
             ProductBranch productBranch1 = loadProductBranch(productBranch.getCode());
-//            if (!allProductBranches.containsKey(productBranch.getCode())) {
-//                throw new Exception("this product not fount on this branch");
-//            }
-//            boolean ans = productBranch.applyDiscount(discount);
+            // if (!allProductBranches.containsKey(productBranch.getCode())) {
+            // throw new Exception("this product not fount on this branch");
+            // }
+            // boolean ans = productBranch.applyDiscount(discount);
             boolean ans = productBranch1.applyDiscount(discount);
             if (ans) {
                 productToDiscount.add(productBranch);
-//                ProductBranchDiscountDTO productBranchDiscountDTO = new ProductBranchDiscountDTO(productBranch.getCode(),branchId,discountDTO);
-//                ProductBranchDiscountsDAO.getInstance().insert(productBranchDiscountDTO);
+                // ProductBranchDiscountDTO productBranchDiscountDTO = new
+                // ProductBranchDiscountDTO(productBranch.getCode(),branchId,discountDTO);
+                // ProductBranchDiscountsDAO.getInstance().insert(productBranchDiscountDTO);
             }
 
         }
         return productToDiscount;
     }
 
-//    public void setDiscountOnCategories(List<Category> categoriesToDiscount, Discount discount) throws Exception {
-//        List<Category> allSubCategories = categoryController.getListAllSubCategories(categoriesToDiscount);
-//        List<ProductBranch> productsFromCategory = getProductsByCategories(allSubCategories);
-//        setDiscountOnProducts(productsFromCategory, discount,discoun);
-//    }
+    // public void setDiscountOnCategories(List<Category> categoriesToDiscount,
+    // Discount discount) throws Exception {
+    // List<Category> allSubCategories =
+    // categoryController.getListAllSubCategories(categoriesToDiscount);
+    // List<ProductBranch> productsFromCategory =
+    // getProductsByCategories(allSubCategories);
+    // setDiscountOnProducts(productsFromCategory, discount,discoun);
+    // }
 
     public List<ProductBranch> getProductsByCategories(List<Category> allSubCategories)
             throws SQLException, InventoryException {
@@ -612,7 +616,7 @@ public class Branch {
 
     public HashMap<Integer, ProductBranch> getAllDeficiencyProductsBranch() throws SQLException {
         HashMap<Integer, ProductBranch> allDeficiencyProducts = new HashMap<>();
-        if(allProductBranches.size() == 0)
+        if (allProductBranches.size() == 0)
             loadAllProductBranch();
         for (ProductBranch productBranch : allProductBranches.values()) {
             boolean check = productBranch.checkForDeficiency();

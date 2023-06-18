@@ -389,13 +389,15 @@ public class BranchController {
             discountDTO = new DiscountDTO(discountId, discountStartDate, discountEndDate,
                     discountVal, isDiscountPrecentage ? "Precentage" : "Fixed");
             discountDAO.insert(discountDTO);
-            ProductBranchDiscountDTO branchDiscountDTO = new ProductBranchDiscountDTO(productId, branchId, discountDTO);
-            productBranchDiscountsDAO.insert(branchDiscountDTO);
         }
 
         ProductBranchDTO productBranchDTO = new ProductBranchDTO(productDTO, discountDTO, branchId, price, minQuantity,
                 idealQuantity, new HashMap<>());
         productBranchDAO.insert(productBranchDTO);
+
+        ProductBranchDiscountDTO branchDiscountDTO = new ProductBranchDiscountDTO(productId, branchId, discountDTO);
+        productBranchDiscountsDAO.insert(branchDiscountDTO);
+
         return allBranches.get(branchId).addNewProductBranch(productBranchDTO);
     }
 

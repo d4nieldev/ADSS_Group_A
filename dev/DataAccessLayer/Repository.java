@@ -269,7 +269,7 @@ public class Repository {
                     branchId   INTEGER NOT NULL,
                     discountId INTEGER NOT NULL,
 
-                    FOREIGN KEY (productId, branchId) REFERENCES ProductBranch(productId, branchId) ON DELETE CASCADE,
+                    FOREIGN KEY (branchId, productId) REFERENCES ProductBranch(branchId, productId) ON DELETE CASCADE,
                     FOREIGN KEY (discountId)          REFERENCES Discounts(id)                      ON DELETE SET NULL,
                     PRIMARY KEY (productId,branchId,discountId)
                 );
@@ -287,7 +287,7 @@ public class Repository {
 
                     CHECK (buyPrice >= 0 AND status IN ('SOLD', 'ON_SHELF', 'ON_STORAGE', 'EXPIRED', 'IS_FLAW')),
 
-                    FOREIGN KEY (generalId, branchId) REFERENCES ProductBranch(productId, branchId) ON DELETE SET NULL,
+                    FOREIGN KEY (branchId, generalId) REFERENCES ProductBranch(branchId, productId) ON DELETE SET NULL,
                     PRIMARY KEY (specificId)
                 );
 
@@ -375,7 +375,7 @@ public class Repository {
                     CHECK (amount > 0),
 
                     FOREIGN KEY (supplierId, branchId) REFERENCES PeriodicReservation(supplierId, branchId) ON DELETE CASCADE,
-                    FOREIGN KEY (productId, branchId)  REFERENCES ProductBranch(productId, branchId)        ON DELETE CASCADE,
+                    FOREIGN KEY (branchId, productId)  REFERENCES ProductBranch(branchId, productId)        ON DELETE CASCADE,
                     PRIMARY KEY (supplierId, branchId, productId)
                 );
 

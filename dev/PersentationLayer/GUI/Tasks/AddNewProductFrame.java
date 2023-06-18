@@ -35,7 +35,6 @@ public class AddNewProductFrame implements ActionListener {
     BranchService branchService = new BranchService();
     JComboBox<String> discountTypeComboBox; // Added ComboBox
 
-
     public AddNewProductFrame() {
         frame = new JFrame();
         frame.setTitle("Add new Product");
@@ -100,7 +99,7 @@ public class AddNewProductFrame implements ActionListener {
 
         // Create the discount type combo box
         JLabel discountTypeLabel = new JLabel("Discount Type");
-        discountTypeComboBox = new JComboBox<>(new String[]{"Discount Percentage", "Discount Fix"});
+        discountTypeComboBox = new JComboBox<>(new String[] { "Discount Percentage", "Discount Fix" });
 
         // Add the labels and text fields to the main panel
         gbc.gridx = 0;
@@ -176,7 +175,6 @@ public class AddNewProductFrame implements ActionListener {
         gbc.gridy = 8;
         mainPanel.add(discountTypeComboBox, gbc);
 
-
         // Create the submit button
         submitButton = new JButton("Submit");
         submitButton.addActionListener(this);
@@ -206,7 +204,7 @@ public class AddNewProductFrame implements ActionListener {
     }
 
     public void actionPerformed(ActionEvent e) {
-        //back to tasks view window
+        // back to tasks view window
         if (e.getSource() == backButton) {
             frame.dispose();
             MangeStorageFrame mangeStorageFrame = new MangeStorageFrame();
@@ -225,15 +223,15 @@ public class AddNewProductFrame implements ActionListener {
             boolean isValid = true;
             StringBuilder errorMessage = new StringBuilder("Invalid input:");
 
-            int branchId ;
+            int branchId;
             int productCode;
-            double discountValue ;
-            double price ;
-            int minQuantity ;
-            int idealQuantity ;
+            double discountValue;
+            double price;
+            int minQuantity;
+            int idealQuantity;
 
             try {
-                branchId = Integer.parseInt(branchIdTextField.getText());
+                branchId = Integer.parseInt(branchIdText);
             } catch (NumberFormatException ex) {
                 invalidInputLabel.setText("");
                 invalidInputLabel.setText("Branch ID is invalid");
@@ -242,13 +240,12 @@ public class AddNewProductFrame implements ActionListener {
             }
 
             try {
-                productCode = Integer.parseInt(productCodeTextField.getText());
+                productCode = Integer.parseInt(productCodeText);
             } catch (NumberFormatException ex) {
                 invalidInputLabel.setText("Product Code is invalid");
                 invalidInputLabel.setVisible(true);
                 return;
             }
-
 
             // Validate discountValue
 
@@ -260,7 +257,7 @@ public class AddNewProductFrame implements ActionListener {
                 return;
             }
 
-            //Validate discount start date
+            // Validate discount start date
             try {
                 LocalDate discountStartDate = LocalDate.parse(discountStart, DateTimeFormatter.ISO_LOCAL_DATE);
             } catch (DateTimeParseException ex) {
@@ -268,7 +265,7 @@ public class AddNewProductFrame implements ActionListener {
                 invalidInputLabel.setVisible(true);
                 return;
             }
-            //Validate discount End date
+            // Validate discount End date
             try {
                 LocalDate discountEndDate = LocalDate.parse(discountEnd, DateTimeFormatter.ISO_LOCAL_DATE);
             } catch (DateTimeParseException ex) {
@@ -276,7 +273,6 @@ public class AddNewProductFrame implements ActionListener {
                 invalidInputLabel.setVisible(true);
                 return;
             }
-
 
             try {
                 price = Double.parseDouble(priceText);
@@ -295,7 +291,7 @@ public class AddNewProductFrame implements ActionListener {
             }
 
             try {
-                idealQuantity = Integer.parseInt(minQuantityText);
+                idealQuantity = Integer.parseInt(idealQuantityText);
             } catch (NumberFormatException ex) {
                 invalidInputLabel.setText("Invalid ideal Quantity");
                 invalidInputLabel.setVisible(true);
@@ -304,8 +300,10 @@ public class AddNewProductFrame implements ActionListener {
 
             boolean isDiscountPercentage = discountTypeComboBox.getSelectedItem().equals("DiscountPercentage");
             String res = "";
-            try{
-                 res =  branchService.addProductBranch(productCode,branchId, LocalDate.parse(discountStart),LocalDate.parse(discountEnd),discountValue,isDiscountPercentage,price,minQuantity,idealQuantity);
+            try {
+                res = branchService.addProductBranch(productCode, branchId, LocalDate.parse(discountStart),
+                        LocalDate.parse(discountEnd), discountValue, isDiscountPercentage, price, minQuantity,
+                        idealQuantity);
             } catch (Exception ex) {
                 String keyword = "this";
                 int startIndex = ex.getMessage().toLowerCase().indexOf(keyword.toLowerCase());
@@ -317,16 +315,15 @@ public class AddNewProductFrame implements ActionListener {
                 }
             }
 
-            if(res!="Success")
-                {
-                    invalidInputLabel.setText(res);
-                    invalidInputLabel.setVisible(true);
-                    return;
-                }
+            if (res != "Success") {
+                invalidInputLabel.setText(res);
+                invalidInputLabel.setVisible(true);
+                return;
+            }
             invalidInputLabel.setText("operation succeed");
             invalidInputLabel.setForeground(Color.green);
             invalidInputLabel.setVisible(true);
-            //clear the textBox data
+            // clear the textBox data
             branchIdTextField.setText("");
             productCodeTextField.setText("");
             discountValueTextField.setText("");
@@ -336,13 +333,7 @@ public class AddNewProductFrame implements ActionListener {
             minQuantityTextField.setText("");
             idealQuantityTextField.setText("");
 
-
-
-
         }
 
-
-        }
     }
-
-
+}

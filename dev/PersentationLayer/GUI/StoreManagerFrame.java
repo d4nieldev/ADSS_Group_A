@@ -1,12 +1,14 @@
 package PersentationLayer.GUI;
 
 import javax.swing.*;
+
+import PersentationLayer.GUI.SuppliersManager.SuppliersManagerScreen;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class StoreManagerFrame implements ActionListener
-{
+public class StoreManagerFrame implements ActionListener {
     JFrame frame;
     JTextField textField;
     JButton button1;
@@ -15,6 +17,7 @@ public class StoreManagerFrame implements ActionListener
     JButton button4;
     JLabel label;
     JPanel panel;
+
     public StoreManagerFrame() {
         frame = new JFrame();
         frame.setTitle("store manager");
@@ -64,7 +67,6 @@ public class StoreManagerFrame implements ActionListener
         button3.addActionListener(this);
         button3.setPreferredSize(new Dimension(200, 50)); // Set button size
 
-
         // Add the buttons to the button panel
         buttonPanel.add(button1);
         buttonPanel.add(button2);
@@ -86,22 +88,21 @@ public class StoreManagerFrame implements ActionListener
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        if (e.getSource() == button1){
+        if (e.getSource() == button1) {
             frame.dispose();
-            //open new ManageStorage Window
+            // open new ManageStorage Window
             StorekeeperFrame storekeeperFrame = new StorekeeperFrame();
             storekeeperFrame.backButton.setVisible(true);
         }
-        //manageSuppliers frame
-        if (e.getSource() == button2){
+        // manageSuppliers frame
+        if (e.getSource() == button2) {
             frame.dispose();
-            //open new OrderSupply Window
-//            OrderSupplyFrame orderSupplyFrame = new OrderSupplyFrame(this);
+            new SuppliersManagerScreen();
         }
 
-        if (e.getSource() == button3){
+        if (e.getSource() == button3) {
             frame.dispose();
-            //open new Reports Window
+            // open new Reports Window
             ReportsFrame reportsFrame = new ReportsFrame();
         }
     }

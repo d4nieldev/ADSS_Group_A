@@ -9,10 +9,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a2472df3-0b1c-47fc-bcd6-f26fc4f0a51c" name="Changes" comment="last one">
+    <list default="true" id="a2472df3-0b1c-47fc-bcd6-f26fc4f0a51c" name="Changes" comment=".">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/database.db" beforeDir="false" afterPath="$PROJECT_DIR$/database.db" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dev/BusinessLayer/InveontorySuppliers/ProductController.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/BusinessLayer/InveontorySuppliers/ProductController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dev/PersentationLayer/Program.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/PersentationLayer/Program.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -95,7 +95,7 @@
       <recent name="Tests.InventoryTest" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.GuiMain">
+  <component name="RunManager" selected="Application.Program">
     <configuration name="GuiMain" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="PersentationLayer.GUI.GuiMain" />
       <module name="ADSS_Group_A" />
@@ -176,11 +176,11 @@
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Application.Program" />
+        <item itemvalue="Application.GuiMain" />
         <item itemvalue="JUnit.SupplierControllerTest.getRandomContactOfTest" />
         <item itemvalue="JUnit.ProductBranchTest.reportFlawProductsTest" />
         <item itemvalue="Application.Program1" />
-        <item itemvalue="Application.Program" />
-        <item itemvalue="Application.GuiMain" />
       </list>
     </recent_temporary>
   </component>
@@ -515,7 +515,14 @@
       <option name="project" value="LOCAL" />
       <updated>1686996005825</updated>
     </task>
-    <option name="localTasksCounter" value="47" />
+    <task id="LOCAL-00047" summary=".">
+      <created>1687106358883</created>
+      <option name="number" value="00047" />
+      <option name="presentableId" value="LOCAL-00047" />
+      <option name="project" value="LOCAL" />
+      <updated>1687106358883</updated>
+    </task>
+    <option name="localTasksCounter" value="48" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -531,7 +538,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-    <MESSAGE value="delete unnecessary test folder" />
     <MESSAGE value="format change" />
     <MESSAGE value="start debugging -&gt; 1-6 works the reports not" />
     <MESSAGE value=" fix issues" />
@@ -556,7 +562,8 @@
     <MESSAGE value="work on Storage manager frame" />
     <MESSAGE value="done with reports, and add new frame- for manager and for StorekeeperFrame" />
     <MESSAGE value="last one" />
-    <option name="LAST_COMMIT_MESSAGE" value="last one" />
+    <MESSAGE value="." />
+    <option name="LAST_COMMIT_MESSAGE" value="." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -578,7 +585,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/dev/PersentationLayer/GUI/Tasks/AddNewProductFrame.java</url>
-          <line>308</line>
+          <line>306</line>
           <option name="timeStamp" value="19" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
@@ -690,6 +697,21 @@
           <url>file://$PROJECT_DIR$/dev/PersentationLayer/GUI/Tasks/ProductReportFrame.java</url>
           <line>114</line>
           <option name="timeStamp" value="54" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/dev/PersentationLayer/GUI/Tasks/AddNewProductFrame.java</url>
+          <line>303</line>
+          <option name="timeStamp" value="55" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/dev/BusinessLayer/Inventory/BranchController.java</url>
+          <line>392</line>
+          <option name="timeStamp" value="56" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>jar://$USER_HOME$/.ideaLibSources/sqlite-jdbc-3.41.2.1-sources.jar!/org/sqlite/jdbc3/JDBC3Statement.java</url>
+          <line>455</line>
+          <option name="timeStamp" value="57" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

@@ -9,28 +9,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a2472df3-0b1c-47fc-bcd6-f26fc4f0a51c" name="Changes" comment="work on Storage manager frame">
-      <change afterPath="$PROJECT_DIR$/dev/PersentationLayer/GUI/StoreManagerFrame.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/dev/PersentationLayer/GUI/Tasks/ProductReportActual.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/dev/PersentationLayer/GUI/Tasks/ReportByReportIdFrame.java" afterDir="false" />
+    <list default="true" id="a2472df3-0b1c-47fc-bcd6-f26fc4f0a51c" name="Changes" comment="done with reports, and add new frame- for manager and for StorekeeperFrame">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/database.db" beforeDir="false" afterPath="$PROJECT_DIR$/database.db" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dev/BusinessLayer/Inventory/ReportController.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/BusinessLayer/Inventory/ReportController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dev/BusinessLayer/InveontorySuppliers/Branch.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/BusinessLayer/InveontorySuppliers/Branch.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dev/DataAccessLayer/DAOs/DAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/DataAccessLayer/DAOs/DAO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dev/DataAccessLayer/DAOs/ProductBranchDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/DataAccessLayer/DAOs/ProductBranchDAO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dev/PersentationLayer/GUI/GuiMain.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/PersentationLayer/GUI/GuiMain.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dev/PersentationLayer/GUI/OrderSupplyFrame.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/PersentationLayer/GUI/OrderSupplyFrame.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dev/PersentationLayer/GUI/StoreMangerFrame.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/PersentationLayer/GUI/ReportsFrame.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dev/PersentationLayer/GUI/StorekeeperFrame.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/PersentationLayer/GUI/StorekeeperFrame.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dev/PersentationLayer/GUI/Tasks/AddCategoryFrame.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/PersentationLayer/GUI/Tasks/AddCategoryFrame.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dev/PersentationLayer/GUI/Tasks/AddNewProductFrame.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/PersentationLayer/GUI/Tasks/AddNewProductFrame.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dev/PersentationLayer/GUI/Tasks/ExpiredAndFlawsReportFrame.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/PersentationLayer/GUI/Tasks/ExpiredAndFlawsReportFrame.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dev/PersentationLayer/GUI/Tasks/InventoryReportFrame.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/PersentationLayer/GUI/Tasks/InventoryReportFrame.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dev/PersentationLayer/GUI/Tasks/ReportByCategoriesFrame.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/PersentationLayer/GUI/Tasks/ReportByCategoriesFrame.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dev/PersentationLayer/GUI/Tasks/ReportsByBranchIdFrame.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/PersentationLayer/GUI/Tasks/ReportsByBranchIdFrame.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dev/PersentationLayer/GUI/Tasks/SetDiscountOnCategoriesFrame.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/PersentationLayer/GUI/Tasks/SetDiscountOnCategoriesFrame.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dev/PersentationLayer/GUI/Tasks/productReportFrame.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/PersentationLayer/GUI/Tasks/ProductReportFrame.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -526,7 +507,14 @@
       <option name="project" value="LOCAL" />
       <updated>1686832531068</updated>
     </task>
-    <option name="localTasksCounter" value="46" />
+    <task id="LOCAL-00046" summary="done with reports, and add new frame- for manager and for StorekeeperFrame">
+      <created>1686996005825</created>
+      <option name="number" value="00046" />
+      <option name="presentableId" value="LOCAL-00046" />
+      <option name="project" value="LOCAL" />
+      <updated>1686996005825</updated>
+    </task>
+    <option name="localTasksCounter" value="47" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -542,7 +530,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-    <MESSAGE value="add the service" />
     <MESSAGE value="add some tests" />
     <MESSAGE value="delete unnecessary test folder" />
     <MESSAGE value="format change" />
@@ -567,7 +554,8 @@
     <MESSAGE value="add more frames" />
     <MESSAGE value="done with manage storage and start the Storage manager" />
     <MESSAGE value="work on Storage manager frame" />
-    <option name="LAST_COMMIT_MESSAGE" value="work on Storage manager frame" />
+    <MESSAGE value="done with reports, and add new frame- for manager and for StorekeeperFrame" />
+    <option name="LAST_COMMIT_MESSAGE" value="done with reports, and add new frame- for manager and for StorekeeperFrame" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

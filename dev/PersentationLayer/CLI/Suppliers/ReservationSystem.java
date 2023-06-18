@@ -1,4 +1,4 @@
-package PersentationLayer.Suppliers;
+package PersentationLayer.CLI.Suppliers;
 
 import java.time.DayOfWeek;
 import java.util.HashMap;

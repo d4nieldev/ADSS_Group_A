@@ -1,12 +1,16 @@
 package ServiceLayer.Suppliers;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.TreeMap;
 
 import javax.management.RuntimeErrorException;
 
 import BusinessLayer.InveontorySuppliers.ProductController;
+import BusinessLayer.Suppliers.ProductAgreement;
 import BusinessLayer.Suppliers.SupplierController;
 
 public class SupplierService {
@@ -50,7 +54,7 @@ public class SupplierService {
             supplierController.addFixedDaysSupplierBaseAgreement(supplierName, supplierPhone, supplierBankAccount,
                     supplierFields,
                     paymentCondition, amountToDiscount, contactNames, contactPhones, days);
-            return "Supplier of type: 'Fixed days' added successfully";
+            return "Successfully added supplier " + supplierName + " of type 'Fixed Days'.";
         } catch (Exception e) {
             return e.getMessage();
         }
@@ -75,9 +79,8 @@ public class SupplierService {
             List<String> contactNames, List<String> contactPhones, int maxSupplyDays) {
         try {
             supplierController.addOnOrderSupplierBaseAgreement(supplierName, supplierPhone, supplierBankAccount,
-                    supplierFields,
-                    paymentCondition, amountToDiscount, contactNames, contactPhones, maxSupplyDays);
-            return "Supplier of type: 'On Order' added successfully";
+                    supplierFields, paymentCondition, amountToDiscount, contactNames, contactPhones, maxSupplyDays);
+            return "Successfully added supplier " + supplierName + " of type 'On Order'.";
         } catch (Exception e) {
             return e.getMessage();
         }
@@ -105,7 +108,7 @@ public class SupplierService {
             supplierController.addSelfPickupSupplierBaseAgreement(supplierName, supplierPhone, supplierBankAccount,
                     supplierFields,
                     paymentCondition, amountToDiscount, contactNames, contactPhones, address, maxPreparationDays);
-            return "Supplier of type: 'Self Pickup' added successfully";
+            return "Successfully added supplier " + supplierName + " of type 'Self Pickup'.";
         } catch (Exception e) {
             return e.getMessage();
         }
@@ -229,23 +232,99 @@ public class SupplierService {
     }
 
     /**
+     * a map that contains: name, bankAcc, fields, paymentCondition, phone,
+     * amountToDiscount (map), contacts (map) for each supplier.
+     * 
+     * if the supplier is of type on order: the map also contains maxSupplyDays
+     * (integer)
+     * 
+     * if the supplier is of type fixed days: the map also contains days (list of
+     * integers - monday = 1, sunday = 7)
+     * 
+     * if the supplier is of type self pickup: the map also contains address and
+     * maxPreperationDays (integer)
      * 
      * @param supplierId
      * @return infromation about the supplier
      */
-    public String getSupplierCard(int supplierId) {
+    public Map<String, Object> getSupplierCard(int supplierId) {
         try {
             return supplierController.getSupplierCard(supplierId);
+        } catch (Exception e) {
+            Map<String, Object> map = new HashMap<String, Object>();
+            map.put("error", e.getMessage());
+            return map;
+        }
+    }
+
+    public List<Map<String, Object>> getSupplierProductAgreements(int supplierId) {
+        List<Map<String, Object>> list = new ArrayList<>();
+        try {
+            for (ProductAgreement pa : productController.getProductAgreementsOfSupplier(supplierId))
+                list.add(pa.getMap());
+
+            return list;
+        } catch (Exception e) {
+            Map<String, Object> map = new HashMap<String, Object>();
+            map.put("error", e.getMessage());
+            list.add(map);
+            return list;
+        }
+    }
+
+    public String deleteSupplierAgreement(int supplierId) {
+        try {
+            productController.deleteAllSupplierAgreements(supplierId);
+            return "Supplier agreement deleted successfully";
         } catch (Exception e) {
             return e.getMessage();
         }
     }
 
-    public String getSupplierProductAgreements(int supplierId) {
+    public String editOnOrderSupplier(int supplierId, String name, String phone, String bankAcc, List<String> fields,
+            String paymentCondition, TreeMap<Integer, String> amountToDiscount, List<String> contactNames,
+            List<String> contactPhones, int maxSupplyDays) {
         try {
-            return productController.getProductAgreementsOfSupplier(supplierId).toString();
+            supplierController.editOnOrderSupplier(supplierId, name, phone, bankAcc, fields, paymentCondition,
+                    amountToDiscount, contactNames, contactPhones, maxSupplyDays);
+            return "Edited supplier " + name + " (id: " + supplierId + ") successfully";
         } catch (Exception e) {
             return e.getMessage();
+        }
+    }
+
+    public String editFixedDaysSupplier(int supplierId, String name, String phone, String bankAcc, List<String> fields,
+            String paymentCondition, TreeMap<Integer, String> amountToDiscount, List<String> contactNames,
+            List<String> contactPhones, List<Integer> days) {
+        try {
+            supplierController.editFixedDaysSupplier(supplierId, name, phone, bankAcc, fields, paymentCondition,
+                    amountToDiscount, contactNames, contactPhones, days);
+            return "Edited supplier " + name + " (id: " + supplierId + ") successfully";
+        } catch (Exception e) {
+            return e.getMessage();
+        }
+    }
+
+    public String editSelfPickupSupplier(int supplierId, String name, String phone, String bankAcc, List<String> fields,
+            String paymentCondition, TreeMap<Integer, String> amountToDiscount, List<String> contactNames,
+            List<String> contactPhones, int maxPreperationDays, String address) {
+        try {
+            supplierController.editSelfPickupSupplier(supplierId, name, phone, bankAcc, fields, paymentCondition,
+                    amountToDiscount, contactNames, contactPhones, maxPreperationDays, address);
+            return "Edited supplier " + name + " (id: " + supplierId + ") successfully";
+        } catch (Exception e) {
+            return e.getMessage();
+        }
+    }
+
+    public List<String> getSomeSuppliersIds(int numOfSuppliers, List<Integer> alreadyHave){
+        try{
+            List<String> ids = supplierController.getSomeSuppliersIds(numOfSuppliers, alreadyHave);
+            return ids;
+        }catch(Exception e){
+            List<String> error = new ArrayList<String>();
+            error.add(e.getMessage());
+            return error;
         }
     }
 }

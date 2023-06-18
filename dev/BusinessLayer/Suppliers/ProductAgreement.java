@@ -1,5 +1,6 @@
 package BusinessLayer.Suppliers;
 
+import java.util.HashMap;
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -99,5 +100,21 @@ public class ProductAgreement {
     // Getter for product base price
     public double getBasePrice() {
         return basePrice;
+    }
+
+    public Map<String, Object> getMap() {
+        Map<String, Object> map = new HashMap<>();
+        map.put("supplierId", supplierId);
+        map.put("productSupplierId", productSupplierId);
+        map.put("basePrice", basePrice);
+        map.put("stockAmount", stockAmount);
+        map.put("productId", productId);
+
+        Map<String, String> myAmountToDiscount = new HashMap<>();
+        for (Integer amount : amountToDiscount.keySet())
+            myAmountToDiscount.put("" + amount, amountToDiscount.get(amount).toString());
+        map.put("amountToDiscount", myAmountToDiscount);
+
+        return map;
     }
 }

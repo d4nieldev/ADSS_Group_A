@@ -97,6 +97,10 @@ public class ProductController {
 
     public List<ProductAgreement> getProductAgreementsOfSupplier(int supplierId)
             throws SuppliersException, SQLException {
+        // check if supplier exists
+        SupplierController.getInstance().getSupplierById(supplierId);
+
+        // get his agreement
         Collection<ProductAgreementDTO> dtos = ProductAgreementDAO.getInstance().getAgreementsOfSupplier(supplierId);
         List<ProductAgreement> output = new ArrayList<>();
         for (ProductAgreementDTO dto : dtos) {
@@ -183,8 +187,6 @@ public class ProductController {
         else {
             // load from tables, save and return
             ProductDTO productDTO = productsDAO.getById(productId);
-            if(productDTO == null)
-                throw new SQLException("this product doesn't exist on supplier");
             Product product = new Product(productDTO);
             products.put(productId, product);
             return product;

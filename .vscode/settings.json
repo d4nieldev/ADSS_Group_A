@@ -3,7 +3,8 @@
     "lib/**/*.jar",
     "c:\\Users\\Daniel\\Downloads\\sqlite-jdbc-3.41.2.1.jar",
     "c:\\Users\\shemb\\Downloads\\sqlite-jdbc-3.41.2.1.jar",
-    "c:\\Users\\danie\\Downloads\\sqlite-jdbc-3.41.2.1.jar"
+    "c:\\Users\\danie\\Downloads\\sqlite-jdbc-3.41.2.1.jar",
+    "c:\\Users\\liors\\Downloads\\sqlite-jdbc-3.41.2.1.jar"
   ],
   "java.debug.settings.onBuildFailureProceed": true
 }

@@ -17,6 +17,9 @@ import java.util.Map;
 
 import javax.naming.spi.DirStateFactory.Result;
 
+import org.sqlite.SQLiteConfig;
+import org.sqlite.javax.SQLiteConnectionPoolDataSource;
+
 public class Repository {
 
     private static Repository instance = null;
@@ -39,7 +42,12 @@ public class Repository {
             Class.forName("org.sqlite.JDBC");
             String url = "jdbc:sqlite:database.db";
             // String url = "jdbc:sqlite::memory:";
-            conn = DriverManager.getConnection(url);
+            SQLiteConfig config = new SQLiteConfig();
+            config.enforceForeignKeys(true);
+            SQLiteConnectionPoolDataSource dataSource = new SQLiteConnectionPoolDataSource();
+            dataSource.setUrl(url);
+            dataSource.setConfig(config);
+            conn = dataSource.getConnection();
         } catch (SQLException e) {
             e.printStackTrace();
         } catch (ClassNotFoundException e) {
@@ -166,7 +174,6 @@ public class Repository {
                     fieldName  TEXT    NOT NULL,
 
                     FOREIGN KEY (supplierId) REFERENCES Suppliers(id) ON DELETE CASCADE,
-                    FOREIGN KEY (fieldName)  REFERENCES Fields(name)  ON DELETE CASCADE,
                     PRIMARY KEY (supplierId, fieldName)
                 );
 
@@ -334,14 +341,15 @@ public class Repository {
 
                 CREATE TABLE IF NOT EXISTS ReceiptItem (
                     reservationId              INTEGER NOT NULL,
-                    productId                  INTEGER,
+                    supplierId                 INTEGER NOT NULL,
+                    productId                  INTEGER NOT NULL,
                     amount                     INTEGER NOT NULL,
                     pricePerUnitBeforeDiscount REAL    NOT NULL,
                     pricePerUnitAfterDiscount  REAL    NOT NULL,
 
                     CHECK(amount > 0),
 
-                    FOREIGN KEY (reservationId) REFERENCES Reservations(id) ON DELETE CASCADE,
+                    FOREIGN KEY (reservationId, supplierId) REFERENCES Reservations(id, supplierId) ON DELETE CASCADE,
                     FOREIGN KEY (productId)     REFERENCES Products(id)     ON DELETE SET NULL,
                     PRIMARY KEY (reservationId, productId)
                 );

@@ -13,6 +13,11 @@ public class DiscountPercentage extends Discount {
 
     @Override
     public double getPriceWithDiscount(double price) {
-        return price * (1 - val);
+        return price * (1 - val / 100);
+    }
+
+    @Override
+    public String toString() {
+        return val + "%";
     }
 }

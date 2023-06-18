@@ -9,6 +9,7 @@ import java.util.Map;
 import java.util.TreeMap;
 
 import BusinessLayer.Suppliers.ProductAgreement;
+import BusinessLayer.Suppliers.SupplierController;
 import BusinessLayer.exceptions.SuppliersException;
 import DataAccessLayer.DAOs.CategoryDAO;
 import DataAccessLayer.DAOs.ProductAgreementDAO;
@@ -211,11 +212,11 @@ public class ProductController {
     }
 
     public List<Product> getAllProducts() throws SQLException {
-        if(products.size() == 0){
+        if (products.size() == 0) {
             loadProducts();
         }
         List<Product> res = new ArrayList<>();
-        for(Product product : products.values()){
+        for (Product product : products.values()) {
             res.add(product);
         }
         return res;
@@ -223,10 +224,10 @@ public class ProductController {
 
     private void loadProducts() throws SQLException {
         List<ProductDTO> productsDTOs = ProductsDAO.getInstance().getaAllProducts();
-    for(ProductDTO productDTO : productsDTOs){
-        Product product = new Product(productDTO);
-        products.put(product.getId(),product);
-    }
+        for (ProductDTO productDTO : productsDTOs) {
+            Product product = new Product(productDTO);
+            products.put(product.getId(), product);
+        }
     }
 
 }

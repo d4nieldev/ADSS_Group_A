@@ -9,9 +9,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a2472df3-0b1c-47fc-bcd6-f26fc4f0a51c" name="Changes" comment="done with reports, and add new frame- for manager and for StorekeeperFrame">
+    <list default="true" id="a2472df3-0b1c-47fc-bcd6-f26fc4f0a51c" name="Changes" comment="last one">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/database.db" beforeDir="false" afterPath="$PROJECT_DIR$/database.db" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dev/BusinessLayer/InveontorySuppliers/ProductController.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/BusinessLayer/InveontorySuppliers/ProductController.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -29,7 +30,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="322404559_206892317_322126350_318359734" />
+        <entry key="$PROJECT_DIR$" value="Metar-GUI" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -175,11 +176,11 @@
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Application.GuiMain" />
         <item itemvalue="JUnit.SupplierControllerTest.getRandomContactOfTest" />
         <item itemvalue="JUnit.ProductBranchTest.reportFlawProductsTest" />
         <item itemvalue="Application.Program1" />
         <item itemvalue="Application.Program" />
+        <item itemvalue="Application.GuiMain" />
       </list>
     </recent_temporary>
   </component>
@@ -530,7 +531,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-    <MESSAGE value="add some tests" />
     <MESSAGE value="delete unnecessary test folder" />
     <MESSAGE value="format change" />
     <MESSAGE value="start debugging -&gt; 1-6 works the reports not" />
@@ -555,7 +555,8 @@
     <MESSAGE value="done with manage storage and start the Storage manager" />
     <MESSAGE value="work on Storage manager frame" />
     <MESSAGE value="done with reports, and add new frame- for manager and for StorekeeperFrame" />
-    <option name="LAST_COMMIT_MESSAGE" value="done with reports, and add new frame- for manager and for StorekeeperFrame" />
+    <MESSAGE value="last one" />
+    <option name="LAST_COMMIT_MESSAGE" value="last one" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

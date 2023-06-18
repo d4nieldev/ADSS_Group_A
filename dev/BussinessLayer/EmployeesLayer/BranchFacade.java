@@ -165,7 +165,7 @@ public class BranchFacade {
     public String printAvailableShiftForEmployee(int employeeId, LocalDate date){
         String res = "";
         employeeFacade.checkEmployee(employeeId);
-        employeeFacade.checkLoggedIn(employeeId);
+        //employeeFacade.checkLoggedIn(employeeId);
         Employee emp = employeeFacade.getEmployeeById(employeeId);
         LinkedList<Integer> branchesEmployee = emp.getAllBranches();
         LinkedList<Shift> shiftsOnDate = shiftFacade.getShiftsByDate(date);
@@ -275,11 +275,11 @@ public class BranchFacade {
         if(!foundManager){throw new Error("A shift have to contain at least one Shift Manager");}
     }
 
-    private void addBranchForStartUpTheSystem(int id, String address, Location location) {
-        Branch b = new Branch(0, "BGU", Location.SOUTH);
-        branchs.add(b);
-        branchesDAO.insert(b.toDTO());
-    }
+    // private void addBranchForStartUpTheSystem(int id, String address, Location location) {
+    //     Branch b = new Branch(0, "BGU", Location.SOUTH);
+    //     branchs.add(b);
+    //     branchesDAO.insert(b.toDTO());
+    // }
 
     private Branch createNewBranchFromBranchDTO(BranchDTO branchDTO) {
         LinkedList<Employee> originEmployees = convertIdsListToObject(branchDTO.originEmployees);

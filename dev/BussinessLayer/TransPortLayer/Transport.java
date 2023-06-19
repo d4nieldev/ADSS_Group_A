@@ -326,4 +326,8 @@ public class Transport {
         return 1000;
     }
 
+    public int getWeightNeto() {
+        return this.truckWeightNeto;
+    }
+
 }

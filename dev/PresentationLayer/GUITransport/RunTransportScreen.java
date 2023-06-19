@@ -15,7 +15,7 @@ public class RunTransportScreen extends JFrame {
 
     public RunTransportScreen(ServiceFactory serviceFactory) {
         this.serviceFactory = serviceFactory;
-        setTitle("Create Transport");
+        setTitle("run Transport");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         // Create components

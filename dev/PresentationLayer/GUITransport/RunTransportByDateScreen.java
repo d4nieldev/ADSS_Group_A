@@ -71,22 +71,24 @@ public class RunTransportByDateScreen extends JFrame {
             }
         });
 
-        runButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if (!transportList.isSelectionEmpty()) {
-                    // Get the selected transport
-                    Transport selectedTransport = transportList.getSelectedValue();
-                    // Perform any necessary operations with the selected transport
-                    // transportService.runTransport(selectedTransport);
+            runButton.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    if (!transportList.isSelectionEmpty()) {
+                        // Get the selected transport
+                        Transport selectedTransport = transportList.getSelectedValue();
+                        // Perform any necessary operations with the selected transport
+                        // transportService.runTransport(selectedTransport)
 
-                    // Show a success message or open a new screen
-                    JOptionPane.showMessageDialog(null, "Transport ran successfully!");
-                } else {
-                    JOptionPane.showMessageDialog(null, "Please select a transport to run.");
+                        // Open a new screen or perform any other action
+                        dispose(); // Close the current screen
+                        new TransportRunSuccessScreen(serviceFactory, selectedTransport); // Open the TransportRunSuccessScreen
+                    } else {
+                        JOptionPane.showMessageDialog(null, "Please select a transport to run.");
+                    }
                 }
-            }
-        });
+            });
+
 
         // Set the frame size and make it visible
         setSize(600, 400); // Adjust the size as needed

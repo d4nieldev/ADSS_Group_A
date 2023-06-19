@@ -288,7 +288,7 @@ public List<Transport> getTransports(String date) {
     transport.setDate(LocalDate.parse(date));
     transport.setLeavingTime("09:00");
     transport.setTruckNumber("ABC123");
-    transport.setDriverName("John Doe");
+    transport.setDriverName("driver two");
     transport.setDriverId(123);
     transport.setSource("Tel Aviv");
     transport.setDestinationList(makeSomeDestinations());

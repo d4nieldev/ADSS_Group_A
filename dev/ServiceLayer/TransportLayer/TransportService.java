@@ -6,6 +6,7 @@ import BussinessLayer.TransPortLayer.Delivery;
 import BussinessLayer.TransPortLayer.Destination;
 import BussinessLayer.TransPortLayer.DestinationType;
 import BussinessLayer.TransPortLayer.Location;
+import BussinessLayer.TransPortLayer.Transport;
 import BussinessLayer.TransPortLayer.TransportFacade;
 import BussinessLayer.TransPortLayer.Truck;
 import BussinessLayer.TransPortLayer.TruckFacade;
@@ -275,6 +276,33 @@ public void createTransportByDate(String date, Driver selectedDriver, Truck sele
     selectedDeliveries, selectedTruck.getWeightNeto(), selectedTruck.getWeightMax());
 
 }
+
+
+
+public List<Transport> getTransports(String date) {
+    List<Transport> transports = new ArrayList<>();
+    
+    // Create a default Transport object
+    Transport transport = new Transport();
+    transport.setId(1);
+    transport.setDate(LocalDate.parse(date));
+    transport.setLeavingTime("09:00");
+    transport.setTruckNumber("ABC123");
+    transport.setDriverName("John Doe");
+    transport.setDriverId(123);
+    transport.setSource("Tel Aviv");
+    transport.setDestinationList(makeSomeDestinations());
+    transport.setDeliveryList(getDeliveries(date));
+    transport.setTruckWeightNeto(200);
+    transport.setTruckWeightMax(500);
+    transport.setLoadedItems(new ArrayList<>());
+    transport.setCurrentWeight(200);
+    
+    transports.add(transport);
+    
+    return transports;
+}
+
 
 }
 

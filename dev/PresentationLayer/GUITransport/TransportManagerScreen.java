@@ -64,7 +64,7 @@ public class TransportManagerScreen extends JFrame {
 
         runTransportsButton.addActionListener(e -> {
             dispose(); // Close the current screen
-            new TransportManagerScreen(serviceFactory); // Open a new screen
+            new RunTransportScreen(serviceFactory); // Open a new screen
         });
 
         // Set the frame size and make it visible

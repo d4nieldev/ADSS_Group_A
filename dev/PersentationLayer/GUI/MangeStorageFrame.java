@@ -21,6 +21,7 @@ public class MangeStorageFrame implements ActionListener {
     JButton button3 ;
     JButton button4 ;
     JButton button5 ;
+    JButton button6 ;
 
 
     public MangeStorageFrame(){
@@ -56,7 +57,7 @@ public class MangeStorageFrame implements ActionListener {
         // Configure tasks buttons
         button1 = new JButton("Report Flaw Product");
         button1.addActionListener(this);
-        button2 = new JButton("Add New Product");
+        button2 = new JButton("Add New Product Branch");
         button2.addActionListener(this);
         button3 = new JButton("Set Discount on Categories");
         button3.addActionListener(this);
@@ -64,6 +65,8 @@ public class MangeStorageFrame implements ActionListener {
         button4.addActionListener(this);
         button5 = new JButton("Add New Category");
         button5.addActionListener(this);
+        button6 = new JButton("Add New Specific Product");
+        button6.addActionListener(this);
 
         // Configure panel for back button and label
         JPanel topPanel = new JPanel(new BorderLayout());
@@ -92,6 +95,7 @@ public class MangeStorageFrame implements ActionListener {
         buttonContainer.add(button3);
         buttonContainer.add(button4);
         buttonContainer.add(button5);
+        buttonContainer.add(button6);
 
         // Adjust button size dynamically based on the preferred size of the button text
         Font buttonFont = button1.getFont();
@@ -106,6 +110,7 @@ public class MangeStorageFrame implements ActionListener {
         button3.setPreferredSize(buttonSize);
         button4.setPreferredSize(buttonSize);
         button5.setPreferredSize(buttonSize);
+        button6.setPreferredSize(buttonSize);
 
         gbc.gridx = 0;
         gbc.gridy = 1;
@@ -136,7 +141,7 @@ public class MangeStorageFrame implements ActionListener {
 
         if (e.getSource() == button2) {
             frame.dispose();
-            AddNewProductFrame addNewProductFrame = new AddNewProductFrame();
+            AddNewProductBranchFrame addNewProductFrame = new AddNewProductBranchFrame();
         }
         if (e.getSource() == button3) {
             frame.dispose();
@@ -149,6 +154,10 @@ public class MangeStorageFrame implements ActionListener {
         if (e.getSource() == button5) {
             frame.dispose();
             AddCategoryFrame addCategoryFrame = new AddCategoryFrame();
+        }
+        if (e.getSource() == button6) {
+            frame.dispose();
+            new AddSpecificProductFrame();
         }
 
 

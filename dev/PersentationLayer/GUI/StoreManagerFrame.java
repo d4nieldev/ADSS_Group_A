@@ -31,7 +31,7 @@ public class StoreManagerFrame implements ActionListener {
         topPanel.setBackground(new Color(59, 89, 152)); // Blue color
 
         // Create the label
-        JLabel label = new JLabel("Welcome Store Manager-main");
+        JLabel label = new JLabel("Welcome Store Manager");
         label.setHorizontalAlignment(JLabel.CENTER);
         label.setVerticalAlignment(JLabel.NORTH);
         label.setForeground(Color.WHITE);

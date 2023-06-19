@@ -331,7 +331,7 @@ public class BranchController {
 
     public void receiveSupply(int code, int amount, double buyPrice, LocalDate expiredDate, int branchId)
             throws Exception {
-        List<SpecificProduct> specificProducts = allBranches.get(branchId).getProductByCode(code).receiveSupply(amount,
+        List<SpecificProduct> specificProducts = getBranchById(branchId).getProductByCode(code).receiveSupply(amount,
                 buyPrice, expiredDate, branchId);
         for (SpecificProduct specificProduct : specificProducts) {
             SpecificProductDTO specificProductDTO = specificProduct.getSpecificProductDTO();

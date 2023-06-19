@@ -10,9 +10,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="a2472df3-0b1c-47fc-bcd6-f26fc4f0a51c" name="Changes" comment=".">
+      <change afterPath="$PROJECT_DIR$/dev/PersentationLayer/GUI/Tasks/AddSpecificProductFrame.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/database.db" beforeDir="false" afterPath="$PROJECT_DIR$/database.db" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dev/PersentationLayer/Program.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/PersentationLayer/Program.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dev/BusinessLayer/Inventory/BranchController.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/BusinessLayer/Inventory/BranchController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dev/PersentationLayer/GUI/MangeStorageFrame.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/PersentationLayer/GUI/MangeStorageFrame.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dev/PersentationLayer/GUI/StoreManagerFrame.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/PersentationLayer/GUI/StoreManagerFrame.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dev/PersentationLayer/GUI/Tasks/AddNewProductFrame.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/PersentationLayer/GUI/Tasks/AddNewProductBranchFrame.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -522,7 +526,14 @@
       <option name="project" value="LOCAL" />
       <updated>1687106358883</updated>
     </task>
-    <option name="localTasksCounter" value="48" />
+    <task id="LOCAL-00048" summary=".">
+      <created>1687116253625</created>
+      <option name="number" value="00048" />
+      <option name="presentableId" value="LOCAL-00048" />
+      <option name="project" value="LOCAL" />
+      <updated>1687116253625</updated>
+    </task>
+    <option name="localTasksCounter" value="49" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -584,8 +595,8 @@
           <option name="timeStamp" value="18" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/dev/PersentationLayer/GUI/Tasks/AddNewProductFrame.java</url>
-          <line>306</line>
+          <url>file://$PROJECT_DIR$/dev/PersentationLayer/GUI/Tasks/AddNewProductBranchFrame.java</url>
+          <line>311</line>
           <option name="timeStamp" value="19" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
@@ -620,7 +631,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/dev/BusinessLayer/InveontorySuppliers/Branch.java</url>
-          <line>613</line>
+          <line>617</line>
           <option name="timeStamp" value="38" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
@@ -699,19 +710,24 @@
           <option name="timeStamp" value="54" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/dev/PersentationLayer/GUI/Tasks/AddNewProductFrame.java</url>
-          <line>303</line>
+          <url>file://$PROJECT_DIR$/dev/PersentationLayer/GUI/Tasks/AddNewProductBranchFrame.java</url>
+          <line>308</line>
           <option name="timeStamp" value="55" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/dev/BusinessLayer/Inventory/BranchController.java</url>
-          <line>392</line>
+          <line>397</line>
           <option name="timeStamp" value="56" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>jar://$USER_HOME$/.ideaLibSources/sqlite-jdbc-3.41.2.1-sources.jar!/org/sqlite/jdbc3/JDBC3Statement.java</url>
-          <line>455</line>
-          <option name="timeStamp" value="57" />
+          <url>file://$PROJECT_DIR$/dev/PersentationLayer/GUI/Tasks/AddSpecificProductFrame.java</url>
+          <line>179</line>
+          <option name="timeStamp" value="58" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/dev/PersentationLayer/GUI/Tasks/AddNewProductBranchFrame.java</url>
+          <line>258</line>
+          <option name="timeStamp" value="60" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

@@ -11,12 +11,14 @@ import javax.swing.JFrame;
 import PresentationLayer.GUI.DriverScreens.DriverScreen;
 import PresentationLayer.GUI.HRManagerScreens.HRManagerScreen;
 import PresentationLayer.GUI.MemberScreens.MemberScreen;
+import PresentationLayer.GUITransport.TransportManagerScreen;
 import ServiceLayer.EmployeesLayer.ServiceFactory;
 
 public class StoreManagerScreen extends JFrame {
     private JButton hRManagerButton;
     private JButton memberButton;
     private JButton driverButton;
+    private JButton transportManagerButton;
 
     public StoreManagerScreen(ServiceFactory serviceFactory) {
         setTitle("StoreManager Screen");
@@ -26,17 +28,20 @@ public class StoreManagerScreen extends JFrame {
         hRManagerButton = new JButton("HR Manager Screen");
         memberButton = new JButton("Member Screen");
         driverButton = new JButton("Driver Screen");
+        transportManagerButton = new JButton("Transport Manager Screen");
 
         // Set button sizes
         Dimension buttonSize = new Dimension(250, 30);
         hRManagerButton.setPreferredSize(buttonSize);
         memberButton.setPreferredSize(buttonSize);
         driverButton.setPreferredSize(buttonSize);
+        transportManagerButton.setPreferredSize(buttonSize);
 
         // Set button focusability to false
         hRManagerButton.setFocusable(false);
         memberButton.setFocusable(false);
         driverButton.setFocusable(false);
+        transportManagerButton.setFocusable(false);
 
         // Set layout manager
         setLayout(new FlowLayout());
@@ -45,6 +50,7 @@ public class StoreManagerScreen extends JFrame {
         add(hRManagerButton);
         add(memberButton);
         add(driverButton);
+        add(transportManagerButton);
 
         // Add action listeners to the buttons
         hRManagerButton.addActionListener((ActionEvent e) -> {
@@ -62,6 +68,11 @@ public class StoreManagerScreen extends JFrame {
             new DriverScreen(serviceFactory);
         });
 
+        transportManagerButton.addActionListener((ActionEvent e) -> {
+            dispose();
+            serviceFactory.getEmployeeService().logIn(987654321, "TRANSPORTmanager");
+            new TransportManagerScreen(serviceFactory);
+        });
 
         // Set the frame size and make it visible
         setSize(400, 200);
@@ -70,10 +81,6 @@ public class StoreManagerScreen extends JFrame {
 
         ImageIcon image = new ImageIcon("dev\\PresentationLayer\\GUI\\super li.png");
         setIconImage(image.getImage());
-
-        // JLabel myLabel = new JLabel(image);
-        // myLabel.setSize(400, 200);
-        // add(myLabel);
 
         setVisible(true);
     }

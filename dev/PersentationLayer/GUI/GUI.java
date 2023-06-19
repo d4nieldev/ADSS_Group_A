@@ -9,7 +9,7 @@ public class GUI {
         else if (role.equals("StoreKeeper"))
             new StorekeeperFrame();
         else if (role.equals("SuppliersManager"))
-            new SuppliersManagerScreen();
+            new SuppliersManagerScreen(null);
         else
             throw new IllegalArgumentException("Unknown role: " + role);
     }

@@ -97,7 +97,7 @@ public class StoreManagerFrame implements ActionListener {
         // manageSuppliers frame
         if (e.getSource() == button2) {
             frame.dispose();
-            new SuppliersManagerScreen();
+            new SuppliersManagerScreen(frame);
         }
 
         if (e.getSource() == button3) {

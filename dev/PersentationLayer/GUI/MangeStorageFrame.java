@@ -11,25 +11,24 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-
 public class MangeStorageFrame implements ActionListener {
     JFrame frame;
     JLabel label;
     JButton backButton;
-    JButton button1 ;
-    JButton button2 ;
-    JButton button3 ;
-    JButton button4 ;
-    JButton button5 ;
-    JButton button6 ;
+    JButton button1;
+    JButton button2;
+    JButton button3;
+    JButton button4;
+    JButton button5;
+    JButton button6;
+    JButton button7;
 
-
-    public MangeStorageFrame(){
+    public MangeStorageFrame() {
         // Configure the frame
         frame = new JFrame();
         frame.setTitle("Manage Storage");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(600, 420);
+        frame.setSize(900, 420);
         frame.setLocationRelativeTo(null); // Center the frame on the screen
 
         // Configure the main label
@@ -67,6 +66,8 @@ public class MangeStorageFrame implements ActionListener {
         button5.addActionListener(this);
         button6 = new JButton("Add New Specific Product");
         button6.addActionListener(this);
+        button7 = new JButton("Add New General Product");
+        button7.addActionListener(this);
 
         // Configure panel for back button and label
         JPanel topPanel = new JPanel(new BorderLayout());
@@ -96,21 +97,22 @@ public class MangeStorageFrame implements ActionListener {
         buttonContainer.add(button4);
         buttonContainer.add(button5);
         buttonContainer.add(button6);
+        buttonContainer.add(button7);
 
         // Adjust button size dynamically based on the preferred size of the button text
         Font buttonFont = button1.getFont();
         FontMetrics fontMetrics = button1.getFontMetrics(buttonFont);
         int maxButtonWidth = Math.max(
                 Math.max(fontMetrics.stringWidth(button1.getText()), fontMetrics.stringWidth(button2.getText())),
-                Math.max(fontMetrics.stringWidth(button3.getText()), fontMetrics.stringWidth(button4.getText()))
-        );
-        Dimension buttonSize = new Dimension(maxButtonWidth + 20, 50); // Add padding to the button width
+                Math.max(fontMetrics.stringWidth(button3.getText()), fontMetrics.stringWidth(button4.getText())));
+        Dimension buttonSize = new Dimension(maxButtonWidth + 40, 50); // Add padding to the button width
         button1.setPreferredSize(buttonSize);
         button2.setPreferredSize(buttonSize);
         button3.setPreferredSize(buttonSize);
         button4.setPreferredSize(buttonSize);
         button5.setPreferredSize(buttonSize);
         button6.setPreferredSize(buttonSize);
+        button7.setPreferredSize(buttonSize);
 
         gbc.gridx = 0;
         gbc.gridy = 1;
@@ -126,6 +128,7 @@ public class MangeStorageFrame implements ActionListener {
         frame.setContentPane(contentPane);
         frame.setVisible(true);
     }
+
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == backButton) {
@@ -159,9 +162,11 @@ public class MangeStorageFrame implements ActionListener {
             frame.dispose();
             new AddSpecificProductFrame();
         }
-
+        if (e.getSource() == button7) {
+            frame.dispose();
+            new AddGeneralProductFrame();
+        }
 
     }
-
 
 }

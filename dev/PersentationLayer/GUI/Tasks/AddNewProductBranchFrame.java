@@ -82,13 +82,13 @@ public class AddNewProductBranchFrame implements ActionListener {
         // Add the labels and text fields to the main panel
         gbc.gridx = 0;
         gbc.gridy = 0;
-//        gbc.anchor = GridBagConstraints.EAST;
+        // gbc.anchor = GridBagConstraints.EAST;
         mainPanel.add(branchIdLabel, gbc);
 
         gbc.gridx = 1;
         gbc.gridy = 0;
-//        gbc.anchor = GridBagConstraints.WEST;
-//        gbc.fill = GridBagConstraints.HORIZONTAL;
+        // gbc.anchor = GridBagConstraints.WEST;
+        // gbc.fill = GridBagConstraints.HORIZONTAL;
         gbc.weightx = 1.0;
         mainPanel.add(branchIdTextField, gbc);
 
@@ -114,7 +114,7 @@ public class AddNewProductBranchFrame implements ActionListener {
 
         JLabel discountStartLabel = new JLabel("Discount Start Date");
         discountStartTextField = new JTextField(20);
-//        discountStartTextField.setText("2024-11-11");
+        // discountStartTextField.setText("2024-11-11");
         gbc.gridx = 0;
         gbc.gridy = 3;
         mainPanel.add(discountStartLabel, gbc);
@@ -124,7 +124,7 @@ public class AddNewProductBranchFrame implements ActionListener {
 
         JLabel discountEndLabel = new JLabel("Discount End Date");
         discountEndTextField = new JTextField(20);
-//        discountEndTextField.setText("2024-11-11");
+        // discountEndTextField.setText("2024-11-11");
         gbc.gridx = 0;
         gbc.gridy = 4;
         mainPanel.add(discountEndLabel, gbc);
@@ -161,7 +161,7 @@ public class AddNewProductBranchFrame implements ActionListener {
 
         // Add the discount type label and combo box to the main panel
         JLabel discountTypeLabel = new JLabel("Discount Type");
-        discountTypeComboBox = new JComboBox<>(new String[]{"Discount Percentage", "Discount Fix"});
+        discountTypeComboBox = new JComboBox<>(new String[] { "Discount Percentage", "Discount Fix" });
         gbc.gridx = 0;
         gbc.gridy = 8;
         mainPanel.add(discountTypeLabel, gbc);
@@ -174,7 +174,7 @@ public class AddNewProductBranchFrame implements ActionListener {
         discountCheckbox.addActionListener(this);
         gbc.gridx = 0;
         gbc.gridy = 9;
-//        gbc.anchor = GridBagConstraints.WEST;
+        // gbc.anchor = GridBagConstraints.WEST;
         mainPanel.add(discountCheckbox, gbc);
 
         // Set initial visibility of discount fields to false
@@ -256,10 +256,10 @@ public class AddNewProductBranchFrame implements ActionListener {
             // Validate discountValue
 
             try {
-                if(!discountValueTextField.isEditable())
+                if (!discountValueTextField.isEditable())
                     discountValue = 0;
                 else
-                discountValue = Double.parseDouble(discountValueText);
+                    discountValue = Double.parseDouble(discountValueText);
             } catch (NumberFormatException ex) {
                 invalidInputLabel.setText("Invalid Discount Value");
                 invalidInputLabel.setVisible(true);
@@ -268,10 +268,10 @@ public class AddNewProductBranchFrame implements ActionListener {
 
             // Validate discount start date
             try {
-                if(!discountStartTextField.isEditable())
+                if (!discountStartTextField.isEditable())
                     discountStartDate = null;
                 else
-                 discountStartDate = LocalDate.parse(discountStart, DateTimeFormatter.ISO_LOCAL_DATE);
+                    discountStartDate = LocalDate.parse(discountStart, DateTimeFormatter.ISO_LOCAL_DATE);
             } catch (DateTimeParseException ex) {
                 invalidInputLabel.setText("Invalid Discount Start Date - The Format Is : YYYY-MM-DD");
                 invalidInputLabel.setVisible(true);
@@ -279,10 +279,10 @@ public class AddNewProductBranchFrame implements ActionListener {
             }
             // Validate discount End date
             try {
-                if(!discountEndTextField.isEditable())
+                if (!discountEndTextField.isEditable())
                     discountEndDate = null;
                 else
-                 discountEndDate = LocalDate.parse(discountEnd, DateTimeFormatter.ISO_LOCAL_DATE);
+                    discountEndDate = LocalDate.parse(discountEnd, DateTimeFormatter.ISO_LOCAL_DATE);
             } catch (DateTimeParseException ex) {
                 invalidInputLabel.setText("Invalid Discount End Date - The Format Is : YYYY-MM-DD");
                 invalidInputLabel.setVisible(true);
@@ -352,7 +352,7 @@ public class AddNewProductBranchFrame implements ActionListener {
 
         if (e.getSource() == discountCheckbox) {
             boolean applyDiscount = discountCheckbox.isSelected();
-//            setDiscountFieldsVisibility(applyDiscount);
+            // setDiscountFieldsVisibility(applyDiscount);
             setDiscountFieldsEditable(applyDiscount);
         }
 
@@ -360,13 +360,13 @@ public class AddNewProductBranchFrame implements ActionListener {
     }
 
     private void setDiscountFieldsVisibility(boolean isVisible) {
-        if(isVisible){
+        if (isVisible) {
             discountValueLabel.setBackground(Color.gray);
-//            discountValueTextField.setVisible(isVisible);
-//            discountStartLabel.setVisible(isVisible);
-//            discountStartTextField.setVisible(isVisible);
-//            discountEndLabel.setVisible(isVisible);
-//            discountEndTextField.setVisible(isVisible);
+            // discountValueTextField.setVisible(isVisible);
+            // discountStartLabel.setVisible(isVisible);
+            // discountStartTextField.setVisible(isVisible);
+            // discountEndLabel.setVisible(isVisible);
+            // discountEndTextField.setVisible(isVisible);
         }
         discountValueLabel.setVisible(isVisible);
         discountValueTextField.setVisible(isVisible);
@@ -377,13 +377,13 @@ public class AddNewProductBranchFrame implements ActionListener {
     }
 
     private void setDiscountFieldsEditable(boolean isEditable) {
-        if(!isEditable){
+        if (!isEditable) {
             discountValueTextField.setBackground(Color.LIGHT_GRAY);
             discountStartTextField.setBackground(Color.LIGHT_GRAY);
             discountEndTextField.setBackground(Color.LIGHT_GRAY);
             discountTypeComboBox.setBackground(Color.LIGHT_GRAY);
         }
-        if(isEditable){
+        if (isEditable) {
             discountValueTextField.setBackground(Color.WHITE);
             discountStartTextField.setBackground(Color.WHITE);
             discountEndTextField.setBackground(Color.WHITE);

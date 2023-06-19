@@ -11,7 +11,9 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
 public class SuppliersManagerScreen extends JFrame {
-    public SuppliersManagerScreen() {
+
+    public SuppliersManagerScreen(JFrame previousFrame) {
+
         setTitle("Suppliers Manager Screen");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
@@ -43,6 +45,16 @@ public class SuppliersManagerScreen extends JFrame {
         add(viewSupplierButton);
         add(editAgreementButton);
 
+        if (previousFrame != null) {
+            JButton back = new JButton("Back");
+            back.setSize(new Dimension(100, 30));
+            add(back);
+            back.addActionListener((e) -> {
+                dispose();
+                previousFrame.setVisible(true);
+            });
+        }
+
         // Add action listeners to the buttons
         addSupplierButton.addActionListener((ActionEvent e) -> {
             dispose();
@@ -62,7 +74,7 @@ public class SuppliersManagerScreen extends JFrame {
         viewSuppliersButton.addActionListener((e) -> {
             dispose();
             new ViewSuppliersScreen(this);
-            
+
         });
 
         viewSupplierButton.addActionListener((e) -> {
@@ -76,7 +88,7 @@ public class SuppliersManagerScreen extends JFrame {
         });
 
         // Set the frame size and make it visible
-        setSize(400, 200);
+        setSize(390, 200);
         setLocationRelativeTo(null);
         setVisible(true);
     }

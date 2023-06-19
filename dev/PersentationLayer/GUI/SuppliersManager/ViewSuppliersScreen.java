@@ -58,13 +58,12 @@ public class ViewSuppliersScreen extends JFrame {
         pack(); // Pack the components to their preferred sizes
         setVisible(true);
         setLocationRelativeTo(previousFrame);
-        setSize(800,800);
+        setSize(800, 800);
 
         showMoreBtn.addActionListener((ActionEvent e) -> {
             showSuppliers(showMoreBtn, shownSuppliers);
         });
 
-        
     }
 
     private JSeparator createDivider() {
@@ -72,21 +71,22 @@ public class ViewSuppliersScreen extends JFrame {
         separator.setMaximumSize(new Dimension(Integer.MAX_VALUE, 10));
         return separator;
     }
-    
-    private void showSuppliers(JButton showMoreBtn ,List<Integer> alreadyShown){
+
+    private void showSuppliers(JButton showMoreBtn, List<Integer> alreadyShown) {
         List<String> data = service.getSomeSuppliersIds(NUM_OF_SUPPLIERS_SHOWN_EACH_TIME, alreadyShown);
-        if (data.size() != NUM_OF_SUPPLIERS_SHOWN_EACH_TIME) {
+        if (data.size() != NUM_OF_SUPPLIERS_SHOWN_EACH_TIME || data.get(data.size() - 1).equals("done")) {
             showMoreBtn.setEnabled(false);
             showMoreBtn.setText("All suppliers shown");
         }
         int i = 0;
         while (NUM_OF_SUPPLIERS_SHOWN_EACH_TIME > i && !data.get(i).equals("done")) {
-            SupplierEditorScreen newSuppToShow = new SupplierEditorScreen(Integer.parseInt(data.get(i)), "View", this);
+            int id = Integer.parseInt(data.get(i));
+            SupplierEditorScreen newSuppToShow = new SupplierEditorScreen(id, "View", this);
             JFrame child = newSuppToShow.getChild();
             child.setVisible(false);
             containerPanel.add((JPanel) child.getContentPane().getComponent(0));
             containerPanel.add(createDivider()); // Add divider between panels
-            shownSuppliers.add(i);
+            shownSuppliers.add(id);
             i++;
         }
     }

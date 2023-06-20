@@ -65,6 +65,7 @@ public class AddPeriodicReservationFrame implements ActionListener {
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.insets = new Insets(5, 5, 5, 5); // Add spacing around components
         gbc.weightx = 1.0; // Increase the width weight
+        gbc.fill = GridBagConstraints.HORIZONTAL;
 
         // Create the text boxes with labels
         JLabel supplierIdLabel = new JLabel("Supplier ID");
@@ -125,8 +126,10 @@ public class AddPeriodicReservationFrame implements ActionListener {
         gbc.gridx = 0;
         gbc.gridy = 4;
         gbc.gridwidth = 3;
+        gbc.weightx = 1.0;
         gbc.weighty=1.0;
-        gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.fill = GridBagConstraints.BOTH;
+        gbc.insets = new Insets(5, 5, 5, 5);
         mainPanel.add(productToAmountTabel, gbc);
 
         // Create the submit button
@@ -248,16 +251,19 @@ public class AddPeriodicReservationFrame implements ActionListener {
      */
     private JPanel createTablePanel(String[] columnNames, List<String[]> data) {
         JPanel tablePanel = new JPanel(new BorderLayout());
-        // tablePanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
         // Create the table model with column names
-        DefaultTableModel tableModel = new DefaultTableModel(columnNames, 0);
-        for (String[] rowData : data)
-            tableModel.addRow(rowData);
+        DefaultTableModel tableModel = new DefaultTableModel(0, columnNames.length);
+        tableModel.setColumnIdentifiers(columnNames);
 
         // Create the table with the model
         JTable contactsTable = new JTable(tableModel);
         JScrollPane contactsScrollPane = new JScrollPane(contactsTable);
+
+        // Populate the table with data
+        for (String[] rowData : data) {
+            tableModel.addRow(rowData);
+        }
 
         // Create the buttons for adding and deleting rows
         JButton addRowButton = new JButton("Add Row");
@@ -268,13 +274,13 @@ public class AddPeriodicReservationFrame implements ActionListener {
         buttonsPanel.add(deleteRowButton);
         buttonsPanel.setBackground(Color.LIGHT_GRAY);
 
-        // Add the table and buttons to the fields panel
+        // Add the table and buttons to the table panel
         tablePanel.add(contactsScrollPane, BorderLayout.CENTER);
         tablePanel.add(buttonsPanel, BorderLayout.SOUTH);
 
         // Add action listeners for the add and delete row buttons
         addRowButton.addActionListener((ActionEvent e) -> {
-            tableModel.addRow(new Vector<>());
+            tableModel.addRow(new Object[2]);
         });
 
         deleteRowButton.addActionListener((ActionEvent e) -> {
@@ -286,6 +292,7 @@ public class AddPeriodicReservationFrame implements ActionListener {
 
         return tablePanel;
     }
+
 
     private List<List<String>> getDataFromTablePanel(JPanel tablePanel) {
         JScrollPane scrollPane = (JScrollPane) tablePanel.getComponent(0);

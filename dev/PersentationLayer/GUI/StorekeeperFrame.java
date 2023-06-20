@@ -101,7 +101,7 @@ public class StorekeeperFrame implements ActionListener {
         if (e.getSource() == button2){
             frame.dispose();
             //open new OrderSupply Window
-            OrderSupplyFrame orderSupplyFrame = new OrderSupplyFrame();
+            OrderSupplyFrame1 orderSupplyFrame = new OrderSupplyFrame1();
         }
         if (e.getSource() == backButton){
             frame.dispose();

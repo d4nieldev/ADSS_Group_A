@@ -18,10 +18,10 @@ public class OrderSupplyFrame1 implements ActionListener {
     JPanel tasksPanel;
     JButton button1 ;
     JButton button2 ;
-    JButton button3 ;
-    JButton button4 ;
-    JButton button5 ;
-    JButton button6 ;
+//    JButton button3 ;
+//    JButton button4 ;
+//    JButton button5 ;
+//    JButton button6 ;
 
     public OrderSupplyFrame1(){
         // Configure the frame
@@ -47,21 +47,21 @@ public class OrderSupplyFrame1 implements ActionListener {
         // Configure back button
         backButton = new JButton("Back");
         backButton.addActionListener(this);
-        backButton.setFont(new Font(null, Font.PLAIN, 14));
+        backButton.setFont(new Font("Arial", Font.PLAIN, 14));
 
         // Configure tasks buttons
         button1 = new JButton("Add periodic reservation");
         button1.addActionListener(this);
         button2 = new JButton("Update periodic reservation");
         button2.addActionListener(this);
-        button3 = new JButton("Set Discount on Categories");
-        button3.addActionListener(this);
-        button4 = new JButton("Set Discount on Products");
-        button4.addActionListener(this);
-        button5 = new JButton("Button 5");
-        button5.addActionListener(this);
-        button6 = new JButton("Button 6");
-        button6.addActionListener(this);
+//        button3 = new JButton("Set Discount on Categories");
+//        button3.addActionListener(this);
+//        button4 = new JButton("Set Discount on Products");
+//        button4.addActionListener(this);
+//        button5 = new JButton("Button 5");
+//        button5.addActionListener(this);
+//        button6 = new JButton("Button 6");
+//        button6.addActionListener(this);
 
         // Configure panel for back button, label, and tasks panel
         JPanel contentPane = new JPanel();
@@ -90,26 +90,23 @@ public class OrderSupplyFrame1 implements ActionListener {
         buttonContainer.setBackground(Color.WHITE);
         buttonContainer.add(button1);
         buttonContainer.add(button2);
-        buttonContainer.add(button3);
-        buttonContainer.add(button4);
-        buttonContainer.add(button5);
-        buttonContainer.add(button6);
+//        buttonContainer.add(button3);
+//        buttonContainer.add(button4);
+//        buttonContainer.add(button5);
+//        buttonContainer.add(button6);
 
         // Adjust button size dynamically based on the preferred size of the button text
         Font buttonFont = button1.getFont();
         FontMetrics fontMetrics = button1.getFontMetrics(buttonFont);
-        int maxButtonWidth = Math.max(
-                Math.max(fontMetrics.stringWidth(button1.getText()), fontMetrics.stringWidth(button2.getText())),
-                Math.max(fontMetrics.stringWidth(button3.getText()), fontMetrics.stringWidth(button4.getText())
-                )
-        );
+        int maxButtonWidth = Math.max(fontMetrics.stringWidth(button1.getText()), fontMetrics.stringWidth(button2.getText()));
+
         Dimension buttonSize = new Dimension(maxButtonWidth + 20, 50); // Add padding to the button width
         button1.setPreferredSize(buttonSize);
         button2.setPreferredSize(buttonSize);
-        button3.setPreferredSize(buttonSize);
-        button4.setPreferredSize(buttonSize);
-        button5.setPreferredSize(buttonSize);
-        button6.setPreferredSize(buttonSize);
+//        button3.setPreferredSize(buttonSize);
+//        button4.setPreferredSize(buttonSize);
+//        button5.setPreferredSize(buttonSize);
+//        button6.setPreferredSize(buttonSize);
 
         gbc.gridx = 0;
         gbc.gridy = 1;
@@ -128,7 +125,7 @@ public class OrderSupplyFrame1 implements ActionListener {
         if (e.getSource() == backButton) {
             frame.dispose();
             // Go back to StorekeeperFrame
-            StorekeeperFrame storekeeperFrame = new StorekeeperFrame();
+            StoreManagerFrame storeManagerFrame = new StoreManagerFrame();
         }
 
         if (e.getSource() == button1) {
@@ -138,16 +135,9 @@ public class OrderSupplyFrame1 implements ActionListener {
 
         if (e.getSource() == button2) {
             frame.dispose();
-            AddNewProductFrame addNewProductFrame = new AddNewProductFrame();
+            UpdatePeriodicReservationFrame updatePeriodicReservationFrame = new UpdatePeriodicReservationFrame();
         }
-        if (e.getSource() == button3) {
-            frame.dispose();
-            SetDiscountOnCategoriesFrame setDiscountOnCategoriesFrame = new SetDiscountOnCategoriesFrame();
-        }
-        if (e.getSource() == button4) {
-            frame.dispose();
-            SetDiscountOnProductsFrame setDiscountOnProductsFrame = new SetDiscountOnProductsFrame();
-        }
+
 
 
     }

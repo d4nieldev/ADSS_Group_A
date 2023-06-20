@@ -1,5 +1,6 @@
 package PersentationLayer.GUI.Tasks;
 
+import PersentationLayer.GUI.OrderSupplyFrame;
 import PersentationLayer.GUI.OrderSupplyFrame1;
 import ServiceLayer.Suppliers.ReservationService;
 import PersentationLayer.GUI.MangeStorageFrame;
@@ -50,11 +51,12 @@ public class AddPeriodicReservationFrame implements ActionListener {
 
         // Create the back button
         backButton = new JButton("Back");
-        backButton.setFont(backButton.getFont().deriveFont(Font.BOLD, 14));
+        backButton.addActionListener(this);
+
         topPanel.add(backButton, BorderLayout.WEST);
 
         // Create the label
-        JLabel label = new JLabel("Report Flaw Product");
+        JLabel label = new JLabel("Add Periodic Reservation");
         label.setHorizontalAlignment(JLabel.CENTER);
         label.setFont(label.getFont().deriveFont(Font.BOLD, 16));
         topPanel.add(label, BorderLayout.CENTER);
@@ -174,7 +176,7 @@ public class AddPeriodicReservationFrame implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == backButton) {
             frame.dispose();
-            OrderSupplyFrame1 orderSupplyFrame = new OrderSupplyFrame1();
+            OrderSupplyFrame orderSupplyFrame = new OrderSupplyFrame();
         }
         //submit button operation
         if (e.getSource() == submitButton) {

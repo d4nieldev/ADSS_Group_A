@@ -5,8 +5,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class StoreManagerFrame implements ActionListener
-{
+public class StoreManagerFrame implements ActionListener {
     JFrame frame;
     JTextField textField;
     JButton button1;

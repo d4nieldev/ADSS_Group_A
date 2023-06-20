@@ -9,10 +9,8 @@ public class OrderSupplyFrame implements ActionListener {
     JFrame frame = new JFrame();
     JLabel label;
     JButton backButton;
-    StorekeeperFrame storekeeperFrame;
 
-    public OrderSupplyFrame(StorekeeperFrame storekeeperFrame) {
-        this.storekeeperFrame = storekeeperFrame;
+    public OrderSupplyFrame() {
         label = new JLabel();
         label.setVisible(true);
         label.setText("Order Supply window");
@@ -46,7 +44,7 @@ public class OrderSupplyFrame implements ActionListener {
         if (e.getSource() == backButton) {
             frame.dispose();
             // Go back to StorekeeperFrame
-            storekeeperFrame.goBack();
+//            storekeeperFrame.goBack();
 //            storekeeperFrame.frame
         }
     }

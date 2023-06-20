@@ -32,8 +32,6 @@ public class ProductService {
 
     }
 
-
-
     public void addNewProduct(int code,String name, String manufacturer, int categoryId) throws SQLException {
     productController.addProduct(code,name,manufacturer,categoryId);
     }

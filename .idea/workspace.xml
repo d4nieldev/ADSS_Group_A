@@ -9,13 +9,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a2472df3-0b1c-47fc-bcd6-f26fc4f0a51c" name="Changes" comment="done with add new product">
-      <change afterPath="$PROJECT_DIR$/dev/PersentationLayer/GUI/OrderSupplyFrame1.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/dev/PersentationLayer/GUI/Tasks/AddPeriodicReservationFrame.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/dev/PersentationLayer/GUI/Tasks/UpdatePeriodicReservationFrame.java" afterDir="false" />
+    <list default="true" id="a2472df3-0b1c-47fc-bcd6-f26fc4f0a51c" name="Changes" comment="done with reports, and add new frame- for manager and for StorekeeperFrame">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dev/PersentationLayer/GUI/OrderSupplyFrame.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/PersentationLayer/GUI/OrderSupplyFrame.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dev/PersentationLayer/GUI/StorekeeperFrame.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/PersentationLayer/GUI/StorekeeperFrame.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/database.db" beforeDir="false" afterPath="$PROJECT_DIR$/database.db" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -38,6 +34,11 @@
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;
+  }
+}</component>
   <component name="GithubPullRequestsUISettings">
     <option name="selectedUrlAndAccountId">
       <UrlAndAccount>
@@ -57,7 +58,25 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Downloaded.Files.Path.Enabled&quot;: &quot;false&quot;,
+    &quot;Repository.Attach.Annotations&quot;: &quot;false&quot;,
+    &quot;Repository.Attach.JavaDocs&quot;: &quot;false&quot;,
+    &quot;Repository.Attach.Sources&quot;: &quot;false&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/Users/Metar/Documents/GitHub/ADSS_Group_A&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;SDKs&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.lookFeel&quot;
+  }
+}</component>
   <component name="RecentsManager">
+    <key name="CreateClassDialog.RecentsKey">
+      <recent name="PersentationLayer.GUI.Tasks" />
+    </key>
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/dev/Tests" />
       <recent name="$PROJECT_DIR$/dev/Presentation_Layer" />
@@ -81,7 +100,7 @@
       <module name="ADSS_Group_A" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="PersentationLayer.GUI.Tasks.*" />
+          <option name="PATTERN" value="PersentationLayer.GUI.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -107,7 +126,7 @@
       <module name="ADSS_Group_A" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="PersentationLayer.GUI.Tasks.*" />
+          <option name="PATTERN" value="PersentationLayer.GUI.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -460,7 +479,42 @@
       <option name="project" value="LOCAL" />
       <updated>1686757672018</updated>
     </task>
-    <option name="localTasksCounter" value="42" />
+    <task id="LOCAL-00042" summary="add more frames">
+      <created>1686774362571</created>
+      <option name="number" value="00042" />
+      <option name="presentableId" value="LOCAL-00042" />
+      <option name="project" value="LOCAL" />
+      <updated>1686774362571</updated>
+    </task>
+    <task id="LOCAL-00043" summary="done with manage storage and start the Storage manager">
+      <created>1686787137580</created>
+      <option name="number" value="00043" />
+      <option name="presentableId" value="LOCAL-00043" />
+      <option name="project" value="LOCAL" />
+      <updated>1686787137580</updated>
+    </task>
+    <task id="LOCAL-00044" summary="work on Storage manager frame">
+      <created>1686828279098</created>
+      <option name="number" value="00044" />
+      <option name="presentableId" value="LOCAL-00044" />
+      <option name="project" value="LOCAL" />
+      <updated>1686828279098</updated>
+    </task>
+    <task id="LOCAL-00045" summary="work on Storage manager frame">
+      <created>1686832531068</created>
+      <option name="number" value="00045" />
+      <option name="presentableId" value="LOCAL-00045" />
+      <option name="project" value="LOCAL" />
+      <updated>1686832531068</updated>
+    </task>
+    <task id="LOCAL-00046" summary="done with reports, and add new frame- for manager and for StorekeeperFrame">
+      <created>1686996005825</created>
+      <option name="number" value="00046" />
+      <option name="presentableId" value="LOCAL-00046" />
+      <option name="project" value="LOCAL" />
+      <updated>1686996005825</updated>
+    </task>
+    <option name="localTasksCounter" value="47" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -473,14 +527,9 @@
         </entry>
       </map>
     </option>
-    <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-    <MESSAGE value="add function for test" />
-    <MESSAGE value="change presentation + product service" />
-    <MESSAGE value="add tests to product branch" />
-    <MESSAGE value="add the service" />
     <MESSAGE value="add some tests" />
     <MESSAGE value="delete unnecessary test folder" />
     <MESSAGE value="format change" />
@@ -502,7 +551,11 @@
     <MESSAGE value="create add product and report flaw product" />
     <MESSAGE value="flaw product works, and presentation for add product done" />
     <MESSAGE value="done with add new product" />
-    <option name="LAST_COMMIT_MESSAGE" value="done with add new product" />
+    <MESSAGE value="add more frames" />
+    <MESSAGE value="done with manage storage and start the Storage manager" />
+    <MESSAGE value="work on Storage manager frame" />
+    <MESSAGE value="done with reports, and add new frame- for manager and for StorekeeperFrame" />
+    <option name="LAST_COMMIT_MESSAGE" value="done with reports, and add new frame- for manager and for StorekeeperFrame" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -518,35 +571,141 @@
           <option name="timeStamp" value="10" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/dev/BusinessLayer/Suppliers/ReservationController.java</url>
-          <line>58</line>
-          <option name="timeStamp" value="13" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/dev/BusinessLayer/Inventory/BranchController.java</url>
-          <line>381</line>
+          <line>382</line>
           <option name="timeStamp" value="18" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/dev/PersentationLayer/GUI/Tasks/AddNewProductFrame.java</url>
-          <line>311</line>
+          <line>308</line>
           <option name="timeStamp" value="19" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/dev/PersentationLayer/GUI/Tasks/SetDiscountOnCategoriesFrame.java</url>
+          <line>244</line>
+          <option name="timeStamp" value="22" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/dev/PersentationLayer/GUI/Tasks/SetDiscountOnCategoriesFrame.java</url>
+          <line>289</line>
+          <option name="timeStamp" value="23" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/dev/PersentationLayer/GUI/Tasks/ExpiredAndFlawsReportFrame.java</url>
+          <line>49</line>
+          <option name="timeStamp" value="33" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/dev/PersentationLayer/GUI/Tasks/ExpiredAndFlawsReportFrame.java</url>
+          <line>50</line>
+          <option name="timeStamp" value="34" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/dev/PersentationLayer/GUI/Tasks/ExpiredAndFlawsReportFrame.java</url>
+          <line>89</line>
+          <option name="timeStamp" value="35" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/dev/PersentationLayer/GUI/Tasks/DeficiencyReportFrame.java</url>
+          <line>40</line>
+          <option name="timeStamp" value="36" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/dev/BusinessLayer/InveontorySuppliers/Branch.java</url>
+          <line>613</line>
+          <option name="timeStamp" value="38" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/dev/PersentationLayer/GUI/Tasks/ReportByCategoriesFrame.java</url>
+          <line>158</line>
+          <option name="timeStamp" value="39" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/dev/PersentationLayer/GUI/Tasks/ReportByCategoriesFrame.java</url>
+          <line>138</line>
+          <option name="timeStamp" value="40" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/dev/PersentationLayer/GUI/Tasks/ExpiredAndFlawsReportFrame.java</url>
+          <line>113</line>
+          <option name="timeStamp" value="41" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/dev/PersentationLayer/GUI/Tasks/InventoryReportFrame.java</url>
+          <line>39</line>
+          <option name="timeStamp" value="42" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/dev/BusinessLayer/Inventory/ReportController.java</url>
+          <line>107</line>
+          <option name="timeStamp" value="44" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/dev/PersentationLayer/GUI/Tasks/ReportByCategoriesFrame.java</url>
+          <line>157</line>
+          <option name="timeStamp" value="45" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/dev/BusinessLayer/Inventory/ReportController.java</url>
+          <line>165</line>
+          <option name="timeStamp" value="46" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/dev/BusinessLayer/Inventory/ReportController.java</url>
+          <line>156</line>
+          <option name="timeStamp" value="47" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/dev/PersentationLayer/GUI/Tasks/ReportsByBranchIdFrame.java</url>
+          <line>135</line>
+          <option name="timeStamp" value="48" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/dev/PersentationLayer/GUI/Tasks/ExpiredAndFlawsReportFrame.java</url>
+          <line>41</line>
+          <option name="timeStamp" value="49" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/dev/PersentationLayer/GUI/Tasks/ReportByReportIdFrame.java</url>
+          <line>107</line>
+          <option name="timeStamp" value="50" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/dev/PersentationLayer/GUI/Tasks/ReportByReportIdFrame.java</url>
+          <line>121</line>
+          <option name="timeStamp" value="51" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/dev/PersentationLayer/GUI/Tasks/ReportByReportIdFrame.java</url>
+          <line>124</line>
+          <option name="timeStamp" value="52" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/dev/PersentationLayer/GUI/Tasks/ProductReportFrame.java</url>
+          <line>116</line>
+          <option name="timeStamp" value="53" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/dev/PersentationLayer/GUI/Tasks/ProductReportFrame.java</url>
+          <line>114</line>
+          <option name="timeStamp" value="54" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
     <pin-to-top-manager>
       <pinned-members>
+        <PinnedItemInfo parentTag="java.lang.Integer" memberName="value" />
         <PinnedItemInfo parentTag="BusinessLayer.InveontorySuppliers.Product" memberName="categoryId" />
         <PinnedItemInfo parentTag="BusinessLayer.Inventory.ExpiredAndFlawReport" memberName="creationDate" />
       </pinned-members>
     </pin-to-top-manager>
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/ADSS_Group_A$Program1.ic" NAME="Program1 Coverage Results" MODIFIED="1684167348394" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
-      <FILTER>PersentationLayer.inventory.*</FILTER>
-    </SUITE>
     <SUITE FILE_PATH="coverage/ADSS_Group_A$ProductBranchTest_reportFlawProductsTest.ic" NAME="ProductBranchTest.reportFlawProductsTest Coverage Results" MODIFIED="1684198513480" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
       <FILTER>Tests.InventoryTest.*</FILTER>
+    </SUITE>
+    <SUITE FILE_PATH="coverage/ADSS_Group_A$Program1.ic" NAME="Program1 Coverage Results" MODIFIED="1684167348394" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+      <FILTER>PersentationLayer.inventory.*</FILTER>
     </SUITE>
   </component>
 </project>

@@ -48,6 +48,8 @@ public class ReportController {
 
     // TODO : change brnachId to Branch object;
     public HashMap<Integer, Report> getAllReports() {
+        if(allReports.size() == 0)
+            loadReports();
         return this.allReports;
     }
 
@@ -145,6 +147,7 @@ public class ReportController {
     }
 
     public DeficientReport importDeficientReport(int branchId) throws Exception {
+
         BranchController branchController = BranchController.getInstance();
         int reportID = Global.getNewReportId();
         ReportDTO repDTO = new ReportDTO(reportID, branchId, LocalDate.now());
@@ -233,6 +236,10 @@ public class ReportController {
 
         saveReport(report);
         return report;
+    }
+
+    private void loadReports() {
+
     }
 
 }

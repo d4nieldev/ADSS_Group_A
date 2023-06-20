@@ -116,7 +116,8 @@ public class BranchController {
     }
 
     public HashMap<Integer, ProductBranch> getBranchDeficiencyProducts(int branchId) throws SQLException {
-        return allBranches.get(branchId).getAllDeficiencyProductsBranch();
+        Branch branch = BranchController.getInstance().getBranchById(branchId);
+        return branch.getAllDeficiencyProductsBranch();
     }
 
     private void updateExpiredProducts(HashMap<Integer, List<SpecificProduct>> result) throws SQLException {

@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
+import DataAccessLayer.DTOs.BranchDTO;
 import DataAccessLayer.DTOs.DiscountDTO;
 import DataAccessLayer.DTOs.ProductBranchDTO;
 import DataAccessLayer.DTOs.SpecificProductDTO;
@@ -69,6 +70,11 @@ public class ProductBranchDAO extends DAO<ProductBranchDTO> {
         if (rows.size() > 0)
             return makeDTO(rows.get(0));
         return null;
+    }
+
+    public List<ProductBranchDTO> selectAllbyId(int branchId) throws SQLException {
+        String query = "SELECT * FROM " + tableName + " WHERE branchId = " + branchId + ";";
+        return makeDTOs(repo.executeQuery(query));
     }
 //    @Override
 //    public ProductBranchDTO makeDTO(Map<String, Object> row) throws SQLException {

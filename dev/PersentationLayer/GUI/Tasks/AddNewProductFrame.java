@@ -1,16 +1,13 @@
 package PersentationLayer.GUI.Tasks;
 
-import BusinessLayer.InveontorySuppliers.Branch;
 import PersentationLayer.GUI.MangeStorageFrame;
 import PersentationLayer.GUI.StorekeeperFrame;
 import ServiceLayer.InventorySuppliers.BranchService;
-import ServiceLayer.inventory.ProductService;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
@@ -51,11 +48,11 @@ public class AddNewProductFrame implements ActionListener {
 
         // Create the top panel with BorderLayout
         JPanel topPanel = new JPanel(new BorderLayout());
-        topPanel.setBackground(new Color(132, 136, 168)); // Apple blue color
+        topPanel.setBackground(new Color(59, 89, 152)); // Blue color
 
         backButton = new JButton("Back");
         backButton.addActionListener(this);
-        backButton.setBackground(new Color(0, 122, 255)); // Apple blue color
+        backButton.setBackground(new Color(0, 122, 255)); // Blue color
         backButton.setForeground(Color.WHITE);
         backButton.setBorderPainted(false); // Remove button border
         backButton.setFocusPainted(false); // Remove button focus border

@@ -136,6 +136,8 @@ public class AddPeriodicReservationFrame implements ActionListener {
 
         // Create the submit button
         submitButton = new JButton("Submit");
+        submitButton.addActionListener(this);
+
         submitButton.setFont(submitButton.getFont().deriveFont(Font.BOLD, 14));
         gbc.gridx = 1;
         gbc.gridy = 5;
@@ -146,7 +148,8 @@ public class AddPeriodicReservationFrame implements ActionListener {
         // Create the invalid input label
         invalidInputLabel = new JLabel("Invalid input");
         invalidInputLabel.setForeground(Color.RED);
-        invalidInputLabel.setVisible(false);
+        invalidInputLabel.setVisible(true);
+        invalidInputLabel.setText("sssss");
         gbc.gridx = 0;
         gbc.gridy = 6;
         gbc.gridwidth = 3; // Adjusted gridwidth for invalidInputLabel
@@ -298,33 +301,37 @@ public class AddPeriodicReservationFrame implements ActionListener {
 
     private List<List<String>> getDataFromTablePanel(JPanel tablePanel) {
         JScrollPane scrollPane = (JScrollPane) tablePanel.getComponent(0);
-        JViewport vp = (JViewport) scrollPane.getComponent(0);
-        TableModel tableModel = ((JTable) vp.getComponent(0)).getModel();
+        JViewport vp = scrollPane.getViewport();
+        JTable table = (JTable) vp.getView();
+
+        TableModel tableModel = table.getModel();
 
         List<List<String>> data = new ArrayList<>();
-        for (int j = 0; j < tableModel.getColumnCount(); j++) {
-            List<String> colList = new ArrayList<>();
-            for (int i = 0; i < tableModel.getRowCount(); i++) {
+        for (int i = 0; i < tableModel.getRowCount(); i++) {
+            List<String> rowData = new ArrayList<>();
+            for (int j = 0; j < tableModel.getColumnCount(); j++) {
                 Object value = tableModel.getValueAt(i, j);
-                colList.add(value == null ? "" : value.toString());
+                rowData.add(value == null ? "" : value.toString());
             }
-            data.add(colList);
+            data.add(rowData);
         }
 
         return data;
     }
 
+
     public static Map<Integer, Integer> convertListsToMap(List<List<String>> lists) {
-        if (lists.get(0).size() != lists.get(1).size()) {
-            throw new IllegalArgumentException("Lists must have the same size");
-        }
+//        if (lists.get(0).size() != lists.get(1).size()) {
+//            throw new IllegalArgumentException("Lists must have the same size");
+//        }
 
         Map<Integer, Integer> map = new HashMap<>();
-        for (int i = 0; i < lists.get(1).size(); i++) {
-            int productID = Integer.parseInt(lists.get(0).get(i));
-            int amount = Integer.parseInt(lists.get(1).get(i));
-            map.put(productID, amount);
-        }
+        for (int j = 0; j < lists.size(); j++) {
+                int productID = Integer.parseInt(lists.get(j).get(0));
+                int amount = Integer.parseInt(lists.get(j).get(1));
+                map.put(productID, amount);
+            }
+
 
         return map;
     }

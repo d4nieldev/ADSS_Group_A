@@ -78,7 +78,7 @@ class MainV2 {
                         break;
                     }
 
-                    case ("TRANSPORTMANAGER"): {
+                    case ("TRANSPORTmanager"): {
                         transportSystem.run(loginId);
                         break;
                     }

@@ -16,6 +16,9 @@ public class CLI {
         else if (role.equals("Driver")) {
             new MainV2(serviceFactory).run("DRIVER");
         }
+        else if (role.equals("TRANSPORTmanager")) {
+            new MainV2(serviceFactory).run("TRANSPORTmanager");
+        }
         else
             throw new IllegalArgumentException("Unknown role: " + role);
     }

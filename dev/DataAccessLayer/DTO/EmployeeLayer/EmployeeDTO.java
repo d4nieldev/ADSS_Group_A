@@ -37,6 +37,10 @@ public class EmployeeDTO {
 		this.bankAccount = bankAccount;
 		this.salary = salary;
 		this.bonus = InitializeBonus;
+		//DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+		//System.out.println(formatter.format(startDate));
+		//this.startDate = LocalDate.parse(formatter.format(startDate), formatter);
+		//System.out.println(this.startDate);
 		this.startDate = startDate;
 		this.tempsEmployment = tempsEmployment;
 		this.roles = roles;

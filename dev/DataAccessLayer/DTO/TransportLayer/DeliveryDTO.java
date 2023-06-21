@@ -47,6 +47,6 @@ public class DeliveryDTO {
     }
 
     public String fieldsToString() {
-        return String.format("(\"%d\",\"%s\",\"%s\",\"%s\",\"%d\")", id, source, destination, status, weight);
+        return String.format("(\"%d\",\"%s\",\"%s\",\"%s\",\"%d\")", id, source.getAddress(), destination.getAddress(), status.name(), weight);
     }
 }

@@ -1,0 +1,33 @@
+package PresentationLayer.GUI;
+
+import PresentationLayer.GUI.DriverScreens.DriverScreen;
+import PresentationLayer.GUI.HRManagerScreens.HRManagerScreen;
+import PresentationLayer.GUI.MemberScreens.MemberScreen;
+import PresentationLayer.GUI.StoreManagerScreens.StoreManagerScreen;
+import PresentationLayer.GUITransport.TransportManagerScreen;
+import ServiceLayer.EmployeesLayer.ServiceFactory;
+
+public class GUI {
+    public static void activate(String role, ServiceFactory serviceFactory) {
+        if (role.equals("StoreManager")){
+            serviceFactory.getEmployeeService().logIn(123456789, "HRmanager");
+            new StoreManagerScreen(serviceFactory);
+        }
+        else if (role.equals("HRManager")) {
+            serviceFactory.getEmployeeService().logIn(123456789, "HRmanager");
+            new HRManagerScreen(serviceFactory);
+        }           
+        else if (role.equals("Member")) {
+            new MemberScreen(serviceFactory);
+        }
+        else if (role.equals("Driver")) {
+            new DriverScreen(serviceFactory);
+        }
+        else if (role.equals("TRANSPORTmanager")) {
+            serviceFactory.getEmployeeService().logIn(987654321, "TRANSPORTmanager");
+            new TransportManagerScreen(serviceFactory);
+        }  
+        else
+            throw new IllegalArgumentException("Unknown role: " + role);
+    }
+}

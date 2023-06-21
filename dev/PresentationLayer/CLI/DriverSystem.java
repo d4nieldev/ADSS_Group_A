@@ -1,4 +1,4 @@
-package PresentationLayer;
+package PresentationLayer.CLI;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -7,7 +7,7 @@ import java.util.Scanner;
 import ServiceLayer.EmployeesLayer.BranchService;
 import ServiceLayer.EmployeesLayer.EmployeeService;
 import ServiceLayer.EmployeesLayer.ShiftService;
-import ServiceLayer.EmployeesLayer.serviceFactory;
+import ServiceLayer.EmployeesLayer.ServiceFactory;
 
 public class DriverSystem {
 
@@ -15,7 +15,7 @@ public class DriverSystem {
     ShiftService shiftService;
     BranchService branchService;
 
-    public DriverSystem(serviceFactory serviceFactory) {
+    public DriverSystem(ServiceFactory serviceFactory) {
         employeeService = serviceFactory.getEmployeeService();
         shiftService = serviceFactory.getShiftService();
         branchService = serviceFactory.getBranchService();

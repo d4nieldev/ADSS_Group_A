@@ -10,9 +10,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="0da135cd-14b8-4d39-8673-f7b9152761ed" name="Changes" comment="Changes">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    <list default="true" id="a2472df3-0b1c-47fc-bcd6-f26fc4f0a51c" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/database.db" beforeDir="false" afterPath="$PROJECT_DIR$/database.db" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dev/PresentationLayer/Program.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/PresentationLayer/Program.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -53,7 +53,7 @@
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.2" />
   </component>
-  <component name="RunManager" selected="JUnit.EmployeeControllerTest">
+  <component name="RunManager" selected="JUnit.test3">
     <configuration name="java" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="ALTERNATIVE_JRE_PATH" value="17" />
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
@@ -95,8 +95,24 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="test3" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="ADSS_Group_A" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="TestEmployee.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="TestEmployee" />
+      <option name="MAIN_CLASS_NAME" value="TestEmployee.test3" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="JUnit.test3" />
         <item itemvalue="JUnit.EmployeeControllerTest" />
         <item itemvalue="Application.java" />
         <item itemvalue="JUnit.EmployeeControllerTest.logIn" />
@@ -114,6 +130,7 @@
       <workItem from="1682600820798" duration="1371000" />
       <workItem from="1684175940486" duration="3396000" />
       <workItem from="1684183511601" duration="405000" />
+      <workItem from="1687039784490" duration="2000" />
     </task>
     <servers />
   </component>
@@ -144,11 +161,6 @@
           <url>file://$PROJECT_DIR$/dev/DataAccessLayer/DAO/DAO.java</url>
           <line>58</line>
           <option name="timeStamp" value="4" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/dev/TestTransport/EmployeeControllerTest.java</url>
-          <line>13</line>
-          <option name="timeStamp" value="5" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

@@ -1,15 +1,21 @@
 package ServiceLayer.TransportLayer;
 
 import BussinessLayer.EmployeeTransportFacade;
+import BussinessLayer.EmployeesLayer.Driver;
 import BussinessLayer.TransPortLayer.Delivery;
 import BussinessLayer.TransPortLayer.Destination;
 import BussinessLayer.TransPortLayer.DestinationType;
 import BussinessLayer.TransPortLayer.Location;
+import BussinessLayer.TransPortLayer.Transport;
 import BussinessLayer.TransPortLayer.TransportFacade;
+import BussinessLayer.TransPortLayer.Truck;
 import BussinessLayer.TransPortLayer.TruckFacade;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
+
+import javax.xml.transform.Source;
 
 public class TransportService {
     private TransportFacade transportFacade = TransportFacade.getInstance();
@@ -180,8 +186,123 @@ public class TransportService {
     }
 
 
-    public void createTransports(int managerId, List<Delivery> deliveries) {
-        employeeTransportFacade.createTransports(managerId, deliveries);
+    public void createTransports(int managerId, List<Delivery> deliveries, LocalDate transportDate) {
+        employeeTransportFacade.createTransports(managerId, deliveries,transportDate);
     }
+
+
+
+    public List<Truck> getAvailableTrucks() {
+        return employeeTransportFacade.getAvailableTrucks();
+    }
+
+
+
+    public List<Driver> getDayDrivers(int loginId, LocalDate transportDate) {
+       return employeeTransportFacade.getDayDrivers( loginId, transportDate);
+    }
+
+
+
+    public void createTransports(LocalDate transportDate, String hour, String plateNumber, String firstName, int id,
+            String address, List<Destination> destinationList, List<Delivery> matchedDeliveries, int weightNeto,
+            int weightMax)
+    {
+        transportFacade.createTransport(transportDate, plateNumber, firstName, address, id, hour, destinationList, matchedDeliveries, weightNeto, weightMax);
+    }
+
+
+
+    public List<Delivery> getDeliveries(String date) {
+        List<Destination> sources = new ArrayList<>();
+        List<Destination> dests = new ArrayList<>();
+
+        dests = makeSomeDestinations();
+        sources = makeSomeSources();
+        return transportFacade.createDeliveries(sources, dests);
+    }
+
+
+
+    private List<Destination> makeSomeDestinations() {
+        List<Destination> sources = new ArrayList<>(); // Initialize to empty list
+
+        sources.add(this.addDestination("Tel Aviv", "555-1234", "John Smith", Location.NORTH, DestinationType.DESTINATION));
+        sources.add(this.addDestination("Yafo", "555-5678", "Jane Doe", Location.SOUTH, DestinationType.DESTINATION));
+        sources.add(this.addDestination("Haifa", "555-5678", "Jane Doe", Location.NORTH, DestinationType.DESTINATION));
+        return sources;
+    }
+
+    private List<Destination> makeSomeSources() {
+        List<Destination> dests = new ArrayList<>(); // Initialize to empty list
+
+        dests.add(this.addDestination("cola", "555-1234", "John Smith", Location.NORTH, DestinationType.SOURCE));
+        dests.add(this.addDestination("osem", "555-5678", "Jane Doe", Location.SOUTH, DestinationType.SOURCE));
+        dests.add(this.addDestination("tnuva", "555-9012", "Bob Johnson", Location.CENTER, DestinationType.SOURCE));
+        return dests;
+    }
+
+
+
+
+    public List<Truck> getTrucks(String date) {
+        return this.getAvailableTrucks();
+    }
+
+
+
+public List<Driver> getDrivers(String date) {
+    // Convert the date string to LocalDate
+    LocalDate transportDate = LocalDate.parse(date);
+
+    // Call the getDayDrivers() method with the converted date and ID
+    return employeeTransportFacade.getDayDrivers(987654321, transportDate);
+}
+
+
+
+public void createTransportByDate(String date, Driver selectedDriver, Truck selectedTruck,
+        List<Delivery> selectedDeliveries)
+{
+            List<Destination> dests = new ArrayList<>(); // Initialize to empty list
+
+        dests.add(this.addDestination("cola", "555-1234", "John Smith", Location.NORTH, DestinationType.SOURCE));
+        dests.add(this.addDestination("osem", "555-5678", "Jane Doe", Location.SOUTH, DestinationType.SOURCE));
+        dests.add(this.addDestination("tnuva", "555-9012", "Bob Johnson", Location.CENTER, DestinationType.SOURCE));
+    LocalDate transportDate = LocalDate.parse(date);
+
+    transportFacade.createTransport(transportDate, "0000", selectedTruck.getPlateNumber(), selectedDriver.getLastName(),
+    selectedDriver.getId(), "source", dests,
+    selectedDeliveries, selectedTruck.getWeightNeto(), selectedTruck.getWeightMax());
+
+}
+
+
+
+public List<Transport> getTransports(String date) {
+    List<Transport> transports = new ArrayList<>();
+    
+    // Create a default Transport object
+    Transport transport = new Transport();
+    transport.setId(1);
+    transport.setDate(LocalDate.parse(date));
+    transport.setLeavingTime("09:00");
+    transport.setTruckNumber("ABC123");
+    transport.setDriverName("driver two");
+    transport.setDriverId(123);
+    transport.setSource("Tel Aviv");
+    transport.setDestinationList(makeSomeDestinations());
+    transport.setDeliveryList(getDeliveries(date));
+    transport.setTruckWeightNeto(200);
+    transport.setTruckWeightMax(500);
+    transport.setLoadedItems(new ArrayList<>());
+    transport.setCurrentWeight(200);
+    
+    transports.add(transport);
+    
+    return transports;
+}
+
+
 }
 

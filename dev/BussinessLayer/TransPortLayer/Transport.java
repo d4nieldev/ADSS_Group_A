@@ -58,6 +58,9 @@ public class Transport {
         this.loadedItems = DTO.loadedItems;
         this.currentWeight = DTO.currentWeight;
     }
+        public Transport() {
+        // Initialize any default values or perform other initialization tasks if needed
+    }
 
     public TransportDTO toDTO(){
         return new TransportDTO(this.id = id,
@@ -313,6 +316,18 @@ public class Transport {
             }
         }
         return branches;
+    }
+
+    public void setCurrentWeight(int i) {
+        this.currentWeight=i;
+    }
+
+    public Object getWeightMax() {
+        return 1000;
+    }
+
+    public int getWeightNeto() {
+        return this.truckWeightNeto;
     }
 
 }

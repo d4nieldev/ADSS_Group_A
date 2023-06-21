@@ -1,14 +1,20 @@
-package PresentationLayer;
+package PresentationLayer.CLI;
 
+import BussinessLayer.EmployeesLayer.Driver;
 import BussinessLayer.TransPortLayer.Delivery;
 import BussinessLayer.TransPortLayer.Destination;
 import BussinessLayer.TransPortLayer.DestinationType;
 import BussinessLayer.TransPortLayer.Location;
-import ServiceLayer.EmployeesLayer.serviceFactory;
+import BussinessLayer.TransPortLayer.Status;
+import BussinessLayer.TransPortLayer.Truck;
+import ServiceLayer.EmployeesLayer.ServiceFactory;
 import ServiceLayer.TransportLayer.TransportService;
 import ServiceLayer.TransportLayer.TruckService;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class TransportSystem
 
@@ -17,7 +23,7 @@ public class TransportSystem
     private static TransportService transportService;
     private static TruckService truckService;
 
-    public TransportSystem(serviceFactory serviceFactory) {
+    public TransportSystem(ServiceFactory serviceFactory) {
         transportService = serviceFactory.getTransportService();
         truckService = serviceFactory.getTruckService();
     }
@@ -58,7 +64,7 @@ public class TransportSystem
                     deliveries = transportService.createDeliveries(sources, dests);
                     break;
                 case 4:
-                    transportService.createTransports(loginId, deliveries);
+                    createTransports(loginId, deliveries);
                     break;
                 case 5:
                     transportService.runTheTransports();
@@ -80,6 +86,185 @@ public class TransportSystem
         System.out.println("Thank you for using the Transport System!");
     }
     
+
+    private void createTransports(int loginId, List<Delivery> deliveries) 
+    {
+        Scanner scanner = new Scanner(System.in);
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        System.out.println("What date would you like to make transports? (dd/MM/yyyy)");
+        String input = scanner.nextLine();
+        LocalDate transportDate = LocalDate.parse(input, formatter);
+        List <Truck> availableTrucks = transportService.getAvailableTrucks();
+        List <Driver> availableDrivers = transportService.getDayDrivers(loginId,transportDate);
+
+        
+        letTheUserMatch(transportDate,deliveries,availableDrivers,availableTrucks);
+    }
+    
+
+    public void letTheUserMatch(LocalDate transportDate, List<Delivery> deliveries, List<Driver> availableDrivers, List<Truck> availableTrucks)
+    {
+
+        List<Delivery> availableDeliveries = new ArrayList<>(deliveries);
+
+        int driverId = 0;
+        int truckId = 0;
+        int deliveryId = 0;
+
+        while (!availableDeliveries.isEmpty() && !availableDrivers.isEmpty() && !availableTrucks.isEmpty()) {
+            System.out.println("\nAvailable drivers:");
+            printDrivers(availableDrivers);
+            System.out.println("\nAvailable trucks:");
+            printTrucks(availableTrucks);
+            System.out.println("\nAvailable deliveries:");
+            printDeliveries(availableDeliveries);
+
+            Scanner scanner = new Scanner(System.in);
+
+            // Match driver and truck
+            boolean matchFound = false;
+            Driver driver = null;
+            Truck truck = null;
+            while (!matchFound) {
+                System.out.print("\nEnter the ID of the driver to match: ");
+                driverId = scanner.nextInt();
+                driver = availableDrivers.get(driverId);
+
+                System.out.print("\nEnter the ID of the truck to match: ");
+                truckId = scanner.nextInt();
+                truck = availableTrucks.get(truckId);
+
+                if (driver.hasLicenseFor(truck.getModel())) {
+                    matchFound = true;
+                } else {
+                    System.out.println("The driver's license does not match the truck's model. Please try again.");
+                }
+            }
+
+            // Match deliveries to the driver
+            System.out.print("\nEnter the number of deliveries to match for this driver: ");
+            int numDeliveries = scanner.nextInt();
+
+            List<Delivery> matchedDeliveries = new ArrayList<>();
+            for (int i = 1; i <= numDeliveries; i++) {
+                printDeliveries(availableDeliveries);
+                System.out.print("\nEnter the ID of the delivery to match: ");
+                deliveryId = scanner.nextInt();
+
+                Delivery delivery = availableDeliveries.get(deliveryId);
+                matchedDeliveries.add(delivery);
+                availableDeliveries.remove(delivery);
+                delivery.setStatus(Status.INVITED);
+                delivery.setDriver(driver);
+                delivery.setTruck(truck);
+            }
+
+            // Update available drivers and trucks
+            availableDrivers.remove(driver);
+            availableTrucks.remove(truck);
+
+            // Print matched driver, truck, and deliveries
+            System.out.println("\nMatched driver: " + driver.getFirstName()+" "+driver.getLastName() + " (" + driver.getDriverLicense() + ")");
+            System.out.println("Matched truck: " + truck.getPlateNumber() + " (" + truck.getModel() + ")");
+            System.out.println("Matched deliveries:");
+            printDeliveries(matchedDeliveries);
+            Date d = new Date();
+            List<Destination> destinationList = letTheUserChooseTheOrder(matchedDeliveries);
+
+            createTransport(transportDate,"0000",truck.getPlateNumber(),driver.getFirstName(),driver.getId(),destinationList.get(0).getAddress(),
+                    destinationList,matchedDeliveries,truck.getWeightNeto(),truck.getWeightMax());
+        }
+
+        if (availableTrucks.isEmpty()) {
+            System.out.println("\nNo more available trucks.");
+        }
+
+        if (availableDrivers.isEmpty()) {
+            System.out.println("\nNo more available drivers.");
+        }
+
+        if (availableDeliveries.isEmpty()) {
+            System.out.println("\nNo more available deliveries.");
+        }
+
+    }
+    private void createTransport(LocalDate transportDate, String hour, String plateNumber, String firstName, int id,
+    String address, List<Destination> destinationList, List<Delivery> matchedDeliveries, int weightNeto,
+    int weightMax)
+    {
+        transportService.createTransports(transportDate,hour,plateNumber,firstName,id,address,destinationList,matchedDeliveries,weightNeto,weightMax);
+    }
+
+        private void printDrivers(List<Driver> drivers) {
+        for (int i = 0; i < drivers.size(); i++) {
+            Driver driver = drivers.get(i);
+            System.out.println(i + ": " + driver.getFirstName() + " (" + driver.getDriverLicense() + ")");
+        }
+    }
+
+    private void printTrucks(List<Truck> trucks) {
+        for (int i = 0; i < trucks.size(); i++) {
+            Truck truck = trucks.get(i);
+            System.out.println(i + ": " + truck.getPlateNumber() + " (" + truck.getModel() + ")");
+        }
+    }
+
+        public List<Destination> letTheUserChooseTheOrder(List<Delivery> matchedDeliveries) {
+        // Create a list of all destinations without duplicates
+        List<Destination> allDestinations = new ArrayList<>();
+        for (Delivery delivery : matchedDeliveries) {
+            allDestinations.add(delivery.getSource());
+            allDestinations.add(delivery.getDest());
+        }
+        List<Destination> uniqueDestinations = allDestinations.stream().distinct().collect(Collectors.toList());
+
+        // Print all destinations with indexes for the user to choose from
+        System.out.println("Please choose the order of destinations:");
+        for (int i = 0; i < uniqueDestinations.size(); i++) {
+            Destination destination = uniqueDestinations.get(i);
+            System.out.println(i + ": " + destination.getAddress() + " (" + destination.getLocation() + ")");
+        }
+
+        // Ask user to input the order of destinations
+        List<Destination> chosenOrder = new ArrayList<>();
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Enter the index of the next destination or enter -1 to finish the order:");
+        int index = scanner.nextInt();
+        while (index != -1) {
+            if (index >= 0 && index < uniqueDestinations.size()) {
+                Destination destination = uniqueDestinations.get(index);
+                if (!chosenOrder.contains(destination)) {
+                    chosenOrder.add(destination);
+                    System.out.println("Added " + destination.getAddress() + " to the order.");
+                } else {
+                    System.out.println("Destination already added to the order.");
+                }
+            } else {
+                System.out.println("Invalid index.");
+            }
+            System.out.println("Enter the index of the next destination or enter -1 to finish the order:");
+            index = scanner.nextInt();
+        }
+
+        // Print the chosen order
+        System.out.println("Chosen order of destinations:");
+        for (int i = 0; i < chosenOrder.size(); i++) {
+            Destination destination = chosenOrder.get(i);
+            System.out.println(i + ": " + destination.getAddress() + " (" + destination.getLocation() + ")");
+        }
+
+        return chosenOrder;
+    }
+
+
+    private void printDeliveries(List<Delivery> deliveries) {
+        for (int i = 0; i < deliveries.size(); i++) {
+            Delivery delivery = deliveries.get(i);
+            System.out.println(i + ": " + delivery.getSource().getAddress() + " (" + delivery.getSource().getLocation() + ") -> "
+                    + delivery.getDest().getAddress() + " (" + delivery.getDest().getLocation() + ")");
+        }
+        System.out.println();
+    }
 
     private static void changeTruckService() {
         Scanner scanner = new Scanner(System.in);

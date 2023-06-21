@@ -62,6 +62,7 @@ public abstract class DAO<T> {
             Statement stmt = con.createStatement();
             rs = stmt.executeQuery(SELECT_SQL);
         } catch (SQLException e) {
+            System.out.println(e.getMessage());
         }
 
         return rs;

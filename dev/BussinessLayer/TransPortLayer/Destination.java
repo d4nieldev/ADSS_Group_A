@@ -1,5 +1,7 @@
 package BussinessLayer.TransPortLayer;
 
+import DataAccessLayer.DTO.TransportLayer.DestinationDTO;
+
 public class Destination {
     private String address;
     private String phoneNumber;
@@ -50,5 +52,13 @@ public class Destination {
 
     public DestinationType getType() {
         return destinationType;
+    }
+
+    public DestinationDTO toDTO() {
+        return new DestinationDTO(this.address=address,this.phoneNumber=phoneNumber,
+        this.contactName=contactName,this.location=location,
+        this.destinationType=destinationType);
+
+        
     }
 }

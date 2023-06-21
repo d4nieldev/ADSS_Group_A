@@ -20,3 +20,7 @@ Each of the users above have a different menu then log in to the system because 
 Hope you will have fun,
 Inbar Tal Kfir and Rotem
 
+inside db:
+transport modul- there are 5 trucks all available for transportation, from several kind of models
+there are deliveris pending for transports
+there is one transport waiting to be activated

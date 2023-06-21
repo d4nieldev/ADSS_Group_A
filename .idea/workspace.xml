@@ -10,9 +10,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a2472df3-0b1c-47fc-bcd6-f26fc4f0a51c" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/database.db" beforeDir="false" afterPath="$PROJECT_DIR$/database.db" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dev/PresentationLayer/Program.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/PresentationLayer/Program.java" afterDir="false" />
+    <list default="true" id="a2472df3-0b1c-47fc-bcd6-f26fc4f0a51c" name="Changes" comment="Changes">
+      <change beforePath="$PROJECT_DIR$/dev/META-INF/MANIFEST.MF" beforeDir="false" afterPath="$PROJECT_DIR$/dev/META-INF/MANIFEST.MF" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -147,7 +146,6 @@
         </entry>
       </map>
     </option>
-    <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

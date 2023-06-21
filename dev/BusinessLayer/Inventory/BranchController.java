@@ -279,6 +279,7 @@ public class BranchController {
                     discount.getDiscountValue(), "Precentage");
         }
         discountDAO.insert(discountDTO);
+        
         Branch branch = getBranchById(branchId);
         // return a list of all products who the new discount on them been changed
         List<ProductBranch> productsToDiscount = branch.getProductsByCode(products);

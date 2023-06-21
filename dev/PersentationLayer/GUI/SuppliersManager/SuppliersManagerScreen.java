@@ -84,7 +84,7 @@ public class SuppliersManagerScreen extends JFrame {
 
         editAgreementButton.addActionListener((e) -> {
             dispose();
-            new EditAgreementScreen();
+            new EditAgreementScreen(this);
         });
 
         // Set the frame size and make it visible

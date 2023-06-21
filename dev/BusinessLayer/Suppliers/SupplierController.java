@@ -181,12 +181,13 @@ public class SupplierController {
         idToSupplier.put(supplierId, fds);
     }
 
-    public void addFixedDaysSupplierBaseAgreement(String supplierName, String supplierPhone, String supplierBankAccount,
+    public int addFixedDaysSupplierBaseAgreement(String supplierName, String supplierPhone, String supplierBankAccount,
             List<String> supplierFields, String paymentCondition, TreeMap<Integer, String> amountToDiscount,
             List<String> contactNames, List<String> contactPhones, List<Integer> days)
             throws SuppliersException, SQLException {
         addFixedDaysSupplierBaseAgreement(nextSupplierIdInSystem++, supplierName, supplierPhone, supplierBankAccount,
                 supplierFields, paymentCondition, amountToDiscount, contactNames, contactPhones, days);
+        return nextDiscountIdInSystem - 1;
     }
 
     // Add 'On Order' supplier to the system
@@ -211,13 +212,14 @@ public class SupplierController {
         idToSupplier.put(supplierId, oos);
     }
 
-    public void addOnOrderSupplierBaseAgreement(String supplierName, String supplierPhone,
+    public int addOnOrderSupplierBaseAgreement(String supplierName, String supplierPhone,
             String supplierBankAccount,
             List<String> supplierFields, String paymentCondition, TreeMap<Integer, String> amountToDiscount,
             List<String> contactNames, List<String> contactPhones, int maxSupplyDays)
             throws SuppliersException, SQLException {
         addOnOrderSupplierBaseAgreement(nextDiscountIdInSystem++, supplierName, supplierPhone, supplierBankAccount,
                 supplierFields, paymentCondition, amountToDiscount, contactNames, contactPhones, maxSupplyDays);
+        return nextDiscountIdInSystem - 1;
     }
 
     // Add 'Self Pickup' supplier to the system
@@ -247,7 +249,7 @@ public class SupplierController {
 
     }
 
-    public void addSelfPickupSupplierBaseAgreement(String supplierName, String supplierPhone,
+    public int addSelfPickupSupplierBaseAgreement(String supplierName, String supplierPhone,
             String supplierBankAccount,
             List<String> supplierFields, String paymentCondition, TreeMap<Integer, String> amountToDiscount,
             List<String> contactNames, List<String> contactPhones, String address, int maxPreperationDays)
@@ -255,6 +257,7 @@ public class SupplierController {
         addSelfPickupSupplierBaseAgreement(nextSupplierIdInSystem++, supplierName, supplierPhone, supplierBankAccount,
                 supplierFields, paymentCondition, amountToDiscount, contactNames, contactPhones, address,
                 maxPreperationDays);
+        return nextSupplierIdInSystem - 1;
     }
 
     // Add office contact for the begining of the list of contacts

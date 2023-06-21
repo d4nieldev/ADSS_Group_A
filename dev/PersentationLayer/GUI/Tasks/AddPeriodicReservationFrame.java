@@ -22,11 +22,11 @@ public class AddPeriodicReservationFrame implements ActionListener {
     JPanel productToAmountTabel;
     JLabel label;
     JButton button;
-    StorekeeperFrame storekeeperFrame ;
+    StorekeeperFrame storekeeperFrame;
     JPanel tasksPanel;
-    JButton button1 ;
-    JButton button2 ;
-    JButton button3 ;
+    JButton button1;
+    JButton button2;
+    JButton button3;
     JTextField supplierIdTextField;
     JTextField branchIdTextField;
     JTextField dayTextField;
@@ -36,7 +36,6 @@ public class AddPeriodicReservationFrame implements ActionListener {
     JButton backButton;
     private static ReservationService rs = ReservationService.create();
     ProductService productService = new ProductService();
-
 
     public AddPeriodicReservationFrame() {
         frame = new JFrame();
@@ -82,7 +81,7 @@ public class AddPeriodicReservationFrame implements ActionListener {
         dayTextField.setPreferredSize(new Dimension(250, 25)); // Increase preferred size
 
         JLabel productToAmountLabel = new JLabel("Products and Amount");
-        String[] columnNames = {"product", "amount"};
+        String[] columnNames = { "product", "amount" };
         List<String[]> data = new ArrayList<>();
         productToAmountTabel = createTablePanel(columnNames, data);
 
@@ -128,11 +127,11 @@ public class AddPeriodicReservationFrame implements ActionListener {
         gbc.gridy = 4;
         gbc.gridwidth = 3;
         gbc.weightx = 1.0;
-        gbc.weighty=1.0;
+        gbc.weighty = 1.0;
         gbc.fill = GridBagConstraints.BOTH;
         gbc.insets = new Insets(5, 5, 5, 5);
         mainPanel.add(productToAmountTabel, gbc);
-
+        gbc.fill = GridBagConstraints.HORIZONTAL;
         // Create the submit button
         submitButton = new JButton("Submit");
         submitButton.addActionListener(this);
@@ -173,7 +172,7 @@ public class AddPeriodicReservationFrame implements ActionListener {
             frame.dispose();
             OrderSupplyFrame orderSupplyFrame = new OrderSupplyFrame();
         }
-        //submit button operation
+        // submit button operation
         if (e.getSource() == submitButton) {
             // Reset the invalid input label
             invalidInputLabel.setVisible(false);
@@ -224,18 +223,25 @@ public class AddPeriodicReservationFrame implements ActionListener {
             }
 
             try {
-                rs.addPeriodicReservation(supplierId,branchId,day,productToAmount);
+                String res = rs.addPeriodicReservation(supplierId, branchId, day, productToAmount);
+                if (res.equals("Success")) {
+                    invalidInputLabel.setText("operation succeed");
+                    invalidInputLabel.setForeground(Color.green);
+                    invalidInputLabel.setVisible(true);
+                    // clear the textBox data
+                    supplierIdTextField.setText("");
+                    branchIdTextField.setText("");
+                    dayTextField.setText("");
+                } else {
+                    invalidInputLabel.setText(res);
+                    invalidInputLabel.setForeground(Color.red);
+                    invalidInputLabel.setVisible(true);
+                }
             } catch (Exception ex) {
                 invalidInputLabel.setText(ex.getMessage());
                 invalidInputLabel.setVisible(true);
             }
-            invalidInputLabel.setText("operation succeed");
-            invalidInputLabel.setForeground(Color.green);
-            invalidInputLabel.setVisible(true);
-            //clear the textBox data
-            supplierIdTextField.setText("");
-            branchIdTextField.setText("");
-            dayTextField.setText("");
+
         }
     }
 
@@ -290,7 +296,6 @@ public class AddPeriodicReservationFrame implements ActionListener {
         return tablePanel;
     }
 
-
     private List<List<String>> getDataFromTablePanel(JPanel tablePanel) {
         JScrollPane scrollPane = (JScrollPane) tablePanel.getComponent(0);
         JViewport vp = scrollPane.getViewport();
@@ -311,11 +316,10 @@ public class AddPeriodicReservationFrame implements ActionListener {
         return data;
     }
 
-
     public static Map<Integer, Integer> convertListsToMap(List<List<String>> lists) {
-//        if (lists.get(0).size() != lists.get(1).size()) {
-//            throw new IllegalArgumentException("Lists must have the same size");
-//        }
+        // if (lists.get(0).size() != lists.get(1).size()) {
+        // throw new IllegalArgumentException("Lists must have the same size");
+        // }
 
         Map<Integer, Integer> map = new HashMap<>();
         for (int j = 0; j < lists.size(); j++) {
@@ -323,7 +327,6 @@ public class AddPeriodicReservationFrame implements ActionListener {
             int amount = Integer.parseInt(lists.get(j).get(1));
             map.put(productID, amount);
         }
-
 
         return map;
     }

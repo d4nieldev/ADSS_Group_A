@@ -5,7 +5,7 @@ import java.awt.*;
 import java.awt.event.*;
 
 public class EditAgreementScreen extends JFrame {
-    public EditAgreementScreen() {
+    public EditAgreementScreen(JFrame prevFrame) {
         setTitle("Supplier & Product Screen");
         setSize(300, 200);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -39,6 +39,7 @@ public class EditAgreementScreen extends JFrame {
         JButton goBackButton = new JButton("Go Back");
         goBackButton.addActionListener((e) -> {
             dispose();
+            prevFrame.setVisible(true);
         });
         panel.add(goBackButton);
 

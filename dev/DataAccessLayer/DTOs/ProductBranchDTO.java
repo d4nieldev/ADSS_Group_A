@@ -56,4 +56,5 @@ public class ProductBranchDTO implements DTO {
     public HashMap<Integer, SpecificProductDTO> getAllSpecificProducts() {
         return allSpecificProducts;
     }
+
 }

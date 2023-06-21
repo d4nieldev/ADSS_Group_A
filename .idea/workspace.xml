@@ -9,8 +9,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a2472df3-0b1c-47fc-bcd6-f26fc4f0a51c" name="Changes" comment="fix productBranchDiscount function">
+    <list default="true" id="a2472df3-0b1c-47fc-bcd6-f26fc4f0a51c" name="Changes" comment=".">
+      <change afterPath="$PROJECT_DIR$/database.db" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/dev/BusinessLayer/Inventory/BranchController.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/BusinessLayer/Inventory/BranchController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dev/DataAccessLayer/DTOs/ProductBranchDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/DataAccessLayer/DTOs/ProductBranchDTO.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -170,13 +173,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1680005362759</updated>
-    </task>
-    <task id="LOCAL-00002" summary="PeriodicReservation DAO+DTO">
-      <created>1683811590788</created>
-      <option name="number" value="00002" />
-      <option name="presentableId" value="LOCAL-00002" />
-      <option name="project" value="LOCAL" />
-      <updated>1683811590788</updated>
     </task>
     <task id="LOCAL-00003" summary="implement SpecificProduct, ProductBranch, Branch , BranchController">
       <created>1683846403228</created>
@@ -514,7 +510,14 @@
       <option name="project" value="LOCAL" />
       <updated>1687372161585</updated>
     </task>
-    <option name="localTasksCounter" value="51" />
+    <task id="LOCAL-00051" summary=".">
+      <created>1687373162766</created>
+      <option name="number" value="00051" />
+      <option name="presentableId" value="LOCAL-00051" />
+      <option name="project" value="LOCAL" />
+      <updated>1687373162766</updated>
+    </task>
+    <option name="localTasksCounter" value="52" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -553,9 +556,9 @@
     <MESSAGE value="work on Storage manager frame" />
     <MESSAGE value="done with reports, and add new frame- for manager and for StorekeeperFrame" />
     <MESSAGE value="last one" />
-    <MESSAGE value="." />
     <MESSAGE value="fix productBranchDiscount function" />
-    <option name="LAST_COMMIT_MESSAGE" value="fix productBranchDiscount function" />
+    <MESSAGE value="." />
+    <option name="LAST_COMMIT_MESSAGE" value="." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -572,7 +575,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/dev/BusinessLayer/Inventory/BranchController.java</url>
-          <line>384</line>
+          <line>390</line>
           <option name="timeStamp" value="18" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
@@ -697,12 +700,12 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/dev/BusinessLayer/Inventory/BranchController.java</url>
-          <line>399</line>
+          <line>405</line>
           <option name="timeStamp" value="56" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/dev/PersentationLayer/GUI/Tasks/AddSpecificProductFrame.java</url>
-          <line>179</line>
+          <line>181</line>
           <option name="timeStamp" value="58" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
@@ -712,12 +715,12 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/dev/PersentationLayer/GUI/Tasks/SetDiscountOnProductsFrame.java</url>
-          <line>301</line>
+          <line>302</line>
           <option name="timeStamp" value="70" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/dev/BusinessLayer/Inventory/BranchController.java</url>
-          <line>284</line>
+          <line>285</line>
           <option name="timeStamp" value="71" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
@@ -742,7 +745,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/dev/BusinessLayer/Inventory/BranchController.java</url>
-          <line>291</line>
+          <line>294</line>
           <option name="timeStamp" value="76" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">

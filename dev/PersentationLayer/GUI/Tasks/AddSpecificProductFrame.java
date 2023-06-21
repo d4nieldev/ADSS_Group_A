@@ -1,6 +1,7 @@
 package PersentationLayer.GUI.Tasks;
 
 import BusinessLayer.Inventory.BranchController;
+import PersentationLayer.GUI.MangeStorageFrame;
 import PersentationLayer.GUI.StorekeeperFrame;
 import ServiceLayer.InventorySuppliers.BranchService;
 
@@ -20,6 +21,7 @@ public class AddSpecificProductFrame implements ActionListener {
     private JTextField buyPriceTextField;
     private JTextField expirationDateTextField;
     JButton submitButton;
+    JButton backButton;
     JLabel invalidInputLabel;
 
     public AddSpecificProductFrame() {
@@ -31,7 +33,7 @@ public class AddSpecificProductFrame implements ActionListener {
 
         JPanel topPanel = new JPanel(new BorderLayout());
 
-        JButton backButton = new JButton("Back");
+        backButton = new JButton("Back");
         backButton.addActionListener(this);
 
         topPanel.add(backButton, BorderLayout.WEST);
@@ -193,6 +195,9 @@ public class AddSpecificProductFrame implements ActionListener {
                productCodeTextField.setText("");
                buyPriceTextField.setText("");
                expirationDateTextField.setText("");
+            } else if (e.getSource() == backButton) {
+                frame.dispose();
+                new MangeStorageFrame();
             }
 
     }

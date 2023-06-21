@@ -19,13 +19,17 @@ import BusinessLayer.InveontorySuppliers.ReceiptItem;
 import BusinessLayer.InveontorySuppliers.Reservation;
 import BusinessLayer.enums.Status;
 import BusinessLayer.exceptions.SuppliersException;
+import DataAccessLayer.DAOs.BranchDAO;
 import DataAccessLayer.DAOs.PeriodicReservationDAO;
 import DataAccessLayer.DAOs.ReceiptItemDAO;
 import DataAccessLayer.DAOs.ReservationDAO;
+import DataAccessLayer.DAOs.SupplierDAO;
+import DataAccessLayer.DTOs.BranchDTO;
 import DataAccessLayer.DTOs.PeriodicReservationDTO;
 import DataAccessLayer.DTOs.PeriodicReservationItemDTO;
 import DataAccessLayer.DTOs.ReceiptItemDTO;
 import DataAccessLayer.DTOs.ReservationDTO;
+import DataAccessLayer.DTOs.SupplierDTO;
 
 public class ReservationController {
     private static ReservationController instance = null;
@@ -122,6 +126,13 @@ public class ReservationController {
                     amount);
             items.add(itemDTO);
         }
+        SupplierDTO supDTO = SupplierDAO.getInstance().getById(supplierId);
+        if (supDTO == null)
+            throw new SuppliersException("There is no supplier with id " + supplierId);
+        BranchDTO branchDTO = BranchDAO.getInstance().getById(branchId);
+        if (branchDTO == null)
+            throw new SuppliersException("There is no branch with id " + branchId);
+
         PeriodicReservationDTO rDTO = new PeriodicReservationDTO(supplierId, branchId, day, items);
         PeriodicReservation r = new PeriodicReservation(rDTO);
         periodicReservationDAO.insert(r.getDTO());

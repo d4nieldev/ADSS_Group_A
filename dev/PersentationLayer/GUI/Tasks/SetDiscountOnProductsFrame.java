@@ -47,9 +47,10 @@ public class SetDiscountOnProductsFrame implements ActionListener {
     List<Product> productList;
     List<JCheckBox> checkBoxList;
     ProductService productService = new ProductService();
-    public SetDiscountOnProductsFrame(){
+
+    public SetDiscountOnProductsFrame() {
         frame = new JFrame();
-        frame.setTitle("Set Discount by Categories");
+        frame.setTitle("Set Discount by Products");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(500, 550);
         frame.setLocationRelativeTo(null); // Center the frame on the screen
@@ -68,7 +69,7 @@ public class SetDiscountOnProductsFrame implements ActionListener {
         topPanel.add(backButton, BorderLayout.WEST);
 
         // Create the label
-        JLabel label = new JLabel("Set Discount by Categories");
+        JLabel label = new JLabel("Set Discount by Products");
         label.setHorizontalAlignment(JLabel.CENTER);
         label.setFont(new Font("Arial", Font.BOLD, 24));
         label.setForeground(Color.WHITE);
@@ -97,7 +98,7 @@ public class SetDiscountOnProductsFrame implements ActionListener {
 
         // Create the discount type combo box
         JLabel discountTypeLabel = new JLabel("Discount Type");
-        discountTypeComboBox = new JComboBox<>(new String[]{"Discount Percentage", "Discount Fixed"});
+        discountTypeComboBox = new JComboBox<>(new String[] { "Discount Percentage", "Discount Fixed" });
 
         try {
             productList = ProductController.getInstance().getAllProducts();
@@ -201,9 +202,10 @@ public class SetDiscountOnProductsFrame implements ActionListener {
 
         frame.setVisible(true);
     }
+
     @Override
     public void actionPerformed(ActionEvent e) {
-        //back to tasks view window
+        // back to tasks view window
         if (e.getSource() == backButton) {
             frame.dispose();
             MangeStorageFrame mangeStorageFrame = new MangeStorageFrame();
@@ -229,12 +231,10 @@ public class SetDiscountOnProductsFrame implements ActionListener {
             }
             try {
                 List<Category> categories = CategoryController.getInstance().getCategoriesByIds(selectedProductsIds);
-            }
-            catch (Exception exception){
+            } catch (Exception exception) {
                 invalidInputLabel.setText(exception.getMessage());
                 invalidInputLabel.setVisible(true);
             }
-
 
             boolean isValid = true;
             StringBuilder errorMessage = new StringBuilder("Invalid input:");
@@ -252,7 +252,6 @@ public class SetDiscountOnProductsFrame implements ActionListener {
                 return;
             }
 
-
             // Validate discountValue
 
             try {
@@ -263,7 +262,7 @@ public class SetDiscountOnProductsFrame implements ActionListener {
                 return;
             }
 
-            //Validate discount start date
+            // Validate discount start date
             try {
                 LocalDate discountStartDate = LocalDate.parse(discountStart, DateTimeFormatter.ISO_LOCAL_DATE);
             } catch (DateTimeParseException ex) {
@@ -271,7 +270,7 @@ public class SetDiscountOnProductsFrame implements ActionListener {
                 invalidInputLabel.setVisible(true);
                 return;
             }
-            //Validate discount End date
+            // Validate discount End date
             try {
                 LocalDate discountEndDate = LocalDate.parse(discountEnd, DateTimeFormatter.ISO_LOCAL_DATE);
             } catch (DateTimeParseException ex) {
@@ -280,11 +279,13 @@ public class SetDiscountOnProductsFrame implements ActionListener {
                 return;
             }
 
-            //create discount object
-            if(selectedDiscountType == "Discount Percentage"){
+            // create discount object
+            if (selectedDiscountType == "Discount Percentage") {
                 try {
-                    DiscountPercentage discountPercentage = new DiscountPercentage(new DiscountDTO(Global.getNewDiscountId(),LocalDate.parse(discountStart),LocalDate.parse(discountEnd),discountValue,"Precentage"));
-                    productService.setDiscountByProducts(branchId,selectedProductsIds,discountPercentage);
+                    DiscountPercentage discountPercentage = new DiscountPercentage(
+                            new DiscountDTO(Global.getNewDiscountId(), LocalDate.parse(discountStart),
+                                    LocalDate.parse(discountEnd), discountValue, "Precentage"));
+                    productService.setDiscountByProducts(branchId, selectedProductsIds, discountPercentage);
                 } catch (Exception ex) {
                     String keyword = "this";
                     int startIndex = ex.getMessage().toLowerCase().indexOf(keyword.toLowerCase());
@@ -295,11 +296,11 @@ public class SetDiscountOnProductsFrame implements ActionListener {
                         return;
                     }
                 }
-            }
-            else {
-                try{
-                    DiscountFixed discountFixed = new DiscountFixed(new DiscountDTO(Global.getNewDiscountId(),LocalDate.parse(discountStart),LocalDate.parse(discountEnd),discountValue,"Fixed"));
-                    productService.setDiscountByProducts(branchId,selectedProductsIds,discountFixed);
+            } else {
+                try {
+                    DiscountFixed discountFixed = new DiscountFixed(new DiscountDTO(Global.getNewDiscountId(),
+                            LocalDate.parse(discountStart), LocalDate.parse(discountEnd), discountValue, "Fixed"));
+                    productService.setDiscountByProducts(branchId, selectedProductsIds, discountFixed);
                 } catch (Exception ex) {
                     String keyword = "this";
                     int startIndex = ex.getMessage().toLowerCase().indexOf(keyword.toLowerCase());
@@ -312,13 +313,12 @@ public class SetDiscountOnProductsFrame implements ActionListener {
                 }
             }
 
-
-//
-//            if (res != "Success") {
-//                invalidInputLabel.setText(res);
-//                invalidInputLabel.setVisible(true);
-//                return;
-//            }
+            //
+            // if (res != "Success") {
+            // invalidInputLabel.setText(res);
+            // invalidInputLabel.setVisible(true);
+            // return;
+            // }
             invalidInputLabel.setText("operation succeed");
             invalidInputLabel.setForeground(Color.green);
             invalidInputLabel.setVisible(true);
@@ -331,8 +331,6 @@ public class SetDiscountOnProductsFrame implements ActionListener {
             for (JCheckBox checkBox : checkBoxList) {
                 checkBox.setSelected(false);
             }
-
-
 
         }
     }

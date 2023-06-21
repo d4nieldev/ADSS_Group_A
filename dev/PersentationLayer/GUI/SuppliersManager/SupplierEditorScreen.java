@@ -90,7 +90,7 @@ public class SupplierEditorScreen extends JFrame {
                     && init_supplierCard.containsKey("maxPreperationDays")) {
                 openSelfPickupSupplierWindow();
             } else {
-                // handle invalid
+
             }
         } else {
             // to prevent error
@@ -103,6 +103,9 @@ public class SupplierEditorScreen extends JFrame {
             init_contacts = new HashMap<>();
 
             JOptionPane.showMessageDialog(this, init_supplierCard.get("error"), null, 0);
+
+            dispose();
+            previousFrame.setVisible(true);
         }
 
     }

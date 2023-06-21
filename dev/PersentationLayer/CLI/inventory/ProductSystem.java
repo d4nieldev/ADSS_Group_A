@@ -255,6 +255,16 @@ public class ProductSystem {
         System.out.println("11. Import report by report id");
         System.out.println("12. Import product report");
     }
+    public static void getKeeperMenu() {
+        System.out.println("1.  Add new product");
+        System.out.println("2.  Add Category");
+        System.out.println("3.  Sell product");
+        System.out.println("4.  Set discount - categories");
+        System.out.println("5.  Set discount - product");
+        System.out.println("6.  Report flaw product");
+    }
+
+
 
     public static void getStart() {
 

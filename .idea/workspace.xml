@@ -2,18 +2,22 @@
 <project version="4">
   <component name="ArtifactsWorkspaceSettings">
     <artifacts-to-build>
-      <artifact name="ADSS_Group_A:jar3" />
+      <artifact name="ADSS_Group_A:jar" />
     </artifacts-to-build>
   </component>
   <component name="AutoImportSettings">
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a2472df3-0b1c-47fc-bcd6-f26fc4f0a51c" name="Changes" comment=".">
-      <change afterPath="$PROJECT_DIR$/database.db" afterDir="false" />
+    <list default="true" id="a2472df3-0b1c-47fc-bcd6-f26fc4f0a51c" name="Changes" comment="fix product branchDiscount">
+      <change beforePath="$PROJECT_DIR$/.idea/artifacts/ADSS_Group_A_jar.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/artifacts/ADSS_Group_A_jar.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/artifacts/ADSS_Group_A_jar2.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/artifacts/ADSS_Group_A_jar3.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dev/BusinessLayer/Inventory/BranchController.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/BusinessLayer/Inventory/BranchController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dev/DataAccessLayer/DTOs/ProductBranchDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/DataAccessLayer/DTOs/ProductBranchDTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dev/PersentationLayer/CLI/CLI.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/PersentationLayer/CLI/CLI.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dev/PersentationLayer/CLI/inventory/ProductSystem.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/PersentationLayer/CLI/inventory/ProductSystem.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dev/PersentationLayer/GUI/GUI.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/PersentationLayer/GUI/GUI.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dev/PersentationLayer/Program.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/PersentationLayer/Program.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -55,6 +59,14 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "project.structure.last.edited": "Artifacts",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.2"
+  }
+}]]></component>
   <component name="RecentsManager">
     <key name="CreateClassDialog.RecentsKey">
       <recent name="PersentationLayer.GUI.Tasks" />
@@ -173,13 +185,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1680005362759</updated>
-    </task>
-    <task id="LOCAL-00003" summary="implement SpecificProduct, ProductBranch, Branch , BranchController">
-      <created>1683846403228</created>
-      <option name="number" value="00003" />
-      <option name="presentableId" value="LOCAL-00003" />
-      <option name="project" value="LOCAL" />
-      <updated>1683846403228</updated>
     </task>
     <task id="LOCAL-00004" summary="implement SpecificProduct, ProductBranch, Branch , BranchController">
       <created>1683846715860</created>
@@ -517,7 +522,14 @@
       <option name="project" value="LOCAL" />
       <updated>1687373162766</updated>
     </task>
-    <option name="localTasksCounter" value="52" />
+    <task id="LOCAL-00052" summary="fix product branchDiscount">
+      <created>1687373931958</created>
+      <option name="number" value="00052" />
+      <option name="presentableId" value="LOCAL-00052" />
+      <option name="project" value="LOCAL" />
+      <updated>1687373931958</updated>
+    </task>
+    <option name="localTasksCounter" value="53" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -533,7 +545,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-    <MESSAGE value="start debugging -&gt; 1-6 works the reports not" />
     <MESSAGE value=" fix issues" />
     <MESSAGE value="minor" />
     <MESSAGE value="done with tests :&#10;SpecificProductTest&#10;ProductBranchTest&#10;CategoryTest" />
@@ -558,7 +569,8 @@
     <MESSAGE value="last one" />
     <MESSAGE value="fix productBranchDiscount function" />
     <MESSAGE value="." />
-    <option name="LAST_COMMIT_MESSAGE" value="." />
+    <MESSAGE value="fix product branchDiscount" />
+    <option name="LAST_COMMIT_MESSAGE" value="fix product branchDiscount" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -575,7 +587,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/dev/BusinessLayer/Inventory/BranchController.java</url>
-          <line>390</line>
+          <line>389</line>
           <option name="timeStamp" value="18" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
@@ -700,7 +712,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/dev/BusinessLayer/Inventory/BranchController.java</url>
-          <line>405</line>
+          <line>404</line>
           <option name="timeStamp" value="56" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
@@ -745,7 +757,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/dev/BusinessLayer/Inventory/BranchController.java</url>
-          <line>294</line>
+          <line>293</line>
           <option name="timeStamp" value="76" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">

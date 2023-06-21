@@ -6,7 +6,7 @@ public class GUI {
     public static void activate(String role) {
         if (role.equals("StoreManager"))
             new StoreManagerFrame();
-        else if (role.equals("StoreKeeper"))
+        else if (role.equals("ManageStorage"))
             new StorekeeperFrame();
         else if (role.equals("SuppliersManager"))
             new SuppliersManagerScreen(null);

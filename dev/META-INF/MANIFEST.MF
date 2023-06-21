@@ -1,3 +1,7 @@
 Manifest-Version: 1.0
-Main-Class: PresentationLayer.MainV2
+<<<<<<< Updated upstream
+Main-Class: adss2023_v03
+=======
+Main-Class: PresentationLayer.Program
+>>>>>>> Stashed changes
 

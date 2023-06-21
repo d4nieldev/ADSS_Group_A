@@ -124,6 +124,8 @@ public class ProductBranch {
     }
 
     public boolean applyDiscount(Discount discountNew) throws SQLException {
+        if(discountsHistory.size() == 0)
+            loadDiscountHistory();
         discountsHistory.add(discountNew);
         Discount maxDiscount = getCurrentMaxDiscount();
         this.discount = maxDiscount;
@@ -154,7 +156,7 @@ public class ProductBranch {
         for (Discount dis : discountsHistory) {
             if (dis.getStart_date().isBefore(LocalDate.now()) && dis.getEnd_date().isAfter(LocalDate.now())) {
                 if (dis instanceof DiscountPercentage) {
-                    double p = price * (1 - ((DiscountPercentage) dis).getDiscountValue());
+                    double p = price * (1 - (((DiscountPercentage) dis).getDiscountValue()/100));
                     if (currentPrice > p) {
                         maxDiscount = dis;
                         currentPrice = p;

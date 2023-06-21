@@ -288,8 +288,9 @@ public class BranchController {
         for (ProductBranch productBranch : changeDiscount) {
             ProductBranchDTO productBranchDTO = productBranchDAO.getByProductAndBranchId(productBranch.getCode(),
                     branchId);
-            productBranchDAO.delete(productBranchDTO);
-            productBranchDAO.insert(productBranchDTO);
+//            productBranchDAO.delete(productBranchDTO);
+//            productBranchDAO.insert(productBranchDTO);
+            productBranchDAO.update(productBranchDTO);
             ProductBranchDiscountDTO productBranchDiscountDTO = new ProductBranchDiscountDTO(productBranch.getCode(),
                     branchId, discountDTO);
             productBranchDiscountsDAO.insert(productBranchDiscountDTO);

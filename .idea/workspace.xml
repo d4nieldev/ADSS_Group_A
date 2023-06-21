@@ -9,15 +9,14 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a2472df3-0b1c-47fc-bcd6-f26fc4f0a51c" name="Changes" comment="fix product branchDiscount">
-      <change beforePath="$PROJECT_DIR$/.idea/artifacts/ADSS_Group_A_jar.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/artifacts/ADSS_Group_A_jar.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/artifacts/ADSS_Group_A_jar2.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/artifacts/ADSS_Group_A_jar3.xml" beforeDir="false" />
+    <list default="true" id="a2472df3-0b1c-47fc-bcd6-f26fc4f0a51c" name="Changes" comment="last fix- CLI works">
+      <change afterPath="$PROJECT_DIR$/docs/Specification Document.pdf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/release/adss2023_v03.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/release/database .db" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dev/PersentationLayer/CLI/CLI.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/PersentationLayer/CLI/CLI.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dev/PersentationLayer/CLI/inventory/ProductSystem.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/PersentationLayer/CLI/inventory/ProductSystem.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dev/PersentationLayer/GUI/GUI.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/PersentationLayer/GUI/GUI.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dev/PersentationLayer/Program.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/PersentationLayer/Program.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/Modified Specification File.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/release/adss2023_v02.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/release/database.db" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -185,13 +184,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1680005362759</updated>
-    </task>
-    <task id="LOCAL-00004" summary="implement SpecificProduct, ProductBranch, Branch , BranchController">
-      <created>1683846715860</created>
-      <option name="number" value="00004" />
-      <option name="presentableId" value="LOCAL-00004" />
-      <option name="project" value="LOCAL" />
-      <updated>1683846715860</updated>
     </task>
     <task id="LOCAL-00005" summary="add PeriodicReservationItemDAO +DTO and arrange all what related to these">
       <created>1683896273694</created>
@@ -529,7 +521,14 @@
       <option name="project" value="LOCAL" />
       <updated>1687373931958</updated>
     </task>
-    <option name="localTasksCounter" value="53" />
+    <task id="LOCAL-00053" summary="last fix- CLI works">
+      <created>1687379950349</created>
+      <option name="number" value="00053" />
+      <option name="presentableId" value="LOCAL-00053" />
+      <option name="project" value="LOCAL" />
+      <updated>1687379950349</updated>
+    </task>
+    <option name="localTasksCounter" value="54" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -545,7 +544,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-    <MESSAGE value=" fix issues" />
     <MESSAGE value="minor" />
     <MESSAGE value="done with tests :&#10;SpecificProductTest&#10;ProductBranchTest&#10;CategoryTest" />
     <MESSAGE value="start making load functions" />
@@ -570,7 +568,8 @@
     <MESSAGE value="fix productBranchDiscount function" />
     <MESSAGE value="." />
     <MESSAGE value="fix product branchDiscount" />
-    <option name="LAST_COMMIT_MESSAGE" value="fix product branchDiscount" />
+    <MESSAGE value="last fix- CLI works" />
+    <option name="LAST_COMMIT_MESSAGE" value="last fix- CLI works" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

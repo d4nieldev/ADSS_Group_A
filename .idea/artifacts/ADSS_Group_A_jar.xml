@@ -1,6 +1,11 @@
 <component name="ArtifactManager">
+<<<<<<<< Updated upstream:.idea/artifacts/ADSS_Group_A_jar.xml
   <artifact type="jar" name="ADSS_Group_A:jar">
     <output-path>$PROJECT_DIR$/out/artifacts/ADSS_Group_A_jar</output-path>
+========
+  <artifact type="jar" name="adss2023_v03:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/adss2023_v03_jar</output-path>
+>>>>>>>> Stashed changes:.idea/artifacts/adss2023_v03_jar.xml
     <root id="archive" name="ADSS_Group_A.jar">
       <element id="module-output" name="ADSS_Group_A" />
       <element id="extracted-dir" path="$MAVEN_REPOSITORY$/org/junit/jupiter/junit-jupiter/5.7.0/junit-jupiter-5.7.0.jar" path-in-jar="/" />

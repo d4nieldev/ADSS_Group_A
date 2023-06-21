@@ -51,10 +51,11 @@ public class SupplierService {
             List<String> supplierFields, String paymentCondition, TreeMap<Integer, String> amountToDiscount,
             List<String> contactNames, List<String> contactPhones, List<Integer> days) {
         try {
-            supplierController.addFixedDaysSupplierBaseAgreement(supplierName, supplierPhone, supplierBankAccount,
+            int id = supplierController.addFixedDaysSupplierBaseAgreement(supplierName, supplierPhone,
+                    supplierBankAccount,
                     supplierFields,
                     paymentCondition, amountToDiscount, contactNames, contactPhones, days);
-            return "Successfully added supplier " + supplierName + " of type 'Fixed Days'.";
+            return "Successfully added supplier " + supplierName + " of type 'Fixed Days' with id " + id;
         } catch (Exception e) {
             return e.getMessage();
         }
@@ -78,9 +79,10 @@ public class SupplierService {
             List<String> supplierFields, String paymentCondition, TreeMap<Integer, String> amountToDiscount,
             List<String> contactNames, List<String> contactPhones, int maxSupplyDays) {
         try {
-            supplierController.addOnOrderSupplierBaseAgreement(supplierName, supplierPhone, supplierBankAccount,
+            int id = supplierController.addOnOrderSupplierBaseAgreement(supplierName, supplierPhone,
+                    supplierBankAccount,
                     supplierFields, paymentCondition, amountToDiscount, contactNames, contactPhones, maxSupplyDays);
-            return "Successfully added supplier " + supplierName + " of type 'On Order'.";
+            return "Successfully added supplier " + supplierName + " of type 'On Order' with id " + id;
         } catch (Exception e) {
             return e.getMessage();
         }
@@ -105,10 +107,11 @@ public class SupplierService {
             List<String> supplierFields, String paymentCondition, TreeMap<Integer, String> amountToDiscount,
             List<String> contactNames, List<String> contactPhones, String address, Integer maxPreparationDays) {
         try {
-            supplierController.addSelfPickupSupplierBaseAgreement(supplierName, supplierPhone, supplierBankAccount,
+            int id = supplierController.addSelfPickupSupplierBaseAgreement(supplierName, supplierPhone,
+                    supplierBankAccount,
                     supplierFields,
                     paymentCondition, amountToDiscount, contactNames, contactPhones, address, maxPreparationDays);
-            return "Successfully added supplier " + supplierName + " of type 'Self Pickup'.";
+            return "Successfully added supplier " + supplierName + " of type 'Self Pickup' with id " + id;
         } catch (Exception e) {
             return e.getMessage();
         }
@@ -317,11 +320,11 @@ public class SupplierService {
         }
     }
 
-    public List<String> getSomeSuppliersIds(int numOfSuppliers, List<Integer> alreadyHave){
-        try{
+    public List<String> getSomeSuppliersIds(int numOfSuppliers, List<Integer> alreadyHave) {
+        try {
             List<String> ids = supplierController.getSomeSuppliersIds(numOfSuppliers, alreadyHave);
             return ids;
-        }catch(Exception e){
+        } catch (Exception e) {
             List<String> error = new ArrayList<String>();
             error.add(e.getMessage());
             return error;

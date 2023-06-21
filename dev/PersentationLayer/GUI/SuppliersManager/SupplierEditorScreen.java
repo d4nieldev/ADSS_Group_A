@@ -162,16 +162,16 @@ public class SupplierEditorScreen extends JFrame {
         maxSupplyDaysField.setEditable(editable);
         fieldsPanel.add(maxSupplyDaysField, constraints);
 
-        if(!editable){
-        constraints.gridy = y++;
-        constraints.gridx = 0;
-        //we add the supplier id too
-        fieldsPanel.add(new JLabel("Supplier id:"), constraints);
+        if (!editable) {
+            constraints.gridy = y++;
+            constraints.gridx = 0;
+            // we add the supplier id too
+            fieldsPanel.add(new JLabel("Supplier id:"), constraints);
 
-        constraints.gridx = 1;
-        JTextField supplierIdField = new JTextField(""+supplierId, 10);
-        supplierIdField.setEditable(false);
-        fieldsPanel.add(supplierIdField, constraints);
+            constraints.gridx = 1;
+            JTextField supplierIdField = new JTextField("" + supplierId, 10);
+            supplierIdField.setEditable(false);
+            fieldsPanel.add(supplierIdField, constraints);
         }
 
         JPanel buttonsPanel = createButtonsPanel();
@@ -224,16 +224,16 @@ public class SupplierEditorScreen extends JFrame {
             fieldsPanel.add(dayCheckBox, constraints);
         }
 
-        if(!editable){
-        constraints.gridy = y++;
-        constraints.gridx = 0;
-        //we add the supplier id too
-        fieldsPanel.add(new JLabel("Supplier id:"), constraints);
+        if (!editable) {
+            constraints.gridy = y++;
+            constraints.gridx = 0;
+            // we add the supplier id too
+            fieldsPanel.add(new JLabel("Supplier id:"), constraints);
 
-        constraints.gridx = 1;
-        JTextField supplierIdField = new JTextField(""+supplierId, 10);
-        supplierIdField.setEditable(false);
-        fieldsPanel.add(supplierIdField, constraints);
+            constraints.gridx = 1;
+            JTextField supplierIdField = new JTextField("" + supplierId, 10);
+            supplierIdField.setEditable(false);
+            fieldsPanel.add(supplierIdField, constraints);
         }
 
         JPanel buttonsPanel = createButtonsPanel();
@@ -283,16 +283,16 @@ public class SupplierEditorScreen extends JFrame {
         maxPreparationDaysField.setEditable(editable);
         fieldsPanel.add(maxPreparationDaysField, constraints);
 
-        if(!editable){
-        constraints.gridy = y++;
-        constraints.gridx = 0;
-        //we add the supplier id too
-        fieldsPanel.add(new JLabel("Supplier id:"), constraints);
+        if (!editable) {
+            constraints.gridy = y++;
+            constraints.gridx = 0;
+            // we add the supplier id too
+            fieldsPanel.add(new JLabel("Supplier id:"), constraints);
 
-        constraints.gridx = 1;
-        JTextField supplierIdField = new JTextField(""+supplierId, 10);
-        supplierIdField.setEditable(false);
-        fieldsPanel.add(supplierIdField, constraints);
+            constraints.gridx = 1;
+            JTextField supplierIdField = new JTextField("" + supplierId, 10);
+            supplierIdField.setEditable(false);
+            fieldsPanel.add(supplierIdField, constraints);
         }
 
         JPanel buttonsPanel = createButtonsPanel();
@@ -375,7 +375,7 @@ public class SupplierEditorScreen extends JFrame {
         constraints.fill = GridBagConstraints.BOTH;
         List<String[]> fieldsContactData = init_contacts.keySet().stream()
                 .map((phone) -> new String[] { init_contacts.get(phone), phone }).collect(Collectors.toList());
-        JPanel contactsTablePanel = createTablePanel(new String[] { "Name", "Phone" }, fieldsContactData ,editable);
+        JPanel contactsTablePanel = createTablePanel(new String[] { "Name", "Phone" }, fieldsContactData, editable);
         contactsTablePanel.setEnabled(editable);
         fieldsPanel.add(contactsTablePanel, constraints);
 
@@ -619,7 +619,7 @@ public class SupplierEditorScreen extends JFrame {
     private boolean isValidInput(String supplierName, String supplierPhone, String bankAccount,
             List<String> fields, List<String> contactPhones, List<String> contactNames, List<String> amountsList,
             List<String> discountsList) {
-        if (!supplierName.matches("[a-zA-Z]+")) {
+        if (!supplierName.matches("^[a-zA-Z ]+$")) {
             JOptionPane.showMessageDialog(currentFrame, "Name must not be empty and contain only letters",
                     "Validation Warning", 2);
             return false;
@@ -638,7 +638,7 @@ public class SupplierEditorScreen extends JFrame {
             JOptionPane.showMessageDialog(currentFrame, "Name and phone must be specified for each contact",
                     "Validation Warning", 2);
             return false;
-        } else if (contactNames.stream().anyMatch((contactName) -> contactName.isBlank())) {
+        } else if (contactNames.stream().anyMatch((contactName) -> contactName.matches("^[a-zA-Z ]+$"))) {
             JOptionPane.showMessageDialog(currentFrame, "Contact name must not be empty", "Validation Warning", 2);
             return false;
         } else if (contactPhones.stream().anyMatch((contactPhone) -> !contactPhone.matches("^05[0-9]{8}$"))) {
@@ -690,7 +690,8 @@ public class SupplierEditorScreen extends JFrame {
         }
         return true;
     }
-    public JFrame getChild(){
+
+    public JFrame getChild() {
         return this.openedChild;
     }
 }

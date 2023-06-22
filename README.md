@@ -5,6 +5,10 @@ Tal Koren 213904972
 Kfir Shalom 318818481
 Rotem Akiki 208549782
 
+## GUI
+Please read to instructions book that include in the docs file.
+
+## CLI
 How to start the system?
 
 Wen you start the system it shows a message:
@@ -20,7 +24,23 @@ Each of the users above have a different menu then log in to the system because 
 Hope you will have fun,
 Inbar Tal Kfir and Rotem
 
-inside db:
-transport modul- there are 5 trucks all available for transportation, from several kind of models
-there are deliveris pending for transports
-there is one transport waiting to be activated
+## DtaBase
+
+ - Transport Modul
+   there are 5 trucks all available for transportation, from several kind of models
+   there are deliveris pending for transports
+   there is one transport waiting to be activated
+
+ - Employee Modul
+   6 branches: 0 - SuperBranch of manager and drivers, 1 - Beer-Sheva , 2 - Tel-Aviv , 3 - Yafo , 4 - Eilat , 5-Haifa
+   80 employees with the id's 201-280
+   12 drivers with the id's 101-112
+   Each branch have a morning and an evning shifts from 04-06-2023 till 10-06-2023 (include)
+   All the shifts on dates from 04-06-2023 till 06-06-2023 were approved by the HR manager
+   The shifts on the date 07-06-2023 were not approved yet by the HR manager, but have constraints for employees.
+
+
+## Tools
+
+- **junit-4.13.2** for the tests
+- **sqlite-jdbc-3.41.2.1** for the database

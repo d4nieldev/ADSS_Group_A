@@ -20,11 +20,11 @@ public class BranchFacade {
         this.shiftFacade = shiftFacade;
         branchs = new LinkedList<>();
         branchesDAO = new BranchesDAO();
-        addBranchForStartUpTheSystem(0, "BGU", Location.SOUTH);
+        //addBranchForStartUpTheSystem(0, "BGU", Location.SOUTH);
     }
     
     public void addBranch(int managerId, String address, Location location) {
-        employeeFacade.checkHrManager(managerId);
+        employeeFacade.checkManager(managerId);
         Branch newBranch = new Branch(branchIdConuter, address, location);
         branchs.add(newBranch);
         branchIdConuter++;
@@ -54,7 +54,7 @@ public class BranchFacade {
     }
     
     public void addForeignEmployee(int managerId, int idEmployee, int branchId){
-        employeeFacade.checkHrManager(managerId);  // only HR manager
+        employeeFacade.checkManager(managerId);  // only HR manager
         Employee employee = employeeFacade.getEmployeeById(idEmployee);
         Branch branch = getBranchById(branchId);
         employee.addBranch(branchId); // check not exists already here
@@ -63,7 +63,7 @@ public class BranchFacade {
     }
 
     public void addNotAllowEmployees(int managerId, int idEmployee, int branchId){
-        employeeFacade.checkHrManager(managerId);  // only HR manager
+        employeeFacade.checkManager(managerId);  // only HR manager
         Employee employee = employeeFacade.getEmployeeById(idEmployee);
         Branch branch = getBranchById(branchId);
         employee.removeBranch(branchId); // check not removed already here
@@ -73,7 +73,7 @@ public class BranchFacade {
 
     // delete/remove employee from the system.
     public void deleteEmployee(int managerId, int id){
-        employeeFacade.checkHrManager(managerId);  // only HR manager
+        employeeFacade.checkManager(managerId);  // only HR manager
         Employee employeeToRemove = employeeFacade.getEmployeeById(id);
         employeeFacade.removeAllRolesForEmployeeFromDB(id, employeeToRemove.getRoles());
         shiftFacade.removeAllConstraintsForEmployee(employeeToRemove);
@@ -86,7 +86,7 @@ public class BranchFacade {
     }
 
     public void addShift(int managerId, int branchId, LocalDate date, int startHour, int endHour, ShiftTime time, HashMap<Integer, Integer> numEmployeesForRole){
-        employeeFacade.checkHrManager(managerId);  // only HR manager
+        employeeFacade.checkManager(managerId);  // only HR manager
         int shiftID = shiftFacade.getShiftIdConuter();
         Branch branch = getBranchById(branchId);
         // check there is shift manager  in each shift
@@ -136,7 +136,7 @@ public class BranchFacade {
 
     // aprove function for the HR manager to a final shift
     public void approveFinalShift(int managerID, int shiftID, int branchID, HashMap<Integer, Integer> hrAssigns){
-        employeeFacade.checkHrManager(managerID);
+        employeeFacade.checkManager(managerID);
         Branch branch = getBranchById(branchID);
         Shift shift = shiftFacade.getShift(shiftID);
         if(shift.getSuperBranchId() != branchID) {
@@ -165,7 +165,7 @@ public class BranchFacade {
     public String printAvailableShiftForEmployee(int employeeId, LocalDate date){
         String res = "";
         employeeFacade.checkEmployee(employeeId);
-        employeeFacade.checkLoggedIn(employeeId);
+        //employeeFacade.checkLoggedIn(employeeId);
         Employee emp = employeeFacade.getEmployeeById(employeeId);
         LinkedList<Integer> branchesEmployee = emp.getAllBranches();
         LinkedList<Shift> shiftsOnDate = shiftFacade.getShiftsByDate(date);
@@ -275,11 +275,11 @@ public class BranchFacade {
         if(!foundManager){throw new Error("A shift have to contain at least one Shift Manager");}
     }
 
-    private void addBranchForStartUpTheSystem(int id, String address, Location location) {
-        Branch b = new Branch(0, "BGU", Location.SOUTH);
-        branchs.add(b);
-        branchesDAO.insert(b.toDTO());
-    }
+    // private void addBranchForStartUpTheSystem(int id, String address, Location location) {
+    //     Branch b = new Branch(0, "BGU", Location.SOUTH);
+    //     branchs.add(b);
+    //     branchesDAO.insert(b.toDTO());
+    // }
 
     private Branch createNewBranchFromBranchDTO(BranchDTO branchDTO) {
         LinkedList<Employee> originEmployees = convertIdsListToObject(branchDTO.originEmployees);

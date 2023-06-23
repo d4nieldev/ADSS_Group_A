@@ -3,6 +3,8 @@ package BussinessLayer.TransPortLayer;
 import java.util.List;
 
 import BussinessLayer.EmployeesLayer.Driver;
+import DataAccessLayer.DTO.TransportLayer.DeliveryDTO;
+import DataAccessLayer.DTO.TransportLayer.DestinationDTO;
 
 public class Delivery {
     private int id;
@@ -99,5 +101,9 @@ public class Delivery {
     }
     public void setWeight(int weight) {
         this.weight=weight;
+    }
+
+    public DeliveryDTO toDTO() {   
+                return new DeliveryDTO(this.id,this.source,this.dest,this.status,this.items,this.weight);
     }
 }

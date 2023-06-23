@@ -2,6 +2,7 @@ package DataAccessLayer.DAO.EmployeesLayer;
 
 import java.sql.*;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -30,10 +31,10 @@ public class DriversDAO extends DAO<DriverDTO> {
         try {
             s = conn.createStatement();
             s.executeUpdate(InsertStatement(toInsertEmp));
-            int resES1 = insertToEmployeeRoles(Ob);
+            //int resES1 = insertToEmployeeRoles(Ob);
             int resES2 = insertToAvailableShiftDates(Ob);
             int resES3 = insertToWorkedDates(Ob);
-            if (resES1 + resES2 + resES3 == 3) //If inserts worked
+            if ( resES2 + resES3 == 2) //If inserts worked
                 ans = 1;
             else {
                 ans = 0;
@@ -46,20 +47,20 @@ public class DriversDAO extends DAO<DriverDTO> {
         return ans;
     }
     
-    private int insertToEmployeeRoles(DriverDTO Ob) {
-        Connection conn = Repository.getInstance().connect();
-        if (Ob == null) return 0;
-        String toInsertEmployeeRole = String.format("INSERT INTO %s \n" +
-                    "VALUES %s;", "EmployeesRoles", Ob.getRole());
-        Statement s;
-        try {
-            s = conn.createStatement();
-            s.executeUpdate(toInsertEmployeeRole);
-        } catch (Exception e) {
-            return 0;
-        }
-        return 1;
-    }
+    // private int insertToEmployeeRoles(DriverDTO Ob) {
+    //     Connection conn = Repository.getInstance().connect();
+    //     if (Ob == null) return 0;
+    //     String toInsertEmployeeRole = String.format("INSERT INTO %s \n" +
+    //                 "VALUES %s;", "EmployeesRoles", Ob.getRole());
+    //     Statement s;
+    //     try {
+    //         s = conn.createStatement();
+    //         s.executeUpdate(toInsertEmployeeRole);
+    //     } catch (Exception e) {
+    //         return 0;
+    //     }
+    //     return 1;
+    // }
 
     private int insertToAvailableShiftDates(DriverDTO Ob) {
         Connection conn = Repository.getInstance().connect();
@@ -127,10 +128,10 @@ public class DriversDAO extends DAO<DriverDTO> {
         Connection conn = Repository.getInstance().connect();
         try {
             Integer id = RS.getInt(1); // the first column is ID
-            LinkedList<Integer> roles = getRolesList(id, conn);
-            if (roles == null) {
-                return null;
-            }
+            // LinkedList<Integer> roles = getRolesList(id, conn);
+            // if (roles == null) {
+            //     return null;
+            // }
             LinkedList<LocalDate> availableShiftDates = getAvailableShiftDatesList(id, conn);
             if (availableShiftDates == null) {
                 return null;
@@ -139,12 +140,13 @@ public class DriversDAO extends DAO<DriverDTO> {
             if (workedDates == null) {
                 return null;
             }
+            //DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
             output = new DriverDTO(/* Id */RS.getInt(1), /* first name */RS.getString(2),
                     /* last name */RS.getString(3), /* password */RS.getString(4),
                     /* bank number */RS.getInt(5), /* bank branch number */RS.getInt(6),
                     /* bank account number */RS.getInt(7), /* salary */RS.getInt(8),
                     /* bonus */ RS.getInt(9), /* start date */ LocalDate.parse(RS.getString(10)),
-                    /* temps employment */ RS.getString(11), roles,
+                    /* temps employment */ RS.getString(11), 8,
                     /* is logged in */ RS.getBoolean(12), /* super branch */ RS.getInt(13),
                     /* driver license */  License.valueOf(RS.getString(14)), availableShiftDates, workedDates);
         } catch (Exception e) {
@@ -155,18 +157,18 @@ public class DriversDAO extends DAO<DriverDTO> {
         return output;
     }
     
-    public LinkedList<Integer> getRolesList(Integer id, Connection conn) {
-        LinkedList<Integer> ans = new LinkedList<>();
-        ResultSet rs = get("EmployeesRoles", "EmployeeID", id, conn);
-        try {
-            while (rs.next()) {
-                ans.add(rs.getInt(2));
-            }
-        } catch (Exception e) {
-            return null;
-        }
-        return ans;
-    }
+    // public LinkedList<Integer> getRolesList(Integer id, Connection conn) {
+    //     LinkedList<Integer> ans = new LinkedList<>();
+    //     ResultSet rs = get("EmployeesRoles", "EmployeeID", id, conn);
+    //     try {
+    //         while (rs.next()) {
+    //             ans.add(rs.getInt(2));
+    //         }
+    //     } catch (Exception e) {
+    //         return null;
+    //     }
+    //     return ans;
+    // }
     
     public LinkedList<LocalDate> getAvailableShiftDatesList(Integer id, Connection conn) {
         LinkedList<LocalDate> ans = new LinkedList<>();
@@ -215,8 +217,30 @@ public class DriversDAO extends DAO<DriverDTO> {
     }
     
     public List<DriverDTO> getDriversByDate(LocalDate date) {
-        List<DriverDTO> drivers = getAll("Date", date);
-        return drivers;
+        Connection conn = Repository.getInstance().connect();
+        ResultSet RS = driversAvailableShiftDatesDAO.getAll(conn,"Date", date);
+        List<Integer> driversIds = new LinkedList<>();
+
+        try {
+            Statement S = conn.createStatement();
+            while (RS.next())
+            driversIds.add(RS.getInt(1));
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+        List <DriverDTO> output = new LinkedList<>();
+        for (Integer driverId : driversIds) {
+            output.add(getDriverById(driverId));
+        }    
+        try {
+            while (RS.next())
+                output.add(makeDTO(RS));
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        } finally {
+            Repository.getInstance().closeConnection(conn);
+        }
+        return output;
     }
 
     public int addAvailableShiftDates(int empID, LocalDate dateToAdd) {

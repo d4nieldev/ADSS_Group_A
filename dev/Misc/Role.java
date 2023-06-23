@@ -1,9 +1,9 @@
 package Misc;
+import DataAccessLayer.DAO.EmployeesLayer.RolesDAO;
+import DataAccessLayer.DTO.EmployeeLayer.RoleDTO;
+
 import java.util.ArrayList;
 import java.util.List;
-
-import DataAccessLayer.DAO.EmployeesLayer.*;
-import DataAccessLayer.DTO.EmployeeLayer.RoleDTO;
 
 //import javax.management.relation.RoleList;
 
@@ -25,6 +25,18 @@ public class Role {
         roles.add(counterRoles, newRole);
         rolesDAO.insert(newRole.toDTO());
         counterRoles++;
+    }
+
+    public void removeRole(String nameRole){
+        int foundIDrole = -1;
+        for (instanceRole currrole :
+                roles) {
+            if(currrole.getName() == nameRole)
+                foundIDrole = currrole.getId();
+        }
+        instanceRole foundRole = roles.get(foundIDrole);
+        roles.remove(foundRole);
+        rolesDAO.delete("RoleID", foundIDrole);
     }
 
     public void updateRoleName(String oldName, String newName){

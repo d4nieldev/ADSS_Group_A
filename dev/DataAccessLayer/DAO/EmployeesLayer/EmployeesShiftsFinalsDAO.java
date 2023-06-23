@@ -7,13 +7,13 @@ public class EmployeesShiftsFinalsDAO {
     
     public EmployeesShiftsFinalsDAO() {}
     
-    public int addShiftFinal(int empID, int shiftID)
+    public int addShiftFinal(int empID, int shiftID, int roleID)
     {
         Connection conn = Repository.getInstance().connect();
         String updateString;
         if(empID < 0 || shiftID < 0) return 0;
         updateString= String.format("INSERT INTO %s \n" +
-                "VALUES (\"%d\",\"%d\");", "EmployeesShiftsFinals", "EmployeesShiftsFinals", empID, shiftID);
+                "VALUES (\"%d\",\"%d\",\"%d\");", "EmployeesShiftsFinals", shiftID, empID, roleID);
         Statement s;
         try
         {

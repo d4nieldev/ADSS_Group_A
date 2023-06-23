@@ -17,7 +17,7 @@ public abstract class DAO<T> {
 
     public abstract int update(T updatedOb);
 
-    public List<T> getAll() {
+    public  List<T> getAll() {
         String statement = "SELECT * FROM " + tableName + ";";
         Connection conn = Repository.getInstance().connect();
         ResultSet RS = null;
@@ -62,6 +62,7 @@ public abstract class DAO<T> {
             Statement stmt = con.createStatement();
             rs = stmt.executeQuery(SELECT_SQL);
         } catch (SQLException e) {
+            System.out.println(e.getMessage());
         }
 
         return rs;

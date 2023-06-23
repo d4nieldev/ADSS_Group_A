@@ -79,12 +79,13 @@ public class ShiftFacade {
     }
 
     public void checkAssignFinalShift(int managerID, Shift shift, HashMap<Employee, Integer> hrAssign){
-        shift.checkAssignFinalShift(hrAssign);
+        shift.checkAssignFinalShift_Employees(hrAssign);
+        shift.checkAssignFinalShift_Roles(hrAssign);
         // if succedded - save the final shift
         shift.assignFinalShift(hrAssign); 
         // save in Database
         for (Employee emp : hrAssign.keySet()) {
-            shiftsDAO.addShiftFinal(emp.getId(), shift.getID());   
+            shiftsDAO.addShiftFinal(emp.getId(), shift.getID(), hrAssign.get(emp));   
         }
     }
 
@@ -106,7 +107,7 @@ public class ShiftFacade {
     
     public void AddDriverToShift(Driver driver, int shiftID){
         getShift(shiftID).addDriver(driver);
-        shiftsDAO.addDriverInShift(driver.getId(), shiftID);
+        shiftsDAO.addDriverInShift(shiftID, driver.getId());
     }
 
     public void removeAllConstraintsForEmployee(Employee employee) {

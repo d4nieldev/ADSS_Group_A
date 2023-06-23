@@ -24,6 +24,7 @@ public class ShiftsDAO extends DAO<ShiftDTO> {
         numEmployeesForRolesDAO = new NumEmployeesForRolesDAO();
         employeeShiftFinalDAO = new EmployeesShiftsFinalsDAO();
         shiftsCancellationsDAO = new ShiftsCancellationsDAO();
+        driversInShiftsDAO = new DriversInShiftsDAO();
     }
 
     @Override
@@ -357,8 +358,8 @@ public class ShiftsDAO extends DAO<ShiftDTO> {
         return numEmployeesForRolesDAO.removeNumEmployeeForRole(shiftID, roleID);
     }
     
-    public int addShiftFinal(int empID, int shiftID) {
-        return employeeShiftFinalDAO.addShiftFinal(empID, shiftID);
+    public int addShiftFinal(int empID, int shiftID, int roleID) {
+        return employeeShiftFinalDAO.addShiftFinal(empID, shiftID, roleID);
     }
     public int removeShiftFinal(int empID, int shiftID) {
         return employeeShiftFinalDAO.removeShiftFinal(empID, shiftID);
